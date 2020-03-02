@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace WrpCcNocWeb.Models
+{
+    public class LookUpAdminModSubMenu
+    {
+        [Key]
+        [Column("SubMenuId", Order = 0)]
+        public int SubMenuId { get; set; }
+        
+        [Required]
+        [Column("MenuId", Order = 1)]
+        [Display(Name = "Menu")]
+        public int MenuId { get; set; }
+        [ForeignKey("MenuId")]
+        public virtual LookUpAdminModMenu lookUpAdminModMenu { get; set; }
+
+        [Required]
+        [Column("SubMenuTitle", Order = 2)]
+        [MaxLength(50)]
+        [Display(Name = "Sub Menu Title")]
+        public string SubMenuTitle { get; set; }
+    }
+}

@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <meta content="WARPO Project Clearence Certificate" name="description" />
+    <meta content="CEGIS" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="~/favicon.ico">
+    <!-- plugins css -->
+    <link href="~/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+    <!-- css -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/app.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/libs/jquery-toast/toastr.css" rel="stylesheet" type="text/css" />
+
+    <!-- jquery -->
+    <script src="~/libs/jquery/dist/jquery.js"></script>
+
+    <!-- form validation plugin js-->
+    <script src="~/libs/parsleyjs/parsley.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery.noConflict();
+    </script>
+
+    @RenderSection("catcha_header", required: false)
+</head>
+<body class="authentication-bg authentication-bg-pattern">
+    <!-- Navigation Bar-->
+    <header id="topnav" style="top: 0;">
+        <!-- topper bar Start -->
+        @Html.Partial("_LoginTopperNavBar")
+        <!-- end topper bar -->
+    </header>
+    <!-- End Navigation Bar-->
+    <!-- Start Page Content here -->
+    <div style="margin-top: 25px;">
+        @RenderBody()
+    </div>
+    <!-- End Page content -->
+
+    <footer class="footer footer-alt">
+        @DateTime.Now.Year.ToString() © Water Resources Planning Organisation. Powered by <a href="https://www.cegisbd.com/" class="text-white-50">CEGIS</a>
+    </footer>
+
+    <!-- taost -->
+    <script src="~/libs/jquery-toast/toastr.js"></script>
+    <!-- vendor js -->
+    <script src="~/js/vendor.min.js" type="text/javascript"></script>
+    <script src="~/libs/flatpickr/flatpickr.min.js" type="text/javascript"></script>
+    <script src="~/js/pages/form-pickers.init.js"></script>
+    <!-- App js-->
+    <script src="~/js/app.min.js" type="text/javascript"></script>
+
+    @if (TempData["Message"] != null && TempData["Message"] != "")
+    {
+        var Message = string.Empty;
+        var Title = string.Empty;
+        var Msg = string.Empty;
+
+        if (TempData["Message"].ToString().Contains("###"))
+        {
+            Message = TempData["Message"].ToString().Split("###")[0];
+            Title = TempData["Message"].ToString().Split("###")[1];
+            Msg = Message.Replace("Success: ", "").Replace("Error: ", "").Replace("Danger: ", "");
+        }
+        else
+        {
+            Message = TempData["Message"].ToString();
+            Title = string.Empty;
+            Msg = Message.Replace("Success: ", "").Replace("Error: ", "").Replace("Danger: ", "");
+        }
+
+        var Type = TempData["Message"].ToString().Contains("Success:") ? "success" :
+            TempData["Message"].ToString().Contains("Warning:") ? "warning" :
+            TempData["Message"].ToString().Contains("Info:") ? "info" :
+            TempData["Message"].ToString().Contains("Error:") ? "danger" : "error";
+
+        <script type="text/javascript">
+            //$(document).ready(function () {
+            Notification('@Type', '@Title', '@Msg');
+
+            console.log('@Type');
+            console.log('@Title');
+            console.log('@Message');
+            //});
+        </script>
+    }
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

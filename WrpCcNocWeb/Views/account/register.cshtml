@@ -1,0 +1,209 @@
+﻿@using WrpCcNocWeb.Models
+@using WrpCcNocWeb.Helpers
+@model WrpCcNocWeb.Models.AdminModUserRegistrationDetail
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="account-pages mt-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5" style="margin-top: 20px;">
+                <div class="card bg-pattern">
+                    <div class="card-body p-4">
+                        <div class="text-center m-auto">
+                            <a href="@Url.Action("login", "account")">
+                                <span><img src="~/images/logo-dark.png" alt="WARPO" height="60"></span>
+                            </a>
+                            <p class="text-muted mt-3">Don't have an account? Create your account, it takes less than a minute</p>
+                        </div>
+
+                        @using (Html.BeginForm("register", "account", FormMethod.Post, new { enctype = "multipart/form-data", id = "SignUpForm", role = "form" }))
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.UserName, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                <div class="input-group mb-2">
+                                    @Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter your user name", @required = "required", @autocomplete = "off" } })
+                                    <div id="spinner" class="input-group-prepend d-none">
+                                        <button class="btn btn-primary" type="button" disabled="">
+                                            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> <span class="sr-only">Loading...</span>
+                                        </button>
+                                    </div>
+                                    @Html.Hidden("isValidUsr")
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.UserPassword, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                @Html.EditorFor(m => m.UserPassword, new { htmlAttributes = new { @class = "form-control", @type = "password", @placeholder = "Enter your password", @required = "required", @autocomplete = "off", @onKeyUp = "PasswordStrength(jQuery(this).val());" } })
+                                <div id="pwd-invalid-feedback"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="UserConfirmPassword">Confirm Password <span class="text-danger">*</span></label>
+                                <input id="UserConfirmPassword" class="form-control" type="password" parsley-trigger="change"
+                                       placeholder="Confirm password" autocomplete="off" required>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.UserEmail, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                @Html.EditorFor(m => m.UserEmail, new { htmlAttributes = new { @class = "form-control", @type = "email", @placeholder = "Enter your email", @required = "required", @autocomplete = "off" } })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.UserMobile, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                @Html.EditorFor(m => m.UserMobile, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter your contact number", @required = "required", @autocomplete = "off", @maxlength = "11", onKeyPress = "return restrictChars(event, this)" } })
+                            </div>
+
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input id="checkbox-signup" type="checkbox" class="custom-control-input">
+                                    <label class="custom-control-label" for="checkbox-signup">I accept <a href="@Url.Action("termcondition", "account")" target="_blank" class="text-dark">Terms and Conditions</a></label>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-0 text-center">
+                                <button id="btnSubmit" class="btn btn-success btn-block" type="button"> Sign Up </button>
+                            </div>
+                        }
+                    </div>
+                    <!-- end card-body -->
+                </div>
+                <!-- end card -->
+
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <p class="text-white-50">Already have account? <a href="@Url.Action("login", "account")" class="text-white ml-1"><b>Sign In</b></a></p>
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div> <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery.noConflict();
+
+    jQuery(document).ready(function () {
+        jQuery("#UserName").on('blur changed', function () {
+            var unm = jQuery(this).val();
+
+            var checkUser = UserNameValidation(unm);
+            if (checkUser=='') {
+                if (unm !== '') {
+                    dunc(unm);
+                }
+            } else {
+                Notification('error', 'Invalid User Name', checkUser);
+            }
+        });
+
+        jQuery("#UserConfirmPassword").on('blur', function () {
+            var pwd = jQuery("#UserPassword").val();
+            var ucp = jQuery(this).val();
+
+            if(pwd!=ucp) {
+                    Notification('error', 'Password Not Match', 'Password and confirm password does not match!');
+                    jQuery("#UserPassword, #UserConfirmPassword").val('');
+                    jQuery("#UserPassword").focus();
+                }
+        });
+
+        jQuery("#btnSubmit").click(function () {
+            var req = '';
+            var unm = jQuery("#UserName").val();
+            var pwd = jQuery("#UserPassword").val();
+            var cpw = jQuery("#UserConfirmPassword").val();
+            var eml = jQuery("#UserEmail").val();
+            var phn = jQuery("#UserMobile").val();
+            var terms = jQuery("#checkbox-signup").prop('checked');
+
+            if (unm == '') {
+                req = '<i class="fe-alert-triangle"></i> User name is required!<br />';
+            }
+            if (pwd == '') {
+                req += '<i class="fe-alert-triangle"></i> Password is required!<br />';
+            }
+            if (eml == '') {
+                req += '<i class="fe-alert-triangle"></i> Email is required!<br />';
+            }
+            if (eml != '') {
+                var res = EmailValidation(eml);
+
+                if (res != 'Valid') {
+                    req += '<i class="fe-alert-triangle"></i> ' + res + ' <br />';
+                }
+            }
+            if (phn == '') {
+                req += '<i class="fe-alert-triangle"></i> Mobile is required!<br />';
+            }
+            if (pwd !== cpw) {
+                req += '<i class="fe-alert-triangle"></i> Password and confirm password does not match!<br />';
+            }
+            if (terms == false) {
+                req += '<i class="fe-alert-triangle"></i> You have to accept terms and conditions!<br />';
+            }
+
+            console.log(req);
+
+            if (req === '') {
+                if (jQuery("#isValidUsr").val() == 'true') {
+                    if (pwd == cpw) {
+                        jQuery("#SignUpForm").submit();
+                    } else {
+                        //type {success, info, warning, error}, title, text
+                        Notification('error', 'Password Not Match', 'Password and confirm password does not match!');
+                        jQuery("#UserPassword, #UserConfirmPassword").val('');
+                        jQuery("#UserPassword").focus();
+                    }
+                } else {
+                    Notification('error', 'Invalid User', 'Invalid user name indentified!');
+                    jQuery("#UserName").focus();
+                }
+            } else {
+                Notification('error', 'Required Info', req);
+            }
+        });
+    });
+
+    //duplicate user name checking
+    function dunc(un) {
+        var url = '@Url.Action("dunc", "account")';
+
+        jQuery("#spinner").removeClass('d-none');
+        jQuery("#spinner").addClass('d-block');
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: { un: un },
+            contentType: "application/json; charset=utf-8",
+            processData: true,
+            success: function (data) {
+                jQuery("#spinner").removeClass('d-block');
+                jQuery("#spinner").addClass('d-none');
+
+                console.log(data);
+                console.log(data.result);
+                console.log(data.response);
+
+                if (data.result == true) {
+                    jQuery("#isValidUsr").val(false);
+                    Notification('warning', 'Exist User', data.response);
+                } else {
+                    jQuery("#isValidUsr").val(true);
+                }
+            }, error: function (jqXHR, exception) {
+                jQuery("#spinner").removeClass('d-block');
+                jQuery("#spinner").addClass('d-none');
+
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                Notification('error', 'Exception', errorMsg);
+            }
+        });
+    }
+</script>

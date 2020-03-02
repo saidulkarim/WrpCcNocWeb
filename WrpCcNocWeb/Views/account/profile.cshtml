@@ -1,0 +1,121 @@
+﻿@model WrpCcNocWeb.Models.AdminModUsersDetail
+
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+@{ 
+    var ac = "on";
+}
+
+<div class="account-pages mt-5 mb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-10" style="margin-top: 50px;">
+                <div class="card bg-pattern">
+                    <div class="card-body">
+                        <div class="text-left m-auto">
+                            <h3>User ID: <b class="text-blue">saidulkarim</b></h3>
+                        </div>
+
+                        <div class="text-right m-auto" style="margin-top: -50px !important; margin-right: -50px !important;">
+                            <a href="javascript: void(0);">
+                                <span><img src="~/images/logo-dark.png" alt="WARPO" height="60"></span>
+                            </a>
+                        </div>
+
+                        @using (Html.BeginForm("profile", "account", FormMethod.Post, new { enctype = "multipart/form-data", id = "ProfileForm", role = "form" }))
+                        {                            
+                            <input type="hidden" id="UserRegistrationId" name="UserRegistrationId" value="@ViewBag.UserRegistrationID" />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.UserFullName, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                        @Html.EditorFor(m => m.UserFullName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter full name", @required = "required", @autocomplete = ac } })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.UserFatherName, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                        @Html.EditorFor(m => m.UserFatherName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter father name", @required = "required", @autocomplete = ac } })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.UserDateOfBirth, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                        @Html.EditorFor(m => m.UserDateOfBirth, new { htmlAttributes = new { @class = "form-control datepicker", @type = "text", @placeholder = "Date of birth", @required = "required", @autocomplete = ac } })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.UserNID, new { @class = "control-label" })
+                                        @Html.EditorFor(m => m.UserNID, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "National ID card", @autocomplete = ac } })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.UserPassportNo, new { @class = "control-label" })
+                                        @Html.EditorFor(m => m.UserPassportNo, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Passport no", @autocomplete = ac } })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.UserProfession, new { @class = "control-label" })
+                                        @Html.EditorFor(m => m.UserProfession, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Profession" } })
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button id="btnSubmitProfileInfo" class="btn btn-primary btn-block" type="submit"> Submit </button>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.UserDesignation, new { @class = "control-label" })
+                                        @Html.EditorFor(m => m.UserDesignation, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Designation" } })
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="UserAddress">Address <span class="text-danger bold">*</span></label>
+                                        <textarea id="UserAddress" name="UserAddress" class="form-control" rows="1" required="" placeholder="Address"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.UserAlternateEmail, new { @class = "control-label" })
+                                        @Html.EditorFor(m => m.UserAlternateEmail, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Alternate email address" } })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.UserAlternateMobile, new { @class = "control-label" })
+                                        @Html.EditorFor(m => m.UserAlternateMobile, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Alternate mobile no" } })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.SecurityQuestionId, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                        @Html.DropDownList("SecurityQuestionId", null, string.Empty, new { @id = "SecurityQuestionId", @class = "form-control", @style = "width: 100%;" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.SecurityQuestionAnswer, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                        @Html.EditorFor(m => m.SecurityQuestionAnswer, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Security question answer" } })
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button id="btnClearProfileInfo" class="btn btn-secondary btn-block" type="reset"> Clear </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery.noConflict();
+
+    jQuery(document).ready(function () {
+        jQuery("#refreshCaptcha").click(function () {
+            resetCaptchaImage();
+        });
+    });
+</script>

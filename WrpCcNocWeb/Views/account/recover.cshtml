@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Recover Password";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="account-pages mt-5 mb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5" style="margin-top: 50px;">
+                <div class="card bg-pattern">
+                    <div class="card-body p-4">
+                        <div class="text-center m-auto">
+                            <a href="index.html">
+                                <span><img src="~/images/logo-dark.png" alt="" height="60"></span>
+                            </a>
+                            <p class="text-muted mb-4 mt-3">Enter your email address and we'll send you an email with instructions to reset your password.</p>
+                        </div>
+
+                        <form role="form" id="recover_form">
+                            <div class="form-group mb-3">
+                                <label for="uemail">Email Address</label>
+                                <input class="form-control" type="email" id="uemail" parsley-trigger="change" placeholder="Enter your email" required>
+                            </div>
+
+                            <div class="form-group mb-0 text-center">
+                                <button class="btn btn-primary btn-block" type="submit"> Reset Password </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <p class="text-white-50">Back to <a href="@Url.Action("login", "account")" class="text-white ml-1"><b>Log in</b></a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

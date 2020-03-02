@@ -1,0 +1,43 @@
+﻿@using static WrpCcNocWeb.Models.TempModels.SelectedForm
+
+@{
+    ViewData["Title"] = "index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-box widget-inline">
+            <div class="row">
+                <div class="col-sm-12 col-xl-12">
+                    @using (Html.BeginForm("index", "form", FormMethod.Post, new { enctype = "multipart/form-data", id = "SigninForm", role = "form" }))
+                    {
+                        <div class="p-2 text-center">
+                            <h2>Select Form Type</h2>
+
+                            <div class="form-group mb-3">
+                                @Html.DropDownList("ProjectTypeId", null, string.Empty, new { @id = "ProjectTypeId", @class = "form-control", @style = "width: 100%;" })
+                                @Html.Hidden("ProjectTitle")
+                            </div>
+
+                            <div class="form-group">
+                                <button id="btnSubmitFormSelection" class="btn btn-info" type="submit" style="width: 150px;"> Submit </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PageScripts {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery("#ProjectTypeId").change(function () {
+                var text = jQuery("#ProjectTypeId option:selected").text();
+                jQuery("#ProjectTitle").val(text);
+            });
+        });
+    </script>
+}

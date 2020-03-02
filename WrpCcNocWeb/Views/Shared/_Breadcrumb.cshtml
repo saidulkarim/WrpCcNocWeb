@@ -1,0 +1,86 @@
+﻿@using WrpCcNocWeb.Helpers;
+
+@{
+    var currentController = ViewContext.RouteData.Values["controller"].ToString();
+    var controllerName = System.Text.RegularExpressions.Regex.Replace(currentController, "([a-z?])[_ ]?([A-Z])", "$1 $2");
+    var currentAction = ViewContext.RouteData.Values["action"].ToString();
+    var actionName = System.Text.RegularExpressions.Regex.Replace(currentAction, "([a-z?])[_ ]?([A-Z])", "$1 $2");
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div class="input-group input-group-xs">
+                            <input type="text" class="form-control border-white dash-daterange" id="dash-daterange" disabled />
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-blue border-blue text-white">
+                                    <i class="mdi mdi-check-circle"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="page-title-right m-3">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item">
+                        <a href="/"><i class="fa fa-home"></i> WRP015</a>
+                    </li>
+
+                    @if (ViewContext.RouteData.Values["controller"].ToString() == "home")
+                    {
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Action(currentAction, currentController)">
+                                @Html.Label(currentController.ToTitleCase(), "Home", new { @class = "pointer" })
+                            </a>
+                        </li>
+
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Action(currentAction, currentController)">
+                                @Html.Label(currentAction.ToTitleCase(), currentAction.ToTitleCase(), new { @class = "pointer active" })
+                            </a>
+                        </li>
+                    }
+
+                    @if (ViewContext.RouteData.Values["controller"].ToString() != "home")
+                    {
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Action("index", "home")">
+                                <i class="fa fa-home"></i>
+                                @Html.Label("", "Dashboard", new { @class = "pointer" })
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Action("index", currentController)">
+                                @Html.Label(currentController.ToTitleCase(), controllerName.ToTitleCase(), new { @class = "pointer" })
+                            </a>
+                        </li>
+
+                        @if (currentAction != "index")
+                        {
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action(currentAction, currentController)">
+                                    @Html.Label(currentAction.ToTitleCase(), actionName.ToTitleCase(), new { @class = "active pointer" })
+                                </a>
+                            </li>
+                        }
+                    }
+                </ol>
+            </div>
+
+            @*<div class="page-title-right m-3">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">clearence application</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">admin ui</a></li>
+                        <li class="breadcrumb-item active">widgets</li>
+                    </ol>
+                </div>*@
+
+            <h4 class="page-title">@controllerName.ToTitleCase()</h4>
+        </div>
+    </div>
+</div>

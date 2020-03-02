@@ -1,0 +1,117 @@
+﻿@model WrpCcNocWeb.Models.Utility.LoginTemp
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="account-pages mt-5 mb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5" style="margin-top: 50px;">
+                <div class="card bg-pattern">
+                    <div class="card-body p-4">
+                        <div class="text-center m-auto">
+                            <a href="javascript: void(0);">
+                                <span><img src="~/images/logo-dark.png" alt="WARPO" height="60"></span>
+                            </a>
+                            <p class="text-muted mb-4 mt-3">Enter your credentials to access</p>
+                        </div>
+
+                        @using (Html.BeginForm("login", "account", FormMethod.Post, new { enctype = "multipart/form-data", id = "SigninForm", role = "form" }))
+                        {
+                            <div class="form-group mb-3">
+                                @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+                                @Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter user name", @required = "required", @autocomplete = "off" } })
+                            </div>
+
+                            <div class="form-group mb-3">
+                                @Html.LabelFor(m => m.UserPass, new { @class = "control-label" })
+                                @Html.EditorFor(m => m.UserPass, new { htmlAttributes = new { @class = "form-control", @type = "password", @placeholder = "Enter password", @required = "required", @autocomplete = "off" } })
+                            </div>
+
+                            <div class="form-group mb-3">
+                                @Html.LabelFor(m => m.CaptchaCode, new { @class = "control-label" })
+                                <div class="form-row">
+                                    <div class="col-auto" style="width: 45%;">
+                                        @Html.EditorFor(m => m.CaptchaCode, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter password", @maxlength = "4", @required = "required", @autocomplete = "off" } })
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="input-group">
+                                            <img id="captcha-img" src="@Url.Action("GetCaptchaImage", "account")" style="border: 1px solid #ced4da; border-right: none;" />
+                                            <div class="input-group-prepend pointer">
+                                                <div id="refreshCaptcha" class="input-group-text" style="border-left: none;"><i class="fe-refresh-ccw"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="checkbox-signin">
+                                    <label class="custom-control-label" for="checkbox-signin">Remember me</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-0 text-center">
+                                <button class="btn btn-primary btn-block" type="submit"> Log In </button>
+                            </div>
+                        }
+
+                        <div class="text-center">
+                            <ul class="social-list list-inline mt-3 mb-0">
+                                <li class="list-inline-item">
+                                    <a href="javascript: void(0);" class="social-list-item border-primary text-primary"><i class="mdi mdi-facebook"></i></a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i class="mdi mdi-google"></i></a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="javascript: void(0);" class="social-list-item border-info text-info"><i class="mdi mdi-twitter"></i></a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i class="mdi mdi-github-circle"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end card-body -->
+                </div>
+                <!-- end card -->
+
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <p> <a href="@Url.Action("recover", "account")" class="text-white-50 ml-1">Forgot your password?</a></p>
+                        <p class="text-white-50">Don't have an account? <a href="@Url.Action("register", "account")" class="text-white ml-1"><b>Sign Up</b></a></p>
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div> <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+</div>
+
+<script type="text/javascript">
+    jQuery.noConflict();
+
+    jQuery(document).ready(function () {
+        jQuery("#refreshCaptcha").click(function () {
+            resetCaptchaImage();
+        });
+
+        $('#CaptchaCode').val('RONY'); // must be removed after development
+        $('#CaptchaCode').keyup(function(){
+            this.value = this.value.toUpperCase();
+        });
+    });
+
+    function resetCaptchaImage() {
+        var date = new Date();
+        var url = '@Url.Action("GetCaptchaImage", "account")' + '?' + date.getTime();
+        jQuery("#captcha-img").attr("src", url);
+    }
+</script>
