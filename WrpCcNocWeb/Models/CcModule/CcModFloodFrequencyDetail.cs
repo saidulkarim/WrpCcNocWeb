@@ -28,5 +28,11 @@ namespace WrpCcNocWeb.Models
         public int FloodFrequencyId { get; set; }
         [ForeignKey("FloodFrequencyId")]
         public virtual LookUpCcModFloodFrequency LookUpCcModFloodFrequency { get; set; }
+
+
+        [Column("FloodFrequencyLevel", Order = 3)]
+        [Display(Name = "Flood Frequency Level")]
+        public double FloodFrequencyLevel { get; set; }
+        
     }
 }

@@ -295,7 +295,9 @@
                                                                                                     <i class="mdi mdi-refresh"></i>
                                                                                                 </button>
 
-                                                                                                <script type="text/javascript">
+                                                                                                <script id="HydroSystemJS" type="text/javascript">
+                                                                                                    GetHydroSystemData();
+
                                                                                                     jQuery("#HydroSystemCategoryId").change(function () {
                                                                                                         var name = jQuery("#HydroSystemCategoryId option:selected").text();
                                                                                                         var unit = jQuery("#HydroSystemCategoryId option:selected").attr('title');
@@ -308,7 +310,7 @@
                                                                                                             jQuery("#HydroSystemName").text('');
                                                                                                             jQuery("#HydroSysCategoryUnit").parent('div').addClass('d-none');
                                                                                                             jQuery("#HydroSysCategoryUnit").text('');
-                                                                                                        }                                                                                                        
+                                                                                                        }
                                                                                                     });
 
                                                                                                     jQuery("#btnSaveHydroSystem").click(function () {
@@ -319,7 +321,7 @@
 
                                                                                                         if (HydroSystemId != '') {
                                                                                                             if (HydroSystemName != '') {
-                                                                                                                if (LengthArea != '') {                                                                                                                    
+                                                                                                                if (LengthArea != '') {
                                                                                                                     var hydroSystemDetail = {
                                                                                                                         "HydroSysDetailId": 0,
                                                                                                                         "ProjectId": 8, //jQuery('#ProjectId').val(),
@@ -338,7 +340,7 @@
                                                                                                                         success: function (data, status, jqXHR) {
                                                                                                                             if (data.status == 'success') {
                                                                                                                                 Notification('success', 'Success', data.message);
-
+                                                                                                                                GetHydroSystemData();
                                                                                                                                 ClearHydroSystem();
                                                                                                                             } else {
                                                                                                                                 Notification('error', 'Saving Error', data.message);
@@ -374,57 +376,42 @@
                                                                                                         jQuery("#HydroSysCategoryUnit").text('');
                                                                                                         jQuery("#HydroSysCategoryUnit").parent('div').addClass('d-none');
                                                                                                     }
+
+                                                                                                    function GetHydroSystemData() {
+                                                                                                        var url = '@Url.Action("get_hsd", "form")';
+                                                                                                        jQuery.ajax({
+                                                                                                            type: "GET",
+                                                                                                            url: url,
+                                                                                                            data: { project_id: 8 },
+                                                                                                            dataType: "json",
+                                                                                                            success: function (data, status, jqXHR) {
+                                                                                                                if (data.length > 0) {
+                                                                                                                    console.log(data);
+                                                                                                                    var rows = '';
+
+                                                                                                                    var count = 0;
+                                                                                                                    jQuery.each(data, function (i, item) {
+                                                                                                                        ++count;
+                                                                                                                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.hydroSystemCategory + '</td><td>' + item.nameOfHydroSystem + '</td><td>' + item.hydroSystemLengthArea + ' (' + item.hydroSystemUnit + ')</td><td class="text-center"><button title="' + item.hydroSysDetailId + '" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button title="' + item.hydroSysDetailId + '" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                                                                                                                    });
+
+                                                                                                                    jQuery("#tbodyHydrologicalSystem").html(rows);
+                                                                                                                } else {
+                                                                                                                    jQuery("#tbodyHydrologicalSystem").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                                                                                                                    Notification('error', 'Data Fetch Error', data.message);
+                                                                                                                }
+                                                                                                            }, error: function (jqXHR, exception) {
+                                                                                                                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                                                                                                                jQuery("#tbodyHydrologicalSystem").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+                                                                                                                Notification('error', 'Error Occured', errorMsg);
+                                                                                                            }
+                                                                                                        });
+                                                                                                    }
                                                                                                 </script>
                                                                                             </th>
                                                                                         </tr>
                                                                                     </thead>
-                                                                                    <tbody id="tbodyHydrologicalSystem">
-                                                                                        <tr>
-                                                                                            <th scope="row">1</th>
-                                                                                            <td>Test 1</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">2</th>
-                                                                                            <td>Test 2</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">3</th>
-                                                                                            <td>Test 3</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
+                                                                                    <tbody id="tbodyHydrologicalSystem"></tbody>
                                                                                 </table>
                                                                             </div>
                                                                         </div>
@@ -536,10 +523,10 @@
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <th colspan="2" class="text-center">
-                                                                                                <select id="ddlFloodFrequency" class="form-control">
+                                                                                                <select id="FloodFrequencyId" name="FloodFrequencyId" class="form-control">
                                                                                                     <option value="">Choose..</option>
                                                                                                     @{
-                                                                                                        List<LookUpCcModFloodFrequency> _floodfrequency = ViewBag.LookUpCcModFloodFrequency;
+                                                                                                        List<LookUpCcModFloodFrequency> _floodfrequency = ViewBag.FloodFrequencyId;
 
                                                                                                         if (_floodfrequency.Count > 0)
                                                                                                         {
@@ -552,7 +539,7 @@
                                                                                                 </select>
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                <input type="text" id="Frequency" name="Frequency" class="form-control" />
+                                                                                                <input type="text" id="FloodFrequencyLevel" name="FloodFrequencyLevel" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
                                                                                                 <button id="btnSaveFloodFrequency" type="button" class="btn btn-success waves-effect waves-light" value="Save">
@@ -562,53 +549,101 @@
                                                                                                 <button id="btnClearFloodFrequency" type="button" class="btn btn-warning waves-effect waves-light" value="Save">
                                                                                                     <i class="mdi mdi-refresh"></i>
                                                                                                 </button>
+
+                                                                                                <script id="FloodFrequencyJS" type="text/javascript">
+                                                                                                    GetFloodFrequencyData();
+
+                                                                                                    jQuery("#FloodFrequencyId").change(function () {
+                                                                                                        var name = jQuery("#FloodFrequencyId option:selected").text();
+                                                                                                        //var unit = jQuery("#FloodFrequencyId option:selected").attr('title');
+                                                                                                    });
+
+                                                                                                    jQuery("#btnSaveFloodFrequency").click(function () {
+                                                                                                        var FloodFrequencyId = jQuery("#FloodFrequencyId option:selected").val();
+                                                                                                        var FloodFrequencyLevel = jQuery("#FloodFrequencyLevel").val();
+
+                                                                                                        if (FloodFrequencyId != '') {
+                                                                                                            if (FloodFrequencyLevel != '') {
+                                                                                                                    var floodFrequencyDetail = {
+                                                                                                                        "FloodFrequencyDetailId": 0,
+                                                                                                                        "ProjectId": 8, //jQuery('#ProjectId').val(),
+                                                                                                                        "FloodFrequencyId": FloodFrequencyId,
+                                                                                                                        "FloodFrequencyLevel": FloodFrequencyLevel
+                                                                                                                    };
+
+                                                                                                                    var url = '@Url.Action("ffds", "form")';
+                                                                                                                    jQuery.ajax({
+                                                                                                                        type: "POST",
+                                                                                                                        url: url,
+                                                                                                                        data: { _ffd: floodFrequencyDetail },
+                                                                                                                        dataType: "json",
+                                                                                                                        success: function (data, status, jqXHR) {
+                                                                                                                            if (data.status == 'success') {
+                                                                                                                                Notification('success', 'Success', data.message);
+                                                                                                                                GetFloodFrequencyData();
+                                                                                                                                ClearFloodFrequency();
+                                                                                                                            } else {
+                                                                                                                                Notification('error', 'Saving Error', data.message);
+                                                                                                                            }
+                                                                                                                        }, error: function (jqXHR, exception) {
+                                                                                                                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                                                                                                                            Notification('error', 'Error Occured', errorMsg);
+                                                                                                                        }
+                                                                                                                    });
+                                                                                                            } else {
+                                                                                                                Notification('warning', 'Required Field', 'Please enter frequency level!');
+                                                                                                                jQuery("#FloodFrequencyLevel").focus();
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            Notification('warning', 'Required Field', 'Please select a flood frequency!');
+                                                                                                            jQuery("#FloodFrequencyId").focus();
+                                                                                                        }
+                                                                                                    });
+
+                                                                                                    jQuery("#btnClearFloodFrequency").click(function () {
+                                                                                                        ClearFloodFrequency();
+                                                                                                    });
+
+                                                                                                    function ClearFloodFrequency() {
+                                                                                                        jQuery("#FloodFrequencyId").val('');
+                                                                                                        jQuery("#FloodFrequencyLevel").val('');
+                                                                                                    }
+
+                                                                                                    function GetFloodFrequencyData() {
+                                                                                                        var url = '@Url.Action("get_ffd", "form")';
+                                                                                                        jQuery.ajax({
+                                                                                                            type: "GET",
+                                                                                                            url: url,
+                                                                                                            data: { project_id: 8 },
+                                                                                                            dataType: "json",
+                                                                                                            success: function (data, status, jqXHR) {
+                                                                                                                if (data.length > 0) {
+                                                                                                                    console.log(data);
+                                                                                                                    var rows = '';
+
+                                                                                                                    var count = 0;
+                                                                                                                    jQuery.each(data, function (i, item) {
+                                                                                                                        ++count;
+                                                                                                                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.floodFrequency + '</td><td>' + item.floodFrequencyLevel + '</td><td class="text-center"><button title="' + item.floodFrequencyDetailId + '" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button title="' + item.floodFrequencyDetailId + '" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                                                                                                                    });
+
+                                                                                                                    jQuery("#tbodyFloodFrequency").html(rows);
+                                                                                                                } else {
+                                                                                                                    jQuery("#tbodyFloodFrequency").html('<tr><td colspan="4" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                                                                                                                    Notification('error', 'Data Fetch Error', data.message);
+                                                                                                                }
+                                                                                                            }, error: function (jqXHR, exception) {
+                                                                                                                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                                                                                                                jQuery("#tbodyFloodFrequency").html('<tr><td colspan="4" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+                                                                                                                Notification('error', 'Error Occured', errorMsg);
+                                                                                                            }
+                                                                                                        });
+                                                                                                    }
+                                                                                                </script>
                                                                                             </th>
                                                                                         </tr>
                                                                                     </thead>
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <th scope="row">1</th>
-                                                                                            <td>Test 1</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">2</th>
-                                                                                            <td>Test 2</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">3</th>
-                                                                                            <td>Test 3</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
+                                                                                    <tbody id="tbodyFloodFrequency"></tbody>
                                                                                 </table>
                                                                             </div>
                                                                         </div>
@@ -717,16 +752,10 @@
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <th colspan="2" class="text-center">
-                                                                                                <select id="ddlCropsName" class="form-control">
-                                                                                                    <option value="">Choose..</option>
-                                                                                                    <option value="1">Crops Name 1</option>
-                                                                                                    <option value="2">Crops Name 2</option>
-                                                                                                    <option value="3">Crops Name 3</option>
-                                                                                                    <option value="4">Crops Name 4</option>
-                                                                                                </select>
+                                                                                                <input type="text" id="CropName" name="CropName" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                <input type="text" id="CropsArea" name="CropsArea" class="form-control" />
+                                                                                                <input type="text" id="Area" name="Area" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
                                                                                                 <button id="btnSaveIrrigatedCropArea" type="button" class="btn btn-success waves-effect waves-light" value="Save">
@@ -736,53 +765,101 @@
                                                                                                 <button id="btnClearIrrigatedCropArea" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
                                                                                                     <i class="mdi mdi-refresh"></i>
                                                                                                 </button>
+
+                                                                                                <script id="IrrigatedCropAreaJS" type="text/javascript">
+                                                                                                    GetIrrigatedCropAreaData();
+
+                                                                                                    jQuery("#HydroSystemCategoryId").change(function () {
+	                                                                                                    var name = jQuery("#HydroSystemCategoryId option:selected").text();
+                                                                                                    });
+
+                                                                                                    jQuery("#btnSaveIrrigatedCropArea").click(function () {
+	                                                                                                    var CropName = jQuery("#CropName").val();
+	                                                                                                    var Area = jQuery("#Area").val();
+
+	                                                                                                    if (CropName != '') {
+		                                                                                                    if (Area != '') {
+				                                                                                                var irrigCropAreaDetail = {
+					                                                                                                "IrrigatedCropId": 0,
+					                                                                                                "ProjectId": 8, //jQuery('#ProjectId').val(),
+					                                                                                                "CropName": CropName,
+					                                                                                                "Area": Area
+				                                                                                                };
+
+				                                                                                                var url = '@Url.Action("icas", "form")';
+				                                                                                                jQuery.ajax({
+					                                                                                                type: "POST",
+					                                                                                                url: url,
+					                                                                                                data: { _ica: irrigCropAreaDetail },
+					                                                                                                dataType: "json",
+					                                                                                                success: function (data, status, jqXHR) {
+						                                                                                                if (data.status == 'success') {
+                                                                                                                            Notification('success', 'Success', data.message);
+
+							                                                                                                GetIrrigatedCropAreaData();
+							                                                                                                ClearIrrigatedCropArea();
+						                                                                                                } else {
+							                                                                                                Notification('error', 'Saving Error', data.message);
+						                                                                                                }
+					                                                                                                }, error: function (jqXHR, exception) {
+						                                                                                                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+						                                                                                                Notification('error', 'Error Occured', errorMsg);
+					                                                                                                }
+				                                                                                                });
+		                                                                                                    } else {
+			                                                                                                    Notification('warning', 'Required Field', 'Please enter area!');
+			                                                                                                    jQuery("#Area").focus();
+		                                                                                                    }
+	                                                                                                    } else {
+		                                                                                                    Notification('warning', 'Required Field', 'Please enter crop name!');
+		                                                                                                    jQuery("#CropName").focus();
+	                                                                                                    }
+                                                                                                    });
+
+                                                                                                    jQuery("#btnClearIrrigatedCropArea").click(function () {
+	                                                                                                    ClearIrrigatedCropArea();
+                                                                                                    });
+
+                                                                                                    function ClearIrrigatedCropArea() {
+	                                                                                                    jQuery("#CropName").val('');
+	                                                                                                    jQuery("#Area").val('');
+                                                                                                    }
+
+                                                                                                    function GetIrrigatedCropAreaData() {
+	                                                                                                    var url = '@Url.Action("get_ica", "form")';
+	                                                                                                    jQuery.ajax({
+		                                                                                                    type: "GET",
+		                                                                                                    url: url,
+		                                                                                                    data: { project_id: 8 },
+		                                                                                                    dataType: "json",
+		                                                                                                    success: function (data, status, jqXHR) {
+			                                                                                                    if (data.length > 0) {
+				                                                                                                    console.log(data);
+				                                                                                                    var rows = '';
+
+				                                                                                                    var count = 0;
+				                                                                                                    jQuery.each(data, function (i, item) {
+					                                                                                                    ++count;
+					                                                                                                    rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.cropName + '</td><td>' + item.area + '</td><td class="text-center"><button title="' + item.irrigatedCropId + '" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button title="' + item.irrigatedCropId + '" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+				                                                                                                    });
+
+				                                                                                                    jQuery("#tbodyIrrigatedCropArea").html(rows);
+			                                                                                                    } else {
+				                                                                                                    jQuery("#tbodyIrrigatedCropArea").html('<tr><td colspan="4" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+				                                                                                                    Notification('error', 'Data Fetch Error', data.message);
+			                                                                                                    }
+		                                                                                                    }, error: function (jqXHR, exception) {
+			                                                                                                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			                                                                                                    jQuery("#tbodyIrrigatedCropArea").html('<tr><td colspan="4" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+			                                                                                                    Notification('error', 'Error Occured', errorMsg);
+		                                                                                                    }
+	                                                                                                    });
+                                                                                                    }
+                                                                                                </script>
                                                                                             </th>
                                                                                         </tr>
                                                                                     </thead>
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <th scope="row">1</th>
-                                                                                            <td>Test 1</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">2</th>
-                                                                                            <td>Test 2</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">3</th>
-                                                                                            <td>Test 3</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
+                                                                                    <tbody id="tbodyIrrigatedCropArea"></tbody>
                                                                                 </table>
                                                                             </div>
                                                                         </div>
@@ -793,177 +870,47 @@
                                                                         <input type="text" id="CropProduction" name="CropProduction" class="form-control" />
                                                                     </div>
 
-                                                                    <div class="form-group">
-                                                                        <label for="FishProductionDiversity">Fish Production and Diversity</label>
+                                                                    <fieldset>
+                                                                        <legend>Fish Production and Diversity</legend>
 
-                                                                        <div id="FishProductionDiversity" class="row" style="margin-left: -7px;">
-                                                                            <div class="table-responsive">
-                                                                                <table class="table mb-0">
-                                                                                    <thead>
-                                                                                        <tr>
-                                                                                            <th class="text-center">#</th>
-                                                                                            <th class="text-center">Production</th>
-                                                                                            <th class="text-center">Diversity</th>
-                                                                                            <th class="text-center"></th>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th colspan="2" class="text-center">
-                                                                                                <input type="text" id="Production" name="Production" class="form-control" />
-                                                                                            </th>
-                                                                                            <th class="text-center">
-                                                                                                <input type="text" id="Diversity" name="Diversity" class="form-control" />
-                                                                                            </th>
-                                                                                            <th class="text-center">
-                                                                                                <button id="btnSaveFishProductionDiversity" type="button" class="btn btn-success waves-effect waves-light" value="Save">
-                                                                                                    <i class="mdi mdi-content-save"></i>
-                                                                                                </button>
+                                                                        <div class="row">
+                                                                            <div class="form-group col-md-6">
+                                                                                <label for="FishProduction">Fish Production</label>
+                                                                                <input type="text" id="FishProduction" name="FishProduction" class="form-control" />
+                                                                            </div>
 
-                                                                                                <button id="btnClearFishProductionDiversity" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
-                                                                                                    <i class="mdi mdi-refresh"></i>
-                                                                                                </button>
-                                                                                            </th>
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <th scope="row">1</th>
-                                                                                            <td>Test 1</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">2</th>
-                                                                                            <td>Test 2</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">3</th>
-                                                                                            <td>Test 3</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
-                                                                                </table>
+                                                                            <div class="form-group col-md-6">
+                                                                                <label for="FishDiversity">Fish Diversity</label>
+                                                                                <input type="text" id="FishDiversity" name="FishDiversity" class="form-control" />
                                                                             </div>
                                                                         </div>
-                                                                    </div>
+                                                                    </fieldset>
 
                                                                     <div class="form-group">
                                                                         <label for="FloraFauna">Flora and Fauna</label>
                                                                         <input type="text" id="FloraFauna" name="FloraFauna" class="form-control" />
                                                                     </div>
 
-                                                                    <div class="form-group">
-                                                                        <label for="SocioEconomicCondition">Socio Economic Condition</label>
+                                                                    <fieldset>
+                                                                        <legend>Socio Economic Condition</legend>
 
-                                                                        <div id="SocioEconomicCondition" class="row" style="margin-left: -7px;">
-                                                                            <div class="table-responsive">
-                                                                                <table class="table mb-0">
-                                                                                    <thead>
-                                                                                        <tr>
-                                                                                            <th class="text-center">#</th>
-                                                                                            <th class="text-center">% of land less people</th>
-                                                                                            <th class="text-center">% of small farmer</th>
-                                                                                            <th class="text-center">Average monthly income</th>
-                                                                                            <th class="text-center"></th>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th colspan="2" class="text-center">
-                                                                                                <input type="text" id="LandLessPeople" name="LandLessPeople" class="form-control" />
-                                                                                            </th>
-                                                                                            <th class="text-center">
-                                                                                                <input type="text" id="SmallFarmer" name="SmallFarmer" class="form-control" />
-                                                                                            </th>
-                                                                                            <th class="text-center">
-                                                                                                <input type="text" id="AverageMonthlyIncome" name="AverageMonthlyIncome" class="form-control" />
-                                                                                            </th>
-                                                                                            <th class="text-center">
-                                                                                                <button id="btnSaveSocioEconomicCondition" type="button" class="btn btn-success waves-effect waves-light" value="Save">
-                                                                                                    <i class="mdi mdi-content-save"></i>
-                                                                                                </button>
+                                                                        <div class="row">
+                                                                            <div class="form-group col-md-4">
+                                                                                <label for="LandLessPeoplePercentage">Land Less People Percentage (%)</label>
+                                                                                <input type="text" id="LandLessPeoplePercentage" name="LandLessPeoplePercentage" class="form-control" />
+                                                                            </div>
 
-                                                                                                <button id="btnClearSocioEconomicCondition" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
-                                                                                                    <i class="mdi mdi-refresh"></i>
-                                                                                                </button>
-                                                                                            </th>
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <th scope="row">1</th>
-                                                                                            <td>Test 1</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label for="SmallFarmerPercentage">Small Farmer Percentage (%)</label>
+                                                                                <input type="text" id="SmallFarmerPercentage" name="SmallFarmerPercentage" class="form-control" />
+                                                                            </div>
 
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">2</th>
-                                                                                            <td>Test 2</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">3</th>
-                                                                                            <td>Test 3</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
-                                                                                </table>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label for="AvgMonthlyIncome">Avg Monthly Income</label>
+                                                                                <input type="text" id="AvgMonthlyIncome" name="AvgMonthlyIncome" class="form-control" />
                                                                             </div>
                                                                         </div>
-                                                                    </div>
+                                                                    </fieldset>
 
                                                                     <h2>2. Issue, Challenge or Problem</h2>
 
@@ -1102,72 +1049,111 @@
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <th colspan="2" class="text-center">
-                                                                                                <input type="text" id="aofoYesOption" name="aofoYesOption" class="form-control" />
+                                                                                                <input type="text" id="OptionNumber" name="OptionNumber" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                <input type="text" id="aofoYesDescription" name="aofoYesDescription" class="form-control" />
+                                                                                                <input type="text" id="AnalyzeDescription" name="AnalyzeDescription" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                <input type="text" id="aofoYesRemarks" name="aofoYesRemarks" class="form-control" />
+                                                                                                <input type="text" id="AnalyzeRemarks" name="AnalyzeRemarks" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
                                                                                                 <button id="btnSaveAoFOYes" type="button" class="btn btn-success waves-effect waves-light" value="Save">
                                                                                                     <i class="mdi mdi-content-save"></i>
                                                                                                 </button>
 
-                                                                                                <button id="btnClearAoFOYes" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
+                                                                                                <button id="btnClearAoFOYes" type="button" class="btn btn-warning  waves-effect waves-light" value="Clear">
                                                                                                     <i class="mdi mdi-refresh"></i>
                                                                                                 </button>
+
+                                                                                                <script id="AoFOJS" type="text/javascript">
+                                                                                                    GetAoFOData();
+
+                                                                                                    jQuery("#btnSaveAoFOYes").click(function () {
+	                                                                                                    var OptionNumber = jQuery("#OptionNumber").val();
+                                                                                                        var AnalyzeDescription = jQuery("#AnalyzeDescription").val();
+                                                                                                        var AnalyzeRemarks = jQuery("#AnalyzeRemarks").val();
+
+	                                                                                                    if (AnalyzeDescription != '') {
+				                                                                                            var analyzeOptionsDetail = {
+					                                                                                            "AnalyzeOptionsId": 0,
+					                                                                                            "ProjectId": 8, //jQuery('#ProjectId').val(),
+					                                                                                            "OptionNumber": OptionNumber,
+                                                                                                                "AnalyzeDescription": AnalyzeDescription,
+                                                                                                                "AnalyzeRemarks": AnalyzeRemarks
+				                                                                                            };
+
+				                                                                                            var url = '@Url.Action("aofos", "form")';
+				                                                                                            jQuery.ajax({
+					                                                                                            type: "POST",
+					                                                                                            url: url,
+					                                                                                            data: { _aofd: analyzeOptionsDetail },
+					                                                                                            dataType: "json",
+					                                                                                            success: function (data, status, jqXHR) {
+						                                                                                            if (data.status == 'success') {
+                                                                                                                        Notification('success', 'Success', data.message);
+
+							                                                                                            GetAoFOData();
+							                                                                                            ClearAoFO();
+						                                                                                            } else {
+							                                                                                            Notification('error', 'Saving Error', data.message);
+						                                                                                            }
+					                                                                                            }, error: function (jqXHR, exception) {
+						                                                                                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
+						                                                                                            Notification('error', 'Error Occured', errorMsg);
+					                                                                                            }
+				                                                                                            });
+	                                                                                                    } else {
+		                                                                                                    Notification('warning', 'Required Field', 'Please enter analyze description!');
+		                                                                                                    jQuery("#CropName").focus();
+	                                                                                                    }
+                                                                                                    });
+
+                                                                                                    jQuery("#btnClearAoFOYes").click(function () {
+	                                                                                                    ClearAoFO();
+                                                                                                    });
+
+                                                                                                    function ClearAoFO() {
+                                                                                                        jQuery("#OptionNumber").val('');
+                                                                                                        jQuery("#AnalyzeDescription").val('');
+	                                                                                                    jQuery("#AnalyzeRemarks").val('');
+                                                                                                    }
+
+                                                                                                    function GetAoFOData() {
+	                                                                                                    var url = '@Url.Action("get_aofo", "form")';
+	                                                                                                    jQuery.ajax({
+		                                                                                                    type: "GET",
+		                                                                                                    url: url,
+		                                                                                                    data: { project_id: 8 },
+		                                                                                                    dataType: "json",
+		                                                                                                    success: function (data, status, jqXHR) {
+			                                                                                                    if (data.length > 0) {
+				                                                                                                    console.log(data);
+				                                                                                                    var rows = '';
+
+				                                                                                                    var count = 0;
+				                                                                                                    jQuery.each(data, function (i, item) {
+					                                                                                                    ++count;
+					                                                                                                    rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.optionNumber + '</td><td>' + item.analyzeDescription + '</td><td>' + item.analyzeRemarks + '</td><td class="text-center"><button title="' + item.analyzeOptionsId + '" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button title="' + item.analyzeOptionsId + '" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+				                                                                                                    });
+
+				                                                                                                    jQuery("#tbodyAnalyzeOptFulfillObj").html(rows);
+			                                                                                                    } else {
+				                                                                                                    jQuery("#tbodyAnalyzeOptFulfillObj").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+				                                                                                                    Notification('error', 'Data Fetch Error', data.message);
+			                                                                                                    }
+		                                                                                                    }, error: function (jqXHR, exception) {
+			                                                                                                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			                                                                                                    jQuery("#tbodyAnalyzeOptFulfillObj").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+			                                                                                                    Notification('error', 'Error Occured', errorMsg);
+		                                                                                                    }
+	                                                                                                    });
+                                                                                                    }
+                                                                                                </script>
                                                                                             </th>
                                                                                         </tr>
                                                                                     </thead>
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <th scope="row">1</th>
-                                                                                            <td>Test 1</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">2</th>
-                                                                                            <td>Test 2</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">3</th>
-                                                                                            <td>Test 3</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
+                                                                                    <tbody id="tbodyAnalyzeOptFulfillObj"></tbody>
                                                                                 </table>
                                                                             </div>
                                                                         </div>
@@ -1189,86 +1175,143 @@
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <th colspan="2" class="text-center">
-                                                                                                <input type="text" id="dswpdParameters" name="dswpdParameters" class="form-control" />
+                                                                                                <select id="DesignSubmittedParameterId" name="DesignSubmittedParameterId" class="form-control">
+                                                                                                    <option value="">Choose...</option>
+                                                                                                    @{
+                                                                                                        List<LookUpCcModDesignSubmitParam> _dsp = ViewBag.DesignSubmittedParameterId;
+
+                                                                                                        if (_hs.Count > 0)
+                                                                                                        {
+                                                                                                            foreach (LookUpCcModDesignSubmitParam dsp in _dsp)
+                                                                                                            {
+                                                                                                                <option value="@dsp.DesignSubmittedParameterId" title="@dsp.DesignSubmittedParameterId">@dsp.ParameterName</option>
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                </select>
                                                                                             </th>
                                                                                             <th class="text-center">
                                                                                                 <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                    <input type="radio" name="dswpd" id="chkDSWPDYes" value="1" data-parsley-multiple="dswpd">
+                                                                                                    <input type="radio" name="dswpdYN" id="chkDSWPDYes" value="1" data-parsley-multiple="dswpdYN">
                                                                                                     <label for="chkDSWPDYes"> Yes </label>
                                                                                                 </div>
 
                                                                                                 <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                    <input type="radio" name="dswpd" id="chkDSWPDNo" value="0" data-parsley-multiple="dswpd">
+                                                                                                    <input type="radio" name="dswpdYN" id="chkDSWPDNo" value="0" data-parsley-multiple="dswpdYN">
                                                                                                     <label for="chkDSWPDNo"> No </label>
                                                                                                 </div>
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                <input type="text" id="dswpdApplicantComments" name="dswpdApplicantComments" class="form-control" />
+                                                                                                <input type="text" id="DesignSubmitApplicantCmt" name="DesignSubmitApplicantCmt" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                <input type="text" id="dswpdAuthorityComments" name="dswpdAuthorityComments" class="form-control" />
+                                                                                                <input type="text" id="DesignSubmitAuthorityCmt" name="DesignSubmitAuthorityCmt" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
                                                                                                 <button id="btnSaveDSWPD" type="button" class="btn btn-success waves-effect waves-light" value="Save">
                                                                                                     <i class="mdi mdi-content-save"></i>
                                                                                                 </button>
 
-                                                                                                <button id="btnClearDSWPD" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
+                                                                                                <button id="btnClearDSWPD" type="button" class="btn btn-warning  waves-effect waves-light" value="Clear">
                                                                                                     <i class="mdi mdi-refresh"></i>
                                                                                                 </button>
+
+                                                                                                <script id="dswpdJS" type="text/javascript">
+                                                                                                    GetDswpdData();
+
+                                                                                                    jQuery("#btnSaveDSWPD").click(function () {
+	                                                                                                    var DesignSubmittedParameterId = jQuery("#DesignSubmittedParameterId option:selected").val();
+                                                                                                        var DswpYesNoId = jQuery("input:radio[name='dswpdYN']:checked").val();
+                                                                                                        DswpYesNoId = (DswpYesNoId == '') ? 0 : DswpYesNoId;
+                                                                                                        var DesignSubmitApplicantCmt = jQuery("#DesignSubmitApplicantCmt").val();
+                                                                                                        var DesignSubmitAuthorityCmt = jQuery("#DesignSubmitAuthorityCmt").val();
+
+	                                                                                                    if (AnalyzeDescription != '') {
+				                                                                                            var designSubParamDetail = {
+					                                                                                            "DesignSubmittedId": 0,
+					                                                                                            "ProjectId": 8, //jQuery('#ProjectId').val(),
+					                                                                                            "DesignSubmittedParameterId": DesignSubmittedParameterId,
+                                                                                                                "YesNoId": DswpYesNoId,
+                                                                                                                "DesignSubmitApplicantCmt": DesignSubmitApplicantCmt,
+                                                                                                                "DesignSubmitAuthorityCmt": DesignSubmitAuthorityCmt
+				                                                                                            };
+
+                                                                                                            console.log(designSubParamDetail);
+                                                                                                            console.log(DswpYesNoId);
+
+				                                                                                            var url = '@Url.Action("dswpds", "form")';
+				                                                                                            jQuery.ajax({
+					                                                                                            type: "POST",
+					                                                                                            url: url,
+					                                                                                            data: { _dspd: designSubParamDetail },
+					                                                                                            dataType: "json",
+					                                                                                            success: function (data, status, jqXHR) {
+						                                                                                            if (data.status == 'success') {
+                                                                                                                        Notification('success', 'Success', data.message);
+
+							                                                                                            GetDswpdData();
+							                                                                                            ClearDswpd();
+						                                                                                            } else {
+							                                                                                            Notification('error', 'Saving Error', data.message);
+						                                                                                            }
+					                                                                                            }, error: function (jqXHR, exception) {
+						                                                                                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
+						                                                                                            Notification('error', 'Error Occured', errorMsg);
+					                                                                                            }
+				                                                                                            });
+	                                                                                                    } else {
+		                                                                                                    Notification('warning', 'Required Field', 'Please enter analyze description!');
+		                                                                                                    jQuery("#CropName").focus();
+	                                                                                                    }
+                                                                                                    });
+
+                                                                                                    jQuery("#btnClearDSWPD").click(function () {
+	                                                                                                    ClearDswpd();
+                                                                                                    });
+
+                                                                                                    function ClearDswpd() {
+                                                                                                        jQuery("#DesignSubmittedParameterId").val('');
+                                                                                                        jQuery("#DesignSubmitApplicantCmt").val('');
+                                                                                                        jQuery("#DesignSubmitAuthorityCmt").val('');
+                                                                                                        //jQuery("input:radio[name='dswpdYN']").val('');
+                                                                                                        //jQuery("input:radio[name='dswpdYN']:checked").prop('checked', false);
+                                                                                                    }
+
+                                                                                                    function GetDswpdData() {
+	                                                                                                    var url = '@Url.Action("get_dswpd", "form")';
+	                                                                                                    jQuery.ajax({
+		                                                                                                    type: "GET",
+		                                                                                                    url: url,
+		                                                                                                    data: { project_id: 8 },
+		                                                                                                    dataType: "json",
+		                                                                                                    success: function (data, status, jqXHR) {
+			                                                                                                    if (data.length > 0) {
+				                                                                                                    console.log(data);
+				                                                                                                    var rows = '';
+
+				                                                                                                    var count = 0;
+				                                                                                                    jQuery.each(data, function (i, item) {
+					                                                                                                    ++count;
+					                                                                                                    rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.parameterName + '</td><td>' + item.dswpdYN + '</td><td>' + item.designSubmitApplicantCmt + '</td><td>' + item.designSubmitAuthorityCmt + '</td><td class="text-center"><button title="' + item.designSubmittedId + '" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button title="' + item.designSubmittedId + '" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+				                                                                                                    });
+
+				                                                                                                    jQuery("#tbodyDesignSubProjDoc").html(rows);
+			                                                                                                    } else {
+				                                                                                                    jQuery("#tbodyDesignSubProjDoc").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+				                                                                                                    Notification('error', 'Data Fetch Error', data.message);
+			                                                                                                    }
+		                                                                                                    }, error: function (jqXHR, exception) {
+			                                                                                                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			                                                                                                    jQuery("#tbodyDesignSubProjDoc").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+			                                                                                                    Notification('error', 'Error Occured', errorMsg);
+		                                                                                                    }
+	                                                                                                    });
+                                                                                                    }
+                                                                                                </script>
                                                                                             </th>
                                                                                         </tr>
                                                                                     </thead>
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <th scope="row">1</th>
-                                                                                            <td>Test 1</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">2</th>
-                                                                                            <td>Test 2</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">3</th>
-                                                                                            <td>Test 3</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
+                                                                                    <tbody id="tbodyDesignSubProjDoc"></tbody>
                                                                                 </table>
                                                                             </div>
                                                                         </div>
@@ -1333,7 +1376,7 @@
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <th colspan="2" class="text-center">
-                                                                                                <select id="eiaYesParameters" class="form-control">
+                                                                                                <select id="EIAParameterId" name="EIAParameterId" class="form-control">
                                                                                                     <option value="">Choose..</option>
                                                                                                     @{
                                                                                                         List<LookUpCcModEIAParameter> _eias = ViewBag.LookUpCcModEIAParameter;
@@ -1349,16 +1392,16 @@
                                                                                                 </select>
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                <input type="text" id="eiaYesPreProjectSituation" name="eiaYesPreProjectSituation" class="form-control" />
+                                                                                                <input type="text" id="PreProjectSituation" name="PreProjectSituation" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                <input type="text" id="eiaYesPostProjectSituation" name="eiaYesPostProjectSituation" class="form-control" />
+                                                                                                <input type="text" id="PostProjectSituation" name="PostProjectSituation" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                <input type="text" id="eiaYesPositiveNegativeImpact" name="eiaYesPositiveNegativeImpact" class="form-control" />
+                                                                                                <input type="text" id="PositiveNegativeImpact" name="PositiveNegativeImpact" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                <input type="text" id="eiaYesMitigationPlan" name="eiaYesMitigationPlan" class="form-control" />
+                                                                                                <input type="text" id="MitigationPlan" name="MitigationPlan" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
                                                                                                 <button id="btnSaveEIAYes" type="button" class="btn btn-success waves-effect waves-light" value="Save">
@@ -1368,62 +1411,101 @@
                                                                                                 <button id="btnClearEIAYes" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
                                                                                                     <i class="mdi mdi-refresh"></i>
                                                                                                 </button>
+
+                                                                                                <script id="EiaJS" type="text/javascript">
+                                                                                                    GetEiaData();
+
+                                                                                                    jQuery("#btnSaveEIAYes").click(function () {
+	                                                                                                    var EIAParameterId = jQuery("#EIAParameterId option:selected").val();
+                                                                                                        var PreProjectSituation = jQuery("#PreProjectSituation").val();
+                                                                                                        var PostProjectSituation = jQuery("#PostProjectSituation").val();
+                                                                                                        var PositiveNegativeImpact = jQuery("#PositiveNegativeImpact").val();
+                                                                                                        var MitigationPlan = jQuery("#MitigationPlan").val();
+
+	                                                                                                    if (EIAParameterId != '') {
+				                                                                                            var eiaDetail = {
+					                                                                                            "EIAId": 0,
+					                                                                                            "ProjectId": 8, //jQuery('#ProjectId').val(),
+					                                                                                            "EIAParameterId": EIAParameterId,
+                                                                                                                "PreProjectSituation": PreProjectSituation,
+                                                                                                                "PostProjectSituation": PostProjectSituation,
+                                                                                                                "PositiveNegativeImpact": PositiveNegativeImpact,
+                                                                                                                "MitigationPlan": MitigationPlan
+				                                                                                            };
+
+				                                                                                            var url = '@Url.Action("eiads", "form")';
+				                                                                                            jQuery.ajax({
+					                                                                                            type: "POST",
+					                                                                                            url: url,
+					                                                                                            data: { _eia: eiaDetail },
+					                                                                                            dataType: "json",
+					                                                                                            success: function (data, status, jqXHR) {
+						                                                                                            if (data.status == 'success') {
+                                                                                                                        Notification('success', 'Success', data.message);
+
+							                                                                                            GetEiaData();
+							                                                                                            ClearEIA();
+						                                                                                            } else {
+							                                                                                            Notification('error', 'Saving Error', data.message);
+						                                                                                            }
+					                                                                                            }, error: function (jqXHR, exception) {
+						                                                                                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
+						                                                                                            Notification('error', 'Error Occured', errorMsg);
+					                                                                                            }
+				                                                                                            });
+	                                                                                                    } else {
+		                                                                                                    Notification('warning', 'Required Field', 'Please select an option from EIA parameter!');
+		                                                                                                    jQuery("#EIAParameterId").focus();
+	                                                                                                    }
+                                                                                                    });
+
+                                                                                                    jQuery("#btnClearEIAYes").click(function () {
+	                                                                                                    ClearEIA();
+                                                                                                    });
+
+                                                                                                    function ClearEIA() {
+                                                                                                        jQuery("#EIAParameterId").val('');
+                                                                                                        jQuery("#PreProjectSituation").val('');
+                                                                                                        jQuery("#PostProjectSituation").val('');
+                                                                                                        jQuery("#PositiveNegativeImpact").val('');
+                                                                                                        jQuery("#MitigationPlan").val('');
+                                                                                                    }
+
+                                                                                                    function GetEiaData() {
+	                                                                                                    var url = '@Url.Action("get_eiad", "form")';
+	                                                                                                    jQuery.ajax({
+		                                                                                                    type: "GET",
+		                                                                                                    url: url,
+		                                                                                                    data: { project_id: 8 },
+		                                                                                                    dataType: "json",
+		                                                                                                    success: function (data, status, jqXHR) {
+			                                                                                                    if (data.length > 0) {
+				                                                                                                    console.log(data);
+				                                                                                                    var rows = '';
+
+				                                                                                                    var count = 0;
+				                                                                                                    jQuery.each(data, function (i, item) {
+					                                                                                                    ++count;
+					                                                                                                    rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.parameterName + '</td><td>' + item.preProjectSituation + '</td><td>' + item.postProjectSituation + '</td><td>' + item.positiveNegativeImpact + '</td><td>' + item.mitigationPlan + '</td><td class="text-center"><button title="' + item.eiaId + '" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button title="' + item.eiaId + '" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+				                                                                                                    });
+
+				                                                                                                    jQuery("#tbodyEIADetail").html(rows);
+			                                                                                                    } else {
+				                                                                                                    jQuery("#tbodyEIADetail").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+				                                                                                                    Notification('error', 'Data Fetch Error', data.message);
+			                                                                                                    }
+		                                                                                                    }, error: function (jqXHR, exception) {
+			                                                                                                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			                                                                                                    jQuery("#tbodyEIADetail").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+			                                                                                                    Notification('error', 'Error Occured', errorMsg);
+		                                                                                                    }
+	                                                                                                    });
+                                                                                                    }
+                                                                                                </script>
                                                                                             </th>
                                                                                         </tr>
                                                                                     </thead>
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <th scope="row">1</th>
-                                                                                            <td>Test 1</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">2</th>
-                                                                                            <td>Test 2</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">3</th>
-                                                                                            <td>Test 3</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
+                                                                                    <tbody id="tbodyEIADetail"></tbody>
                                                                                 </table>
                                                                             </div>
                                                                         </div>
@@ -1448,7 +1530,7 @@
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <th colspan="2" class="text-center">
-                                                                                                <select id="siaYesParameters" class="form-control">
+                                                                                                <select id="SIAParameterId" name="SIAParameterId" class="form-control">
                                                                                                     <option value="">Choose..</option>
                                                                                                     @{
                                                                                                         List<LookUpCcModSIAParameter> _sias = ViewBag.LookUpCcModSIAParameter;
@@ -1464,16 +1546,16 @@
                                                                                                 </select>
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                <input type="text" id="siaYesPreProjectSituation" name="siaYesPreProjectSituation" class="form-control" />
+                                                                                                <input type="text" id="SiaPreProjectSituation" name="SiaPreProjectSituation" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                <input type="text" id="siaYesPostProjectSituation" name="siaYesPostProjectSituation" class="form-control" />
+                                                                                                <input type="text" id="SiaPostProjectSituation" name="SiaPostProjectSituation" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                <input type="text" id="siaYesPositiveNegativeImpact" name="siaYesPositiveNegativeImpact" class="form-control" />
+                                                                                                <input type="text" id="SiaPositiveNegativeImpact" name="SiaPositiveNegativeImpact" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                <input type="text" id="siaYesMitigationPlan" name="siaYesMitigationPlan" class="form-control" />
+                                                                                                <input type="text" id="SiaMitigationPlan" name="SiaMitigationPlan" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
                                                                                                 <button id="btnSaveSIAYes" type="button" class="btn btn-success waves-effect waves-light" value="Save">
@@ -1483,62 +1565,101 @@
                                                                                                 <button id="btnClearSIAYes" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
                                                                                                     <i class="mdi mdi-refresh"></i>
                                                                                                 </button>
+
+                                                                                                <script id="SiaJS" type="text/javascript">
+                                                                                                    GetSiaData();
+
+                                                                                                    jQuery("#btnSaveSIAYes").click(function () {
+	                                                                                                    var SIAParameterId = jQuery("#SIAParameterId option:selected").val();
+                                                                                                        var SiaPreProjectSituation = jQuery("#SiaPreProjectSituation").val();
+                                                                                                        var SiaPostProjectSituation = jQuery("#SiaPostProjectSituation").val();
+                                                                                                        var SiaPositiveNegativeImpact = jQuery("#SiaPositiveNegativeImpact").val();
+                                                                                                        var SiaMitigationPlan = jQuery("#SiaMitigationPlan").val();
+
+	                                                                                                    if (SIAParameterId != '') {
+				                                                                                            var siaDetail = {
+					                                                                                            "SIAId": 0,
+					                                                                                            "ProjectId": 8, //jQuery('#ProjectId').val(),
+					                                                                                            "SIAParameterId": SIAParameterId,
+                                                                                                                "PreProjectSituation": SiaPreProjectSituation,
+                                                                                                                "PostProjectSituation": SiaPostProjectSituation,
+                                                                                                                "PositiveNegativeImpact": SiaPositiveNegativeImpact,
+                                                                                                                "MitigationPlan": SiaMitigationPlan
+				                                                                                            };
+
+				                                                                                            var url = '@Url.Action("siads", "form")';
+				                                                                                            jQuery.ajax({
+					                                                                                            type: "POST",
+					                                                                                            url: url,
+					                                                                                            data: { _sia: siaDetail },
+					                                                                                            dataType: "json",
+					                                                                                            success: function (data, status, jqXHR) {
+						                                                                                            if (data.status == 'success') {
+                                                                                                                        Notification('success', 'Success', data.message);
+
+							                                                                                            GetSiaData();
+							                                                                                            ClearSIA();
+						                                                                                            } else {
+							                                                                                            Notification('error', 'Saving Error', data.message);
+						                                                                                            }
+					                                                                                            }, error: function (jqXHR, exception) {
+						                                                                                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
+						                                                                                            Notification('error', 'Error Occured', errorMsg);
+					                                                                                            }
+				                                                                                            });
+	                                                                                                    } else {
+		                                                                                                    Notification('warning', 'Required Field', 'Please select an option from SIA parameter!');
+		                                                                                                    jQuery("#EIAParameterId").focus();
+	                                                                                                    }
+                                                                                                    });
+
+                                                                                                    jQuery("#btnClearSIAYes").click(function () {
+	                                                                                                    ClearSIA();
+                                                                                                    });
+
+                                                                                                    function ClearSIA() {
+                                                                                                        jQuery("#SIAParameterId").val('');
+                                                                                                        jQuery("#SiaPreProjectSituation").val('');
+                                                                                                        jQuery("#SiaPostProjectSituation").val('');
+                                                                                                        jQuery("#SiaPositiveNegativeImpact").val('');
+                                                                                                        jQuery("#SiaMitigationPlan").val('');
+                                                                                                    }
+
+                                                                                                    function GetSiaData() {
+	                                                                                                    var url = '@Url.Action("get_siad", "form")';
+	                                                                                                    jQuery.ajax({
+		                                                                                                    type: "GET",
+		                                                                                                    url: url,
+		                                                                                                    data: { project_id: 8 },
+		                                                                                                    dataType: "json",
+		                                                                                                    success: function (data, status, jqXHR) {
+			                                                                                                    if (data.length > 0) {
+				                                                                                                    console.log(data);
+				                                                                                                    var rows = '';
+
+				                                                                                                    var count = 0;
+				                                                                                                    jQuery.each(data, function (i, item) {
+					                                                                                                    ++count;
+					                                                                                                    rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.siaParameterName + '</td><td>' + item.preProjectSituation + '</td><td>' + item.postProjectSituation + '</td><td>' + item.positiveNegativeImpact + '</td><td>' + item.mitigationPlan + '</td><td class="text-center"><button title="' + item.siaId + '" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button title="' + item.siaId + '" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+				                                                                                                    });
+
+				                                                                                                    jQuery("#tbodySIADetail").html(rows);
+			                                                                                                    } else {
+				                                                                                                    jQuery("#tbodySIADetail").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+				                                                                                                    Notification('error', 'Data Fetch Error', data.message);
+			                                                                                                    }
+		                                                                                                    }, error: function (jqXHR, exception) {
+			                                                                                                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			                                                                                                    jQuery("#tbodySIADetail").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+			                                                                                                    Notification('error', 'Error Occured', errorMsg);
+		                                                                                                    }
+	                                                                                                    });
+                                                                                                    }
+                                                                                                </script>
                                                                                             </th>
                                                                                         </tr>
                                                                                     </thead>
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <th scope="row">1</th>
-                                                                                            <td>Test 1</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">2</th>
-                                                                                            <td>Test 2</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">3</th>
-                                                                                            <td>Test 3</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
+                                                                                    <tbody id="tbodySIADetail"></tbody>
                                                                                 </table>
                                                                             </div>
                                                                         </div>
@@ -1586,7 +1707,7 @@
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <th colspan="2" class="text-center">
-                                                                                                <select id="ddlEconFinAnaItems" name="EconFinAnaItems" class="form-control" style="width: 80%;">
+                                                                                                <select id="EcoAndFinancialParamId" name="EcoAndFinancialParamId" class="form-control" style="width: 80%;">
                                                                                                     <option value="">Choose..</option>
                                                                                                     @{
                                                                                                         List<LookUpCcModEcoAndFinancial> _eaf = ViewBag.LookUpCcModEcoAndFinancial;
@@ -1618,56 +1739,111 @@
                                                                                                 </select>
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                <input type="text" id="dswpdApplicantComments" name="dswpdApplicantComments" class="form-control" />
+                                                                                                <input type="text" id="EcoAndFinancialApplicantCmt" name="EcoAndFinancialApplicantCmt" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                <input type="text" id="dswpdAuthorityComments" name="dswpdAuthorityComments" class="form-control" />
+                                                                                                <input type="text" id="EcoAndFinancialAuthorityCmt" name="EcoAndFinancialAuthorityCmt" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center" style="width: 200px;">
-                                                                                                <button id="btnSaveDSWPD" type="button" class="btn btn-success waves-effect waves-light" value="Save">
+                                                                                                <button id="btnSaveEconFinAna" type="button" class="btn btn-success waves-effect waves-light" value="Save">
                                                                                                     <i class="mdi mdi-content-save"></i>
                                                                                                 </button>
 
-                                                                                                <button id="btnClearDSWPD" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
+                                                                                                <button id="btnClearEconFinAna" type="button" class="btn btn-warning  waves-effect waves-light" value="Clear">
                                                                                                     <i class="mdi mdi-refresh"></i>
                                                                                                 </button>
+
+                                                                                                <script id="EconFinAnaJS" type="text/javascript">
+                                                                                                    GetEconFinAnaData();
+
+                                                                                                    jQuery("#btnSaveEconFinAna").click(function () {
+                                                                                                        var EcoAndFinancialParamId = jQuery("#EcoAndFinancialParamId option:selected").val();
+                                                                                                        var EcoAndFinParamUnit = jQuery("#EcoAndFinancialParamUnit option:selected").val();
+                                                                                                        var EcoAndFinApplicantCmt = jQuery("#EcoAndFinancialApplicantCmt").val();
+                                                                                                        var EcoAndFinAuthorityCmt = jQuery("#EcoAndFinancialAuthorityCmt").val();
+
+	                                                                                                    if (SIAParameterId != '') {
+				                                                                                            var ecoFinAnaDetail = {
+					                                                                                            "EconomicalAndFinancialId": 0,
+					                                                                                            "ProjectId": 8, //jQuery('#ProjectId').val(),
+					                                                                                            "EcoAndFinancialParamId": EcoAndFinancialParamId,
+                                                                                                                "EcoAndFinancialParamUnit": EcoAndFinParamUnit,
+                                                                                                                "EcoAndFinancialApplicantCmt": EcoAndFinApplicantCmt,
+                                                                                                                "EcoAndFinancialAuthorityCmt": EcoAndFinAuthorityCmt
+				                                                                                            };
+
+				                                                                                            var url = '@Url.Action("efas", "form")';
+				                                                                                            jQuery.ajax({
+					                                                                                            type: "POST",
+					                                                                                            url: url,
+					                                                                                            data: { _efas: ecoFinAnaDetail },
+					                                                                                            dataType: "json",
+					                                                                                            success: function (data, status, jqXHR) {
+						                                                                                            if (data.status == 'success') {
+                                                                                                                        Notification('success', 'Success', data.message);
+
+							                                                                                            GetEconFinAnaData();
+							                                                                                            ClearEconFinAna();
+						                                                                                            } else {
+							                                                                                            Notification('error', 'Saving Error', data.message);
+						                                                                                            }
+					                                                                                            }, error: function (jqXHR, exception) {
+						                                                                                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
+						                                                                                            Notification('error', 'Error Occured', errorMsg);
+					                                                                                            }
+				                                                                                            });
+	                                                                                                    } else {
+		                                                                                                    Notification('warning', 'Required Field', 'Please select an option!');
+		                                                                                                    jQuery("#EcoAndFinancialParamId").focus();
+	                                                                                                    }
+                                                                                                    });
+
+                                                                                                    jQuery("#btnClearEconFinAna").click(function () {
+	                                                                                                    ClearEconFinAna();
+                                                                                                    });
+
+                                                                                                    function ClearEconFinAna() {
+                                                                                                        jQuery("#EcoAndFinancialParamId").val('');
+                                                                                                        jQuery("#EcoAndFinancialParamUnit").val('');
+                                                                                                        jQuery("#EcoAndFinancialApplicantCmt").val('');
+                                                                                                        jQuery("#EcoAndFinancialAuthorityCmt").val('');
+                                                                                                    }
+
+                                                                                                    function GetEconFinAnaData() {
+	                                                                                                    var url = '@Url.Action("get_efad", "form")';
+	                                                                                                    jQuery.ajax({
+		                                                                                                    type: "GET",
+		                                                                                                    url: url,
+		                                                                                                    data: { project_id: 8 },
+		                                                                                                    dataType: "json",
+		                                                                                                    success: function (data, status, jqXHR) {
+			                                                                                                    if (data.length > 0) {
+				                                                                                                    console.log(data);
+				                                                                                                    var rows = '';
+
+				                                                                                                    var count = 0;
+				                                                                                                    jQuery.each(data, function (i, item) {
+					                                                                                                    ++count;
+					                                                                                                    rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.ecoAndFinancialParamName + '</td><td>' + item.ecoAndFinancialParamUnit + '</td><td>' + item.ecoAndFinancialApplicantCmt + '</td><td>' + item.ecoAndFinancialAuthorityCmt + '</td><td class="text-center"><button title="' + item.economicalAndFinancialId + '" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button title="' + item.economicalAndFinancialId + '" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+				                                                                                                    });
+
+				                                                                                                    jQuery("#tbodyEcoFinAna").html(rows);
+			                                                                                                    } else {
+				                                                                                                    jQuery("#tbodyEcoFinAna").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+				                                                                                                    Notification('error', 'Data Fetch Error', data.message);
+			                                                                                                    }
+		                                                                                                    }, error: function (jqXHR, exception) {
+			                                                                                                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			                                                                                                    jQuery("#tbodyEcoFinAna").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+			                                                                                                    Notification('error', 'Error Occured', errorMsg);
+		                                                                                                    }
+	                                                                                                    });
+                                                                                                    }
+                                                                                                </script>
                                                                                             </th>
                                                                                         </tr>
                                                                                     </thead>
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <th scope="row">1</th>
-                                                                                            <td>Test 1</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">2</th>
-                                                                                            <td>Test 2</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
+                                                                                    <tbody id="tbodyEcoFinAna"></tbody>
                                                                                 </table>
                                                                             </div>
                                                                         </div>

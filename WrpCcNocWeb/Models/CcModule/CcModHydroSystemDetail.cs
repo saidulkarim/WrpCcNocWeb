@@ -11,17 +11,15 @@ namespace WrpCcNocWeb.Models
     {
         [Key]
         [Column("HydroSysDetailId", Order = 0)]
-        public int HydroSysDetailId { get; set; }
-
-
+        public long HydroSysDetailId { get; set; }
+        
         [Required]
         [Column("ProjectId", Order = 1)]
         [Display(Name = "Project Name")]
         public long ProjectId { get; set; }
         [ForeignKey("ProjectId")]
         public virtual CcModAppProjectCommonDetail CcModAppProjectCommonDetail { get; set; }
-
-
+        
         [Required]
         [Column("HydroSystemCategoryId", Order = 2)]
         [Display(Name = "Hydrological System Category")]
@@ -36,12 +34,10 @@ namespace WrpCcNocWeb.Models
         public string NameOfHydroSystem { get; set; }
 
         [Required]
-        [Column("HydroSystemLengthArea", Order = 4)]
-        [MaxLength(50)]
+        [Column("HydroSystemLengthArea", Order = 4)]        
         [Display(Name = "Length or Area")]
-        public string HydroSystemLengthArea { get; set; }
-
-
+        public double HydroSystemLengthArea { get; set; }
+        
         [Required]
         [Column("HydroSystemUnit", Order = 5)]
         [MaxLength(50)]

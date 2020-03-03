@@ -36,7 +36,7 @@ namespace WrpCcNocWeb.Models
         public virtual LookUpAdminBndUpazila LookUpAdminBndUpazila { get; set; }
         
         [Column("UnionGeoCode", Order = 4)]
-        [MaxLength(4)]
+        [MaxLength(8)]
         [Display(Name = "Union")]
         public string UnionGeoCode { get; set; }
         [ForeignKey("UnionGeoCode")]
