@@ -42,5 +42,15 @@ namespace WrpCcNocWeb.Models
         [ForeignKey("UnionGeoCode")]
         public virtual LookUpAdminBndUnion LookUpAdminBndUnion { get; set; }
 
+        [Column("Latitude", Order = 5)]
+        [MaxLength(50)]
+        [Display(Name = "Latitude")]
+        public string Latitude { get; set; }
+
+        [Column("Longitude", Order = 6)]
+        [MaxLength(8)]
+        [Display(Name = "Longitude")]
+        public string Longitude { get; set; }
+
     }
 }

@@ -22,6 +22,7 @@ namespace WrpCcNocWeb.Models
         [ForeignKey("ProjectId")]
         public virtual CcModAppProjectCommonDetail CcModAppProjectCommonDetail { get; set; }
 
+
         [Required]
         [Column("EcoAndFinancialParamId", Order = 2)]
         [Display(Name = "Eco And Financial Parameter")]
@@ -30,13 +31,19 @@ namespace WrpCcNocWeb.Models
         public virtual LookUpCcModEcoAndFinancial LookUpEcoAndFinancial { get; set; }
 
 
-        [Column("EcoAndFinancialApplicantCmt", Order = 3)]
+        [Column("EcoAndFinancialParamUnit", Order = 3)]
+        [MaxLength(50)]
+        [Display(Name = "Unit")]
+        public string EcoAndFinancialParamUnit { get; set; }
+                
+
+        [Column("EcoAndFinancialApplicantCmt", Order = 4)]
         [MaxLength(150)]
         [Display(Name = "Applicant Comments")]
         public string EcoAndFinancialApplicantCmt { get; set; }
 
 
-        [Column("EcoAndFinancialAuthorityCmt", Order = 4)]
+        [Column("EcoAndFinancialAuthorityCmt", Order = 5)]
         [MaxLength(150)]
         [Display(Name = "Authority Comments")]
         public string EcoAndFinancialAuthorityCmt { get; set; }
