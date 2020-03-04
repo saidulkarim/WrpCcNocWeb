@@ -30,7 +30,7 @@ namespace WrpCcNocWeb.Models
         [Required]
         [Column("ProjectTypeId", Order = 3)]
         [Display(Name = "Project Type")]
-        public int? ProjectTypeId { get; set; }
+        public int ProjectTypeId { get; set; }
         [ForeignKey("ProjectTypeId")]
         public virtual LookUpCcModProjectType LookUpCcModProjectType { get; set; }
 
@@ -70,17 +70,17 @@ namespace WrpCcNocWeb.Models
 
         [Column("ProjectStartDate", Order = 9)]
         [Display(Name = "Starting Date")]        
-        public DateTime ProjectStartDate { get; set; }
+        public DateTime? ProjectStartDate { get; set; }
 
 
         [Column("ProjectCompletionDate", Order = 10)]
         [Display(Name = "Completion Date")]        
-        public DateTime ProjectCompletionDate { get; set; }
+        public DateTime? ProjectCompletionDate { get; set; }
 
 
         [Column("ProjectEstimatedCost", Order = 11)]
         [Display(Name = "Project Estimated Cost")]
-        public double? ProjectEstimatedCost { get; set; }
+        public float? ProjectEstimatedCost { get; set; }
 
 
         [Column("AnnualRainFallLast1Year", Order = 12)]
@@ -158,7 +158,7 @@ namespace WrpCcNocWeb.Models
 
         [Column("DiscussWithStakeMeetingMin", Order = 24)]
         [Display(Name = "Discussion Meeting Minutes")]
-        public double DiscussWithStakeMeetingMin { get; set; }
+        public string DiscussWithStakeMeetingMin { get; set; }
         
        
         [Column("AnalyzeOptYesNoId", Order = 25)]

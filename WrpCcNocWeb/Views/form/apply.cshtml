@@ -33,6 +33,8 @@
                                         <div class="card-box">
                                             <div class="row">
                                                 @Html.Hidden("ProjectId")
+                                                @Html.Hidden("Project31IndvId")
+
                                                 <input id="ProjectTypeId" type="hidden" value="@ViewBag.ProjectTypeId" />
 
                                                 <div class="col-sm-3">
@@ -212,10 +214,10 @@
                                                                                 {
                                                                                     foreach (LookUpCcModHydroRegion hr in _hydro_regions)
                                                                                     {
-                                                                                        var id = "chk" + hr.HydroRegionName;
-                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" title="@hr.HydroRegionName">
-                                                                                            <input type="checkbox" name="hydrological_region[]" id="@id" value="@hr.HydroRegionId" data-parsley-multiple="hydrological_region">
-                                                                                            <label for="@id"> @hr.HydroRegionName </label>
+                                                                                        var id = "chk" + hr.HydroRegionShortName;
+                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@hr.HydroRegionFullName">
+                                                                                            <input type="checkbox" name="hydrological_region" id="@id" value="@hr.HydroRegionId" data-parsley-multiple="hydrological_region">
+                                                                                            <label for="@id"> @hr.HydroRegionShortName </label>
                                                                                         </div>
                                                                                     }
                                                                                 }
@@ -235,7 +237,7 @@
                                                                                     {
                                                                                         var id = "chkBDP2100HotSpot" + hs.DeltaPlanHotSpotId;
                                                                                         <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-5" style="margin-right: 25px;" title="@hs.PlanName">
-                                                                                            <input type="checkbox" name="bdp2100_hot_spot[]" id="@id" value="@hs.DeltaPlanHotSpotId" data-parsley-multiple="bdp2100_hot_spot">
+                                                                                            <input type="checkbox" name="bdp2100_hot_spot" id="@id" value="@hs.DeltaPlanHotSpotId" data-parsley-multiple="bdp2100_hot_spot">
                                                                                             <label for="@id"> @hs.PlanName </label>
                                                                                         </div>
                                                                                     }
@@ -418,8 +420,8 @@
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="ConnectivityAmidKhlRvrWtld">Connectivity Amid Khals, River and Wetland</label>
-                                                                        <input type="text" id="ConnectivityAmidKhlRvrWtld" name="ConnectivityAmidKhlRvrWtld" class="form-control" />
+                                                                        <label for="ConnectivityAmidWaterland">Connectivity Amid Khals, River and Wetland</label>
+                                                                        <input type="text" id="ConnectivityAmidWaterland" name="ConnectivityAmidWaterland" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
@@ -499,7 +501,7 @@
                                                                                     {
                                                                                         var id = "chkTypeOfFlood" + tof.FloodTypeId;
                                                                                         <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 5%;" title="@tof.FloodTypeName">
-                                                                                            <input type="checkbox" name="types_of_flood[]" id="@id" value="@tof.FloodTypeId" data-parsley-multiple="types_of_flood">
+                                                                                            <input type="checkbox" name="types_of_flood" id="@id" value="@tof.FloodTypeId" data-parsley-multiple="types_of_flood">
                                                                                             <label for="@id"> @tof.FloodTypeName </label>
                                                                                         </div>
                                                                                     }
@@ -678,23 +680,23 @@
 
                                                                         <div class="row">
                                                                             <div class="form-group col-xl-3 text-center">
-                                                                                <label for="Salinity">Salinity (ppm)</label>
-                                                                                <input type="text" id="Salinity" name="Salinity" class="form-control" />
+                                                                                <label for="WaterSalinity">Salinity (ppm)</label>
+                                                                                <input type="text" id="WaterSalinity" name="WaterSalinity" class="form-control" />
                                                                             </div>
 
                                                                             <div class="form-group col-md-3 text-center">
-                                                                                <label for="DO">DO (mg/l)</label>
-                                                                                <input type="text" id="DO" name="DO" class="form-control" />
+                                                                                <label for="WaterDO">DO (mg/l)</label>
+                                                                                <input type="text" id="WaterDO" name="WaterDO" class="form-control" />
                                                                             </div>
 
                                                                             <div class="form-group col-xl-3 text-center">
-                                                                                <label for="TDS">TDS</label>
-                                                                                <input type="text" id="TDS" name="TDS" class="form-control" />
+                                                                                <label for="WaterTDS">TDS</label>
+                                                                                <input type="text" id="WaterTDS" name="WaterTDS" class="form-control" />
                                                                             </div>
 
                                                                             <div class="form-group col-md-3 text-center">
-                                                                                <label for="pH">pH</label>
-                                                                                <input type="text" id="pH" name="pH" class="form-control" />
+                                                                                <label for="WaterPhLevel">pH</label>
+                                                                                <input type="text" id="WaterPhLevel" name="WaterPhLevel" class="form-control" />
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -706,28 +708,28 @@
 
                                                                         <div class="row">
                                                                             <div class="form-group col-xl-3 text-center">
-                                                                                <label for="HighLand">High Land <br />F<sub>0</sub> (0-30cm)</label>
-                                                                                <input type="text" id="HighLand" name="HighLand" class="form-control" />
+                                                                                <label for="HighLandPercent">High Land <br />F<sub>0</sub> (0-30cm)</label>
+                                                                                <input type="text" id="HighLandPercent" name="HighLandPercent" class="form-control" />
                                                                             </div>
 
                                                                             <div class="form-group col-md-2 text-center">
-                                                                                <label for="MediumHighLand">Medium High Land <br />F<sub>1</sub> (30-90cm)</label>
-                                                                                <input type="text" id="MediumHighLand" name="MediumHighLand" class="form-control" />
+                                                                                <label for="MediumHighLandPercent">Medium High Land <br />F<sub>1</sub> (30-90cm)</label>
+                                                                                <input type="text" id="MediumHighLandPercent" name="MediumHighLandPercent" class="form-control" />
                                                                             </div>
 
                                                                             <div class="form-group col-xl-2 text-center">
-                                                                                <label for="MediumLowLand">Medium Low Land <br />F<sub>2</sub> (90-180cm)</label>
-                                                                                <input type="text" id="MediumLowLand" name="MediumLowLand" class="form-control" />
+                                                                                <label for="MediumLowLandPercent">Medium Low Land <br />F<sub>2</sub> (90-180cm)</label>
+                                                                                <input type="text" id="MediumLowLandPercent" name="MediumLowLandPercent" class="form-control" />
                                                                             </div>
 
                                                                             <div class="form-group col-md-2 text-center">
-                                                                                <label for="LowLand">Low Land <br />F<sub>3</sub> (>180-360cm)</label>
-                                                                                <input type="text" id="LowLand" name="LowLand" class="form-control" />
+                                                                                <label for="LowLandPercent">Low Land <br />F<sub>3</sub> (>180-360cm)</label>
+                                                                                <input type="text" id="LowLandPercent" name="LowLandPercent" class="form-control" />
                                                                             </div>
 
                                                                             <div class="form-group col-md-3 text-center">
-                                                                                <label for="VeryLowLand">Very Low Land <br />F<sub>4</sub> (>360cm)</label>
-                                                                                <input type="text" id="VeryLowLand" name="VeryLowLand" class="form-control" />
+                                                                                <label for="VeryLowLandPercent">Very Low Land <br />F<sub>4</sub> (>360cm)</label>
+                                                                                <input type="text" id="VeryLowLandPercent" name="VeryLowLandPercent" class="form-control" />
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -874,21 +876,26 @@
                                                                         <legend>Fish Production and Diversity</legend>
 
                                                                         <div class="row">
-                                                                            <div class="form-group col-md-6">
+                                                                            <div class="form-group col-md-4">
                                                                                 <label for="FishProduction">Fish Production</label>
                                                                                 <input type="text" id="FishProduction" name="FishProduction" class="form-control" />
                                                                             </div>
 
-                                                                            <div class="form-group col-md-6">
+                                                                            <div class="form-group col-md-4">
                                                                                 <label for="FishDiversity">Fish Diversity</label>
                                                                                 <input type="text" id="FishDiversity" name="FishDiversity" class="form-control" />
+                                                                            </div>
+
+                                                                            <div class="form-group col-md-4">
+                                                                                <label for="FishMigration">Fish Migration</label>
+                                                                                <input type="text" id="FishMigration" name="FishMigration" class="form-control" />
                                                                             </div>
                                                                         </div>
                                                                     </fieldset>
 
                                                                     <div class="form-group">
-                                                                        <label for="FloraFauna">Flora and Fauna</label>
-                                                                        <input type="text" id="FloraFauna" name="FloraFauna" class="form-control" />
+                                                                        <label for="FloraAndFauna">Flora and Fauna</label>
+                                                                        <input type="text" id="FloraAndFauna" name="FloraAndFauna" class="form-control" />
                                                                     </div>
 
                                                                     <fieldset>
@@ -915,8 +922,8 @@
                                                                     <h2>2. Issue, Challenge or Problem</h2>
 
                                                                     <div class="form-group">
-                                                                        <label for="IssueChallengeProblem">Issue, Challenge or Problem</label>
-                                                                        <input type="text" id="IssueChallengeProblem" name="IssueChallengeProblem" class="form-control" />
+                                                                        <label for="IssueChallageProblem">Issue, Challenge or Problem</label>
+                                                                        <input type="text" id="IssueChallageProblem" name="IssueChallageProblem" class="form-control" />
                                                                     </div>
 
                                                                     <h2>3. Discussion with stakeholders during starting of the project</h2>
@@ -926,19 +933,19 @@
 
                                                                         <div id="DiscussionStakeholdersDuringStartingProject" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="dsdsp" id="chkDSDSPYes" value="1" data-parsley-multiple="dsdsp">
+                                                                                <input type="radio" name="YesNoStakeId" id="chkDSDSPYes" value="1" data-parsley-multiple="YesNoStakeId">
                                                                                 <label for="chkDSDSPYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="dsdsp" id="chkDSDSPNo" value="0" checked data-parsley-multiple="dsdsp">
+                                                                                <input type="radio" name="YesNoStakeId" id="chkDSDSPNo" value="0" checked data-parsley-multiple="YesNoStakeId">
                                                                                 <label for="chkDSDSPNo"> No </label>
                                                                             </div>
                                                                         </div>
 
                                                                         <script type="text/javascript">
                                                                             jQuery(document).ready(function () {
-                                                                                jQuery("input[type='radio'][name='dsdsp']").change(function () {
+                                                                                jQuery("input[type='radio'][name='YesNoStakeId']").change(function () {
                                                                                     if (jQuery(this).val() == 1) {
                                                                                         jQuery("#divDSDSPYesControls").removeClass('d-none fadeOut');
                                                                                         jQuery("#divDSDSPYesControls").addClass('d-block fadeIn');
@@ -952,32 +959,32 @@
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="dsdspApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="dsdspApplicantComments" name="dsdspApplicantComments" class="form-control" />
+                                                                        <label for="DiscussWithStakeApplicantCmt">Applicant Comments</label>
+                                                                        <input type="text" id="DiscussWithStakeApplicantCmt" name="DiscussWithStakeApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="dsdspAuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="dsdspAuthorityComments" name="dsdspAuthorityComments" class="form-control" />
+                                                                        <label for="DiscussWithStakeAuthorityCmt">Authority Comments</label>
+                                                                        <input type="text" id="DiscussWithStakeAuthorityCmt" name="DiscussWithStakeAuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div id="divDSDSPYesControls" class="d-none">
                                                                         <div class="form-group">
-                                                                            <label for="dsdspPositiveFeedback">Positive Feedback</label>
-                                                                            <input type="text" id="dsdspPositiveFeedback" name="dsdspPositiveFeedback" class="form-control" />
+                                                                            <label for="DiscussWithStakePosFeedback">Positive Feedback</label>
+                                                                            <input type="text" id="DiscussWithStakePosFeedback" name="DiscussWithStakePosFeedback" class="form-control" />
                                                                         </div>
 
                                                                         <div class="form-group">
-                                                                            <label for="dsdspNegativeFeedback">NegativeFeedback</label>
-                                                                            <input type="text" id="dsdspNegativeFeedback" name="dsdspNegativeFeedback" class="form-control" />
+                                                                            <label for="DiscussWithStakeNegFeedback">NegativeFeedback</label>
+                                                                            <input type="text" id="DiscussWithStakeNegFeedback" name="DiscussWithStakeNegFeedback" class="form-control" />
                                                                         </div>
 
                                                                         <div class="form-group">
                                                                             <label>Participant List</label>
                                                                             <div class="input-group">
                                                                                 <div class="custom-file">
-                                                                                    <input type="file" class="custom-file-input" id="divDSDSPYesParticipantList">
-                                                                                    <label class="custom-file-label" for="divDSDSPYesParticipantList">Choose file</label>
+                                                                                    <input type="file" class="custom-file-input" id="DiscussWithStakeParticipntLst">
+                                                                                    <label class="custom-file-label" for="DiscussWithStakeParticipntLst">Choose file</label>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -986,8 +993,8 @@
                                                                             <label>Meeting Minutes</label>
                                                                             <div class="input-group">
                                                                                 <div class="custom-file">
-                                                                                    <input type="file" class="custom-file-input" id="divDSDSPYesMeetingMinutes">
-                                                                                    <label class="custom-file-label" for="divDSDSPYesMeetingMinutes">Choose file</label>
+                                                                                    <input type="file" class="custom-file-input" id="DiscussWithStakeMeetingMin">
+                                                                                    <label class="custom-file-label" for="DiscussWithStakeMeetingMin">Choose file</label>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -1000,19 +1007,19 @@
 
                                                                         <div id="AnalyzeOptFulfillObj" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="aofo" id="chkAOFOYes" value="1" data-parsley-multiple="aofo">
+                                                                                <input type="radio" name="AnalyzeOptYesNoId" id="chkAOFOYes" value="1" data-parsley-multiple="AnalyzeOptYesNoId">
                                                                                 <label for="chkAOFOYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="aofo" id="chkAOFONo" value="0" checked data-parsley-multiple="aofo">
+                                                                                <input type="radio" name="AnalyzeOptYesNoId" id="chkAOFONo" value="0" checked data-parsley-multiple="AnalyzeOptYesNoId">
                                                                                 <label for="chkAOFONo"> No </label>
                                                                             </div>
                                                                         </div>
 
                                                                         <script type="text/javascript">
                                                                             jQuery(document).ready(function () {
-                                                                                jQuery("input[type='radio'][name='aofo']").change(function () {
+                                                                                jQuery("input[type='radio'][name='AnalyzeOptYesNoId']").change(function () {
                                                                                     if (jQuery(this).val() == 1) {
                                                                                         jQuery("#divAoFOYes").removeClass('d-none fadeOut');
                                                                                         jQuery("#divAoFOYes").addClass('d-block fadeIn');
@@ -1026,13 +1033,13 @@
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="aofoApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="aofoApplicantComments" name="aofoApplicantComments" class="form-control" />
+                                                                        <label for="AnalyzeOptionsApplicantCmt">Applicant Comments</label>
+                                                                        <input type="text" id="AnalyzeOptionsApplicantCmt" name="AnalyzeOptionsApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="aofoAuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="aofoAuthorityComments" name="aofoAuthorityComments" class="form-control" />
+                                                                        <label for="AnalyzeOptionsAuthorityCmt">Authority Comments</label>
+                                                                        <input type="text" id="AnalyzeOptionsAuthorityCmt" name="AnalyzeOptionsAuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div id="divAoFOYes" class="form-group d-none">
@@ -1322,19 +1329,19 @@
                                                                     <div class="form-group">
                                                                         <div id="ESIA" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="esia" id="chkESIAYes" value="1" data-parsley-multiple="esia">
+                                                                                <input type="radio" name="EnvAndSocialYesNoId" id="chkESIAYes" value="1" data-parsley-multiple="EnvAndSocialYesNoId">
                                                                                 <label for="chkESIAYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="esia" id="chkESIANo" value="0" checked data-parsley-multiple="esia">
+                                                                                <input type="radio" name="EnvAndSocialYesNoId" id="chkESIANo" value="0" checked data-parsley-multiple="EnvAndSocialYesNoId">
                                                                                 <label for="chkESIANo"> No </label>
                                                                             </div>
                                                                         </div>
 
                                                                         <script type="text/javascript">
                                                                             jQuery(document).ready(function () {
-                                                                                jQuery("input[type='radio'][name='esia']").change(function () {
+                                                                                jQuery("input[type='radio'][name='EnvAndSocialYesNoId']").change(function () {
                                                                                     if (jQuery(this).val() == 1) {
                                                                                         jQuery("#divEIAYes, #divSIAYes").removeClass('d-none fadeOut');
                                                                                         jQuery("#divEIAYes, #divSIAYes").addClass('d-block fadeIn');
@@ -1348,13 +1355,13 @@
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="esiaApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="esiaApplicantComments" name="esiaApplicantComments" class="form-control" />
+                                                                        <label for="EnvAndSocialApplicantCmt">Applicant Comments</label>
+                                                                        <input type="text" id="EnvAndSocialApplicantCmt" name="EnvAndSocialApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="esiaAuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="esiaAuthorityComments" name="esiaAuthorityComments" class="form-control" />
+                                                                        <label for="EnvAndSocialAuthorityCmt">Authority Comments</label>
+                                                                        <input type="text" id="EnvAndSocialAuthorityCmt" name="EnvAndSocialAuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div id="divEIAYes" class="form-group d-none">
@@ -1372,7 +1379,7 @@
                                                                                             <th class="text-center">Post Project Situation</th>
                                                                                             <th class="text-center">Positive/ Negative Impact</th>
                                                                                             <th class="text-center">Mitigation Plan</th>
-                                                                                            <th class="text-center"></th>
+                                                                                            <th class="text-center" style="width: 150px;"></th>
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <th colspan="2" class="text-center">
@@ -1526,7 +1533,7 @@
                                                                                             <th class="text-center">Post Project Situation</th>
                                                                                             <th class="text-center">Positive/ Negative Impact</th>
                                                                                             <th class="text-center">Mitigation Plan</th>
-                                                                                            <th class="text-center"></th>
+                                                                                            <th class="text-center" style="width: 150px;"></th>
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <th colspan="2" class="text-center">
@@ -1670,25 +1677,25 @@
                                                                     <div class="form-group">
                                                                         <div id="AppropriateTTAP" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="AppropriateTTAP" id="chkAppropriateTTAPYes" value="1" data-parsley-multiple="AppropriateTTAP">
+                                                                                <input type="radio" name="UseOfToolsYesNoId" id="chkAppropriateTTAPYes" value="1" data-parsley-multiple="UseOfToolsYesNoId">
                                                                                 <label for="chkAppropriateTTAPYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="AppropriateTTAP" id="chkAppropriateTTAPNo" value="0" checked data-parsley-multiple="AppropriateTTAP">
+                                                                                <input type="radio" name="UseOfToolsYesNoId" id="chkAppropriateTTAPNo" value="0" checked data-parsley-multiple="UseOfToolsYesNoId">
                                                                                 <label for="chkAppropriateTTAPNo"> No </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="AppropriateTTAPApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="AppropriateTTAPApplicantComments" name="AppropriateTTAPApplicantComments" class="form-control" />
+                                                                        <label for="ToolsApplicantComments">Applicant Comments</label>
+                                                                        <input type="text" id="ToolsApplicantComments" name="ToolsApplicantComments" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="AppropriateTTAPAuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="AppropriateTTAPAuthorityComments" name="AppropriateTTAPAuthorityComments" class="form-control" />
+                                                                        <label for="ToolsAuthorityComments">Authority Comments</label>
+                                                                        <input type="text" id="ToolsAuthorityComments" name="ToolsAuthorityComments" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
@@ -1762,7 +1769,7 @@
                                                                                                         var EcoAndFinApplicantCmt = jQuery("#EcoAndFinancialApplicantCmt").val();
                                                                                                         var EcoAndFinAuthorityCmt = jQuery("#EcoAndFinancialAuthorityCmt").val();
 
-	                                                                                                    if (SIAParameterId != '') {
+	                                                                                                    if (EcoAndFinancialParamId != '') {
 				                                                                                            var ecoFinAnaDetail = {
 					                                                                                            "EconomicalAndFinancialId": 0,
 					                                                                                            "ProjectId": 8, //jQuery('#ProjectId').val(),
@@ -1849,6 +1856,156 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+
+                                                                <hr />
+
+                                                                <div class="form-group mb-0">
+                                                                    <button id="btnSaveTechInfo" type="button" class="btn btn-info waves-effect waves-light">
+                                                                        <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
+                                                                        <span style="text-decoration: underline;">S</span>ave
+                                                                        <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
+                                                                    </button>
+
+                                                                    <button id="btnClearTechInfo" type="button" class="btn btn-danger waves-effect waves-light">
+                                                                        <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
+                                                                        Clear
+                                                                    </button>
+
+                                                                    <script id="TechInfoJS" type="text/javascript">
+                                                                        jQuery("#btnSaveTechInfo").click(function () {
+                                                                            var FinalObj = [];
+                                                                            var hydroRegions = [], bdp2100HotSpot = [], typesOfFlood = [];
+
+                                                                            $.each($("input[name='hydrological_region']:checked"), function () {
+                                                                                var _hr = {
+                                                                                    "PrjHydroRegionDetailId": 0,
+                                                                                    "ProjectId": 8, //jQuery('#ProjectId').val(),
+                                                                                    "HydroRegionId": $(this).val()
+                                                                                };
+
+                                                                                hydroRegions.push(_hr);
+                                                                            });
+
+                                                                            $.each($("input[name='bdp2100_hot_spot']:checked"), function () {
+                                                                                var _hsp = {
+                                                                                    "HotSpotDetailId": 0,
+                                                                                    "ProjectId": 8, //jQuery('#ProjectId').val(),
+                                                                                    "DeltaPlanHotSpotId": $(this).val()
+                                                                                };
+
+                                                                                bdp2100HotSpot.push(_hsp);
+                                                                            });
+
+                                                                            $.each($("input[name='types_of_flood']:checked"), function () {
+                                                                                var _tof = {
+                                                                                    "FloodTypeDetailId": 0,
+                                                                                    "ProjectId": 8, //jQuery('#ProjectId').val(),
+                                                                                    "FloodTypeId": $(this).val()
+                                                                                };
+
+                                                                                typesOfFlood.push(_tof);
+                                                                            });
+
+                                                                            var ProjectCommonDetail = {
+                                                                                "ProjectId": 8, // GetHiddenValue('ProjectId'),
+                                                                                "AnnualRainFallLast1Year": GetTextValue('AnnualRainFallLast1Year'),
+                                                                                "AnnualRainFallLast2Years": GetTextValue('AnnualRainFallLast2Years'),
+                                                                                "AnnualRainFallLast3Years": GetTextValue('AnnualRainFallLast3Years'),
+                                                                                "AnnualRainFallLast4Years": GetTextValue('AnnualRainFallLast4Years'),
+                                                                                "AnnualRainFallLast5Years": GetTextValue('AnnualRainFallLast5Years'),
+                                                                                "IssueChallageProblem": GetTextValue('IssueChallageProblem'),
+                                                                                "YesNoStakeId": GetRadioValue('YesNoStakeId'),
+                                                                                "DiscussWithStakeApplicantCmt": GetTextValue('DiscussWithStakeApplicantCmt'),
+                                                                                "DiscussWithStakeAuthorityCmt": GetTextValue('DiscussWithStakeAuthorityCmt'),
+                                                                                "DiscussWithStakePosFeedback": GetTextValue('DiscussWithStakePosFeedback'),
+                                                                                "DiscussWithStakeNegFeedback": GetTextValue('DiscussWithStakeNegFeedback'),
+                                                                                //"DiscussWithStakeParticipntLst": , //file
+                                                                                //"DiscussWithStakeMeetingMin": , //file
+                                                                                "AnalyzeOptYesNoId": GetRadioValue('AnalyzeOptYesNoId'),
+                                                                                "AnalyzeOptionsApplicantCmt": GetTextValue('AnalyzeOptionsApplicantCmt'),
+                                                                                "AnalyzeOptionsAuthorityCmt": GetTextValue('AnalyzeOptionsAuthorityCmt'),
+                                                                                "EnvAndSocialYesNoId": GetRadioValue('EnvAndSocialYesNoId'),
+                                                                                "EnvAndSocialApplicantCmt": GetTextValue('EnvAndSocialApplicantCmt'),
+                                                                                "EnvAndSocialAuthorityCmt": GetTextValue('EnvAndSocialAuthorityCmt')
+                                                                            };
+
+                                                                            var Project31IndvDetail = {
+                                                                                "Project31IndvId": 0,
+                                                                                "ProjectId": 8, //GetHiddenValue('ProjectId'),
+                                                                                "ConnectivityAmidWaterland": GetTextValue('ConnectivityAmidWaterland'),
+                                                                                "CatchmentArea": GetTextValue('CatchmentArea'),
+                                                                                "HighestFloodLevel": GetTextValue('HighestFloodLevel'),
+                                                                                "MaximumDischarge": GetTextValue('MaximumDischarge'),
+                                                                                "DrainageConditionId": GetRadioValue('drainage_condition'),
+                                                                                "WaterSalinity": GetTextValue('WaterSalinity'),
+                                                                                "WaterDO": GetTextValue('WaterDO'),
+                                                                                "WaterTDS": GetTextValue('WaterTDS'),
+                                                                                "WaterPhLevel": GetTextValue('WaterPhLevel'),
+                                                                                "HighLandPercent": GetTextValue('HighLandPercent'),
+                                                                                "MediumHighLandPercent": GetTextValue('MediumHighLandPercent'),
+                                                                                "MediumLowLandPercent": GetTextValue('MediumLowLandPercent'),
+                                                                                "LowLandPercent": GetTextValue('LowLandPercent'),
+                                                                                "VeryLowLandPercent": GetTextValue('VeryLowLandPercent'),
+                                                                                "CultivableCrops": GetTextValue('CultivableCrops'),
+                                                                                "CropProduction": GetTextValue('CropProduction'),
+                                                                                "FishProduction": GetTextValue('FishProduction'),
+                                                                                "FishDiversity": GetTextValue('FishDiversity'),
+                                                                                "FishMigration": GetTextValue('FishMigration'),
+                                                                                "FloraAndFauna": GetTextValue('FloraAndFauna'),
+                                                                                "LandLessPeoplePercentage": GetTextValue('LandLessPeoplePercentage'),
+                                                                                "SmallFarmerPercentage": GetTextValue('SmallFarmerPercentage'),
+                                                                                "AvgMonthlyIncome": GetTextValue('AvgMonthlyIncome'),
+                                                                                "UseOfToolsYesNoId": GetRadioValue('UseOfToolsYesNoId'),
+                                                                                "ToolsApplicantComments": GetTextValue('ToolsApplicantComments'),
+                                                                                "ToolsAuthorityComments": GetTextValue('ToolsAuthorityComments')
+                                                                            };
+
+                                                                            var _Form31FinalObj = {
+                                                                                "CommonDetail": ProjectCommonDetail,
+                                                                                "Project31Indv": Project31IndvDetail,
+                                                                                "HydroRegion": hydroRegions,
+                                                                                "BDP2100HotSpot": bdp2100HotSpot,
+                                                                                "TypesOfFlood": typesOfFlood
+                                                                            }
+
+                                                                            console.log(_Form31FinalObj); //jQuery('#ProjectId').val()
+
+                                                                            var url = '@Url.Action("f31tiotos", "form")';
+                                                                            jQuery.ajax({
+                                                                                type: "POST",
+                                                                                url: url,
+                                                                                data: { _form31TechInfo: _Form31FinalObj },
+                                                                                dataType: "json",
+                                                                                success: function (data, status, jqXHR) {
+                                                                                    if (data.status == 'success') {
+                                                                                        Notification('success', 'Success', data.message);
+                                                                                    } else {
+                                                                                        Notification('error', 'Saving Error', data.message);
+                                                                                    }
+                                                                                }, error: function (jqXHR, exception) {
+                                                                                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                                                                                    Notification('error', 'Error Occured', errorMsg);
+                                                                                }
+                                                                            });
+                                                                        });
+
+                                                                        jQuery("#btnClearTechInfo").click(function () {
+                                                                            Swal.fire({
+                                                                                title: "Are you sure?",
+                                                                                text: "You won't be able to revert this!",
+                                                                                type: "warning",
+                                                                                allowEscapeKey: false,
+                                                                                allowOutsideClick: false,
+                                                                                showCancelButton: !0,
+                                                                                confirmButtonColor: "#3085d6",
+                                                                                cancelButtonColor: "#d33",
+                                                                                confirmButtonText: "Sure"
+                                                                            }).then(function (t) {
+                                                                                t.value && Swal.fire("Cleared!", "Your entry data has been cleared successfully.", "success")
+                                                                            });
+                                                                        });
+                                                                    </script>
+                                                                </div>
                                                             </div>
                                                         </div>
 
@@ -1860,19 +2017,19 @@
                                                                     <div class="form-group">
                                                                         <div id="CWNWP" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwnwpYN" id="cwnwpYes" value="1" data-parsley-multiple="cwnwpYN">
+                                                                                <input type="radio" name="CompatNWPYesNoId" id="cwnwpYes" value="1" data-parsley-multiple="CompatNWPYesNoId">
                                                                                 <label for="cwnwpYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwnwpYN" id="cwnwpNo" value="0" checked data-parsley-multiple="cwnwpYN">
+                                                                                <input type="radio" name="CompatNWPYesNoId" id="cwnwpNo" value="0" checked data-parsley-multiple="CompatNWPYesNoId">
                                                                                 <label for="cwnwpNo"> No </label>
                                                                             </div>
                                                                         </div>
 
                                                                         <script type="text/javascript">
                                                                             jQuery(document).ready(function () {
-                                                                                jQuery("input[type='radio'][name='cwnwpYN']").change(function () {
+                                                                                jQuery("input[type='radio'][name='CompatNWPYesNoId']").change(function () {
                                                                                     if (jQuery(this).val() == 1) {
                                                                                         jQuery("#divCwnwpPolicy").removeClass('d-none fadeOut');
                                                                                         jQuery("#divCwnwpPolicy").addClass('d-block fadeIn');
@@ -1886,21 +2043,21 @@
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwnwpApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="cwnwpApplicantComments" name="cwnwpApplicantComments" class="form-control" />
+                                                                        <label for="CompatibilityNWPApplicantCmt">Applicant Comments</label>
+                                                                        <input type="text" id="CompatibilityNWPApplicantCmt" name="CompatibilityNWPApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwnwpAuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="cwnwpAuthorityComments" name="cwnwpAuthorityComments" class="form-control" />
+                                                                        <label for="CompatibilityNWPAuthorityCmt">Authority Comments</label>
+                                                                        <input type="text" id="CompatibilityNWPAuthorityCmt" name="CompatibilityNWPAuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
                                                                         <label>Document Link</label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
-                                                                                <input type="file" class="custom-file-input" id="fileCwnwpDocumentLink">
-                                                                                <label class="custom-file-label" for="fileCwnwpDocumentLink">Choose file</label>
+                                                                                <input type="file" class="custom-file-input" id="CompatibilityNWPDocLink">
+                                                                                <label class="custom-file-label" for="CompatibilityNWPDocLink">Choose file</label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1913,12 +2070,11 @@
 
                                                                                 if (_articles.Count > 0)
                                                                                 {
-                                                                                    int i = 1;
                                                                                     foreach (LookUpCcModNWPArticle article in _articles)
                                                                                     {
                                                                                         var id = "chkCwnwpArticle" + article.NationalWaterPolicyArticleId;
                                                                                         <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" title="@article.NationalWtrPolicyArticleTitle">
-                                                                                            <input type="checkbox" name="cwnwp_article_policy[]" id="@id" value="@article.NationalWaterPolicyArticleId" data-parsley-multiple="cwnwp_article_policy">
+                                                                                            <input type="checkbox" name="NationalWaterPolicyArticleId" id="@id" value="@article.NationalWaterPolicyArticleId" data-parsley-multiple="NationalWaterPolicyArticleId">
                                                                                             <label for="@id"> @article.NationalWtrPolicyShortTitle </label> <a href="@article.NWPArticleLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
                                                                                         </div>
                                                                                     }
@@ -1932,19 +2088,19 @@
                                                                     <div class="form-group">
                                                                         <div id="CNWMP" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cnwmpYN" id="cnwmpYes" value="1" data-parsley-multiple="cnwmpYN">
+                                                                                <input type="radio" name="NWMPCompatYesNoId" id="cnwmpYes" value="1" data-parsley-multiple="NWMPCompatYesNoId">
                                                                                 <label for="cnwmpYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cnwmpYN" id="cnwmpNo" value="0" checked data-parsley-multiple="cnwmpYN">
+                                                                                <input type="radio" name="NWMPCompatYesNoId" id="cnwmpNo" value="0" checked data-parsley-multiple="NWMPCompatYesNoId">
                                                                                 <label for="cnwmpNo"> No </label>
                                                                             </div>
                                                                         </div>
 
                                                                         <script type="text/javascript">
                                                                             jQuery(document).ready(function () {
-                                                                                jQuery("input[type='radio'][name='cnwmpYN']").change(function () {
+                                                                                jQuery("input[type='radio'][name='NWMPCompatYesNoId']").change(function () {
                                                                                     if (jQuery(this).val() == 1) {
                                                                                         jQuery("#divCNWMP").removeClass('d-none fadeOut');
                                                                                         jQuery("#divCNWMP").addClass('d-block fadeIn');
@@ -1958,21 +2114,21 @@
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cnwmpApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="cnwmpApplicantComments" name="cnwmpApplicantComments" class="form-control" />
+                                                                        <label for="NWMPApplicantCmt">Applicant Comments</label>
+                                                                        <input type="text" id="NWMPApplicantCmt" name="NWMPApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cnwmpAuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="cnwmpAuthorityComments" name="cnwmpAuthorityComments" class="form-control" />
+                                                                        <label for="NWMPAuthorityCmt">Authority Comments</label>
+                                                                        <input type="text" id="NWMPAuthorityCmt" name="NWMPAuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
                                                                         <label>Document Link</label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
-                                                                                <input type="file" class="custom-file-input" id="fileCnwmpDocumentLink">
-                                                                                <label class="custom-file-label" for="fileCnwmpDocumentLink">Choose file</label>
+                                                                                <input type="file" class="custom-file-input" id="NWMPDocLink">
+                                                                                <label class="custom-file-label" for="NWMPDocLink">Choose file</label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1985,7 +2141,6 @@
 
                                                                                 if (_progs.Count > 0)
                                                                                 {
-                                                                                    int i = 1;
                                                                                     var new_name = "";
 
                                                                                     foreach (LookUpCcModNWMPProgramme prog in _progs)
@@ -1994,7 +2149,7 @@
                                                                                         var name = prog.NWMPProgrammeTitle.Split(" ")[0].ToString();
 
                                                                                         <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" title="@prog.NWMPProgrammeTitle">
-                                                                                            <input type="checkbox" name="cnwmp_programme[]" id="@id" value="@prog.NWMPProgrammeId" data-parsley-multiple="cnwmp_programme">
+                                                                                            <input type="checkbox" name="PrjCompatNWMPId" id="@id" value="@prog.NWMPProgrammeId" data-parsley-multiple="PrjCompatNWMPId">
                                                                                             <label for="@id"> @prog.NWMPProgrammeTitle </label> <a href="@prog.NWMPLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
                                                                                         </div>
 
@@ -2016,25 +2171,25 @@
                                                                     <div class="form-group">
                                                                         <div id="CWCFYP" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwcfypYN" id="cwcfypYes" value="1" data-parsley-multiple="cwcfypYN">
+                                                                                <input type="radio" name="FYPYesNoId" id="cwcfypYes" value="1" data-parsley-multiple="FYPYesNoId">
                                                                                 <label for="cwcfypYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwcfypYN" id="cwcfypNo" value="0" checked data-parsley-multiple="cwcfypYN">
+                                                                                <input type="radio" name="FYPYesNoId" id="cwcfypNo" value="0" checked data-parsley-multiple="FYPYesNoId">
                                                                                 <label for="cwcfypNo"> No </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwcfypApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="cwcfypApplicantComments" name="cwcfypApplicantComments" class="form-control" />
+                                                                        <label for="FYPApplicantCmt">Applicant Comments</label>
+                                                                        <input type="text" id="FYPApplicantCmt" name="FYPApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwcfypAuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="cwcfypAuthorityComments" name="cwcfypAuthorityComments" class="form-control" />
+                                                                        <label for="FYPAuthorityCmt">Authority Comments</label>
+                                                                        <input type="text" id="FYPAuthorityCmt" name="FYPAuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <h2>12.	Compatibility with Sustainable Development Goal (SDG)</h2>
@@ -2042,19 +2197,19 @@
                                                                     <div class="form-group">
                                                                         <div id="CWSDG" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwsdgYN" id="cwsdgYes" value="1" data-parsley-multiple="cwsdgYN">
+                                                                                <input type="radio" name="SDGYesNoId" id="cwsdgYes" value="1" data-parsley-multiple="SDGYesNoId">
                                                                                 <label for="cwsdgYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwsdgYN" id="cwsdgNo" value="0" checked data-parsley-multiple="cwsdgYN">
+                                                                                <input type="radio" name="SDGYesNoId" id="cwsdgNo" value="0" checked data-parsley-multiple="SDGYesNoId">
                                                                                 <label for="cwsdgNo"> No </label>
                                                                             </div>
                                                                         </div>
 
                                                                         <script type="text/javascript">
                                                                             jQuery(document).ready(function () {
-                                                                                jQuery("input[type='radio'][name='cwsdgYN']").change(function () {
+                                                                                jQuery("input[type='radio'][name='SDGYesNoId']").change(function () {
                                                                                     if (jQuery(this).val() == 1) {
                                                                                         jQuery("#divCwsdg").removeClass('d-none fadeOut');
                                                                                         jQuery("#divCwsdg").addClass('d-block fadeIn');
@@ -2068,21 +2223,21 @@
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwsdgApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="cwsdgApplicantComments" name="cwsdgApplicantComments" class="form-control" />
+                                                                        <label for="SDGApplicantCmt">Applicant Comments</label>
+                                                                        <input type="text" id="SDGApplicantCmt" name="SDGApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwsdgAuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="cwsdgAuthorityComments" name="cwsdgAuthorityComments" class="form-control" />
+                                                                        <label for="SDGAuthorityCmt">Authority Comments</label>
+                                                                        <input type="text" id="SDGAuthorityCmt" name="SDGAuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
                                                                         <label>Document Link</label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
-                                                                                <input type="file" class="custom-file-input" id="fileCwsdgDocumentLink">
-                                                                                <label class="custom-file-label" for="fileCwsdgDocumentLink">Choose file</label>
+                                                                                <input type="file" class="custom-file-input" id="SDGDocLink">
+                                                                                <label class="custom-file-label" for="SDGDocLink">Choose file</label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -2102,7 +2257,7 @@
                                                                                         var id = "chkCWSDG" + goal.SDGGoalId;
 
                                                                                         <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" title="@goal.SDGGoalNumber">
-                                                                                            <input type="checkbox" name="sdg_goals[]" id="@id" value="@goal.SDGGoalId" data-parsley-multiple="sdg_goals">
+                                                                                            <input type="checkbox" name="SDGGoalId" id="@id" value="@goal.SDGGoalId" data-parsley-multiple="SDGGoalId">
                                                                                             <label for="@id"> @goal.SDGGoalNumber </label> <a href="@goal.SDGDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
                                                                                         </div>
                                                                                     }
@@ -2126,7 +2281,7 @@
                                                                                         var id = "chkSdgIndicator" + indicator.SDGIndicatorId;
 
                                                                                         <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" title="@indicator.SDGIndicatorName">
-                                                                                            <input type="checkbox" name="sdg_indicators[]" id="@id" value="@indicator.SDGIndicatorId" data-parsley-multiple="sdg_indicators">
+                                                                                            <input type="checkbox" name="SDGIndicatorId" id="@id" value="@indicator.SDGIndicatorId" data-parsley-multiple="SDGIndicatorId">
                                                                                             <label for="@id"> @indicator.SDGIndicatorName </label> <a href="@indicator.SDGIndicatorName" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
                                                                                         </div>
                                                                                     }
@@ -2140,19 +2295,19 @@
                                                                     <div class="form-group">
                                                                         <div id="CWBDP2100" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwbdp2100YN" id="cwbdp2100Yes" value="1" data-parsley-multiple="cwbdp2100YN">
+                                                                                <input type="radio" name="DeltaPlanYesNoId" id="cwbdp2100Yes" value="1" data-parsley-multiple="DeltaPlanYesNoId">
                                                                                 <label for="cwbdp2100Yes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwbdp2100YN" id="cwbdp2100No" value="0" checked data-parsley-multiple="cwbdp2100YN">
+                                                                                <input type="radio" name="DeltaPlanYesNoId" id="cwbdp2100No" value="0" checked data-parsley-multiple="DeltaPlanYesNoId">
                                                                                 <label for="cwbdp2100No"> No </label>
                                                                             </div>
                                                                         </div>
 
                                                                         <script type="text/javascript">
                                                                             jQuery(document).ready(function () {
-                                                                                jQuery("input[type='radio'][name='cwbdp2100YN']").change(function () {
+                                                                                jQuery("input[type='radio'][name='DeltaPlanYesNoId']").change(function () {
                                                                                     if (jQuery(this).val() == 1) {
                                                                                         jQuery("#divCwbdp2100").removeClass('d-none fadeOut');
                                                                                         jQuery("#divCwbdp2100").addClass('d-block fadeIn');
@@ -2166,21 +2321,21 @@
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwbdp2100ApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="cwbdp2100ApplicantComments" name="cwbdp2100ApplicantComments" class="form-control" />
+                                                                        <label for="DeltaPlan2100ApplicantCmt">Applicant Comments</label>
+                                                                        <input type="text" id="DeltaPlan2100ApplicantCmt" name="DeltaPlan2100ApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwbdp2100AuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="cwbdp2100AuthorityComments" name="cwbdp2100AuthorityComments" class="form-control" />
+                                                                        <label for="DeltaPlan2100AuthorityCmt">Authority Comments</label>
+                                                                        <input type="text" id="DeltaPlan2100AuthorityCmt" name="DeltaPlan2100AuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
                                                                         <label>Document Link</label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
-                                                                                <input type="file" class="custom-file-input" id="fileCwbdp2100DocumentLink">
-                                                                                <label class="custom-file-label" for="fileCwbdp2100DocumentLink">Choose file</label>
+                                                                                <input type="file" class="custom-file-input" id="DeltaPlan2100DocLink">
+                                                                                <label class="custom-file-label" for="DeltaPlan2100DocLink">Choose file</label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -2200,7 +2355,7 @@
                                                                                         var id = "chkCwbdp2100" + bdp_goal.DeltPlan2100GoalId;
 
                                                                                         <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 8%;" title="@bdp_goal.DeltPlan2100Goal">
-                                                                                            <input type="checkbox" name="bdp_goals[]" id="@id" value="@bdp_goal.DeltPlan2100GoalId" data-parsley-multiple="bdp_goals">
+                                                                                            <input type="checkbox" name="DeltPlan2100GoalId" id="@id" value="@bdp_goal.DeltPlan2100GoalId" data-parsley-multiple="DeltPlan2100GoalId">
                                                                                             <label for="@id"> @bdp_goal.DeltPlan2100Goal </label> <a href="@bdp_goal.DeltPlan2100Goal" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
                                                                                         </div>
                                                                                     }
@@ -2214,33 +2369,33 @@
                                                                     <div class="form-group">
                                                                         <div id="CWCZP" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwczpYN" id="cwczpYes" value="1" data-parsley-multiple="cwczpYN">
+                                                                                <input type="radio" name="CostalZoneYesNoId" id="cwczpYes" value="1" data-parsley-multiple="CostalZoneYesNoId">
                                                                                 <label for="cwczpYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwczpYN" id="cwczpNo" value="0" checked data-parsley-multiple="cwczpYN">
+                                                                                <input type="radio" name="CostalZoneYesNoId" id="cwczpNo" value="0" checked data-parsley-multiple="CostalZoneYesNoId">
                                                                                 <label for="cwczpNo"> No </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwczpApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="cwczpApplicantComments" name="cwczpApplicantComments" class="form-control" />
+                                                                        <label for="CostalZoneApplicantCmt">Applicant Comments</label>
+                                                                        <input type="text" id="CostalZoneApplicantCmt" name="CostalZoneApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwczpAuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="cwczpAuthorityComments" name="cwczpAuthorityComments" class="form-control" />
+                                                                        <label for="CostalZoneAuthorityCmt">Authority Comments</label>
+                                                                        <input type="text" id="CostalZoneAuthorityCmt" name="CostalZoneAuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
                                                                         <label>Document Link</label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
-                                                                                <input type="file" class="custom-file-input" id="fileCwczpDocumentLink">
-                                                                                <label class="custom-file-label" for="fileCwczpDocumentLink">Choose file</label>
+                                                                                <input type="file" class="custom-file-input" id="CostalZoneDocLink">
+                                                                                <label class="custom-file-label" for="CostalZoneDocLink">Choose file</label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -2250,33 +2405,33 @@
                                                                     <div class="form-group">
                                                                         <div id="CWAP" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwapYN" id="cwapYes" value="1" data-parsley-multiple="cwapYN">
+                                                                                <input type="radio" name="AgriculturalYesNoId" id="cwapYes" value="1" data-parsley-multiple="AgriculturalYesNoId">
                                                                                 <label for="cwapYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwapYN" id="cwapNo" value="0" checked data-parsley-multiple="cwapYN">
+                                                                                <input type="radio" name="AgriculturalYesNoId" id="cwapNo" value="0" checked data-parsley-multiple="AgriculturalYesNoId">
                                                                                 <label for="cwapNo"> No </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwapApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="cwapApplicantComments" name="cwapApplicantComments" class="form-control" />
+                                                                        <label for="AgriApplicantCmt">Applicant Comments</label>
+                                                                        <input type="text" id="AgriApplicantCmt" name="AgriApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwapAuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="cwapAuthorityComments" name="cwapAuthorityComments" class="form-control" />
+                                                                        <label for="AgriAuthorityCmt">Authority Comments</label>
+                                                                        <input type="text" id="AgriAuthorityCmt" name="AgriAuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
                                                                         <label>Document Link</label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
-                                                                                <input type="file" class="custom-file-input" id="fileCwapDocumentLink">
-                                                                                <label class="custom-file-label" for="fileCwapDocumentLink">Choose file</label>
+                                                                                <input type="file" class="custom-file-input" id="AgriDocLink">
+                                                                                <label class="custom-file-label" for="AgriDocLink">Choose file</label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -2286,33 +2441,33 @@
                                                                     <div class="form-group">
                                                                         <div id="CWFP" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwfpYN" id="cwfpYes" value="1" data-parsley-multiple="cwfpYN">
+                                                                                <input type="radio" name="FisheriesYesNoId" id="cwfpYes" value="1" data-parsley-multiple="FisheriesYesNoId">
                                                                                 <label for="cwfpYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwfpYN" id="cwfpNo" value="0" checked data-parsley-multiple="cwfpYN">
+                                                                                <input type="radio" name="FisheriesYesNoId" id="cwfpNo" value="0" checked data-parsley-multiple="FisheriesYesNoId">
                                                                                 <label for="cwfpNo"> No </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwfpApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="cwfpApplicantComments" name="cwfpApplicantComments" class="form-control" />
+                                                                        <label for="FisheriesApplicantCmt">Applicant Comments</label>
+                                                                        <input type="text" id="FisheriesApplicantCmt" name="FisheriesApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwfpAuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="cwfpAuthorityComments" name="cwfpAuthorityComments" class="form-control" />
+                                                                        <label for="FisheriesAuthorityCmt">Authority Comments</label>
+                                                                        <input type="text" id="FisheriesAuthorityCmt" name="FisheriesAuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
                                                                         <label>Document Link</label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
-                                                                                <input type="file" class="custom-file-input" id="fileCwfpDocumentLink">
-                                                                                <label class="custom-file-label" for="fileCwfpDocumentLink">Choose file</label>
+                                                                                <input type="file" class="custom-file-input" id="FisheriesDocLink">
+                                                                                <label class="custom-file-label" for="FisheriesDocLink">Choose file</label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -2322,25 +2477,25 @@
                                                                     <div class="form-group">
                                                                         <div id="CWIWRM" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwiwrmYN" id="cwiwrmYes" value="1" data-parsley-multiple="cwiwrmYN">
+                                                                                <input type="radio" name="IWRMYesNoId" id="cwiwrmYes" value="1" data-parsley-multiple="IWRMYesNoId">
                                                                                 <label for="cwiwrmYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwiwrmYN" id="cwiwrmNo" value="0" checked data-parsley-multiple="cwiwrmYN">
+                                                                                <input type="radio" name="IWRMYesNoId" id="cwiwrmNo" value="0" checked data-parsley-multiple="IWRMYesNoId">
                                                                                 <label for="cwiwrmNo"> No </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwiwrmApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="cwiwrmApplicantComments" name="cwiwrmApplicantComments" class="form-control" />
+                                                                        <label for="IWRMApplicantCmt">Applicant Comments</label>
+                                                                        <input type="text" id="IWRMApplicantCmt" name="IWRMApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwiwrmAuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="cwiwrmAuthorityComments" name="cwiwrmAuthorityComments" class="form-control" />
+                                                                        <label for="IWRMAuthorityCmt">Authority Comments</label>
+                                                                        <input type="text" id="IWRMAuthorityCmt" name="IWRMAuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <h2>18.	Compatibility with GPWM</h2>
@@ -2348,19 +2503,19 @@
                                                                     <div class="form-group">
                                                                         <div id="CWGPWM" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwgpwmYN" id="cwgpwmYes" value="1" data-parsley-multiple="cwgpwmYN">
+                                                                                <input type="radio" name="GPWMYesNoId" id="cwgpwmYes" value="1" data-parsley-multiple="GPWMYesNoId">
                                                                                 <label for="cwgpwmYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="cwgpwmYN" id="cwgpwmNo" value="0" checked data-parsley-multiple="cwgpwmYN">
+                                                                                <input type="radio" name="GPWMYesNoId" id="cwgpwmNo" value="0" checked data-parsley-multiple="GPWMYesNoId">
                                                                                 <label for="cwgpwmNo"> No </label>
                                                                             </div>
                                                                         </div>
 
                                                                         <script type="text/javascript">
                                                                             jQuery(document).ready(function () {
-                                                                                jQuery("input[type='radio'][name='cwgpwmYN']").change(function () {
+                                                                                jQuery("input[type='radio'][name='GPWMYesNoId']").change(function () {
                                                                                     if (jQuery(this).val() == 1) {
                                                                                         jQuery("#divCwgpwm").removeClass('d-none fadeOut');
                                                                                         jQuery("#divCwgpwm").addClass('d-block fadeIn');
@@ -2374,13 +2529,13 @@
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwgpwmApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="cwgpwmApplicantComments" name="cwgpwmApplicantComments" class="form-control" />
+                                                                        <label for="GPWMApplicantCmt">Applicant Comments</label>
+                                                                        <input type="text" id="GPWMApplicantCmt" name="GPWMApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="cwgpwmAuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="cwgpwmAuthorityComments" name="cwgpwmAuthorityComments" class="form-control" />
+                                                                        <label for="GPWMAuthorityCmt">Authority Comments</label>
+                                                                        <input type="text" id="GPWMAuthorityCmt" name="GPWMAuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div id="divCwgpwm" class="form-group d-none">
@@ -2398,7 +2553,7 @@
                                                                                         var id = "chkCwgpwm" + gpwm_group.GPWMGroupTypeId;
 
                                                                                         <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 8%;" title="@gpwm_group.GPWMGroupTypeName">
-                                                                                            <input type="checkbox" name="gpwm_groups[]" id="@id" value="@gpwm_group.GPWMGroupTypeId" data-parsley-multiple="gpwm_groups">
+                                                                                            <input type="checkbox" name="GPWMGroupTypeId" id="@id" value="@gpwm_group.GPWMGroupTypeId" data-parsley-multiple="GPWMGroupTypeId">
                                                                                             <label for="@id"> @gpwm_group.GPWMGroupTypeName </label> <a href="@gpwm_group.GPWMGroupTypeName" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
                                                                                         </div>
                                                                                     }
@@ -2412,25 +2567,25 @@
                                                                     <div class="form-group">
                                                                         <div id="feasibilitystudy" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="feasibilitystudyYN" id="feasibilitystudyYes" value="1" data-parsley-multiple="feasibilitystudyYN">
+                                                                                <input type="radio" name="FeasibilityYesNoId" id="feasibilitystudyYes" value="1" data-parsley-multiple="FeasibilityYesNoId">
                                                                                 <label for="feasibilitystudyYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="feasibilitystudyYN" id="feasibilitystudyNo" value="0" checked data-parsley-multiple="feasibilitystudyYN">
+                                                                                <input type="radio" name="FeasibilityYesNoId" id="feasibilitystudyNo" value="0" checked data-parsley-multiple="FeasibilityYesNoId">
                                                                                 <label for="feasibilitystudyNo"> No </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="fsApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="fsApplicantComments" name="fsApplicantComments" class="form-control" />
+                                                                        <label for="FeasibilityApplicantCmt">Applicant Comments</label>
+                                                                        <input type="text" id="FeasibilityApplicantCmt" name="FeasibilityApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="fsAuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="fsAuthorityComments" name="fsAuthorityComments" class="form-control" />
+                                                                        <label for="FeasibilityAuthorityCmt">Authority Comments</label>
+                                                                        <input type="text" id="FeasibilityAuthorityCmt" name="FeasibilityAuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <h2>20.	Duplication of the Project</h2>
@@ -2438,25 +2593,25 @@
                                                                     <div class="form-group">
                                                                         <div id="duplicationproject" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="duplicationprojectYN" id="duplicationprojectYes" value="1" data-parsley-multiple="duplicationprojectYN">
+                                                                                <input type="radio" name="DuplicatYesNoId" id="duplicationprojectYes" value="1" data-parsley-multiple="DuplicatYesNoId">
                                                                                 <label for="duplicationprojectYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="duplicationprojectYN" id="duplicationprojectNo" value="0" checked data-parsley-multiple="duplicationprojectYN">
+                                                                                <input type="radio" name="DuplicatYesNoId" id="duplicationprojectNo" value="0" checked data-parsley-multiple="DuplicatYesNoId">
                                                                                 <label for="duplicationprojectNo"> No </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="dotpApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="dotpApplicantComments" name="dotpApplicantComments" class="form-control" />
+                                                                        <label for="DuplicationApplicantComments">Applicant Comments</label>
+                                                                        <input type="text" id="DuplicationApplicantComments" name="DuplicationApplicantComments" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="dotpAuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="dotpAuthorityComments" name="dotpAuthorityComments" class="form-control" />
+                                                                        <label for="DuplicationAuthorityComments">Authority Comments</label>
+                                                                        <input type="text" id="DuplicationAuthorityComments" name="DuplicationAuthorityComments" class="form-control" />
                                                                     </div>
 
                                                                     <h2>21.	Project development by emphasizing on underprivileged people, child, women and important social issues</h2>
@@ -2464,26 +2619,211 @@
                                                                     <div class="form-group">
                                                                         <div id="pdeu" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="pdeuYN" id="pdeuYes" value="1" data-parsley-multiple="pdeuYN">
+                                                                                <input type="radio" name="SocialIssuesYesNoId" id="pdeuYes" value="1" data-parsley-multiple="SocialIssuesYesNoId">
                                                                                 <label for="pdeuYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="pdeuYN" id="pdeuNo" value="0" checked data-parsley-multiple="pdeuYN">
+                                                                                <input type="radio" name="SocialIssuesYesNoId" id="pdeuNo" value="0" checked data-parsley-multiple="SocialIssuesYesNoId">
                                                                                 <label for="pdeuNo"> No </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="pdeuApplicantComments">Applicant Comments</label>
-                                                                        <input type="text" id="pdeuApplicantComments" name="pdeuApplicantComments" class="form-control" />
+                                                                        <label for="SocialIssuesApplicantCmt">Applicant Comments</label>
+                                                                        <input type="text" id="SocialIssuesApplicantCmt" name="SocialIssuesApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="pdeuAuthorityComments">Authority Comments</label>
-                                                                        <input type="text" id="pdeuAuthorityComments" name="pdeuAuthorityComments" class="form-control" />
+                                                                        <label for="SocialIssuesAuthorityCmt">Authority Comments</label>
+                                                                        <input type="text" id="SocialIssuesAuthorityCmt" name="SocialIssuesAuthorityCmt" class="form-control" />
                                                                     </div>
+                                                                </div>
+
+                                                                <hr />
+
+                                                                <div class="form-group mb-0">
+                                                                    <button id="btnSaveDeed" type="button" class="btn btn-info waves-effect waves-light">
+                                                                        <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
+                                                                        <span style="text-decoration: underline;">S</span>ave
+                                                                        <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
+                                                                    </button>
+
+                                                                    <button id="btnClearDeed" type="button" class="btn btn-danger waves-effect waves-light">
+                                                                        <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
+                                                                        Clear
+                                                                    </button>
+
+                                                                    <script id="TechInfoJS" type="text/javascript">
+                                                                        jQuery("#btnSaveDeed").click(function () {
+                                                                            var _finalDeedObj = [];
+                                                                            var nwpArticles = [], prjCompatNWMP = [], sdgGoals = [],
+                                                                                sdgIndicators = [], dp2100Goals = [], gpwmGroupType=[];
+
+                                                                            $.each($("input[name='NationalWaterPolicyArticleId']:checked"), function () {
+                                                                                var _nwpa = {
+                                                                                    "PrjCompatNWPId": 0,
+                                                                                    "ProjectId": 8, //jQuery('#ProjectId').val(),
+                                                                                    "NationalWaterPolicyArticleId": $(this).val()
+                                                                                };
+
+                                                                                nwpArticles.push(_nwpa);
+                                                                            });
+
+                                                                            $.each($("input[name='PrjCompatNWMPId']:checked"), function () {
+                                                                                var _nwmpa = {
+                                                                                    "PrjCompatNWMPId": 0,
+                                                                                    "ProjectId": 8, //jQuery('#ProjectId').val(),
+                                                                                    "NWMPProgrammeId": $(this).val()
+                                                                                };
+
+                                                                                prjCompatNWMP.push(_nwmpa);
+                                                                            });
+
+                                                                            $.each($("input[name='SDGGoalId']:checked"), function () {
+                                                                                var _sdg = {
+                                                                                    "SDGCompabilityId": 0,
+                                                                                    "ProjectId": 8, //jQuery('#ProjectId').val(),
+                                                                                    "SDGGoalId": $(this).val()
+                                                                                };
+
+                                                                                sdgGoals.push(_sdg);
+                                                                            });
+
+                                                                            $.each($("input[name='SDGIndicatorId']:checked"), function () {
+                                                                                var _sdgi = {
+                                                                                    "SDGIndicatorDetailId": 0,
+                                                                                    "ProjectId": 8, //jQuery('#ProjectId').val(),
+                                                                                    "SDGIndicatorId": $(this).val()
+                                                                                };
+
+                                                                                sdgIndicators.push(_sdgi);
+                                                                            });
+
+                                                                            $.each($("input[name='DeltPlan2100GoalId']:checked"), function () {
+                                                                                var _dp2100g = {
+                                                                                    "DeltaGoalDetailId": 0,
+                                                                                    "ProjectId": 8, //jQuery('#ProjectId').val(),
+                                                                                    "DeltPlan2100GoalId": $(this).val()
+                                                                                };
+
+                                                                                dp2100Goals.push(_dp2100g);
+                                                                            });
+
+                                                                            $.each($("input[name='GPWMGroupTypeId']:checked"), function () {
+                                                                                var _gpwmg = {
+                                                                                    "GPWMGroupTypeDetailId": 0,
+                                                                                    "ProjectId": 8, //jQuery('#ProjectId').val(),
+                                                                                    "GPWMGroupTypeId": $(this).val()
+                                                                                };
+
+                                                                                gpwmGroupType.push(_gpwmg);
+                                                                            });
+
+                                                                            var ProjectCommonDetail = {
+                                                                                "ProjectId": 8, // GetHiddenValue('ProjectId'),
+                                                                                "CompatNWPYesNoId": GetRadioValue('CompatNWPYesNoId'),
+                                                                                "CompatibilityNWPApplicantCmt": GetTextValue('CompatibilityNWPApplicantCmt'),
+                                                                                "CompatibilityNWPAuthorityCmt": GetTextValue('CompatibilityNWPAuthorityCmt'),
+                                                                                //CompatibilityNWPDocLink //file
+                                                                                "NWMPCompatYesNoId": GetRadioValue('NWMPCompatYesNoId'),
+                                                                                "NWMPApplicantCmt": GetTextValue('NWMPApplicantCmt'),
+                                                                                "NWMPAuthorityCmt": GetTextValue('NWMPAuthorityCmt'),
+                                                                                //NWMPDocLink //file
+                                                                                "FYPYesNoId": GetRadioValue('FYPYesNoId'),
+                                                                                "FYPApplicantCmt": GetTextValue('FYPApplicantCmt'),
+                                                                                "FYPAuthorityCmt": GetTextValue('FYPAuthorityCmt'),
+                                                                                "SDGYesNoId": GetRadioValue('SDGYesNoId'),
+                                                                                "SDGApplicantCmt": GetTextValue('SDGApplicantCmt'),
+                                                                                "SDGAuthorityCmt": GetTextValue('SDGAuthorityCmt'),
+                                                                                //SDGDocLink //file
+                                                                                "DeltaPlanYesNoId": GetRadioValue('DeltaPlanYesNoId'),
+                                                                                "DeltaPlan2100ApplicantCmt": GetTextValue('DeltaPlan2100ApplicantCmt'),
+                                                                                "DeltaPlan2100AuthorityCmt": GetTextValue('DeltaPlan2100AuthorityCmt'),
+                                                                                //DeltaPlan2100DocLink //file
+                                                                                "CostalZoneYesNoId": GetRadioValue('CostalZoneYesNoId'),
+                                                                                "CostalZoneApplicantCmt": GetTextValue('CostalZoneApplicantCmt'),
+                                                                                "CostalZoneAuthorityCmt": GetTextValue('CostalZoneAuthorityCmt'),
+                                                                                //CostalZoneDocLink //file.
+                                                                                "AgriculturalYesNoId": GetRadioValue('AgriculturalYesNoId'),
+                                                                                "AgriApplicantCmt": GetTextValue('AgriApplicantCmt'),
+                                                                                "AgriAuthorityCmt": GetTextValue('AgriAuthorityCmt'),
+                                                                                //AgriDocLink //file
+                                                                                "FisheriesYesNoId": GetRadioValue('FisheriesYesNoId'),
+                                                                                "FisheriesApplicantCmt": GetTextValue('FisheriesApplicantCmt'),
+                                                                                "FisheriesAuthorityCmt": GetTextValue('FisheriesAuthorityCmt'),
+                                                                                //FisheriesDocLink //file
+                                                                                "IWRMYesNoId": GetRadioValue('IWRMYesNoId'),
+                                                                                "IWRMApplicantCmt": GetTextValue('IWRMApplicantCmt'),
+                                                                                "IWRMAuthorityCmt": GetTextValue('IWRMAuthorityCmt'),
+                                                                                "GPWMYesNoId": GetRadioValue('GPWMYesNoId'),
+                                                                                "GPWMApplicantCmt": GetTextValue('GPWMApplicantCmt'),
+                                                                                "GPWMAuthorityCmt": GetTextValue('GPWMAuthorityCmt'),
+                                                                                "FeasibilityYesNoId": GetRadioValue('FeasibilityYesNoId'),
+                                                                                "FeasibilityApplicantCmt": GetTextValue('FeasibilityApplicantCmt'),
+                                                                                "FeasibilityAuthorityCmt": GetTextValue('FeasibilityAuthorityCmt'),
+                                                                                "SocialIssuesYesNoId": GetRadioValue('SocialIssuesYesNoId'),
+                                                                                "SocialIssuesApplicantCmt": GetTextValue('SocialIssuesApplicantCmt'),
+                                                                                "SocialIssuesAuthorityCmt": GetTextValue('SocialIssuesAuthorityCmt')
+                                                                            };
+
+                                                                            var Project31IndvDetail = {
+                                                                                "Project31IndvId": 2, //GetHiddenValue('Project31IndvId'),
+                                                                                "ProjectId": 8, //GetHiddenValue('ProjectId'),
+                                                                                "DuplicatYesNoId": GetRadioValue('DuplicatYesNoId'),
+                                                                                "DuplicationApplicantComments": GetTextValue('DuplicationApplicantComments'),
+                                                                                "DuplicationAuthorityComments": GetTextValue('DuplicationAuthorityComments')
+                                                                            };
+
+                                                                            var _finalDeedObj = {
+                                                                                "CommonDetail": ProjectCommonDetail,
+                                                                                "Project31Indv": Project31IndvDetail,
+                                                                                "CompatNWPDetail": nwpArticles,
+                                                                                "CompatNWMPDetail": prjCompatNWMP,
+                                                                                "CompatSDGDetail": sdgGoals,
+                                                                                "CompatSDGIndiDetail": sdgIndicators,
+                                                                                "BDP2100GoalDetail": dp2100Goals,
+                                                                                "GPWMGroupTypeDetail": gpwmGroupType
+                                                                            }
+
+                                                                            console.log(_finalDeedObj); //jQuery('#ProjectId').val()
+
+                                                                            var url = '@Url.Action("f31dootos", "form")';
+                                                                            jQuery.ajax({
+                                                                                type: "POST",
+                                                                                url: url,
+                                                                                data: { _form31DeedObli: _finalDeedObj },
+                                                                                dataType: "json",
+                                                                                success: function (data, status, jqXHR) {
+                                                                                    if (data.status == 'success') {
+                                                                                        Notification('success', 'Success', data.message);
+                                                                                    } else {
+                                                                                        Notification('error', 'Saving Error', data.message);
+                                                                                    }
+                                                                                }, error: function (jqXHR, exception) {
+                                                                                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                                                                                    Notification('error', 'Error Occured', errorMsg);
+                                                                                }
+                                                                            });
+                                                                        });
+
+                                                                        jQuery("#btnClearDeed").click(function () {
+                                                                            Swal.fire({
+                                                                                title: "Are you sure?",
+                                                                                text: "You won't be able to revert this!",
+                                                                                type: "warning",
+                                                                                allowEscapeKey: false,
+                                                                                allowOutsideClick: false,
+                                                                                showCancelButton: !0,
+                                                                                confirmButtonColor: "#3085d6",
+                                                                                cancelButtonColor: "#d33",
+                                                                                confirmButtonText: "Sure"
+                                                                            }).then(function (t) {
+                                                                                t.value && Swal.fire("Cleared!", "Your entry data has been cleared successfully.", "success")
+                                                                            });
+                                                                        });
+                                                                    </script>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -2516,20 +2856,20 @@
                                                                     <div class="form-group">
                                                                         <div id="recommendation" class="row" style="margin-left: 5px;">
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="recommendationYN" id="recommendationYes" value="1" data-parsley-multiple="recommendationYN">
+                                                                                <input type="radio" name="RecommendationId" id="recommendationYes" value="1" data-parsley-multiple="RecommendationId">
                                                                                 <label for="recommendationYes"> Yes </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="recommendationYN" id="recommendationNo" value="0" checked data-parsley-multiple="recommendationYN">
+                                                                                <input type="radio" name="RecommendationId" id="recommendationNo" value="0" checked data-parsley-multiple="RecommendationId">
                                                                                 <label for="recommendationNo"> No </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="recommendationConditional">Conditional</label>
-                                                                        <input type="text" id="recommendationConditional" name="recommendationConditional" class="form-control" />
+                                                                        <label for="RecommandCmt">Conditional</label>
+                                                                        <input type="text" id="RecommandCmt" name="RecommandCmt" class="form-control" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2587,6 +2927,19 @@
     <script src="~/js/pages/form-wizard.init.js"></script>
 
     <script type="text/javascript">
+        function GetTextValue(control) {
+            return jQuery('#' + control).val();
+        }
+
+        function GetHiddenValue(control) {
+            return jQuery('#' + control).val();
+        }
+
+        function GetRadioValue(control) {
+            var value = jQuery("input[type='radio'][name='" + control + "']").val();
+            return (value == undefined || value == '') ? 0 : value;
+        }
+
         jQuery(window).bind('keydown', function (event) {
             if (event.ctrlKey || event.metaKey) {
                 switch (String.fromCharCode(event.which).toLowerCase()) {

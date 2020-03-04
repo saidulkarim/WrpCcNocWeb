@@ -87,19 +87,7 @@
                                                                                 <div class="form-group col-xl-2">
                                                                                     <label for="DistrictGeoCode">District <span class="text-danger bold">*</span></label>
                                                                                     <select id="DistrictGeoCode" name="DistrictGeoCode" class="form-control" required="">
-                                                                                        <option value="">Choose..</option>
-
-                                                                                        @{
-                                                                                            List<LookUpAdminBndDistrict> _districts = ViewBag.LookUpAdminBndDistrict;
-
-                                                                                            if (_districts.Count > 0)
-                                                                                            {
-                                                                                                foreach (LookUpAdminBndDistrict dist in _districts)
-                                                                                                {
-                                                                                                    <option value="@dist.DistrictGeoCode">@dist.DistrictName</option>
-                                                                                                }
-                                                                                            }
-                                                                                        }
+                                                                                        <option value="">Choose..</option>                                                                                       
                                                                                     </select>
                                                                                 </div>
 
@@ -107,17 +95,7 @@
                                                                                     <label for="UpazilaGeoCode">Upazila</label>
                                                                                     <select id="UpazilaGeoCode" name="UpazilaGeoCode" class="form-control">
                                                                                         <option value="">Choose..</option>
-                                                                                        @{
-                                                                                            List<LookUpAdminBndUpazila> _upazilas = ViewBag.LookUpAdminBndUpazila;
-
-                                                                                            if (_upazilas.Count > 0)
-                                                                                            {
-                                                                                                foreach (LookUpAdminBndUpazila upz in _upazilas)
-                                                                                                {
-                                                                                                    <option value="@upz.UpazilaGeoCode">@upz.UpazilaName</option>
-                                                                                                }
-                                                                                            }
-                                                                                        }
+                                                                                       
                                                                                     </select>
                                                                                 </div>
 
@@ -125,17 +103,7 @@
                                                                                     <label for="UnionGeoCode">Union</label>
                                                                                     <select id="UnionGeoCode" name="UnionGeoCode" class="form-control">
                                                                                         <option value="">Choose..</option>
-                                                                                        @{
-                                                                                            List<LookUpAdminBndUnion> _unions = ViewBag.LookUpAdminBndUnion;
-
-                                                                                            if (_unions.Count > 0)
-                                                                                            {
-                                                                                                foreach (LookUpAdminBndUnion uni in _unions)
-                                                                                                {
-                                                                                                    <option value="@uni.UnionGeoCode">@uni.UnionName</option>
-                                                                                                }
-                                                                                            }
-                                                                                        }
+                                                                                       
                                                                                     </select>
                                                                                 </div>
 
@@ -206,28 +174,28 @@
                                                                     <div class="form-group">
                                                                         <label for="HydrologicalRegion">Hydrological Region</label>
                                                                         <div id="chkHydrologicalRegions" style="margin-left: 5px;">
-                                                                            @{
-                                                                                List<LookUpCcModHydroRegion> _hydro_regions = ViewBag.LookUpCcModHydroRegion;
+                                                                            @*@{
+                    List<LookUpCcModHydroRegion> _hydro_regions = ViewBag.LookUpCcModHydroRegion;
 
-                                                                                if (_hydro_regions.Count > 0)
-                                                                                {
-                                                                                    foreach (LookUpCcModHydroRegion hr in _hydro_regions)
-                                                                                    {
-                                                                                        var id = "chk" + hr.HydroRegionName;
-                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" title="@hr.HydroRegionName">
-                                                                                            <input type="checkbox" name="hydrological_region[]" id="@id" value="@hr.HydroRegionId" data-parsley-multiple="hydrological_region">
-                                                                                            <label for="@id"> @hr.HydroRegionName </label>
-                                                                                        </div>
-                                                                                    }
-                                                                                }
-                                                                            }
+                    if (_hydro_regions.Count > 0)
+                    {
+                        foreach (LookUpCcModHydroRegion hr in _hydro_regions)
+                        {
+                            var id = "chk" + hr.HydroRegionName;
+                            <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" title="@hr.HydroRegionName">
+                                <input type="checkbox" name="hydrological_region[]" id="@id" value="@hr.HydroRegionId" data-parsley-multiple="hydrological_region">
+                                <label for="@id"> @hr.HydroRegionName </label>
+                            </div>
+                        }
+                    }
+                }*@
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="form-group">
                                                                         <label for="BDP2100HotSpot">Bangladesh Delta Plan 2100 Hot Spot</label>
                                                                         <div id="chkBDP2100HotSpot" class="row" style="margin-left: 5px;">
-                                                                            @{
+                                                                            @*@{
                                                                                 List<LookUpCcModDeltPlan2100HotSpot> _hot_spots = ViewBag.LookUpCcModDeltPlan2100HotSpot;
 
                                                                                 if (_hot_spots.Count > 0)
@@ -241,20 +209,96 @@
                                                                                         </div>
                                                                                     }
                                                                                 }
-                                                                            }
+                                                                            }*@
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="HydrologicalSystem">Hydrological System</label>
+                                                                        <label for="NameOfTheWaterBody">Name of the water bodies to be used</label>
+                                                                        <textarea id="NameOfTheWaterBody" name="NameOfTheWaterBody" class="form-control" required=""></textarea>
+                                                                    </div>
 
-                                                                        <div id="HydrologicalSystem" class="row" style="margin-left: -7px;">
+                                                                    <div class="form-group">
+                                                                        <label for="RiverNatureId">River Nature</label>
+                                                                        <div id="chkRiverNatureId" class="row" style="margin-left: 5px;">
+                                                                            @*@{
+                                                                                List<LookUpCcModRiverNature> _rns = ViewBag.LookUpCcModRiverNature;
+
+                                                                                if (_rns.Count > 0)
+                                                                                {
+                                                                                    foreach (LookUpCcModRiverNature rn in _rns)
+                                                                                    {
+                                                                                        var id = "chkRiverNatureId" + rn.RiverNatureId;
+                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-5" style="margin-right: 25px;" title="@rn.RiverNatureId">
+                                                                                            <input type="checkbox" name="river_natures[]" id="@id" value="@rn.RiverNatureId" data-parsley-multiple="river_natures">
+                                                                                            <label for="@id"> @rn.NatureTypeName </label>
+                                                                                        </div>
+                                                                                    }
+                                                                                }
+                                                                            }*@
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="WaterBodyTypeId">Type of Water bodies</label>
+                                                                        <div id="chkWaterBodyTypeId" class="row" style="margin-left: 5px;">
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div id="divOfftakeOutfall">
+                                                                        <label for="OfftakeOutfall" class="bold">Offtake, Outfall and Connectivity</label>
+
+                                                                        <hr style="margin-top: 0 !important;" />
+
+                                                                        <div class="row">
+                                                                            <div class="form-group col-xl-4 text-center">
+
+
+                                                                                <label for="Offtake">Offtake</label>
+                                                                                <input type="text" id="Offtake" name="Offtake" class="form-control" />
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-4 text-center">
+
+
+                                                                                <label for="Outfall">Outfall</label>
+                                                                                <input type="text" id="Outfall" name="Outfall" class="form-control" />
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-4 text-center">
+
+
+                                                                                <label for="Connectivity">Connectivity with other waterbodies</label>
+                                                                                <input type="text" id="Connectivity" name="Connectivity" class="form-control" />
+
+                                                                            </div>
+
+
+                                                                        </div>
+                                                                    </div>
+
+
+
+
+                                                                    <div class="form-group">
+                                                                        <label for="ExistingUseOfWaterFromSource">Existing use of water from source</label>
+                                                                        <textarea id="ExistingUseOfWaterFromSource" name="ExistingUseOfWaterFromSource" class="form-control" required=""></textarea>
+                                                                    </div>
+                                                                    <!--*************** My  mark *************-->
+
+                                                                    <div class="form-group">
+                                                                        <label for="Surroundingwaterbodies">Surrounding waterbodies with distance from intake point</label>
+
+                                                                        <div id="Surroundingwaterbodies" class="row" style="margin-left: -7px;">
                                                                             <div class="table-responsive">
                                                                                 <table class="table mb-0">
                                                                                     <thead>
                                                                                         <tr>
                                                                                             <th class="text-center">#</th>
-                                                                                            <th class="text-center">Hydrological System</th>
+                                                                                            <th class="text-center">Surrounding Waterbodies</th>
                                                                                             <th class="text-center">Name</th>
                                                                                             <th class="text-center">Length or Area</th>
                                                                                             <th class="text-center"></th>
@@ -263,17 +307,8 @@
                                                                                             <th colspan="2" class="text-center">
                                                                                                 <select id="HydroSystemCategoryId" name="HydroSystemCategoryId" class="form-control">
                                                                                                     <option value="">Choose...</option>
-                                                                                                    @{
-                                                                                                        List<LookUpCcModHydroSystem> _hs = ViewBag.LookUpCcModHydroSystem;
 
-                                                                                                        if (_hs.Count > 0)
-                                                                                                        {
-                                                                                                            foreach (LookUpCcModHydroSystem hs in _hs)
-                                                                                                            {
-                                                                                                                <option value="@hs.HydroSystemCategoryId" title="@hs.HydroSysCategoryUnit">@hs.HydroSystemCategory</option>
-                                                                                                            }
-                                                                                                        }
-                                                                                                    }
+
                                                                                                 </select>
                                                                                             </th>
                                                                                             <th class="text-center">
@@ -291,34 +326,34 @@
                                                                                                     <i class="mdi mdi-refresh"></i>
                                                                                                 </button>
 
-                                                                                                <script type="text/javascript">
-                                                                                                    jQuery("#btnSaveHydroSystem").click(function (e) {
-                                                                                                        var HydroSystemId = jQuery("#HydroSystemCategoryId").val();
-                                                                                                        var ParamName = jQuery("#NameOfHydroSystem").val();
-                                                                                                        var LengthArea = jQuery("#HydroSystemLengthArea").val();
+                                                                                                @*<script type="text/javascript">
+                                        jQuery("#btnSaveHydroSystem").click(function (e) {
+                                            var HydroSystemId = jQuery("#HydroSystemCategoryId").val();
+                                            var ParamName = jQuery("#NameOfHydroSystem").val();
+                                            var LengthArea = jQuery("#HydroSystemLengthArea").val();
 
-                                                                                                        if (HydroSystemId != '') {
-                                                                                                            if (ParamName != '') {
-                                                                                                                if (LengthArea != '') {
-                                                                                                                    Notification('info', 'Okay', 'It okay.');
-                                                                                                                } else {
-                                                                                                                    Notification('warning', 'Required Field', 'Please enter length area!');
-                                                                                                                    jQuery("#HydroSystemLengthArea").focus();
-                                                                                                                }
-                                                                                                            } else {
-                                                                                                                Notification('warning', 'Required Field', 'Please enter parameter name!');
-                                                                                                                jQuery("#HydroSystemParamName").focus();
-                                                                                                            }
-                                                                                                        } else {
-                                                                                                            Notification('warning', 'Required Field', 'Please select a hydrological system!');
-                                                                                                            jQuery("#HydroSystemId").focus();
-                                                                                                        }
-                                                                                                    });
-                                                                                                </script>
+                                            if (HydroSystemId != '') {
+                                                if (ParamName != '') {
+                                                    if (LengthArea != '') {
+                                                        Notification('info', 'Okay', 'It okay.');
+                                                    } else {
+                                                        Notification('warning', 'Required Field', 'Please enter length area!');
+                                                        jQuery("#HydroSystemLengthArea").focus();
+                                                    }
+                                                } else {
+                                                    Notification('warning', 'Required Field', 'Please enter parameter name!');
+                                                    jQuery("#HydroSystemParamName").focus();
+                                                }
+                                            } else {
+                                                Notification('warning', 'Required Field', 'Please select a hydrological system!');
+                                                jQuery("#HydroSystemId").focus();
+                                            }
+                                        });
+                                    </script>*@
                                                                                             </th>
                                                                                         </tr>
                                                                                     </thead>
-                                                                                    <tbody id="tbodyHydrologicalSystem">
+                                                                                    <tbody id="tbodySurroundingwaterbodies">
                                                                                         <tr>
                                                                                             <th scope="row">1</th>
                                                                                             <td>Test 1</td>
@@ -370,15 +405,11 @@
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="form-group">
-                                                                        <label for="ConnectivityAmidKhlRvrWtld">Connectivity Amid Khals, River and Wetland</label>
-                                                                        <input type="text" id="ConnectivityAmidKhlRvrWtld" name="ConnectivityAmidKhlRvrWtld" class="form-control" />
-                                                                    </div>
 
-                                                                    <div class="form-group">
-                                                                        <label for="CatchmentArea">Catchment Area (ha)</label>
-                                                                        <input type="text" id="CatchmentArea" name="CatchmentArea" class="form-control" />
-                                                                    </div>
+                                                                    @*<div class="form-group">
+            <label for="CatchmentArea">Catchment Area (ha)</label>
+            <input type="text" id="CatchmentArea" name="CatchmentArea" class="form-control" />
+        </div>*@
 
                                                                     <div id="divAnnualRainfall">
                                                                         <label for="AnnualRainfall" class="bold">Annual Rainfall (last five years)</label>
@@ -429,153 +460,306 @@
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="form-group">
-                                                                        <label for="HighestFloodLevel">Highest Flood Level (m PWD)</label>
-                                                                        <input type="text" id="HighestFloodLevel" name="HighestFloodLevel" class="form-control" />
-                                                                    </div>
 
-                                                                    <div class="form-group">
-                                                                        <label for="MaximumDischarge">Maximum Discharge (m<sup>3</sup>/s)</label>
-                                                                        <input type="text" id="MaximumDischarge" name="MaximumDischarge" class="form-control" />
-                                                                    </div>
 
-                                                                    <div class="form-group">
-                                                                        <label for="TypesOfFlood">Types of Flood</label>
+                                                                    <div id="divWaterlevelintake">
+                                                                        <label for="Waterlevelintake" class="bold">Water Level (m PWD) at intake point</label>
 
-                                                                        <div id="TypesOfFlood" class="row" style="margin-left: 5px;">
-                                                                            @{
-                                                                                List<LookUpCcModTypeOfFlood> _tofs = ViewBag.LookUpCcModTypeOfFlood;
+                                                                        <hr style="margin-top: 0 !important;" />
+                                                                        <div class="row">
+                                                                            <div class="form-group col-xl-6 text-center">
 
-                                                                                if (_tofs.Count > 0)
-                                                                                {
-                                                                                    foreach (LookUpCcModTypeOfFlood tof in _tofs)
-                                                                                    {
-                                                                                        var id = "chkTypeOfFlood" + tof.FloodTypeId;
-                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 5%;" title="@tof.FloodTypeName">
-                                                                                            <input type="checkbox" name="types_of_flood[]" id="@id" value="@tof.FloodTypeId" data-parsley-multiple="types_of_flood">
-                                                                                            <label for="@id"> @tof.FloodTypeName </label>
-                                                                                        </div>
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        </div>
-                                                                    </div>
+                                                                                <label for="Dryseason ">Dry season </label>
 
-                                                                    <div class="form-group">
-                                                                        <label for="FloodFrequencyAnalysis">Flood Frequency Analysis (Maximum water level in m, PWD)</label>
-
-                                                                        <div id="FloodFrequencyAnalysis" class="row" style="margin-left: -7px;">
-                                                                            <div class="table-responsive">
-                                                                                <table class="table mb-0">
-                                                                                    <thead>
-                                                                                        <tr>
-                                                                                            <th class="text-center">#</th>
-                                                                                            <th class="text-center">Flood Frequency</th>
-                                                                                            <th class="text-center">Frequency</th>
-                                                                                            <th class="text-center"></th>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th colspan="2" class="text-center">
-                                                                                                <select id="ddlFloodFrequency" class="form-control">
-                                                                                                    <option value="">Choose..</option>
-                                                                                                    @{
-                                                                                                        List<LookUpCcModFloodFrequency> _floodfrequency = ViewBag.LookUpCcModFloodFrequency;
-
-                                                                                                        if (_floodfrequency.Count > 0)
-                                                                                                        {
-                                                                                                            foreach (LookUpCcModFloodFrequency flood in _floodfrequency)
-                                                                                                            {
-                                                                                                                <option value="@flood.FloodFrequencyId">@flood.FloodFrequency</option>
-                                                                                                            }
-                                                                                                        }
-                                                                                                    }
-                                                                                                </select>
-                                                                                            </th>
-                                                                                            <th class="text-center">
-                                                                                                <input type="text" id="Frequency" name="Frequency" class="form-control" />
-                                                                                            </th>
-                                                                                            <th class="text-center">
-                                                                                                <button id="btnSaveFloodFrequency" type="button" class="btn btn-success waves-effect waves-light" value="Save">
-                                                                                                    <i class="mdi mdi-content-save"></i>
-                                                                                                </button>
-
-                                                                                                <button id="btnClearFloodFrequency" type="button" class="btn btn-warning waves-effect waves-light" value="Save">
-                                                                                                    <i class="mdi mdi-refresh"></i>
-                                                                                                </button>
-                                                                                            </th>
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <th scope="row">1</th>
-                                                                                            <td>Test 1</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">2</th>
-                                                                                            <td>Test 2</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">3</th>
-                                                                                            <td>Test 3</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
-                                                                                </table>
                                                                             </div>
+
+                                                                            <div class="form-group col-xl-6 text-center">
+
+                                                                                <label for="Wetseason ">Wet season </label>
+
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="form-group col-xl-3 text-center">
+
+
+                                                                                <label for="WaterLevelDryMax">Maximum</label>
+                                                                                <input type="text" id="WaterLevelDryMax" name="WaterLevelDryMax" class="form-control" />
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-3 text-center">
+
+
+                                                                                <label for="WaterLevelDryMin">Minimum</label>
+                                                                                <input type="text" id="WaterLevelDryMin" name="WaterLevelDryMin" class="form-control" />
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-3 text-center">
+
+
+                                                                                <label for="WaterLevelWetMax">Maximum</label>
+                                                                                <input type="text" id="WaterLevelWetMax" name="WaterLevelWetMax" class="form-control" />
+
+                                                                            </div>
+                                                                            <div class="form-group col-xl-3 text-center">
+
+
+                                                                                <label for="WaterLevelWetMin">Minimum</label>
+                                                                                <input type="text" id="WaterLevelWetMin" name="WaterLevelWetMin" class="form-control" />
+
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    <div id="divDischargeintake">
+                                                                        <label for="Dischargeintake" class="bold">Discharge (m3/s) at intake point</label>
+
+                                                                        <hr style="margin-top: 0 !important;" />
+                                                                        <div class="row">
+                                                                            <div class="form-group col-xl-6 text-center">
+
+                                                                                <label for="Dryseason ">Dry season </label>
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-6 text-center">
+
+                                                                                <label for="Wetseason ">Wet season </label>
+
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="form-group col-xl-3 text-center">
+
+
+                                                                                <label for="DischargeDryMax">Maximum</label>
+                                                                                <input type="text" id="DischargeDryMax" name="DischargeDryMax" class="form-control" />
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-3 text-center">
+
+
+                                                                                <label for="DischargeDryMin">Minimum</label>
+                                                                                <input type="text" id="DischargeDryMin" name="DischargeDryMin" class="form-control" />
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-3 text-center">
+
+
+                                                                                <label for="DischargeWetMax">Maximum</label>
+                                                                                <input type="text" id="DischargeWetMax" name="DischargeWetMax" class="form-control" />
+
+                                                                            </div>
+                                                                            <div class="form-group col-xl-3 text-center">
+
+
+                                                                                <label for="DischargeWetMin">Minimum</label>
+                                                                                <input type="text" id="DischargeWetMin" name="DischargeWetMin" class="form-control" />
+
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+
+
+
+                                                                    <div id="divCrosssectionintake">
+                                                                        <label for="Crosssectionintake" class="bold">Cross section at intake point (m)</label>
+
+                                                                        <hr style="margin-top: 0 !important;" />
+                                                                        <div class="row">
+                                                                            <div class="form-group col-xl-6 text-center">
+
+                                                                                <label for="CrosssectionintakeDepth">Depth (m)</label>
+                                                                                <input type="text" id="CrosssectionintakeDepth" name="CrosssectionintakeDepth" class="form-control" />
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-6 text-center">
+
+                                                                                <label for="CrosssectionintakeWidth ">Width (m)</label>
+                                                                                <input type="text" id="CrosssectionintakeWidth" name="CrosssectionintakeWidth" class="form-control" />
+
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="Sedimentation">Sedimentation of river/khal</label>
+
+                                                                        <div id="Sedimentation" class="row" style="margin-left: 5px;">
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div id="divFishProduction">
+                                                                        <label for="FishProduction" class="bold">Fish Production, Diversity and Migration</label>
+
+                                                                        <hr style="margin-top: 0 !important;" />
+                                                                        <div class="row">
+                                                                            <div class="form-group col-xl-4 text-center">
+
+                                                                                <label for="Production">Production</label>
+                                                                                <input type="text" id="Production" name="Production" class="form-control" />
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-4 text-center">
+
+                                                                                <label for="Diversity ">Diversity</label>
+                                                                                <input type="text" id="Diversity" name="Diversity" class="form-control" />
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-4 text-center">
+
+                                                                                <label for="Migration ">Migration</label>
+                                                                                <input type="text" id="Migration" name="Migration" class="form-control" />
+
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+
+
+                                                                    <div class="form-group">
+                                                                        <label for="FloraFauna">Aquatic Flora and Fauna</label>
+                                                                        <input type="text" id="FloraFauna" name="FloraFauna" class="form-control" />
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="IssueChallenge">Issue, Challenge or Problem</label>
+                                                                        <input type="text" id="IssueChallenge" name="IssueChallenge" class="form-control" />
+                                                                    </div>
+
+
+                                                                    <h4>Analysis/Use of SW and GW</h4>
+
+
+
+                                                                    <div id="divSurfaceWaterAvailability">
+                                                                        <label for="SurfaceWaterAvailability" class="bold">Surface Water Availability </label>
+
+                                                                        <hr style="margin-top: 0 !important;" />
+                                                                        <div class="row">
+                                                                            <div class="form-group col-xl-4 text-center">
+
+                                                                                <label for="Month">Month</label>
+                                                                                <label for="MinimumWaterFlow">Minimum Water Flow (m3/s)</label>
+                                                                                <label for="WaterDemandpermonth">Water Demand per month (m3)</label>
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="Oct ">Oct</label>
+                                                                                <input type="text" id="MinimumWaterFlowOct" name="MinimumWaterFlowOct" class="form-control" />
+                                                                                <input type="text" id="WaterDemandpermonthOct" name="WaterDemandpermonthOct" class="form-control" />
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="Nov ">Nov</label>
+                                                                                <input type="text" id="MinimumWaterFlowNov" name="MinimumWaterFlowNov" class="form-control" />
+                                                                                <input type="text" id="WaterDemandpermonthNov" name="WaterDemandpermonthNov" class="form-control" />
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="Dec ">Dec</label>
+                                                                                <input type="text" id="MinimumWaterFlowDec" name="MinimumWaterFlowDec" class="form-control" />
+                                                                                <input type="text" id="WaterDemandpermonthDec" name="WaterDemandpermonthDec" class="form-control" />
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="Jan ">Jan</label>
+                                                                                <input type="text" id="MinimumWaterFlowJan" name="MinimumWaterFlowJan" class="form-control" />
+                                                                                <input type="text" id="WaterDemandpermonthJan" name="WaterDemandpermonthJan" class="form-control" />
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="Feb ">Feb</label>
+                                                                                <input type="text" id="MinimumWaterFlowFeb" name="MinimumWaterFlowFeb" class="form-control" />
+                                                                                <input type="text" id="WaterDemandpermonthFeb" name="WaterDemandpermonthFeb" class="form-control" />
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="Mar ">Mar</label>
+                                                                                <input type="text" id="MinimumWaterFlowMar" name="MinimumWaterFlowMar" class="form-control" />
+                                                                                <input type="text" id="WaterDemandpermonthMar" name="WaterDemandpermonthMar" class="form-control" />
+                                                                            </div>
+
+
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="April ">April</label>
+                                                                                <input type="text" id="MinimumWaterFlowApril" name="MinimumWaterFlowApril" class="form-control" />
+                                                                                <input type="text" id="WaterDemandpermonthApril" name="WaterDemandpermonthApril" class="form-control" />
+                                                                            </div>
+
+
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="May ">May</label>
+                                                                                <input type="text" id="MinimumWaterFlowMay" name="MinimumWaterFlowMay" class="form-control" />
+                                                                                <input type="text" id="WaterDemandpermonthMay" name="WaterDemandpermonthMay" class="form-control" />
+                                                                            </div>
+
+
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="Waterdiversion">Water diversion from source</label>
+                                                                        <div id="Waterdiversion" class="row" style="margin-left: 5px;">
+
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="DrainageCondition">Drainage Condition</label>
-                                                                        <div id="DrainageCondition" class="row" style="margin-left: 5px;">
-                                                                            @{
-                                                                                List<LookUpCcModDrainageCondition> _dcs = ViewBag.LookUpCcModDrainageCondition;
+                                                                        <label for="Waterwithdrawalquantity">Water withdrawal quantity (m3/day)</label>
+                                                                        <input type="text" id="Waterwithdrawalquantity" name="Waterwithdrawalquantity" class="form-control" />
+                                                                    </div>
 
-                                                                                if (_dcs.Count > 0)
-                                                                                {
-                                                                                    int i = 1;
-                                                                                    foreach (LookUpCcModDrainageCondition dc in _dcs)
-                                                                                    {
-                                                                                        var id = "chkDrainageCondition" + dc.DrainageConditionId;
-                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                            <input type="radio" name="drainage_condition" id="@id" value="@dc.DrainageConditionId" data-parsley-multiple="drainage_condition">
-                                                                                            <label for="@id"> @dc.DrainageCondition </label>
-                                                                                        </div>
-                                                                                    }
-                                                                                }
-                                                                            }
+                                                                    <div class="form-group">
+                                                                        <label for="Flowmeter">Use of Flow meter to measure water withdrawal</label>
+                                                                        <div id="Flowmeter" class="row" style="margin-left: 5px;">
                                                                         </div>
                                                                     </div>
 
+                                                                    <div class="form-group">
+                                                                        <label for="PumpCapacity">No of pumps & Capacity</label>
+                                                                        <input type="text" id="PumpCapacity" name="PumpCapacity" class="form-control" />
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="PipeDiameterOfWell">Pipe diameter</label>
+                                                                        <input type="text" id="PipeDiameterOfWell" name="PipeDiameterOfWell" class="form-control" />
+                                                                    </div>
+
+
+                                                                    <div class="form-group">
+                                                                        <label for="Divertedwater">Diverted water return to the source</label>
+                                                                        <div id="Divertedwater" class="row" style="margin-left: 5px;">
+                                                                        </div>
+                                                                    </div>
                                                                     <div id="divSurfaceWaterQuality">
                                                                         <label for="SurfaceWaterQuality" class="bold">Surface Water Quality</label>
 
@@ -604,313 +788,128 @@
                                                                         </div>
                                                                     </div>
 
-                                                                    <div id="divSurfaceWaterQuality">
-                                                                        <label for="LandType" class="bold">Land Type (Percent)</label>
+                                                                    <div id="divGroundWaterDepth">
+                                                                        <label for="GroundWaterDepth" class="bold">Ground Water Depth (m) from nearest observation well</label>
 
                                                                         <hr style="margin-top: 0 !important;" />
+                                                                        <div class="row">
+                                                                            <div class="form-group col-xl-1 text-center">
 
+                                                                                <label for="GroundWaterDepthJan">Jan</label>
+                                                                                <input type="text" id="GroundWaterDepthJan" name="GroundWaterDepthJan" class="form-control" />
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="GroundWaterDepthFeb">Feb</label>
+                                                                                <input type="text" id="GroundWaterDepthFeb" name="GroundWaterDepthFeb" class="form-control" />
+
+                                                                            </div>
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="GroundWaterDepthMar">Mar</label>
+                                                                                <input type="text" id="GroundWaterDepthMar" name="GroundWaterDepthMar" class="form-control" />
+
+                                                                            </div>
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="GroundWaterDepthApril">April</label>
+                                                                                <input type="text" id="GroundWaterDepthApril" name="GroundWaterDepthApril" class="form-control" />
+
+                                                                            </div>
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="GroundWaterDepthMay">May</label>
+                                                                                <input type="text" id="GroundWaterDepthMay" name="GroundWaterDepthMay" class="form-control" />
+
+                                                                            </div>
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="GroundWaterDepthJun">Jun</label>
+                                                                                <input type="text" id="GroundWaterDepthJun" name="GroundWaterDepthJun" class="form-control" />
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="GroundWaterDepthJul">Jul</label>
+                                                                                <input type="text" id="GroundWaterDepthJul" name="GroundWaterDepthJul" class="form-control" />
+
+                                                                            </div>
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="GroundWaterDepthAug">Aug</label>
+                                                                                <input type="text" id="GroundWaterDepthAug" name="GroundWaterDepthAug" class="form-control" />
+
+                                                                            </div>
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="GroundWaterDepthSep">Sep</label>
+                                                                                <input type="text" id="GroundWaterDepthSep" name="GroundWaterDepthSep" class="form-control" />
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="GroundWaterDepthOct">Oct</label>
+                                                                                <input type="text" id="GroundWaterDepthOct" name="GroundWaterDepthOct" class="form-control" />
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="GroundWaterDepthNov">Nov</label>
+                                                                                <input type="text" id="GroundWaterDepthNov" name="GroundWaterDepthNov" class="form-control" />
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-xl-1 text-center">
+
+                                                                                <label for="GroundWaterDepthDec">Dec</label>
+                                                                                <input type="text" id="GroundWaterDepthDec" name="GroundWaterDepthDec" class="form-control" />
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div id="divGroundWaterQuality">
+                                                                        <label for="GroundWaterQuality" class="bold">Ground Water Quality</label>
+
+                                                                        <hr style="margin-top: 0 !important;" />
                                                                         <div class="row">
                                                                             <div class="form-group col-xl-3 text-center">
-                                                                                <label for="HighLand">High Land <br />F<sub>0</sub> (0-30cm)</label>
-                                                                                <input type="text" id="HighLand" name="HighLand" class="form-control" />
+
+                                                                                <label for="Arsenic">Arsenic</label>
+                                                                                <input type="radio" id="Arsenic" name="GroundWaterQuality" value="Arsenic">
+
                                                                             </div>
 
-                                                                            <div class="form-group col-md-2 text-center">
-                                                                                <label for="MediumHighLand">Medium High Land <br />F<sub>1</sub> (30-90cm)</label>
-                                                                                <input type="text" id="MediumHighLand" name="MediumHighLand" class="form-control" />
+                                                                            <div class="form-group col-xl-3 text-center">
+
+                                                                                <label for="DO">IronIron</label>
+                                                                                <input type="radio" id="Iron" name="GroundWaterQuality" value="Iron">
+
                                                                             </div>
 
-                                                                            <div class="form-group col-xl-2 text-center">
-                                                                                <label for="MediumLowLand">Medium Low Land <br />F<sub>2</sub> (90-180cm)</label>
-                                                                                <input type="text" id="MediumLowLand" name="MediumLowLand" class="form-control" />
+                                                                            <div class="form-group col-xl-3 text-center">
+
+                                                                                <label for="Salinity">Salinity</label>
+                                                                                <input type="radio" id="Salinity" name="GroundWaterQuality" value="Salinity">
+
                                                                             </div>
 
-                                                                            <div class="form-group col-md-2 text-center">
-                                                                                <label for="LowLand">Low Land <br />F<sub>3</sub> (>180-360cm)</label>
-                                                                                <input type="text" id="LowLand" name="LowLand" class="form-control" />
-                                                                            </div>
+                                                                            <div class="form-group col-xl-3 text-center">
 
-                                                                            <div class="form-group col-md-3 text-center">
-                                                                                <label for="VeryLowLand">Very Low Land <br />F<sub>4</sub> (>360cm)</label>
-                                                                                <input type="text" id="VeryLowLand" name="VeryLowLand" class="form-control" />
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                                <label for="Others">Others</label>
+                                                                                <input type="radio" id="Others" name="GroundWaterQuality" value="Others">
 
-                                                                    <div class="form-group">
-                                                                        <label for="CultivableCrops">Cultivable Crops</label>
-                                                                        <input type="text" id="CultivableCrops" name="CultivableCrops" class="form-control" />
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <label for="IrrigatedCropArea">Irrigated Crop Area (ha)</label>
-
-                                                                        <div id="IrrigatedCropArea" class="row" style="margin-left: -7px;">
-                                                                            <div class="table-responsive">
-                                                                                <table class="table mb-0">
-                                                                                    <thead>
-                                                                                        <tr>
-                                                                                            <th class="text-center">#</th>
-                                                                                            <th class="text-center">Crops Name</th>
-                                                                                            <th class="text-center">Area</th>
-                                                                                            <th class="text-center"></th>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th colspan="2" class="text-center">
-                                                                                                <select id="ddlCropsName" class="form-control">
-                                                                                                    <option value="">Choose..</option>
-                                                                                                    <option value="1">Crops Name 1</option>
-                                                                                                    <option value="2">Crops Name 2</option>
-                                                                                                    <option value="3">Crops Name 3</option>
-                                                                                                    <option value="4">Crops Name 4</option>
-                                                                                                </select>
-                                                                                            </th>
-                                                                                            <th class="text-center">
-                                                                                                <input type="text" id="CropsArea" name="CropsArea" class="form-control" />
-                                                                                            </th>
-                                                                                            <th class="text-center">
-                                                                                                <button id="btnSaveIrrigatedCropArea" type="button" class="btn btn-success waves-effect waves-light" value="Save">
-                                                                                                    <i class="mdi mdi-content-save"></i>
-                                                                                                </button>
-
-                                                                                                <button id="btnClearIrrigatedCropArea" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
-                                                                                                    <i class="mdi mdi-refresh"></i>
-                                                                                                </button>
-                                                                                            </th>
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <th scope="row">1</th>
-                                                                                            <td>Test 1</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">2</th>
-                                                                                            <td>Test 2</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">3</th>
-                                                                                            <td>Test 3</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
-                                                                                </table>
                                                                             </div>
                                                                         </div>
+
                                                                     </div>
 
-                                                                    <div class="form-group">
-                                                                        <label for="CropProduction">Crop Production (ton)</label>
-                                                                        <input type="text" id="CropProduction" name="CropProduction" class="form-control" />
-                                                                    </div>
 
-                                                                    <div class="form-group">
-                                                                        <label for="FishProductionDiversity">Fish Production and Diversity</label>
-
-                                                                        <div id="FishProductionDiversity" class="row" style="margin-left: -7px;">
-                                                                            <div class="table-responsive">
-                                                                                <table class="table mb-0">
-                                                                                    <thead>
-                                                                                        <tr>
-                                                                                            <th class="text-center">#</th>
-                                                                                            <th class="text-center">Production</th>
-                                                                                            <th class="text-center">Diversity</th>
-                                                                                            <th class="text-center"></th>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th colspan="2" class="text-center">
-                                                                                                <input type="text" id="Production" name="Production" class="form-control" />
-                                                                                            </th>
-                                                                                            <th class="text-center">
-                                                                                                <input type="text" id="Diversity" name="Diversity" class="form-control" />
-                                                                                            </th>
-                                                                                            <th class="text-center">
-                                                                                                <button id="btnSaveFishProductionDiversity" type="button" class="btn btn-success waves-effect waves-light" value="Save">
-                                                                                                    <i class="mdi mdi-content-save"></i>
-                                                                                                </button>
-
-                                                                                                <button id="btnClearFishProductionDiversity" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
-                                                                                                    <i class="mdi mdi-refresh"></i>
-                                                                                                </button>
-                                                                                            </th>
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <th scope="row">1</th>
-                                                                                            <td>Test 1</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">2</th>
-                                                                                            <td>Test 2</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">3</th>
-                                                                                            <td>Test 3</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
-                                                                                </table>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <label for="FloraFauna">Flora and Fauna</label>
-                                                                        <input type="text" id="FloraFauna" name="FloraFauna" class="form-control" />
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <label for="SocioEconomicCondition">Socio Economic Condition</label>
-
-                                                                        <div id="SocioEconomicCondition" class="row" style="margin-left: -7px;">
-                                                                            <div class="table-responsive">
-                                                                                <table class="table mb-0">
-                                                                                    <thead>
-                                                                                        <tr>
-                                                                                            <th class="text-center">#</th>
-                                                                                            <th class="text-center">% of land less people</th>
-                                                                                            <th class="text-center">% of small farmer</th>
-                                                                                            <th class="text-center">Average monthly income</th>
-                                                                                            <th class="text-center"></th>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th colspan="2" class="text-center">
-                                                                                                <input type="text" id="LandLessPeople" name="LandLessPeople" class="form-control" />
-                                                                                            </th>
-                                                                                            <th class="text-center">
-                                                                                                <input type="text" id="SmallFarmer" name="SmallFarmer" class="form-control" />
-                                                                                            </th>
-                                                                                            <th class="text-center">
-                                                                                                <input type="text" id="AverageMonthlyIncome" name="AverageMonthlyIncome" class="form-control" />
-                                                                                            </th>
-                                                                                            <th class="text-center">
-                                                                                                <button id="btnSaveSocioEconomicCondition" type="button" class="btn btn-success waves-effect waves-light" value="Save">
-                                                                                                    <i class="mdi mdi-content-save"></i>
-                                                                                                </button>
-
-                                                                                                <button id="btnClearSocioEconomicCondition" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
-                                                                                                    <i class="mdi mdi-refresh"></i>
-                                                                                                </button>
-                                                                                            </th>
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <th scope="row">1</th>
-                                                                                            <td>Test 1</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">2</th>
-                                                                                            <td>Test 2</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th scope="row">3</th>
-                                                                                            <td>Test 3</td>
-                                                                                            <td>demo</td>
-                                                                                            <td>demo</td>
-                                                                                            <td class="text-center">
-                                                                                                <button type="button" class="btn btn-success waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-lead-pencil"></i>
-                                                                                                </button>
-
-                                                                                                <button type="button" class="btn btn-danger waves-effect waves-light">
-                                                                                                    <i class="mdi mdi-delete"></i>
-                                                                                                </button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
-                                                                                </table>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <h2>2. Issue, Challenge or Problem</h2>
-
-                                                                    <div class="form-group">
-                                                                        <label for="IssueChallengeProblem">Issue, Challenge or Problem</label>
-                                                                        <input type="text" id="IssueChallengeProblem" name="IssueChallengeProblem" class="form-control" />
-                                                                    </div>
 
                                                                     <h2>3. Discussion with stakeholders during starting of the project</h2>
 

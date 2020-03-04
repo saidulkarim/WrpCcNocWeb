@@ -15,9 +15,14 @@ namespace WrpCcNocWeb.Models
 
 
         [Required]
-        [Column("HydroRegionName", Order = 1)]
-        [MaxLength(100)]
+        [Column("HydroRegionShortName", Order = 1)]
+        [MaxLength(20)]
         [Display(Name = "Hydrological Region")]
-        public string HydroRegionName { get; set; }
+        public string HydroRegionShortName { get; set; }
+        
+        [Column("HydroRegionFullName", Order = 2)]
+        [MaxLength(50)]
+        [Display(Name = "Hydrological Region")]
+        public string HydroRegionFullName { get; set; }
     }
 }
