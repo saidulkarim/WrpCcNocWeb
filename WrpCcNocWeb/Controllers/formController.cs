@@ -56,8 +56,6 @@ namespace WrpCcNocWeb.Controllers
         public IActionResult fcmp()
         {
             ViewData["Title"] = "Flood Control Management Project";
-
-
             SelectedForm sf = HttpContext.Session.GetComplexData<SelectedForm>("SelectedForm");
             ViewBag.ProjectTypeId = sf.ProjectTypeId;
             ViewBag.ProjectTitle = sf.ProjectTitle;
@@ -84,15 +82,44 @@ namespace WrpCcNocWeb.Controllers
                 ViewBag.ProjectCommonDetail = _pcd;
                 CcModPrjLocationDetail _locationdetail = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == _psi.ProjectId).FirstOrDefault();
                 ViewBag.ProjectLocationDetail = _locationdetail;
-
                 CcModAppProject_31_IndvDetail _indvdetail = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == _psi.ProjectId).FirstOrDefault();
                 ViewBag.ProjectIndvDetail31 = _indvdetail;
 
-                List<CcModPrjHydroRegionDetail> _hydroregiondetail = _db.CcModPrjHydroRegionDetail.Where(w => w.ProjectId == _psi.ProjectId).ToList();
+                var _hydroregiondetail = _db.CcModPrjHydroRegionDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                            .Select(x => new { x.PrjHydroRegionDetailId, x.ProjectId, x.HydroRegionId }).ToList();
                 ViewBag.HydroRegionDetail = _hydroregiondetail;
 
-                List<CcModBDP2100HotSpotDetail> _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == _psi.ProjectId).ToList();
+                var _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                        .Select(x => new { x.HotSpotDetailId, x.ProjectId, x.DeltaPlanHotSpotId }).ToList();
                 ViewBag.BDP2100HotSpotDetail = _hotspotdetail;
+
+                var _typesofflood = _db.CcModPrjTypesOfFloodDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.FloodTypeDetailId, x.ProjectId, x.FloodTypeId }).ToList();
+                ViewBag.TypesOfFloodDetail = _typesofflood;
+
+                var _compatnwpdetail = _db.CcModPrjCompatNWPDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.PrjCompatNWPId, x.ProjectId, x.NationalWaterPolicyArticleId }).ToList();
+                ViewBag.CompatNWPDetail = _compatnwpdetail;
+
+                var _compatnwmpdetail = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.PrjCompatNWMPId, x.ProjectId, x.NWMPProgrammeId }).ToList();
+                ViewBag.CompatNWMPDetail = _compatnwmpdetail;
+
+                var _compatsdgdetail = _db.CcModPrjCompatSDGDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.SDGCompabilityId, x.ProjectId, x.SDGGoalId }).ToList();
+                ViewBag.CompatSDGDetail = _compatsdgdetail;
+
+                var _compatsdgindidetail = _db.CcModPrjCompatSDGIndiDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.SDGIndicatorDetailId, x.ProjectId, x.SDGIndicatorId }).ToList();
+                ViewBag.CompatSDGIndiDetail = _compatsdgindidetail;
+
+                var _bdp2100goaldetail = _db.CcModBDP2100GoalDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.DeltaGoalDetailId, x.ProjectId, x.DeltPlan2100GoalId }).ToList();
+                ViewBag.BDP2100GoalDetail = _bdp2100goaldetail;
+
+                var _gpwmgrouptype = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.GPWMGroupTypeDetailId, x.ProjectId, x.GPWMGroupTypeId }).ToList();
+                ViewBag.GPWMGroupType = _gpwmgrouptype;
             }
 
             return View();

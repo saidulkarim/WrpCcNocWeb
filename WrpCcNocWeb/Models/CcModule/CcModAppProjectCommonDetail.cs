@@ -14,31 +14,27 @@ namespace WrpCcNocWeb.Models
         [Column("ProjectId", Order = 0)]
         public long ProjectId { get; set; }
         
-
         [Required]
         [Column("UserId", Order = 1)]
         [Display(Name = "User Name")]
         public long UserId { get; set; }
         [ForeignKey("UserId")]
         public virtual AdminModUsersDetail AdminModUsersDetail { get; set; }
-            
-        
+                    
         [Column("AppSubmissionId", Order = 2)]
         [Display(Name = "Submission Id")]
         public long? AppSubmissionId { get; set; }
-
         
         [Column("ApplicationStateId", Order = 3)]
         [Display(Name = "Application State")]
-        public int? ApplicationStateId { get; set; }
+        public int ApplicationStateId { get; set; }
         [ForeignKey("ApplicationStateId")]
         public virtual LookUpCcModApplicationState LookUpCcModApplicationState { get; set; }
-
 
         [Required]
         [Column("ProjectTypeId", Order = 4)]
         [Display(Name = "Project Type")]
-        public int? ProjectTypeId { get; set; }
+        public int ProjectTypeId { get; set; }
         [ForeignKey("ProjectTypeId")]
         public virtual LookUpCcModProjectType LookUpCcModProjectType { get; set; }
         
@@ -72,15 +68,15 @@ namespace WrpCcNocWeb.Models
         
         [Column("ProjectStartDate", Order = 10)]
         [Display(Name = "Starting Date")]        
-        public DateTime ProjectStartDate { get; set; }
+        public DateTime? ProjectStartDate { get; set; }
         
         [Column("ProjectCompletionDate", Order = 11)]
         [Display(Name = "Completion Date")]        
-        public DateTime ProjectCompletionDate { get; set; }
+        public DateTime? ProjectCompletionDate { get; set; }
         
         [Column("ProjectEstimatedCost", Order = 12)]
         [Display(Name = "Project Estimated Cost")]
-        public double? ProjectEstimatedCost { get; set; }
+        public double ProjectEstimatedCost { get; set; }
         
         [Column("AnnualRainFallLast1Year", Order = 13)]
         [Display(Name = "Annual Rain Fall Last Year")]
@@ -145,7 +141,7 @@ namespace WrpCcNocWeb.Models
         
         [Column("DiscussWithStakeMeetingMin", Order = 25)]
         [Display(Name = "Discussion Meeting Minutes")]
-        public double DiscussWithStakeMeetingMin { get; set; }
+        public string DiscussWithStakeMeetingMin { get; set; }
                
         [Column("AnalyzeOptYesNoId", Order = 26)]
         [Display(Name = "Was there Analyze Options?")]
@@ -422,12 +418,10 @@ namespace WrpCcNocWeb.Models
         [ForeignKey("RecommendationId")]
         public virtual LookUpCcModRecommendation LookUpRecommendation { get; set; }
 
-
         [Column("RecommandCmt", Order = 78)]
         [Display(Name = "Comments")]
         [MaxLength(150)]
         public string RecommandCmt { get; set; }
-
 
         public virtual List<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetails { get; set; }
         public virtual List<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetails { get; set; }
