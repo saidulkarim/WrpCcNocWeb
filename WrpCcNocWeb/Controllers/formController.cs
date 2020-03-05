@@ -37,7 +37,11 @@ namespace WrpCcNocWeb.Controllers
             if (!string.IsNullOrEmpty(_selectedForm.ProjectTypeId))
             {
                 HttpContext.Session.SetComplexData("SelectedForm", _selectedForm);
-                return RedirectToAction("apply", "form");
+
+                if (_selectedForm.ProjectTypeId.Equals("1"))
+                    return RedirectToAction("fcmp", "form");
+                else
+                    TempData["Message"] = ch.ShowMessage(Sign.Warning, "Under Development", "Sorry, select project is under development.");
             }
             else
             {
@@ -48,12 +52,54 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
-        public IActionResult apply()
+        //form/FloodControlManagementProject :: fcmp       
+        public IActionResult fcmp()
         {
+            ViewData["Title"] = "Flood Control Management Project";
+
+
             SelectedForm sf = HttpContext.Session.GetComplexData<SelectedForm>("SelectedForm");
             ViewBag.ProjectTypeId = sf.ProjectTypeId;
             ViewBag.ProjectTitle = sf.ProjectTitle;
 
+            ProjectStatusInfo _psi = GetProjectId(sf.ProjectTypeId.ToString());
+
+            if (_psi == null)
+            {
+                LoadDropdownData();
+
+                TempData["Message"] = ch.ShowMessage(Sign.Info, "Information", "A new project information.");
+                //return RedirectToAction("index", "form");
+            }
+            else if (_psi.ProjectId != 0 && _psi.AppSubmissionId == null)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Warning, "Problem Occured", "Sorry, " + sf.ProjectTitle + " form submission status not found! Please contact with System Administrator.");
+                return RedirectToAction("index", "form");
+            }
+            else
+            {
+                LoadDropdownData();
+
+                CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(_psi.ProjectId);
+                ViewBag.ProjectCommonDetail = _pcd;
+                CcModPrjLocationDetail _locationdetail = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == _psi.ProjectId).FirstOrDefault();
+                ViewBag.ProjectLocationDetail = _locationdetail;
+
+                CcModAppProject_31_IndvDetail _indvdetail = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == _psi.ProjectId).FirstOrDefault();
+                ViewBag.ProjectIndvDetail31 = _indvdetail;
+
+                List<CcModPrjHydroRegionDetail> _hydroregiondetail = _db.CcModPrjHydroRegionDetail.Where(w => w.ProjectId == _psi.ProjectId).ToList();
+                ViewBag.HydroRegionDetail = _hydroregiondetail;
+
+                List<CcModBDP2100HotSpotDetail> _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == _psi.ProjectId).ToList();
+                ViewBag.BDP2100HotSpotDetail = _hotspotdetail;
+            }
+
+            return View();
+        }
+
+        private void LoadDropdownData()
+        {
             #region Dropdown Data Loading
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
             ViewBag.LookUpAdminBndUpazila = _db.LookUpAdminBndUpazila.ToList();
@@ -78,9 +124,21 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.LookUpCcModSDGIndicator = _db.LookUpCcModSDGIndicator.ToList();
             ViewBag.LookUpCcModDeltPlan2100Goal = _db.LookUpCcModDeltPlan2100Goal.ToList();
             ViewBag.LookUpCcModGPWMGroupType = _db.LookUpCcModGPWMGroupType.ToList();
+            ViewBag.RecommendationId = _db.LookUpCcModRecommendation.ToList();
             #endregion
+        }
 
-            return View();
+        private ProjectStatusInfo GetProjectId(string projectTypeId)
+        {
+            var result = _db.CcModAppProjectCommonDetail
+                    .Where(w => w.ProjectTypeId == projectTypeId.ToInt() && w.AppSubmissionId == 0)
+                    .Select(x => new ProjectStatusInfo
+                    {
+                        ProjectId = x.ProjectId,
+                        AppSubmissionId = x.AppSubmissionId
+                    }).FirstOrDefault();
+
+            return result;
         }
 
         //form/GeneralInfoSave :: gis
@@ -1617,6 +1675,109 @@ namespace WrpCcNocWeb.Controllers
                     }
                 }
 
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    message = message
+                };
+
+                goto Finish;
+            }
+
+        Rollback:
+            dbContextTransaction.Rollback();
+
+            noti = new Notification
+            {
+                id = "",
+                status = "error",
+                message = "Saving data transaction has been rollbacked."
+            };
+
+            goto Finish;
+
+        Finish:
+            return Json(noti);
+        }
+
+        //05 03 2020
+        //Tehnical Info
+        //form/Form31RecommandDetailSave :: f31rds > Administrative
+        [HttpPost]
+        public JsonResult f31rds(CcModAppProjectCommonDetail _recDetail)
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            using var dbContextTransaction = _db.Database.BeginTransaction();
+            int result = 0;
+            Int64 ProjectId = _recDetail.ProjectId;
+
+            try
+            {
+                if (_recDetail != null && ProjectId != 0)
+                {
+                    try
+                    {
+                        CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(ProjectId);
+
+                        if (pcd == null)
+                        {
+                            noti = new Notification
+                            {
+                                id = "",
+                                status = "error",
+                                message = "General information is missing. Please enter general information first."
+                            };
+
+                            goto Finish;
+                        }
+
+                        #region Common Detail Data Binding for Recommendation
+                        pcd.RecommendationId = _recDetail.RecommendationId;
+                        pcd.RecommandCmt = _recDetail.RecommandCmt;
+                        #endregion
+
+                        _db.Entry(pcd).State = EntityState.Modified;
+                        result = _db.SaveChanges();
+
+                        if (result > 0)
+                        {
+                            dbContextTransaction.Commit();
+
+                            noti = new Notification
+                            {
+                                id = pcd.ProjectId.ToString(),
+                                status = "success",
+                                message = "Recommendation information has been save successfully. "
+                            };
+
+                            goto Finish;
+                        }
+                        else
+                        {
+                            goto Rollback;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContextTransaction.Rollback();
+                        var message = ch.ExtractInnerException(ex);
+
+                        noti = new Notification
+                        {
+                            id = "", //_form31.HydroSysDetailId.ToString(),
+                            status = "error",
+                            message = "Saving data transaction has been rollbacked. " + message
+                        };
+
+                        goto Finish;
+                    }
+                }
             }
             catch (Exception ex)
             {

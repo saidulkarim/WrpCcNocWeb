@@ -30,6 +30,11 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
+        public IActionResult bangla()
+        {
+            return View();
+        }
+
         public IActionResult form32()
         {            
             #region Dropdown Data Loading
