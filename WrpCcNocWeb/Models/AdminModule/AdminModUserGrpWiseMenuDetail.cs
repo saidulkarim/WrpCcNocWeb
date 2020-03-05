@@ -24,7 +24,7 @@ namespace WrpCcNocWeb.Models
         
         [Column("SubMenuId", Order = 2)]        
         [Display(Name = "Sub Menu")]
-        public int SubMenuId { get; set; }
+        public int? SubMenuId { get; set; }
         [ForeignKey("SubMenuId")]
         public virtual LookUpAdminModSubMenu LookUpAdminModSubMenu { get; set; }
 

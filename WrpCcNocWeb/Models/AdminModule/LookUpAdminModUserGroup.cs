@@ -46,34 +46,34 @@ namespace WrpCcNocWeb.Models
 
                 
         [Column("CanViewOneList", Order = 5)]        
-        public int CanViewOneList { get; set; }
+        public int? CanViewOneList { get; set; }
 
 
         [Column("CanViewMultipleList", Order = 6)]
-        public int CanViewMultipleList { get; set; }
+        public int? CanViewMultipleList { get; set; }
 
 
         [Column("CanInsertOne", Order = 7)]
-        public int CanInsertOne { get; set; }
+        public int? CanInsertOne { get; set; }
 
 
         [Column("CanInsertMultiple", Order = 8)]
-        public int CanInsertMultiple { get; set; }
+        public int? CanInsertMultiple { get; set; }
 
 
         [Column("CanUpdateOne", Order = 9)]
-        public int CanUpdateOne { get; set; }
+        public int? CanUpdateOne { get; set; }
 
 
         [Column("CanUpdateMultiple", Order = 10)]
-        public int CanUpdateMultiple { get; set; }
+        public int? CanUpdateMultiple { get; set; }
 
 
         [Column("CanDeleteOne", Order = 11)]
-        public int CanDeleteOne { get; set; }
+        public int? CanDeleteOne { get; set; }
 
 
         [Column("CanDeleteMultiple", Order = 12)]
-        public int CanDeleteMultiple { get; set; }
+        public int? CanDeleteMultiple { get; set; }
     }
 }

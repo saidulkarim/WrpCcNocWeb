@@ -30,7 +30,7 @@ namespace WrpCcNocWeb.Models
         
         [Display(Name = "Activation Status")]
         [Column("UserActivationStatus", Order = 3)]        
-        public int UserActivationStatus { get; set; }
+        public int? UserActivationStatus { get; set; }
         
 
         [Required]
@@ -65,7 +65,7 @@ namespace WrpCcNocWeb.Models
 
         [Display(Name = "Is Verified by Email")]
         [Column("IsEmailVerified", Order = 9)]       
-        public int IsEmailVerified { get; set; }
+        public int? IsEmailVerified { get; set; }
 
 
         [Display(Name = "Mobile Verification Code")]
@@ -76,6 +76,6 @@ namespace WrpCcNocWeb.Models
 
         [Display(Name = "Is Verified by Mobile")]
         [Column("IsMobileVerified", Order = 11)]
-        public int IsMobileVerified { get; set; }
+        public int? IsMobileVerified { get; set; }
     }
 }

@@ -98,8 +98,9 @@ namespace WrpCcNocWeb.Models
         [MaxLength(50)]
         public string SecurityQuestionAnswer { get; set; }
 
+
         [Display(Name = "Is Profile Submitted")]
         [Column("IsProfileSubmitted", Order = 14)]
-        public int IsProfileSubmitted { get; set; }
+        public int? IsProfileSubmitted { get; set; }
     }
 }
