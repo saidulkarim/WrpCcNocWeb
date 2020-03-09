@@ -26,7 +26,7 @@ namespace WrpCcNocWeb.Models
         [Required]
         [Column("UserGroupId", Order = 2)]        
         [Display(Name = "User Group")]
-        public int UserGroupId { get; set; }
+        public long UserGroupId { get; set; }
         [ForeignKey("UserGroupId")]
         public virtual LookUpAdminModUserGroup lookUpAdminModUserGroups { get; set; }
 

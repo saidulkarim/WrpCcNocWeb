@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Data.OleDb;
+using WrpCcNocWeb.Models.UserManagement;
+using Microsoft.AspNetCore.Http;
 
 namespace WrpCcNocWeb.Helpers
 {
@@ -74,10 +76,9 @@ namespace WrpCcNocWeb.Helpers
         {
             if (string.IsNullOrEmpty(s))
                 return null;
-            T t;
-            if (tryParse(s, out t))
+            if (tryParse(s, out T t))
                 return t;
             return null;
-        }     
+        }
     }
 }

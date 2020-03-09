@@ -12,7 +12,7 @@ namespace WrpCcNocWeb.Models
         [Key]
         [Column("SubMenuId", Order = 0)]
         public int SubMenuId { get; set; }
-        
+
         [Required]
         [Column("MenuId", Order = 1)]
         [Display(Name = "Menu")]
@@ -25,5 +25,15 @@ namespace WrpCcNocWeb.Models
         [MaxLength(50)]
         [Display(Name = "Sub Menu Title")]
         public string SubMenuTitle { get; set; }
+
+        [Column("Controller", Order = 3)]
+        [MaxLength(100)]
+        [Display(Name = "Controller")]
+        public string Controller { get; set; }
+
+        [Column("Action", Order = 4)]
+        [MaxLength(100)]
+        [Display(Name = "Action")]
+        public string Action { get; set; }
     }
 }

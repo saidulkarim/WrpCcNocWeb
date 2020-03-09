@@ -154,7 +154,7 @@ namespace WrpCcNocWeb.Controllers
 
                 userloghist(_ui.UserID);
             }
-        }
+        }        
 
         private void userloghist(long userID)
         {

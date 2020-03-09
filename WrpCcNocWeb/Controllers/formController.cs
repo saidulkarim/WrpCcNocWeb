@@ -52,6 +52,17 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
+
+        public IActionResult status()
+        {            
+            return View();
+        }
+
+        public IActionResult certificate()
+        {
+            return View();
+        }
+
         //form/FloodControlManagementProject :: fcmp       
         public IActionResult fcmp()
         {
@@ -155,6 +166,7 @@ namespace WrpCcNocWeb.Controllers
             #endregion
         }
 
+        #region Dropdown and General Info Save
         private ProjectStatusInfo GetProjectId(string projectTypeId)
         {
             var result = _db.CcModAppProjectCommonDetail
@@ -267,6 +279,7 @@ namespace WrpCcNocWeb.Controllers
 
             return Json(noti);
         }
+        #endregion
 
         #region Hydrological System
         //form/HydroSystemDetailSave :: hsds

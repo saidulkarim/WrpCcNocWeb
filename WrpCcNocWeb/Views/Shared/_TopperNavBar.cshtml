@@ -29,14 +29,12 @@
                 </form>
             </li>
 
-            <li class="dropdown notification-list">
+            @*<li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <i class="fe-bell noti-icon"></i>
                     <span class="badge badge-danger rounded-circle noti-icon-badge">2</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right dropdown-lg">
-
-                    <!-- item-->
+                <div class="dropdown-menu dropdown-menu-right dropdown-lg">                   
                     <div class="dropdown-item noti-title">
                         <h5 class="m-0">
                             <span class="float-right">
@@ -48,8 +46,6 @@
                     </div>
 
                     <div class="slimscroll noti-scroll">
-
-                        <!-- item-->
                         <a href="javascript:void(0);" class="dropdown-item notify-item active">
                             <div class="notify-icon">
                                 <img src="~/images/users/user-4.jpg" class="img-fluid rounded-circle" alt="" />
@@ -59,8 +55,7 @@
                                 <small>Hi, How are you? What about our next meeting</small>
                             </p>
                         </a>
-
-                        <!-- item-->
+                       
                         <a href="javascript:void(0);" class="dropdown-item notify-item">
                             <div class="notify-icon bg-primary">
                                 <i class="mdi mdi-comment-account-outline"></i>
@@ -71,15 +66,13 @@
                             </p>
                         </a>
                     </div>
-
-                    <!-- All-->
+                   
                     <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
                         View all
                         <i class="fi-arrow-right"></i>
                     </a>
-
                 </div>
-            </li>
+            </li>*@
 
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -97,6 +90,12 @@
 
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <i class="mdi mdi-textbox-password"></i>
+                        <span>Change Password</span>
+                    </a>
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <i class="fe-settings"></i>
                         <span>Settings</span>
                     </a>
@@ -110,10 +109,10 @@
                     <div class="dropdown-divider"></div>
 
                     <!-- item
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i class="fe-log-out"></i>
-                        <span>Logout</span>
-                    </a>-->
+    <a href="javascript:void(0);" class="dropdown-item notify-item">
+        <i class="fe-log-out"></i>
+        <span>Logout</span>
+    </a>-->
 
                     @using (Html.BeginForm("logout", "account", FormMethod.Post, new { id = "logoutForm" }))
                     {
@@ -126,11 +125,11 @@
                 </div>
             </li>
 
-            <li class="dropdown notification-list">
+            @*<li class="dropdown notification-list">
                 <a href="javascript:void(0);" class="nav-link right-bar-toggle waves-effect">
                     <i class="fe-settings noti-icon"></i>
                 </a>
-            </li>
+            </li>*@
 
         </ul>
 
@@ -147,34 +146,31 @@
 
         <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
 
-            <li class="dropdown d-none d-lg-block">
+            @*<li class="dropdown d-none d-lg-block">
                 <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     Apply
                     <i class="mdi mdi-chevron-down"></i>
                 </a>
-                <div class="dropdown-menu">
-                    <!-- item-->
+                <div class="dropdown-menu">                    
                     <a href="javascript:void(0);" class="dropdown-item">
                         <i class="fe-briefcase mr-1"></i>
                         <span>Clearance Certificate</span>
                     </a>
-
-                    <!-- item-->
+                   
                     <a href="javascript:void(0);" class="dropdown-item">
                         <i class="fe-user mr-1"></i>
                         <span>Authorization of Clearance</span>
                     </a>
 
                     <div class="dropdown-divider"></div>
-
-                    <!-- item-->
+                    
                     <a href="javascript:void(0);" class="dropdown-item">
                         <i class="fe-headphones mr-1"></i>
                         <span>Help & Support</span>
                     </a>
 
                 </div>
-            </li>
+            </li>*@
 
             @*<li class="dropdown dropdown-mega d-none d-lg-block">
                     <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -280,5 +276,5 @@
                     </div>
                 </li>*@
         </ul>
-    </div> <!-- end container-fluid-->
+    </div>
 </div>
