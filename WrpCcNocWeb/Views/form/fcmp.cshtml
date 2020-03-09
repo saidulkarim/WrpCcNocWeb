@@ -108,7 +108,7 @@
                                                                                     <label for="UpazilaGeoCode">Upazila</label>
                                                                                     <select id="UpazilaGeoCode" name="UpazilaGeoCode" class="form-control">
                                                                                         <option value="">Choose..</option>
-                                                                                        @{
+                                                                                        @*@{
                                                                                             List<LookUpAdminBndUpazila> _upazilas = ViewBag.LookUpAdminBndUpazila;
 
                                                                                             if (_upazilas.Count > 0)
@@ -118,7 +118,7 @@
                                                                                                     <option value="@upz.UpazilaGeoCode">@upz.UpazilaName</option>
                                                                                                 }
                                                                                             }
-                                                                                        }
+                                                                                        }*@
                                                                                     </select>
                                                                                 </div>
 
@@ -126,7 +126,7 @@
                                                                                     <label for="UnionGeoCode">Union</label>
                                                                                     <select id="UnionGeoCode" name="UnionGeoCode" class="form-control">
                                                                                         <option value="">Choose..</option>
-                                                                                        @{
+                                                                                        @*@{
                                                                                             List<LookUpAdminBndUnion> _unions = ViewBag.LookUpAdminBndUnion;
 
                                                                                             if (_unions.Count > 0)
@@ -136,7 +136,7 @@
                                                                                                     <option value="@uni.UnionGeoCode">@uni.UnionName</option>
                                                                                                 }
                                                                                             }
-                                                                                        }
+                                                                                        }*@
                                                                                     </select>
                                                                                 </div>
 
@@ -1857,11 +1857,23 @@
         });
 
         jQuery("#DistrictGeoCode").change(function () {
+            var code = jQuery(this).val();
+            var type = 'upz';
 
-});
+            if (code != '') {
+                $("#UpazilaGeoCode, #UnionGeoCode").html('<option value="">Choose...</option>');
+                GetAdminData(code, type);
+            }
+        });
 
         jQuery("#UpazilaGeoCode").change(function () {
+            var code = jQuery(this).val();
+            var type = 'uni';
 
+            if (code != '') {
+                $("#UnionGeoCode").html('<option value="">Choose...</option>');
+                GetAdminData(code, type);
+            }
         });
 
         jQuery("input[type='radio'][name='YesNoStakeId']").change(function () {
@@ -3314,10 +3326,41 @@
                 $(":radio[name='SocialIssuesYesNoId'][value='" + @ViewBag.ProjectCommonDetail.SocialIssuesYesNoId + "']").attr('checked', true);
                 SetTextValue('SocialIssuesApplicantCmt', '@ViewBag.ProjectCommonDetail.SocialIssuesApplicantCmt');
                 SetTextValue('SocialIssuesAuthorityCmt', '@ViewBag.ProjectCommonDetail.SocialIssuesAuthorityCmt');
-                
+
                 SetDropdownValue('RecommendationId', '@ViewBag.ProjectCommonDetail.RecommendationId');
                 SetTextValue('RecommandCmt', '@ViewBag.ProjectCommonDetail.RecommandCmt');
             }
+        }
+
+        function GetAdminData(code, type) {
+            var url = '@Url.Action("gab", "common")';
+
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                data: { code: code, type: type },
+                dataType: "json",
+                success: function (data, status, jqXHR) {                    
+                    if (type == 'upz') {
+                        $("#UpazilaGeoCode").html('<option value="">Choose...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            var content = '<option value="' + item.code + '">' + item.ab_name + '</option>';
+                            $("#UpazilaGeoCode").append(content);
+                        });
+                    } else if (type == 'uni') {
+                        $("#UnionGeoCode").html('<option value="">Choose...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            var content = '<option value="' + item.code + '">' + item.ab_name + '</option>';
+                            $("#UnionGeoCode").append(content);
+                        });
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
         }
     </script>
 }

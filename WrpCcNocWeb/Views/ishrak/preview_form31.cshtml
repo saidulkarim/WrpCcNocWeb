@@ -1,0 +1,1089 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Application</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- app favicon -->
+    <link rel="shortcut icon" href="~/favicon.ico">
+    <!-- app css -->
+    <!-- jquery -->
+    <script src="~/libs/jquery/dist/jquery.js"></script>
+    <!-- form validation plugin js-->
+    <script src="~/libs/parsleyjs/parsley.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery.noConflict();
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="~/css/PDF.css" />
+</head>
+<body>
+    <h3 class="HeaderTitle">Application for Clearance Certificate</h3>
+    <h4 class="HeaderSubTitle">(Flood Control/Management Project)</h4>
+        
+    <div class="container">
+        <div class="row lineGap">
+            <div class="col">
+                <p>To</p>
+                <p>Executive Committee</p>
+                <p>National Water Resources Project Committee</p>
+            </div>
+        </div>
+        <div class="row lineGap">
+            <div class="col">
+                <p><strong>Through : </strong>Director General, Water Resources Planning Organization</p>
+            </div>
+        </div>
+        <div class="row lineGap">
+            <div class="col">
+                <p>
+                    I, the undersigned, willing to initiate and implement a project on Flood Control/Management,
+                    And I am hereby requesting for clearance certificate with relevant attachments
+                </p>
+            </div>
+        </div>
+        <div class="row lineGap">
+            <div class="col">
+                <p><strong>Full Name and Address of Applicant : </strong></p>
+            </div>
+            <div class="col">
+                <p>Mr. ABCD XYZ,</p>
+                <p>H-06, R-23/C, Gulshan-1, Dhaka-1212</p>
+                <p>Mobile: 01XXXXXXXXX</p>
+                <p>E-Mail: abcd@xyz.com</p>
+            </div>
+        </div>
+        <h3>A. General Information</h3>
+        <div class="row">
+            <div class="col">
+                <label for="pname"><b>i. Project Name:</b></label>
+            </div>
+            <div class="col">
+                <p id="ProjectName">Narayangang River Flood </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label for="pbg"><b>ii. Project Background and Rationale</b></label>
+            </div>
+            <div class="col">
+                <p id="BackgroundAndRationale">Background words </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label for="pbg"><b>iii. Project Target</b></label>
+            </div>
+            <div class="col">
+                <p id="ProjectTarget">Project target </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label for="pbg"><b>iv. Project Objective</b></label>
+            </div>
+            <div class="col">
+                <p id="ProjectObjective">obj </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="pbg"><b>iv. Project Location</b></label>
+        </div>
+        <div class="row">
+            <table style="width:100%">
+                <tr>
+                    <th>Union</th>
+                    <th>Upazila</th>
+                    <th>District</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                </tr>
+                <tr>
+                    <td>Chasara</td>
+                    <td>Narayangonj</td>
+                    <td>Dhaka</td>
+                    <td>120.456789</td>
+                    <td>36.456789</td>
+                </tr>
+                @*<tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                </tr>
+                <tr>
+                    <td>John</td>
+                    <td>Doe</td>
+                    <td>80</td>
+                </tr>*@
+            </table>
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col">
+                <label for="pbg"><b>viii. Estimated Project Cost</b></label>
+            </div>
+            <div class="col">
+                <p id="ProjectEstimatedCost">500000</p> <br />
+            </div>
+        </div>
+
+
+        <label for="pbg"><b>vii. Project Period</b></label>
+
+        <table>
+            <tr>
+                <th>Starting time</th>
+                <th>Completion time</th>
+            </tr>
+            <tr>
+                <td id="ProjectStartDate">23/5/19</td>
+                <td id="ProjectCompletionDate">13/9/19</td>
+            </tr>
+        </table><br />
+
+
+        <h3>B. Technical Information</h3>
+
+        <h4>1. Discussion about baseline related information or situation</h4>
+
+        <label for="pbg"><b>vi.	Hydrological Region</b></label>
+
+        <table>
+            <tr>
+                <td>NC</td>
+                <td>NE</td>
+                <td>NW</td>
+                <td>SC</td>
+                <td>SE</td>
+                <td>SW</td>
+                <td>RE</td>
+                <td>EH</td>
+            </tr>
+        </table><br />
+
+        <label for="pbg"><b>vii. Bangladesh Delta Plan 2100 Hot Spot</b></label>
+        <table>
+            <tr>
+                <td>Coastal areas</td>
+                <td>Barind Tract and drought-prone region</td>
+                <td>Hoar (backswamp) and flash flood-prone areas</td>
+                <td>Chittagong Hill Tract region</td>
+            </tr>
+        </table><br />
+
+        <label for="pbg"><b>iii. Hydrological System </b></label>
+        <table>
+            <tr>
+                <th>Major Rivers (km)</th>
+                <th>Khals (km)</th>
+                <th>Beels (ha)</th>
+            </tr>
+            <tr>
+                <td>abcd</td>
+                <td>erty</td>
+                <td>erty</td>
+            </tr>
+            <tr>
+                <td>jbhj</td>
+                <td>xhcj</td>
+                <td>rtyu</td>
+            </tr>
+        </table><br />
+
+
+        <label for="pbg"><b>iv.	Connectivity amid khals, river and wetland</b></label> <p>Detail</p> <br />
+
+        <label for="pbg"><b>v. Catchment Area (ha)</b></label> <p>Peragraph</p> <br />
+
+
+        <label for="pbg"><b>vi. Annual Rainfall (Last five years) </b></label>
+        <table>
+            <tr>
+                <th>Year 20….</th>
+                <th>Year 20….</th>
+                <th>Year 20….</th>
+                <th>Year 20….</th>
+                <th>Year 20….</th>
+            </tr>
+            <tr>
+                <td>abcd</td>
+                <td>abcd</td>
+                <td>abcd</td>
+                <td>abcd</td>
+                <td>abcd</td>
+            </tr>
+        </table><br />
+
+
+        <label for="pbg"><b>vii. Highest Flood Level (m PWD)</b></label> <p>Peragraph</p> <br />
+
+
+        <label for="pbg"><b>viii. Maximum Discharge (m3/s)</b></label> <p>Peragraph</p> <br />
+
+
+        <label for="pbg"><b>ix. Types of Flood</b></label>
+        <table>
+            <tr>
+                <td>Rainfall Flood</td>
+                <td>River Flood</td>
+                <td>Flash Flood</td>
+                <td>Coastal/ Tidal Flood</td>
+            </tr>
+        </table><br />
+
+        <label for="pbg"><b>x.	Flood Frequency Analysis (Maximum water level in m, PWD)</b></label>
+        <table>
+            <tr>
+                <th>1 in  2.33 years</th>
+                <th>1 in  5 years</th>
+                <th>1 in  10 years</th>
+                <th>1 in  25 years</th>
+                <th>1 in  50 years</th>
+                <th>1 in  100 years</th>
+            </tr>
+            <tr>
+                <td>abcd</td>
+                <td>abcd</td>
+                <td>abcd</td>
+                <td>abcd</td>
+                <td>abcd</td>
+                <td>abcd</td>
+            </tr>
+        </table><br />
+
+        <label for="pbg"><b>xi. Drainage Condition </b></label>
+        <table>
+            <tr>
+                <td>Good</td>
+                <td>Moderate</td>
+                <td>Poor</td>
+                <td>Others</td>
+            </tr>
+        </table><br />
+
+
+        <label for="pbg"><b>xii. Surface Water Quality</b></label>
+        <table>
+            <tr>
+                <th>Salinity (ppm)</th>
+                <th>DO (mg/l)</th>
+                <th>TDS</th>
+                <th>pH</th>
+            </tr>
+            <tr>
+                <td>abcd</td>
+                <td>abcd</td>
+                <td>abcd</td>
+                <td>abcd</td>
+            </tr>
+        </table><br />
+
+        <label for="pbg"><b>xiii. Land Type (Percent)</b></label>
+        <table>
+            <tr>
+                <th>High land F0 (0-30 cm)</th>
+                <th>Medium High land F1 (30-90 cm)</th>
+                <th>Medium Low land F2 (90-1  80 cm)</th>
+                <th>Low land F3 (>180-360 cm)</th>
+                <th>Very Low land F4 (>360 cm)</th>
+            </tr>
+            <tr>
+                <td>abcd</td>
+                <td>abcd</td>
+                <td>abcd</td>
+                <td>abcd</td>
+                <td>abcd</td>
+            </tr>
+        </table><br />
+
+        <label for="pbg"><b>i. Cultivable crops</b></label> <p>Peragraph</p> <br />
+
+        <label for="pbg"><b>ii.	Irrigated Crop Area (ha)</b></label>
+        <table>
+            <tr>
+                <th>Crops name</th>
+                <th>Area</th>
+            </tr>
+            <tr>
+                <td>abcd</td>
+                <td>abcd</td>
+            </tr>
+        </table><br />
+
+        <label for="pbg"><b>iii. Crop production (Ton)</b></label> <p>Peragraph</p> <br />
+
+        <label for="pbg"><b>iv. Fish Production, Diversity and Migration</b></label>
+        <table>
+            <tr>
+                <th>Production</th>
+                <th>Diversity</th>
+                <th>Migration</th>
+            </tr>
+            <tr>
+                <td>abcd</td>
+                <td>abcd</td>
+                <td>abcd</td>
+            </tr>
+        </table><br />
+
+        <label for="pbg"><b>v. Flora and Fauna </b></label> <p>Peragraph</p> <br />
+
+        <label for="pbg"><b>vi. Socio Economic Condition</b></label>
+        <table>
+            <tr>
+                <th>% of land less people</th>
+                <th>% of small farmer</th>
+                <th>Average monthly income</th>
+            </tr>
+            <tr>
+                <td>abcd</td>
+                <td>abcd</td>
+                <td>abcd</td>
+            </tr>
+        </table><br />
+
+        <h4>2. Issue, Challenge or Problem</h4> <p>Peragraph</p> <br />
+
+        <h4>3. Discussion with stakeholders during starting of the project </h4>  <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td>abcd</td>
+                <td>abcd</td>
+            </tr>
+        </table><br />
+        <p>If yes</p> <br />
+        <table>
+            <tr>
+                <th>Positive Feedback</th>
+                <th>Negative Feedback</th>
+                <th>Participant list</th>
+                <th>Meeting minutes</th>
+            </tr>
+            <tr>
+                <td>abcd</td>
+                <td>abcd</td>
+                <td>Upload</td>
+                <td>Upload</td>
+            </tr>
+        </table><br />
+
+        <h4>4.	Analyze Options to fulfill objective </h4>  <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td>abcd</td>
+                <td>abcd</td>
+            </tr>
+        </table><br />
+        <p>If yes</p> <br />
+        <table>
+            <tr>
+                <th>Option</th>
+                <th>Description</th>
+                <th>Remarks</th>
+
+            </tr>
+            <tr>
+                <td>Option 1</td>
+                <td>abcd</td>
+                <td>Upload</td>
+
+            </tr>
+            <tr>
+                <td>Option 2</td>
+                <td>abcd</td>
+                <td>Upload</td>
+
+            </tr>
+        </table><br />
+
+        <h4>5. Design submitted with project document</h4>  <br />
+        <table>
+            <tr>
+                <th>Parameters</th>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+            </tr>
+            <tr>
+                <td>Preliminary Design</td>
+                <td>✓</td>
+                <td></td>
+                <td>abcd</td>
+                <td>abcd</td>
+            </tr>
+            <tr>
+                <td>Detail Design</td>
+                <td></td>
+                <td>✓</td>
+                <td>abcd</td>
+                <td>abcd</td>
+            </tr>
+        </table><br />
+        <h4>6. Environmental and Social Impact Assessment  </h4>  <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td>abcd</td>
+                <td>abcd</td>
+            </tr>
+        </table><br />
+
+        <p>If yes</p> <br />
+        <p> <b>(a) Environmental Impact Assessment</b></p> <br />
+        <table>
+            <tr>
+                <th>Parameters</th>
+                <th>Pre Project Situation</th>
+                <th>Post Project Situation</th>
+                <th>Positive/ Negative Impact</th>
+                <th>Mitigation Plan</th>
+
+            </tr>
+            <tr>
+                <td>i. Flooding</td>
+                <td>abcd</td>
+                <td>Upload</td>
+                <td>abcd</td>
+                <td>Upload</td>
+
+            </tr>
+            <tr>
+                <td>ii. Connectivity with khals/rivers/wetland</td>
+                <td>abcd</td>
+                <td>Upload</td>
+                <td>abcd</td>
+                <td>Upload</td>
+            </tr>
+            <tr>
+                <td>iii. Drainage Congestion</td>
+                <td>abcd</td>
+                <td>Upload</td>
+                <td>abcd</td>
+                <td>Upload</td>
+            </tr>
+            <tr>
+                <td>iv. Water Quality</td>
+                <td>abcd</td>
+                <td>Upload</td>
+                <td>abcd</td>
+                <td>Upload</td>
+            </tr>
+        </table><br />
+
+        <p> <b>(b) Social Impact Assessment</b></p> <br />
+        <table>
+            <tr>
+                <th>Parameters</th>
+                <th>Pre Project Situation</th>
+                <th>Post Project Situation</th>
+                <th>Positive/ Negative Impact</th>
+                <th>Mitigation Plan</th>
+
+            </tr>
+            <tr>
+                <td>i. Land Acquisition (ha)</td>
+                <td>abcd</td>
+                <td>Upload</td>
+                <td>abcd</td>
+                <td>Upload</td>
+
+            </tr>
+            <tr>
+                <td>ii.	Involuntary resettlement</td>
+                <td>abcd</td>
+                <td>Upload</td>
+                <td>abcd</td>
+                <td>Upload</td>
+            </tr>
+            <tr>
+                <td>iii. Employment Opportunity</td>
+                <td>abcd</td>
+                <td>Upload</td>
+                <td>abcd</td>
+                <td>Upload</td>
+            </tr>
+            <tr>
+                <td>iv.	Transportation and Communication</td>
+                <td>abcd</td>
+                <td>Upload</td>
+                <td>abcd</td>
+                <td>Upload</td>
+            </tr>
+            <tr>
+                <td>v. Social conflict</td>
+                <td>abcd</td>
+                <td>Upload</td>
+                <td>abcd</td>
+                <td>Upload</td>
+            </tr>
+        </table><br />
+
+        <h4>7. Use of Appropriate tools, technics, analytical procedures etc</h4>  <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td>abcd</td>
+                <td>abcd</td>
+            </tr>
+        </table><br />
+
+        <h4>8. Economical & Financial Analysis </h4>  <br />
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Unit</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+            </tr>
+            <tr>
+                <td>i.	EIRR (Economic Internal Rate of Return)</td>
+                <td>%</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>ii.	FIRR (Financial Internal Rate of Return)</td>
+                <td>%</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table><br />
+
+        <h3>C.	Deed Obligatory</h3><br />
+        <h4>9. Compatibility with National Water Policy</h4> <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+                <th>Document Link</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table><br />
+        <p>If yes</p> <br />
+        <ul>
+            <li>Article 4.1</li>
+            <li>Article 4.3</li>
+            <li>Article 4.7</li>
+        </ul>
+
+        <h4>10.	Compatibility with National Water Management Plan (NWMP)</h4> <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+                <th>Document Link</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table><br />
+        <p>If yes</p> <br />
+        <ul>
+            <li>MR 004</li>
+            <li>DM 003</li>
+            <li>TR 005</li>
+        </ul>
+
+        <h4>11.	Compatibility with Current Fifth Year Plan (FYP)</h4> <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table><br />
+
+        <h4>12. Compatibility with Sustainable Development Goal (SDG)</h4> <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+                <th>Document Link</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table><br />
+        <p>If yes</p> <br />
+        <ul>
+            <li>Goal 1</li>
+            <li>Goal 5</li>
+            <li>Goal 18</li>
+        </ul>
+        <p>SDG 6.0 Indicators</p> <br />
+        <ul>
+            <li>6.1.1</li>
+            <li>6.4.1</li>
+            <li>6.6.1</li>
+        </ul>
+
+        <h4>13.	Compatibility with Bangladesh Delta Plan 2100</h4> <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+                <th>Document Link</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table><br />
+        <p>If yes</p> <br />
+        <ul>
+            <li>Goal 1</li>
+            <li>Goal 5</li>
+            <li>Goal 18</li>
+        </ul>
+
+        <h4>14. Compatibility with Coastal Zone Policy</h4> <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+                <th>Document Link</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table><br />
+
+        <h4>15.	Compatibility with Agricultural Policy</h4> <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+                <th>Document Link</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table><br />
+
+        <h4>16.	Compatibility with Fisheries Policy</h4> <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+                <th>Document Link</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table><br />
+
+        <h4>17. Compatibility with Integrated Water Resource Management (IWRM)</h4> <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table><br />
+
+        <h4>18. Compatibility with GPWM</h4> <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table><br />
+        <p>If yes(Type of group formation)</p> <br />
+        <ul>
+            <li>WMA</li>
+            <li>WMF</li>
+            <li>Others</li>
+        </ul>
+
+        <h4>19.	Feasibility Study</h4> <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table><br />
+
+        <h4>20. Duplication of the project</h4> <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table><br />
+
+        <h4>21. Project development by emphasizing on underprivileged people, child, women and important social issues</h4> <br />
+        <table>
+            <tr>
+                <th>Yes</th>
+                <th>No</th>
+                <th>Applicant Comments</th>
+                <th>Authority Comments</th>
+            </tr>
+            <tr>
+                <td>✓</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table><br />
+
+        <h3>D. Administrative</h3>
+        <ol type="I">
+            <li>NOC from District IWRM committee /Upazila IWRM committee/Union IWRM Committee</li>
+            <li>Chillan/Bank Draft/Pay order No</li>
+        </ol>
+
+        <h4>22.	Recommendation</h4> <br />
+        <table>
+            <tr>
+                <th colspan="3">Clearance</th>
+            </tr>
+            <tr>
+                <td>Yes</td>
+                <td>No</td>
+                <td>Conditional</td>
+            </tr>
+        </table><br />
+
+        <table>
+            <tr>
+                <td></td>
+            </tr>
+        </table><br />
+                
+        <div class="row">
+            <div class="col">
+                <p> I certify that  the information and attachment provided with this application is correct to the best of my knowledge and belief. </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p></p>
+                <p>----------------------</p>
+                <p>Signature of Applicant</p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function SetTextValue(control, val) {
+            return jQuery('#' + control).text(val);
+        }
+
+        jQuery(document).ready(function () {
+            BindData();
+        });
+
+        function BindData() {
+            var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
+
+            if (projectId != '') {
+                @*console.log('ViewBag.ProjectCommonDetail.ProjectId: ' + projectId);
+
+                //General Info
+                SetHiddenValue('ProjectId', projectId);
+                SetHiddenValue('Project31IndvId', '@ViewBag.ProjectIndvDetail31.Project31IndvId');
+                SetHiddenValue('UserId', '@ViewBag.ProjectCommonDetail.UserId');
+                SetHiddenValue('ProjectTypeId', '@ViewBag.ProjectCommonDetail.ProjectTypeId');*@
+
+                SetTextValue('ProjectName', '@ViewBag.ProjectCommonDetail.ProjectName');
+                SetTextValue('BackgroundAndRationale', '@ViewBag.ProjectCommonDetail.BackgroundAndRationale');
+                SetTextValue('ProjectTarget', '@ViewBag.ProjectCommonDetail.ProjectTarget');
+                SetTextValue('ProjectObjective', '@ViewBag.ProjectCommonDetail.ProjectObjective');
+                SetTextValue('ProjectActivity', '@ViewBag.ProjectCommonDetail.ProjectActivity');
+                SetTextValue('ProjectStartDate', '@ViewBag.ProjectCommonDetail.ProjectStartDate');
+                SetTextValue('ProjectCompletionDate', '@ViewBag.ProjectCommonDetail.ProjectCompletionDate');
+                SetTextValue('ProjectEstimatedCost', '@ViewBag.ProjectCommonDetail.ProjectEstimatedCost');
+
+                //location
+                @*SetDropdownValue('DistrictGeoCode', '@ViewBag.ProjectLocationDetail.DistrictGeoCode');
+                SetDropdownValue('UpazilaGeoCode', '@ViewBag.ProjectLocationDetail.UpazilaGeoCode');
+                SetDropdownValue('UnionGeoCode', '@ViewBag.ProjectLocationDetail.UnionGeoCode');
+                //SetDropdownValue('Latitude', 'ViewBag.ProjectLocationDetail.Latitude');
+                //SetDropdownValue('Longitude', 'ViewBag.ProjectLocationDetail.Longitude');
+
+                var hrs = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.HydroRegionDetail))');
+                jQuery.each(hrs, function (i, item) {
+                    $(":checkbox[name='hydrological_region'][value='" + item.hydroRegionId + "']").attr('checked', true);
+                });
+
+                var hsd = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.BDP2100HotSpotDetail))');
+                jQuery.each(hsd, function (i, item) {
+                    $(":checkbox[name='bdp2100_hot_spot'][value='" + item.deltaPlanHotSpotId + "']").attr('checked', true);
+                });
+
+                SetTextValue('ConnectivityAmidWaterland', '@ViewBag.ProjectIndvDetail31.ConnectivityAmidWaterland');
+                SetTextValue('CatchmentArea', '@ViewBag.ProjectIndvDetail31.CatchmentArea');
+
+                SetTextValue('AnnualRainFallLast1Year', '@ViewBag.ProjectCommonDetail.AnnualRainFallLast1Year');
+                SetTextValue('AnnualRainFallLast2Years', '@ViewBag.ProjectCommonDetail.AnnualRainFallLast2Years');
+                SetTextValue('AnnualRainFallLast3Years', '@ViewBag.ProjectCommonDetail.AnnualRainFallLast3Years');
+                SetTextValue('AnnualRainFallLast4Years', '@ViewBag.ProjectCommonDetail.AnnualRainFallLast4Years');
+                SetTextValue('AnnualRainFallLast5Years', '@ViewBag.ProjectCommonDetail.AnnualRainFallLast5Years');
+
+                SetTextValue('HighestFloodLevel', '@ViewBag.ProjectIndvDetail31.HighestFloodLevel');
+                SetTextValue('MaximumDischarge', '@ViewBag.ProjectIndvDetail31.MaximumDischarge');
+
+                var tof = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.TypesOfFloodDetail))');
+                jQuery.each(tof, function (i, item) {
+                    $(":checkbox[name='types_of_flood'][value='" + item.floodTypeId + "']").attr('checked', true);
+                });
+
+                $(":radio[name='drainage_condition'][value='" + @ViewBag.ProjectIndvDetail31.DrainageConditionId + "']").attr('checked', true);
+
+                SetTextValue('WaterSalinity', '@ViewBag.ProjectIndvDetail31.WaterSalinity');
+                SetTextValue('WaterDO', '@ViewBag.ProjectIndvDetail31.WaterDO');
+                SetTextValue('WaterTDS', '@ViewBag.ProjectIndvDetail31.WaterTDS');
+                SetTextValue('WaterPhLevel', '@ViewBag.ProjectIndvDetail31.WaterPhLevel');
+                SetTextValue('HighLandPercent', '@ViewBag.ProjectIndvDetail31.HighLandPercent');
+                SetTextValue('MediumHighLandPercent', '@ViewBag.ProjectIndvDetail31.MediumHighLandPercent');
+                SetTextValue('MediumLowLandPercent', '@ViewBag.ProjectIndvDetail31.MediumLowLandPercent');
+                SetTextValue('LowLandPercent', '@ViewBag.ProjectIndvDetail31.LowLandPercent');
+                SetTextValue('VeryLowLandPercent', '@ViewBag.ProjectIndvDetail31.VeryLowLandPercent');
+                SetTextValue('CultivableCrops', '@ViewBag.ProjectIndvDetail31.CultivableCrops');
+                SetTextValue('CropProduction', '@ViewBag.ProjectIndvDetail31.CropProduction');
+                SetTextValue('FishProduction', '@ViewBag.ProjectIndvDetail31.FishProduction');
+                SetTextValue('FishDiversity', '@ViewBag.ProjectIndvDetail31.FishDiversity');
+                SetTextValue('FishMigration', '@ViewBag.ProjectIndvDetail31.FishMigration');
+                SetTextValue('FloraAndFauna', '@ViewBag.ProjectIndvDetail31.FloraAndFauna');
+                SetTextValue('LandLessPeoplePercentage', '@ViewBag.ProjectIndvDetail31.LandLessPeoplePercentage');
+                SetTextValue('SmallFarmerPercentage', '@ViewBag.ProjectIndvDetail31.SmallFarmerPercentage');
+                SetTextValue('AvgMonthlyIncome', '@ViewBag.ProjectIndvDetail31.AvgMonthlyIncome');
+
+                SetTextValue('IssueChallageProblem', '@ViewBag.ProjectCommonDetail.IssueChallageProblem');
+                $(":radio[name='YesNoStakeId'][value='" + @ViewBag.ProjectCommonDetail.YesNoStakeId + "']").attr('checked', true);
+                SetTextValue('DiscussWithStakeApplicantCmt', '@ViewBag.ProjectCommonDetail.DiscussWithStakeApplicantCmt');
+                SetTextValue('DiscussWithStakeAuthorityCmt', '@ViewBag.ProjectCommonDetail.DiscussWithStakeAuthorityCmt');
+                SetTextValue('DiscussWithStakePosFeedback', '@ViewBag.ProjectCommonDetail.DiscussWithStakePosFeedback');
+                SetTextValue('DiscussWithStakeNegFeedback', '@ViewBag.ProjectCommonDetail.DiscussWithStakeNegFeedback');
+
+                $(":radio[name='AnalyzeOptYesNoId'][value='" + @ViewBag.ProjectCommonDetail.AnalyzeOptYesNoId + "']").attr('checked', true);
+                SetTextValue('AnalyzeOptionsApplicantCmt', '@ViewBag.ProjectCommonDetail.AnalyzeOptionsApplicantCmt');
+                SetTextValue('AnalyzeOptionsAuthorityCmt', '@ViewBag.ProjectCommonDetail.AnalyzeOptionsAuthorityCmt');
+
+                $(":radio[name='EnvAndSocialYesNoId'][value='" + @ViewBag.ProjectCommonDetail.EnvAndSocialYesNoId + "']").attr('checked', true);
+                SetTextValue('EnvAndSocialApplicantCmt', '@ViewBag.ProjectCommonDetail.EnvAndSocialApplicantCmt');
+                SetTextValue('EnvAndSocialAuthorityCmt', '@ViewBag.ProjectCommonDetail.EnvAndSocialAuthorityCmt');
+
+                $(":radio[name='UseOfToolsYesNoId'][value='" + @ViewBag.ProjectIndvDetail31.UseOfToolsYesNoId + "']").attr('checked', true);
+                SetTextValue('ToolsApplicantComments', '@ViewBag.ProjectIndvDetail31.ToolsApplicantComments');
+                SetTextValue('ToolsAuthorityComments', '@ViewBag.ProjectIndvDetail31.ToolsAuthorityComments');
+
+                $(":radio[name='CompatNWPYesNoId'][value='" + @ViewBag.ProjectCommonDetail.CompatNWPYesNoId + "']").attr('checked', true);
+                SetTextValue('CompatibilityNWPApplicantCmt', '@ViewBag.ProjectCommonDetail.CompatibilityNWPApplicantCmt');
+                SetTextValue('CompatibilityNWPAuthorityCmt', '@ViewBag.ProjectCommonDetail.CompatibilityNWPAuthorityCmt');
+
+                var nwp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWPDetail))');
+                jQuery.each(nwp, function (i, item) {
+                    $(":checkbox[name='NationalWaterPolicyArticleId'][value='" + item.nationalWaterPolicyArticleId + "']").attr('checked', true);
+                });
+
+                $(":radio[name='NWMPCompatYesNoId'][value='" + @ViewBag.ProjectCommonDetail.NWMPCompatYesNoId + "']").attr('checked', true);
+                SetTextValue('NWMPApplicantCmt', '@ViewBag.ProjectCommonDetail.NWMPApplicantCmt');
+                SetTextValue('NWMPAuthorityCmt', '@ViewBag.ProjectCommonDetail.NWMPAuthorityCmt');
+
+                var nwmp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWMPDetail))');
+                jQuery.each(nwmp, function (i, item) {
+                    $(":checkbox[name='PrjCompatNWMPId'][value='" + item.nwmpProgrammeId + "']").attr('checked', true);
+                });
+
+                $(":radio[name='FYPYesNoId'][value='" + @ViewBag.ProjectCommonDetail.FYPYesNoId + "']").attr('checked', true);
+                SetTextValue('FYPApplicantCmt', '@ViewBag.ProjectCommonDetail.FYPApplicantCmt');
+                SetTextValue('FYPAuthorityCmt', '@ViewBag.ProjectCommonDetail.FYPAuthorityCmt');
+
+                $(":radio[name='SDGYesNoId'][value='" + @ViewBag.ProjectCommonDetail.SDGYesNoId + "']").attr('checked', true);
+                SetTextValue('SDGApplicantCmt', '@ViewBag.ProjectCommonDetail.SDGApplicantCmt');
+                SetTextValue('SDGAuthorityCmt', '@ViewBag.ProjectCommonDetail.SDGAuthorityCmt');
+
+                var sdgdetail = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatSDGDetail))');
+                jQuery.each(sdgdetail, function (i, item) {
+                    $(":checkbox[name='SDGGoalId'][value='" + item.sdgGoalId + "']").attr('checked', true);
+                });
+
+                var sdgindi = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatSDGIndiDetail))');
+                jQuery.each(sdgindi, function (i, item) {
+                    $(":checkbox[name='SDGIndicatorId'][value='" + item.sdgIndicatorId + "']").attr('checked', true);
+                });
+
+                $(":radio[name='DeltaPlanYesNoId'][value='" + @ViewBag.ProjectCommonDetail.DeltaPlanYesNoId + "']").attr('checked', true);
+                SetTextValue('DeltaPlan2100ApplicantCmt', '@ViewBag.ProjectCommonDetail.DeltaPlan2100ApplicantCmt');
+                SetTextValue('DeltaPlan2100AuthorityCmt', '@ViewBag.ProjectCommonDetail.DeltaPlan2100AuthorityCmt');
+
+                var bdp2100goal = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.BDP2100GoalDetail))');
+                jQuery.each(bdp2100goal, function (i, item) {
+                    $(":checkbox[name='DeltPlan2100GoalId'][value='" + item.deltPlan2100GoalId + "']").attr('checked', true);
+                });
+
+                $(":radio[name='CostalZoneYesNoId'][value='" + @ViewBag.ProjectCommonDetail.CostalZoneYesNoId + "']").attr('checked', true);
+                SetTextValue('CostalZoneApplicantCmt', '@ViewBag.ProjectCommonDetail.CostalZoneApplicantCmt');
+                SetTextValue('CostalZoneAuthorityCmt', '@ViewBag.ProjectCommonDetail.CostalZoneAuthorityCmt');
+
+                $(":radio[name='AgriculturalYesNoId'][value='" + @ViewBag.ProjectCommonDetail.AgriculturalYesNoId + "']").attr('checked', true);
+                SetTextValue('AgriApplicantCmt', '@ViewBag.ProjectCommonDetail.AgriApplicantCmt');
+                SetTextValue('AgriAuthorityCmt', '@ViewBag.ProjectCommonDetail.AgriAuthorityCmt');
+
+                $(":radio[name='FisheriesYesNoId'][value='" + @ViewBag.ProjectCommonDetail.FisheriesYesNoId + "']").attr('checked', true);
+                SetTextValue('FisheriesApplicantCmt', '@ViewBag.ProjectCommonDetail.FisheriesApplicantCmt');
+                SetTextValue('FisheriesAuthorityCmt', '@ViewBag.ProjectCommonDetail.FisheriesAuthorityCmt');
+
+                $(":radio[name='IWRMYesNoId'][value='" + @ViewBag.ProjectCommonDetail.IWRMYesNoId + "']").attr('checked', true);
+                SetTextValue('IWRMApplicantCmt', '@ViewBag.ProjectCommonDetail.IWRMApplicantCmt');
+                SetTextValue('IWRMAuthorityCmt', '@ViewBag.ProjectCommonDetail.IWRMAuthorityCmt');
+
+                $(":radio[name='GPWMYesNoId'][value='" + @ViewBag.ProjectCommonDetail.GPWMYesNoId + "']").attr('checked', true);
+                SetTextValue('GPWMApplicantCmt', '@ViewBag.ProjectCommonDetail.GPWMApplicantCmt');
+                SetTextValue('GPWMAuthorityCmt', '@ViewBag.ProjectCommonDetail.GPWMAuthorityCmt');
+
+                $(":radio[name='GPWMYesNoId'][value='" + @ViewBag.ProjectCommonDetail.GPWMYesNoId + "']").attr('checked', true);
+                SetTextValue('GPWMApplicantCmt', '@ViewBag.ProjectCommonDetail.GPWMApplicantCmt');
+                SetTextValue('GPWMAuthorityCmt', '@ViewBag.ProjectCommonDetail.GPWMAuthorityCmt');
+
+                var gpwmgroup = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.GPWMGroupType))');
+                jQuery.each(gpwmgroup, function (i, item) {
+                    $(":checkbox[name='GPWMGroupTypeId'][value='" + item.gpwmGroupTypeId + "']").attr('checked', true);
+                });
+
+                $(":radio[name='FeasibilityYesNoId'][value='" + @ViewBag.ProjectCommonDetail.FeasibilityYesNoId + "']").attr('checked', true);
+                SetTextValue('FeasibilityApplicantCmt', '@ViewBag.ProjectCommonDetail.FeasibilityApplicantCmt');
+                SetTextValue('FeasibilityAuthorityCmt', '@ViewBag.ProjectCommonDetail.FeasibilityAuthorityCmt');
+
+                $(":radio[name='DuplicatYesNoId'][value='" + @ViewBag.ProjectIndvDetail31.DuplicatYesNoId + "']").attr('checked', true);
+                SetTextValue('DuplicationApplicantComments', '@ViewBag.ProjectIndvDetail31.DuplicationApplicantComments');
+                SetTextValue('DuplicationAuthorityComments', '@ViewBag.ProjectIndvDetail31.DuplicationAuthorityComments');
+
+                $(":radio[name='SocialIssuesYesNoId'][value='" + @ViewBag.ProjectCommonDetail.SocialIssuesYesNoId + "']").attr('checked', true);
+                SetTextValue('SocialIssuesApplicantCmt', '@ViewBag.ProjectCommonDetail.SocialIssuesApplicantCmt');
+                SetTextValue('SocialIssuesAuthorityCmt', '@ViewBag.ProjectCommonDetail.SocialIssuesAuthorityCmt');
+
+                SetDropdownValue('RecommendationId', '@ViewBag.ProjectCommonDetail.RecommendationId');
+                SetTextValue('RecommandCmt', '@ViewBag.ProjectCommonDetail.RecommandCmt');*@
+            }
+        }
+    </script>
+</body>
+</html>

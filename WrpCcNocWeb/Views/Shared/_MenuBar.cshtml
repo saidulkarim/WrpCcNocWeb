@@ -1,8 +1,7 @@
-﻿@using WrpCcNocWeb.Models.UserManagement;
-@using WrpCcNocWeb.Helpers;
-@using Microsoft.AspNetCore.Http;
-@inject IHttpContextAccessor HttpContextAccessor;
-@using Newtonsoft.Json;
+﻿@using WrpCcNocWeb.Models.UserManagement
+@using WrpCcNocWeb.Helpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 
 <div class="topbar-menu">
     <div class="container-fluid">
@@ -16,9 +15,14 @@
                 </li>
 
                 @{
-                    var userMenu = HttpContextAccessor.HttpContext.Request.Cookies["UserMenu"].ToString();
-                    List<UserMenu> userMenuList = (List<UserMenu>)Newtonsoft.Json.JsonConvert.DeserializeObject(userMenu, typeof(List<UserMenu>));
-                   
+                    List<UserMenu> userMenuList = ViewBag.UserMenu;// (List<UserMenu>)Newtonsoft.Json.JsonConvert.DeserializeObject(userMenu, typeof(List<UserMenu>));
+
+                    if (userMenuList == null)
+                    {
+                        var userMenu = HttpContextAccessor.HttpContext.Request.Cookies["UserMenu"].ToString();
+                        userMenuList = (List<UserMenu>)Newtonsoft.Json.JsonConvert.DeserializeObject(userMenu, typeof(List<UserMenu>));
+                    }
+
                     if (userMenuList.Count > 0)
                     {
                         var parentMenu = userMenuList.DistinctBy(d => d.MenuId);

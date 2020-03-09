@@ -52,7 +52,6 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
-
         public IActionResult status()
         {            
             return View();
@@ -140,8 +139,8 @@ namespace WrpCcNocWeb.Controllers
         {
             #region Dropdown Data Loading
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
-            ViewBag.LookUpAdminBndUpazila = _db.LookUpAdminBndUpazila.ToList();
-            ViewBag.LookUpAdminBndUnion = _db.LookUpAdminBndUnion.ToList();
+            //ViewBag.LookUpAdminBndUpazila = _db.LookUpAdminBndUpazila.ToList();
+            //ViewBag.LookUpAdminBndUnion = _db.LookUpAdminBndUnion.ToList();
 
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList();
             ViewBag.LookUpCcModDeltPlan2100HotSpot = _db.LookUpCcModDeltPlan2100HotSpot.ToList();
@@ -408,66 +407,6 @@ namespace WrpCcNocWeb.Controllers
                 return Json(noti);
             }
         }
-
-        /*
-        [HttpGet]
-        public JsonResult get_hsd(long project_id)
-        {
-            try
-            {
-
-                var _details = _db.CcModHydroSystemDetail
-                                  .Join(
-                                        _db.LookUpCcModHydroSystem,
-                                        d => d.LookUpCcModHydroSystem.HydroSystemCategoryId,
-                                        l => l.HydroSystemCategoryId,
-                                        (d, l) => new { hsDtl = d, lkpHs = l })
-                                  .Where(w => w.hsDtl.ProjectId == project_id)
-                                  .Select(
-                                        s => new
-                                        {
-                                            s.hsDtl.HydroSysDetailId,
-                                            s.hsDtl.ProjectId,
-                                            s.hsDtl.HydroSystemCategoryId,
-                                            s.lkpHs.HydroSystemCategory,
-                                            s.hsDtl.NameOfHydroSystem,
-                                            s.hsDtl.HydroSystemLengthArea,
-                                            s.hsDtl.HydroSystemUnit
-                                        }).ToList();
-
-                if (_details.Count > 0)
-                {
-                    return Json(_details);
-                }
-                else
-                {
-                    _details = null;
-
-                    noti = new Notification
-                    {
-                        id = string.Empty,
-                        status = "error",
-                        message = "Sorry, no data found."
-                    };
-
-                    return Json(noti);
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ch.ExtractInnerException(ex);
-
-                noti = new Notification
-                {
-                    id = string.Empty,
-                    status = "error",
-                    message = message
-                };
-
-                return Json(noti);
-            }
-        }
-        */
         #endregion
 
         #region Flood Frequency
