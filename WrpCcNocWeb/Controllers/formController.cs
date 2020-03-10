@@ -53,7 +53,7 @@ namespace WrpCcNocWeb.Controllers
         }
 
         public IActionResult status()
-        {            
+        {
             return View();
         }
 
@@ -74,9 +74,16 @@ namespace WrpCcNocWeb.Controllers
 
             if (_psi == null)
             {
+                CcModAppProjectCommonDetail _pcd = new CcModAppProjectCommonDetail
+                {
+                    ProjectId = 0
+                };
+
+                ViewBag.ProjectCommonDetail = _pcd;
+
                 LoadDropdownData();
 
-                TempData["Message"] = ch.ShowMessage(Sign.Info, "Information", "A new project information.");
+                TempData["Message"] = ch.ShowMessage(Sign.Info, "Information", "Please enter new project information.");
                 //return RedirectToAction("index", "form");
             }
             else if (_psi.ProjectId != 0 && _psi.AppSubmissionId == null)
@@ -181,61 +188,38 @@ namespace WrpCcNocWeb.Controllers
 
         //form/GeneralInfoSave :: gis
         [HttpPost]
-        public JsonResult gis(GeneralInfo _gi)
+        public JsonResult gis(CcModAppProjectCommonDetail _pcd)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
-            CcModAppProjectCommonDetail general = _gi.CommonDetail;
-            CcModPrjLocationDetail location = _gi.LocationDetail;
-
             long ProjectID = 0;
             int result = 0;
 
             try
             {
-                if (general != null && general.ProjectTypeId != 0)
+                if (_pcd != null && _pcd.ProjectTypeId != 0)
                 {
                     using (var dbContextTransaction = _db.Database.BeginTransaction())
                     {
                         try
                         {
-                            general.UserId = ui.UserID;
+                            _pcd.UserId = ui.UserID;
+                            _pcd.AppSubmissionId = 0;
+                            _pcd.ApplicationStateId = 1; //should come from database
 
-                            _db.CcModAppProjectCommonDetail.Add(general);
+                            _db.CcModAppProjectCommonDetail.Add(_pcd);
                             result = _db.SaveChanges();
 
                             if (result > 0)
                             {
-                                ProjectID = general.ProjectId;
-                                location.ProjectId = ProjectID;
+                                ProjectID = _pcd.ProjectId;
+                                dbContextTransaction.Commit();
 
-                                if (!string.IsNullOrEmpty(location.DistrictGeoCode))
+                                noti = new Notification
                                 {
-                                    _db.CcModPrjLocationDetail.Add(location);
-                                    result = _db.SaveChanges();
-
-                                    if (result > 0)
-                                    {
-                                        dbContextTransaction.Commit();
-
-                                        noti = new Notification
-                                        {
-                                            id = location.ProjectId.ToString(),
-                                            status = "success",
-                                            message = "General information has been saved successfully."
-                                        };
-                                    }
-                                    else
-                                    {
-                                        dbContextTransaction.Rollback();
-
-                                        noti = new Notification
-                                        {
-                                            id = location.ProjectId.ToString(),
-                                            status = "error",
-                                            message = "General information not saved."
-                                        };
-                                    }
-                                }
+                                    id = _pcd.ProjectId.ToString(),
+                                    status = "success",
+                                    message = "General information has been saved successfully."
+                                };
                             }
                             else
                             {
@@ -243,7 +227,7 @@ namespace WrpCcNocWeb.Controllers
 
                                 noti = new Notification
                                 {
-                                    id = location.ProjectId.ToString(),
+                                    id = _pcd.ProjectId.ToString(),
                                     status = "error",
                                     message = "General information not saved."
                                 };
@@ -256,7 +240,7 @@ namespace WrpCcNocWeb.Controllers
 
                             noti = new Notification
                             {
-                                id = location.ProjectId.ToString(),
+                                id = _pcd.ProjectId.ToString(),
                                 status = "error",
                                 message = "Transaction has been rollbacked. " + message
                             };
@@ -280,6 +264,190 @@ namespace WrpCcNocWeb.Controllers
         }
         #endregion
 
+        #region Project Location
+        //form/ProjectLocationDataSave :: plds
+        [HttpPost]
+        public JsonResult plds(CcModPrjLocationDetail _plds)
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            int result = 0;
+
+            try
+            {
+                if (_plds.ProjectId != 0)
+                {
+                    using var dbContextTransaction = _db.Database.BeginTransaction();
+                    if (_plds.LocationId != 0)
+                    {
+                        _db.Entry(_plds).State = EntityState.Modified;
+                        result = _db.SaveChanges();
+
+                        if (result > 0)
+                        {
+                            dbContextTransaction.Commit();
+
+                            noti = new Notification
+                            {
+                                id = _plds.LocationId.ToString(),
+                                status = "success",
+                                message = "Project location information has been updated successfully."
+                            };
+                        }
+                        else
+                        {
+                            dbContextTransaction.Rollback();
+
+                            noti = new Notification
+                            {
+                                id = _plds.LocationId.ToString(),
+                                status = "error",
+                                message = "Project location not updated."
+                            };
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            if (!string.IsNullOrEmpty(_plds.DistrictGeoCode))
+                            {
+                                _db.CcModPrjLocationDetail.Add(_plds);
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = _plds.LocationId.ToString(),
+                                        status = "success",
+                                        message = "Project location information has been saved successfully."
+                                    };
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = _plds.LocationId.ToString(),
+                                        status = "error",
+                                        message = "Project location not saved."
+                                    };
+                                }
+                            }
+                            else
+                            {
+                                noti = new Notification
+                                {
+                                    id = _plds.LocationId.ToString(),
+                                    status = "error",
+                                    message = "Please select project district."
+                                };
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            dbContextTransaction.Rollback();
+                            var message = ch.ExtractInnerException(ex);
+
+                            noti = new Notification
+                            {
+                                id = _plds.LocationId.ToString(),
+                                status = "error",
+                                message = "Transaction has been rollbacked. " + message
+                            };
+                        }
+                    }
+                }
+                else
+                {
+                    noti = new Notification
+                    {
+                        id = "0",
+                        status = "error",
+                        message = "Please save general information first."
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    message = message
+                };
+            }
+
+            return Json(noti);
+        }
+
+        //form/GetHydroSystemDetail :: get_pld
+        [HttpGet]
+        public JsonResult get_pld(long project_id)
+        {
+            try
+            {
+                var _details = (from d in _db.CcModPrjLocationDetail
+                                join district in _db.LookUpAdminBndDistrict on d.DistrictGeoCode equals district.DistrictGeoCode into dist
+                                from ds in dist.DefaultIfEmpty()
+                                join upazila in _db.LookUpAdminBndUpazila on d.UpazilaGeoCode equals upazila.UpazilaGeoCode into upaz
+                                from up in upaz.DefaultIfEmpty()
+                                join union in _db.LookUpAdminBndUnion on d.UnionGeoCode equals union.UnionGeoCode into unio
+                                from un in unio.DefaultIfEmpty()
+                                where d.ProjectId != null && d.ProjectId == project_id
+                                select new
+                                {
+                                    d.LocationId,
+                                    d.ProjectId,
+                                    d.DistrictGeoCode,
+                                    ds.DistrictName,
+                                    d.UpazilaGeoCode,
+                                    up.UpazilaName,
+                                    d.UnionGeoCode,
+                                    un.UnionName,
+                                    Latitude = string.IsNullOrEmpty(d.Latitude) ? string.Empty : d.Latitude,
+                                    Longitude = string.IsNullOrEmpty(d.Longitude) ? string.Empty : d.Longitude
+                                }).OrderBy(o => o.LocationId).ToList();
+
+                if (_details.Count > 0)
+                {
+                    return Json(_details);
+                }
+                else
+                {
+                    _details = null;
+
+                    noti = new Notification
+                    {
+                        id = string.Empty,
+                        status = "error",
+                        message = "Sorry, no data found."
+                    };
+
+                    return Json(noti);
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = string.Empty,
+                    status = "error",
+                    message = message
+                };
+
+                return Json(noti);
+            }
+        }
+        #endregion
+
         #region Hydrological System
         //form/HydroSystemDetailSave :: hsds
         [HttpPost]
@@ -294,9 +462,9 @@ namespace WrpCcNocWeb.Controllers
                 {
                     using (var dbContextTransaction = _db.Database.BeginTransaction())
                     {
-                        try
+                        if (_hsd.HydroSysDetailId != 0)
                         {
-                            _db.CcModHydroSystemDetail.Add(_hsd);
+                            _db.Entry(_hsd).State = EntityState.Modified;
                             result = _db.SaveChanges();
 
                             if (result > 0)
@@ -307,7 +475,7 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _hsd.HydroSysDetailId.ToString(),
                                     status = "success",
-                                    message = "Hydrological system information has been saved successfully."
+                                    message = "Hydrological system information has been updated successfully."
                                 };
                             }
                             else
@@ -318,21 +486,52 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _hsd.HydroSysDetailId.ToString(),
                                     status = "error",
-                                    message = "Hydrological system information not saved."
+                                    message = "Hydrological system information not updated."
                                 };
                             }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            dbContextTransaction.Rollback();
-                            var message = ch.ExtractInnerException(ex);
-
-                            noti = new Notification
+                            try
                             {
-                                id = _hsd.HydroSysDetailId.ToString(),
-                                status = "error",
-                                message = "Transaction has been rollbacked. " + message
-                            };
+                                _db.CcModHydroSystemDetail.Add(_hsd);
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = _hsd.HydroSysDetailId.ToString(),
+                                        status = "success",
+                                        message = "Hydrological system information has been saved successfully."
+                                    };
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = _hsd.HydroSysDetailId.ToString(),
+                                        status = "error",
+                                        message = "Hydrological system information not saved."
+                                    };
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                dbContextTransaction.Rollback();
+                                var message = ch.ExtractInnerException(ex);
+
+                                noti = new Notification
+                                {
+                                    id = _hsd.HydroSysDetailId.ToString(),
+                                    status = "error",
+                                    message = "Transaction has been rollbacked. " + message
+                                };
+                            }
                         }
                     }
                 }
@@ -352,7 +551,7 @@ namespace WrpCcNocWeb.Controllers
             return Json(noti);
         }
 
-        //form/GetHydroSystemDetail :: get_hsds
+        //form/GetHydroSystemDetail :: get_hsd
         [HttpGet]
         public JsonResult get_hsd(long project_id)
         {
@@ -373,7 +572,7 @@ namespace WrpCcNocWeb.Controllers
                                     d.NameOfHydroSystem,
                                     d.HydroSystemLengthArea,
                                     d.HydroSystemUnit
-                                }).ToList();
+                                }).OrderBy(o => o.HydroSysDetailId).ToList();
 
                 if (_details.Count > 0)
                 {
@@ -423,9 +622,9 @@ namespace WrpCcNocWeb.Controllers
                 {
                     using (var dbContextTransaction = _db.Database.BeginTransaction())
                     {
-                        try
+                        if (_ffd.FloodFrequencyDetailId != 0)
                         {
-                            _db.CcModFloodFrequencyDetail.Add(_ffd);
+                            _db.Entry(_ffd).State = EntityState.Modified;
                             result = _db.SaveChanges();
 
                             if (result > 0)
@@ -436,7 +635,7 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _ffd.FloodFrequencyId.ToString(),
                                     status = "success",
-                                    message = "Flood frequency information has been saved successfully."
+                                    message = "Flood frequency information has been updated successfully."
                                 };
                             }
                             else
@@ -447,21 +646,52 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _ffd.FloodFrequencyId.ToString(),
                                     status = "error",
-                                    message = "Flood frequency information not saved."
+                                    message = "Flood frequency information not updated."
                                 };
                             }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            dbContextTransaction.Rollback();
-                            var message = ch.ExtractInnerException(ex);
-
-                            noti = new Notification
+                            try
                             {
-                                id = _ffd.FloodFrequencyId.ToString(),
-                                status = "error",
-                                message = "Transaction has been rollbacked. " + message
-                            };
+                                _db.CcModFloodFrequencyDetail.Add(_ffd);
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = _ffd.FloodFrequencyId.ToString(),
+                                        status = "success",
+                                        message = "Flood frequency information has been saved successfully."
+                                    };
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = _ffd.FloodFrequencyId.ToString(),
+                                        status = "error",
+                                        message = "Flood frequency information not saved."
+                                    };
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                dbContextTransaction.Rollback();
+                                var message = ch.ExtractInnerException(ex);
+
+                                noti = new Notification
+                                {
+                                    id = _ffd.FloodFrequencyId.ToString(),
+                                    status = "error",
+                                    message = "Transaction has been rollbacked. " + message
+                                };
+                            }
                         }
                     }
                 }
@@ -1788,5 +2018,87 @@ namespace WrpCcNocWeb.Controllers
             return Json(noti);
         }
         #endregion
+
+        //form/CommonDeleteMethod :: cdm
+        [HttpPost]
+        public JsonResult cdm(long id, long projectId, string modelName)
+        {
+            if (id != 0)
+            {
+                if (projectId != 0)
+                {
+                    using var dbContextTransaction = _db.Database.BeginTransaction();
+                    try
+                    {
+                        switch (modelName)
+                        {
+                            case "CcModPrjLocationDetail":
+                                CcModPrjLocationDetail _loc = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == projectId && w.LocationId == id).FirstOrDefault();
+                                _db.CcModPrjLocationDetail.Remove(_loc);
+                                break;
+
+                            case "CcModHydroSystemDetail":
+                                CcModHydroSystemDetail _hsd = _db.CcModHydroSystemDetail.Where(w => w.ProjectId == projectId && w.HydroSysDetailId == id).FirstOrDefault();
+                                _db.CcModHydroSystemDetail.Remove(_hsd);
+                                break;
+
+                            case "CcModFloodFrequencyDetail":
+                                CcModFloodFrequencyDetail _fsd = _db.CcModFloodFrequencyDetail.Where(w => w.ProjectId == projectId && w.FloodFrequencyDetailId == id).FirstOrDefault();
+                                _db.CcModFloodFrequencyDetail.Remove(_fsd);
+                                break;
+
+                        }
+
+                        _db.SaveChanges();
+                        dbContextTransaction.Commit();
+
+                        noti = new Notification
+                        {
+                            id = id.ToString(),
+                            status = "success",
+                            message = "Information has been deleted successfully."
+                        };
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContextTransaction.Rollback();
+                        var message = ch.ExtractInnerException(ex);
+
+                        noti = new Notification
+                        {
+                            id = id.ToString(),
+                            status = "error",
+                            message = message + "<br /> Model Name: " + modelName
+                        };
+                    }
+                }
+            }
+
+            return Json(noti);
+        }
+
+        //form/GetSingleLocation :: gsl
+        [HttpGet]
+        public JsonResult gsl(long id, long projectId)
+        {
+            CcModPrjLocationDetail _loc = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == projectId && w.LocationId == id).FirstOrDefault();
+            return Json(_loc);
+        }
+
+        //form/GetSingleHydrologicalSystem :: gshs
+        [HttpGet]
+        public JsonResult gshs(long id, long projectId)
+        {
+            CcModHydroSystemDetail _hsd = _db.CcModHydroSystemDetail.Where(w => w.ProjectId == projectId && w.HydroSysDetailId == id).FirstOrDefault();
+            return Json(_hsd);
+        }
+
+        //form/GetSingleFloodFrequency :: gsff
+        [HttpGet]
+        public JsonResult gsff(long id, long projectId)
+        {
+            CcModFloodFrequencyDetail _ffd = _db.CcModFloodFrequencyDetail.Where(w => w.ProjectId == projectId && w.FloodFrequencyDetailId == id).FirstOrDefault();
+            return Json(_ffd);
+        }
     }
 }

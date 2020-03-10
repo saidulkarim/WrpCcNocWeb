@@ -39,25 +39,28 @@
 
                                                 <div class="col-sm-3">
                                                     <div class="nav flex-column nav-pills nav-pills-tab" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                                        <a class="nav-link show mb-2 active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">
+                                                        <a class="nav-link show mb-2 active" id="v-gen-info-tab" data-toggle="pill" href="#v-gen-info" role="tab" aria-controls="v-gen-info" aria-selected="true">
                                                             General Information
                                                         </a>
-                                                        <a class="nav-link mb-2" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+                                                        <a class="nav-link mb-2" id="v-project-location-tab" data-toggle="pill" href="#v-project-location" role="tab" aria-controls="v-project-location" aria-selected="false">
+                                                            Project Location
+                                                        </a>
+                                                        <a class="nav-link mb-2" id="v-tech-info-tab" data-toggle="pill" href="#v-tech-info" role="tab" aria-controls="v-tech-info" aria-selected="false">
                                                             Technical Information
                                                         </a>
-                                                        <a class="nav-link mb-2" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">
+                                                        <a class="nav-link mb-2" id="v-deed-obligatory-tab" data-toggle="pill" href="#v-deed-obligatory" role="tab" aria-controls="v-deed-obligatory" aria-selected="false">
                                                             Deed Obligatory
                                                         </a>
-                                                        <a class="nav-link mb-2" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+                                                        <a class="nav-link mb-2" id="v-administrative-tab" data-toggle="pill" href="#v-administrative" role="tab" aria-controls="v-administrative" aria-selected="false">
                                                             Administrative
                                                         </a>
                                                     </div>
                                                 </div> <!-- end col-->
                                                 <div class="col-sm-9">
                                                     <div class="tab-content pt-0">
-                                                        <div class="tab-pane fade active show" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                                        <div class="tab-pane fade active show" id="v-gen-info" role="tabpanel" aria-labelledby="v-gen-info-tab">
                                                             <div class="card-box">
-                                                                <div id="demo-form">
+                                                                <div id="gen-info-form">
                                                                     <div class="form-group">
                                                                         <label for="ProjectName">Project Name <span class="text-danger bold">*</span></label>
                                                                         <input type="text" id="ProjectName" name="ProjectName" class="form-control" required="" />
@@ -76,81 +79,6 @@
                                                                     <div class="form-group">
                                                                         <label for="ProjectObjective">Project Objective <span class="text-danger bold">*</span></label>
                                                                         <textarea id="ProjectObjective" name="ProjectObjective" class="form-control" rows="2" required=""></textarea>
-                                                                    </div>
-
-                                                                    <div id="divProjectLocation">
-                                                                        <fieldset>
-                                                                            <legend>
-                                                                                <label for="ProjectLocation" class="bold">Project Location</label>
-                                                                            </legend>
-
-                                                                            <div class="row">
-                                                                                <div class="form-group col-xl-2">
-                                                                                    <label for="DistrictGeoCode">District <span class="text-danger bold">*</span></label>
-                                                                                    <select id="DistrictGeoCode" name="DistrictGeoCode" class="form-control" required="">
-                                                                                        <option value="">Choose..</option>
-
-                                                                                        @{
-                                                                                            List<LookUpAdminBndDistrict> _districts = ViewBag.LookUpAdminBndDistrict;
-
-                                                                                            if (_districts.Count > 0)
-                                                                                            {
-                                                                                                foreach (LookUpAdminBndDistrict dist in _districts)
-                                                                                                {
-                                                                                                    <option value="@dist.DistrictGeoCode">@dist.DistrictName</option>
-                                                                                                }
-                                                                                            }
-                                                                                        }
-                                                                                    </select>
-                                                                                </div>
-
-                                                                                <div class="form-group col-xl-2">
-                                                                                    <label for="UpazilaGeoCode">Upazila</label>
-                                                                                    <select id="UpazilaGeoCode" name="UpazilaGeoCode" class="form-control">
-                                                                                        <option value="">Choose..</option>
-                                                                                        @*@{
-                                                                                            List<LookUpAdminBndUpazila> _upazilas = ViewBag.LookUpAdminBndUpazila;
-
-                                                                                            if (_upazilas.Count > 0)
-                                                                                            {
-                                                                                                foreach (LookUpAdminBndUpazila upz in _upazilas)
-                                                                                                {
-                                                                                                    <option value="@upz.UpazilaGeoCode">@upz.UpazilaName</option>
-                                                                                                }
-                                                                                            }
-                                                                                        }*@
-                                                                                    </select>
-                                                                                </div>
-
-                                                                                <div class="form-group col-xl-2">
-                                                                                    <label for="UnionGeoCode">Union</label>
-                                                                                    <select id="UnionGeoCode" name="UnionGeoCode" class="form-control">
-                                                                                        <option value="">Choose..</option>
-                                                                                        @*@{
-                                                                                            List<LookUpAdminBndUnion> _unions = ViewBag.LookUpAdminBndUnion;
-
-                                                                                            if (_unions.Count > 0)
-                                                                                            {
-                                                                                                foreach (LookUpAdminBndUnion uni in _unions)
-                                                                                                {
-                                                                                                    <option value="@uni.UnionGeoCode">@uni.UnionName</option>
-                                                                                                }
-                                                                                            }
-                                                                                        }*@
-                                                                                    </select>
-                                                                                </div>
-
-                                                                                <div class="form-group col-xl-3">
-                                                                                    <label for="Latitude">Latitude</label>
-                                                                                    <input type="text" id="Latitude" name="Latitude" class="form-control" />
-                                                                                </div>
-
-                                                                                <div class="form-group col-md-3">
-                                                                                    <label for="Longitude">Longitude</label>
-                                                                                    <input type="text" id="Longitude" name="Longitude" class="form-control" />
-                                                                                </div>
-                                                                            </div>
-                                                                        </fieldset>
                                                                     </div>
 
                                                                     <div class="form-group">
@@ -199,9 +127,82 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                                        <div class="tab-pane fade" id="v-project-location" role="tabpanel" aria-labelledby="v-project-location-tab">
                                                             <div class="card-box">
-                                                                <div id="demo-form">
+                                                                <div id="proj-loc-form">
+                                                                    <div id="divProjectLocation">
+                                                                        <div id="ProjectLocation" class="row" style="margin-left: -7px;">
+                                                                            <div class="table-responsive">
+                                                                                <table class="table mb-0">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th class="text-center">#</th>
+                                                                                            <th class="text-center">District</th>
+                                                                                            <th class="text-center">Upazila</th>
+                                                                                            <th class="text-center">Union</th>
+                                                                                            <th class="text-center">Latitude</th>
+                                                                                            <th class="text-center">Longitude</th>
+                                                                                            <th class="text-center" style="width: 150px;"></th>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <th colspan="2" class="text-center">
+                                                                                                <input id="LocationId" type="hidden" />
+
+                                                                                                <select id="DistrictGeoCode" name="DistrictGeoCode" class="form-control" required="">
+                                                                                                    <option value="">Choose..</option>
+
+                                                                                                    @{
+                                                                                                        List<LookUpAdminBndDistrict> _districts = ViewBag.LookUpAdminBndDistrict;
+
+                                                                                                        if (_districts.Count > 0)
+                                                                                                        {
+                                                                                                            foreach (LookUpAdminBndDistrict dist in _districts)
+                                                                                                            {
+                                                                                                                <option value="@dist.DistrictGeoCode">@dist.DistrictName</option>
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                </select>
+                                                                                            </th>
+                                                                                            <th class="text-center">
+                                                                                                <select id="UpazilaGeoCode" name="UpazilaGeoCode" class="form-control">
+                                                                                                    <option value="">Choose..</option>
+                                                                                                </select>
+                                                                                            </th>
+                                                                                            <th class="text-center">
+                                                                                                <select id="UnionGeoCode" name="UnionGeoCode" class="form-control">
+                                                                                                    <option value="">Choose..</option>
+                                                                                                </select>
+                                                                                            </th>
+                                                                                            <th class="text-center">
+                                                                                                <input type="number" id="Latitude" name="Latitude" class="form-control text-right" />
+                                                                                            </th>
+                                                                                            <th class="text-center">
+                                                                                                <input type="number" id="Longitude" name="Longitude" class="form-control text-right" />
+                                                                                            </th>
+                                                                                            <th class="text-center">
+                                                                                                <button id="btnSaveProjLocation" type="button" class="btn btn-success waves-effect waves-light" value="Save">
+                                                                                                    <i class="mdi mdi-content-save"></i>
+                                                                                                </button>
+
+                                                                                                <button id="btnClearProjLocation" type="button" class="btn btn-warning waves-effect waves-light" value="Clear">
+                                                                                                    <i class="mdi mdi-refresh"></i>
+                                                                                                </button>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody id="tbodyProjectLocation"></tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="tab-pane fade" id="v-tech-info" role="tabpanel" aria-labelledby="v-tech-info-tab">
+                                                            <div class="card-box">
+                                                                <div id="tech-info-form">
                                                                     <h2>1.	Discussion about baseline related information or situation</h2>
 
                                                                     <div class="form-group">
@@ -262,6 +263,7 @@
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <th colspan="2" class="text-center">
+                                                                                                <input id="HydroSysDetailId" type="hidden" />
                                                                                                 <select id="HydroSystemCategoryId" name="HydroSystemCategoryId" class="form-control">
                                                                                                     <option value="">Choose...</option>
                                                                                                     @{
@@ -296,8 +298,6 @@
                                                                                                 <button id="btnClearHydroSystem" type="button" class="btn btn-warning waves-effect waves-light" value="Clear">
                                                                                                     <i class="mdi mdi-refresh"></i>
                                                                                                 </button>
-
-                                                                                                <!--Hydrological System JS-->
                                                                                             </th>
                                                                                         </tr>
                                                                                     </thead>
@@ -413,6 +413,7 @@
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <th colspan="2" class="text-center">
+                                                                                                <input id="FloodFrequencyDetailId" type="hidden" />
                                                                                                 <select id="FloodFrequencyId" name="FloodFrequencyId" class="form-control">
                                                                                                     <option value="">Choose..</option>
                                                                                                     @{
@@ -1090,9 +1091,9 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                                                        <div class="tab-pane fade" id="v-deed-obligatory" role="tabpanel" aria-labelledby="v-deed-obligatory-tab">
                                                             <div class="card-box">
-                                                                <div class="demo-form">
+                                                                <div class="deed-obligatory-form">
                                                                     <h2>9. Compatibility with National Water Policy</h2>
 
                                                                     <div class="form-group">
@@ -1667,7 +1668,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                                                        <div class="tab-pane fade" id="v-administrative" role="tabpanel" aria-labelledby="v-administrative-tab">
                                                             <ul>
                                                                 <li>NOC from District IWRM Committee</li>
                                                                 <li>Upazila IWRM Committee</li>
@@ -1801,8 +1802,19 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function () {
-            BindData();
+            var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
 
+            if (projectId != '') {
+                BindData();
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            //BindData();
+
+            GetProjLocationsData();
             GetHydroSystemData();
             GetFloodFrequencyData();
             GetIrrigatedCropAreaData();
@@ -1861,7 +1873,7 @@
             var type = 'upz';
 
             if (code != '') {
-                $("#UpazilaGeoCode, #UnionGeoCode").html('<option value="">Choose...</option>');
+                jQuery("#UpazilaGeoCode, #UnionGeoCode").html('<option value="">Choose...</option>');
                 GetAdminData(code, type);
             }
         });
@@ -1871,7 +1883,7 @@
             var type = 'uni';
 
             if (code != '') {
-                $("#UnionGeoCode").html('<option value="">Choose...</option>');
+                jQuery("#UnionGeoCode").html('<option value="">Choose...</option>');
                 GetAdminData(code, type);
             }
         });
@@ -1956,6 +1968,99 @@
             }
         });
 
+        //Project Location JS
+        jQuery("#btnSaveProjLocation").click(function () {
+            var LocationId = jQuery("#LocationId").val();
+            LocationId = (LocationId == '') ? 0 : LocationId;
+            var DistrictGeoCode = jQuery("#DistrictGeoCode option:selected").val();
+            var UpazilaGeoCode = jQuery("#UpazilaGeoCode option:selected").val();
+            var UnionGeoCode = jQuery("#UnionGeoCode option:selected").val();
+            var Latitude = jQuery("#Latitude").val();
+            var Longitude = jQuery("#Longitude").val();
+
+            if (DistrictGeoCode != '') {
+                var ProjectId = GetHiddenValue('ProjectId');
+
+                var plds = {
+                    "LocationId": LocationId,
+                    "ProjectId": ProjectId,
+                    "DistrictGeoCode": DistrictGeoCode,
+                    "UpazilaGeoCode": UpazilaGeoCode,
+                    "UnionGeoCode": UnionGeoCode,
+                    "Latitude": Latitude,
+                    "Longitude":Longitude
+                };
+
+                var url = '@Url.Action("plds", "form")';
+                jQuery.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { _plds: plds },
+                    dataType: "json",
+                    success: function (data, status, jqXHR) {
+                        if (data.status == 'success') {
+                            Notification('success', 'Success', data.message);
+                            GetProjLocationsData();
+                            ClearProjLocation();
+                        } else {
+                            Notification('error', 'Saving Error', data.message);
+                        }
+                    }, error: function (jqXHR, exception) {
+                        var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                        Notification('error', 'Error Occured', errorMsg);
+                    }
+                });
+            } else {
+                Notification('warning', 'Required Field', 'Please select your project district!');
+                jQuery("#DistrictGeoCode").focus();
+            }
+        });
+
+        jQuery("#btnClearProjLocation").click(function () {
+            ClearProjLocation();
+        });
+
+        function ClearProjLocation() {
+            jQuery("#LocationId").val('');
+            jQuery("#DistrictGeoCode").val('');
+            jQuery("#UpazilaGeoCode").html('<option val=""></option>');
+            jQuery("#UnionGeoCode").html('<option val=""></option>');
+            jQuery("#Latitude, #Longitude").val('');
+        }
+
+        function GetProjLocationsData() {
+            var ProjectId = GetHiddenValue('ProjectId');
+            var url = '@Url.Action("get_pld", "form")';
+
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                data: { project_id: ProjectId },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    if (data.length > 0) {
+                        console.log(data);
+                        var rows = '';
+
+                        var count = 0;
+                        jQuery.each(data, function (i, item) {
+                            ++count;
+                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.districtName + '</td><td>' + item.upazilaName + '</td><td>' + item.unionName + '</td><td>' + item.latitude + '</td><td>' + item.longitude + '</td><td class="text-center"><button onclick="javascript:EditLoc(' + item.locationId + ', '+item.projectId+');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.locationId + ', '+item.projectId+', \'CcModPrjLocationDetail\'); GetProjLocationsData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                        });
+
+                        jQuery("#tbodyProjectLocation").html(rows);
+                    } else {
+                        jQuery("#tbodyProjectLocation").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                        Notification('error', 'Data Fetch Error', data.message);
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    jQuery("#tbodyProjectLocation").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
+        }
+
         //start :: Hydrological System JS
         jQuery("#HydroSystemCategoryId").change(function () {
             var name = jQuery("#HydroSystemCategoryId option:selected").text();
@@ -1973,6 +2078,8 @@
         });
 
         jQuery("#btnSaveHydroSystem").click(function () {
+            var HydroSysDetailId = jQuery("#HydroSysDetailId").val();
+            HydroSysDetailId = (HydroSysDetailId == '') ? 0 : HydroSysDetailId;
             var HydroSystemId = jQuery("#HydroSystemCategoryId").val();
             var HydroSystemName = jQuery("#NameOfHydroSystem").val();
             var LengthArea = jQuery("#HydroSystemLengthArea").val();
@@ -1984,7 +2091,7 @@
                         var ProjectId = GetHiddenValue('ProjectId');
 
                         var hydroSystemDetail = {
-                            "HydroSysDetailId": 0,
+                            "HydroSysDetailId": HydroSysDetailId,
                             "ProjectId": ProjectId,
                             "HydroSystemCategoryId": HydroSystemId,
                             "NameOfHydroSystem": HydroSystemName,
@@ -2030,6 +2137,7 @@
         });
 
         function ClearHydroSystem() {
+            jQuery("#HydroSysDetailId").val('');
             jQuery("#HydroSystemCategoryId").val('');
             jQuery("#NameOfHydroSystem").val('');
             jQuery("#HydroSystemLengthArea").val('');
@@ -2055,7 +2163,7 @@
                         var count = 0;
                         jQuery.each(data, function (i, item) {
                             ++count;
-                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.hydroSystemCategory + '</td><td>' + item.nameOfHydroSystem + '</td><td>' + item.hydroSystemLengthArea + ' (' + item.hydroSystemUnit + ')</td><td class="text-center"><button title="' + item.hydroSysDetailId + '" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button title="' + item.hydroSysDetailId + '" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.hydroSystemCategory + '</td><td>' + item.nameOfHydroSystem + '</td><td>' + item.hydroSystemLengthArea + ' ' + item.hydroSystemUnit + '</td><td class="text-center"><button title="' + item.hydroSysDetailId + '" onclick="javascript:EditHydroSys(' + item.hydroSysDetailId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.hydroSysDetailId + ', ' + item.projectId + ', \'CcModHydroSystemDetail\'); GetHydroSystemData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
                         });
 
                         jQuery("#tbodyHydrologicalSystem").html(rows);
@@ -2079,6 +2187,8 @@
         });
 
         jQuery("#btnSaveFloodFrequency").click(function () {
+            var FloodFrequencyDetailId = GetHiddenValue('FloodFrequencyDetailId');
+            FloodFrequencyDetailId = (FloodFrequencyDetailId == '') ? 0 : FloodFrequencyDetailId;
             var FloodFrequencyId = jQuery("#FloodFrequencyId option:selected").val();
             var FloodFrequencyLevel = jQuery("#FloodFrequencyLevel").val();
 
@@ -2086,7 +2196,7 @@
                 if (FloodFrequencyLevel != '') {
                     var ProjectId = GetHiddenValue('ProjectId');
                     var floodFrequencyDetail = {
-                        "FloodFrequencyDetailId": 0,
+                        "FloodFrequencyDetailId": FloodFrequencyDetailId,
                         "ProjectId": ProjectId,
                         "FloodFrequencyId": FloodFrequencyId,
                         "FloodFrequencyLevel": FloodFrequencyLevel
@@ -2126,6 +2236,7 @@
         });
 
         function ClearFloodFrequency() {
+            jQuery("#FloodFrequencyDetailId").val('');
             jQuery("#FloodFrequencyId").val('');
             jQuery("#FloodFrequencyLevel").val('');
         }
@@ -2147,7 +2258,7 @@
                         var count = 0;
                         jQuery.each(data, function (i, item) {
                             ++count;
-                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.floodFrequency + '</td><td>' + item.floodFrequencyLevel + '</td><td class="text-center"><button title="' + item.floodFrequencyDetailId + '" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button title="' + item.floodFrequencyDetailId + '" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.floodFrequency + '</td><td>' + item.floodFrequencyLevel + '</td><td class="text-center"><button onclick="javascript:EditFloodFreq(' + item.floodFrequencyDetailId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.floodFrequencyDetailId + ', ' + item.projectId + ', \'CcModFloodFrequencyDetail\'); GetFloodFrequencyData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
                         });
 
                         jQuery("#tbodyFloodFrequency").html(rows);
@@ -2715,31 +2826,31 @@
             var hydroRegions = [], bdp2100HotSpot = [], typesOfFlood = [];
             var ProjectId = GetHiddenValue('ProjectId');
 
-            $.each($("input[name='hydrological_region']:checked"), function () {
+            jQuery.each(jQuery("input[name='hydrological_region']:checked"), function () {
                 var _hr = {
                     "PrjHydroRegionDetailId": 0,
                     "ProjectId": ProjectId,
-                    "HydroRegionId": $(this).val()
+                    "HydroRegionId": jQuery(this).val()
                 };
 
                 hydroRegions.push(_hr);
             });
 
-            $.each($("input[name='bdp2100_hot_spot']:checked"), function () {
+            jQuery.each(jQuery("input[name='bdp2100_hot_spot']:checked"), function () {
                 var _hsp = {
                     "HotSpotDetailId": 0,
                     "ProjectId": ProjectId,
-                    "DeltaPlanHotSpotId": $(this).val()
+                    "DeltaPlanHotSpotId": jQuery(this).val()
                 };
 
                 bdp2100HotSpot.push(_hsp);
             });
 
-            $.each($("input[name='types_of_flood']:checked"), function () {
+            jQuery.each(jQuery("input[name='types_of_flood']:checked"), function () {
                 var _tof = {
                     "FloodTypeDetailId": 0,
                     "ProjectId": ProjectId,
-                    "FloodTypeId": $(this).val()
+                    "FloodTypeId": jQuery(this).val()
                 };
 
                 typesOfFlood.push(_tof);
@@ -2853,61 +2964,61 @@
             var ProjectId = GetHiddenValue('ProjectId');
             var Project31IndvId = GetHiddenValue('Project31IndvId');
 
-            $.each($("input[name='NationalWaterPolicyArticleId']:checked"), function () {
+            jQuery.each(jQuery("input[name='NationalWaterPolicyArticleId']:checked"), function () {
                 var _nwpa = {
                     "PrjCompatNWPId": 0,
                     "ProjectId": ProjectId,
-                    "NationalWaterPolicyArticleId": $(this).val()
+                    "NationalWaterPolicyArticleId": jQuery(this).val()
                 };
 
                 nwpArticles.push(_nwpa);
             });
 
-            $.each($("input[name='PrjCompatNWMPId']:checked"), function () {
+            jQuery.each(jQuery("input[name='PrjCompatNWMPId']:checked"), function () {
                 var _nwmpa = {
                     "PrjCompatNWMPId": 0,
                     "ProjectId": ProjectId,
-                    "NWMPProgrammeId": $(this).val()
+                    "NWMPProgrammeId": jQuery(this).val()
                 };
 
                 prjCompatNWMP.push(_nwmpa);
             });
 
-            $.each($("input[name='SDGGoalId']:checked"), function () {
+            jQuery.each(jQuery("input[name='SDGGoalId']:checked"), function () {
                 var _sdg = {
                     "SDGCompabilityId": 0,
                     "ProjectId": ProjectId,
-                    "SDGGoalId": $(this).val()
+                    "SDGGoalId": jQuery(this).val()
                 };
 
                 sdgGoals.push(_sdg);
             });
 
-            $.each($("input[name='SDGIndicatorId']:checked"), function () {
+            jQuery.each(jQuery("input[name='SDGIndicatorId']:checked"), function () {
                 var _sdgi = {
                     "SDGIndicatorDetailId": 0,
                     "ProjectId": ProjectId,
-                    "SDGIndicatorId": $(this).val()
+                    "SDGIndicatorId": jQuery(this).val()
                 };
 
                 sdgIndicators.push(_sdgi);
             });
 
-            $.each($("input[name='DeltPlan2100GoalId']:checked"), function () {
+            jQuery.each(jQuery("input[name='DeltPlan2100GoalId']:checked"), function () {
                 var _dp2100g = {
                     "DeltaGoalDetailId": 0,
                     "ProjectId": ProjectId,
-                    "DeltPlan2100GoalId": $(this).val()
+                    "DeltPlan2100GoalId": jQuery(this).val()
                 };
 
                 dp2100Goals.push(_dp2100g);
             });
 
-            $.each($("input[name='GPWMGroupTypeId']:checked"), function () {
+            jQuery.each(jQuery("input[name='GPWMGroupTypeId']:checked"), function () {
                 var _gpwmg = {
                     "GPWMGroupTypeDetailId": 0,
                     "ProjectId": ProjectId,
-                    "GPWMGroupTypeId": $(this).val()
+                    "GPWMGroupTypeId": jQuery(this).val()
                 };
 
                 gpwmGroupType.push(_gpwmg);
@@ -3091,12 +3202,9 @@
 
         function GeneralInfoSave() {
             //region block 1
-            var _gi = [];
-
-            var CommonDetail = {
-                "ProjectId": jQuery('#ProjectId').val(),
+            var pcd = {
+                "ProjectId": GetHiddenValue('ProjectId'),
                 "UserId": 0,
-                "AppSubmissionId": 0,
                 "ProjectTypeId": jQuery('#ProjectTypeId').val(),
                 "ProjectName": jQuery('#ProjectName').val(),
                 "BackgroundAndRationale": jQuery('#BackgroundAndRationale').val(),
@@ -3108,28 +3216,13 @@
                 "ProjectEstimatedCost": jQuery('#ProjectEstimatedCost').val()
             };
 
-            var LocationDetail = {
-                "LocationId": 0,
-                "ProjectId": GetHiddenValue('ProjectId'),
-                "DistrictGeoCode": jQuery('#DistrictGeoCode').val(),
-                "UpazilaGeoCode": jQuery('#UpazilaGeoCode').val(),
-                "UnionGeoCode": jQuery('#UnionGeoCode').val()
-                //"Latitude": $('#HydrologicalInformation_Other').val()
-                //"Longitude": $('#HydrologicalInformation_Other').val()
-            };
-
-            var _gi = {
-                "CommonDetail": CommonDetail,
-                "LocationDetail": LocationDetail
-            }
-
-            console.log(_gi);
+            console.log(pcd);
 
             var url = '@Url.Action("gis", "form")';
             jQuery.ajax({
                 type: "POST",
                 url: url,
-                data: { _gi: _gi },
+                data: { _pcd: pcd },
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.status == 'success') {
@@ -3146,6 +3239,86 @@
             //endregion block 1
         }
 
+        function GetAdminData(code, type) {
+            var url = '@Url.Action("gab", "common")';
+
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                data: { code: code, type: type },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    console.log(data);
+                    jQuery("#UpazilaGeoCode").html('<option value="">Choose...</option>');
+                    jQuery("#UnionGeoCode").html('<option value="">Choose...</option>');
+
+                    if (type == 'upz') {
+                        //jQuery("#UpazilaGeoCode").html('<option value="">Choose...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            var content = '<option value="' + item.code + '">' + item.ab_name + '</option>';
+                            jQuery("#UpazilaGeoCode").append(content);
+                        });
+                    } else if (type == 'uni') {
+                        //jQuery("#UnionGeoCode").html('<option value="">Choose...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            var content = '<option value="' + item.code + '">' + item.ab_name + '</option>';
+                            jQuery("#UnionGeoCode").append(content);
+                        });
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
+        }
+
+        function GetAdminData(code, type, val) {
+            var url = '@Url.Action("gab", "common")';
+
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                data: { code: code, type: type },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    var content = '';
+
+                    if (type == 'upz') {
+                        jQuery("#UpazilaGeoCode").html('<option value="">Choose...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            if (val == item.code)
+                                content = '<option value="' + item.code + '" selected>' + item.ab_name + '</option>';
+                            else
+                                content = '<option value="' + item.code + '">' + item.ab_name + '</option>';
+
+                            jQuery("#UpazilaGeoCode").append(content);
+                        });
+
+                        //jQuery("#UpazilaGeoCode").val(val);
+                    } else if (type == 'uni') {
+                        jQuery("#UnionGeoCode").html('<option value="">Choose...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            if (val == item.code)
+                                content = '<option value="' + item.code + '" selected>' + item.ab_name + '</option>';
+                            else
+                                content = '<option value="' + item.code + '">' + item.ab_name + '</option>';
+
+                            jQuery("#UnionGeoCode").append(content);
+                        });
+
+                        //jQuery("#UnionGeoCode").val(val);
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
+        }
+
         function BindData() {
             var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
 
@@ -3154,7 +3327,10 @@
 
                 //General Info
                 SetHiddenValue('ProjectId', projectId);
-                SetHiddenValue('Project31IndvId', '@ViewBag.ProjectIndvDetail31.Project31IndvId');
+
+                var Project31IndvId = '@ViewBag.ProjectIndvDetail31.Project31IndvId';
+                SetHiddenValue('Project31IndvId', Project31IndvId);
+
                 SetHiddenValue('UserId', '@ViewBag.ProjectCommonDetail.UserId');
                 SetHiddenValue('ProjectTypeId', '@ViewBag.ProjectCommonDetail.ProjectTypeId');
 
@@ -3167,10 +3343,10 @@
                 SetTextValue('ProjectCompletionDate', '@ViewBag.ProjectCommonDetail.ProjectCompletionDate');
                 SetTextValue('ProjectEstimatedCost', '@ViewBag.ProjectCommonDetail.ProjectEstimatedCost');
 
-                //location
-                SetDropdownValue('DistrictGeoCode', '@ViewBag.ProjectLocationDetail.DistrictGeoCode');
-                SetDropdownValue('UpazilaGeoCode', '@ViewBag.ProjectLocationDetail.UpazilaGeoCode');
-                SetDropdownValue('UnionGeoCode', '@ViewBag.ProjectLocationDetail.UnionGeoCode');
+                ////location
+                //SetDropdownValue('DistrictGeoCode', 'ViewBag.ProjectLocationDetail.DistrictGeoCode');
+                //SetDropdownValue('UpazilaGeoCode', 'ViewBag.ProjectLocationDetail.UpazilaGeoCode');
+                //SetDropdownValue('UnionGeoCode', 'ViewBag.ProjectLocationDetail.UnionGeoCode');
                 //SetDropdownValue('Latitude', 'ViewBag.ProjectLocationDetail.Latitude');
                 //SetDropdownValue('Longitude', 'ViewBag.ProjectLocationDetail.Longitude');
 
@@ -3332,29 +3508,92 @@
             }
         }
 
-        function GetAdminData(code, type) {
-            var url = '@Url.Action("gab", "common")';
+        function Delete(id, projectId, modelName) {
+            var url = '@Url.Action("cdm", "form")';
+            jQuery.ajax({
+                type: "POST",
+                url: url,
+                data: { id: id, projectId: projectId, modelName: modelName },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    if (data.status == 'success') {
+                        Notification('success', 'Success', data.message);
+                    } else {
+                        Notification('error', 'Deletion Error', data.message);
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
+        }
 
+        function EditLoc(id, projectId) {
+            var url = '@Url.Action("gsl", "form")';
             jQuery.ajax({
                 type: "GET",
                 url: url,
-                data: { code: code, type: type },
+                data: { id: id, projectId: projectId },
                 dataType: "json",
-                success: function (data, status, jqXHR) {                    
-                    if (type == 'upz') {
-                        $("#UpazilaGeoCode").html('<option value="">Choose...</option>');
+                success: function (data, status, jqXHR) {
+                    if (data.locationId != '') {
+                        console.log(data);
 
-                        jQuery.each(data, function (i, item) {
-                            var content = '<option value="' + item.code + '">' + item.ab_name + '</option>';
-                            $("#UpazilaGeoCode").append(content);
-                        });
-                    } else if (type == 'uni') {
-                        $("#UnionGeoCode").html('<option value="">Choose...</option>');
+                        SetHiddenValue('LocationId', data.locationId);
+                        jQuery("#DistrictGeoCode option[value=" + data.districtGeoCode + "]").prop('selected', true);
+                        GetAdminData(data.districtGeoCode, 'upz', data.upazilaGeoCode);
+                        GetAdminData(data.upazilaGeoCode, 'uni', data.unionGeoCode);
+                        //jQuery("#DistrictGeoCode").val(data.districtGeoCode).attr('selected', 'selected');
+                        SetTextValue('Latitude', data.latitude);
+                        SetTextValue('Longitude', data.longitude);
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
+        }
 
-                        jQuery.each(data, function (i, item) {
-                            var content = '<option value="' + item.code + '">' + item.ab_name + '</option>';
-                            $("#UnionGeoCode").append(content);
-                        });
+        function EditHydroSys(id, projectId) {
+            var url = '@Url.Action("gshs", "form")';
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                data: { id: id, projectId: projectId },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    if (data.hydroSysDetailId != '') {
+                        console.log(data);
+
+                        SetHiddenValue('HydroSysDetailId', data.hydroSysDetailId);
+                        jQuery("#HydroSystemCategoryId option[value=" + data.hydroSystemCategoryId + "]").prop('selected', true);
+                        SetTextValue('NameOfHydroSystem', data.nameOfHydroSystem);
+                        SetTextValue('HydroSystemLengthArea', data.hydroSystemLengthArea);
+                        jQuery("#HydroSysCategoryUnit").parent('div').removeClass('d-none');
+                        jQuery("#HydroSysCategoryUnit").text(data.hydroSystemUnit);
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
+        }
+        
+        function EditFloodFreq(id, projectId) {
+            var url = '@Url.Action("gsff", "form")';
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                data: { id: id, projectId: projectId },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    if (data.floodFrequencyDetailId != '') {
+                        console.log('Single Flood Frequency Detail Id');
+                        console.log(data);
+
+                        SetHiddenValue('FloodFrequencyDetailId', data.floodFrequencyDetailId);
+                        jQuery("#FloodFrequencyId option[value=" + data.floodFrequencyId + "]").prop('selected', true);
+                        SetTextValue('FloodFrequencyLevel', data.floodFrequencyLevel);                        
                     }
                 }, error: function (jqXHR, exception) {
                     var errorMsg = AjaxErrorHandle(jqXHR, exception);

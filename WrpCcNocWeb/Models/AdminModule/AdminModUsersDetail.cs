@@ -13,12 +13,14 @@ namespace WrpCcNocWeb.Models
         [Column("UserId", Order = 0)]
         public long UserId { get; set; }
 
+
         [Required]
         [Column("UserRegistrationId", Order = 1)]
         [Display(Name = "User Registration")]
         public long UserRegistrationId { get; set; }
         [ForeignKey("UserRegistrationId")]
         public virtual AdminModUserRegistrationDetail adminModUserRegistrationDetails { get; set; }
+
 
         [Required]
         [Column("UserFullName", Order = 2)]
@@ -33,6 +35,7 @@ namespace WrpCcNocWeb.Models
         [DataType(DataType.Text)]
         [Display(Name = "Father's Name")]
         public string UserFatherName { get; set; }
+
 
         [Required]
         [Column("UserDateOfBirth", Order = 4)]

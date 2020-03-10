@@ -12,3 +12,25 @@ table, th, td {
 tr {
     page-break-inside: avoid;
 }
+
+.container {
+    font-family:Verdana, Arial, Helvetica, Arial;
+    padding: 5px 50px;
+    font-size:11px;
+}
+
+.lineGap {
+    padding:5px 0px;
+}
+
+.HeaderTitle {
+    font-family: Verdana, Arial, Helvetica, Arial;    
+    text-align: center;
+    font-size:14px;
+}
+
+.HeaderSubTitle {
+    font-family: Verdana, Arial, Helvetica, Arial;
+    text-align: center;
+    font-size: 12px;
+}
