@@ -552,6 +552,7 @@
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <th colspan="2" class="text-center">
+                                                                                                <input id="IrrigatedCropId" type="hidden" />
                                                                                                 <input type="text" id="CropName" name="CropName" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
@@ -735,6 +736,7 @@
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <th colspan="2" class="text-center">
+                                                                                                <input id="AnalyzeOptionsId" type="hidden" />
                                                                                                 <input type="text" id="OptionNumber" name="OptionNumber" class="form-control" />
                                                                                             </th>
                                                                                             <th class="text-center">
@@ -776,6 +778,7 @@
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <th colspan="2" class="text-center">
+                                                                                                <input id="DesignSubmittedId" type="hidden" />
                                                                                                 <select id="DesignSubmittedParameterId" name="DesignSubmittedParameterId" class="form-control">
                                                                                                     <option value="">Choose...</option>
                                                                                                     @{
@@ -2281,6 +2284,8 @@
         });
 
         jQuery("#btnSaveIrrigatedCropArea").click(function () {
+            var IrrigatedCropId = GetHiddenValue('IrrigatedCropId');
+            IrrigatedCropId = (IrrigatedCropId == '') ? 0 : IrrigatedCropId;
             var CropName = jQuery("#CropName").val();
             var Area = jQuery("#Area").val();
 
@@ -2288,7 +2293,7 @@
                 if (Area != '') {
                     var ProjectId = GetHiddenValue('ProjectId');
                     var irrigCropAreaDetail = {
-                        "IrrigatedCropId": 0,
+                        "IrrigatedCropId": IrrigatedCropId,
                         "ProjectId": ProjectId,
                         "CropName": CropName,
                         "Area": Area
@@ -2329,6 +2334,7 @@
         });
 
         function ClearIrrigatedCropArea() {
+            jQuery("#IrrigatedCropId").val('');
             jQuery("#CropName").val('');
             jQuery("#Area").val('');
         }
@@ -2350,7 +2356,7 @@
                         var count = 0;
                         jQuery.each(data, function (i, item) {
                             ++count;
-                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.cropName + '</td><td>' + item.area + '</td><td class="text-center"><button title="' + item.irrigatedCropId + '" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button title="' + item.irrigatedCropId + '" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.cropName + '</td><td>' + item.area + '</td><td class="text-center"><button onclick="javascript:EditIca(' + item.irrigatedCropId + ', '+item.projectId+');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.irrigatedCropId + ', '+item.projectId+', \'CcModPrjIrrigCropAreaDetail\'); GetIrrigatedCropAreaData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
                         });
 
                         jQuery("#tbodyIrrigatedCropArea").html(rows);
@@ -2369,6 +2375,8 @@
 
         //start :: Analyze options to fulfill objective
         jQuery("#btnSaveAoFOYes").click(function () {
+            var AnalyzeOptionsId = jQuery("#AnalyzeOptionsId").val();
+            AnalyzeOptionsId = (AnalyzeOptionsId == '') ? 0 : AnalyzeOptionsId;
             var OptionNumber = jQuery("#OptionNumber").val();
             var AnalyzeDescription = jQuery("#AnalyzeDescription").val();
             var AnalyzeRemarks = jQuery("#AnalyzeRemarks").val();
@@ -2376,7 +2384,7 @@
             if (AnalyzeDescription != '') {
                 var ProjectId = GetHiddenValue('ProjectId');
                 var analyzeOptionsDetail = {
-                    "AnalyzeOptionsId": 0,
+                    "AnalyzeOptionsId": AnalyzeOptionsId,
                     "ProjectId": ProjectId,
                     "OptionNumber": OptionNumber,
                     "AnalyzeDescription": AnalyzeDescription,
@@ -2436,7 +2444,7 @@
                         var count = 0;
                         jQuery.each(data, function (i, item) {
                             ++count;
-                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.optionNumber + '</td><td>' + item.analyzeDescription + '</td><td>' + item.analyzeRemarks + '</td><td class="text-center"><button title="' + item.analyzeOptionsId + '" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button title="' + item.analyzeOptionsId + '" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.optionNumber + '</td><td>' + item.analyzeDescription + '</td><td>' + item.analyzeRemarks + '</td><td class="text-center"><button onclick="javascript:EditAofo(' + item.analyzeOptionsId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.analyzeOptionsId + ', ' + item.projectId + ', \'CcModAnalyzeOptionsDetail\'); GetAoFOData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
                         });
 
                         jQuery("#tbodyAnalyzeOptFulfillObj").html(rows);
@@ -2453,8 +2461,10 @@
         }
         //end
 
-        //start :: Design submitted with project document JS
+        //region start :: Design submitted with project document JS
         jQuery("#btnSaveDSWPD").click(function () {
+            var DesignSubmittedId = GetHiddenValue('DesignSubmittedId');
+            DesignSubmittedId = (DesignSubmittedId == '') ? 0 : DesignSubmittedId;
             var DesignSubmittedParameterId = jQuery("#DesignSubmittedParameterId option:selected").val();
             var DswpYesNoId = jQuery("input:radio[name='dswpdYN']:checked").val();
             DswpYesNoId = (DswpYesNoId == '') ? 0 : DswpYesNoId;
@@ -2464,7 +2474,7 @@
             if (AnalyzeDescription != '') {
                 var ProjectId = GetHiddenValue('ProjectId');
                 var designSubParamDetail = {
-                    "DesignSubmittedId": 0,
+                    "DesignSubmittedId": DesignSubmittedId,
                     "ProjectId": ProjectId,
                     "DesignSubmittedParameterId": DesignSubmittedParameterId,
                     "YesNoId": DswpYesNoId,
@@ -2530,7 +2540,7 @@
                         var count = 0;
                         jQuery.each(data, function (i, item) {
                             ++count;
-                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.parameterName + '</td><td>' + item.dswpdYN + '</td><td>' + item.designSubmitApplicantCmt + '</td><td>' + item.designSubmitAuthorityCmt + '</td><td class="text-center"><button title="' + item.designSubmittedId + '" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button title="' + item.designSubmittedId + '" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.parameterName + '</td><td>' + item.dswpdYN + '</td><td>' + item.designSubmitApplicantCmt + '</td><td>' + item.designSubmitAuthorityCmt + '</td><td class="text-center"><button onclick="javascript:EditDesiSub(' + item.designSubmittedId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.designSubmittedId + ', ' + item.projectId + ', \'CcModDesignSubmitDetail\'); GetDswpdData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
                         });
 
                         jQuery("#tbodyDesignSubProjDoc").html(rows);
@@ -2545,7 +2555,7 @@
                 }
             });
         }
-        //end
+        //endregion
 
         //start :: Environmental Impact Assessment
         jQuery("#btnSaveEIAYes").click(function () {
@@ -3578,7 +3588,7 @@
                 }
             });
         }
-        
+
         function EditFloodFreq(id, projectId) {
             var url = '@Url.Action("gsff", "form")';
             jQuery.ajax({
@@ -3593,7 +3603,7 @@
 
                         SetHiddenValue('FloodFrequencyDetailId', data.floodFrequencyDetailId);
                         jQuery("#FloodFrequencyId option[value=" + data.floodFrequencyId + "]").prop('selected', true);
-                        SetTextValue('FloodFrequencyLevel', data.floodFrequencyLevel);                        
+                        SetTextValue('FloodFrequencyLevel', data.floodFrequencyLevel);
                     }
                 }, error: function (jqXHR, exception) {
                     var errorMsg = AjaxErrorHandle(jqXHR, exception);
@@ -3601,5 +3611,78 @@
                 }
             });
         }
+
+        function EditIca(id, projectId) {
+            var url = '@Url.Action("gsica", "form")';
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                data: { id: id, projectId: projectId },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    if (data.irrigatedCropId != '') {
+                        console.log('Single Irrigated Crop Area');
+                        console.log(data);
+
+                        SetHiddenValue('IrrigatedCropId', data.irrigatedCropId);
+                        SetTextValue('CropName', data.cropName);
+                        SetTextValue('Area', data.area);
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
+        }
+
+        function EditAofo(id, projectId) {
+            var url = '@Url.Action("gsaod", "form")';
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                data: { id: id, projectId: projectId },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    console.log('Single Analyze Options Detail');
+                    console.log(data);
+
+                    if (data.analyzeOptionsId != '') {
+                        SetHiddenValue('AnalyzeOptionsId', data.analyzeOptionsId);
+                        SetTextValue('OptionNumber', data.optionNumber);
+                        SetTextValue('AnalyzeDescription', data.analyzeDescription);
+                        SetTextValue('AnalyzeRemarks', data.analyzeRemarks);
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
+        }
+
+        function EditDesiSub(id, projectId) {
+	        var url = '@Url.Action("gsdswpd", "form")';
+	        jQuery.ajax({
+		        type: "GET",
+		        url: url,
+		        data: { id: id, projectId: projectId },
+		        dataType: "json",
+		        success: function (data, status, jqXHR) {
+			        console.log('Single Analyze Options Detail');
+			        console.log(data);
+
+			        if (data.designSubmittedId != '') {
+				        SetHiddenValue('DesignSubmittedId', data.designSubmittedId);
+				        jQuery("#DesignSubmittedParameterId option[value=" + data.designSubmittedParameterId + "]").prop('selected', true);
+				        $(":radio[name='dswpdYN'][value='" + data.dswpdYN + "']").attr('checked', true);
+				        SetTextValue('DesignSubmitApplicantCmt', data.designSubmitApplicantCmt);
+				        SetTextValue('DesignSubmitAuthorityCmt', data.designSubmitAuthorityCmt);
+			        }
+		        }, error: function (jqXHR, exception) {
+			        var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			        Notification('error', 'Error Occured', errorMsg);
+		        }
+	        });
+        }
+        //EditDesiSub
     </script>
 }

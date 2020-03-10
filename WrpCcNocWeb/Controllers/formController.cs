@@ -780,9 +780,9 @@ namespace WrpCcNocWeb.Controllers
                 {
                     using (var dbContextTransaction = _db.Database.BeginTransaction())
                     {
-                        try
+                        if (_ica.IrrigatedCropId != 0)
                         {
-                            _db.CcModPrjIrrigCropAreaDetail.Add(_ica);
+                            _db.Entry(_ica).State = EntityState.Modified;
                             result = _db.SaveChanges();
 
                             if (result > 0)
@@ -793,7 +793,7 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _ica.IrrigatedCropId.ToString(),
                                     status = "success",
-                                    message = "Irrigated crop area information has been saved successfully."
+                                    message = "Irrigated crop area information has been updated successfully."
                                 };
                             }
                             else
@@ -804,22 +804,54 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _ica.IrrigatedCropId.ToString(),
                                     status = "error",
-                                    message = "Irrigated crop area information not saved."
+                                    message = "Irrigated crop area information not updated."
                                 };
                             }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            dbContextTransaction.Rollback();
-                            var message = ch.ExtractInnerException(ex);
-
-                            noti = new Notification
+                            try
                             {
-                                id = _ica.IrrigatedCropId.ToString(),
-                                status = "error",
-                                message = "Transaction has been rollbacked. " + message
-                            };
+                                _db.CcModPrjIrrigCropAreaDetail.Add(_ica);
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = _ica.IrrigatedCropId.ToString(),
+                                        status = "success",
+                                        message = "Irrigated crop area information has been saved successfully."
+                                    };
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = _ica.IrrigatedCropId.ToString(),
+                                        status = "error",
+                                        message = "Irrigated crop area information not saved."
+                                    };
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                dbContextTransaction.Rollback();
+                                var message = ch.ExtractInnerException(ex);
+
+                                noti = new Notification
+                                {
+                                    id = _ica.IrrigatedCropId.ToString(),
+                                    status = "error",
+                                    message = "Transaction has been rollbacked. " + message
+                                };
+                            }
                         }
+
                     }
                 }
             }
@@ -838,7 +870,7 @@ namespace WrpCcNocWeb.Controllers
             return Json(noti);
         }
 
-        //form/GetFloodFrequencyDetail :: get_ffd
+        //form/GetIrrigatedCropArea :: get_ica
         [HttpGet]
         public JsonResult get_ica(long project_id)
         {
@@ -906,9 +938,9 @@ namespace WrpCcNocWeb.Controllers
                 {
                     using (var dbContextTransaction = _db.Database.BeginTransaction())
                     {
-                        try
+                        if (_aofd.AnalyzeOptionsId != 0)
                         {
-                            _db.CcModAnalyzeOptionsDetail.Add(_aofd);
+                            _db.Entry(_aofd).State = EntityState.Modified;
                             result = _db.SaveChanges();
 
                             if (result > 0)
@@ -919,7 +951,7 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _aofd.AnalyzeOptionsId.ToString(),
                                     status = "success",
-                                    message = "Irrigated crop area information has been saved successfully."
+                                    message = "Information has been updated successfully."
                                 };
                             }
                             else
@@ -930,21 +962,52 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _aofd.AnalyzeOptionsId.ToString(),
                                     status = "error",
-                                    message = "Irrigated crop area information not saved."
+                                    message = "Information not updated."
                                 };
                             }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            dbContextTransaction.Rollback();
-                            var message = ch.ExtractInnerException(ex);
-
-                            noti = new Notification
+                            try
                             {
-                                id = _aofd.AnalyzeOptionsId.ToString(),
-                                status = "error",
-                                message = "Transaction has been rollbacked. " + message
-                            };
+                                _db.CcModAnalyzeOptionsDetail.Add(_aofd);
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = _aofd.AnalyzeOptionsId.ToString(),
+                                        status = "success",
+                                        message = "Information has been saved successfully."
+                                    };
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = _aofd.AnalyzeOptionsId.ToString(),
+                                        status = "error",
+                                        message = "Information not saved."
+                                    };
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                dbContextTransaction.Rollback();
+                                var message = ch.ExtractInnerException(ex);
+
+                                noti = new Notification
+                                {
+                                    id = _aofd.AnalyzeOptionsId.ToString(),
+                                    status = "error",
+                                    message = "Transaction has been rollbacked. " + message
+                                };
+                            }
                         }
                     }
                 }
@@ -975,6 +1038,7 @@ namespace WrpCcNocWeb.Controllers
                                 select new
                                 {
                                     d.AnalyzeOptionsId,
+                                    d.ProjectId,
                                     d.OptionNumber,
                                     d.AnalyzeDescription,
                                     d.AnalyzeRemarks
@@ -1028,9 +1092,9 @@ namespace WrpCcNocWeb.Controllers
                 {
                     using (var dbContextTransaction = _db.Database.BeginTransaction())
                     {
-                        try
+                        if (_dspd.DesignSubmittedId != 0)
                         {
-                            _db.CcModDesignSubmitDetail.Add(_dspd);
+                            _db.Entry(_dspd).State = EntityState.Modified;
                             result = _db.SaveChanges();
 
                             if (result > 0)
@@ -1041,7 +1105,7 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _dspd.DesignSubmittedId.ToString(),
                                     status = "success",
-                                    message = "Design submitted with project document information has been saved successfully."
+                                    message = "Design submitted with project document information has been updated successfully."
                                 };
                             }
                             else
@@ -1052,21 +1116,52 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _dspd.DesignSubmittedId.ToString(),
                                     status = "error",
-                                    message = "Design submitted with project document information not saved."
+                                    message = "Design submitted with project document information not updated."
                                 };
                             }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            dbContextTransaction.Rollback();
-                            var message = ch.ExtractInnerException(ex);
-
-                            noti = new Notification
+                            try
                             {
-                                id = _dspd.DesignSubmittedId.ToString(),
-                                status = "error",
-                                message = "Transaction has been rollbacked. " + message
-                            };
+                                _db.CcModDesignSubmitDetail.Add(_dspd);
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = _dspd.DesignSubmittedId.ToString(),
+                                        status = "success",
+                                        message = "Design submitted with project document information has been saved successfully."
+                                    };
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = _dspd.DesignSubmittedId.ToString(),
+                                        status = "error",
+                                        message = "Design submitted with project document information not saved."
+                                    };
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                dbContextTransaction.Rollback();
+                                var message = ch.ExtractInnerException(ex);
+
+                                noti = new Notification
+                                {
+                                    id = _dspd.DesignSubmittedId.ToString(),
+                                    status = "error",
+                                    message = "Transaction has been rollbacked. " + message
+                                };
+                            }
                         }
                     }
                 }
@@ -2047,6 +2142,16 @@ namespace WrpCcNocWeb.Controllers
                                 _db.CcModFloodFrequencyDetail.Remove(_fsd);
                                 break;
 
+                            case "CcModPrjIrrigCropAreaDetail":
+                                CcModPrjIrrigCropAreaDetail _ica = _db.CcModPrjIrrigCropAreaDetail.Where(w => w.ProjectId == projectId && w.IrrigatedCropId == id).FirstOrDefault();
+                                _db.CcModPrjIrrigCropAreaDetail.Remove(_ica);
+                                break;
+
+                            case "CcModAnalyzeOptionsDetail":
+                                CcModAnalyzeOptionsDetail _aod = _db.CcModAnalyzeOptionsDetail.Where(w => w.ProjectId == projectId && w.AnalyzeOptionsId == id).FirstOrDefault();
+                                _db.CcModAnalyzeOptionsDetail.Remove(_aod);
+                                break;
+                                //
                         }
 
                         _db.SaveChanges();
@@ -2099,6 +2204,30 @@ namespace WrpCcNocWeb.Controllers
         {
             CcModFloodFrequencyDetail _ffd = _db.CcModFloodFrequencyDetail.Where(w => w.ProjectId == projectId && w.FloodFrequencyDetailId == id).FirstOrDefault();
             return Json(_ffd);
+        }
+
+        //form/GetSingleIrrigCropArea :: gsica
+        [HttpGet]
+        public JsonResult gsica(long id, long projectId)
+        {
+            CcModPrjIrrigCropAreaDetail _ica = _db.CcModPrjIrrigCropAreaDetail.Where(w => w.ProjectId == projectId && w.IrrigatedCropId == id).FirstOrDefault();
+            return Json(_ica);
+        }
+
+        //form/GetSingleAnalyzeOptionsDetail :: gsaod
+        [HttpGet]
+        public JsonResult gsaod(long id, long projectId)
+        {
+            CcModAnalyzeOptionsDetail _aod = _db.CcModAnalyzeOptionsDetail.Where(w => w.ProjectId == projectId && w.AnalyzeOptionsId == id).FirstOrDefault();
+            return Json(_aod);
+        }
+
+        //form/GetSingleDesignSubmittedWithProjectDocument :: gsdswpd
+        [HttpGet]
+        public JsonResult gsdswpd(long id, long projectId)
+        {
+            CcModDesignSubmitDetail _dsd = _db.CcModDesignSubmitDetail.Where(w => w.ProjectId == projectId && w.DesignSubmittedId == id).FirstOrDefault();
+            return Json(_dsd);
         }
     }
 }
