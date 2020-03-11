@@ -1249,9 +1249,9 @@ namespace WrpCcNocWeb.Controllers
                 {
                     using (var dbContextTransaction = _db.Database.BeginTransaction())
                     {
-                        try
+                        if (_eia.EIAId != 0)
                         {
-                            _db.CcModPrjEIADetail.Add(_eia);
+                            _db.Entry(_eia).State = EntityState.Modified;
                             result = _db.SaveChanges();
 
                             if (result > 0)
@@ -1262,7 +1262,7 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _eia.EIAId.ToString(),
                                     status = "success",
-                                    message = "Environmental Impact Assessment (EIA) information has been saved successfully."
+                                    message = "Environmental Impact Assessment (EIA) information has been updated successfully."
                                 };
                             }
                             else
@@ -1273,21 +1273,52 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _eia.EIAId.ToString(),
                                     status = "error",
-                                    message = "Environmental Impact Assessment (EIA) information not saved."
+                                    message = "Environmental Impact Assessment (EIA) information not updated."
                                 };
                             }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            dbContextTransaction.Rollback();
-                            var message = ch.ExtractInnerException(ex);
-
-                            noti = new Notification
+                            try
                             {
-                                id = _eia.EIAId.ToString(),
-                                status = "error",
-                                message = "Transaction has been rollbacked. " + message
-                            };
+                                _db.CcModPrjEIADetail.Add(_eia);
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = _eia.EIAId.ToString(),
+                                        status = "success",
+                                        message = "Environmental Impact Assessment (EIA) information has been saved successfully."
+                                    };
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = _eia.EIAId.ToString(),
+                                        status = "error",
+                                        message = "Environmental Impact Assessment (EIA) information not saved."
+                                    };
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                dbContextTransaction.Rollback();
+                                var message = ch.ExtractInnerException(ex);
+
+                                noti = new Notification
+                                {
+                                    id = _eia.EIAId.ToString(),
+                                    status = "error",
+                                    message = "Transaction has been rollbacked. " + message
+                                };
+                            }
                         }
                     }
                 }
@@ -1376,9 +1407,9 @@ namespace WrpCcNocWeb.Controllers
                 {
                     using (var dbContextTransaction = _db.Database.BeginTransaction())
                     {
-                        try
+                        if (_sia.SIAId != 0)
                         {
-                            _db.CcModPrjSIADetail.Add(_sia);
+                            _db.Entry(_sia).State = EntityState.Modified;
                             result = _db.SaveChanges();
 
                             if (result > 0)
@@ -1389,7 +1420,7 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _sia.SIAId.ToString(),
                                     status = "success",
-                                    message = "Social Impact Assessment (EIA) information has been saved successfully."
+                                    message = "Social Impact Assessment (EIA) information has been updated successfully."
                                 };
                             }
                             else
@@ -1400,21 +1431,52 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _sia.SIAId.ToString(),
                                     status = "error",
-                                    message = "Social Impact Assessment (EIA) information not saved."
+                                    message = "Social Impact Assessment (EIA) information not updated."
                                 };
                             }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            dbContextTransaction.Rollback();
-                            var message = ch.ExtractInnerException(ex);
-
-                            noti = new Notification
+                            try
                             {
-                                id = _sia.SIAId.ToString(),
-                                status = "error",
-                                message = "Transaction has been rollbacked. " + message
-                            };
+                                _db.CcModPrjSIADetail.Add(_sia);
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = _sia.SIAId.ToString(),
+                                        status = "success",
+                                        message = "Social Impact Assessment (EIA) information has been saved successfully."
+                                    };
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = _sia.SIAId.ToString(),
+                                        status = "error",
+                                        message = "Social Impact Assessment (EIA) information not saved."
+                                    };
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                dbContextTransaction.Rollback();
+                                var message = ch.ExtractInnerException(ex);
+
+                                noti = new Notification
+                                {
+                                    id = _sia.SIAId.ToString(),
+                                    status = "error",
+                                    message = "Transaction has been rollbacked. " + message
+                                };
+                            }
                         }
                     }
                 }
@@ -1503,9 +1565,9 @@ namespace WrpCcNocWeb.Controllers
                 {
                     using (var dbContextTransaction = _db.Database.BeginTransaction())
                     {
-                        try
+                        if (_efas.EconomicalAndFinancialId != 0)
                         {
-                            _db.CcModPrjEcoFinAnalysisDetail.Add(_efas);
+                            _db.Entry(_efas).State = EntityState.Modified;
                             result = _db.SaveChanges();
 
                             if (result > 0)
@@ -1516,7 +1578,7 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _efas.EconomicalAndFinancialId.ToString(),
                                     status = "success",
-                                    message = "Economical & financial analysis information has been saved successfully."
+                                    message = "Economical & financial analysis information has been updated successfully."
                                 };
                             }
                             else
@@ -1527,21 +1589,52 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _efas.EconomicalAndFinancialId.ToString(),
                                     status = "error",
-                                    message = "Economical & financial analysis information not saved."
+                                    message = "Economical & financial analysis information not updated."
                                 };
                             }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            dbContextTransaction.Rollback();
-                            var message = ch.ExtractInnerException(ex);
-
-                            noti = new Notification
+                            try
                             {
-                                id = _efas.EconomicalAndFinancialId.ToString(),
-                                status = "error",
-                                message = "Transaction has been rollbacked. " + message
-                            };
+                                _db.CcModPrjEcoFinAnalysisDetail.Add(_efas);
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = _efas.EconomicalAndFinancialId.ToString(),
+                                        status = "success",
+                                        message = "Economical & financial analysis information has been saved successfully."
+                                    };
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = _efas.EconomicalAndFinancialId.ToString(),
+                                        status = "error",
+                                        message = "Economical & financial analysis information not saved."
+                                    };
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                dbContextTransaction.Rollback();
+                                var message = ch.ExtractInnerException(ex);
+
+                                noti = new Notification
+                                {
+                                    id = _efas.EconomicalAndFinancialId.ToString(),
+                                    status = "error",
+                                    message = "Transaction has been rollbacked. " + message
+                                };
+                            }
                         }
                     }
                 }
@@ -2151,7 +2244,22 @@ namespace WrpCcNocWeb.Controllers
                                 CcModAnalyzeOptionsDetail _aod = _db.CcModAnalyzeOptionsDetail.Where(w => w.ProjectId == projectId && w.AnalyzeOptionsId == id).FirstOrDefault();
                                 _db.CcModAnalyzeOptionsDetail.Remove(_aod);
                                 break;
-                                //
+
+                            case "CcModPrjEIADetail":
+                                CcModPrjEIADetail _eia = _db.CcModPrjEIADetail.Where(w => w.ProjectId == projectId && w.EIAId == id).FirstOrDefault();
+                                _db.CcModPrjEIADetail.Remove(_eia);
+                                break;
+
+                            case "CcModPrjSIADetail":
+                                CcModPrjSIADetail _sia = _db.CcModPrjSIADetail.Where(w => w.ProjectId == projectId && w.SIAId == id).FirstOrDefault();
+                                _db.CcModPrjSIADetail.Remove(_sia);
+                                break;
+
+                            //CcModPrjEcoFinAnalysisDetail
+                            case "CcModPrjEcoFinAnalysisDetail":
+                                CcModPrjEcoFinAnalysisDetail _efa = _db.CcModPrjEcoFinAnalysisDetail.Where(w => w.ProjectId == projectId && w.EconomicalAndFinancialId == id).FirstOrDefault();
+                                _db.CcModPrjEcoFinAnalysisDetail.Remove(_efa);
+                                break;
                         }
 
                         _db.SaveChanges();
@@ -2228,6 +2336,30 @@ namespace WrpCcNocWeb.Controllers
         {
             CcModDesignSubmitDetail _dsd = _db.CcModDesignSubmitDetail.Where(w => w.ProjectId == projectId && w.DesignSubmittedId == id).FirstOrDefault();
             return Json(_dsd);
+        }
+
+        //form/GetSingleDesignSubmittedWithProjectDocument :: gseia
+        [HttpGet]
+        public JsonResult gseia(long id, long projectId)
+        {
+            CcModPrjEIADetail _eia = _db.CcModPrjEIADetail.Where(w => w.ProjectId == projectId && w.EIAId == id).FirstOrDefault();
+            return Json(_eia);
+        }
+
+        //form/GetSingleDesignSubmittedWithProjectDocument :: gssia
+        [HttpGet]
+        public JsonResult gssia(long id, long projectId)
+        {
+            CcModPrjSIADetail _sia = _db.CcModPrjSIADetail.Where(w => w.ProjectId == projectId && w.SIAId == id).FirstOrDefault();
+            return Json(_sia);
+        }
+
+        //form/GetSingleEcoFinAnalysisDetail :: gsefa
+        [HttpGet]
+        public JsonResult gsefa(long id, long projectId)
+        {
+            CcModPrjEcoFinAnalysisDetail _efa = _db.CcModPrjEcoFinAnalysisDetail.Where(w => w.ProjectId == projectId && w.EconomicalAndFinancialId == id).FirstOrDefault();
+            return Json(_efa);
         }
     }
 }
