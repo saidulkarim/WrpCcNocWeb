@@ -200,13 +200,9 @@ namespace WrpCcNocWeb.Controllers
                 {
                     using (var dbContextTransaction = _db.Database.BeginTransaction())
                     {
-                        try
+                        if (_pcd.ProjectId != 0)
                         {
-                            _pcd.UserId = ui.UserID;
-                            _pcd.AppSubmissionId = 0;
-                            _pcd.ApplicationStateId = 1; //should come from database
-
-                            _db.CcModAppProjectCommonDetail.Add(_pcd);
+                            _db.Entry(_pcd).State = EntityState.Modified;
                             result = _db.SaveChanges();
 
                             if (result > 0)
@@ -218,7 +214,7 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _pcd.ProjectId.ToString(),
                                     status = "success",
-                                    message = "General information has been saved successfully."
+                                    message = "General information has been updated successfully."
                                 };
                             }
                             else
@@ -229,21 +225,57 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     id = _pcd.ProjectId.ToString(),
                                     status = "error",
-                                    message = "General information not saved."
+                                    message = "General information not updated."
                                 };
                             }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            dbContextTransaction.Rollback();
-                            var message = ch.ExtractInnerException(ex);
-
-                            noti = new Notification
+                            try
                             {
-                                id = _pcd.ProjectId.ToString(),
-                                status = "error",
-                                message = "Transaction has been rollbacked. " + message
-                            };
+                                _pcd.UserId = ui.UserID;
+                                _pcd.AppSubmissionId = 0;
+                                _pcd.ApplicationStateId = 1; //should come from database
+
+                                _db.CcModAppProjectCommonDetail.Add(_pcd);
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    ProjectID = _pcd.ProjectId;
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = _pcd.ProjectId.ToString(),
+                                        status = "success",
+                                        message = "General information has been saved successfully."
+                                    };
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = _pcd.ProjectId.ToString(),
+                                        status = "error",
+                                        message = "General information not saved."
+                                    };
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                dbContextTransaction.Rollback();
+                                var message = ch.ExtractInnerException(ex);
+
+                                noti = new Notification
+                                {
+                                    id = _pcd.ProjectId.ToString(),
+                                    status = "error",
+                                    message = "Transaction has been rollbacked. " + message
+                                };
+                            }
                         }
                     }
                 }
@@ -1781,14 +1813,20 @@ namespace WrpCcNocWeb.Controllers
                             {
                                 _db.CcModAppProject_31_IndvDetail.Add(Project31Indv);
 
-                                if (BDP2100HotSpot.Count > 0)
-                                    _db.CcModBDP2100HotSpotDetail.AddRange(BDP2100HotSpot);
-
                                 if (HydroRegion.Count > 0)
+                                {
                                     _db.CcModPrjHydroRegionDetail.AddRange(HydroRegion);
+                                }
+
+                                if (BDP2100HotSpot.Count > 0)
+                                {
+                                    _db.CcModBDP2100HotSpotDetail.AddRange(BDP2100HotSpot);
+                                }
 
                                 if (TypesOfFlood.Count > 0)
+                                {
                                     _db.CcModPrjTypesOfFloodDetail.AddRange(TypesOfFlood);
+                                }
 
                                 result = _db.SaveChanges();
 
@@ -1812,9 +1850,46 @@ namespace WrpCcNocWeb.Controllers
                             }
                             else
                             {
-                                #region Project 31 Indvidual Data Binding
-                                p31i.Project31IndvId = Project31Indv.Project31IndvId;
-                                p31i.ProjectId = Project31Indv.ProjectId;
+                                #region Deleting Before Data                                
+                                if (HydroRegion.Count > 0)
+                                {
+                                    List<CcModPrjHydroRegionDetail> tempHrList = _db.CcModPrjHydroRegionDetail.Where(w => w.ProjectId == p31i.ProjectId).ToList();
+
+                                    if (tempHrList.Count > 0)
+                                    {
+                                        _db.CcModPrjHydroRegionDetail.RemoveRange(tempHrList);
+                                    }
+                                }
+
+                                if (BDP2100HotSpot.Count > 0)
+                                {
+                                    List<CcModBDP2100HotSpotDetail> tempHsList = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == p31i.ProjectId).ToList();
+
+                                    if (tempHsList.Count > 0)
+                                    {
+                                        _db.CcModBDP2100HotSpotDetail.RemoveRange(tempHsList);
+                                    }
+                                }
+
+                                if (TypesOfFlood.Count > 0)
+                                {
+                                    List<CcModPrjTypesOfFloodDetail> tempTfList = _db.CcModPrjTypesOfFloodDetail.Where(w => w.ProjectId == p31i.ProjectId).ToList();
+
+                                    if (tempTfList.Count > 0)
+                                    {
+                                        _db.CcModPrjTypesOfFloodDetail.RemoveRange(tempTfList);
+                                    }
+                                }
+
+                                _db.CcModPrjHydroRegionDetail.AddRange(HydroRegion);
+                                _db.CcModBDP2100HotSpotDetail.AddRange(BDP2100HotSpot);
+                                _db.CcModPrjTypesOfFloodDetail.AddRange(TypesOfFlood);
+
+                                //result = _db.SaveChanges();
+                                //dbNewListTrans.Commit();
+                                #endregion                                
+
+                                #region Project 31 Indvidual Data Binding                                
                                 p31i.ConnectivityAmidWaterland = Project31Indv.ConnectivityAmidWaterland;
                                 p31i.CatchmentArea = Project31Indv.CatchmentArea;
                                 p31i.HighestFloodLevel = Project31Indv.HighestFloodLevel;
@@ -2028,17 +2103,76 @@ namespace WrpCcNocWeb.Controllers
                         _db.Entry(p31id).State = EntityState.Modified;
 
                         if (CompatNWPDetail.Count > 0)
+                        {
+                            List<CcModPrjCompatNWPDetail> _cnwp = _db.CcModPrjCompatNWPDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_cnwp.Count > 0)
+                            {
+                                _db.CcModPrjCompatNWPDetail.RemoveRange(_cnwp);
+                            }
+
                             _db.CcModPrjCompatNWPDetail.AddRange(CompatNWPDetail);
+                        }
+
                         if (CompatNWMPDetail.Count > 0)
+                        {
+                            List<CcModPrjCompatNWMPDetail> _cnwmp = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_cnwmp.Count > 0)
+                            {
+                                _db.CcModPrjCompatNWMPDetail.RemoveRange(_cnwmp);
+                            }
+
                             _db.CcModPrjCompatNWMPDetail.AddRange(CompatNWMPDetail);
+                        }
+
                         if (CompatSDGDetail.Count > 0)
+                        {
+                            List<CcModPrjCompatSDGDetail> _csdg = _db.CcModPrjCompatSDGDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_csdg.Count > 0)
+                            {
+                                _db.CcModPrjCompatSDGDetail.RemoveRange(_csdg);
+                            }
+
                             _db.CcModPrjCompatSDGDetail.AddRange(CompatSDGDetail);
+                        }
+
                         if (CompatSDGIndiDetail.Count > 0)
+                        {
+                            List<CcModPrjCompatSDGIndiDetail> _csdgi = _db.CcModPrjCompatSDGIndiDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_csdgi.Count > 0)
+                            {
+                                _db.CcModPrjCompatSDGIndiDetail.RemoveRange(_csdgi);
+                            }
+
                             _db.CcModPrjCompatSDGIndiDetail.AddRange(CompatSDGIndiDetail);
+                        }
+
                         if (BDP2100GoalDetail.Count > 0)
+                        {
+                            List<CcModBDP2100GoalDetail> _bdp2100goal = _db.CcModBDP2100GoalDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_bdp2100goal.Count > 0)
+                            {
+                                _db.CcModBDP2100GoalDetail.RemoveRange(_bdp2100goal);
+                            }
+
                             _db.CcModBDP2100GoalDetail.AddRange(BDP2100GoalDetail);
+                        }
+
                         if (GPWMGroupTypeDetail.Count > 0)
+                        {
+                            List<CcModGPWMGroupTypeDetail> _gpwm = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_gpwm.Count > 0)
+                            {
+                                _db.CcModGPWMGroupTypeDetail.RemoveRange(_gpwm);
+                            }
+
                             _db.CcModGPWMGroupTypeDetail.AddRange(GPWMGroupTypeDetail);
+                        }
 
                         result = _db.SaveChanges();
 

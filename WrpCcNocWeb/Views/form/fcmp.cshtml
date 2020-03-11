@@ -32,6 +32,9 @@
                                         <div class="card-box">
                                             <div class="row">
                                                 @Html.Hidden("ProjectId")
+                                                @Html.Hidden("AppSubmissionId")
+                                                @Html.Hidden("ApplicationStateId")
+                                                @Html.Hidden("ApprovalStatusId")
                                                 @Html.Hidden("Project31IndvId")
                                                 @Html.Hidden("UserId")
 
@@ -1701,18 +1704,18 @@
 
                                                                     <div class="form-group">
                                                                         <!--
-                                                                        <div id="recommendation" class="row" style="margin-left: 5px;">
-                                                                            <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="RecommendationId" id="recommendationYes" value="1" data-parsley-multiple="RecommendationId">
-                                                                                <label for="recommendationYes"> Yes </label>
-                                                                            </div>
+                            <div id="recommendation" class="row" style="margin-left: 5px;">
+                                <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                                    <input type="radio" name="RecommendationId" id="recommendationYes" value="1" data-parsley-multiple="RecommendationId">
+                                    <label for="recommendationYes"> Yes </label>
+                                </div>
 
-                                                                            <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                <input type="radio" name="RecommendationId" id="recommendationNo" value="0" checked data-parsley-multiple="RecommendationId">
-                                                                                <label for="RecommandCmt"> No </label>
-                                                                            </div>
-                                                                        </div>
-                                                                        -->
+                                <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                                    <input type="radio" name="RecommendationId" id="recommendationNo" value="0" checked data-parsley-multiple="RecommendationId">
+                                    <label for="RecommandCmt"> No </label>
+                                </div>
+                            </div>
+                            -->
 
                                                                         <label for="RecommendationId">Recommendation</label>
                                                                         <select id="RecommendationId" name="RecommendationId" class="form-control" required="">
@@ -3229,6 +3232,9 @@
             var pcd = {
                 "ProjectId": GetHiddenValue('ProjectId'),
                 "UserId": 0,
+                "AppSubmissionId": GetHiddenValue('AppSubmissionId'),
+                "ApplicationStateId": GetHiddenValue('ApplicationStateId'),
+                "ApprovalStatusId": GetHiddenValue('ApprovalStatusId'),
                 "ProjectTypeId": jQuery('#ProjectTypeId').val(),
                 "ProjectName": jQuery('#ProjectName').val(),
                 "BackgroundAndRationale": jQuery('#BackgroundAndRationale').val(),
@@ -3251,6 +3257,11 @@
                 success: function (data, status, jqXHR) {
                     if (data.status == 'success') {
                         SetHiddenValue('ProjectId', data.id);
+
+                        //SetHiddenValue('AppSubmissionId', data.id);
+                        //SetHiddenValue('ApplicationStateId', data.id);
+                        //SetHiddenValue('ApprovalStatusId', data.id);
+
                         Notification('success', 'Success', data.message);
                     } else {
                         Notification('error', 'Saving Error', data.message);
