@@ -202,31 +202,45 @@ namespace WrpCcNocWeb.Controllers
                     {
                         if (_pcd.ProjectId != 0)
                         {
-                            _db.Entry(_pcd).State = EntityState.Modified;
-                            result = _db.SaveChanges();
+                            CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(_pcd.ProjectId);
 
-                            if (result > 0)
+                            if (pcd != null)
                             {
-                                ProjectID = _pcd.ProjectId;
-                                dbContextTransaction.Commit();
+                                pcd.ProjectName = _pcd.ProjectName;
+                                pcd.BackgroundAndRationale = _pcd.BackgroundAndRationale;
+                                pcd.ProjectTarget = _pcd.ProjectTarget;
+                                pcd.ProjectObjective = _pcd.ProjectObjective;
+                                pcd.ProjectActivity = _pcd.ProjectActivity;
+                                pcd.ProjectStartDate = _pcd.ProjectStartDate;
+                                pcd.ProjectCompletionDate = _pcd.ProjectCompletionDate;
+                                pcd.ProjectEstimatedCost = _pcd.ProjectEstimatedCost;
 
-                                noti = new Notification
-                                {
-                                    id = _pcd.ProjectId.ToString(),
-                                    status = "success",
-                                    message = "General information has been updated successfully."
-                                };
-                            }
-                            else
-                            {
-                                dbContextTransaction.Rollback();
+                                _db.Entry(pcd).State = EntityState.Modified;
+                                result = _db.SaveChanges();
 
-                                noti = new Notification
+                                if (result > 0)
                                 {
-                                    id = _pcd.ProjectId.ToString(),
-                                    status = "error",
-                                    message = "General information not updated."
-                                };
+                                    ProjectID = pcd.ProjectId;
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = _pcd.ProjectId.ToString(),
+                                        status = "success",
+                                        message = "General information has been updated successfully."
+                                    };
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = _pcd.ProjectId.ToString(),
+                                        status = "error",
+                                        message = "General information not updated."
+                                    };
+                                }
                             }
                         }
                         else
@@ -2341,6 +2355,7 @@ namespace WrpCcNocWeb.Controllers
         }
         #endregion
 
+        #region Delete
         //form/CommonDeleteMethod :: cdm
         [HttpPost]
         public JsonResult cdm(long id, long projectId, string modelName)
@@ -2423,7 +2438,9 @@ namespace WrpCcNocWeb.Controllers
 
             return Json(noti);
         }
+        #endregion
 
+        #region Get Single Row Data
         //form/GetSingleLocation :: gsl
         [HttpGet]
         public JsonResult gsl(long id, long projectId)
@@ -2495,5 +2512,6 @@ namespace WrpCcNocWeb.Controllers
             CcModPrjEcoFinAnalysisDetail _efa = _db.CcModPrjEcoFinAnalysisDetail.Where(w => w.ProjectId == projectId && w.EconomicalAndFinancialId == id).FirstOrDefault();
             return Json(_efa);
         }
+        #endregion
     }
 }
