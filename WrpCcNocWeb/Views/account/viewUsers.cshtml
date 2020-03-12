@@ -1,0 +1,55 @@
+﻿@using WrpCcNocWeb.Models.UserManagement 
+
+@{
+    ViewData["Title"] = "User Information";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<UserInfo> userDetails = ViewData["UserDetails"] as List<UserInfo>;
+
+}
+
+<div style="padding: 5px 3px; width:100%" class="panel panel-default">
+    <div class="panel-heading">        
+        <h4>@ViewData["Title"]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;@Html.ActionLink("Create New User", "createUser", "account")</h4>
+    </div>
+    <div class="panel-body">
+         
+        @if (userDetails.Count<UserInfo>() > 0)
+        {
+        <table class="table table-hover table-responsive-md mb-0">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Full Name</th>
+                    <th>Designation</th>                    
+                    <th>Mobile</th>
+                    <th>Activation Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            @foreach (var item in userDetails)
+            {
+                <tr>
+                    <td>@item.UserName</td>
+                    <td>@item.UserFullName</td>
+                    @*<td>@item.CreatedDate.ToString("dd MMMM, yyyy")</td>*@
+                    <td>@item.UserDesignation</td>                   
+                    <td>@item.UserMobile</td>
+                    <td>@((item.UserActivationStatus != null && item.UserActivationStatus == 1) ? "Active" : "Inactive")</td>
+                    <td>
+                        @Html.ActionLink("Details", "userDetails", new { RegId = item.UserRegistrationID, UserId = @item.UserID })&nbsp;&nbsp;|&nbsp;&nbsp;
+                        @Html.ActionLink("Edit Profile", "editUserProfile", new { RegId = item.UserRegistrationID, UserId = @item.UserID })&nbsp;&nbsp;|&nbsp;&nbsp;
+                        @Html.ActionLink("Reset Password", "resetPassword", new { RegId = item.UserRegistrationID, UserId = @item.UserID })&nbsp;&nbsp;|&nbsp;&nbsp;
+                        @Html.ActionLink(((item.UserActivationStatus != null && item.UserActivationStatus == 1) ? "Make Inactive" : "Activate"), "makeActiveInactive", new { RegId = item.UserRegistrationID, UserId = @item.UserID })&nbsp;&nbsp;|&nbsp;&nbsp;
+                        @Html.ActionLink("Delete", "deleteUser", new { RegId = item.UserRegistrationID, UserId = @item.UserID })
+                    </td>
+                </tr>
+            }
+        </table>
+        }
+        else
+        {
+            <div class="msg">No data is available</div>
+        }
+    </div>
+</div>

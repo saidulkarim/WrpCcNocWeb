@@ -156,35 +156,6 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
-        private void NewEmptyForm()
-        {
-            CcModAppProjectCommonDetail _pcd = new CcModAppProjectCommonDetail();
-            ViewBag.ProjectCommonDetail = _pcd;
-            CcModPrjLocationDetail _locationdetail = new CcModPrjLocationDetail();
-            ViewBag.ProjectLocationDetail = _locationdetail;
-            CcModAppProject_31_IndvDetail _indvdetail = new CcModAppProject_31_IndvDetail();
-            ViewBag.ProjectIndvDetail31 = _indvdetail;
-
-            List<CcModPrjHydroRegionDetail> _hydroregiondetail = new List<CcModPrjHydroRegionDetail>();
-            ViewBag.HydroRegionDetail = _hydroregiondetail;
-            List<CcModBDP2100HotSpotDetail> _hotspotdetail = new List<CcModBDP2100HotSpotDetail>();
-            ViewBag.BDP2100HotSpotDetail = _hotspotdetail;
-            List<CcModPrjTypesOfFloodDetail> _typesofflood = new List<CcModPrjTypesOfFloodDetail>();
-            ViewBag.TypesOfFloodDetail = _typesofflood;
-            List<CcModPrjCompatNWPDetail> _compatnwpdetail = new List<CcModPrjCompatNWPDetail>();
-            ViewBag.CompatNWPDetail = _compatnwpdetail;
-            List<CcModPrjCompatNWMPDetail> _compatnwmpdetail = new List<CcModPrjCompatNWMPDetail>();
-            ViewBag.CompatNWMPDetail = _compatnwmpdetail;
-            List<CcModPrjCompatSDGDetail> _compatsdgdetail = new List<CcModPrjCompatSDGDetail>();
-            ViewBag.CompatSDGDetail = _compatsdgdetail;
-            List<CcModPrjCompatSDGIndiDetail> _compatsdgindidetail = new List<CcModPrjCompatSDGIndiDetail>();
-            ViewBag.CompatSDGIndiDetail = _compatsdgindidetail;
-            List<CcModBDP2100GoalDetail> _bdp2100goaldetail = new List<CcModBDP2100GoalDetail>();
-            ViewBag.BDP2100GoalDetail = _bdp2100goaldetail;
-            List<CcModGPWMGroupTypeDetail> _gpwmgrouptype = new List<CcModGPWMGroupTypeDetail>();
-            ViewBag.GPWMGroupType = _gpwmgrouptype;
-        }
-
         //form/FloodControlManagementProject :: fcmp
         [HttpPost]
         public IActionResult fcmp(long id)
@@ -305,6 +276,35 @@ namespace WrpCcNocWeb.Controllers
             return Json(noti);
         }
 
+        private void NewEmptyForm()
+        {
+            CcModAppProjectCommonDetail _pcd = new CcModAppProjectCommonDetail();
+            ViewBag.ProjectCommonDetail = _pcd;
+            CcModPrjLocationDetail _locationdetail = new CcModPrjLocationDetail();
+            ViewBag.ProjectLocationDetail = _locationdetail;
+            CcModAppProject_31_IndvDetail _indvdetail = new CcModAppProject_31_IndvDetail();
+            ViewBag.ProjectIndvDetail31 = _indvdetail;
+
+            List<CcModPrjHydroRegionDetail> _hydroregiondetail = new List<CcModPrjHydroRegionDetail>();
+            ViewBag.HydroRegionDetail = _hydroregiondetail;
+            List<CcModBDP2100HotSpotDetail> _hotspotdetail = new List<CcModBDP2100HotSpotDetail>();
+            ViewBag.BDP2100HotSpotDetail = _hotspotdetail;
+            List<CcModPrjTypesOfFloodDetail> _typesofflood = new List<CcModPrjTypesOfFloodDetail>();
+            ViewBag.TypesOfFloodDetail = _typesofflood;
+            List<CcModPrjCompatNWPDetail> _compatnwpdetail = new List<CcModPrjCompatNWPDetail>();
+            ViewBag.CompatNWPDetail = _compatnwpdetail;
+            List<CcModPrjCompatNWMPDetail> _compatnwmpdetail = new List<CcModPrjCompatNWMPDetail>();
+            ViewBag.CompatNWMPDetail = _compatnwmpdetail;
+            List<CcModPrjCompatSDGDetail> _compatsdgdetail = new List<CcModPrjCompatSDGDetail>();
+            ViewBag.CompatSDGDetail = _compatsdgdetail;
+            List<CcModPrjCompatSDGIndiDetail> _compatsdgindidetail = new List<CcModPrjCompatSDGIndiDetail>();
+            ViewBag.CompatSDGIndiDetail = _compatsdgindidetail;
+            List<CcModBDP2100GoalDetail> _bdp2100goaldetail = new List<CcModBDP2100GoalDetail>();
+            ViewBag.BDP2100GoalDetail = _bdp2100goaldetail;
+            List<CcModGPWMGroupTypeDetail> _gpwmgrouptype = new List<CcModGPWMGroupTypeDetail>();
+            ViewBag.GPWMGroupType = _gpwmgrouptype;
+        }
+
         private int GetProjectCostRangeState(long projectId)
         {
             double ProjectEstimatedCost = _db.CcModAppProjectCommonDetail
@@ -361,8 +361,8 @@ namespace WrpCcNocWeb.Controllers
                         appState = 3; //Pending for Review of Upazila Technical Committee
                     else if (tUnion == 1 && tUpazila == 1)
                         appState = 2; //Pending for Review of Union Technical Committee
-                    else
-                        appState = 1; //Not Yet Submitted
+                    //else
+                    //    appState = 1; //Not Yet Submitted
                 }
 
                 if (tDistrict > 1)
@@ -377,8 +377,8 @@ namespace WrpCcNocWeb.Controllers
                         appState = 2; //Pending for Review of Union Technical Committee
                     else if (tUnion == 0 && tUpazila == 1 && tDistrict == 1)
                         appState = 3; //Pending for Review of Upazila Technical Committee
-                    else
-                        appState = 1; //Not Yet Submitted
+                    //else
+                    //    appState = 1; //Not Yet Submitted
                 }
             }
 

@@ -1,0 +1,71 @@
+﻿@using WrpCcNocWeb.Models.UserManagement
+
+@{
+    ViewData["Title"] = "User Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    UserInfo userDetails = ViewData["UserDetails"] as UserInfo;
+}
+
+<div style="padding: 5px 3px; width:100%" class="panel panel-default">
+    <div class="panel-heading">
+        <h4>@ViewData["Title"]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;@Html.ActionLink("Back to User List", "viewUsers", "account")&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;@Html.ActionLink("Edit", "editUserProfile", new { RegId = @userDetails.UserRegistrationID, UserId = @userDetails.UserID })</h4>
+    </div>
+    <div class="panel-body">
+
+        @if (userDetails != null)
+        {
+            <table class="table table-responsive-md mb-0">
+                <tr>
+                    <td style="width:200px;">User</td>
+                    <td style="width:5px;">:</td>
+                    <td>@((userDetails.UserName != null) ? userDetails.UserName : "")</td>
+                </tr>
+                <tr>
+                    <td>Full Name</td>
+                    <td>:</td>                    
+                    <td>@((userDetails.UserFullName != null) ? userDetails.UserFullName : "")</td>
+                </tr>
+                <tr>
+                    <td>Designation</td>
+                    <td>:</td>                    
+                    <td>@((userDetails.UserDesignation != null) ? userDetails.UserDesignation : "")</td>
+                </tr>
+                <tr>
+                    <td>E-Mail</td>
+                    <td>:</td>                    
+                    <td>@((userDetails.UserEmail != null) ? userDetails.UserEmail : "")</td>
+                </tr>
+                <tr>
+                    <td>Mobile</td>
+                    <td>:</td>                    
+                    <td>@((userDetails.UserMobile != null) ? userDetails.UserMobile : "")</td>
+                </tr>
+                <tr>
+                    <td>Address</td>
+                    <td>:</td>                    
+                    <td>@((userDetails.UserAddress != null) ? userDetails.UserAddress : "")</td>
+                </tr>
+                <tr>
+                    <td>Date Of Creation</td>
+                    <td>:</td>                    
+                    <td>@((userDetails.DateOfCreation != null) ? userDetails.DateOfCreation.ToString("dd MMMM, yyyy") : "")</td>
+                </tr>
+                <tr>
+                    <td>Last Modified Date</td>
+                    <td>:</td>                    
+                    <td>@((userDetails.LastModifiedDate != null) ? userDetails.LastModifiedDate.ToString("dd MMMM, yyyy") : "")</td>
+                </tr>
+                <tr>
+                    <td>Activation Status</td>
+                    <td>:</td>
+                    <td>@((userDetails.UserActivationStatus != null && userDetails.UserActivationStatus == 1) ? "Active" : "Inactive")</td>
+                </tr>
+            </table>
+        }
+        else
+        {
+            <div class="msg">No data is available</div>
+        }
+    </div>
+</div>

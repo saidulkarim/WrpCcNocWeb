@@ -1,0 +1,97 @@
+﻿@using WrpCcNocWeb.Models.UserManagement
+
+@{
+    ViewData["Title"] = "User Group Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    UserGroupInfo userGroupDetails = ViewData["UserGroupDetails"] as UserGroupInfo;
+}
+
+<div style="padding: 5px 3px; width:100%" class="panel panel-default">
+    <div class="panel-heading">
+        <h4>@ViewData["Title"]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;@Html.ActionLink("Back to User Group List", "viewUserGroups", "account")&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;@Html.ActionLink("Edit", "editUserGroup", new { UserGroupId = @userGroupDetails.UserGroupId })</h4>
+    </div>
+    <div class="panel-body">
+
+        @if (userGroupDetails != null)
+        {            
+            <table class="table table-responsive-md mb-0">
+                <tr>
+                    <td style="width:200px;">User Group</td>
+                    <td style="width:5px;">:</td>
+                    <td>@((userGroupDetails.UserGroupName != null) ? userGroupDetails.UserGroupName : "")</td>
+                </tr>
+                <tr>
+                    <td>Authority Level</td>
+                    <td>:</td>
+                    <td>@((userGroupDetails.AuthorityLevel != null) ? userGroupDetails.AuthorityLevel : "")</td>
+                </tr>
+                <tr>
+                    <td>District</td>
+                    <td>:</td>
+                    <td>@((userGroupDetails.DistrictName != null) ? userGroupDetails.DistrictName : "")</td>
+                </tr>
+                <tr>
+                    <td>Upazila</td>
+                    <td>:</td>
+                    <td>@((userGroupDetails.UpazilaName != null) ? userGroupDetails.UpazilaName : "")</td>
+                </tr>
+                <tr>
+                    <td>Union</td>
+                    <td>:</td>
+                    <td>@((userGroupDetails.UnionName != null) ? userGroupDetails.UnionName : "")</td>
+                </tr>
+                <tr>
+                    <td>Can View One Record? </td>
+                    <td>:</td>
+                    <td>@((userGroupDetails.CanViewOneList != null && userGroupDetails.CanViewOneList==1) ? "Yes" : "")</td>
+                </tr>
+                <tr>
+                    <td>Can View Multiple Record? </td>
+                    <td>:</td>
+                    <td>@((userGroupDetails.CanViewMultipleList != null && userGroupDetails.CanViewMultipleList == 1) ? "Yes" : "")</td>
+                </tr>
+                <tr>
+                    <td>Can Insert One Record? </td>
+                    <td>:</td>
+                    <td>@((userGroupDetails.CanInsertOne != null && userGroupDetails.CanInsertOne == 1) ? "Yes" : "")</td>
+                </tr>
+                <tr>
+                    <td>Can Insert Multiple Record?</td>
+                    <td>:</td>
+                    <td>@((userGroupDetails.CanInsertMultiple != null && userGroupDetails.CanInsertMultiple == 1) ? "Yes" : "")</td>
+                </tr>
+                <tr>
+                    <td>Can Update One Record? </td>
+                    <td>:</td>
+                    <td>@((userGroupDetails.CanUpdateOne != null && userGroupDetails.CanUpdateOne == 1) ? "Yes" : "")</td>
+                </tr>
+                <tr>
+                    <td>Can Update Multiple Record?</td>
+                    <td>:</td>
+                    <td>@((userGroupDetails.CanViewMultipleList != null && userGroupDetails.CanViewMultipleList == 1) ? "Yes" : "")</td>
+                </tr>
+                <tr>
+                    <td>Can View Details? </td>
+                    <td>:</td>
+                    <td>@((userGroupDetails.CanViewAsDetails != null && userGroupDetails.CanViewAsDetails == 1) ? "Yes" : "")</td>
+                </tr>
+                <tr>
+                    <td>Can Delete One Record? </td>
+                    <td>:</td>
+                    <td>@((userGroupDetails.CanDeleteOne != null && userGroupDetails.CanDeleteOne == 1) ? "Yes" : "")</td>
+                </tr>
+                <tr>
+                    <td>Can Delete Multiple Record? </td>
+                    <td>:</td>
+                    <td>@((userGroupDetails.CanDeleteMultiple != null && userGroupDetails.CanDeleteMultiple == 1) ? "Yes" : "")</td>
+                </tr>
+            </table>
+        }
+        else
+        {
+            <div class="msg">No data is available</div>
+        }
+    </div>
+</div>
+

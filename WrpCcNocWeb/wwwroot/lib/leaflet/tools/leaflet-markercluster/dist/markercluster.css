@@ -1,0 +1,65 @@
+
+
+.marker-cluster-eqp {
+    background-clip: padding-box;
+    border-radius: 20px;
+}
+
+.marker-cluster-eqp div {
+    width: 27px;
+    height: 27px;
+    margin: 4px;
+    padding: 0;
+    text-align: center;
+    color: #fff;
+    font: bold 12px/27px "Helvetica Neue", Arial, Helvetica, sans-serif;
+    border-radius: 15px;
+}
+
+.marker-cluster-eqp span {
+    line-height: 27px;
+}
+
+
+.cluster-llp {
+    /*background-color: rgba(10, 20, 250, 0.6) !important;*/
+    background-color: rgba(75, 250, 45, 0.6) !important;
+}
+
+.cluster-llp div {
+    /*background-color: rgba(250, 40, 30, 0.7) !important;*/
+    background-color: rgba(10, 20, 250, 0.7) !important;
+}
+
+.cluster-dtw {
+    background-color: rgba(250, 40, 30, 0.6) !important;
+}
+
+.cluster-dtw div {
+    background-color: rgba(75, 250, 45, 0.7) !important;
+}
+
+.cluster-stw {
+    /*background-color: rgba(75, 250, 45, 0.6) !important;*/
+    background-color: rgba(10, 20, 250, 0.6) !important;
+}
+
+.cluster-stw div {
+    background-color: rgba(250, 40, 30, 0.7) !important;
+}
+
+
+.leaflet-cluster-anim .leaflet-marker-icon, .leaflet-cluster-anim .leaflet-marker-shadow {
+	-webkit-transition: -webkit-transform 0.3s ease-out, opacity 0.3s ease-in;
+	-moz-transition: -moz-transform 0.3s ease-out, opacity 0.3s ease-in;
+	-o-transition: -o-transform 0.3s ease-out, opacity 0.3s ease-in;
+	transition: transform 0.3s ease-out, opacity 0.3s ease-in;
+}
+
+.leaflet-cluster-spider-leg {
+	/* stroke-dashoffset (duration and function) should match with leaflet-marker-icon transform in order to track it exactly */
+	-webkit-transition: -webkit-stroke-dashoffset 0.3s ease-out, -webkit-stroke-opacity 0.3s ease-in;
+	-moz-transition: -moz-stroke-dashoffset 0.3s ease-out, -moz-stroke-opacity 0.3s ease-in;
+	-o-transition: -o-stroke-dashoffset 0.3s ease-out, -o-stroke-opacity 0.3s ease-in;
+	transition: stroke-dashoffset 0.3s ease-out, stroke-opacity 0.3s ease-in;
+}

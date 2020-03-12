@@ -1,0 +1,467 @@
+﻿@{
+    ViewBag.Title = "Map View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+
+    <link href="~/css/mapstyle.css" rel="stylesheet" />
+
+    <link href="~/lib/photo-viewer/css/photo.viewer.css" rel="stylesheet" />
+
+    <link href="~/lib/leaflet/leaflet.css" rel="stylesheet" />
+
+    <link href="~/lib/leaflet/tools/leaflet-markercluster/dist/markercluster.css" rel="stylesheet" />
+
+
+    <style>
+
+        .leaflet-fade-anim .leaflet-tile,
+        .leaflet-zoom-anim .leaflet-zoom-animated {
+            will-change: auto !important;
+        }
+
+        /*
+        canvas {
+            z-index: auto !important;
+            z-index: 201 !important;
+        }
+        */
+
+        .leaflet-popup-content {
+            width: auto !important;
+        }
+
+        .leaflet-popup-close-button {
+            top: 2px !important;
+            right: 3px !important;
+        }
+
+        .checkbox > label {
+            margin-bottom: 4px;
+        }
+
+        .admin-bds {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+            .admin-bds > .row {
+                border-color: #ccc;
+                border-style: solid;
+                border-width: 0 0 1px 0;
+                margin: 0 3px 0 12px;
+                padding: 0;
+            }
+
+                .admin-bds > .row > [class*="col-"] {
+                    border: 0 none;
+                    margin: 0;
+                    padding: 3px;
+                }
+
+                .admin-bds > .row > [class*="col-sm-3"] {
+                    text-align: center;
+                }
+
+
+        .data-table {
+            width: auto;
+            height: auto;
+            max-width: none !important;
+            min-width: 96%;
+            margin: 5px;
+            padding: 0;
+            font: normal 12px/1.5 Roboto, Helvetica, Arial, sans-serif;
+        }
+
+            .data-table > tr > th {
+                min-width: 70px;
+                font-weight: bold;
+                text-align: center;
+            }
+
+
+        .pump_img_link,
+        .pump_img_link:hover,
+        .pump_img_link:focus,
+        .pump_img_link:visited {
+            display: block;
+            border: 0;
+            margin: 0 auto;
+            padding: 0;
+            color: #0587ac;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+        }
+
+        .pump_photo,
+        .pump_img {
+            border: 0 none;
+            width: auto;
+            max-height: 340px;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+}
+
+
+<div id="map_info" class="map_info map-full-screen">
+    <div id="map" class="map_content"></div>
+    <div id="map_cord_info" class="coordinate_info"></div>
+    <div id="legend_info_btn" class="legend_btn_content legend_btn_right" onclick="javascript: legend_open_close('legend_info', 'open', 'left');" title="Show Map Information">
+        <div class="legend_btn_right_img"></div>
+    </div>
+    <div id="legend_info" class="map_legend" style="left: -3px;">
+        <div class="map_legend_header">
+            <div id="legend_info_title" class="map_legend_title"></div>
+            <div class="map_legend_close" onclick="javascript: legend_open_close('legend_info', 'close', 'left');" title="Close Map Information">&times;</div>
+        </div>
+        <div id="map_legend_infos" class="map_legend_infos"></div>
+    </div>
+    <div id="legend_btn" class="legend_btn_content legend_btn_left" onclick="javascript: legend_open_close('legend', 'open', 'right');" title="Show Map Legend">
+        <div class="legend_btn_left_img"></div>
+    </div>
+    <div id="legend" class="map_legend" style="right: -3px;">
+        <div class="map_legend_header">
+            <div id="legend_title" class="map_legend_title"></div>
+            <div class="map_legend_close left" onclick="javascript: legend_open_close('legend', 'close', 'right');" title="Close Map Legend">&times;</div>
+        </div>
+        <div id="map_legend_colors" class="map_legend_infos"></div>
+    </div>
+    <div class="map_opt_content">
+        <label><input type="checkbox" id="legend_info_opt" checked="checked" title="Show/Hide Map Information" />Map Information</label>
+        <label><input type="checkbox" id="legend_opt" checked="checked" title="Show/Hide Map Legend" />Map Legend</label>
+        <label><input type="checkbox" id="map_label_opt" checked="checked" title="Show/Hide Map Label" />Map Label</label>
+    </div>
+    <div class="map_opt_content" style="right: 10%;display: none">
+        <div id="selected_info"></div>
+    </div>
+
+    <div id="map_btns_content" class="map_btns_content">
+        <div id="map_center" class="map_btns btn_full_extent" title="Full extent the map"></div>
+        <div id="map_full_screen" class="map_btns btn_full_screen" title="Full-screen the map"></div>
+        <div id="filter_option" class="map_btns btn_map_layers" title="Filter the Map" onclick="map_filter_open_close('map_filter', true);"></div>
+        <div id="map_bglayers" class="map_btns btn_map_bglayers" title="Select the Map Background Layer"></div>
+    </div>
+
+    <div id="map_filter_bg" class="modal-bg">
+        <div id="map_filter_content" class="modal-content no-select" style="width: 35vw;min-width: 250px;margin: 35px auto 0 auto;">
+            <div id="option_title" class="modal-title">
+                <span class="modal-title-txt">▣ Map Filter Options</span>
+                <button class="close" onclick="map_filter_open_close('map_filter', false); return false;">✖</button>
+            </div>
+            <div id="option_content" class="option-content no-select">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <fieldset style="margin: 5px;">
+                            <legend>
+                                <label for="basic_survey">▣ Survey Information</label>
+                                <input type="checkbox" id="basic_survey" checked="checked" class="basic" title="Show/Hide Survey Information" />
+                            </legend>
+
+                            <div style="float: left;width: 47%;margin: 0;padding: 0;">
+                                <label for="admin_info">Data Level:</label>
+                                <select id="admin_info" class="form-control" style="width: 90%;margin-top: 3px;padding: 3px;">
+                                    <option value="div">Division</option>
+                                    <option value="dist">District</option>
+                                    <option value="upaz">Upazila</option>
+                                    <option value="union">Union</option>
+                                </select>
+                            </div>
+                            <div style="float: right;width: 53%;margin: 0;padding: 0;">
+                                <label for="data_year">Data Year:</label>
+                                <select id="data_year" class="form-control" style="width: 90%;margin-top: 3px;padding: 3px;">
+                                    <option value="2018">2018-2019</option>
+                                    <option value="2016">2016-2017</option>
+                                    <option value="2005">2005-2006</option>
+                                </select>
+                            </div>
+
+                            <label for="survey_info">Survey Data:</label>
+                            <select id="survey_info" class="form-control" style="width: 90%;margin-top: 3px;">
+                                <optgroup label="Equipment Info (Count)">
+                                    <option value="LLP" data-model="MapViewer" data-action="GetSurveyData" data-id="1">Low Lift Pump</option>
+                                    <option value="DTW" data-model="MapViewer" data-action="GetSurveyData" data-id="2">Deep Tubewell</option>
+                                    <option value="STW" data-model="MapViewer" data-action="GetSurveyData" data-id="3">Shallow Tubewell</option>
+                                    <option value="STW" data-model="MapViewer" data-action="GetSurveyData" data-id="4">All Equipments</option>
+                                </optgroup>
+                                <optgroup label="Water Utilization (Area)">
+                                    <option value="GWU" data-model="MapViewer" data-action="GetWaterUtilizationData" data-id="1">Groundwater</option>
+                                    <option value="SWU" data-model="MapViewer" data-action="GetWaterUtilizationData" data-id="2">Surface Water</option>
+                                    <option value="GWL" data-model="MapViewer" data-action="GetSurveyData" data-id="6">Groundwater Level</option>
+                                </optgroup>
+                            </select>
+
+                            <label for="legend_theme">Data Legend Theme:</label>
+                            <select id="legend_theme" class="form-control" style="width: 90%;margin-top: 3px;">
+                                <option value="default">Default Theme</option>
+                                <option value="dynamic">Dynamic Theme</option>
+                            </select>
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-6">
+                        <fieldset style="margin: 5px;">
+                            <legend>▣ Admin Boundaries:</legend>
+
+                            <div class="admin-bds">
+                                <div class="row">
+                                    <div class="col-sm-6">Admin</div>
+                                    <div class="col-sm-3">Map</div>
+                                    <div class="col-sm-3">Label</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="admin_div">▣ Division</label>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="admin_div" class="multi-chkbx admin" title="Show/Hide Division Boundary" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="admin_label_div" class="multi-chkbx admin-label" disabled title="Show/Hide Division Label" />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="admin_dist">☐ District</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="admin_dist" class="multi-chkbx admin" title="Show/Hide District Boundary" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="admin_label_dist" class="multi-chkbx admin-label" disabled title="Show/Hide District Label" />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="admin_upaz">⚀ Upazila</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="admin_upaz" class="multi-chkbx admin" title="Show/Hide Upazila Boundary" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="admin_label_upaz" class="multi-chkbx admin-label" disabled title="Show/Hide Upazila Label" />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="admin_union">☉ Union</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="admin_union" class="multi-chkbx admin" title="Show/Hide Union Boundary" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="admin_label_union" class="multi-chkbx admin-label" disabled title="Show/Hide Union Label" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <div class="checkbox">
+                                <label for="admin_sban"><input type="checkbox" id="admin_sban" class="multi-chkbx admin" title="Show/Hide Sundarban Area" />Sundarban</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <fieldset style="margin: 5px;">
+                            <legend>▣ Others Map Layers</legend>
+                            <div class="checkbox" style="margin: 5px 0 0 15px;">
+                                <!--<div class="checkbox">
+                                    <label for="wtr_body"><input type="checkbox" id="wtr_body" class="multi-chkbx other_layer" data="WBNAME" title="Show/Hide Waterbodies" />Waterbodies</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label for="mjr_river"><input type="checkbox" id="mjr_river" class="multi-chkbx other_layer" data="RIVNAME" title="Show/Hide Major Rivers" />Major Rivers</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label for="main_river"><input type="checkbox" id="main_river" class="multi-chkbx other_layer" data="RIVNAME" title="Show/Hide Main Rivers" />Main Rivers</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label for="det_river"><input type="checkbox" id="det_river" class="multi-chkbx other_layer" data="RIVNAME" title="Show/Hide Detail Rivers" />Detail Rivers</label>
+                                </div>-->
+
+                                <label for="crop_suit">
+                                    <input type="checkbox" id="crop_suit" class="multi-chkbx other_layer" data="HYVBORO" title="Show/Hide Crop Suitability" />Crop Suitability
+                                </label>
+                                <select id="crop_suit_data_code" class="form-control" style="display: none;width: 80%;height: 27px;margin-top: 0;margin-left: 12%;padding: 2px;">
+                                    <option value="HYVBORO">HYV Boro</option>
+                                    <option value="HYVTAMAN">HYV T Aman</option>
+                                    <option value="HYVTAUS">HYV T Aus</option>
+                                    <option value="KCHILSUI">Kharif Chilli</option>
+                                    <option value="RCHILSUI">Rabi Chilli</option>
+                                    <option value="POTSUI">Potato</option>
+                                    <option value="JUTCSUI">Jute Capsularis</option>
+                                    <option value="JUTOSUI">Jute Olitorius</option>
+                                    <option value="SCANSUI">Sugercane</option>
+                                    <option value="ONIGRSUI">Onion Garlic</option>
+                                    <option value="GINTSUI">Ginger Turmeric</option>
+                                    <option value="WHEAT">Wheat (Irrigated)</option>
+                                    <option value="MUSTIR">Mustard (Irrigated)</option>
+                                    <option value="MUSTRF">Mustard (RF)</option>
+                                </select>
+
+                                <label for="agro_eco"><input type="checkbox" id="agro_eco" class="multi-chkbx other_layer" data="REGNM" title="Show/Hide Agro-Ecological Regions and Sub-Regions" />Agro-Ecological Regions and Sub-Regions</label>
+                                <label for="phys_unit"><input type="checkbox" id="phys_unit" class="multi-chkbx other_layer" data="PHY_NM" title="Show/Hide Physiographic Units" />Physiographic Units</label>
+
+                                <!--<div class="checkbox">
+                                    <label for="crop_suit"><input type="checkbox" id="crop_suit" class="multi-chkbx other_layer" data="HYVBORO" title="Show/Hide Crop Suitability" />Crop Suitability</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label for="agro_eco"><input type="checkbox" id="agro_eco" class="multi-chkbx other_layer" data="REGNM" title="Show/Hide Agro-Ecological Regions and Sub-Regions" />Agro-Ecological Regions and Sub-Regions</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label for="phys_unit"><input type="checkbox" id="phys_unit" class="multi-chkbx other_layer" data="PHY_NM" title="Show/Hide Physiographic Units" />Physiographic Units</label>
+                                </div>
+
+                                <div class="checkbox">
+                                    <label for="all_river"><input type="checkbox" id="all_river" class="multi-chkbx layer" data="RIV_NM" title="Show/Hide All Rivers" />All River</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label for="major_river"><input type="checkbox" id="major_river" class="multi-chkbx layer" data="RIVNAME" title="Show/Hide Major Rivers" />Major River</label>
+                                </div>-->
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-6">
+
+
+                        <fieldset style="margin: 5px;">
+                            <legend>▣ Waterbodies & Rivers</legend>
+                            <div class="checkbox" style="margin: 5px 0 0 15px;">
+                                <div class="checkbox">
+                                    <label for="wtr_body"><input type="checkbox" id="wtr_body" class="multi-chkbx other_layer" data="WBNAME" title="Show/Hide Waterbodies" />Waterbodies</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label for="mjr_river"><input type="checkbox" id="mjr_river" class="multi-chkbx other_layer" data="RIVNAME" title="Show/Hide Major Rivers" />Major Rivers</label>
+                                </div>
+                                <!--<div class="checkbox">
+                                    <label for="main_river"><input type="checkbox" id="main_river" class="multi-chkbx other_layer" data="RIVNAME" title="Show/Hide Main Rivers" />Main Rivers</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label for="det_river"><input type="checkbox" id="det_river" class="multi-chkbx other_layer" data="RIVNAME" title="Show/Hide Detail Rivers" />Detail Rivers</label>
+                                </div>-->
+                            </div>
+                        </fieldset>
+
+                        <fieldset style="margin: 5px;">
+                            <legend>▣ Equipment Locations</legend>
+                            <div class="checkbox" style="margin: 5px 0 0 15px;">
+                                <label for="eqp_loc">
+                                    <input type="checkbox" id="eqp_loc" class="multi-chkbx" title="Show/Hide Equipment Location" />
+                                    Equipment Location
+                                </label>
+
+                                <div id="eqp_types" style="padding-left: 20px;font-size: 12px;display: none;">
+                                    <label for="eqp_1">
+                                        <input type="checkbox" id="eqp_1" class="multi-chkbx llp" title="Show/Hide Low Lift Pump (LLP) Location" />
+                                        Low Lift Pump (LLP)
+                                    </label>
+
+                                    <label for="eqp_2">
+                                        <input type="checkbox" id="eqp_2" class="multi-chkbx dtw" title="Show/Hide Deep Tubewell (STW) Location" />
+                                        Deep Tubewell (DTW)
+                                    </label>
+
+                                    <label for="eqp_3">
+                                        <input type="checkbox" id="eqp_3" class="multi-chkbx stw" title="Show/Hide Shallow Tubewell (STW) Location" />
+                                        Shallow Tubewell (STW)
+                                    </label>
+
+                                    <label for="eqp_7">
+                                        <input type="checkbox" id="eqp_7" class="multi-chkbx dw" title="Show/Hide Dug Well (DW) Location" />
+                                        Dug Well (DW)
+                                    </label>
+
+                                    <label for="eqp_14">
+                                        <input type="checkbox" id="eqp_14" class="multi-chkbx rd" title="Show/Hide Rubber Dam (RD) Location" />
+                                        Rubber Dam (RD)
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="option-footer">
+                <div class="row" style="border-top: 1px solid #fff;">
+                    <div class="col-sm-12" style="text-align: center;padding: 5px 5px 6px 5px;">
+                        <button class="modal-btns modal-close" onclick="map_filter_open_close('map_filter', false); return false;">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="map_data_bg" class="modal-bg">
+        <div id="map_data_content" class="modal-content no-select" style="width: 85vw;min-width: 350px;margin: 20px auto 0 auto;">
+            <div id="data_title" class="modal-title">
+                <span class="modal-title-txt">▣ Survey Information</span>
+                <button class="close" onclick="map_data_open_close('map_data', false); return false;">✖</button>
+            </div>
+            <div id="data_content" class="option-content no-select" style="padding: 8px 20px 8px 8px;">
+
+            </div>
+            <div class="option-footer">
+                <div class="row" style="border-top: 1px solid #fff;">
+                    <div class="col-sm-12" style="text-align: center;padding: 5px 5px 6px 5px;">
+                        <button class="modal-btns modal-close" onclick="map_data_open_close('map_data', false); return false;">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script type="text/javascript" src="~/lib/leaflet/leaflet.js"></script>
+
+    <script type="text/javascript" src="~/lib/leaflet/tools/d3/d3.js"></script>
+    <script type="text/javascript" src="~/lib/leaflet/tools/chroma-js/chroma.min.js"></script>
+    @*<script type="text/javascript" src="~/lib/leaflet/tools/geotiff/dist/geotiff.js"></script>*@
+
+    <script type="text/javascript" src="~/lib/leaflet/tools/leaflet-ajax/leaflet.ajax.js"></script>
+    <script type="text/javascript" src="~/lib/leaflet/tools/leaflet-canvas-geojson/dist/leaflet-canvas-geojson.js"></script>
+    <script type="text/javascript" src="~/lib/leaflet/tools/leaflet-canvaslayer-field/dist/leaflet.canvaslayer.field.js"></script>
+    <script type="text/javascript" src="~/lib/leaflet/tools/leaflet-polygon-fill-pattern/leaflet-polygon.fillPattern.js"></script>
+    <script type="text/javascript" src="~/lib/leaflet/tools/leaflet-markercluster/dist/leaflet.markercluster.js"></script>
+    <script type="text/javascript" src="~/lib/leaflet/tools/leaflet-geotiff/leaflet-geotiff.js"></script>
+
+    <script type="text/javascript" src="~/js/maps/map_data/legend_theme.js"></script>
+    <script type="text/javascript" src="~/js/maps/load_map_data.js"></script>
+    <script type="text/javascript" src="~/lib/photo-viewer/js/photo.viewer.js"></script>
+
+    <script>
+        var baseUrl = "@Url.Action("Index", "SurveyInfoes")";
+    </script>
+
+    @*<script>
+            //console.log($.isFunction($(".pump_img_link").myPhoto));
+            //if (typeof $(".pump_img_link").myPhoto == 'function') {
+            //    console.log('yes...');
+            //} else {
+            //    console.log('no...');
+            //}
+            //$(".pump_img_link").myPhoto({ hook: 'class', animation_speed: 'fast', slideshow: 7500, hideflash: true, social_tools: false });
+
+            //$(function () {
+            //    //$(".pump_img_link").myPhoto({ hook: 'class', animation_speed: 'fast', slideshow: 7500, hideflash: true, social_tools: false });
+            //});
+        </script>*@
+
+}

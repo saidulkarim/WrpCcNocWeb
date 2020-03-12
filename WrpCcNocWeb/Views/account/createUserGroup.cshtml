@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewData["Title"] = "Create New User Group";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>@ViewData["Title"]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;@Html.ActionLink("Back to User Group List", "viewUserGroups", "account")</h4>
+
+@using (Html.BeginForm("createUserGroup", "account", FormMethod.Post, new { enctype = "multipart/form-data", id = "CreateUserGroupForm", role = "form" }))
+{
+    <div class="form-group">
+        Type <span class="text-danger bold">*</span>
+        <div class="input-group mb-2">
+            @*@Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter your user name", @required = "required", @autocomplete = "off" } })*@
+            <div id="spinner" class="input-group-prepend d-none">
+                <button class="btn btn-primary" type="button" disabled="">
+                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> <span class="sr-only">Loading...</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        Authority Level <span class="text-danger bold">*</span>
+        <div class="input-group mb-2">
+            @*@Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter your user name", @required = "required", @autocomplete = "off" } })*@
+            <div id="spinner" class="input-group-prepend d-none">
+                <button class="btn btn-primary" type="button" disabled="">
+                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> <span class="sr-only">Loading...</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        Group Name <span class="text-danger bold">*</span>
+        <div class="input-group mb-2">
+            @*@Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter your user name", @required = "required", @autocomplete = "off" } })*@
+            <div id="spinner" class="input-group-prepend d-none">
+                <button class="btn btn-primary" type="button" disabled="">
+                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> <span class="sr-only">Loading...</span>
+                </button>
+            </div>
+            @Html.Hidden("isValidUsr")
+        </div>
+    </div>
+
+    <div class="form-group">
+        District <span class="text-danger bold">*</span>
+        @*@Html.EditorFor(m => m.UserPassword, new { htmlAttributes = new { @class = "form-control", @type = "password", @placeholder = "Enter your password", @required = "required", @autocomplete = "off", @onKeyUp = "PasswordStrength(jQuery(this).val());" } })*@
+        <div id="pwd-invalid-feedback"></div>
+    </div>
+
+    <div class="form-group">
+        Upazila <span class="text-danger">*</span>
+        @*<input id="UserConfirmPassword" class="form-control" type="password" parsley-trigger="change" placeholder="Confirm password" autocomplete="off" required>*@
+    </div>
+
+    <div class="form-group">
+        Union <span class="text-danger bold">*</span>
+        @*@Html.EditorFor(m => m.UserEmail, new { htmlAttributes = new { @class = "form-control", @type = "email", @placeholder = "Enter your email", @required = "required", @autocomplete = "off" } })*@
+    </div>
+
+    <div class="form-group mb-0 text-center">
+        <button id="btnSubmit" class="btn btn-success btn-block" style="width:120px" type="button"> Create </button>
+    </div>
+}
+
+
+

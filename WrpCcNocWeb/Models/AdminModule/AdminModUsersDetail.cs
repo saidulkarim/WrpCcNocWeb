@@ -66,7 +66,7 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Designation")]
         [MaxLength(50)]
         public string UserDesignation { get; set; }
-
+                
 
         [Required]
         [Column("UserAddress", Order = 9)]

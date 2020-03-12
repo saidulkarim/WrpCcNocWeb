@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WrpCcNocWeb.Models;
+using WrpCcNocWeb.Models.AdminModule;
 using WrpCcNocWeb.Models.CcModule;
 
 namespace WrpCcNocWeb.DatabaseContext
@@ -13,7 +14,7 @@ namespace WrpCcNocWeb.DatabaseContext
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseOracle(@"User Id=ARH; Password=cegis; Data Source=130.180.3.155:1521/WRPCCNOC");
-            optionsBuilder.UseOracle(@"User Id=ARH; Password=cegis; Data Source=202.53.173.179:1521/WRPCCNOC", 
+            optionsBuilder.UseOracle(@"User Id=ARH; Password=cegis; Data Source=202.53.173.179:1521/WRPCCNOC",
                 options => options.UseOracleSQLCompatibility("11"));
         }
 
@@ -26,14 +27,25 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<AdminModUserRegistrationDetail> AdminModUserRegistrationDetail { get; set; }
         public DbSet<AdminModUsersDetail> AdminModUsersDetail { get; set; }
         public DbSet<LookUpAdminModCostRange> LookUpAdminModCostRange { get; set; }
-        public DbSet<LookUpCcModApplicationState> LookUpCcModApplicationState { get; set; }
-        public DbSet<LookUpCcModApprovalStatus> LookUpCcModApprovalStatus { get; set; }
+        #endregion
+
+        #region LookUp --- Admin Module
+
+        public DbSet<LookUpAdminBndDistrict> LookUpAdminBndDistrict { get; set; }
+        public DbSet<LookUpAdminBndUpazila> LookUpAdminBndUpazila { get; set; }
+        public DbSet<LookUpAdminBndUnion> LookUpAdminBndUnion { get; set; }
+        public DbSet<LookUpAdminModAuthorityLevel> LookUpAdminModAuthorityLevel { get; set; }
+        public DbSet<LookUpAdminModErrorSlvStatus> LookUpAdminModErrorSlvStatus { get; set; }
+        public DbSet<LookUpAdminModMenu> LookUpAdminModMenu { get; set; }
+        public DbSet<LookUpAdminModSecurityQuestion> LookUpAdminModSecurityQuestion { get; set; }
+        public DbSet<LookUpAdminModSubMenu> LookUpAdminModSubMenu { get; set; }
+        public DbSet<LookUpAdminModUserGroup> LookUpAdminModUserGroup { get; set; }
         #endregion
 
         #region Detail --- CC Module        
-        public DbSet<CcModAppProjectCommonDetail> CcModAppProjectCommonDetail { get; set; }
-        public DbSet<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetail { get; set; }
         public DbSet<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetail { get; set; }
+        public DbSet<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetail { get; set; }
+        public DbSet<CcModAppProjectCommonDetail> CcModAppProjectCommonDetail { get; set; }
         public DbSet<CcModBDP2100GoalDetail> CcModBDP2100GoalDetail { get; set; }
         public DbSet<CcModBDP2100HotSpotDetail> CcModBDP2100HotSpotDetail { get; set; }
         public DbSet<CcModDesignSubmitDetail> CcModDesignSubmitDetail { get; set; }
@@ -53,19 +65,9 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<CcModPrjTypesOfFloodDetail> CcModPrjTypesOfFloodDetail { get; set; }
         #endregion
 
-        #region LookUp --- Admin Module
-        public DbSet<LookUpAdminModErrorSlvStatus> LookUpAdminModErrorSlvStatus { get; set; }
-        public DbSet<LookUpAdminModMenu> LookUpAdminModMenu { get; set; }
-        public DbSet<LookUpAdminModSecurityQuestion> LookUpAdminModSecurityQuestion { get; set; }
-        public DbSet<LookUpAdminModSubMenu> LookUpAdminModSubMenu { get; set; }
-        public DbSet<LookUpAdminModUserGroup> LookUpAdminModUserGroup { get; set; }
-
-        public DbSet<LookUpAdminBndDistrict> LookUpAdminBndDistrict { get; set; }
-        public DbSet<LookUpAdminBndUpazila> LookUpAdminBndUpazila { get; set; }
-        public DbSet<LookUpAdminBndUnion> LookUpAdminBndUnion { get; set; }
-        #endregion
-
-        #region LookUp --- CC Module
+        #region LookUp --- CC Module          
+        public DbSet<LookUpCcModApplicationState> LookUpCcModApplicationState { get; set; }
+        public DbSet<LookUpCcModApprovalStatus> LookUpCcModApprovalStatus { get; set; }
         public DbSet<LookUpCcModBankDocType> LookUpCcModBankDocType { get; set; }
         public DbSet<LookUpCcModBankLineShifting> LookUpCcModBankLineShifting { get; set; }
         public DbSet<LookUpCcModBankStability> LookUpCcModBankStability { get; set; }
@@ -88,6 +90,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<LookUpCcModNWMPProgramme> LookUpCcModNWMPProgramme { get; set; }
         public DbSet<LookUpCcModNWPArticle> LookUpCcModNWPArticle { get; set; }
         public DbSet<LookUpCcModPotGrndWtrRecharge> LookUpCcModPotGrndWtrRecharge { get; set; }
+        public DbSet<LookUpCcModProjectType> LookUpCcModProjectType { get; set; }
         public DbSet<LookUpCcModProposedWaterUse> LookUpCcModProposedWaterUse { get; set; }
         public DbSet<LookUpCcModPurposeOfWaterUse> LookUpCcModPurposeOfWaterUse { get; set; }
         public DbSet<LookUpCcModRecommendation> LookUpCcModRecommendation { get; set; }
@@ -101,7 +104,6 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<LookUpCcModStructTypeConserv> LookUpCcModStructTypeConserv { get; set; }
         public DbSet<LookUpCcModSurfWaterQuality> LookUpCcModSurfWaterQuality { get; set; }
         public DbSet<LookUpCcModTypeOfFlood> LookUpCcModTypeOfFlood { get; set; }
-        public DbSet<LookUpCcModProjectType> LookUpCcModProjectType { get; set; }
         public DbSet<LookUpCcModTypeOfWaterBody> LookUpCcModTypeOfWaterBody { get; set; }
         public DbSet<LookUpCcModTypeOfWaterUse> LookUpCcModTypeOfWaterUse { get; set; }
         public DbSet<LookUpCcModWaterUse> LookUpCcModWaterUse { get; set; }

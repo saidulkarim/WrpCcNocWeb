@@ -16,6 +16,7 @@ using WrpCcNocWeb.Models.Utility;
 using WrpCcNocWeb.Models.UserManagement;
 using WrpCcNocWeb.DatabaseContext;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using WrpCcNocWeb.Models.AdminModule;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -28,7 +29,7 @@ namespace WrpCcNocWeb.Controllers
         {
             return View();
         }
-
+                
         //account/login
         public IActionResult login()
         {
@@ -297,6 +298,7 @@ namespace WrpCcNocWeb.Controllers
                         userDetail.IsProfileSubmitted = 1;
 
                         _db.AdminModUsersDetail.Add(userDetail);
+
                         result = _db.SaveChanges();
 
                         if (result > 0)
@@ -399,6 +401,241 @@ namespace WrpCcNocWeb.Controllers
             HttpContext.Session.SetString("CaptchaCode", result.CaptchaCode);
             Stream s = new MemoryStream(result.CaptchaByteData);
             return new FileStreamResult(s, "image/png");
+        }
+
+        public IActionResult viewUsers()
+        {
+            List<UserInfo> userDetails = _db.AdminModUsersDetail.Join(_db.AdminModUserRegistrationDetail, u => u.UserRegistrationId, r => r.UserRegistrationId, (u, r) => new { R = r, U = u })                                         
+                                         .Select(s => new UserInfo
+                                         {
+                                             UserID = s.U.UserId,
+                                             UserName = s.R.UserName,
+                                             UserFullName = s.U.UserFullName,
+                                             UserDesignation = s.U.UserDesignation,
+                                             UserEmail = s.R.UserEmail,
+                                             UserMobile = s.R.UserMobile,
+                                             UserActivationStatus = s.R.UserActivationStatus
+
+                                         }).ToList();            
+            ViewData["UserDetails"] = userDetails;
+            return View();
+        }
+
+        public IActionResult createUser()
+        {
+            return View();
+        }
+
+        //POST: /account/createUser
+        [HttpPost]
+        public IActionResult createUser(AdminModUserRegistrationDetail userReg)
+        {
+            try
+            {
+                userReg.UserActivationStatus = 0;
+                userReg.DateOfCreation = DateTime.Now;
+                userReg.EmailVerificationCode = Guid.NewGuid().ToString();
+                userReg.IsEmailVerified = 0;
+
+                _db.AdminModUserRegistrationDetail.Add(userReg);
+                int x = _db.SaveChanges();
+
+                if (x > 0)
+                {
+                    ViewBag.UserVerificationCode = userReg.EmailVerificationCode;
+                    TempData["Message"] = ch.ShowMessage(Sign.Success, Sign.Success.ToString(), OperationMessage.Success.ToDescription());
+
+                    return RedirectToAction("verify", new { id = ViewBag.UserVerificationCode });
+                }
+                else
+                {
+                    ViewBag.UserVerificationCode = string.Empty;
+                    TempData["Message"] = ch.ShowMessage(Sign.Error, Sign.Error.ToString(), OperationMessage.NotSuccess.ToDescription());
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.UserVerificationCode = string.Empty;
+
+                var message = ch.ExtractInnerException(ex);
+                TempData["Message"] = ch.ShowMessage(Sign.Danger, Sign.Danger.ToString(), message);
+            }
+
+            return View();
+        }
+
+        public IActionResult userDetails(long userId)
+        {
+            UserInfo userDetails = _db.AdminModUsersDetail.Join(_db.AdminModUserRegistrationDetail, u => u.UserRegistrationId, r => r.UserRegistrationId, (u, r) => new { R = r, U = u })
+                                         .Where(w => w.U.UserId == userId)
+                                         .Select(s => new UserInfo
+                                         {
+                                             UserID = s.U.UserId,
+                                             UserName = s.R.UserName,
+                                             UserFullName = s.U.UserFullName,
+                                             UserDesignation = s.U.UserDesignation,
+                                             UserEmail = s.R.UserEmail,                                              
+                                             UserMobile = s.R.UserMobile,
+                                             UserAddress = s.U.UserAddress,
+                                             UserActivationStatus = s.R.UserActivationStatus,
+                                             DateOfCreation = s.R.DateOfCreation,
+                                             LastModifiedDate = s.R.LastModifiedDate
+                                         }).FirstOrDefault();
+            
+            ViewData["UserDetails"] = userDetails;
+            return View();            
+        }
+
+        public IActionResult editUserProfile()
+        {
+            return View();
+        }
+
+        public IActionResult resetPassword()
+        {
+            return View();
+        }
+
+        public IActionResult makeActiveInactive()
+        {
+            return View();
+        }
+
+        public IActionResult deleteUser()
+        {
+            return View();
+        }
+
+        public IActionResult viewUserGroups()
+        {
+            /* 
+              SELECT  a."UserGroupId", a."UserGroupName", 
+                    a."AuthorityLevelId", a."DistrictGeoCode", 
+                    a."UpazilaGeoCode", a."UnionGeoCode", 
+                    b."AuthorityLevel", c."DistrictName", 
+                    d."UpazilaName", e."UnionName"
+            FROM (((ARH."LookUpAdminModUserGroup" a
+                    LEFT JOIN ARH."LookUpAdminModAuthorityLevel" b
+                        ON a."AuthorityLevelId"= b."AuthorityLevelId") 
+                    LEFT JOIN ARH."LookUpAdminBndDistrict" c
+                        ON a."DistrictGeoCode"	 = c."DistrictGeoCode") 
+                    LEFT JOIN ARH."LookUpAdminBndUpazila" d
+                        ON a."UpazilaGeoCode" = d."UpazilaGeoCode") 
+                    LEFT JOIN ARH."LookUpAdminBndUnion" e
+                        ON a."UnionGeoCode" = e."UnionGeoCode"; */
+            
+            List<UserGroupInfo> userGroupDetails = (from g in _db.LookUpAdminModUserGroup
+                                                        join auth_level in _db.LookUpAdminModAuthorityLevel on g.AuthorityLevelId equals auth_level.AuthorityLevelId into auth
+                                                    from al in auth.DefaultIfEmpty()
+                                                        join district in _db.LookUpAdminBndDistrict on g.DistrictGeoCode equals district.DistrictGeoCode into dist
+                                                    from ds in dist.DefaultIfEmpty()
+                                                        join upazila in _db.LookUpAdminBndUpazila on g.UpazilaGeoCode equals upazila.UpazilaGeoCode into upaz
+                                                    from up in upaz.DefaultIfEmpty()
+                                                        join union in _db.LookUpAdminBndUnion on g.UnionGeoCode equals union.UnionGeoCode into unio
+                                                    from un in unio.DefaultIfEmpty()
+                                                    select new UserGroupInfo
+                                                    {
+                                                        UserGroupId = g.UserGroupId,
+                                                        UserGroupName = g.UserGroupName,
+                                                        AuthorityLevel = al.AuthorityLevel,
+                                                        DistrictName = ds.DistrictName,
+                                                        UpazilaName = up.UpazilaName,
+                                                        UnionName = un.UnionName
+                                                    }).OrderBy(o=>o.UserGroupId).ToList();                            
+
+            ViewData["UserGroupDetails"] = userGroupDetails;
+            return View();
+        }
+
+        public IActionResult createUserGroup()
+        {
+            return View();
+        }
+
+        //POST: /account/createUser
+        [HttpPost]
+        public IActionResult createUserGroup(AdminModUserRegistrationDetail userReg)
+        {
+            try
+            {
+                userReg.UserActivationStatus = 0;
+                userReg.DateOfCreation = DateTime.Now;
+                userReg.EmailVerificationCode = Guid.NewGuid().ToString();
+                userReg.IsEmailVerified = 0;
+
+                _db.AdminModUserRegistrationDetail.Add(userReg);
+                int x = _db.SaveChanges();
+
+                if (x > 0)
+                {
+                    ViewBag.UserVerificationCode = userReg.EmailVerificationCode;
+                    TempData["Message"] = ch.ShowMessage(Sign.Success, Sign.Success.ToString(), OperationMessage.Success.ToDescription());
+
+                    return RedirectToAction("verify", new { id = ViewBag.UserVerificationCode });
+                }
+                else
+                {
+                    ViewBag.UserVerificationCode = string.Empty;
+                    TempData["Message"] = ch.ShowMessage(Sign.Error, Sign.Error.ToString(), OperationMessage.NotSuccess.ToDescription());
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.UserVerificationCode = string.Empty;
+
+                var message = ch.ExtractInnerException(ex);
+                TempData["Message"] = ch.ShowMessage(Sign.Danger, Sign.Danger.ToString(), message);
+            }
+
+            return View();
+        }
+
+        public IActionResult userGroupDetails(long userGroupId)
+        {
+            UserGroupInfo userGroupDetails =  (from g in _db.LookUpAdminModUserGroup
+                                                    join auth_level in _db.LookUpAdminModAuthorityLevel on g.AuthorityLevelId equals auth_level.AuthorityLevelId into auth
+                                               from al in auth.DefaultIfEmpty()
+                                                    join district in _db.LookUpAdminBndDistrict on g.DistrictGeoCode equals district.DistrictGeoCode into dist
+                                               from ds in dist.DefaultIfEmpty()
+                                                    join upazila in _db.LookUpAdminBndUpazila on g.UpazilaGeoCode equals upazila.UpazilaGeoCode into upaz
+                                               from up in upaz.DefaultIfEmpty()
+                                                    join union in _db.LookUpAdminBndUnion on g.UnionGeoCode equals union.UnionGeoCode into unio
+                                               from un in unio.DefaultIfEmpty()
+                                                    where g.UserGroupId != null && g.UserGroupId == userGroupId
+                                               select new UserGroupInfo
+                                               {
+                                                    UserGroupId = g.UserGroupId,
+                                                    UserGroupName = g.UserGroupName,
+                                                    AuthorityLevel = al.AuthorityLevel,
+                                                    DistrictName = ds.DistrictName,
+                                                    UpazilaName = up.UpazilaName,
+                                                    UnionName = un.UnionName,                                                       
+                                                    DistrictGeoCode = ds.DistrictGeoCode,                                                       
+                                                    UpazilaGeoCode = up.UpazilaGeoCode,                                                       
+                                                    UnionGeoCode = un.UnionGeoCode,                                                        
+                                                    CanViewOneList = g.CanViewOneList,
+                                                    CanViewMultipleList = g.CanViewMultipleList,
+                                                    CanInsertOne = g.CanInsertOne,
+                                                    CanInsertMultiple = g.CanInsertMultiple,
+                                                    CanUpdateOne = g.CanUpdateOne,
+                                                    CanUpdateMultiple = g.CanUpdateMultiple,
+                                                    CanViewAsDetails = g.CanViewAsDetails,
+                                                    CanDeleteOne = g.CanDeleteOne,
+                                                    CanDeleteMultiple = g.CanDeleteMultiple
+                                               }).FirstOrDefault();
+
+            ViewData["UserGroupDetails"] = userGroupDetails;
+            return View();
+        }
+
+        public IActionResult editUserGroup()
+        {
+            return View();
+        }
+        
+        public IActionResult deleteUserGroup()
+        {
+            return View();
         }
 
         protected override void Dispose(bool disposing)

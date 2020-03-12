@@ -1,0 +1,52 @@
+﻿@using WrpCcNocWeb.Models.UserManagement
+
+@{
+    ViewData["Title"] = "User Group Information";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<UserGroupInfo> userGroupDetails = ViewData["UserGroupDetails"] as List<UserGroupInfo>;
+}
+
+<div style="padding: 5px 3px; width:100%" class="panel panel-default">
+    <div class="panel-heading">
+        <h4>@ViewData["Title"]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;@Html.ActionLink("Create New Group", "createUserGroup", "account")</h4>
+    </div>
+    <div class="panel-body">
+
+        @if (userGroupDetails.Count<UserGroupInfo>() > 0)
+        {
+            <table class="table table-hover table-responsive-md mb-0">
+                <thead>
+                    <tr>
+                        <th>User Group Name</th>
+                        <th>Authority Level</th>
+                        <th>District</th>
+                        <th>Upazila</th>
+                        <th>Union</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                @foreach (var item in userGroupDetails)
+                {
+            <tr>
+                <td>@item.UserGroupName</td>
+                <td>@item.AuthorityLevel</td>                
+                <td>@item.DistrictName</td>
+                <td>@item.UpazilaName</td>
+                <td>@item.UnionName</td>                
+                <td>
+                    @Html.ActionLink("Details", "userGroupDetails", new { UserGroupId = @item.UserGroupId })&nbsp;&nbsp;|&nbsp;&nbsp;
+                    @Html.ActionLink("Edit", "edituserGroup", new { UserGroupId = @item.UserGroupId })&nbsp;&nbsp;|&nbsp;&nbsp;
+                    @Html.ActionLink("Delete", "deleteuserGroup", new { UserGroupId = @item.UserGroupId })
+                </td>
+            </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <div class="msg">No data is available</div>
+        }
+    </div>
+</div>
+

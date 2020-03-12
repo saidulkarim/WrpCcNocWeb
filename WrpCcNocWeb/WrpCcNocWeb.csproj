@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DatabaseContext\WrpCcNocDbContext - Copy.cs" />
     <Compile Remove="Models\WrpCcNocDbContext.cs" />
   </ItemGroup>
 
