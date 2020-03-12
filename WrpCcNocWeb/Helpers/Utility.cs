@@ -80,5 +80,18 @@ namespace WrpCcNocWeb.Helpers
                 return t;
             return null;
         }
+
+        /// <summary>
+        /// Purpose: Generating application submission tracking code
+        /// Author: A.T.M. Saidul Karim RonY
+        /// Date: 12 Mar, 2020
+        /// </summary>
+        /// <param name="projectId">This is Application Project ID and will come from database</param>
+        /// <returns>String type 11 digit tracking code. Pattern: YYMMdd + 5 digit 0 left padded number of Project Id e.g 20031200001</returns>
+        public static string GenerateTrackingNumber(this string projectId, int len)
+        {
+            string result = DateTime.Now.ToString("yyMMdd") + projectId.PadLeft(len, '0');
+            return result;
+        }
     }
 }

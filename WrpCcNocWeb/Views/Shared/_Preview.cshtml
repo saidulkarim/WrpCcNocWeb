@@ -1,0 +1,1395 @@
+﻿
+<input id="pProjectId" type="hidden" />
+<input id="pProject31IndvId" type="hidden" />
+<input id="pUserId" type="hidden" />
+<input id="pProjectTypeId" type="hidden" />
+
+<center>
+    <h3 class="HeaderTitle">Application for Clearance Certificate</h3>
+    <h4 class="HeaderSubTitle">(Flood Control/ Management Project)</h4>
+</center>
+
+<div id="form-preview" class="container">
+    <div class="row lineGap">
+        <div class="col">
+            <span>To</span><br />
+            <span>Executive Committee</span><br />
+            <span>National Water Resources Project Committee.</span>
+        </div>
+    </div>
+    <br />
+    <div class="row lineGap">
+        <div class="col">
+            <p><strong>Through : </strong>Director General, Water Resources Planning Organization</p>
+        </div>
+    </div>
+    <div class="row lineGap">
+        <div class="col">
+            <p>
+                I, the undersigned, willing to initiate and implement a project on Flood Control/Management,
+                And I am hereby requesting for clearance certificate with relevant attachments
+            </p>
+        </div>
+    </div>
+    <div class="row lineGap">
+        <div class="col-md-12">
+            <p><strong>Full Name and Address of Applicant : </strong></p>
+        </div>
+        <div class="col-md-12">
+            <div>Mr. ABCD XYZ,</div>
+            <div>H-06, R-23/C, Gulshan-1, Dhaka-1212</div>
+            <div>Mobile: 01XXXXXXXXX</div>
+            <div>E-Mail: abcd@xyz.com</div>
+        </div>
+    </div>
+    <h3>A. General Information</h3>
+    <div class="row">
+        <div class="col">
+            <label for="pname"><b>i. Project Name:</b></label>
+        </div>
+        <div class="col">
+            <div id="pProjectName">xxxxxxxxxxxxxxxxxx</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label for="pbg"><b>ii. Project Background and Rationale</b></label>
+        </div>
+        <div class="col">
+            <div id="BackgroundAndRationale">xxxxxxxxxxxxxxxxxx</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label for="pbg"><b>iii. Project Target</b></label>
+        </div>
+        <div class="col">
+            <div id="ProjectTarget">xxxxxxxxxxxxxxxxxx</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label for="pbg"><b>iv. Project Objective</b></label>
+        </div>
+        <div class="col">
+            <div id="ProjectObjective">xxxxxxxxxxxxxxxxxx</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="pbg"><b>iv. Project Location</b></label>
+    </div>
+    <div class="row">
+        <table style="width:100%">
+            <thead>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Union</th>
+                    <th class="text-center">Upazila</th>
+                    <th class="text-center">District</th>
+                    <th class="text-center">Latitude</th>
+                    <th class="text-center">Longitude</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyProjectLocationPreview"></tbody>
+        </table>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col">
+            <label for="pbg"><b>viii. Estimated Project Cost</b></label>
+        </div>
+        <div class="col">
+            <p id="ProjectEstimatedCost">000000</p> <br />
+        </div>
+    </div>
+
+    <label for="pbg"><b>vii. Project Period</b></label>
+
+    <table>
+        <tr>
+            <th>Starting time</th>
+            <th>Completion time</th>
+        </tr>
+        <tr>
+            <td id="ProjectStartDate">XX/XX/XXXX</td>
+            <td id="ProjectCompletionDate">XX/XX/XXXX</td>
+        </tr>
+    </table>
+    <br />
+
+    <h3>B. Technical Information</h3>
+    <h4>1. Discussion about baseline related information or situation</h4>
+    <label for="pbg"><b>vi.	Hydrological Region</b></label>
+
+    <table>
+        <tr>
+            <td id="tdHydrologicalRegion-1" title="1" class=""> North Central </td>
+            <td id="tdHydrologicalRegion-2" title="2" class=""> Northeast </td>
+            <td id="tdHydrologicalRegion-3" title="3" class=""> Northwest </td>
+            <td id="tdHydrologicalRegion-4" title="4" class=""> South Central </td>
+            <td id="tdHydrologicalRegion-5" title="5" class=""> Southeast </td>
+            <td id="tdHydrologicalRegion-6" title="6" class=""> Southwest </td>
+            <td id="tdHydrologicalRegion-7" title="7" class=""> River and Estuary </td>
+            <td id="tdHydrologicalRegion-8" title="8" class=""> Eastern Hills </td>
+        </tr>
+    </table>
+
+    <br />
+
+    <label for="pbg"><b>vii. Bangladesh Delta Plan 2100 Hot Spot</b></label>
+    <table>
+        <tr>
+            <td id="tdBDP2100HotSpot-1" title="1" class=""> Coastal Areas </td>
+            <td id="tdBDP2100HotSpot-2" title="2" class=""> Barind Tract and Drought-Prone Region </td>
+            <td id="tdBDP2100HotSpot-3" title="3" class=""> Haor (backswamp) and Flash Flood-Prone Areas </td>
+            <td id="tdBDP2100HotSpot-4" title="4" class=""> Chittagong Hill Tract region </td>
+            <td id="tdBDP2100HotSpot-5" title="5" class=""> River Region and Estuaries </td>
+            <td id="tdBDP2100HotSpot-6" title="6" class=""> Urban Region </td>
+        </tr>
+    </table><br />
+
+    <label for="pbg"><b>iii. Hydrological System </b></label>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Hydrological System</th>
+                <th>Name</th>
+                <th>Length or Area</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyHydrologicalSystemPreview"></tbody>
+    </table>
+    <br />
+
+    <label for="pbg"><b>iv.	Connectivity amid khals, river and wetland</b></label> <p id="ConnectivityAmidWaterland">xxxxxxxxxxxxxxxxxx</p> <br />
+
+    <label for="pbg"><b>v. Catchment Area (ha)</b></label> <p id="CatchmentArea">xxxxxxxxxxxxxxxxxx</p>
+
+    <label for="pbg"><b>vi. Annual Rainfall (last five years) </b></label>
+
+    <table>
+        <tr>
+            <th class="text-center">
+                @{
+                    int year1 = DateTime.Now.Year - 1;
+                    <span>@year1</span>
+                }
+            </th>
+            <th class="text-center">
+                @{
+                    int year2 = DateTime.Now.Year - 2;
+                    <span>@year2</span>
+                }
+            </th>
+            <th class="text-center">
+                @{
+                    int year3 = DateTime.Now.Year - 3;
+                    <span>@year3</span>
+                }
+            </th>
+            <th class="text-center">
+                @{
+                    int year4 = DateTime.Now.Year - 4;
+                    <span>@year4</span>
+                }
+            </th>
+            <th class="text-center">
+                @{
+                    int year5 = DateTime.Now.Year - 5;
+                    <span>@year5</span>
+                }
+            </th>
+        </tr>
+        <tr>
+            <td id="AnnualRainFallLast1Year">xxxxxxxxx</td>
+            <td id="AnnualRainFallLast2Years">xxxxxxxxx</td>
+            <td id="AnnualRainFallLast3Years">xxxxxxxxx</td>
+            <td id="AnnualRainFallLast4Years">xxxxxxxxx</td>
+            <td id="AnnualRainFallLast5Years">xxxxxxxxx</td>
+        </tr>
+    </table><br />
+
+    <label for="pbg"><b>vii. Highest Flood Level (m PWD)</b></label> <p id="HighestFloodLevel">xxxxxxxxx</p>
+
+    <label for="pbg"><b>viii. Maximum Discharge (m3/s)</b></label> <p id="MaximumDischarge">xxxxxxxxx</p> <br />
+
+    <label for="pbg"><b>ix. Types of Flood</b></label>
+    <table>
+        <tr>
+            <td id="tdTypesOfFlood-1" title="1" class=""> Rainfall Flood </td>
+            <td id="tdTypesOfFlood-2" title="2" class=""> River Flood </td>
+            <td id="tdTypesOfFlood-3" title="3" class=""> Flash Flood </td>
+            <td id="tdTypesOfFlood-4" title="4" class=""> Coastal/ Tidal Flood </td>
+            <td id="tdTypesOfFlood-5" title="5" class=""> Storm Surge Flood </td>
+        </tr>
+    </table>
+
+    <br />
+
+    <label for="pbg"><b>x.	Flood Frequency Analysis (Maximum water level in m, PWD)</b></label>
+    <table>
+        <thead>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Flood Frequency</th>
+                <th class="text-center">Frequency</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyFloodFrequencyPreview"></tbody>
+    </table>
+
+    <br />
+
+    <label for="pbg"><b>xi. Drainage Condition </b></label>
+    <table>
+        <tr>
+            <td id="tdDrainageCondition-1" title="1" class=""> Good </td>
+            <td id="tdDrainageCondition-2" title="2" class=""> Moderate </td>
+            <td id="tdDrainageCondition-3" title="3" class=""> Poor </td>
+            <td id="tdDrainageCondition-4" title="4" class=""> Others </td>
+        </tr>
+    </table><br />
+
+
+    <label for="pbg"><b>xii. Surface Water Quality</b></label>
+    <table>
+        <tr>
+            <th class="text-center">Salinity (ppm)</th>
+            <th class="text-center">DO (mg/l)</th>
+            <th class="text-center">TDS</th>
+            <th class="text-center">pH</th>
+        </tr>
+        <tr>
+            <td id="WaterSalinity">XXXX</td>
+            <td id="WaterDO">XXXX</td>
+            <td id="WaterTDS">XXXX</td>
+            <td id="WaterPhLevel">XXXX</td>
+        </tr>
+    </table><br />
+
+    <label for="pbg"><b>xiii. Land Type (Percent)</b></label>
+    <table>
+        <tr>
+            <th class="text-center">High Land <br />F<sub>0</sub> (0-30 cm)</th>
+            <th class="text-center">Medium High Land <br />F<sub>1</sub> (30-90 cm)</th>
+            <th class="text-center">Medium Low Land <br />F<sub>2</sub> (90-180 cm)</th>
+            <th class="text-center">Low Land <br />F<sub>3</sub> (>180-360 cm)</th>
+            <th class="text-center">Very Low Land <br />F<sub>4</sub> (>360 cm)</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="HighLandPercent">XXXX</td>
+            <td class="text-center" id="MediumHighLandPercent">XXXX</td>
+            <td class="text-center" id="MediumLowLandPercent">XXXX</td>
+            <td class="text-center" id="LowLandPercent">XXXX</td>
+            <td class="text-center" id="VeryLowLandPercent">XXXX</td>
+        </tr>
+    </table><br />
+
+    <label for="pbg"><b>i. Cultivable Crops</b></label> <p id="CultivableCrops">Peragraph</p> <br />
+
+    <label for="pbg"><b>ii.	Irrigated Crop Area (ha)</b></label>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Crops Name</th>
+                <th>Area</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyIrrigatedCropAreaPreview"></tbody>
+    </table><br />
+
+    <label for="pbg"><b>iii. Crop production (Ton)</b></label> <p id="CropProduction">XXXXXXXXXXXXXXXX</p> <br />
+
+    <label for="pbg"><b>iv. Fish Production, Diversity and Migration</b></label>
+    <table>
+        <tr>
+            <th>Production</th>
+            <th>Diversity</th>
+            <th>Migration</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="FishProduction">XXXX</td>
+            <td class="text-center" id="FishDiversity">XXXX</td>
+            <td class="text-center" id="FishMigration">XXXX</td>
+        </tr>
+    </table><br />
+
+    <label for="pbg"><b>v. Flora and Fauna </b></label> <p id="FloraAndFauna">Peragraph</p> <br />
+
+    <label for="pbg"><b>vi. Socio Economic Condition</b></label>
+    <table>
+        <tr>
+            <th>% of land less people</th>
+            <th>% of small farmer</th>
+            <th>Average monthly income</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="LandLessPeoplePercentage">XXXX</td>
+            <td class="text-center" id="SmallFarmerPercentage">XXXX</td>
+            <td class="text-center" id="AvgMonthlyIncome">XXXX</td>
+        </tr>
+    </table>
+
+    <h4>2. Issue, Challenge or Problem</h4> <p id="IssueChallageProblem">XXXXXXXXXXXXX</p> <br />
+
+    <h4>3. Discussion with stakeholders during starting of the project </h4>  <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+        </tr>
+        <tr>
+            <td id="chkDSDSPYes" class="text-center"></td>
+            <td id="chkDSDSPNo" class="text-center"></td>
+            <td id="DiscussWithStakeApplicantCmt">XXXXXXXXXX</td>
+            <td id="DiscussWithStakeAuthorityCmt">XXXXXXXXXX</td>
+        </tr>
+    </table><br />
+    <p>If yes</p>
+    <table>
+        <tr>
+            <th>Positive Feedback</th>
+            <th>Negative Feedback</th>
+            <th>Participant list</th>
+            <th>Meeting minutes</th>
+        </tr>
+        <tr>
+            <td id="DiscussWithStakePosFeedback">XXXXXXXXXX</td>
+            <td id="DiscussWithStakeNegFeedback">XXXXXXXXXX</td>
+            <td id="DiscussWithStakeParticipntLst">Uploaded File</td>
+            <td id="DiscussWithStakeMeetingMin">Uploaded File</td>
+        </tr>
+    </table><br />
+
+    <h4>4.	Analyze Options to fulfill objective </h4>  <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+        </tr>
+        <tr>
+            <td id="chkAOFOYes" class="text-center"></td>
+            <td id="chkAOFONo" class="text-center"></td>
+            <td id="AnalyzeOptionsApplicantCmt">XXXXXXXXXX</td>
+            <td id="AnalyzeOptionsAuthorityCmt">XXXXXXXXXX</td>
+        </tr>
+    </table><br />
+    <p>If yes</p>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Option</th>
+                <th>Description</th>
+                <th>Remarks</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyAnalyzeOptFulfillObjPreview"></tbody>
+    </table>
+
+    <br />
+
+    <h4>5. Design submitted with project document</h4>  <br />
+    <table>
+        <thead>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Parameters</th>
+                <th class="text-center">Yes</th>
+                <th class="text-center">No</th>
+                <th class="text-center">Applicant Comments</th>
+                <th class="text-center">Authority Comments</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyDesignSubProjDocPreview"></tbody>
+
+    </table><br />
+    <h4>6. Environmental and Social Impact Assessment  </h4>  <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+        </tr>
+        <tr>
+            <td id="chkESIAYes"></td>
+            <td id="chkESIANo"></td>
+            <td id="EnvAndSocialApplicantCmt">XXXXXXXXXXXXXXXXXXXX</td>
+            <td id="EnvAndSocialAuthorityCmt">XXXXXXXXXXXXXXXXXXXX</td>
+        </tr>
+    </table><br />
+
+    <p>If yes</p>
+    <p> <b>(a) Environmental Impact Assessment</b></p>
+    <table>
+        <thead>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Parameters</th>
+                <th class="text-center">Pre Project Situation</th>
+                <th class="text-center">Post Project Situation</th>
+                <th class="text-center">Positive/ Negative Impact</th>
+                <th class="text-center">Mitigation Plan</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyEIADetailPreview"></tbody>
+    </table>
+
+    <br />
+
+    <p><b>(b) Social Impact Assessment</b></p>
+    <table>
+        <tbody>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Parameters</th>
+                <th class="text-center">Pre Project Situation</th>
+                <th class="text-center">Post Project Situation</th>
+                <th class="text-center">Positive/ Negative Impact</th>
+                <th class="text-center">Mitigation Plan</th>
+            </tr>
+        </tbody>
+        <tbody id="tbodySIADetailPreview"></tbody>
+    </table><br />
+
+    <h4>7. Use of Appropriate tools, technics, analytical procedures etc</h4>  <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+        </tr>
+        <tr>
+            <td id="chkAppropriateTTAPYes"></td>
+            <td id="chkAppropriateTTAPNo"></td>
+            <td id="ToolsApplicantComments">abcd</td>
+            <td id="ToolsAuthorityComments">abcd</td>
+        </tr>
+    </table><br />
+
+    <h4>8. Economical & Financial Analysis</h4>
+    <table>
+        <thead>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Item</th>
+                <th class="text-center">Unit</th>
+                <th class="text-center">Applicant Comments</th>
+                <th class="text-center">Authority Comments</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyEcoFinAnaPreview"></tbody>
+    </table>
+
+    <br />
+
+    <h3>C. Deed Obligatory</h3><br />
+    <h4>9. Compatibility with National Water Policy</h4> <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+            <th>Document Link</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="cwnwpYes"></td>
+            <td class="text-center" id="cwnwpNo"></td>
+            <td class="text-center" id="CompatibilityNWPApplicantCmt"></td>
+            <td class="text-center" id="CompatibilityNWPAuthorityCmt"></td>
+            <td class="text-center" id="CompatibilityNWPDocLink"></td>
+        </tr>
+    </table><br />
+    <p>If yes</p>
+    <ul id="ulCwnwpPolicy"></ul>
+
+    <h4>10.	Compatibility with National Water Management Plan (NWMP)</h4> <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+            <th>Document Link</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="cnwmpYes"></td>
+            <td class="text-center" id="cnwmpNo"></td>
+            <td id="NWMPApplicantCmt"></td>
+            <td id="NWMPAuthorityCmt"></td>
+            <td id="NWMPDocLink"></td>
+        </tr>
+    </table><br />
+    <p>If yes</p> <br />
+    <ul id="ulCwnwmpPolicy"></ul>
+
+    <h4>11.	Compatibility with Current Fifth Year Plan (FYP)</h4> <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="cwcfypYes"></td>
+            <td class="text-center" id="cwcfypNo"></td>
+            <td id="FYPApplicantCmt"></td>
+            <td id="FYPAuthorityCmt"></td>
+        </tr>
+    </table><br />
+
+    <h4>12. Compatibility with Sustainable Development Goal (SDG)</h4> <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+            <th>Document Link</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="cwsdgYes"></td>
+            <td class="text-center" id="cwsdgNo"></td>
+            <td id="SDGApplicantCmt"></td>
+            <td id="SDGAuthorityCmt"></td>
+            <td id="SDGDocLink"></td>
+        </tr>
+    </table><br />
+    <p>If yes</p>
+    <ul id="ulSDGGoals"></ul>
+    <p>SDG 6.0 Indicators</p>
+    <ul id="ulSDGIndicators"></ul>
+
+    <h4>13.	Compatibility with Bangladesh Delta Plan 2100</h4> <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+            <th>Document Link</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="cwbdp2100Yes"></td>
+            <td class="text-center" id="cwbdp2100No"></td>
+            <td id="DeltaPlan2100ApplicantCmt"></td>
+            <td id="DeltaPlan2100AuthorityCmt"></td>
+            <td id="DeltaPlan2100DocLink"></td>
+        </tr>
+    </table><br />
+    <p>If yes</p>
+    <ul id="ulCwbdp2100"></ul>
+
+    <h4>14. Compatibility with Coastal Zone Policy</h4> <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+            <th>Document Link</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="cwczpYes"></td>
+            <td class="text-center" id="cwczpNo"></td>
+            <td id="CostalZoneApplicantCmt"></td>
+            <td id="CostalZoneAuthorityCmt"></td>
+            <td id="CostalZoneDocLink"></td>
+        </tr>
+    </table><br />
+
+    <h4>15.	Compatibility with Agricultural Policy</h4> <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+            <th>Document Link</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="cwapYes"></td>
+            <td class="text-center" id="cwapNo"></td>
+            <td id="AgriApplicantCmt"></td>
+            <td id="AgriAuthorityCmt"></td>
+            <td id="AgriDocLink"></td>
+        </tr>
+    </table><br />
+
+    <h4>16.	Compatibility with Fisheries Policy</h4> <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+            <th>Document Link</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="cwfpYes"></td>
+            <td class="text-center" id="cwfpNo"></td>
+            <td id="FisheriesApplicantCmt"></td>
+            <td id="FisheriesAuthorityCmt"></td>
+            <td id="FisheriesDocLink"></td>
+        </tr>
+    </table><br />
+
+    <h4>17. Compatibility with Integrated Water Resource Management (IWRM)</h4> <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="cwiwrmYes"></td>
+            <td class="text-center" id="cwiwrmNo"></td>
+            <td id="IWRMApplicantCmt"></td>
+            <td id="IWRMAuthorityCmt"></td>
+        </tr>
+    </table><br />
+
+    <h4>18. Compatibility with GPWM</h4> <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="cwgpwmYes"></td>
+            <td class="text-center" id="cwgpwmNo"></td>
+            <td id="GPWMApplicantCmt"></td>
+            <td id="GPWMAuthorityCmt"></td>
+        </tr>
+    </table><br />
+    <p>If yes(Type of group formation)</p> <br />
+    <ul id="ulGPWMGroupType"></ul>
+
+    <h4>19.	Feasibility Study</h4> <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="feasibilitystudyYes"></td>
+            <td class="text-center" id="feasibilitystudyNo"></td>
+            <td id="FeasibilityApplicantCmt"></td>
+            <td id="FeasibilityAuthorityCmt"></td>
+        </tr>
+    </table><br />
+
+    <h4>20. Duplication of the project</h4> <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="duplicationprojectYes"></td>
+            <td class="text-center" id="duplicationprojectNo"></td>
+            <td id="DuplicationApplicantComments"></td>
+            <td id="DuplicationAuthorityComments"></td>
+        </tr>
+    </table><br />
+
+    <h4>21. Project development by emphasizing on underprivileged people, child, women and important social issues</h4> <br />
+    <table>
+        <tr>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Applicant Comments</th>
+            <th>Authority Comments</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="pdeuYes"></td>
+            <td class="text-center" id="pdeuNo"></td>
+            <td id="SocialIssuesApplicantCmt"></td>
+            <td id="SocialIssuesAuthorityCmt"></td>
+        </tr>
+    </table><br />
+
+    <h3>D. Administrative</h3>
+    <ol type="I">
+        <li>NOC from District IWRM committee /Upazila IWRM committee/Union IWRM Committee</li>
+        <li>Chalan/ Bank Draft/ Pay order No</li>
+    </ol>
+
+    <h4>22.	Recommendation</h4> <br />
+    <table>
+        <tr>
+            <th colspan="3">Clearance</th>
+        </tr>
+        <tr>
+            <td>Yes</td>
+            <td>No</td>
+            <td>Conditional</td>
+        </tr>
+    </table><br />
+
+    <table>
+        <tr>
+            <td></td>
+        </tr>
+    </table><br />
+
+    <div class="row">
+        <div class="col">
+            <p> I certify that  the information and attachment provided with this application is correct to the best of my knowledge and belief. </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p></p>
+            <p>----------------------</p>
+            <p>Signature of Applicant</p>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+        jQuery(document).ready(function () {
+            var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
+
+            pSetHiddenValue('pProjectId', projectId);
+            pSetHiddenValue('pProject31IndvId', projectId);
+            pSetHiddenValue('pUserId', projectId);
+            pSetHiddenValue('pProjectTypeId', projectId);
+
+            if (projectId != '') {
+                pBindData();
+
+                pGetProjLocationsData();
+                pGetHydroSystemData();
+                pGetFloodFrequencyData();
+                pGetIrrigatedCropAreaData();
+                pGetAoFOData();
+                pGetDswpdData();
+                pGetEiaData();
+                pGetSiaData();
+                pGetEconFinAnaData();
+            }
+        });
+</script>
+
+<script type="text/javascript">
+    function pSetTextValue(control, val) {
+        return jQuery('#' + control).text(val);
+    }
+
+    function pGetHiddenValue(control) {
+        return jQuery('#' + control).val();
+    }
+
+    function pSetHiddenValue(control, val) {
+        return jQuery('#' + control).val(val);
+    }
+
+    function pSetDropdownValue(control, val) {
+        return jQuery('#' + control).val(val);
+    }
+
+    function pGetProjLocationsData() {
+        var ProjectId = GetHiddenValue('ProjectId');
+        var url = '@Url.Action("get_pld", "form")';
+
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { project_id: ProjectId },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                console.log('P Loc Data');
+                console.log(data);
+
+                if (data.length > 0) {
+                    var rows = '';
+                    var count = 0;
+
+                    jQuery.each(data, function (i, item) {
+                        ++count;
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.unionName + '</td><td>' + item.upazilaName + '</td><td>' + item.districtName + '</td><td class="text-right">' + item.latitude + '</td><td class="text-right">' + item.longitude + '</td></tr>';
+                    });
+
+                    jQuery("#tbodyProjectLocationPreview").html(rows);
+                } else {
+                    jQuery("#tbodyProjectLocationPreview").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tbodyProjectLocationPreview").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+            }
+        });
+    }
+
+    function pGetHydroSystemData() {
+        var ProjectId = GetHiddenValue('ProjectId');
+        var url = '@Url.Action("get_hsd", "form")';
+
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { project_id: ProjectId },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.length > 0) {
+                    console.log(data);
+                    var rows = '';
+
+                    var count = 0;
+                    jQuery.each(data, function (i, item) {
+                        ++count;
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.hydroSystemCategory + '</td><td>' + item.nameOfHydroSystem + '</td><td>' + item.hydroSystemLengthArea + ' ' + item.hydroSystemUnit + '</td></tr>';
+                    });
+
+                    jQuery("#tbodyHydrologicalSystemPreview").html(rows);
+                } else {
+                    jQuery("#tbodyHydrologicalSystemPreview").html('<tr><td colspan="4" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tbodyHydrologicalSystemPreview").html('<tr><td colspan="4" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+            }
+        });
+    }
+
+    function pGetFloodFrequencyData() {
+        var ProjectId = GetHiddenValue('ProjectId');
+        var url = '@Url.Action("get_ffd", "form")';
+
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { project_id: ProjectId },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.length > 0) {
+                    console.log(data);
+                    var rows = '';
+
+                    var count = 0;
+                    jQuery.each(data, function (i, item) {
+                        ++count;
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.floodFrequency + '</td><td>' + item.floodFrequencyLevel + '</td></tr>';
+                    });
+
+                    jQuery("#tbodyFloodFrequencyPreview").html(rows);
+                } else {
+                    jQuery("#tbodyFloodFrequencyPreview").html('<tr><td colspan="3" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tbodyFloodFrequencyPreview").html('<tr><td colspan="3" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+            }
+        });
+    }
+
+    function pGetIrrigatedCropAreaData() {
+        var ProjectId = GetHiddenValue('ProjectId');
+        var url = '@Url.Action("get_ica", "form")';
+
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { project_id: ProjectId },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.length > 0) {
+                    console.log(data);
+                    var rows = '';
+
+                    var count = 0;
+                    jQuery.each(data, function (i, item) {
+                        ++count;
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.cropName + '</td><td>' + item.area + '</td></tr>';
+                    });
+
+                    jQuery("#tbodyIrrigatedCropAreaPreview").html(rows);
+                } else {
+                    jQuery("#tbodyIrrigatedCropAreaPreview").html('<tr><td colspan="3" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tbodyIrrigatedCropAreaPreview").html('<tr><td colspan="3" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+            }
+        });
+    }
+
+    function pGetAoFOData() {
+        var ProjectId = GetHiddenValue('ProjectId');
+        var url = '@Url.Action("get_aofo", "form")';
+
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { project_id: ProjectId },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.length > 0) {
+                    console.log(data);
+                    var rows = '';
+
+                    var count = 0;
+                    jQuery.each(data, function (i, item) {
+                        ++count;
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.optionNumber + '</td><td>' + item.analyzeDescription + '</td><td>' + item.analyzeRemarks + '</td></tr>';
+                    });
+
+                    jQuery("#tbodyAnalyzeOptFulfillObjPreview").html(rows);
+                } else {
+                    jQuery("#tbodyAnalyzeOptFulfillObjPreview").html('<tr><td colspan="4" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tbodyAnalyzeOptFulfillObjPreview").html('<tr><td colspan="4" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+            }
+        });
+    }
+
+    function pGetDswpdData() {
+        var ProjectId = GetHiddenValue('ProjectId');
+        var url = '@Url.Action("get_dswpd", "form")';
+
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { project_id: ProjectId },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.length > 0) {
+                    console.log('Design submitted with project document');
+                    console.log(data);
+                    var rows = '';
+
+                    var count = 0;
+                    jQuery.each(data, function (i, item) {
+                        ++count;
+                        var yesResponse = (item.dswpdYN == 'Yes') ? '✓' : '';
+                        var noResponse = (item.dswpdYN == 'No') ? '✓' : '';
+
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.parameterName + '</td><td class="text-center">' + yesResponse + '</td><td class="text-center">' + noResponse + '</td><td>' + item.designSubmitApplicantCmt + '</td><td>' + item.designSubmitAuthorityCmt + '</td></tr>';
+                    });
+
+                    jQuery("#tbodyDesignSubProjDocPreview").html(rows);
+                } else {
+                    jQuery("#tbodyDesignSubProjDocPreview").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tbodyDesignSubProjDocPreview").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+            }
+        });
+    }
+
+    function pGetEiaData() {
+        var ProjectId = GetHiddenValue('ProjectId');
+        var url = '@Url.Action("get_eiad", "form")';
+
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { project_id: ProjectId },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.length > 0) {
+                    console.log(data);
+                    var rows = '';
+
+                    var count = 0;
+                    jQuery.each(data, function (i, item) {
+                        ++count;
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.parameterName + '</td><td>' + item.preProjectSituation + '</td><td>' + item.postProjectSituation + '</td><td>' + item.positiveNegativeImpact + '</td><td>' + item.mitigationPlan + '</td></tr>';
+                    });
+
+                    jQuery("#tbodyEIADetailPreview").html(rows);
+                } else {
+                    jQuery("#tbodyEIADetailPreview").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tbodyEIADetailPreview").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+            }
+        });
+    }
+
+    function pGetSiaData() {
+        var ProjectId = GetHiddenValue('ProjectId');
+        var url = '@Url.Action("get_siad", "form")';
+
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { project_id: ProjectId },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.length > 0) {
+                    console.log(data);
+                    var rows = '';
+
+                    var count = 0;
+                    jQuery.each(data, function (i, item) {
+                        ++count;
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.siaParameterName + '</td><td>' + item.preProjectSituation + '</td><td>' + item.postProjectSituation + '</td><td>' + item.positiveNegativeImpact + '</td><td>' + item.mitigationPlan + '</td></tr>';
+                    });
+
+                    jQuery("#tbodySIADetailPreview").html(rows);
+                } else {
+                    jQuery("#tbodySIADetailPreview").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tbodySIADetailPreview").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+            }
+        });
+    }
+
+    function pGetEconFinAnaData() {
+        var ProjectId = GetHiddenValue('ProjectId');
+        var url = '@Url.Action("get_efad", "form")';
+
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { project_id: ProjectId },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.length > 0) {
+                    console.log(data);
+                    var rows = '';
+
+                    var count = 0;
+                    jQuery.each(data, function (i, item) {
+                        ++count;
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.ecoAndFinancialParamName + '</td><td>' + item.ecoAndFinancialParamUnit + '</td><td>' + item.ecoAndFinancialApplicantCmt + '</td><td>' + item.ecoAndFinancialAuthorityCmt + '</td></tr>';
+                    });
+
+                    jQuery("#tbodyEcoFinAnaPreview").html(rows);
+                } else {
+                    jQuery("#tbodyEcoFinAnaPreview").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tbodyEcoFinAnaPreview").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+            }
+        });
+}
+
+    function pBindData() {
+        var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
+
+        if (projectId != '') {
+            console.log('ViewBag.ProjectCommonDetail.ProjectId Preview: ' + projectId);
+
+            //General Info
+            SetHiddenValue('pProjectId', projectId);
+
+            SetHiddenValue('pProject31IndvId', '@ViewBag.ProjectIndvDetail31.Project31IndvId');
+            SetHiddenValue('pUserId', '@ViewBag.ProjectCommonDetail.UserId');
+            SetHiddenValue('pProjectTypeId', '@ViewBag.ProjectCommonDetail.ProjectTypeId');
+
+            SetTextValue('pProjectName', '@ViewBag.ProjectCommonDetail.ProjectName');
+            SetTextValue('BackgroundAndRationale', '@ViewBag.ProjectCommonDetail.BackgroundAndRationale');
+            SetTextValue('ProjectTarget', '@ViewBag.ProjectCommonDetail.ProjectTarget');
+            SetTextValue('ProjectObjective', '@ViewBag.ProjectCommonDetail.ProjectObjective');
+            SetTextValue('ProjectActivity', '@ViewBag.ProjectCommonDetail.ProjectActivity');
+            SetTextValue('ProjectStartDate', '@ViewBag.ProjectCommonDetail.ProjectStartDate');
+            SetTextValue('ProjectCompletionDate', '@ViewBag.ProjectCommonDetail.ProjectCompletionDate');
+            SetTextValue('ProjectEstimatedCost', '@ViewBag.ProjectCommonDetail.ProjectEstimatedCost');
+
+            var hrs = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.HydroRegionDetail))');
+            jQuery.each(hrs, function (i, item) {
+                jQuery("#tdHydrologicalRegion-" + item.hydroRegionId).addClass('bg-dark text-white').prepend('<i class="mdi mdi-check"></i> ');
+            });
+
+            var hsd = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.BDP2100HotSpotDetail))');
+            jQuery.each(hsd, function (i, item) {
+                jQuery("#tdBDP2100HotSpot-" + item.deltaPlanHotSpotId).addClass('bg-dark text-white').prepend('<i class="mdi mdi-check"></i> ');
+            });
+
+            SetTextValue('ConnectivityAmidWaterland', '@ViewBag.ProjectIndvDetail31.ConnectivityAmidWaterland');
+            SetTextValue('CatchmentArea', '@ViewBag.ProjectIndvDetail31.CatchmentArea');
+
+            SetTextValue('AnnualRainFallLast1Year', '@ViewBag.ProjectCommonDetail.AnnualRainFallLast1Year');
+            SetTextValue('AnnualRainFallLast2Years', '@ViewBag.ProjectCommonDetail.AnnualRainFallLast2Years');
+            SetTextValue('AnnualRainFallLast3Years', '@ViewBag.ProjectCommonDetail.AnnualRainFallLast3Years');
+            SetTextValue('AnnualRainFallLast4Years', '@ViewBag.ProjectCommonDetail.AnnualRainFallLast4Years');
+            SetTextValue('AnnualRainFallLast5Years', '@ViewBag.ProjectCommonDetail.AnnualRainFallLast5Years');
+
+            SetTextValue('HighestFloodLevel', '@ViewBag.ProjectIndvDetail31.HighestFloodLevel');
+            SetTextValue('MaximumDischarge', '@ViewBag.ProjectIndvDetail31.MaximumDischarge');
+
+            var tof = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.TypesOfFloodDetail))');
+            jQuery.each(tof, function (i, item) {
+                jQuery("#tdTypesOfFlood-" + item.floodTypeId).addClass('bg-dark text-white').prepend('<i class="mdi mdi-check"></i> ');
+            });
+
+            //tdDrainageCondition
+            jQuery("#tdDrainageCondition-" + @ViewBag.ProjectIndvDetail31.DrainageConditionId).addClass('bg-dark text-white').prepend('<i class="mdi mdi-check"></i> ');
+
+            SetTextValue('WaterSalinity', '@ViewBag.ProjectIndvDetail31.WaterSalinity');
+            SetTextValue('WaterDO', '@ViewBag.ProjectIndvDetail31.WaterDO');
+            SetTextValue('WaterTDS', '@ViewBag.ProjectIndvDetail31.WaterTDS');
+            SetTextValue('WaterPhLevel', '@ViewBag.ProjectIndvDetail31.WaterPhLevel');
+            SetTextValue('HighLandPercent', '@ViewBag.ProjectIndvDetail31.HighLandPercent');
+            SetTextValue('MediumHighLandPercent', '@ViewBag.ProjectIndvDetail31.MediumHighLandPercent');
+            SetTextValue('MediumLowLandPercent', '@ViewBag.ProjectIndvDetail31.MediumLowLandPercent');
+            SetTextValue('LowLandPercent', '@ViewBag.ProjectIndvDetail31.LowLandPercent');
+            SetTextValue('VeryLowLandPercent', '@ViewBag.ProjectIndvDetail31.VeryLowLandPercent');
+            SetTextValue('CultivableCrops', '@ViewBag.ProjectIndvDetail31.CultivableCrops');
+            SetTextValue('CropProduction', '@ViewBag.ProjectIndvDetail31.CropProduction');
+            SetTextValue('FishProduction', '@ViewBag.ProjectIndvDetail31.FishProduction');
+            SetTextValue('FishDiversity', '@ViewBag.ProjectIndvDetail31.FishDiversity');
+            SetTextValue('FishMigration', '@ViewBag.ProjectIndvDetail31.FishMigration');
+            SetTextValue('FloraAndFauna', '@ViewBag.ProjectIndvDetail31.FloraAndFauna');
+            SetTextValue('LandLessPeoplePercentage', '@ViewBag.ProjectIndvDetail31.LandLessPeoplePercentage');
+            SetTextValue('SmallFarmerPercentage', '@ViewBag.ProjectIndvDetail31.SmallFarmerPercentage');
+            SetTextValue('AvgMonthlyIncome', '@ViewBag.ProjectIndvDetail31.AvgMonthlyIncome');
+
+            SetTextValue('IssueChallageProblem', '@ViewBag.ProjectCommonDetail.IssueChallageProblem');
+
+            if ('@ViewBag.ProjectCommonDetail.YesNoStakeId' == '1') {
+                jQuery("#chkDSDSPYes").text('✓');
+                jQuery("#chkDSDSPNo").text('');
+            } else {
+                jQuery("#chkDSDSPNo").text('✓');
+                jQuery("#chkDSDSPYes").text('');
+            }
+
+            SetTextValue('DiscussWithStakeApplicantCmt', '@ViewBag.ProjectCommonDetail.DiscussWithStakeApplicantCmt');
+            SetTextValue('DiscussWithStakeAuthorityCmt', '@ViewBag.ProjectCommonDetail.DiscussWithStakeAuthorityCmt');
+            SetTextValue('DiscussWithStakePosFeedback', '@ViewBag.ProjectCommonDetail.DiscussWithStakePosFeedback');
+            SetTextValue('DiscussWithStakeNegFeedback', '@ViewBag.ProjectCommonDetail.DiscussWithStakeNegFeedback');
+
+            if ('@ViewBag.ProjectCommonDetail.AnalyzeOptYesNoId' == '1') {
+                jQuery("#chkAOFOYes").text('✓');
+                jQuery("#chkAOFONo").text('');
+            } else {
+                jQuery("#chkAOFONo").text('✓');
+                jQuery("#chkAOFOYes").text('');
+            }
+
+            SetTextValue('AnalyzeOptionsApplicantCmt', '@ViewBag.ProjectCommonDetail.AnalyzeOptionsApplicantCmt');
+            SetTextValue('AnalyzeOptionsAuthorityCmt', '@ViewBag.ProjectCommonDetail.AnalyzeOptionsAuthorityCmt');
+
+            if ('@ViewBag.ProjectCommonDetail.EnvAndSocialYesNoId' == '1') {
+                jQuery("#chkESIAYes").text('✓');
+                jQuery("#chkESIANo").text('');
+            } else {
+                jQuery("#chkESIANo").text('✓');
+                jQuery("#chkESIAYes").text('');
+            }
+
+            SetTextValue('EnvAndSocialApplicantCmt', '@ViewBag.ProjectCommonDetail.EnvAndSocialApplicantCmt');
+            SetTextValue('EnvAndSocialAuthorityCmt', '@ViewBag.ProjectCommonDetail.EnvAndSocialAuthorityCmt');
+
+            if ('@ViewBag.ProjectIndvDetail31.UseOfToolsYesNoId' == '1') {
+                jQuery("#chkAppropriateTTAPYes").text('✓');
+                jQuery("#chkAppropriateTTAPNo").text('');
+            } else {
+                jQuery("#chkAppropriateTTAPNo").text('✓');
+                jQuery("#chkAppropriateTTAPYes").text('');
+            }
+
+            SetTextValue('ToolsApplicantComments', '@ViewBag.ProjectIndvDetail31.ToolsApplicantComments');
+            SetTextValue('ToolsAuthorityComments', '@ViewBag.ProjectIndvDetail31.ToolsAuthorityComments');
+
+            if ('@ViewBag.ProjectCommonDetail.CompatNWPYesNoId' == '1') {
+                jQuery("#cwnwpYes").text('✓');
+                jQuery("#cwnwpNo").text('');
+            } else {
+                jQuery("#cwnwpNo").text('✓');
+                jQuery("#cwnwpYes").text('');
+            }
+
+            SetTextValue('CompatibilityNWPApplicantCmt', '@ViewBag.ProjectCommonDetail.CompatibilityNWPApplicantCmt');
+            SetTextValue('CompatibilityNWPAuthorityCmt', '@ViewBag.ProjectCommonDetail.CompatibilityNWPAuthorityCmt');
+
+            var nwp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWPDetail))');
+            jQuery.each(nwp, function (i, item) {
+                jQuery("#ulCwnwpPolicy").append('<li>' + item.nationalWtrPolicyShortTitle + ' (' + item.nationalWtrPolicyArticleTitle + ') </li>');
+            });
+
+            if ('@ViewBag.ProjectCommonDetail.CompatNWPYesNoId' == '1') {
+                jQuery("#cnwmpYes").text('✓');
+                jQuery("#cnwmpNo").text('');
+            } else {
+                jQuery("#cnwmpNo").text('✓');
+                jQuery("#cnwmpYes").text('');
+            }
+
+            SetTextValue('NWMPApplicantCmt', '@ViewBag.ProjectCommonDetail.NWMPApplicantCmt');
+            SetTextValue('NWMPAuthorityCmt', '@ViewBag.ProjectCommonDetail.NWMPAuthorityCmt');
+
+            var nwmp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWMPDetail))');
+            jQuery.each(nwmp, function (i, item) {
+                jQuery("#ulCwnwmpPolicy").append('<li>' + item.nwmpProgrammeTitle + '</li>');
+            });
+
+            if ('@ViewBag.ProjectCommonDetail.FYPYesNoId' == '1') {
+                jQuery("#cwcfypYes").text('✓');
+                jQuery("#cwcfypNo").text('');
+            } else {
+                jQuery("#cwcfypNo").text('✓');
+                jQuery("#cwcfypYes").text('');
+            }
+
+            SetTextValue('FYPApplicantCmt', '@ViewBag.ProjectCommonDetail.FYPApplicantCmt');
+            SetTextValue('FYPAuthorityCmt', '@ViewBag.ProjectCommonDetail.FYPAuthorityCmt');
+
+            if ('@ViewBag.ProjectCommonDetail.SDGYesNoId' == '1') {
+                jQuery("#cwsdgYes").text('✓');
+                jQuery("#cwsdgNo").text('');
+            } else {
+                jQuery("#cwsdgNo").text('✓');
+                jQuery("#cwsdgYes").text('');
+            }
+
+            SetTextValue('SDGApplicantCmt', '@ViewBag.ProjectCommonDetail.SDGApplicantCmt');
+            SetTextValue('SDGAuthorityCmt', '@ViewBag.ProjectCommonDetail.SDGAuthorityCmt');
+
+            var sdgdetail = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatSDGDetail))');
+            jQuery.each(sdgdetail, function (i, item) {
+                jQuery("#ulSDGGoals").append('<li>' + item.sdgGoalNumber + ' (' + item.sdgDocLink + ') </li>');
+            });
+
+            var sdgindi = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatSDGIndiDetail))');
+            jQuery.each(sdgindi, function (i, item) {
+                jQuery("#ulSDGIndicators").append('<li>' + item.sdgIndicatorName + '</li>');
+            });
+
+            if ('@ViewBag.ProjectCommonDetail.DeltaPlanYesNoId' == '1') {
+                jQuery("#cwbdp2100Yes").text('✓');
+                jQuery("#cwbdp2100No").text('');
+            } else {
+                jQuery("#cwbdp2100No").text('✓');
+                jQuery("#cwbdp2100Yes").text('');
+            }
+
+            SetTextValue('DeltaPlan2100ApplicantCmt', '@ViewBag.ProjectCommonDetail.DeltaPlan2100ApplicantCmt');
+            SetTextValue('DeltaPlan2100AuthorityCmt', '@ViewBag.ProjectCommonDetail.DeltaPlan2100AuthorityCmt');
+
+            var bdp2100goal = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.BDP2100GoalDetail))');
+            jQuery.each(bdp2100goal, function (i, item) {
+                jQuery("#ulCwbdp2100").append('<li>' + item.deltPlan2100Goal + '</li>');
+            });
+
+            if ('@ViewBag.ProjectCommonDetail.CostalZoneYesNoId' == '1') {
+                jQuery("#cwczpYes").text('✓');
+                jQuery("#cwczpNo").text('');
+            } else {
+                jQuery("#cwczpNo").text('✓');
+                jQuery("#cwczpYes").text('');
+            }
+
+            SetTextValue('CostalZoneApplicantCmt', '@ViewBag.ProjectCommonDetail.CostalZoneApplicantCmt');
+            SetTextValue('CostalZoneAuthorityCmt', '@ViewBag.ProjectCommonDetail.CostalZoneAuthorityCmt');
+
+            if ('@ViewBag.ProjectCommonDetail.AgriculturalYesNoId' == '1') {
+                jQuery("#cwapYes").text('✓');
+                jQuery("#cwapNo").text('');
+            } else {
+                jQuery("#cwapNo").text('✓');
+                jQuery("#cwapYes").text('');
+            }
+
+            SetTextValue('AgriApplicantCmt', '@ViewBag.ProjectCommonDetail.AgriApplicantCmt');
+            SetTextValue('AgriAuthorityCmt', '@ViewBag.ProjectCommonDetail.AgriAuthorityCmt');
+
+            if ('@ViewBag.ProjectCommonDetail.FisheriesYesNoId' == '1') {
+                jQuery("#cwfpYes").text('✓');
+                jQuery("#cwfpNo").text('');
+            } else {
+                jQuery("#cwfpNo").text('✓');
+                jQuery("#cwfpYes").text('');
+            }
+
+            SetTextValue('FisheriesApplicantCmt', '@ViewBag.ProjectCommonDetail.FisheriesApplicantCmt');
+            SetTextValue('FisheriesAuthorityCmt', '@ViewBag.ProjectCommonDetail.FisheriesAuthorityCmt');
+
+            if ('@ViewBag.ProjectCommonDetail.IWRMYesNoId' == '1') {
+                jQuery("#cwiwrmYes").text('✓');
+                jQuery("#cwiwrmNo").text('');
+            } else {
+                jQuery("#cwiwrmNo").text('✓');
+                jQuery("#cwiwrmYes").text('');
+            }
+
+            SetTextValue('IWRMApplicantCmt', '@ViewBag.ProjectCommonDetail.IWRMApplicantCmt');
+            SetTextValue('IWRMAuthorityCmt', '@ViewBag.ProjectCommonDetail.IWRMAuthorityCmt');
+
+            if ('@ViewBag.ProjectCommonDetail.GPWMYesNoId' == '1') {
+                jQuery("#cwgpwmYes").text('✓');
+                jQuery("#cwgpwmNo").text('');
+            } else {
+                jQuery("#cwgpwmNo").text('✓');
+                jQuery("#cwgpwmYes").text('');
+            }
+
+            SetTextValue('GPWMApplicantCmt', '@ViewBag.ProjectCommonDetail.GPWMApplicantCmt');
+            SetTextValue('GPWMAuthorityCmt', '@ViewBag.ProjectCommonDetail.GPWMAuthorityCmt');
+
+            var gpwmgroup = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.GPWMGroupType))');
+            jQuery.each(gpwmgroup, function (i, item) {
+                jQuery("#ulGPWMGroupType").append('<li>' + item.gpwmGroupTypeName + '</li>');
+            });
+
+            if ('@ViewBag.ProjectCommonDetail.FeasibilityYesNoId' == '1') {
+                jQuery("#feasibilitystudyYes").text('✓');
+                jQuery("#feasibilitystudyNo").text('');
+            } else {
+                jQuery("#feasibilitystudyNo").text('✓');
+                jQuery("#feasibilitystudyYes").text('');
+            }
+
+            SetTextValue('FeasibilityApplicantCmt', '@ViewBag.ProjectCommonDetail.FeasibilityApplicantCmt');
+            SetTextValue('FeasibilityAuthorityCmt', '@ViewBag.ProjectCommonDetail.FeasibilityAuthorityCmt');
+
+            if ('@ViewBag.ProjectIndvDetail31.DuplicatYesNoId' == '1') {
+                jQuery("#duplicationprojectYes").text('✓');
+                jQuery("#duplicationprojectNo").text('');
+            } else {
+                jQuery("#duplicationprojectNo").text('✓');
+                jQuery("#duplicationprojectYes").text('');
+            }
+
+            SetTextValue('DuplicationApplicantComments', '@ViewBag.ProjectIndvDetail31.DuplicationApplicantComments');
+            SetTextValue('DuplicationAuthorityComments', '@ViewBag.ProjectIndvDetail31.DuplicationAuthorityComments');
+
+            if ('@ViewBag.ProjectCommonDetail.SocialIssuesYesNoId' == '1') {
+                jQuery("#pdeuYes").text('✓');
+                jQuery("#pdeuNo").text('');
+            } else {
+                jQuery("#pdeuNo").text('✓');
+                jQuery("#pdeuYes").text('');
+            }
+
+            SetTextValue('SocialIssuesApplicantCmt', '@ViewBag.ProjectCommonDetail.SocialIssuesApplicantCmt');
+            SetTextValue('SocialIssuesAuthorityCmt', '@ViewBag.ProjectCommonDetail.SocialIssuesAuthorityCmt');
+
+            SetDropdownValue('RecommendationId', '@ViewBag.ProjectCommonDetail.RecommendationId');
+            SetTextValue('RecommandCmt', '@ViewBag.ProjectCommonDetail.RecommandCmt');
+        }
+    }
+</script>

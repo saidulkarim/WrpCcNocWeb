@@ -31,6 +31,6 @@ namespace WrpCcNocWeb.Models
 
         [Column("Area", Order = 3)]
         [Display(Name = "Area")]
-        public decimal Area { get; set; }
+        public decimal? Area { get; set; }
     }
 }

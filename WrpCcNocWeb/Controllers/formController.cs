@@ -37,6 +37,7 @@ namespace WrpCcNocWeb.Controllers
             if (!string.IsNullOrEmpty(_selectedForm.ProjectTypeId))
             {
                 HttpContext.Session.SetComplexData("SelectedForm", _selectedForm);
+                ViewBag.ProjectTypeId = new SelectList(_db.LookUpCcModProjectType.ToList(), "ProjectTypeId", "ProjectType", _selectedForm.ProjectTypeId);
 
                 if (_selectedForm.ProjectTypeId.Equals("1"))
                     return RedirectToAction("fcmp", "form");
@@ -48,7 +49,6 @@ namespace WrpCcNocWeb.Controllers
                 TempData["Message"] = ch.ShowMessage(Sign.Warning, "Required", "Please select a form to apply.");
             }
 
-            ViewBag.ProjectTypeId = new SelectList(_db.LookUpCcModProjectType.ToList(), "ProjectTypeId", "ProjectType", _selectedForm.ProjectTypeId);
             return View();
         }
 
@@ -70,7 +70,7 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.ProjectTypeId = sf.ProjectTypeId;
             ViewBag.ProjectTitle = sf.ProjectTitle;
 
-            ProjectStatusInfo _psi = GetProjectId(sf.ProjectTypeId.ToString());
+            ProjectStatusInfo _psi = GetProjectInfoByType(sf.ProjectTypeId.ToString());
 
             if (_psi == null)
             {
@@ -82,9 +82,9 @@ namespace WrpCcNocWeb.Controllers
                 ViewBag.ProjectCommonDetail = _pcd;
 
                 LoadDropdownData();
+                NewEmptyForm();
 
-                TempData["Message"] = ch.ShowMessage(Sign.Info, "Information", "Please enter new project information.");
-                //return RedirectToAction("index", "form");
+                //TempData["Message"] = ch.ShowMessage(Sign.Info, "Information", "Please enter new project information.");                
             }
             else if (_psi.ProjectId != 0 && _psi.AppSubmissionId == null)
             {
@@ -96,11 +96,25 @@ namespace WrpCcNocWeb.Controllers
                 LoadDropdownData();
 
                 CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(_psi.ProjectId);
-                ViewBag.ProjectCommonDetail = _pcd;
+
+                if (_pcd != null)
+                    ViewBag.ProjectCommonDetail = _pcd;
+                else
+                    ViewBag.ProjectCommonDetail = new CcModAppProjectCommonDetail();
+
                 CcModPrjLocationDetail _locationdetail = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == _psi.ProjectId).FirstOrDefault();
-                ViewBag.ProjectLocationDetail = _locationdetail;
+
+                if (_locationdetail != null)
+                    ViewBag.ProjectLocationDetail = _locationdetail;
+                else
+                    ViewBag.ProjectLocationDetail = new CcModPrjLocationDetail();
+
                 CcModAppProject_31_IndvDetail _indvdetail = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == _psi.ProjectId).FirstOrDefault();
-                ViewBag.ProjectIndvDetail31 = _indvdetail;
+
+                if (_indvdetail != null)
+                    ViewBag.ProjectIndvDetail31 = _indvdetail;
+                else
+                    ViewBag.ProjectIndvDetail31 = new CcModAppProject_31_IndvDetail();
 
                 var _hydroregiondetail = _db.CcModPrjHydroRegionDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                             .Select(x => new { x.PrjHydroRegionDetailId, x.ProjectId, x.HydroRegionId }).ToList();
@@ -142,6 +156,235 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
+        private void NewEmptyForm()
+        {
+            CcModAppProjectCommonDetail _pcd = new CcModAppProjectCommonDetail();
+            ViewBag.ProjectCommonDetail = _pcd;
+            CcModPrjLocationDetail _locationdetail = new CcModPrjLocationDetail();
+            ViewBag.ProjectLocationDetail = _locationdetail;
+            CcModAppProject_31_IndvDetail _indvdetail = new CcModAppProject_31_IndvDetail();
+            ViewBag.ProjectIndvDetail31 = _indvdetail;
+
+            List<CcModPrjHydroRegionDetail> _hydroregiondetail = new List<CcModPrjHydroRegionDetail>();
+            ViewBag.HydroRegionDetail = _hydroregiondetail;
+            List<CcModBDP2100HotSpotDetail> _hotspotdetail = new List<CcModBDP2100HotSpotDetail>();
+            ViewBag.BDP2100HotSpotDetail = _hotspotdetail;
+            List<CcModPrjTypesOfFloodDetail> _typesofflood = new List<CcModPrjTypesOfFloodDetail>();
+            ViewBag.TypesOfFloodDetail = _typesofflood;
+            List<CcModPrjCompatNWPDetail> _compatnwpdetail = new List<CcModPrjCompatNWPDetail>();
+            ViewBag.CompatNWPDetail = _compatnwpdetail;
+            List<CcModPrjCompatNWMPDetail> _compatnwmpdetail = new List<CcModPrjCompatNWMPDetail>();
+            ViewBag.CompatNWMPDetail = _compatnwmpdetail;
+            List<CcModPrjCompatSDGDetail> _compatsdgdetail = new List<CcModPrjCompatSDGDetail>();
+            ViewBag.CompatSDGDetail = _compatsdgdetail;
+            List<CcModPrjCompatSDGIndiDetail> _compatsdgindidetail = new List<CcModPrjCompatSDGIndiDetail>();
+            ViewBag.CompatSDGIndiDetail = _compatsdgindidetail;
+            List<CcModBDP2100GoalDetail> _bdp2100goaldetail = new List<CcModBDP2100GoalDetail>();
+            ViewBag.BDP2100GoalDetail = _bdp2100goaldetail;
+            List<CcModGPWMGroupTypeDetail> _gpwmgrouptype = new List<CcModGPWMGroupTypeDetail>();
+            ViewBag.GPWMGroupType = _gpwmgrouptype;
+        }
+
+        //form/FloodControlManagementProject :: fcmp
+        [HttpPost]
+        public IActionResult fcmp(long id)
+        {
+            ProjectStatusInfo _pi = GetProjectInfoById(id);
+            int result = 0, appState = 0;
+
+            if (_pi.AppSubmissionId == 0)
+            {
+                appState = _pi.ApplicationStateId;
+
+                if (_pi.ApplicationStateId == 1)
+                {
+                    //Step 1: Project Estimated Cost Range
+                    #region Finding Application State from Cost Range
+                    appState = GetProjectCostRangeState(id);
+                    #endregion
+
+                    //Step 2: Project Multiple Location
+                    #region Multiple Location Checking
+                    appState = GetProjectMultipleLocation(id);
+                    #endregion
+
+                    //Step 3: Payment Method
+                    #region Payment Method Checking
+                    //payment method code will be incorporate here
+                    #endregion
+
+                    //Step 3: Mandatory File Attachment
+                    #region Mandatory File Attachment Checking
+                    //mandatory file attachment code will be incorporate here
+                    #endregion
+
+                    string projectTrackingCode = id.ToString().GenerateTrackingNumber(6);
+
+                    if (!string.IsNullOrEmpty(projectTrackingCode))
+                    {
+                        using var dbContextTransaction = _db.Database.BeginTransaction();
+                        try
+                        {
+                            CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(id);
+
+                            if (_pcd != null)
+                            {
+                                _pcd.AppSubmissionId = projectTrackingCode.ToLong();
+                                _pcd.ApplicationStateId = appState;
+
+                                _db.Entry(_pcd).State = EntityState.Modified;
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = id.ToString(),
+                                        status = "success",
+                                        title = "Success",
+                                        message = "Your application has been successfully submitted. Application tracking code: " + projectTrackingCode
+                                    };
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = id.ToString(),
+                                        status = "error",
+                                        title = "Application Submission Error",
+                                        message = "Your application not submitted."
+                                    };
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            dbContextTransaction.Rollback();
+
+                            var message = ch.ExtractInnerException(ex);
+
+                            noti = new Notification
+                            {
+                                id = "0",
+                                status = "error",
+                                title = "An Exception Error Occured",
+                                message = message
+                            };
+                        }
+                    }
+                }
+                else
+                {
+                    noti = new Notification
+                    {
+                        id = id.ToString(),
+                        status = "warning",
+                        title = "Application Current State",
+                        message = "Your application already submitted. " +
+                                  "\n<br />Application current state: <b>" + _pi.ApplicationState + ".</b>" +
+                                  "\nApplication tracking number:" + _pi.AppSubmissionId
+                        //"\n<br />Approval status: " + _pi.ApprovalStatus
+                    };
+                }
+            }
+            else
+            {
+                noti = new Notification
+                {
+                    id = id.ToString(),
+                    status = "warning",
+                    title = "Already Submitted",
+                    message = "Your application already submitted. Application tracking number: " + _pi.AppSubmissionId
+                };
+            }
+
+            return Json(noti);
+        }
+
+        private int GetProjectCostRangeState(long projectId)
+        {
+            double ProjectEstimatedCost = _db.CcModAppProjectCommonDetail
+                                             .Where(w => w.ProjectId == projectId)
+                                             .Select(s => s.ProjectEstimatedCost)
+                                             .FirstOrDefault();
+
+            int ApplicationState = _db.LookUpAdminModCostRange
+                                      .Where(w => (w.LowerValue < ProjectEstimatedCost.ToString().ToDecimal() || w.LowerValue == ProjectEstimatedCost.ToString().ToDecimal()) && (w.UpperValue > ProjectEstimatedCost.ToString().ToDecimal() || w.UpperValue == ProjectEstimatedCost.ToString().ToDecimal()))
+                                      .Select(s => s.StateId)
+                                      .FirstOrDefault();
+
+            return ApplicationState;
+        }
+
+        private int GetProjectMultipleLocation(long projectId)
+        {
+            int appState = 0;
+            int tUnion = 0, tUpazila = 0, tDistrict = 0;
+            List<CcModPrjLocationDetail> _projLocation = _db.CcModPrjLocationDetail
+                                                            .Where(w => w.ProjectId == projectId)
+                                                            .ToList();
+
+            if (_projLocation.Count > 0)
+            {
+                tUnion = _projLocation.Where(w => w.UnionGeoCode != string.Empty)
+                                      .DistinctBy(d => d.UnionGeoCode)
+                                      .Select(s => s.UnionGeoCode).Count();
+
+                tUpazila = _projLocation.Where(w => w.UpazilaGeoCode != string.Empty)
+                                        .DistinctBy(d => d.UpazilaGeoCode)
+                                        .Select(s => s.UpazilaGeoCode).Count();
+
+                tDistrict = _projLocation.Where(w => w.DistrictGeoCode != string.Empty)
+                                         .DistinctBy(d => d.DistrictGeoCode)
+                                         .Select(s => s.DistrictGeoCode).Count();
+
+                if (tUnion > 1)
+                {
+                    appState = 3; //Pending for Review of Upazila Technical Committee
+                }
+                else
+                {
+                    appState = 2; //Pending for Review of Union Technical Committee
+                }
+
+                if (tUpazila > 1)
+                {
+                    appState = 4; //Pending for Review of District Technical Committee
+                }
+                else
+                {
+                    if (tUnion == 0 && tUpazila == 1)
+                        appState = 3; //Pending for Review of Upazila Technical Committee
+                    else if (tUnion == 1 && tUpazila == 1)
+                        appState = 2; //Pending for Review of Union Technical Committee
+                    else
+                        appState = 1; //Not Yet Submitted
+                }
+
+                if (tDistrict > 1)
+                {
+                    appState = 5; //Pending for Review of WARPO Technical Committee
+                }
+                else
+                {
+                    if (tUnion == 0 && tUpazila == 0 && tDistrict == 1)
+                        appState = 4; //Pending for Review of District Technical Committee
+                    else if (tUnion == 1 && tUpazila == 1 && tDistrict == 1)
+                        appState = 2; //Pending for Review of Union Technical Committee
+                    else if (tUnion == 0 && tUpazila == 1 && tDistrict == 1)
+                        appState = 3; //Pending for Review of Upazila Technical Committee
+                    else
+                        appState = 1; //Not Yet Submitted
+                }
+            }
+
+            return appState;
+        }
+
         private void LoadDropdownData()
         {
             #region Dropdown Data Loading
@@ -173,15 +416,38 @@ namespace WrpCcNocWeb.Controllers
         }
 
         #region Dropdown and General Info Save
-        private ProjectStatusInfo GetProjectId(string projectTypeId)
+        private ProjectStatusInfo GetProjectInfoByType(string projectTypeId)
         {
             var result = _db.CcModAppProjectCommonDetail
-                    .Where(w => w.ProjectTypeId == projectTypeId.ToInt() && w.AppSubmissionId == 0)
-                    .Select(x => new ProjectStatusInfo
-                    {
-                        ProjectId = x.ProjectId,
-                        AppSubmissionId = x.AppSubmissionId
-                    }).FirstOrDefault();
+                        .Where(w => w.ProjectTypeId == projectTypeId.ToInt() && w.AppSubmissionId == 0)
+                        .Select(x => new ProjectStatusInfo
+                        {
+                            ProjectId = x.ProjectId,
+                            AppSubmissionId = x.AppSubmissionId,
+                            ApplicationStateId = x.ApplicationStateId,
+                            ApprovalStatusId = x.ApprovalStatusId
+                        }).FirstOrDefault();
+
+            return result;
+        }
+
+        private ProjectStatusInfo GetProjectInfoById(long projectId)
+        {
+            var result = (from d in _db.CcModAppProjectCommonDetail
+                          join app_state in _db.LookUpCcModApplicationState on d.ApplicationStateId equals app_state.ApplicationStateId into appstate
+                          from state in appstate.DefaultIfEmpty()
+                          join app_approv in _db.LookUpCcModApprovalStatus on d.ApprovalStatusId equals app_approv.ApprovalStatusId into approval
+                          from app in approval.DefaultIfEmpty()
+                          where d.ProjectId == projectId
+                          select new ProjectStatusInfo
+                          {
+                              ProjectId = d.ProjectId,
+                              AppSubmissionId = d.AppSubmissionId,
+                              ApplicationStateId = d.ApplicationStateId,
+                              ApplicationState = state.ApplicationState,
+                              ApprovalStatusId = d.ApprovalStatusId,
+                              ApprovalStatus = app.ApprovalStatus
+                          }).FirstOrDefault();
 
             return result;
         }
@@ -1901,7 +2167,7 @@ namespace WrpCcNocWeb.Controllers
 
                                 //result = _db.SaveChanges();
                                 //dbNewListTrans.Commit();
-                                #endregion                                
+                                #endregion
 
                                 #region Project 31 Indvidual Data Binding                                
                                 p31i.ConnectivityAmidWaterland = Project31Indv.ConnectivityAmidWaterland;

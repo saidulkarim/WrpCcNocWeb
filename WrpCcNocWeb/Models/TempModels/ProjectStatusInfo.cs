@@ -9,5 +9,9 @@ namespace WrpCcNocWeb.Models.TempModels
     {
         public long ProjectId { get; set; }
         public long? AppSubmissionId { get; set; }
+        public int ApplicationStateId { get; set; }
+        public string ApplicationState { get; set; }
+        public int? ApprovalStatusId { get; set; }
+        public string ApprovalStatus { get; set; }
     }
 }

@@ -1,35 +1,33 @@
-﻿body {
-}
-
-table {
+﻿#form-preview table {
     border-collapse: collapse;
 }
 
-table, th, td {
+#form-preview table, th, td {
     border: 1px solid black;
     padding: 5px;
 }
-tr {
+
+#form-preview tr {
     page-break-inside: avoid;
 }
 
-.container {
-    font-family:Verdana, Arial, Helvetica, Arial;
+#form-preview.container {
+    font-family: Verdana, Arial, Helvetica, Arial;
     padding: 5px 50px;
-    font-size:11px;
+    font-size: 11px;
 }
 
-.lineGap {
-    padding:5px 0px;
+#form-preview.lineGap {
+    padding: 5px 0px;
 }
 
-.HeaderTitle {
-    font-family: Verdana, Arial, Helvetica, Arial;    
+#form-preview.HeaderTitle {
+    font-family: Verdana, Arial, Helvetica, Arial;
     text-align: center;
-    font-size:14px;
+    font-size: 14px;
 }
 
-.HeaderSubTitle {
+#form-preview.HeaderSubTitle {
     font-family: Verdana, Arial, Helvetica, Arial;
     text-align: center;
     font-size: 12px;

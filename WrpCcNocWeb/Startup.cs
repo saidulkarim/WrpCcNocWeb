@@ -30,7 +30,8 @@ namespace WrpCcNocWeb
             services.AddMemoryCache();
             services.AddMvc();
 
-            services.Configure<CookiePolicyOptions>(options => {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
                 options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
@@ -49,13 +50,15 @@ namespace WrpCcNocWeb
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsStaging())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseExceptionHandler("/account/login");
+                //app.UseExceptionHandler("/error/index");
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/error/index");
             }
 
             app.UseStaticFiles();
@@ -68,7 +71,7 @@ namespace WrpCcNocWeb
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=account}/{action=login}/{id?}");
-                    //pattern: "{controller=home}/{action=index}/{id?}");
+                //pattern: "{controller=home}/{action=index}/{id?}");
             });
         }
     }

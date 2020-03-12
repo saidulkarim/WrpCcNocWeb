@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WrpCcNocWeb.Models;
+using WrpCcNocWeb.Models.CcModule;
 
 namespace WrpCcNocWeb.DatabaseContext
 {
@@ -24,6 +25,9 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<AdminModUserLogHistoryDetail> AdminModUserLogHistoryDetail { get; set; }
         public DbSet<AdminModUserRegistrationDetail> AdminModUserRegistrationDetail { get; set; }
         public DbSet<AdminModUsersDetail> AdminModUsersDetail { get; set; }
+        public DbSet<LookUpAdminModCostRange> LookUpAdminModCostRange { get; set; }
+        public DbSet<LookUpCcModApplicationState> LookUpCcModApplicationState { get; set; }
+        public DbSet<LookUpCcModApprovalStatus> LookUpCcModApprovalStatus { get; set; }
         #endregion
 
         #region Detail --- CC Module        
