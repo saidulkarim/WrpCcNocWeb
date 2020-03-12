@@ -1,70 +1,213 @@
-﻿
+﻿@using WrpCcNocWeb.Models
+
 @{
-    ViewData["Title"] = "Create New User Group";
+    ViewData["Title"] = "New User Group";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>@ViewData["Title"]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;@Html.ActionLink("Back to User Group List", "viewUserGroups", "account")</h4>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.ActionLink("Back to User Group List", "viewUserGroups", "account")
+                        <br />
+                        @Html.ActionLink("Back to User Group List", "viewUserGroups", "account")
+                        <br />
+                        @Html.ActionLink("Back to User Group List", "viewUserGroups", "account")
+                        <br />
+                        @Html.ActionLink("Back to User Group List", "viewUserGroups", "account")
+                        <br />
+                        @Html.ActionLink("Back to User Group List", "viewUserGroups", "account")
+                        <br />
+                        @Html.ActionLink("Back to User Group List", "viewUserGroups", "account")
+                    </div>
+                    <div class="col-md-9">
+                        <h4 class="header-title mb-3"> <b>New User Group Creation</b></h4>
+                        @using (Html.BeginForm("createusergroup", "account", FormMethod.Post, new { enctype = "multipart/form-data", id = "CreateUserGroupForm", role = "form" }))
+                        {
+                            <div class="form-group mb-3">
+                                <label for="ddlUserGroupType">Group Type</label>
+                                <select id="ddlUserGroupType" class="form-control">
+                                    <option value="">Choose...</option>
+                                    <option value="WARPO">WARPO</option>
+                                    <option value="Non-WARPO">Non-WARPO</option>
+                                </select>
+                            </div>
 
-@using (Html.BeginForm("createUserGroup", "account", FormMethod.Post, new { enctype = "multipart/form-data", id = "CreateUserGroupForm", role = "form" }))
-{
-    <div class="form-group">
-        Type <span class="text-danger bold">*</span>
-        <div class="input-group mb-2">
-            @*@Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter your user name", @required = "required", @autocomplete = "off" } })*@
-            <div id="spinner" class="input-group-prepend d-none">
-                <button class="btn btn-primary" type="button" disabled="">
-                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> <span class="sr-only">Loading...</span>
-                </button>
+                            <div class="form-group mb-3">
+                                <label for="AuthorityLevelId">Authority Level</label>
+                                <select id="AuthorityLevelId" name="AuthorityLevelId" class="form-control">
+                                    <option value="">Choose...</option>
+
+                                    @{
+                                        List<LookUpAdminModAuthorityLevel> _als = ViewBag.AdminModAuthorityLevel;
+
+                                        if (_als.Count > 0)
+                                        {
+                                            foreach (LookUpAdminModAuthorityLevel al in _als)
+                                            {
+                                                <option value="@al.AuthorityLevelId">@al.AuthorityLevel</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="UserGroupName">Group Name</label>
+                                <input id="UserGroupName" name="UserGroupName" type="text" class="form-control form-control-sm" placeholder="user group name">
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="UserGroupName">Group Name</label>
+
+                                <select id="DistrictGeoCode" name="DistrictGeoCode" class="form-control" required="">
+                                    <option value="">Choose..</option>
+
+                                    @{
+                                        List<LookUpAdminBndDistrict> _districts = ViewBag.LookUpAdminBndDistrict;
+
+                                        if (_districts.Count > 0)
+                                        {
+                                            foreach (LookUpAdminBndDistrict dist in _districts)
+                                            {
+                                                <option value="@dist.DistrictGeoCode">@dist.DistrictName</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="UserGroupName">Group Name</label>
+
+                                <select id="UpazilaGeoCode" name="UpazilaGeoCode" class="form-control">
+                                    <option value="">Choose..</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="UserGroupName">Group Name</label>
+
+                                <select id="UnionGeoCode" name="UnionGeoCode" class="form-control">
+                                    <option value="">Choose..</option>
+                                </select>
+                            </div>                           
+
+                            <div class="form-group mb-0 text-center">
+                                <button id="btnSubmit" class="btn btn-success btn-block" style="width:120px" type="button"> Create </button>
+                                <button id="btnCancel" class="btn btn-success btn-block" style="width:120px" type="button"> Cancel </button>
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="form-group">
-        Authority Level <span class="text-danger bold">*</span>
-        <div class="input-group mb-2">
-            @*@Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter your user name", @required = "required", @autocomplete = "off" } })*@
-            <div id="spinner" class="input-group-prepend d-none">
-                <button class="btn btn-primary" type="button" disabled="">
-                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> <span class="sr-only">Loading...</span>
-                </button>
-            </div>
-        </div>
-    </div>
+@section PageScripts {
+    <script type="text/javascript">
+        jQuery("#DistrictGeoCode").change(function () {
+            var code = jQuery(this).val();
+            var type = 'upz';
 
-    <div class="form-group">
-        Group Name <span class="text-danger bold">*</span>
-        <div class="input-group mb-2">
-            @*@Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter your user name", @required = "required", @autocomplete = "off" } })*@
-            <div id="spinner" class="input-group-prepend d-none">
-                <button class="btn btn-primary" type="button" disabled="">
-                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> <span class="sr-only">Loading...</span>
-                </button>
-            </div>
-            @Html.Hidden("isValidUsr")
-        </div>
-    </div>
+            if (code != '') {
+                jQuery("#UpazilaGeoCode, #UnionGeoCode").html('<option value="">Choose...</option>');
+                GetAdminData(code, type);
+            }
+        });
 
-    <div class="form-group">
-        District <span class="text-danger bold">*</span>
-        @*@Html.EditorFor(m => m.UserPassword, new { htmlAttributes = new { @class = "form-control", @type = "password", @placeholder = "Enter your password", @required = "required", @autocomplete = "off", @onKeyUp = "PasswordStrength(jQuery(this).val());" } })*@
-        <div id="pwd-invalid-feedback"></div>
-    </div>
+        jQuery("#UpazilaGeoCode").change(function () {
+            var code = jQuery(this).val();
+            var type = 'uni';
 
-    <div class="form-group">
-        Upazila <span class="text-danger">*</span>
-        @*<input id="UserConfirmPassword" class="form-control" type="password" parsley-trigger="change" placeholder="Confirm password" autocomplete="off" required>*@
-    </div>
+            if (code != '') {
+                jQuery("#UnionGeoCode").html('<option value="">Choose...</option>');
+                GetAdminData(code, type);
+            }
+        });
 
-    <div class="form-group">
-        Union <span class="text-danger bold">*</span>
-        @*@Html.EditorFor(m => m.UserEmail, new { htmlAttributes = new { @class = "form-control", @type = "email", @placeholder = "Enter your email", @required = "required", @autocomplete = "off" } })*@
-    </div>
+        function GetAdminData(code, type) {
+            var url = '@Url.Action("gab", "common")';
 
-    <div class="form-group mb-0 text-center">
-        <button id="btnSubmit" class="btn btn-success btn-block" style="width:120px" type="button"> Create </button>
-    </div>
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                data: { code: code, type: type },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    console.log(data);
+                    jQuery("#UpazilaGeoCode").html('<option value="">Choose...</option>');
+                    jQuery("#UnionGeoCode").html('<option value="">Choose...</option>');
+
+                    if (type == 'upz') {
+                        //jQuery("#UpazilaGeoCode").html('<option value="">Choose...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            var content = '<option value="' + item.code + '">' + item.ab_name + '</option>';
+                            jQuery("#UpazilaGeoCode").append(content);
+                        });
+                    } else if (type == 'uni') {
+                        //jQuery("#UnionGeoCode").html('<option value="">Choose...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            var content = '<option value="' + item.code + '">' + item.ab_name + '</option>';
+                            jQuery("#UnionGeoCode").append(content);
+                        });
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
+        }
+
+        function GetAdminData(code, type, val) {
+            var url = '@Url.Action("gab", "common")';
+
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                data: { code: code, type: type },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    var content = '';
+
+                    if (type == 'upz') {
+                        jQuery("#UpazilaGeoCode").html('<option value="">Choose...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            if (val == item.code)
+                                content = '<option value="' + item.code + '" selected>' + item.ab_name + '</option>';
+                            else
+                                content = '<option value="' + item.code + '">' + item.ab_name + '</option>';
+
+                            jQuery("#UpazilaGeoCode").append(content);
+                        });
+
+                        //jQuery("#UpazilaGeoCode").val(val);
+                    } else if (type == 'uni') {
+                        jQuery("#UnionGeoCode").html('<option value="">Choose...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            if (val == item.code)
+                                content = '<option value="' + item.code + '" selected>' + item.ab_name + '</option>';
+                            else
+                                content = '<option value="' + item.code + '">' + item.ab_name + '</option>';
+
+                            jQuery("#UnionGeoCode").append(content);
+                        });
+
+                        //jQuery("#UnionGeoCode").val(val);
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
+        }
+    </script>
 }
-
-
-
