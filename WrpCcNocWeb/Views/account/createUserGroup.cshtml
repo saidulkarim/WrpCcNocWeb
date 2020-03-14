@@ -11,17 +11,9 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
-                        @Html.ActionLink("Back to User Group List", "viewUserGroups", "account")
+                        <button type="button" class="btn btn-block btn-blue">Back to User Group List</button>
+                        @*@Html.ActionLink("Back to User Group List", "viewUserGroups", "account")*@
                         <br />
-                        @Html.ActionLink("Back to User Group List", "viewUserGroups", "account")
-                        <br />
-                        @Html.ActionLink("Back to User Group List", "viewUserGroups", "account")
-                        <br />
-                        @Html.ActionLink("Back to User Group List", "viewUserGroups", "account")
-                        <br />
-                        @Html.ActionLink("Back to User Group List", "viewUserGroups", "account")
-                        <br />
-                        @Html.ActionLink("Back to User Group List", "viewUserGroups", "account")
                     </div>
                     <div class="col-md-9">
                         <h4 class="header-title mb-3"> <b>New User Group Creation</b></h4>
@@ -55,12 +47,7 @@
                                 </select>
                             </div>
 
-                            <div class="form-group mb-3">
-                                <label for="UserGroupName">Group Name</label>
-                                <input id="UserGroupName" name="UserGroupName" type="text" class="form-control form-control-sm" placeholder="user group name">
-                            </div>
-
-                            <div class="form-group mb-3">
+                            <div id="divDistrict" class="form-group mb-3 d-none">
                                 <label for="DistrictGeoCode">District</label>
                                 <select id="DistrictGeoCode" name="DistrictGeoCode" class="form-control" required="">
                                     <option value="">Choose..</option>
@@ -79,23 +66,36 @@
                                 </select>
                             </div>
 
-                            <div class="form-group mb-3">
+                            <div id="divUpazila" class="form-group mb-3 d-none">
                                 <label for="UpazilaGeoCode">Upazila</label>
                                 <select id="UpazilaGeoCode" name="UpazilaGeoCode" class="form-control">
                                     <option value="">Choose..</option>
                                 </select>
                             </div>
 
-                            <div class="form-group mb-3">
+                            <div id="divUnion" class="form-group mb-3 d-none">
                                 <label for="UnionGeoCode">Union</label>
                                 <select id="UnionGeoCode" name="UnionGeoCode" class="form-control">
                                     <option value="">Choose..</option>
                                 </select>
-                            </div>                           
+                            </div>
 
-                            <div class="form-group mb-0 text-center">
-                                <button id="btnSubmit" class="btn btn-success btn-block" style="width:120px" type="button"> Create </button>
-                                <button id="btnCancel" class="btn btn-success btn-block" style="width:120px" type="button"> Cancel </button>
+                            <div class="form-group mb-3">
+                                <label for="UserGroupName">Group Name</label>
+                                <input id="UserGroupName" name="UserGroupName" type="text" class="form-control form-control-sm" placeholder="User group name" style="height: 40px;">
+                            </div>
+
+                            <div class="form-group mb-0">
+                                <button id="btnSaveUserGroup" type="submit" class="btn btn-info waves-effect waves-light">
+                                    <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
+                                    <span style="text-decoration: underline;">S</span>ave
+                                    <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
+                                </button>
+
+                                <button id="btnClearUserGroup" type="button" class="btn btn-secondary waves-effect waves-light">
+                                    <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
+                                    Clear
+                                </button>
                             </div>
                         }
                     </div>
@@ -109,23 +109,100 @@
     <script type="text/javascript">
         jQuery("#DistrictGeoCode").change(function () {
             var code = jQuery(this).val();
+            var text = jQuery("#DistrictGeoCode option:selected").text();
+            var auth_level_name = jQuery("#AuthorityLevelId option:selected").text();
             var type = 'upz';
 
             if (code != '') {
                 jQuery("#UpazilaGeoCode, #UnionGeoCode").html('<option value="">Choose...</option>');
                 GetAdminData(code, type);
+                AutoGenGroupName(text, auth_level_name);
             }
         });
 
         jQuery("#UpazilaGeoCode").change(function () {
-            var code = jQuery(this).val();
             var type = 'uni';
+            var code = jQuery(this).val();
+            var text = jQuery("#UpazilaGeoCode option:selected").text();
+            var dist = jQuery("#DistrictGeoCode option:selected").text();
+            var auth_level_name = jQuery("#AuthorityLevelId option:selected").text();
+            auth_level_name = auth_level_name + ', ' + dist;
 
             if (code != '') {
                 jQuery("#UnionGeoCode").html('<option value="">Choose...</option>');
                 GetAdminData(code, type);
+                AutoGenGroupName(text, auth_level_name);
             }
         });
+
+        jQuery("#UnionGeoCode").change(function () {
+            var code = jQuery(this).val();
+            var text = jQuery("#UnionGeoCode option:selected").text();
+            var dist = jQuery("#DistrictGeoCode option:selected").text();
+            var upaz = jQuery("#UpazilaGeoCode option:selected").text();
+            var auth_level_name = jQuery("#AuthorityLevelId option:selected").text();
+            auth_level_name = auth_level_name + ', ' + upaz + ', ' + dist;
+
+            if (code != '') {
+                AutoGenGroupName(text, auth_level_name);
+            }
+        });
+
+        jQuery("#AuthorityLevelId").change(function () {
+            var userGroupType = jQuery("#ddlUserGroupType").val();
+            var val = jQuery("#AuthorityLevelId option:selected").val();
+            var text = jQuery("#AuthorityLevelId option:selected").text();
+
+            if (userGroupType === 'WARPO') {
+
+            } else {
+                if (val != '') {
+                    if (text.indexOf("District") >= 0) {
+                        console.log('yes has district');
+
+                        jQuery("#divDistrict").removeClass('d-none').addClass('d-block');
+                        jQuery("#divUpazila").removeClass('d-block').addClass('d-none');
+                        jQuery("#divUnion").removeClass('d-block').addClass('d-none');
+                    } else if (text.indexOf("Upazila") >= 0) {
+                        console.log('yes has upazila');
+
+                        jQuery("#divDistrict").removeClass('d-none').addClass('d-block');
+                        jQuery("#divUpazila").removeClass('d-none').addClass('d-block');
+                        jQuery("#divUnion").removeClass('d-block').addClass('d-none');
+                    } else {
+                        console.log('yes has union');
+
+                        jQuery("#divDistrict").removeClass('d-none').addClass('d-block');
+                        jQuery("#divUpazila").removeClass('d-none').addClass('d-block');
+                        jQuery("#divUnion").removeClass('d-none').addClass('d-block');
+                    }
+
+                    jQuery("#DistrictGeoCode").val('');
+                    jQuery("#UserGroupName").val('');
+                    jQuery("#UpazilaGeoCode").html('<option value="">Choose...</option>');
+                    jQuery("#UnionGeoCode").html('<option value="">Choose...</option>');
+                }
+            }
+        });
+
+        function AutoGenGroupName(adm_bndr_name, auth_level_name) {
+            var gn = '';
+
+            if (auth_level_name.indexOf("District") >= 0) {
+                gn = auth_level_name.replace("District", adm_bndr_name + " District");
+                jQuery("#UserGroupName").val(gn);
+            }
+
+            if (auth_level_name.indexOf("Upazila") >= 0) {
+                gn = auth_level_name.replace("Upazila", adm_bndr_name + " Upazila");
+                jQuery("#UserGroupName").val(gn);
+            }
+
+            if (auth_level_name.indexOf("Union") >= 0) {
+                gn = auth_level_name.replace("Union", adm_bndr_name + " Union");
+                jQuery("#UserGroupName").val(gn);
+            }
+        }
 
         function GetAdminData(code, type) {
             var url = '@Url.Action("gab", "common")';
