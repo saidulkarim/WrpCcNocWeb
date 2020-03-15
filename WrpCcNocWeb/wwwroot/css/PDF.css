@@ -1,33 +1,33 @@
-﻿#form-preview table {
+﻿.form-preview table {
     border-collapse: collapse;
 }
 
-#form-preview table, th, td {
+.form-preview table, th, td {
     border: 1px solid black;
     padding: 5px;
 }
 
-#form-preview tr {
+.form-preview tr {
     page-break-inside: avoid;
 }
 
-#form-preview.container {
+.form-preview.container {
     font-family: Verdana, Arial, Helvetica, Arial;
     padding: 5px 50px;
     font-size: 11px;
 }
 
-#form-preview.lineGap {
+.form-preview.lineGap {
     padding: 5px 0px;
 }
 
-#form-preview.HeaderTitle {
+.form-preview.HeaderTitle {
     font-family: Verdana, Arial, Helvetica, Arial;
     text-align: center;
     font-size: 14px;
 }
 
-#form-preview.HeaderSubTitle {
+.form-preview.HeaderSubTitle {
     font-family: Verdana, Arial, Helvetica, Arial;
     text-align: center;
     font-size: 12px;

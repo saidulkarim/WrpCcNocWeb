@@ -2778,6 +2778,125 @@ namespace WrpCcNocWeb.Controllers
             CcModPrjEcoFinAnalysisDetail _efa = _db.CcModPrjEcoFinAnalysisDetail.Where(w => w.ProjectId == projectId && w.EconomicalAndFinancialId == id).FirstOrDefault();
             return Json(_efa);
         }
+
+        //form/GetFormComments :: sfc
+        [HttpPost]
+        public JsonResult sfc(CcModAppProjDataAnalysis pda)
+        {
+            int result = 0;
+            if (pda.ProjectTypeId != 0)
+            {
+                if (pda.ProjectId != 0)
+                {
+                    if (!string.IsNullOrEmpty(pda.LabelNameOfControl))
+                    {
+                        if (!string.IsNullOrEmpty(pda.Comments))
+                        {
+                            using var dbContextTransaction = _db.Database.BeginTransaction();
+                            try
+                            {
+                                _db.CcModAppProjDataAnalysis.Add(pda); ;
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = pda.AppProjDataAnalysisId.ToString(),
+                                        status = "success",
+                                        title = "Success",
+                                        message = "Your comments has been submitted."
+                                    };
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = pda.AppProjDataAnalysisId.ToString(),
+                                        status = "error",
+                                        title = "Error",
+                                        message = "Your comments not submitted."
+                                    };
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                dbContextTransaction.Rollback();
+                                var message = ch.ExtractInnerException(ex);
+
+                                noti = new Notification
+                                {
+                                    id = "0",
+                                    status = "error",
+                                    title = "An Exception Error Occured",
+                                    message = message
+                                };
+                            }
+                        }
+                        else
+                        {
+                            noti = new Notification
+                            {
+                                id = "0",
+                                status = "error",
+                                title = "Empty Comments",
+                                message = "Comments should not be left empty."
+                            };
+                        }
+                    }
+                    else
+                    {
+                        noti = new Notification
+                        {
+                            id = "0",
+                            status = "error",
+                            title = "Empty Control Label",
+                            message = "Control label should not be left empty."
+                        };
+                    }
+                }
+                else
+                {
+                    noti = new Notification
+                    {
+                        id = "0",
+                        status = "error",
+                        title = "Project Id Required",
+                        message = "Project Id should not be left empty."
+                    };
+                }
+            }
+            else
+            {
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    title = "Project Type Required",
+                    message = "Project type should not be left empty."
+                };
+            }
+
+            return Json(noti);
+        }
+
+        //form/GetFormComments :: gfc
+        [HttpGet]
+        public JsonResult gfc(long userid, int projtypeid, long projid, string controlname)
+        {
+            List<CcModAppProjDataAnalysis> comments = _db.CcModAppProjDataAnalysis
+                                                         .Where(w =>
+                                                                w.ProjectTypeId == projtypeid &&
+                                                                w.ProjectId == projid &&
+                                                                w.LabelNameOfControl == controlname
+                                                                )
+                                                         .ToList();
+            return Json(comments);
+        }
         #endregion
     }
 }

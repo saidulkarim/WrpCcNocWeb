@@ -27,6 +27,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<AdminModUserRegistrationDetail> AdminModUserRegistrationDetail { get; set; }
         public DbSet<AdminModUsersDetail> AdminModUsersDetail { get; set; }
         public DbSet<LookUpAdminModCostRange> LookUpAdminModCostRange { get; set; }
+        public DbSet<CcModAppProjDataAnalysis> CcModAppProjDataAnalysis { get; set; }
         #endregion
 
         #region LookUp --- Admin Module

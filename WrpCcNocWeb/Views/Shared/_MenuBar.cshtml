@@ -15,74 +15,89 @@
                 </li>
 
                 @{
-                    List<UserMenu> userMenuList = ViewBag.UserMenu;// (List<UserMenu>)Newtonsoft.Json.JsonConvert.DeserializeObject(userMenu, typeof(List<UserMenu>));
+                    CommonHelper ch = new CommonHelper();
 
-                    if (userMenuList == null)
+                    try
                     {
-                        var userMenu = HttpContextAccessor.HttpContext.Request.Cookies["UserMenu"].ToString();
-                        userMenuList = (List<UserMenu>)Newtonsoft.Json.JsonConvert.DeserializeObject(userMenu, typeof(List<UserMenu>));
-                    }
+                        List<UserMenu> userMenuList = ViewBag.UserMenu; //(List<UserMenu>)Newtonsoft.Json.JsonConvert.DeserializeObject(userMenu, typeof(List<UserMenu>));
 
-                    if (userMenuList.Count > 0)
-                    {
-                        var parentMenu = userMenuList.DistinctBy(d => d.MenuId);
-
-                        foreach (UserMenu pm in parentMenu)
+                        if (userMenuList == null)
                         {
-                            var pAction = pm.Action ?? "";
-                            var pController = pm.Controller ?? "";
-                            var pMenuTitle = pm.SubMenuTitle ?? "";
+                            var userMenu = HttpContextAccessor.HttpContext.Request.Cookies["UserMenu"].ToString();
+                            userMenuList = (List<UserMenu>)Newtonsoft.Json.JsonConvert.DeserializeObject(userMenu, typeof(List<UserMenu>));
+                        }
 
-                            var subMenus = userMenuList.Where(w => w.MenuId == pm.MenuId).ToList();
+                        if (userMenuList.Count > 0)
+                        {
+                            var parentMenu = userMenuList.DistinctBy(d => d.MenuId);
 
-                            if (subMenus != null && subMenus.Count > 0)
+                            foreach (UserMenu pm in parentMenu)
                             {
-                                <li class="has-submenu">
-                                    <a href="#" title="@pm.UserGroupId">
-                                        <i class="fe-grid"></i> @pm.MenuTitle <div class="arrow-down"></div>
-                                    </a>
-                                    <ul class="submenu">
-                                        @foreach (UserMenu sm in subMenus)
-                                        {
-                                            var action = sm.Action ?? "";
-                                            var sm_title = sm.SubMenuTitle ?? "";
+                                var pAction = pm.Action ?? "";
+                                var pController = pm.Controller ?? "";
+                                var pMenuTitle = pm.SubMenuTitle ?? "";
 
-                                            if (action != "")
-                                            {
-                                                <li>
-                                                    <a href="@Url.Action(sm.Action.ToString().Trim(), sm.Controller.ToString().Trim())" title="@sm.UserGroupId"> @sm_title</a>
-                                                </li>
-                                            }
-                                            else
-                                            {
-                                                <li>
-                                                    <a href="javascript:void(0);" title="@sm.UserGroupId"> @sm_title</a>
-                                                </li>
-                                            }
-                                        }
-                                    </ul>
-                                </li>
-                            }
-                            else
-                            {
-                                if (pAction != "")
+                                var subMenus = userMenuList.Where(w => w.MenuId == pm.MenuId).ToList();
+
+                                if (subMenus != null && subMenus.Count > 0)
                                 {
-                                    <li>
-                                        <a href="@Url.Action(pAction, pController)">
-                                            <i class="mdi mdi-menu-open"></i> @pm.MenuTitle
+                                    <li class="has-submenu">
+                                        <a href="#" title="@pm.UserGroupId">
+                                            <i class="fe-grid"></i> @pm.MenuTitle <div class="arrow-down"></div>
                                         </a>
+                                        <ul class="submenu">
+                                            @foreach (UserMenu sm in subMenus)
+                                            {
+                                                var action = sm.Action ?? "";
+                                                var sm_title = sm.SubMenuTitle ?? "";
+
+                                                if (action != "")
+                                                {
+                                                    <li>
+                                                        <a href="@Url.Action(sm.Action.ToString().Trim(), sm.Controller.ToString().Trim())" title="@sm.UserGroupId"> @sm_title</a>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    <li>
+                                                        <a href="javascript:void(0);" title="@sm.UserGroupId"> @sm_title</a>
+                                                    </li>
+                                                }
+                                            }
+                                        </ul>
                                     </li>
                                 }
                                 else
                                 {
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <i class="mdi mdi-menu-open"></i> @pm.MenuTitle
-                                        </a>
-                                    </li>
+                                    if (pAction != "")
+                                    {
+                                        <li>
+                                            <a href="@Url.Action(pAction, pController)">
+                                                <i class="mdi mdi-menu-open"></i> @pm.MenuTitle
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <i class="mdi mdi-menu-open"></i> @pm.MenuTitle
+                                            </a>
+                                        </li>
+                                    }
                                 }
                             }
                         }
+                    }
+                    catch (Exception)
+                    {
+                        TempData["Message"] = ch.ShowMessage("error", "Menu Not Assigned", "You have no permission yet.");
+
+                        <script type="text/javascript">
+                            $(function(){
+                                window.location.href = "@Url.Action("login", "acount")";
+                            });
+                        </script>
                     }
                 }
 

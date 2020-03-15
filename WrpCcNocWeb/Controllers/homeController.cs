@@ -70,38 +70,67 @@ namespace WrpCcNocWeb.Controllers
         //Using: UserMenu sf = HttpContext.Session.GetComplexData<UserMenu>("UserMenu");
         private void UserMenuPermissionToSession(UserInfo ui)
         {
-            List<UserMenu> um = (from u in _db.AdminModUsersDetail
-                                 join amugdd in _db.AdminModUserGrpDistDetail on u.UserId equals amugdd.UserId into ugd
-                                 from ug in ugd.DefaultIfEmpty()
-                                 join amugwmd in _db.AdminModUserGrpWiseMenuDetail on ug.UserGroupId equals amugwmd.UserGroupId into ugmd
-                                 from ugm in ugmd.DefaultIfEmpty()
-                                 join luamm in _db.LookUpAdminModMenu on ugm.MenuId equals luamm.MenuId into amm
-                                 from m in amm.DefaultIfEmpty()
-                                 join luamsm in _db.LookUpAdminModSubMenu on ugm.SubMenuId equals luamsm.SubMenuId into amsm
-                                 from sm in amsm.DefaultIfEmpty()
+            List<UserMenu> uml = (from u in _db.AdminModUsersDetail
+                                  join amugdd in _db.AdminModUserGrpDistDetail on u.UserId equals amugdd.UserId into ugd
+                                  from ug in ugd.DefaultIfEmpty()
+                                  join amugwmd in _db.AdminModUserGrpWiseMenuDetail on ug.UserGroupId equals amugwmd.UserGroupId into ugmd
+                                  from ugm in ugmd.DefaultIfEmpty()
+                                  join luamm in _db.LookUpAdminModMenu on ugm.MenuId equals luamm.MenuId into amm
+                                  from m in amm.DefaultIfEmpty()
+                                  join luamsm in _db.LookUpAdminModSubMenu on ugm.SubMenuId equals luamsm.SubMenuId into amsm
+                                  from sm in amsm.DefaultIfEmpty()
 
-                                 where u.UserId == ui.UserID
+                                  where u.UserId == ui.UserID
 
-                                 select new UserMenu
-                                 {
-                                     UserId = u.UserId,
-                                     UserGroupId = ug.UserGroupId,
-                                     MenuId = ugm.MenuId,
-                                     MenuTitle = m.MenuTitle,
-                                     SubMenuId = ugm.SubMenuId,
-                                     SubMenuTitle = sm.SubMenuTitle,
-                                     Controller = sm.Controller,
-                                     Action = sm.Action
-                                 }).ToList();
+                                  select new UserMenu
+                                  {
+                                      UserId = u.UserId,
+                                      UserGroupId = ug.UserGroupId,
+                                      MenuId = ugm.MenuId,
+                                      MenuTitle = m.MenuTitle,
+                                      SubMenuId = ugm.SubMenuId,
+                                      SubMenuTitle = sm.SubMenuTitle,
+                                      Controller = sm.Controller,
+                                      Action = sm.Action
+                                  }).ToList();
 
-            HttpContext.Session.SetComplexData("UserMenu", um);
-            ViewBag.UserMenu = um;
-            string UserMenuJson = JsonConvert.SerializeObject(um);
-
-            HttpContext.Response.Cookies.Append("UserMenu", UserMenuJson, new CookieOptions()
+            if (uml.Count > 0)
             {
-                Expires = DateTime.Now.AddDays(1)
-            });
+                HttpContext.Session.SetComplexData("UserMenu", uml);
+                ViewBag.UserMenu = uml;
+                string UserMenuJson = JsonConvert.SerializeObject(uml);
+
+                HttpContext.Response.Cookies.Append("UserMenu", UserMenuJson, new CookieOptions()
+                {
+                    Expires = DateTime.Now.AddDays(1)
+                });
+            }
+            else
+            {
+                uml = new List<UserMenu>();
+                UserMenu um = new UserMenu
+                {
+                    UserId = ui.UserID,
+                    UserGroupId = 0,
+                    MenuId = 0,
+                    MenuTitle = "No menu assigned",
+                    SubMenuId = 0,
+                    SubMenuTitle = "No sub-menu assigned",
+                    Controller = "account",
+                    Action = "login"
+                };
+
+                uml.Add(um);
+
+                HttpContext.Session.SetComplexData("UserMenu", uml);
+                ViewBag.UserMenu = uml;
+                string UserMenuJson = JsonConvert.SerializeObject(uml);
+
+                HttpContext.Response.Cookies.Append("UserMenu", UserMenuJson, new CookieOptions()
+                {
+                    Expires = DateTime.Now.AddDays(1)
+                });
+            }
         }
 
         public IActionResult privacy()

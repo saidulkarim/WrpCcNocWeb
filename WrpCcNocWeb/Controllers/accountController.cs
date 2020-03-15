@@ -16,6 +16,7 @@ using WrpCcNocWeb.Models.Utility;
 using WrpCcNocWeb.Models.UserManagement;
 using WrpCcNocWeb.DatabaseContext;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using WrpCcNocWeb.ViewModels;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -125,7 +126,9 @@ namespace WrpCcNocWeb.Controllers
                            UserRegistrationID = ri.UserRegistrationId,
                            UserName = ri.UserName.ToString(),
                            UserEmail = ri.UserEmail.ToString(),
-                           UserMobile = ri.UserMobile.ToString()
+                           UserMobile = ri.UserMobile.ToString(),
+                           UserActivationStatus = ri.UserActivationStatus,
+                           DateOfCreation = ri.DateOfCreation
                        }).FirstOrDefault();
             }
             else
@@ -138,7 +141,9 @@ namespace WrpCcNocWeb.Controllers
                            UserRegistrationID = ri.UserRegistrationId,
                            UserName = ri.UserName.ToString(),
                            UserEmail = ri.UserEmail.ToString(),
-                           UserMobile = ri.UserMobile.ToString()
+                           UserMobile = ri.UserMobile.ToString(),
+                           UserActivationStatus = ri.UserActivationStatus,
+                           DateOfCreation = ri.DateOfCreation
                        }).FirstOrDefault();
             }
 
@@ -420,46 +425,101 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
-        public IActionResult createUser()
+        public IActionResult createuser()
         {
+            ViewBag.LookUpAdminModUserGroup = _db.LookUpAdminModUserGroup.OrderBy(o => o.UserGroupId).ToList();
+            ViewBag.SecurityQuestionId = new SelectList(_db.LookUpAdminModSecurityQuestion.ToList(), "SecurityQuestionId", "SecurityQuestion");
             return View();
         }
 
         //POST: /account/createUser
         [HttpPost]
-        public IActionResult createUser(AdminModUserRegistrationDetail userReg)
+        public IActionResult createuser(AdminNewUserCreation anuc)
         {
+            using var dbContextTransaction = _db.Database.BeginTransaction();
             try
             {
-                userReg.UserActivationStatus = 0;
-                userReg.DateOfCreation = DateTime.Now;
-                userReg.EmailVerificationCode = Guid.NewGuid().ToString();
-                userReg.IsEmailVerified = 0;
+                AdminModUserRegistrationDetail userReg = new AdminModUserRegistrationDetail
+                {
+                    UserName = anuc.UserName,
+                    UserPassword = anuc.UserPassword,
+                    UserActivationStatus = 1,
+                    UserEmail = anuc.UserEmail,
+                    UserMobile = anuc.UserMobile,
+                    DateOfCreation = DateTime.Now,
+                    EmailVerificationCode = Guid.NewGuid().ToString(),
+                    IsEmailVerified = 1
+                };
 
                 _db.AdminModUserRegistrationDetail.Add(userReg);
                 int x = _db.SaveChanges();
 
                 if (x > 0)
                 {
-                    ViewBag.UserVerificationCode = userReg.EmailVerificationCode;
-                    TempData["Message"] = ch.ShowMessage(Sign.Success, Sign.Success.ToString(), OperationMessage.Success.ToDescription());
+                    AdminModUsersDetail amud = new AdminModUsersDetail
+                    {
+                        UserRegistrationId = userReg.UserRegistrationId,
+                        UserFullName = anuc.FullName,
+                        UserFatherName = "empty",
+                        UserDateOfBirth = DateTime.Now,
+                        UserAddress = anuc.Address,
+                        SecurityQuestionId = anuc.SecurityQuestionId.ToInt(),
+                        SecurityQuestionAnswer = anuc.SecurityQuestionAnswer,
+                        IsProfileSubmitted = 1
+                    };
 
-                    return RedirectToAction("verify", new { id = ViewBag.UserVerificationCode });
+                    x = 0;
+                    _db.AdminModUsersDetail.Add(amud);
+                    x = _db.SaveChanges();
+
+                    if (x > 0)
+                    {
+                        AdminModUserGrpDistDetail amugdd = new AdminModUserGrpDistDetail
+                        {
+                            UserId = amud.UserId,
+                            UserGroupId = anuc.UserGroup.ToLong()
+                        };
+
+                        x = 0;
+                        _db.AdminModUserGrpDistDetail.Add(amugdd);
+                        x = _db.SaveChanges();
+
+                        if (x > 0)
+                        {
+                            dbContextTransaction.Commit();
+
+                            string successMsg = "User Name: " + anuc.UserName + ".<br />User Registration ID: " + userReg.UserRegistrationId + ".<br />User Group ID: " + amugdd.UserGroupId;
+                            TempData["Message"] = ch.ShowMessage(Sign.Success, Sign.Success.ToString(), "Successfully created new user and user information is given below.<br />" + successMsg);
+                            return RedirectToAction("viewusers", "account");
+                        }
+                        else
+                        {
+                            dbContextTransaction.Rollback();
+                            TempData["Message"] = ch.ShowMessage(Sign.Error, Sign.Error.ToString(), "There was an error occured to give user group distribution!");
+                        }
+                    }
+                    else
+                    {
+                        dbContextTransaction.Rollback();
+                        TempData["Message"] = ch.ShowMessage(Sign.Error, Sign.Error.ToString(), "There was an error occured to auto create new user profile!");
+                    }
                 }
                 else
                 {
-                    ViewBag.UserVerificationCode = string.Empty;
-                    TempData["Message"] = ch.ShowMessage(Sign.Error, Sign.Error.ToString(), OperationMessage.NotSuccess.ToDescription());
+                    dbContextTransaction.Rollback();
+                    TempData["Message"] = ch.ShowMessage(Sign.Error, Sign.Error.ToString(), "There was an error occured to create new user registration!");
                 }
             }
             catch (Exception ex)
             {
-                ViewBag.UserVerificationCode = string.Empty;
+                dbContextTransaction.Rollback();
 
                 var message = ch.ExtractInnerException(ex);
                 TempData["Message"] = ch.ShowMessage(Sign.Danger, Sign.Danger.ToString(), message);
             }
 
+            ViewBag.LookUpAdminModUserGroup = _db.LookUpAdminModUserGroup.OrderBy(o => o.UserGroupId).ToList();
+            ViewBag.SecurityQuestionId = new SelectList(_db.LookUpAdminModSecurityQuestion.ToList(), "SecurityQuestionId", "SecurityQuestion", anuc.SecurityQuestionId);
             return View();
         }
 
@@ -557,28 +617,113 @@ namespace WrpCcNocWeb.Controllers
         [HttpPost]
         public IActionResult createusergroup(LookUpAdminModUserGroup amug)
         {
+            int count = 0;
+            string UserGroupId = string.Empty,
+                   //highestGeoCode = string.Empty,
+                   DistrictGeoCode = amug.DistrictGeoCode,
+                   UpazilaGeoCode = amug.UpazilaGeoCode,
+                   UnionGeoCode = amug.UnionGeoCode;
+
+            //string highestGeoCode = !string.IsNullOrEmpty(UnionGeoCode) ? UnionGeoCode : !string.IsNullOrEmpty(UpazilaGeoCode) ? UpazilaGeoCode : !string.IsNullOrEmpty(DistrictGeoCode) ? DistrictGeoCode : string.Empty;
+
+            #region checking duplicate user group
+            if (!string.IsNullOrEmpty(UnionGeoCode))
+            {
+                var exitsGroupUnion = _db.LookUpAdminModUserGroup.Where(w => w.UnionGeoCode == UnionGeoCode).ToList();
+
+                if (exitsGroupUnion.Count == 2)
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "All authority level user group already created under this union.");
+                    goto Final;
+                }
+                else
+                {
+                    count = exitsGroupUnion.Where(w => w.AuthorityLevelId == amug.AuthorityLevelId).Count();
+
+                    if (count == 0)
+                    {
+                        UserGroupId = UnionGeoCode + (exitsGroupUnion.Count() + 1).ToString().PadLeft(2, '0');
+                        goto DatabaseOperation;
+                    }
+                    else
+                    {
+                        TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "This authority level is already exists.");
+                        goto Final;
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(UpazilaGeoCode))
+            {
+                var exitsGroupUpazila = _db.LookUpAdminModUserGroup.Where(w => w.UpazilaGeoCode == UpazilaGeoCode).ToList();
+
+                if (exitsGroupUpazila.Count == 2)
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "All authority level user group already created under this upazila.");
+                    goto Final;
+                }
+                else
+                {
+                    count = exitsGroupUpazila.Where(w => w.AuthorityLevelId == amug.AuthorityLevelId).Count();
+
+                    if (count == 0)
+                    {
+                        UserGroupId = UpazilaGeoCode + (exitsGroupUpazila.Count() + 1).ToString().PadLeft(4, '0');
+                        goto DatabaseOperation;
+                    }
+                    else
+                    {
+                        TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "This authority level is already exists.");
+                        goto Final;
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(DistrictGeoCode))
+            {
+                var exitsGroupDsitrict = _db.LookUpAdminModUserGroup.Where(w => w.DistrictGeoCode == DistrictGeoCode).ToList();
+
+                if (exitsGroupDsitrict.Count == 2)
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "All authority level user group already created under this district.");
+                    goto Final;
+                }
+                else
+                {
+                    count = exitsGroupDsitrict.Where(w => w.AuthorityLevelId == amug.AuthorityLevelId).Count();
+
+                    if (count == 0)
+                    {
+                        UserGroupId = DistrictGeoCode + (exitsGroupDsitrict.Count() + 1).ToString().PadLeft(6, '0');
+                        goto DatabaseOperation;
+                    }
+                    else
+                    {
+                        TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "This authority level is already exists.");
+                        goto Final;
+                    }
+                }
+            }
+        #endregion
+
+        DatabaseOperation:
             try
             {
-                //amug.UserActivationStatus = 0;
-                //amug.DateOfCreation = DateTime.Now;
-                //amug.EmailVerificationCode = Guid.NewGuid().ToString();
-                //amug.IsEmailVerified = 0;
+                amug.UserGroupId = UserGroupId.ToLong();
+                _db.LookUpAdminModUserGroup.Add(amug);
+                int x = _db.SaveChanges();
 
-                //_db.AdminModUserRegistrationDetail.Add(amug);
-                //int x = _db.SaveChanges();
+                if (x > 0)
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Success, Sign.Success.ToString(), "User group has been created successfully.");
+                    return RedirectToAction("viewusergroups", "account");
+                }
+                else
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Error, Sign.Error.ToString(), "Something went wrong. Sorry, User group not created.");
+                    goto Final;
+                }
 
-                //if (x > 0)
-                //{
-                //    ViewBag.UserVerificationCode = amug.EmailVerificationCode;
-                TempData["Message"] = ch.ShowMessage(Sign.Success, Sign.Success.ToString(), OperationMessage.Success.ToDescription());
-
-                //    return RedirectToAction("verify", new { id = ViewBag.UserVerificationCode });
-                //}
-                //else
-                //{
-                //    ViewBag.UserVerificationCode = string.Empty;
-                //    TempData["Message"] = ch.ShowMessage(Sign.Error, Sign.Error.ToString(), OperationMessage.NotSuccess.ToDescription());
-                //}
             }
             catch (Exception ex)
             {
@@ -588,6 +733,9 @@ namespace WrpCcNocWeb.Controllers
                 TempData["Message"] = ch.ShowMessage(Sign.Danger, Sign.Danger.ToString(), message);
             }
 
+        Final:
+            ViewBag.AdminModAuthorityLevel = _db.LookUpAdminModAuthorityLevel.OrderBy(o => o.AuthorityLevelId).ToList();
+            ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.OrderBy(o => o.DistrictName).ToList();
             return View();
         }
 

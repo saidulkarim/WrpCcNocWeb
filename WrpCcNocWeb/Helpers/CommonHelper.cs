@@ -99,6 +99,11 @@ namespace WrpCcNocWeb.Helpers
             return sign + ": " + msg + "###" + title;
         }
 
+        public string ShowMessage(string sign, string title, string msg)
+        {
+            return sign + ": " + msg + "###" + title;
+        }
+
         public string ExtractInnerException(Exception ex)
         {
             string message = string.Empty;

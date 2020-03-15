@@ -1,109 +1,137 @@
-﻿
+﻿@using WrpCcNocWeb.Models
+@using WrpCcNocWeb.Helpers
+@model WrpCcNocWeb.ViewModels.AdminNewUserCreation
+
 @{
     ViewData["Title"] = "Create New User";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <h4>@ViewData["Title"]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;@Html.ActionLink("Back to User List", "viewUsers", "account")</h4>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-block btn-blue">Back to User List</button>
+                        @*<h4>@Html.ActionLink("Back to User List", "viewUsers", "account")</h4>*@
+                        <br />
+                    </div>
+                    <div class="col-md-9">
+                        <h4 class="header-title mb-3"> <b>New User Group Creation</b></h4>
+                        @using (Html.BeginForm("createuser", "account", FormMethod.Post, new { enctype = "multipart/form-data", id = "SignUpForm", role = "form" }))
+                        {
+                            <div class="form-group">
+                                <label for="UserType">User Type</label>
+                                <select id="UserType" name="UserType" class="form-control">
+                                    <option value="">Choose...</option>
+                                    <option value="WARPO">WARPO</option>
+                                    <option value="Non-WARPO">Non-WARPO</option>
+                                </select>
+                            </div>
 
-@using (Html.BeginForm("createUser", "account", FormMethod.Post, new { enctype = "multipart/form-data", id = "CreateUserForm", role = "form" }))
-{
-    <div class="form-group">
-        User Type <span class="text-danger bold">*</span>
-        <div class="input-group mb-2">
-            @*@Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter your user name", @required = "required", @autocomplete = "off" } })*@
-            <div id="spinner" class="input-group-prepend d-none">
-                <button class="btn btn-primary" type="button" disabled="">
-                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> <span class="sr-only">Loading...</span>
-                </button>
+                            <div class="form-group">
+                                <label for="UserGroup">User Group</label>
+                                <select id="UserGroup" name="UserGroup" class="form-control">
+                                    <option value="">Choose...</option>
+
+                                    @{
+                                        List<LookUpAdminModUserGroup> _ugs = ViewBag.LookUpAdminModUserGroup;
+
+                                        if (_ugs.Count > 0)
+                                        {
+                                            foreach (LookUpAdminModUserGroup ug in _ugs)
+                                            {
+                                                <option value="@ug.UserGroupId">@ug.UserGroupName</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.UserName, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                <div class="input-group mb-2">
+                                    @Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter user name", @required = "required", @autocomplete = "off" } })
+                                    <div id="spinner" class="input-group-prepend d-none">
+                                        <button class="btn btn-primary" type="button" disabled="">
+                                            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> <span class="sr-only">Loading...</span>
+                                        </button>
+                                    </div>
+                                    @Html.Hidden("isValidUsr")
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.UserPassword, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                @Html.EditorFor(m => m.UserPassword, new { htmlAttributes = new { @class = "form-control", @type = "password", @placeholder = "Enter user password", @required = "required", @autocomplete = "off", @onKeyUp = "PasswordStrength(jQuery(this).val());" } })
+                                <div id="pwd-invalid-feedback"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="UserConfirmPassword">Confirm Password <span class="text-danger">*</span></label>
+                                <input id="UserConfirmPassword" name="UserConfirmPassword" class="form-control" type="password" parsley-trigger="change"
+                                       placeholder="Confirm password" autocomplete="off" required>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.UserEmail, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                @Html.EditorFor(m => m.UserEmail, new { htmlAttributes = new { @class = "form-control", @type = "email", @placeholder = "Enter user email", @required = "required", @autocomplete = "off" } })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.UserMobile, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                @Html.EditorFor(m => m.UserMobile, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter user contact number", @required = "required", @autocomplete = "off", @maxlength = "11", onKeyPress = "return restrictChars(event, this)" } })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.FullName, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                @Html.EditorFor(m => m.FullName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter user full name", @autocomplete = "off" } })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Designation, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                @Html.EditorFor(m => m.Designation, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter user designation", @autocomplete = "off" } })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Address, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                @Html.EditorFor(m => m.Address, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter user address", @autocomplete = "off" } })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.SecurityQuestionId, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                @Html.DropDownList("SecurityQuestionId", null, string.Empty, new { @id = "SecurityQuestionId", @class = "form-control", @style = "width: 100%;" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.SecurityQuestionAnswer, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                @Html.EditorFor(m => m.SecurityQuestionAnswer, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Security question answer" } })
+                            </div>
+
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input id="checkbox-signup" type="checkbox" class="custom-control-input">
+                                    <label class="custom-control-label" for="checkbox-signup">I accept <a href="@Url.Action("termcondition", "account")" target="_blank" class="text-dark">Terms and Conditions</a></label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <button id="btnSaveUser" type="submit" class="btn btn-info waves-effect waves-light">
+                                    <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
+                                    <span style="text-decoration: underline;">S</span>ave
+                                    <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
+                                </button>
+
+                                <button id="btnClearUser" type="reset" class="btn btn-secondary waves-effect waves-light">
+                                    <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
+                                    Clear
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
-            @Html.Hidden("isValidUsr")
         </div>
     </div>
-
-    <div class="form-group">
-        User Group <span class="text-danger bold">*</span>
-        <div class="input-group mb-2">
-            @*@Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter your user name", @required = "required", @autocomplete = "off" } })*@
-            <div id="spinner" class="input-group-prepend d-none">
-                <button class="btn btn-primary" type="button" disabled="">
-                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> <span class="sr-only">Loading...</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        User Name <span class="text-danger bold">*</span>
-        <div class="input-group mb-2">
-            @*@Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter your user name", @required = "required", @autocomplete = "off" } })*@
-            <div id="spinner" class="input-group-prepend d-none">
-                <button class="btn btn-primary" type="button" disabled="">
-                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> <span class="sr-only">Loading...</span>
-                </button>
-            </div>
-            @Html.Hidden("isValidUsr")
-        </div>
-    </div>
-
-    <div class="form-group">
-        Password <span class="text-danger bold">*</span>
-        @*@Html.EditorFor(m => m.UserPassword, new { htmlAttributes = new { @class = "form-control", @type = "password", @placeholder = "Enter your password", @required = "required", @autocomplete = "off", @onKeyUp = "PasswordStrength(jQuery(this).val());" } })*@
-        <div id="pwd-invalid-feedback"></div>
-    </div>
-
-    <div class="form-group">
-        <label for="UserConfirmPassword">Confirm Password <span class="text-danger">*</span></label>
-        @*<input id="UserConfirmPassword" class="form-control" type="password" parsley-trigger="change"
-            placeholder="Confirm password" autocomplete="off" required>*@
-    </div>
-
-    <div class="form-group">
-        E-Mail <span class="text-danger bold">*</span>
-        @*@Html.EditorFor(m => m.UserEmail, new { htmlAttributes = new { @class = "form-control", @type = "email", @placeholder = "Enter your email", @required = "required", @autocomplete = "off" } })*@
-    </div>
-
-    <div class="form-group">
-        Mobile <span class="text-danger bold">*</span>
-        @*@Html.EditorFor(m => m.UserMobile, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter your contact number", @required = "required", @autocomplete = "off", @maxlength = "11", onKeyPress = "return restrictChars(event, this)" } })*@
-    </div>
-
-    <div class="form-group">
-        Full Name <span class="text-danger bold">*</span>
-        @*@Html.EditorFor(m => m.UserFullName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter full name", @required = "required", @autocomplete = ac } })*@
-    </div>
-
-    <div class="form-group">
-        @*@Html.LabelFor(m => m.UserDesignation, new { @class = "control-label" })*@
-        Designation
-        @*@Html.EditorFor(m => m.UserDesignation, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Designation" } })*@
-    </div>
-
-    <div class="form-group">
-        @*<label for="UserAddress">Address <span class="text-danger bold">*</span></label>*@
-        Address
-        @*<textarea id="UserAddress" name="UserAddress" class="form-control" rows="1" required="" placeholder="Address"></textarea>*@
-    </div>
-
-    <div class="form-group">
-        Security Question@*@Html.LabelFor(m => m.SecurityQuestionId, new { @class = "control-label" }) <span class="text-danger bold">*</span>*@
-        @*@Html.DropDownList("SecurityQuestionId", null, string.Empty, new { @id = "SecurityQuestionId", @class = "form-control", @style = "width: 100%;" })*@
-    </div>
-
-    <div class="form-group">
-        Answer @*@Html.LabelFor(m => m.SecurityQuestionAnswer, new { @class = "control-label" }) <span class="text-danger bold">*</span>*@
-        @*@Html.EditorFor(m => m.SecurityQuestionAnswer, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Security question answer" } })*@
-    </div>
-
-    <div class="form-group">
-        <div class="custom-control custom-checkbox">
-            <input id="checkbox-signup" type="checkbox" class="custom-control-input">
-            <label class="custom-control-label" for="checkbox-signup">I accept <a href="@Url.Action("termcondition", "account")" target="_blank" class="text-dark">Terms and Conditions</a></label>
-        </div>
-    </div>
-
-    <div class="form-group mb-0 text-center">
-        <button id="btnSubmit" class="btn btn-success btn-block" style="width:120px" type="button"> Create </button>
-    </div>
-}
-
+</div>

@@ -1,15 +1,16 @@
-﻿
+﻿@*<link href="~/css/PDF.css" rel="stylesheet" type="text/css" />*@
+
 <input id="pProjectId" type="hidden" />
 <input id="pProject31IndvId" type="hidden" />
 <input id="pUserId" type="hidden" />
 <input id="pProjectTypeId" type="hidden" />
 
-<center>
+<div class="col-md-12 text-center">
     <h3 class="HeaderTitle">Application for Clearance Certificate</h3>
     <h4 class="HeaderSubTitle">(Flood Control/ Management Project)</h4>
-</center>
+</div>
 
-<div id="form-preview" class="container">
+<div id="form-preview" class="form-preview container">
     <div class="row lineGap">
         <div class="col">
             <span>To</span><br />
@@ -20,7 +21,7 @@
     <br />
     <div class="row lineGap">
         <div class="col">
-            <p><strong>Through : </strong>Director General, Water Resources Planning Organization</p>
+            <p><strong>Through:</strong> Director General, Water Resources Planning Organization</p>
         </div>
     </div>
     <div class="row lineGap">
@@ -42,13 +43,159 @@
             <div>E-Mail: abcd@xyz.com</div>
         </div>
     </div>
+
+    <!-- Modal Popup for Comments -->
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery('#btnPopupCommentsSave').click(function () {
+                SaveProjComments();
+            });
+
+            jQuery('#btnPopupClear').click(function () {
+                jQuery('#control-name-for-title').text('');
+                jQuery('#LabelNameOfControl').val('');
+                jQuery('#Comments').val('');
+            });
+        });
+
+        function CommentsClear() {
+            //jQuery('#LabelNameOfControl').val('');
+            jQuery('#Comments').val('');
+        }
+
+        function setInfoInPopup(title, label) {
+            jQuery('#control-name-for-title').text(title);
+            jQuery('#LabelNameOfControl').val(label);
+
+            GetProjComments();
+        }
+
+        function SaveProjComments() {
+            var prevUserId = GetHiddenValue('pUserId');
+            var prevProjTypeId = GetHiddenValue('pProjectTypeId');
+            var prevProjId = GetHiddenValue('pProjectId');
+            var prevControlName = jQuery('#LabelNameOfControl').val();
+            var prevComments = jQuery('#Comments').val();
+
+            var pda = {
+                UserId: prevUserId,
+                ProjectTypeId: prevProjTypeId,
+                ProjectId: prevProjId,
+                LabelNameOfControl: prevControlName,
+                Comments: prevComments
+            };
+
+            var url = '@Url.Action("sfc", "form")';
+            jQuery.ajax({
+                type: "POST",
+                url: url,
+                data: { pda: pda },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    console.log('Preview Comments Loading...');
+                    console.log(data);
+
+                    if (data.status == 'success') {
+                        Notification('success', 'Success', data.message);
+                        GetProjComments();
+                        CommentsClear();
+                    } else {
+                        Notification('error', 'Saving Error', data.message);
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Notification('error', 'Saving Error', errorMsg);
+                }
+            });
+        }
+
+        function GetProjComments() {
+            var prevUserId = GetHiddenValue('pUserId');
+            var prevProjTypeId = GetHiddenValue('pProjectTypeId');
+            var prevProjId = GetHiddenValue('pProjectId');
+            var prevControlName = jQuery('#LabelNameOfControl').val();
+
+            var url = '@Url.Action("gfc", "form")';
+
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                data: { userid: prevUserId, projtypeid: prevProjTypeId, projid: prevProjId, controlname: prevControlName},
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    console.log('Preview Comments Loading...');
+                    console.log(data);
+
+                    if (data.length > 0) {
+                        var rows = '';
+                        var count = 0;
+
+                        jQuery.each(data, function (i, item) {
+                            rows += '<tr><td class="p-1">' + item.comments + '</td><td class="p-1">' + item.userId + '</td></tr>';
+                        });
+
+                        jQuery("#tbodyCommentList").html(rows);
+                    } else {
+                        jQuery("#tbodyCommentList").html('<tr><td colspan="2" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no comments found </div></td></tr>');
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    jQuery("#tbodyCommentList").html('<tr><td colspan="2" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+                }
+            });
+        }
+    </script>
+
+    <div id="control-popup-comments" class="modal-demo">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding: 0px !important;">
+                    <h4 id="control-name-for-title" class="modal-title">Project Name Comments</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body p-0" style="padding-left: 0px !important; padding-right: 0px !important;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table mb-0 p-0" style="width: 100%; border-color: none;">
+                                <thead>
+                                    <tr style="border-top: none;">
+                                        <th class="p-1">Comments</th>
+                                        <th class="p-1">User</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyCommentList"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding-left: 0px !important; padding-right: 0px !important;">
+                    <input id="LabelNameOfControl" type="hidden" />
+                    <textarea id="Comments" name="Comments" class="form-control" rows="1" placeholder="Write your comments here"></textarea>
+                    <button id="btnPopupCommentsSave" type="button" class="btn btn-info waves-effect waves-light">
+                        <i class="mdi mdi-content-save"></i>
+                    </button>
+                    <button id="btnPopupClear" type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" onclick="Custombox.modal.close();">
+                        <i class="mdi mdi-close-outline"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <h3>A. General Information</h3>
     <div class="row">
         <div class="col">
             <label for="pname"><b>i. Project Name:</b></label>
         </div>
         <div class="col">
-            <div id="pProjectName">xxxxxxxxxxxxxxxxxx</div>
+            <div title="Project Name">
+                <span id="pProjectName">xxxxxxxxxxxxxxxxxx</span>  &nbsp;
+                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Name', 'ProjectName');" class="btn btn-sm btn-info waves-effect" data-close="false"
+                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                    <i class="mdi mdi-comment-text-multiple"></i>
+                </a>
+            </div>
         </div>
     </div>
 
@@ -57,7 +204,7 @@
             <label for="pbg"><b>ii. Project Background and Rationale</b></label>
         </div>
         <div class="col">
-            <div id="pBackgroundAndRationale">xxxxxxxxxxxxxxxxxx</div>
+            <div id="pBackgroundAndRationale" title="Background and Rationale">xxxxxxxxxxxxxxxxxx</div>
         </div>
     </div>
 
@@ -80,7 +227,11 @@
     </div>
 
     <div class="row">
-        <label for="pbg"><b>iv. Project Location</b></label>
+        <label for="pbg"><b>iv. Project Location</b></label> &nbsp;
+        <a href="@Url.Action("viewLocation", "map", new { projectId = 48 })" target="_blank" class="btn btn-sm btn-info waves-effect" data-toggle="tooltip" data-placement="top" title="" data-original-title="View Map"
+           style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+            <i class="mdi mdi-map"></i>
+        </a>
     </div>
     <div class="row">
         <table style="width:100%">
@@ -770,28 +921,28 @@
 </div>
 
 <script type="text/javascript">
-        jQuery(document).ready(function () {
-            var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
+    jQuery(document).ready(function () {
+        var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
 
-            SetHiddenValue('pProjectId', projectId);
-            SetHiddenValue('pProject31IndvId', projectId);
-            SetHiddenValue('pUserId', projectId);
-            SetHiddenValue('pProjectTypeId', projectId);
+        SetHiddenValue('pProjectId', projectId);
+        SetHiddenValue('pProject31IndvId', projectId);
+        SetHiddenValue('pUserId', projectId);
+        SetHiddenValue('pProjectTypeId', projectId);
 
-            if (projectId != '') {
-                pBindData();
+        if (projectId != '') {
+            pBindData();
 
-                pGetProjLocationsData();
-                pGetHydroSystemData();
-                pGetFloodFrequencyData();
-                pGetIrrigatedCropAreaData();
-                pGetAoFOData();
-                pGetDswpdData();
-                pGetEiaData();
-                pGetSiaData();
-                pGetEconFinAnaData();
-            }
-        });
+            pGetProjLocationsData();
+            pGetHydroSystemData();
+            pGetFloodFrequencyData();
+            pGetIrrigatedCropAreaData();
+            pGetAoFOData();
+            pGetDswpdData();
+            pGetEiaData();
+            pGetSiaData();
+            pGetEconFinAnaData();
+        }
+    });
 </script>
 
 <script type="text/javascript">
@@ -800,7 +951,7 @@
     }
 
     function pGetProjLocationsData() {
-        var ProjectId = GetHiddenValue('ProjectId');
+        var ProjectId = GetHiddenValue('pProjectId');
         var url = '@Url.Action("get_pld", "form")';
 
         jQuery.ajax({
@@ -809,7 +960,7 @@
             data: { project_id: ProjectId },
             dataType: "json",
             success: function (data, status, jqXHR) {
-                console.log('P Loc Data');
+                console.log('Preview Location Data');
                 console.log(data);
 
                 if (data.length > 0) {
@@ -833,7 +984,7 @@
     }
 
     function pGetHydroSystemData() {
-        var ProjectId = GetHiddenValue('ProjectId');
+        var ProjectId = GetHiddenValue('pProjectId');
         var url = '@Url.Action("get_hsd", "form")';
 
         jQuery.ajax({
@@ -864,7 +1015,7 @@
     }
 
     function pGetFloodFrequencyData() {
-        var ProjectId = GetHiddenValue('ProjectId');
+        var ProjectId = GetHiddenValue('pProjectId');
         var url = '@Url.Action("get_ffd", "form")';
 
         jQuery.ajax({
@@ -895,7 +1046,7 @@
     }
 
     function pGetIrrigatedCropAreaData() {
-        var ProjectId = GetHiddenValue('ProjectId');
+        var ProjectId = GetHiddenValue('pProjectId');
         var url = '@Url.Action("get_ica", "form")';
 
         jQuery.ajax({
@@ -926,7 +1077,7 @@
     }
 
     function pGetAoFOData() {
-        var ProjectId = GetHiddenValue('ProjectId');
+        var ProjectId = GetHiddenValue('pProjectId');
         var url = '@Url.Action("get_aofo", "form")';
 
         jQuery.ajax({
@@ -957,7 +1108,7 @@
     }
 
     function pGetDswpdData() {
-        var ProjectId = GetHiddenValue('ProjectId');
+        var ProjectId = GetHiddenValue('pProjectId');
         var url = '@Url.Action("get_dswpd", "form")';
 
         jQuery.ajax({
@@ -992,7 +1143,7 @@
     }
 
     function pGetEiaData() {
-        var ProjectId = GetHiddenValue('ProjectId');
+        var ProjectId = GetHiddenValue('pProjectId');
         var url = '@Url.Action("get_eiad", "form")';
 
         jQuery.ajax({
@@ -1023,7 +1174,7 @@
     }
 
     function pGetSiaData() {
-        var ProjectId = GetHiddenValue('ProjectId');
+        var ProjectId = GetHiddenValue('pProjectId');
         var url = '@Url.Action("get_siad", "form")';
 
         jQuery.ajax({
@@ -1054,7 +1205,7 @@
     }
 
     function pGetEconFinAnaData() {
-        var ProjectId = GetHiddenValue('ProjectId');
+        var ProjectId = GetHiddenValue('pProjectId');
         var url = '@Url.Action("get_efad", "form")';
 
         jQuery.ajax({

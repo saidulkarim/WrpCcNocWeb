@@ -2080,7 +2080,7 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.length > 0) {
-                        console.log(data);
+                        //console.log(data);
                         var rows = '';
 
                         var count = 0;
@@ -2197,7 +2197,7 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.length > 0) {
-                        console.log(data);
+                        //console.log(data);
                         var rows = '';
 
                         var count = 0;
@@ -2290,7 +2290,7 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.length > 0) {
-                        console.log(data);
+                        //console.log(data);
                         var rows = '';
 
                         var count = 0;
@@ -2383,7 +2383,7 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.length > 0) {
-                        console.log(data);
+                        //console.log(data);
                         var rows = '';
 
                         var count = 0;
@@ -2469,7 +2469,7 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.length > 0) {
-                        console.log(data);
+                        //console.log(data);
                         var rows = '';
 
                         var count = 0;
@@ -2511,8 +2511,8 @@
                     "DesignSubmitAuthorityCmt": DesignSubmitAuthorityCmt
                 };
 
-                console.log(designSubParamDetail);
-                console.log(DswpYesNoId);
+                //console.log(designSubParamDetail);
+                //console.log(DswpYesNoId);
 
                 var url = '@Url.Action("dswpds", "form")';
                 jQuery.ajax({
@@ -2564,7 +2564,7 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.length > 0) {
-                        console.log(data);
+                        //console.log(data);
                         var rows = '';
 
                         var count = 0;
@@ -2657,7 +2657,7 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.length > 0) {
-                        console.log(data);
+                        //console.log(data);
                         var rows = '';
 
                         var count = 0;
@@ -2752,7 +2752,7 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.length > 0) {
-                        console.log(data);
+                        //console.log(data);
                         var rows = '';
 
                         var count = 0;
@@ -2844,7 +2844,7 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.length > 0) {
-                        console.log(data);
+                        //console.log(data);
                         var rows = '';
 
                         var count = 0;
@@ -2965,7 +2965,7 @@
                 "TypesOfFlood": typesOfFlood
             }
 
-            console.log(_Form31FinalObj); //jQuery('#ProjectId').val()
+            //console.log(_Form31FinalObj); //jQuery('#ProjectId').val()
 
             var url = '@Url.Action("f31tiotos", "form")';
             jQuery.ajax({
@@ -3137,7 +3137,7 @@
                 "GPWMGroupTypeDetail": gpwmGroupType
             }
 
-            console.log(_finalDeedObj); //jQuery('#ProjectId').val()
+            //console.log(_finalDeedObj); //jQuery('#ProjectId').val()
 
             var url = '@Url.Action("f31dootos", "form")';
             jQuery.ajax({
@@ -3183,7 +3183,7 @@
                 "RecommandCmt": GetTextValue('RecommandCmt')
             };
 
-            console.log(_recDetail);
+            //console.log(_recDetail);
 
             var url = '@Url.Action("f31rds", "form")';
             jQuery.ajax({
@@ -3267,7 +3267,7 @@
                 "ProjectEstimatedCost": jQuery('#ProjectEstimatedCost').val()
             };
 
-            console.log(pcd);
+            //console.log(pcd);
 
             var url = '@Url.Action("gis", "form")';
             jQuery.ajax({
@@ -3304,7 +3304,7 @@
                 data: { code: code, type: type },
                 dataType: "json",
                 success: function (data, status, jqXHR) {
-                    console.log(data);
+                    //console.log(data);
                     jQuery("#UpazilaGeoCode").html('<option value="">Choose...</option>');
                     jQuery("#UnionGeoCode").html('<option value="">Choose...</option>');
 
@@ -3384,7 +3384,7 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.locationId != '') {
-                        console.log(data);
+                        //console.log(data);
 
                         SetHiddenValue('LocationId', data.locationId);
                         jQuery("#DistrictGeoCode option[value=" + data.districtGeoCode + "]").prop('selected', true);
@@ -3410,7 +3410,7 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.hydroSysDetailId != '') {
-                        console.log(data);
+                        //console.log(data);
 
                         SetHiddenValue('HydroSysDetailId', data.hydroSysDetailId);
                         jQuery("#HydroSystemCategoryId option[value=" + data.hydroSystemCategoryId + "]").prop('selected', true);
@@ -3435,8 +3435,8 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.floodFrequencyDetailId != '') {
-                        console.log('Single Flood Frequency Detail Id');
-                        console.log(data);
+                        //console.log('Single Flood Frequency Detail Id');
+                        //console.log(data);
 
                         SetHiddenValue('FloodFrequencyDetailId', data.floodFrequencyDetailId);
                         jQuery("#FloodFrequencyId option[value=" + data.floodFrequencyId + "]").prop('selected', true);
@@ -3458,8 +3458,8 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.irrigatedCropId != '') {
-                        console.log('Single Irrigated Crop Area');
-                        console.log(data);
+                        //console.log('Single Irrigated Crop Area');
+                        //console.log(data);
 
                         SetHiddenValue('IrrigatedCropId', data.irrigatedCropId);
                         SetTextValue('CropName', data.cropName);
@@ -3480,8 +3480,8 @@
                 data: { id: id, projectId: projectId },
                 dataType: "json",
                 success: function (data, status, jqXHR) {
-                    console.log('Single Analyze Options Detail');
-                    console.log(data);
+                    //console.log('Single Analyze Options Detail');
+                    //console.log(data);
 
                     if (data.analyzeOptionsId != '') {
                         SetHiddenValue('AnalyzeOptionsId', data.analyzeOptionsId);
@@ -3504,8 +3504,8 @@
 		        data: { id: id, projectId: projectId },
 		        dataType: "json",
 		        success: function (data, status, jqXHR) {
-			        console.log('Single Analyze Options Detail');
-			        console.log(data);
+			        //console.log('Single Analyze Options Detail');
+			        //console.log(data);
 
 			        if (data.designSubmittedId != '') {
 				        SetHiddenValue('DesignSubmittedId', data.designSubmittedId);
@@ -3529,8 +3529,8 @@
 		        data: { id: id, projectId: projectId },
 		        dataType: "json",
 		        success: function (data, status, jqXHR) {
-			        console.log('Single EIA Detail');
-			        console.log(data);
+			        //console.log('Single EIA Detail');
+			        //console.log(data);
 
                     if (data.eiaId != '') {
 				        SetHiddenValue('EIAId', data.eiaId);
@@ -3555,8 +3555,8 @@
 		        data: { id: id, projectId: projectId },
 		        dataType: "json",
 		        success: function (data, status, jqXHR) {
-			        console.log('Single SIA Detail');
-			        console.log(data);
+			        //console.log('Single SIA Detail');
+			        //console.log(data);
 
                     if (data.eiaId != '') {
 				        SetHiddenValue('SIAId', data.siaId);
@@ -3581,8 +3581,8 @@
 		        data: { id: id, projectId: projectId },
 		        dataType: "json",
 		        success: function (data, status, jqXHR) {
-			        console.log('Single Eco Fin Analysis Detail');
-			        console.log(data);
+			        //console.log('Single Eco Fin Analysis Detail');
+			        //console.log(data);
 
                     if (data.eiaId != '') {
 				        SetHiddenValue('EconomicalAndFinancialId', data.economicalAndFinancialId);
@@ -3603,7 +3603,7 @@
             var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
 
             if (projectId != '') {
-                console.log('ViewBag.ProjectCommonDetail.ProjectId: ' + projectId);
+                console.log('Form 31 ViewBag.ProjectCommonDetail.ProjectId: ' + projectId);
 
                 //General Info
                 SetHiddenValue('ProjectId', projectId);                                

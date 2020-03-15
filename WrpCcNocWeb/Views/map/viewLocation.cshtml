@@ -1,0 +1,629 @@
+﻿<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Project Location</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+    <!-- app favicon -->
+    <link rel="shortcut icon" href="~/favicon.ico">
+    <!-- plugins css -->
+    <link href="~/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+
+    <link href="~/css/mapstyle.css" rel="stylesheet" />
+    <link href="~/lib/photo-viewer/css/photo.viewer.css" rel="stylesheet" />
+    <link href="~/lib/leaflet/leaflet.css" rel="stylesheet" />
+    <link href="~/lib/leaflet/tools/leaflet-markercluster/dist/markercluster.css" rel="stylesheet" />
+
+    <!-- app css -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/app.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/libs/jquery-toast/toastr.css" rel="stylesheet" type="text/css" />
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 20%;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
+
+        .leaflet-fade-anim .leaflet-tile,
+        .leaflet-zoom-anim .leaflet-zoom-animated {
+            will-change: auto !important;
+        }
+        
+        .leaflet-popup-content {
+            width: auto !important;
+        }
+
+        .leaflet-popup-close-button {
+            top: 2px !important;
+            right: 3px !important;
+        }
+
+        .checkbox > label {
+            margin-bottom: 4px;
+        }
+
+        .admin-bds {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-bds > .row {
+            border-color: #ccc;
+            border-style: solid;
+            border-width: 0 0 1px 0;
+            margin: 0 3px 0 12px;
+            padding: 0;
+        }
+
+        .admin-bds > .row > [class*="col-"] {
+            border: 0 none;
+            margin: 0;
+            padding: 3px;
+        }
+
+        .admin-bds > .row > [class*="col-sm-3"] {
+            text-align: center;
+        }
+
+        .data-table {
+            width: auto;
+            height: auto;
+            max-width: none !important;
+            min-width: 96%;
+            margin: 5px;
+            padding: 0;
+            font: normal 12px/1.5 Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .data-table > tr > th {
+            min-width: 70px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        #basemaps-wrapper {
+            position: absolute;
+            top: 25%;
+            right: 10px;
+            z-index: 400;
+            background: white;
+            padding: 10px;
+        }
+
+        #basemaps {
+            margin-bottom: 5px;
+        }
+
+        .dataRow {
+            background-color: #f6fafc;
+            border: 1px solid #fff;
+            padding: 3px;
+            font-size:13px;            
+        }
+
+        .altDataRow {
+            background-color: #faf9fc;
+            border: 1px solid #fff;
+            padding: 3px;
+            font-size:13px;
+        }
+
+        .colon {
+            font-weight: bold;
+            width: 3px;
+            padding: 2px;
+        }
+
+        .headCol {
+            font-weight: bold;
+            width: 75px;
+            padding: 2px 5px;
+        }
+
+        .dataCol {            
+            width: 200px;
+            padding: 2px 5px;
+            color:#187fad;
+        }
+
+    </style>
+
+    <script type="text/javascript" src="~/libs/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="~/lib/leaflet/leaflet.js"></script>
+    <script type="text/javascript" src="~/lib/leaflet/tools/d3/d3.js"></script>
+    <script type="text/javascript" src="~/lib/leaflet/tools/chroma-js/chroma.min.js"></script>
+    <script type="text/javascript" src="~/lib/leaflet/tools/leaflet-ajax/leaflet.ajax.js"></script>
+    <script type="text/javascript" src="~/lib/leaflet/tools/leaflet-canvas-geojson/dist/leaflet-canvas-geojson.js"></script>
+    <script type="text/javascript" src="~/lib/leaflet/tools/leaflet-canvaslayer-field/dist/leaflet.canvaslayer.field.js"></script>
+    <script type="text/javascript" src="~/lib/leaflet/tools/leaflet-polygon-fill-pattern/leaflet-polygon.fillPattern.js"></script>
+    <script type="text/javascript" src="~/lib/leaflet/tools/leaflet-markercluster/dist/leaflet.markercluster.js"></script>
+    <script type="text/javascript" src="~/lib/leaflet/tools/leaflet-geotiff/leaflet-geotiff.js"></script>
+    <script type="text/javascript" src="~/js/maps/map_data/legend_theme.js"></script>
+    @*<script type="text/javascript" src="~/js/maps/load_map_data.js"></script>*@
+    <script type="text/javascript" src="~/lib/photo-viewer/js/photo.viewer.js"></script>
+</head>
+<body>
+
+    <div id="map_info" class="map_info map-full-screen">
+        <div id="map" class="map_content"></div>
+        
+        <div class="map_opt_content">
+            <label><input type="checkbox" id="legend_info_opt" checked="checked" title="Show/Hide Map Information" />Map Information</label>
+            <label><input type="checkbox" id="legend_opt" checked="checked" title="Show/Hide Map Legend" />Map Legend</label>
+            <label><input type="checkbox" id="map_label_opt" checked="checked" title="Show/Hide Map Label" />Map Label</label>
+        </div>
+
+        <div id="map_btns_content" class="map_btns_content">
+            <div id="map_center" class="map_btns btn_full_extent" title="Full extent the map"></div>
+            <div id="map_full_screen" class="map_btns btn_full_screen" title="Full-screen the map"></div>
+            <div id="filter_option" class="map_btns btn_map_layers" title="Filter the Map" onclick="map_filter_open_close('map_filter', true);"></div>
+            <div id="map_bglayers" class="map_btns btn_map_bglayers" title="Select the Map Background Layer"></div>
+        </div>
+    </div>    
+
+    <script type="text/javascript">
+        var projectId = parseInt("@ViewBag.ProjectId");
+        var map,
+            mapZoom = 7,
+            dataCode,
+            dataName,
+            dataAdminCode,
+            dataAdminName,            
+            map_data = [],
+            other_data = [],
+            //data_info = [],            
+            noDataColor = "#FFFFFF",
+            defaultTheme,
+            dataLayer = null,
+            otherLayer = null,
+            mapLabels = new L.LayerGroup(),
+            otherLabels = new L.LayerGroup(),
+            mapLayers = {},
+            //adminMapLabels = new L.LayerGroup(),
+            polyDefaultOptions = {
+                zIndex: 101,
+                weight: 1.0,
+                opacity: 0.9,
+                color: "#D0C0A0",
+                fillOpacity: 0.8
+            },
+            adminFocused = null;
+        
+        $(function () {
+
+            //$("#admin_info").val("dist");
+            //dataAdminCode = $("#admin_info").val();
+            //dataAdminName = $("#admin_info option:selected").text();
+
+            //dataCode = $("#survey_info").val();
+            //dataName = $("#survey_info option:selected").text();
+            //projectId = $("#survey_info option:selected").attr("data-id");
+            //$("#map_label_opt").prop("checked", false);
+
+            set_basic_opts();
+
+            //load_project_location_info();
+            //draggable_modal("option_title", "map_filter_content", "map_filter_bg", false);
+            //draggable_modal("data_title", "map_data_content", "map_data_bg", false);
+
+        });
+
+        function set_basic_opts() {
+
+            if (typeof L == "undefined" || L == undefined) {
+                legend_open_close("legend", "close", "right");
+                $("#legend").css("right", "-1000px");
+                legend_open_close("legend_info", "close", "left");
+                $("#legend_info").css("left", "-1000px");
+
+                msg.init("error", "Error... . .", "Map Loading Failed !");
+                $("#busy-indicator").fadeOut();
+
+                return false;
+            }
+                        
+            var blankUrl = "../images/blank.png",
+                osmUrl = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                googleUrlHy = "http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}",
+                googleUrlSa = "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+                googleUrlSt = "http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+                googleUrlTr = "http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
+                mapbUrl = "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYWxoYWRpLWNzZSIsImEiOiJjamx1azJ5emcwamlkM3ZxeHB0ajB0d3I1In0.k_DovXLLPpp7fQ_i685ocA",
+                esriUrl = "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                mapAttrib = "Map data © <a href='https://www.cegisbd.com/' target='_blank'>CEGIS</a> & <a href='http://badc.gov.bd/' target='_blank'>BADC</a>";
+
+            var openstreet = L.tileLayer(osmUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib }),
+                googleHy = L.tileLayer(googleUrlHy, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                googleSa = L.tileLayer(googleUrlSa, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                googleSt = L.tileLayer(googleUrlSt, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                googleTr = L.tileLayer(googleUrlTr, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                mapboxLi = L.tileLayer(mapbUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, id: "mapbox.light", attribution: mapAttrib }),
+                mapboxSt = L.tileLayer(mapbUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, id: "mapbox.streets", attribution: mapAttrib }),
+                esri = L.tileLayer(esriUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib }),
+                blank = L.tileLayer(blankUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib });
+            
+            map = new L.Map("map",
+                {
+                    center: new L.LatLng(23.737777, 90.537777),
+                    fullscreenControl: true,
+                    zoomControl: false,
+                    maxZoom: 20,
+                    minZoom: 2,
+                    zoom: 7.0,
+                    layers: [googleSt]
+                });
+
+            map.setView([23.737777, 90.537777], 7.0);
+
+
+            var baseMaps = {
+                "Open Street": openstreet,
+                "Google Hybrid": googleHy,
+                "Google Satellite": googleSa,
+                "Google Streets": googleSt,
+                "Google Terrain": googleTr,
+                "Mapbox Light": mapboxLi,
+                "Mapbox Streets": mapboxSt,
+                "ESRI": esri,
+                "None": blank
+            };
+
+            //map.createPane("data-layer").style.zIndex = 401;
+            map.createPane("other-layer").style.zIndex = 403;
+            map.createPane("admin-layer").style.zIndex = 405;
+
+            //map.createPane("marker-layer").style.zIndex = 600;
+            map.createPane("label-layer").style.zIndex = 601;
+
+            //map.createPane("admin").style.zIndex = 455;
+            //drawnItems.addTo(map);
+            //drawnItems.addTo(map);
+
+            L.tileLayer("", { attribution: mapAttrib }).addTo(map);
+            //L.control.layers(baseMaps, { "Select Layer": drawnItems }, { position: "topright", collapsed: true }).addTo(map);
+            L.control.scale().addTo(map);
+            //L.control.pan().addTo(map);
+            L.control.zoom().addTo(map);
+
+            map.on("mousemove",
+                function (evt) {
+                    $("#map_cord_info").html(evt.latlng.lat.toFixed(8) + ", " + evt.latlng.lng.toFixed(8));
+                });
+
+            $("#map_center").on("click",
+                function (e) {
+                    map.setView([23.737777, 90.537777], 7.0);
+                });
+
+            //L.control.layers(null, baseMaps, { collapsed: false }).addTo(map);
+            var bglayers = L.control.layers(baseMaps, null, { collapsed: false });
+
+            bglayers.addTo(map);
+            //$("#bglayers_content").append(bglayers.getContainer());
+            var bglayers_content = $(bglayers.getContainer());
+            bglayers_content.find("a.leaflet-control-layers-toggle").remove();
+            bglayers_content.find("form.leaflet-control-layers-list").css("display", "block");
+            $("#map_bglayers").append(bglayers_content);
+            //add_admin_boundary("div");
+
+            $("#map_label_opt").on("change",
+                function () {
+                    map_label_show_hide(this.checked);
+                });
+
+            $("#map_full_screen").on("click",
+                function () {
+                    if (!confirm("Are you sure to close full screen ?"))
+                        return;
+
+                    $("#map_info").toggleClass("map-full-screen");
+                });
+
+                /*                $("input[type='checkbox'].multi-chkbx.admin").each(function () {
+                                $(this).on("change",
+                                    function () {
+
+                                        if (!$(this).prop("id").replace("admin_", ""))
+                                            return;
+
+                                        var adminCode = $(this).prop("id").replace("admin_", "");
+
+                                        $("#busy-indicator").fadeIn();
+
+                                        if (this.checked)
+                                            add_admin_boundary(adminCode);
+                                        else
+                                            remove_admin_boundary(adminCode);
+
+                                        $("#busy-indicator").fadeOut();
+                                    });
+                            });
+
+                            $("input[type='checkbox'].multi-chkbx.other_layer").each(function () {
+                                $(this).on("change",
+                                    function () {
+                                        if (!$(this).prop("id"))
+                                            return;
+
+                                        var layerCode = $(this).prop("id"),
+                                            layerDataCode = $(this).attr("data");
+
+                                        $("#busy-indicator").fadeIn();
+
+                                        if (this.checked) {
+
+                                            if ($("#" + layerCode + "_data_code").length) {
+
+                                                $("#" + layerCode + "_data_code").show(250);
+
+                                                if ($("#" + layerCode + "_data_code").val()) {
+                                                    layerDataCode = $("#" + layerCode + "_data_code").val();
+                                                } else {
+                                                    $("#" + layerCode + "_data_code").val(layerDataCode);
+                                                }
+
+                                                $("#" + layerCode + "_data_code").on("change", function (e) { resetOtherDataLayerStyle(layerCode, $(this).val()); });
+
+                                                //setOtherDataLayerStyle(layerCode, $(this).val());
+                                                //console.log(mapLayers["other_" + layerCode].layer.onEachFeature);
+                                            }
+
+                                            add_other_layer(layerCode, layerDataCode);
+
+                                        }
+                                        else {
+                                            remove_other_layer(layerCode);
+
+                                            if ($("#" + layerCode + "_data_code").length) {
+                                                $("#" + layerCode + "_data_code").hide(250);
+                                                $("#" + layerCode + "_data_code").off("change");
+                                            }
+                                        }
+
+                                        $("#busy-indicator").fadeOut();
+                                    });
+                            });
+
+                            $("input[type='checkbox'].multi-chkbx.admin-label").each(function () {
+                                $(this).on("change",
+                                    function () {
+                                        if (!$(this).prop("id").replace("admin_label_", ""))
+                                            return;
+
+                                        var adminCode = $(this).prop("id").replace("admin_label_", "");
+
+                                        $("#busy-indicator").fadeIn();
+
+                                        add_remove_admin_label(adminCode, this.checked);
+
+                                        $("#busy-indicator").fadeOut();
+                                    });
+                            });
+
+                            $("#admin_info").on("change",
+                                function () {
+                                    dataAdminCode = $("#admin_info").val();
+                                    dataAdminName = $("#admin_info option:selected").text();
+
+                                    //dataCode = $("#survey_info").val();
+                                    //dataName = $("#survey_info option:selected").text();
+                                    //equipmentId = $("#survey_info option:selected").attr("data-id");
+
+                                    set_survey_data();
+                                    return false;
+                                });
+
+
+                            $("#data_year").on("change",
+                                function () {
+                                    set_survey_data();
+                                    return false;
+                                });
+
+
+                            $("#survey_info").on("change",
+                                function () {
+
+                                    if ($("#survey_info").val()) {
+                                        //dataAdminCode = $("#admin_info").val();
+                                        //dataAdminName = $("#admin_info option:selected").text();
+
+                                        dataCode = $("#survey_info").val();
+                                        dataName = $("#survey_info option:selected").text();
+                                        equipmentId = $("#survey_info option:selected").attr("data-id");
+
+                                        set_survey_data();
+                                    }
+                                });
+
+                            $("#legend_theme").on("change",
+                                function () {
+                                    set_survey_data();
+                                });
+
+                            //$("#legend_theme").on("change", function () {
+                            //    map_init($("#admin_info").val());
+                            //});
+
+                            $("#legend_info_opt").change(function () {
+                                if (this.checked) {
+                                    legend_open_close("legend_info", "open", "left");
+                                } else {
+                                    legend_open_close("legend_info", "close", "left");
+                                }
+                                return false;
+                            });
+
+                            $("#legend_opt").change(function () {
+                                if (this.checked) {
+                                    legend_open_close("legend", "open", "right");
+                                } else {
+                                    legend_open_close("legend", "close", "right");
+                                }
+                                return false;
+                            });
+
+
+                            $("#basic_survey").on("change", function () { set_data_layer(this.checked); });
+
+                            $("#eqp_loc").on("change", function () { set_equipment_locations(this.checked); });
+
+
+                            //tt();
+                            //add_admin_boundary("div"); */
+            set_project_locations(true);
+
+            return true;
+        }
+
+
+        function set_project_locations(isShow) {
+
+            if (isShow) {
+                try {                   
+                     var url = '@Url.Action("GetProjectLocation", "map")';
+                    
+                     $.ajax({
+                        type: "GET",                        
+                        url: url,
+                        dataType: "json", 
+                        data: { projectId: projectId },
+                        cache: false,
+                        beforeSend: function () {
+                            $("#busy-indicator").fadeIn();
+                        },                       
+                        success: function (locData) {
+
+                            var allLocations = locData && locData.value ? locData.value : null;
+                                                        
+                            if (allLocations && allLocations.length > 0) {
+
+                                var icon = {
+                                    pane: "label-layer",
+                                    radius: 5,
+                                    color: "blue",
+                                    weight: 2.25,
+                                    opacity: 0.9,
+                                    fillColor: "red",
+                                    fillOpacity: 0.4
+                                },
+                                getLatLng = function (lat, lng) {                                        
+                                    return new L.LatLng(lat, lng);
+                                },
+                                getInfo = function (el) {
+                                    if (!el)
+                                        return "";
+                                                                       
+                                    var admin_boundary_name = "";
+
+                                    if (el.dist_code != "") {                                        
+                                        admin_boundary_name = "<tr class='dataRow'><td class='headCol'>District</td><td class='colon'> : </td><td class='dataCol'>" + el.district+ "</td></tr>";
+
+                                        if(el.upaz_code != "") {                                                                                
+                                            admin_boundary_name = admin_boundary_name + "<tr class='altDataRow'><td class='headCol'>Upazila</td><td class='colon'> : </td><td class='dataCol'>" + el.upazila+ "</td></tr>";
+
+                                            if(el.union_code != "") {                                               
+                                                admin_boundary_name = admin_boundary_name + "<tr class='dataRow'><td class='headCol'>Union</td><td> : </td><td class='dataCol'>" + el.union+ "</td></tr>";
+                                            }
+                                        }
+                                    }
+
+                                    var image_file_name = "../images/ProjectLocationPhotos/" + el.image_file_name;
+                                    
+                                    var img_name = el.project_name;                                                  
+
+                                    return "<div style='display:inline-block; overflow:auto; width:650px; max-width:754px; max-height:654px;'>" +
+                                        "    <table style='width: 100%;'>" +
+                                        "        <tr>" +
+                                        "            <td colspan='2'>" +
+                                        "                <h4><strong>Name of Project : </strong><span style='color: #05c;'>" + el.project_name + "</span></h4>" +
+                                        "            </td>" +
+                                        "        </tr>" +
+                                        "        <tr>" +
+                                        "            <td style='width: 100%; min-width:200px; vertical-align: top;'>" +
+                                        "               <table>"
+                                                            + admin_boundary_name + 
+                                        "                   <tr class='altDataRow'><td class='headCol'>Latitude</td><td class='colon'>:</td><td class='dataCol'>" + el.lat + "</td></tr>" + 
+                                        "                   <tr class='dataRow'><td class='headCol'>Longitude</td><td class='colon'>:</td><td class='dataCol'>" + el.lng + "</td></tr>" +                                       
+                                        "               </table>" +
+                                        "            </td>"+ 
+                                        "            <td style='width: auto; vertical-align:top;'>" +
+                                        "                <img src='" + image_file_name + "' alt='Picture : " + img_name + "' >" +                                 
+                                        "            </td>" +
+                                        "        </tr>" +
+                                        "    </table>" +
+                                        "</div>";
+                                };                                                                
+                               
+                                allLocations.forEach(function (el, i) {
+                                                                        
+                                    if (el.lat == 'undefined' || el.lng == 'undefined')
+                                        return;
+                                                                        
+                                    icon.radius = 15;
+                                    icon.weight = 2.25;                                    
+                                    icon.color = '#059b9e';
+                                    //icon.fillColor = '#c6fcf9';fc9a03
+                                    icon.fillColor = '#fc9a03';
+                                    icon.fillOpacity = 0.8;
+
+                                    var location = new L.CircleMarker(getLatLng(el.lat, el.lng), icon)
+                                        .bindPopup(getInfo(el, i))
+                                        .on({
+                                            "mouseover": function () {
+                                                this.setStyle({
+                                                    weight: 3.5,
+                                                    opacity: 0.9
+                                                });                                                
+                                            },
+                                            "mouseout": function () {
+                                                //e.target.resetStyle();
+                                                this.setStyle({
+                                                    weight: 2.0,
+                                                    opacity: 0.5
+                                                });
+                                            }
+                                        });
+                                                                        
+                                    map.addLayer(location); 
+                                });                                                                
+
+                                $("#map_legend_colors").append(
+                                    "<div id='map_legend_loc_1'><label class='map_legend_label'>" +
+                                    "<label class='map_legend_color map_legend_circle' style='border-color:#1e1; background-color:#23e;'></label>" +
+                                    "Project Locations" +
+                                    "</label> <br /><div>");
+                            }
+                        },
+                        error: function (ex) {
+                            console.log(ex);
+                            msg.init("Error", "Error... . .", "Unable to load project location data !!");
+                            $("#busy-indicator").fadeOut();
+                        },                        
+                        complete: function () {
+                            $("#busy-indicator").fadeOut();
+                        }
+                    });
+
+                } catch (e) {
+                    msg.init("Error", "Error... . .", "Error trying to Unable to load project location data !! <br />" + e.message);
+                }
+            } 
+        }
+
+    </script>
+
+</body>
+</html>
