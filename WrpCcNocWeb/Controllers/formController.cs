@@ -43,40 +43,7 @@ namespace WrpCcNocWeb.Controllers
 
         public IActionResult file()
         {
-            ViewBag.ProjectTypeId = new SelectList(_db.LookUpCcModProjectType.ToList(), "ProjectTypeId", "ProjectType");
             return View();
-        }
-
-        [HttpPost]
-        [Obsolete]
-        public async Task<IActionResult> UploadFile(IList<IFormFile> files)
-        {
-            foreach (IFormFile source in files)
-            {
-                string filename = ContentDispositionHeaderValue.Parse(source.ContentDisposition).FileName.Trim('"');
-
-                filename = this.EnsureCorrectFilename(filename);
-
-                using (FileStream output = System.IO.File.Create(this.GetPathAndFilename(filename)))
-                    await source.CopyToAsync(output);
-            }
-
-            return this.View();
-        }
-
-        private string EnsureCorrectFilename(string filename)
-        {
-            if (filename.Contains("\\"))
-                filename = filename.Substring(filename.LastIndexOf("\\") + 1);
-
-            return filename;
-        }
-
-        [Obsolete]
-        private string GetPathAndFilename(string filename)
-        {
-            var webRoot = hostingEnvironment.WebRootPath;
-            return webRoot + "\\uploads\\" + filename;
         }
 
         public IActionResult index()
@@ -421,8 +388,8 @@ namespace WrpCcNocWeb.Controllers
                         appState = 3; //Pending for Review of Upazila Technical Committee
                     else if (tUnion == 1 && tUpazila == 1)
                         appState = 2; //Pending for Review of Union Technical Committee
-                    //else
-                    //    appState = 1; //Not Yet Submitted
+                                      //else
+                                      //    appState = 1; //Not Yet Submitted
                 }
 
                 if (tDistrict > 1)
@@ -437,8 +404,8 @@ namespace WrpCcNocWeb.Controllers
                         appState = 2; //Pending for Review of Union Technical Committee
                     else if (tUnion == 0 && tUpazila == 1 && tDistrict == 1)
                         appState = 3; //Pending for Review of Upazila Technical Committee
-                    //else
-                    //    appState = 1; //Not Yet Submitted
+                                      //else
+                                      //    appState = 1; //Not Yet Submitted
                 }
             }
 
@@ -2968,6 +2935,87 @@ namespace WrpCcNocWeb.Controllers
                             }).ToList();
 
             return Json(comments);
+        }
+        #endregion
+
+        #region File Uploading
+        [HttpPost]
+        [Obsolete]
+        public async Task<IActionResult> UploadFileAsync(IList<IFormFile> files, long projectid = 50, string foldername = "images/ProjectLocationPhotos", string controltitle = "project_location")
+        {
+            try
+            {
+                if (files.Count > 0)
+                {
+                    foreach (IFormFile source in files)
+                    {
+                        string filename = ContentDispositionHeaderValue.Parse(source.ContentDisposition).FileName.Trim('"');
+                        filename = EnsureCorrectFilename(filename);
+
+                        using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
+                        await source.CopyToAsync(output);
+                    }
+
+                    noti = new Notification
+                    {
+                        id = "0",
+                        status = "success",
+                        title = "Success",
+                        message = "File has been successfully uploaded."
+                    };
+                }
+                else
+                {
+                    noti = new Notification
+                    {
+                        id = "0",
+                        status = "warning",
+                        title = "Select File",
+                        message = "No file(s) selected!"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    title = "An Exception Error Occured",
+                    message = message
+                };
+            }
+
+            return Json(noti);
+        }
+
+        private string GetGenFilename(long projectid, string controltitle)
+        {
+            string result = string.Empty;
+
+            if (controltitle == "project_location")
+            {
+                var CcModPrjLocationDetail = _db.CcModPrjLocationDetail.Where(w=>w.ProjectId==)
+            }
+
+            return result;
+        }
+
+        private string EnsureCorrectFilename(string filename)
+        {
+            if (filename.Contains("\\"))
+                filename = filename.Substring(filename.LastIndexOf("\\") + 1);
+
+            return filename;
+        }
+
+        [Obsolete]
+        private string GetPathAndFilename(string fileName, string folderName)
+        {
+            var path = Path.Combine(hostingEnvironment.WebRootPath, folderName, fileName);
+            return path;
         }
         #endregion
     }

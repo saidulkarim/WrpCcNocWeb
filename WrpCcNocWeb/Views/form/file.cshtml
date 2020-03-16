@@ -2,7 +2,7 @@
     <div class="buttons">
         <div class="upload-button">
             <div class="label">Click me!</div>
-            <input id="files" name="files" type="file" onchange="uploadFiles('files');" />
+            <input id="files" name="files" type="file" multiple onchange="uploadFiles('files');" />
         </div>
     </div>
 </form>
@@ -25,18 +25,21 @@
                 console.log(files[i]);
             }
 
-            $.ajax(
-                {
-                    url: url,
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    type: "POST",
-                    success: function (data) {
-                        alert("Files Uploaded!");
-                    }
+            //data: { formData, projectid: 50, foldername: 'ProjectLocationPhotos', controltitle: 'project_location' },
+            $.ajax({
+                url: url,
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                success: function (data) {
+                    if (data.message != '')
+                        Swal.fire(data.title, data.message, data.status);
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Swal.fire('Error Occured', errorMsg, 'error');
                 }
-            );
+            });
         }
     </script>
 }
