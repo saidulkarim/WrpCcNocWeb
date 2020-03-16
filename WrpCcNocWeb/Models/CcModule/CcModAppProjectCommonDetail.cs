@@ -407,27 +407,48 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Authority Comments")]
         [MaxLength(150)]
         public string SocialIssuesAuthorityCmt { get; set; }
-        
-        [Column("BankDocTypeId", Order = 76)]
-        [Display(Name = "Bank Document Type")]
-        public int? BankDocTypeId { get; set; }
-        [ForeignKey("BankDocTypeId")]
-        public virtual LookUpCcModBankDocType LookUpCcModBankDocType { get; set; }
 
-        [Column("BankDocumentNumber", Order = 77)]
-        [Display(Name = "Bank Document Number")]
-        public int? BankDocumentNumber { get; set; }
+        [Column("NocTypeId", Order = 76)]
+        [Display(Name = "NOC Type")]
+        public int? NocTypeId { get; set; }
+        [ForeignKey("NocTypeId")]
+        public virtual LookUpCcModNocType LookUpCcModNocType { get; set; }
+
+        [Column("NocFileName", Order = 77)]        
+        [Display(Name = "Upload NOC")]
+        [MaxLength(100)]
+        public string NocFileName { get; set; }
+
+        [Column("PaymentMethodId", Order = 78)]
+        [Display(Name = "Payment Method")]
+        public int? PaymentMethodId { get; set; }
+        [ForeignKey("PaymentMethodId")]
+        public virtual LookUpCcModPaymentMethod LookUpCcModPaymentMethod { get; set; }
+
+        [Column("PaymentDocNumber", Order = 79)]
+        [Display(Name = "Payment Document Number")]
+        [MaxLength(50)]
+        public string PaymentDocNumber { get; set; }
         
-        [Column("RecommendationId", Order = 78)]
+        [Column("PaidAmount", Order = 80)]
+        [Display(Name = "Paid Amount")]
+        public double? PaidAmount { get; set; }
+        
+        [Column("PaymentDocFileName", Order = 81)]
+        [Display(Name = "Upload Payment Document")]
+        [MaxLength(100)]
+        public string PaymentDocFileName { get; set; }
+                
+        [Column("RecommendationId", Order = 82)]
         [Display(Name = "Recommendation")]
         public int? RecommendationId { get; set; }
         [ForeignKey("RecommendationId")]
         public virtual LookUpCcModRecommendation LookUpRecommendation { get; set; }
-
-        [Column("RecommandCmt", Order = 79)]
+        
+        [Column("RecommendationComment", Order = 83)]
         [Display(Name = "Comments")]
-        [MaxLength(150)]
-        public string RecommandCmt { get; set; }
+        [MaxLength(350)]
+        public string RecommendationComment { get; set; }
 
         public virtual List<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetails { get; set; }
         public virtual List<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetails { get; set; }

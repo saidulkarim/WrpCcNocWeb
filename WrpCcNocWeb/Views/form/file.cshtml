@@ -1,0 +1,42 @@
+﻿<form id="form" name="form" action="/uploader" enctype="multipart/form-data" method="post">
+    <div class="buttons">
+        <div class="upload-button">
+            <div class="label">Click me!</div>
+            <input id="files" name="files" type="file" onchange="uploadFiles('files');" />
+        </div>
+    </div>
+</form>
+
+@section PageScripts {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+
+        });
+
+        var url = '@Url.Action("UploadFile", "form")';
+        function uploadFiles(inputId) {
+            var input = document.getElementById(inputId);
+            var files = input.files;
+            var formData = new FormData();
+
+            for (var i = 0; i != files.length; i++) {
+                formData.append("files", files[i]);
+
+                console.log(files[i]);
+            }
+
+            $.ajax(
+                {
+                    url: url,
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    type: "POST",
+                    success: function (data) {
+                        alert("Files Uploaded!");
+                    }
+                }
+            );
+        }
+    </script>
+}

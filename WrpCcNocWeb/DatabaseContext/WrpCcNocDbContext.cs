@@ -40,6 +40,8 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<LookUpAdminModMenu> LookUpAdminModMenu { get; set; }
         public DbSet<LookUpAdminModSecurityQuestion> LookUpAdminModSecurityQuestion { get; set; }
         public DbSet<LookUpAdminModSubMenu> LookUpAdminModSubMenu { get; set; }
+        public DbSet<LookUpAdminModUrlType> LookUpAdminModUrlType { get; set; }
+        public DbSet<LookUpAdminModUrl> LookUpAdminModUrl { get; set; }
         public DbSet<LookUpAdminModUserGroup> LookUpAdminModUserGroup { get; set; }
         #endregion
 
@@ -69,7 +71,7 @@ namespace WrpCcNocWeb.DatabaseContext
         #region LookUp --- CC Module          
         public DbSet<LookUpCcModApplicationState> LookUpCcModApplicationState { get; set; }
         public DbSet<LookUpCcModApprovalStatus> LookUpCcModApprovalStatus { get; set; }
-        public DbSet<LookUpCcModBankDocType> LookUpCcModBankDocType { get; set; }
+        /*public DbSet<LookUpCcModBankDocType> LookUpCcModBankDocType { get; set; }*/
         public DbSet<LookUpCcModBankLineShifting> LookUpCcModBankLineShifting { get; set; }
         public DbSet<LookUpCcModBankStability> LookUpCcModBankStability { get; set; }
         public DbSet<LookUpCcModConservLocation> LookUpCcModConservLocation { get; set; }
@@ -87,9 +89,10 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<LookUpCcModKhalType> LookUpCcModKhalType { get; set; }
         public DbSet<LookUpCcModLandType> LookUpCcModLandType { get; set; }
         public DbSet<LookUpCcModNameOfWaterBody> LookUpCcModNameOfWaterBody { get; set; }
-        public DbSet<LookUpCcModNOCType> LookUpCcModNOCType { get; set; }
+        public DbSet<LookUpCcModNocType> LookUpCcModNocType { get; set; }
         public DbSet<LookUpCcModNWMPProgramme> LookUpCcModNWMPProgramme { get; set; }
         public DbSet<LookUpCcModNWPArticle> LookUpCcModNWPArticle { get; set; }
+        public DbSet<LookUpCcModPaymentMethod> LookUpCcModPaymentMethod { get; set; }
         public DbSet<LookUpCcModPotGrndWtrRecharge> LookUpCcModPotGrndWtrRecharge { get; set; }
         public DbSet<LookUpCcModProjectType> LookUpCcModProjectType { get; set; }
         public DbSet<LookUpCcModProposedWaterUse> LookUpCcModProposedWaterUse { get; set; }

@@ -13,6 +13,11 @@ using WrpCcNocWeb.Models.Utility;
 using WrpCcNocWeb.ViewModels;
 using static WrpCcNocWeb.Helpers.CommonHelper;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -24,6 +29,55 @@ namespace WrpCcNocWeb.Controllers
         private readonly CommonHelper ch = new CommonHelper();
         private Notification noti = new Notification();
         #endregion
+
+        private readonly ILogger<formController> logger;
+        [Obsolete]
+        private readonly IHostingEnvironment hostingEnvironment;
+
+        [Obsolete]
+        public formController(ILogger<formController> logger, IHostingEnvironment hostingEnvironment)
+        {
+            this.logger = logger;
+            this.hostingEnvironment = hostingEnvironment;
+        }
+
+        public IActionResult file()
+        {
+            ViewBag.ProjectTypeId = new SelectList(_db.LookUpCcModProjectType.ToList(), "ProjectTypeId", "ProjectType");
+            return View();
+        }
+
+        [HttpPost]
+        [Obsolete]
+        public async Task<IActionResult> UploadFile(IList<IFormFile> files)
+        {
+            foreach (IFormFile source in files)
+            {
+                string filename = ContentDispositionHeaderValue.Parse(source.ContentDisposition).FileName.Trim('"');
+
+                filename = this.EnsureCorrectFilename(filename);
+
+                using (FileStream output = System.IO.File.Create(this.GetPathAndFilename(filename)))
+                    await source.CopyToAsync(output);
+            }
+
+            return this.View();
+        }
+
+        private string EnsureCorrectFilename(string filename)
+        {
+            if (filename.Contains("\\"))
+                filename = filename.Substring(filename.LastIndexOf("\\") + 1);
+
+            return filename;
+        }
+
+        [Obsolete]
+        private string GetPathAndFilename(string filename)
+        {
+            var webRoot = hostingEnvironment.WebRootPath;
+            return webRoot + "\\uploads\\" + filename;
+        }
 
         public IActionResult index()
         {
@@ -67,6 +121,12 @@ namespace WrpCcNocWeb.Controllers
         {
             ViewData["Title"] = "Flood Control Management Project";
             SelectedForm sf = HttpContext.Session.GetComplexData<SelectedForm>("SelectedForm");
+
+            if (sf == null)
+            {
+                return RedirectToAction("index", "form");
+            }
+
             ViewBag.ProjectTypeId = sf.ProjectTypeId;
             ViewBag.ProjectTitle = sf.ProjectTitle;
 
@@ -2550,7 +2610,7 @@ namespace WrpCcNocWeb.Controllers
 
                         #region Common Detail Data Binding for Recommendation
                         pcd.RecommendationId = _recDetail.RecommendationId;
-                        pcd.RecommandCmt = _recDetail.RecommandCmt;
+                        pcd.RecommendationComment = _recDetail.RecommendationComment;
                         #endregion
 
                         _db.Entry(pcd).State = EntityState.Modified;
@@ -2888,13 +2948,25 @@ namespace WrpCcNocWeb.Controllers
         [HttpGet]
         public JsonResult gfc(long userid, int projtypeid, long projid, string controlname)
         {
-            List<CcModAppProjDataAnalysis> comments = _db.CcModAppProjDataAnalysis
-                                                         .Where(w =>
-                                                                w.ProjectTypeId == projtypeid &&
-                                                                w.ProjectId == projid &&
-                                                                w.LabelNameOfControl == controlname
-                                                                )
-                                                         .ToList();
+            var comments = (from d in _db.CcModAppProjDataAnalysis
+                            join u in _db.AdminModUsersDetail on d.UserId equals u.UserId into uList
+                            from user in uList.DefaultIfEmpty()
+                            join a in _db.AdminModUserGrpDistDetail on user.UserId equals a.UserId into aList
+                            from ugd in aList.DefaultIfEmpty()
+                            join ug in _db.LookUpAdminModUserGroup on ugd.UserGroupId equals ug.UserGroupId into ugList
+                            from ugl in ugList.DefaultIfEmpty()
+
+                            where d.ProjectTypeId == projtypeid &&
+                                  d.ProjectId == projid &&
+                                  d.LabelNameOfControl == controlname
+
+                            select new FormCommentsListTemp
+                            {
+                                AppProjDataAnalysisId = d.AppProjDataAnalysisId,
+                                UserComments = d.Comments,
+                                UserName = String.Format("{0}, {1}", user.UserFullName, ugl.UserGroupName)
+                            }).ToList();
+
             return Json(comments);
         }
         #endregion

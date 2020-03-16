@@ -8,17 +8,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WrpCcNocWeb.Models
 {
-    public class LookUpCcModNOCType
+    public class LookUpCcModNocType
     {
         [Key]
-        [Column("NOCTypeId", Order = 0)]        
-        public int NOCTypeId { get; set; }
+        [Column("NocTypeId", Order = 0)]        
+        public int NocTypeId { get; set; }
 
 
         [Required]
-        [Column("NOCType", Order = 1)]
+        [Column("NocType", Order = 1)]
         [MaxLength(150)]
         [Display(Name = "NOC Type")]
-        public string NOCType { get; set; }                       
+        public string NocType { get; set; }                       
     }
 }

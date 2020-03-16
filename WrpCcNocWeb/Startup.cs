@@ -52,8 +52,8 @@ namespace WrpCcNocWeb
         {
             if (env.IsDevelopment() || env.IsStaging())
             {
-                //app.UseDeveloperExceptionPage();
-                app.UseExceptionHandler("/account/login");
+                app.UseDeveloperExceptionPage();
+                //app.UseExceptionHandler("/account/login");
                 //app.UseExceptionHandler("/error/index");
             }
             else
