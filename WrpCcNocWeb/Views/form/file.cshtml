@@ -25,7 +25,10 @@
                 console.log(files[i]);
             }
 
-            //data: { formData, projectid: 50, foldername: 'ProjectLocationPhotos', controltitle: 'project_location' },
+            formData.append("projectid", 50);
+            formData.append("foldername", 'images/ProjectLocationPhotos');
+            formData.append("controltitle", 'project_location');
+            
             $.ajax({
                 url: url,
                 data: formData,

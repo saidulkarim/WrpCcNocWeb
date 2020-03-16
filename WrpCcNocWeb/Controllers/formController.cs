@@ -2941,7 +2941,7 @@ namespace WrpCcNocWeb.Controllers
         #region File Uploading
         [HttpPost]
         [Obsolete]
-        public async Task<IActionResult> UploadFileAsync(IList<IFormFile> files, long projectid = 50, string foldername = "images/ProjectLocationPhotos", string controltitle = "project_location")
+        public async Task<IActionResult> UploadFileAsync(IList<IFormFile> files, long projectid, string foldername, string controltitle)
         {
             try
             {
@@ -2997,7 +2997,9 @@ namespace WrpCcNocWeb.Controllers
 
             if (controltitle == "project_location")
             {
-                var CcModPrjLocationDetail = _db.CcModPrjLocationDetail.Where(w=>w.ProjectId==)
+                var CcModPrjLocationDetail = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == projectid).ToList();
+
+                result = projectid.ToString() + "_" + DateTime.Now.ToString("yyyyMMddHHmmss");
             }
 
             return result;
