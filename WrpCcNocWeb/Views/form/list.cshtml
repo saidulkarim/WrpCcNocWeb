@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "Project List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> Application List</h4>
+                @{
+                    List<CcModAppProjectCommonDetail> _pcds = ViewBag.PCDS;
+
+                    if (_pcds.Count > 0)
+                    {
+                        int count = 1;
+                        <table class="table table-hover table-striped" style="width: 100%;">
+                            <thead>
+                                <tr><th class="text-center">Sl.</th><th>Project Name</th><th>Project Estimated Cost</th><th style="width: 150px;"></th></tr>
+                            </thead>
+                            <tbody>
+                                @foreach (CcModAppProjectCommonDetail pcd in _pcds)
+                                {
+                                    <tr><td class="text-center">@count</td><td>@pcd.ProjectName</td><td>@pcd.ProjectEstimatedCost</td><td><a href="@Url.Action("view", "form", new { id = pcd.ProjectId })" class="btn btn-info">View</a></td></tr>
+
+                                    count++;
+                                }
+                            </tbody>
+                        </table>
+
+
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

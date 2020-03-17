@@ -40,7 +40,15 @@ namespace WrpCcNocWeb.Controllers
         public IActionResult index()
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
             UserMenuPermissionToSession(ui);
+            int count = _db.CcModAppProjectCommonDetail.Where(w => w.UserId == ui.UserID).Count();
+            ViewBag.TotalAppliedApplication = count.ToString().PadLeft(3, '0');
 
             //string UserRegistrationID = HttpContext.Session.GetString("UserRegistrationID").ToString();
             //string UserName = HttpContext.Session.GetString("UserName").ToString();

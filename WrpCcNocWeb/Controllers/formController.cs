@@ -73,6 +73,81 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
+        public IActionResult list()
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            ViewBag.PCDS = _db.CcModAppProjectCommonDetail.Where(w => w.UserId == ui.UserID).ToList();
+
+            return View();
+        }
+
+        public IActionResult view(long id)
+        {
+            CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(id);
+
+            if (pcd != null)
+                ViewBag.ProjectCommonDetail = pcd;
+            else
+                ViewBag.ProjectCommonDetail = new CcModAppProjectCommonDetail();
+
+            CcModPrjLocationDetail _locationdetail = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == pcd.ProjectId).FirstOrDefault();
+
+            if (_locationdetail != null)
+                ViewBag.ProjectLocationDetail = _locationdetail;
+            else
+                ViewBag.ProjectLocationDetail = new CcModPrjLocationDetail();
+
+            CcModAppProject_31_IndvDetail _indvdetail = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).FirstOrDefault();
+
+            if (_indvdetail != null)
+                ViewBag.ProjectIndvDetail31 = _indvdetail;
+            else
+                ViewBag.ProjectIndvDetail31 = new CcModAppProject_31_IndvDetail();
+
+            var _hydroregiondetail = _db.CcModPrjHydroRegionDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                        .Select(x => new { x.PrjHydroRegionDetailId, x.ProjectId, x.HydroRegionId }).ToList();
+            ViewBag.HydroRegionDetail = _hydroregiondetail;
+
+            var _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new { x.HotSpotDetailId, x.ProjectId, x.DeltaPlanHotSpotId }).ToList();
+            ViewBag.BDP2100HotSpotDetail = _hotspotdetail;
+
+            var _typesofflood = _db.CcModPrjTypesOfFloodDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                   .Select(x => new { x.FloodTypeDetailId, x.ProjectId, x.FloodTypeId }).ToList();
+            ViewBag.TypesOfFloodDetail = _typesofflood;
+
+            var _compatnwpdetail = _db.CcModPrjCompatNWPDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                   .Select(x => new { x.PrjCompatNWPId, x.ProjectId, x.NationalWaterPolicyArticleId }).ToList();
+            ViewBag.CompatNWPDetail = _compatnwpdetail;
+
+            var _compatnwmpdetail = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                   .Select(x => new { x.PrjCompatNWMPId, x.ProjectId, x.NWMPProgrammeId }).ToList();
+            ViewBag.CompatNWMPDetail = _compatnwmpdetail;
+
+            var _compatsdgdetail = _db.CcModPrjCompatSDGDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                   .Select(x => new { x.SDGCompabilityId, x.ProjectId, x.SDGGoalId }).ToList();
+            ViewBag.CompatSDGDetail = _compatsdgdetail;
+
+            var _compatsdgindidetail = _db.CcModPrjCompatSDGIndiDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                   .Select(x => new { x.SDGIndicatorDetailId, x.ProjectId, x.SDGIndicatorId }).ToList();
+            ViewBag.CompatSDGIndiDetail = _compatsdgindidetail;
+
+            var _bdp2100goaldetail = _db.CcModBDP2100GoalDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                   .Select(x => new { x.DeltaGoalDetailId, x.ProjectId, x.DeltPlan2100GoalId }).ToList();
+            ViewBag.BDP2100GoalDetail = _bdp2100goaldetail;
+
+            var _gpwmgrouptype = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                   .Select(x => new { x.GPWMGroupTypeDetailId, x.ProjectId, x.GPWMGroupTypeId }).ToList();
+            ViewBag.GPWMGroupType = _gpwmgrouptype;
+
+            ViewBag.ProjectId = pcd.ProjectId;
+            ViewBag.Project31IndvId = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project31IndvId).FirstOrDefault();
+            ViewBag.UserId = pcd.UserId;
+            ViewBag.ProjectTypeId = pcd.ProjectTypeId;
+
+            return View();
+        }
+
         public IActionResult status()
         {
             return View();
@@ -655,6 +730,7 @@ namespace WrpCcNocWeb.Controllers
 
                                 if (result > 0)
                                 {
+
                                     dbContextTransaction.Commit();
 
                                     noti = new Notification
@@ -750,7 +826,8 @@ namespace WrpCcNocWeb.Controllers
                                     d.UnionGeoCode,
                                     un.UnionName,
                                     Latitude = string.IsNullOrEmpty(d.Latitude) ? string.Empty : d.Latitude,
-                                    Longitude = string.IsNullOrEmpty(d.Longitude) ? string.Empty : d.Longitude
+                                    Longitude = string.IsNullOrEmpty(d.Longitude) ? string.Empty : d.Longitude,
+                                    ImageFileName = String.Format("{0}/{1}", "../images/ProjectLocationPhotos", d.ImageFileName)
                                 }).OrderBy(o => o.LocationId).ToList();
 
                 if (_details.Count > 0)
@@ -2939,6 +3016,202 @@ namespace WrpCcNocWeb.Controllers
         #endregion
 
         #region File Uploading
+        //form/UploadProjectLocationFile :: uplf
+        [HttpPost]
+        [Obsolete]
+        public JsonResult uplf(long locationid, long projectid, IFormFile file)
+        {
+            int result = 0;
+            string filename = "", extension = "", foldername = "images/ProjectLocationPhotos";
+            CcModPrjLocationDetail location = new CcModPrjLocationDetail();
+
+            if (locationid != 0)
+            {
+                location = _db.CcModPrjLocationDetail.Find(locationid);
+            }
+
+            try
+            {
+                if (location != null && file != null)
+                {
+                    filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    extension = filename.Substring(filename.IndexOf('.'));
+                    filename = EnsureCorrectFilename(filename);
+                    filename = GetGenProjLocFilename(location) + extension;
+
+                    location.ImageFileName = filename;
+
+                    _db.Entry(location).State = EntityState.Modified;
+                    result = _db.SaveChanges();
+
+                    if (result > 0)
+                    {
+                        using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
+                        file.CopyTo(output);
+
+                        noti = new Notification
+                        {
+                            id = location.LocationId.ToString(),
+                            status = "success",
+                            title = "Success",
+                            message = "File has been successfully uploaded."
+                        };
+                    }
+                    else
+                    {
+                        noti = new Notification
+                        {
+                            id = location.LocationId.ToString(),
+                            status = "error",
+                            title = "File Submission Error",
+                            message = "Your selected file has not submitted."
+                        };
+                    }
+                }
+                else
+                {
+                    noti = new Notification
+                    {
+                        id = "0",
+                        status = "warning",
+                        title = "Select File",
+                        message = "No file(s) selected!"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    title = "An Exception Error Occured",
+                    message = message
+                };
+            }
+
+            return Json(noti);
+        }
+
+        //form/UploadCommonDetailFile :: ucdf
+        [HttpPost]
+        [Obsolete]
+        public JsonResult ucdf(long projectid, string controltitle, IFormFile file)
+        {
+            int result = 0;
+            string filename = "", extension = "", foldername = "images/CommonDetails";
+            CcModAppProjectCommonDetail pcd = new CcModAppProjectCommonDetail();
+
+            if (projectid != 0)
+            {
+                pcd = _db.CcModAppProjectCommonDetail.Find(projectid);
+            }
+
+            try
+            {
+                if (pcd != null && file != null)
+                {
+                    filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    extension = filename.Substring(filename.IndexOf('.'));
+                    filename = EnsureCorrectFilename(filename);
+                    filename = GetCommonDetailFileName(projectid.ToString(), controltitle) + extension;
+
+                    switch (controltitle)
+                    {
+                        case "DiscussWithStakeParticipntLst":
+                            pcd.DiscussWithStakeParticipntLst = filename;
+                            break;
+
+                        case "DiscussWithStakeMeetingMin":
+                            pcd.DiscussWithStakeMeetingMin = filename;
+                            break;
+
+                        case "CompatibilityNWPDocLink":
+                            pcd.CompatibilityNWPDocLink = filename;
+                            break;
+
+                        case "NWMPDocLink":
+                            pcd.NWMPDocLink = filename;
+                            break;
+
+                        case "SDGDocLink":
+                            pcd.SDGDocLink = filename;
+                            break;
+
+                        case "DeltaPlan2100DocLink":
+                            pcd.DeltaPlan2100DocLink = filename;
+                            break;
+
+                        case "CostalZoneDocLink":
+                            pcd.CostalZoneDocLink = filename;
+                            break;
+
+                        case "AgriDocLink":
+                            pcd.AgriDocLink = filename;
+                            break;
+
+                        case "FisheriesDocLink":
+                            pcd.FisheriesDocLink = filename;
+                            break;
+                    }
+
+                    _db.Entry(pcd).State = EntityState.Modified;
+                    result = _db.SaveChanges();
+
+                    if (result > 0)
+                    {
+                        using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
+                        file.CopyTo(output);
+
+                        noti = new Notification
+                        {
+                            id = pcd.ProjectId.ToString(),
+                            status = "success",
+                            title = "Success",
+                            message = "File has been successfully uploaded."
+                        };
+                    }
+                    else
+                    {
+                        noti = new Notification
+                        {
+                            id = pcd.ProjectId.ToString(),
+                            status = "error",
+                            title = "File Submission Error",
+                            message = "Your selected file has not submitted."
+                        };
+                    }
+                }
+                else
+                {
+                    noti = new Notification
+                    {
+                        id = "0",
+                        status = "warning",
+                        title = "Select File",
+                        message = "No file(s) selected!"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    title = "An Exception Error Occured",
+                    message = message
+                };
+            }
+
+            return Json(noti);
+        }
+
+
         [HttpPost]
         [Obsolete]
         public async Task<IActionResult> UploadFileAsync(IList<IFormFile> files, long projectid, string foldername, string controltitle)
@@ -2991,15 +3264,63 @@ namespace WrpCcNocWeb.Controllers
             return Json(noti);
         }
 
-        private string GetGenFilename(long projectid, string controltitle)
+        private string GetGenProjLocFilename(CcModPrjLocationDetail location)
+        {
+            string result = string.Empty;
+            string adminboundary = !string.IsNullOrEmpty(location.UnionGeoCode) ? location.UnionGeoCode.PadLeft(8, '0') :
+                                   !string.IsNullOrEmpty(location.UpazilaGeoCode) ? location.UpazilaGeoCode.PadLeft(8, '0') :
+                                   !string.IsNullOrEmpty(location.DistrictGeoCode) ? location.DistrictGeoCode.PadLeft(8, '0') : "";
+
+            if (location.LocationId != 0)
+            {
+                int fileCount = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == location.ProjectId).Count();
+                result = location.ProjectId.ToString() + "_" + fileCount.ToString() + "_" + adminboundary;
+            }
+
+            return result;
+        }
+
+        private string GetCommonDetailFileName(string projectId, string control_title)
         {
             string result = string.Empty;
 
-            if (controltitle == "project_location")
+            switch (control_title)
             {
-                var CcModPrjLocationDetail = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == projectid).ToList();
+                case "DiscussWithStakeParticipntLst":
+                    result = projectId + "_DWSPL_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
 
-                result = projectid.ToString() + "_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                case "DiscussWithStakeMeetingMin":
+                    result = projectId + "_DWSMM_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "CompatibilityNWPDocLink":
+                    result = projectId + "_CNWPD_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "NWMPDocLink":
+                    result = projectId + "_NWMPD_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "SDGDocLink":
+                    result = projectId + "_SDGDL_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "DeltaPlan2100DocLink":
+                    result = projectId + "_DP2100DL_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "CostalZoneDocLink":
+                    result = projectId + "_CZDL_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "AgriDocLink":
+                    result = projectId + "_AGRDL_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "FisheriesDocLink":
+                    result = projectId + "_FISDL_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
             }
 
             return result;

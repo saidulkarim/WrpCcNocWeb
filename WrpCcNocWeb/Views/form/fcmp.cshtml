@@ -191,7 +191,8 @@
                                                                                                 <input type="number" id="Longitude" name="Longitude" class="form-control text-right" />
                                                                                             </th>
                                                                                             <th class="text-center" style="vertical-align: central;">
-                                                                                                <input type="file" id="ImageFileName" class="form-control-file">                                                                                                
+                                                                                                <input type="file" id="ImageFileName" name="ImageFileName" class="form-control-file">
+                                                                                                <!--<input id="files" name="files" type="file" multiple onchange="uploadFiles('files');" />-->
                                                                                             </th>
                                                                                             <th class="text-center">
                                                                                                 <button id="btnSaveProjLocation" type="button" class="btn btn-success waves-effect waves-light" value="Save">
@@ -200,7 +201,7 @@
 
                                                                                                 <button id="btnClearProjLocation" type="button" class="btn btn-warning waves-effect waves-light" value="Clear">
                                                                                                     <i class="mdi mdi-refresh"></i>
-                                                                                                </button>
+                                                                                                </button>                                                                                                
                                                                                             </th>
                                                                                         </tr>
                                                                                     </thead>
@@ -690,7 +691,8 @@
                                                                             <label>Participant List</label>
                                                                             <div class="input-group">
                                                                                 <div class="custom-file">
-                                                                                    <input type="file" class="custom-file-input" id="DiscussWithStakeParticipntLst">
+                                                                                    <input id="DiscussWithStakeParticipntLst" name="DiscussWithStakeParticipntLst" type="file" 
+                                                                                           class="custom-file-input" onchange="UploadCommonFiles('DiscussWithStakeParticipntLst');" />
                                                                                     <label class="custom-file-label" for="DiscussWithStakeParticipntLst">Choose file</label>
                                                                                 </div>
                                                                             </div>
@@ -700,7 +702,8 @@
                                                                             <label>Meeting Minutes</label>
                                                                             <div class="input-group">
                                                                                 <div class="custom-file">
-                                                                                    <input type="file" class="custom-file-input" id="DiscussWithStakeMeetingMin">
+                                                                                    <input id="DiscussWithStakeMeetingMin" name="DiscussWithStakeMeetingMin" type="file" 
+                                                                                           class="custom-file-input" onchange="UploadCommonFiles('DiscussWithStakeMeetingMin');" />
                                                                                     <label class="custom-file-label" for="DiscussWithStakeMeetingMin">Choose file</label>
                                                                                 </div>
                                                                             </div>
@@ -1143,7 +1146,8 @@
                                                                         <label>Document Link</label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
-                                                                                <input type="file" class="custom-file-input" id="CompatibilityNWPDocLink">
+                                                                                <input id="CompatibilityNWPDocLink" name="CompatibilityNWPDocLink" type="file"
+                                                                                       class="custom-file-input" onchange="UploadCommonFiles('CompatibilityNWPDocLink');" />
                                                                                 <label class="custom-file-label" for="CompatibilityNWPDocLink">Choose file</label>
                                                                             </div>
                                                                         </div>
@@ -1200,7 +1204,8 @@
                                                                         <label>Document Link</label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
-                                                                                <input type="file" class="custom-file-input" id="NWMPDocLink">
+                                                                                <input id="NWMPDocLink" name="NWMPDocLink" type="file"
+                                                                                       class="custom-file-input" onchange="UploadCommonFiles('NWMPDocLink');" />
                                                                                 <label class="custom-file-label" for="NWMPDocLink">Choose file</label>
                                                                             </div>
                                                                         </div>
@@ -1295,7 +1300,8 @@
                                                                         <label>Document Link</label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
-                                                                                <input type="file" class="custom-file-input" id="SDGDocLink">
+                                                                                <input id="SDGDocLink" name="SDGDocLink" type="file"
+                                                                                       class="custom-file-input" onchange="UploadCommonFiles('SDGDocLink');" />
                                                                                 <label class="custom-file-label" for="SDGDocLink">Choose file</label>
                                                                             </div>
                                                                         </div>
@@ -1379,7 +1385,8 @@
                                                                         <label>Document Link</label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
-                                                                                <input type="file" class="custom-file-input" id="DeltaPlan2100DocLink">
+                                                                                <input id="DeltaPlan2100DocLink" name="DeltaPlan2100DocLink" type="file"
+                                                                                       class="custom-file-input" onchange="UploadCommonFiles('DeltaPlan2100DocLink');" />
                                                                                 <label class="custom-file-label" for="DeltaPlan2100DocLink">Choose file</label>
                                                                             </div>
                                                                         </div>
@@ -1437,7 +1444,8 @@
                                                                         <label>Document Link</label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
-                                                                                <input type="file" class="custom-file-input" id="CostalZoneDocLink">
+                                                                                <input id="CostalZoneDocLink" name="CostalZoneDocLink" type="file"
+                                                                                       class="custom-file-input" onchange="UploadCommonFiles('CostalZoneDocLink');" />
                                                                                 <label class="custom-file-label" for="CostalZoneDocLink">Choose file</label>
                                                                             </div>
                                                                         </div>
@@ -1473,7 +1481,8 @@
                                                                         <label>Document Link</label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
-                                                                                <input type="file" class="custom-file-input" id="AgriDocLink">
+                                                                                <input id="AgriDocLink" name="AgriDocLink" type="file"
+                                                                                       class="custom-file-input" onchange="UploadCommonFiles('AgriDocLink');" />
                                                                                 <label class="custom-file-label" for="AgriDocLink">Choose file</label>
                                                                             </div>
                                                                         </div>
@@ -1509,7 +1518,8 @@
                                                                         <label>Document Link</label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
-                                                                                <input type="file" class="custom-file-input" id="FisheriesDocLink">
+                                                                                <input id="FisheriesDocLink" name="FisheriesDocLink" type="file"
+                                                                                       class="custom-file-input" onchange="UploadCommonFiles('FisheriesDocLink');" />
                                                                                 <label class="custom-file-label" for="FisheriesDocLink">Choose file</label>
                                                                             </div>
                                                                         </div>
@@ -2033,17 +2043,20 @@
                     "UpazilaGeoCode": UpazilaGeoCode,
                     "UnionGeoCode": UnionGeoCode,
                     "Latitude": Latitude,
-                    "Longitude":Longitude
+                    "Longitude": Longitude
                 };
-
+               
                 var url = '@Url.Action("plds", "form")';
                 jQuery.ajax({
                     type: "POST",
                     url: url,
-                    data: { _plds: plds },
+                    data: { _plds: plds },                    
                     dataType: "json",
                     success: function (data, status, jqXHR) {
                         if (data.status == 'success') {
+                            var id = data.id;
+                            SaveProjLocFile(id, ProjectId);
+
                             Notification('success', 'Success', data.message);
                             GetProjLocationsData();
                             ClearProjLocation();
@@ -2065,12 +2078,38 @@
             ClearProjLocation();
         });
 
+        function SaveProjLocFile(locationid, projectid) {            
+            var locfile = jQuery('#ImageFileName').prop('files')[0];
+            
+            var formData = new FormData();
+            formData.append("locationid", locationid);
+            formData.append("projectid", projectid);
+            formData.append("file", locfile);
+
+            var url = '@Url.Action("uplf", "form")';
+            $.ajax({
+                url: url,
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                success: function (data) {
+                    if (data.message != '')
+                        Swal.fire(data.title, data.message, data.status);
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Swal.fire('Error Occured', errorMsg, 'error');
+                }
+            });
+        }
+
         function ClearProjLocation() {
             jQuery("#LocationId").val('');
             jQuery("#DistrictGeoCode").val('');
             jQuery("#UpazilaGeoCode").html('<option val=""></option>');
             jQuery("#UnionGeoCode").html('<option val=""></option>');
             jQuery("#Latitude, #Longitude").val('');
+            jQuery('#ImageFileName').val('');
         }
 
         function GetProjLocationsData() {
@@ -2084,13 +2123,14 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.length > 0) {
-                        //console.log(data);
+                        console.log('Proj Loc Data Loading...');
+                        console.log(data);
                         var rows = '';
 
                         var count = 0;
                         jQuery.each(data, function (i, item) {
                             ++count;
-                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.districtName + '</td><td>' + item.upazilaName + '</td><td>' + item.unionName + '</td><td>' + item.latitude + '</td><td>' + item.longitude + '</td><td>Attachment File</td><td class="text-center"><button onclick="javascript:EditLoc(' + item.locationId + ', '+item.projectId+');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.locationId + ', '+item.projectId+', \'CcModPrjLocationDetail\'); GetProjLocationsData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.districtName + '</td><td>' + item.upazilaName + '</td><td>' + item.unionName + '</td><td>' + item.latitude + '</td><td>' + item.longitude + '</td><td><a href="' + item.imageFileName + '" target="_blank"><img src="' + item.imageFileName + '" height="50px" /></a></td><td class="text-center"><button onclick="javascript:EditLoc(' + item.locationId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.locationId + ', ' + item.projectId + ', \'CcModPrjLocationDetail\'); GetProjLocationsData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
                         });
 
                         jQuery("#tbodyProjectLocation").html(rows);
@@ -3871,5 +3911,32 @@
                 }
             });
         });
+        
+        function UploadCommonFiles(inputid) {
+	        var projectid = GetHiddenValue('ProjectId');
+	        var input = document.getElementById(inputid);
+	        var files = input.files;
+	
+	        var formData = new FormData();
+	        formData.append("projectid", projectid);	
+	        formData.append("controltitle", inputid);
+	        formData.append("file", files[0]);
+
+            var url = '@Url.Action("ucdf", "form")';
+	        $.ajax({
+		        url: url,
+		        data: formData,
+		        processData: false,
+		        contentType: false,
+		        type: "POST",
+		        success: function (data) {
+			        if (data.message != '')
+				        Swal.fire(data.title, data.message, data.status);
+		        }, error: function (jqXHR, exception) {
+			        var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			        Swal.fire('Error Occured', errorMsg, 'error');
+		        }
+	        });
+        }
     </script>
 }
