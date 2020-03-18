@@ -102,6 +102,7 @@
                     <th class="text-center">District</th>
                     <th class="text-center">Latitude</th>
                     <th class="text-center">Longitude</th>
+                    <th class="text-center">Attchments</th>
                 </tr>
             </thead>
             <tbody id="tbodyProjectLocationPreview"></tbody>
@@ -415,8 +416,8 @@
         <tr>
             <td id="pDiscussWithStakePosFeedback">XXXXXXXXXX</td>
             <td id="pDiscussWithStakeNegFeedback">XXXXXXXXXX</td>
-            <td id="DiscussWithStakeParticipntLst">Uploaded File</td>
-            <td id="DiscussWithStakeMeetingMin">Uploaded File</td>
+            <td><a id="lnkDiscussWithStakeParticipntLst" href="" target="_blank"></a></td>
+            <td><a id="lnkDiscussWithStakeMeetingMin" href="" target="_blank"></a></td>
         </tr>
     </table><br />
 
@@ -578,7 +579,7 @@
             <td class="text-center" id="pcwnwpNo"></td>
             <td class="text-center" id="pCompatibilityNWPApplicantCmt"></td>
             <td class="text-center" id="pCompatibilityNWPAuthorityCmt"></td>
-            <td class="text-center" id="CompatibilityNWPDocLink"></td>
+            <td class="text-center"><a id="lnkCompatibilityNWPDocLink" href="" target="_blank"></a></td>
         </tr>
     </table><br />
     <p>If yes</p>
@@ -600,7 +601,7 @@
             <td class="text-center" id="pcnwmpNo"></td>
             <td id="pNWMPApplicantCmt"></td>
             <td id="pNWMPAuthorityCmt"></td>
-            <td id="NWMPDocLink"></td>
+            <td><a id="lnkNWMPDocLink" href="" target="_blank"></a></td>
         </tr>
     </table><br />
     <p>If yes</p> <br />
@@ -640,7 +641,7 @@
             <td class="text-center" id="pcwsdgNo"></td>
             <td id="pSDGApplicantCmt"></td>
             <td id="pSDGAuthorityCmt"></td>
-            <td id="SDGDocLink"></td>
+            <td><a id="lnkSDGDocLink" href="" target="_blank"></a></td>
         </tr>
     </table><br />
     <p>If yes</p>
@@ -664,7 +665,7 @@
             <td class="text-center" id="pcwbdp2100No"></td>
             <td id="pDeltaPlan2100ApplicantCmt"></td>
             <td id="pDeltaPlan2100AuthorityCmt"></td>
-            <td id="DeltaPlan2100DocLink"></td>
+            <td><a id="lnkDeltaPlan2100DocLink" href="" target="_blank"></a></td>
         </tr>
     </table><br />
     <p>If yes</p>
@@ -686,7 +687,7 @@
             <td class="text-center" id="pcwczpNo"></td>
             <td id="pCostalZoneApplicantCmt"></td>
             <td id="pCostalZoneAuthorityCmt"></td>
-            <td id="CostalZoneDocLink"></td>
+            <td><a id="lnkCostalZoneDocLink" href="" target="_blank"></a></td>
         </tr>
     </table><br />
 
@@ -706,7 +707,7 @@
             <td class="text-center" id="pcwapNo"></td>
             <td id="pAgriApplicantCmt"></td>
             <td id="pAgriAuthorityCmt"></td>
-            <td id="AgriDocLink"></td>
+            <td><a id="lnkAgriDocLink" href="" target="_blank"></a></td>
         </tr>
     </table><br />
 
@@ -726,7 +727,7 @@
             <td class="text-center" id="cwfpNo"></td>
             <td id="pFisheriesApplicantCmt"></td>
             <td id="pFisheriesAuthorityCmt"></td>
-            <td id="FisheriesDocLink"></td>
+            <td><a id="lnkFisheriesDocLink" href="" target="_blank"></a></td>
         </tr>
     </table><br />
 
@@ -898,6 +899,10 @@
         return jQuery('#' + control).text(val);
     }
 
+    function pSetAnchorTextValue(control, val) {
+        return jQuery('#' + control).attr('href', '../images/CommonDetails/' + val).text(val);
+    }
+
     function pGetProjLocationsData() {
         var ProjectId = GetHiddenValue('pProjectId');
         var url = '@Url.Action("get_pld", "form")';
@@ -917,16 +922,16 @@
 
                     jQuery.each(data, function (i, item) {
                         ++count;
-                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.unionName + '</td><td>' + item.upazilaName + '</td><td>' + item.districtName + '</td><td class="text-right">' + item.latitude + '</td><td class="text-right">' + item.longitude + '</td></tr>';
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.unionName + '</td><td>' + item.upazilaName + '</td><td>' + item.districtName + '</td><td class="text-right">' + item.latitude + '</td><td class="text-right">' + item.longitude + '</td><td class="text-right"><a href="' + item.imageFileName + '" target="_blank">' + item.onlyImageFileName + '</a></td></tr>';
                     });
 
                     jQuery("#tbodyProjectLocationPreview").html(rows);
                 } else {
-                    jQuery("#tbodyProjectLocationPreview").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                    jQuery("#tbodyProjectLocationPreview").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
                 }
             }, error: function (jqXHR, exception) {
                 var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                jQuery("#tbodyProjectLocationPreview").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+                jQuery("#tbodyProjectLocationPreview").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
             }
         });
     }
@@ -1268,6 +1273,8 @@
             pSetTextValue('pDiscussWithStakeAuthorityCmt', '@ViewBag.ProjectCommonDetail.DiscussWithStakeAuthorityCmt');
             pSetTextValue('pDiscussWithStakePosFeedback', '@ViewBag.ProjectCommonDetail.DiscussWithStakePosFeedback');
             pSetTextValue('pDiscussWithStakeNegFeedback', '@ViewBag.ProjectCommonDetail.DiscussWithStakeNegFeedback');
+            pSetAnchorTextValue('lnkDiscussWithStakeParticipntLst', '@ViewBag.ProjectCommonDetail.DiscussWithStakeParticipntLst');
+            pSetAnchorTextValue('lnkDiscussWithStakeMeetingMin', '@ViewBag.ProjectCommonDetail.DiscussWithStakeMeetingMin');
 
             if ('@ViewBag.ProjectCommonDetail.AnalyzeOptYesNoId' == '1') {
                 jQuery("#pchkAOFOYes").text('✓');
@@ -1312,8 +1319,11 @@
 
             pSetTextValue('pCompatibilityNWPApplicantCmt', '@ViewBag.ProjectCommonDetail.CompatibilityNWPApplicantCmt');
             pSetTextValue('pCompatibilityNWPAuthorityCmt', '@ViewBag.ProjectCommonDetail.CompatibilityNWPAuthorityCmt');
+            pSetAnchorTextValue('lnkCompatibilityNWPDocLink', '@ViewBag.ProjectCommonDetail.CompatibilityNWPDocLink');
 
             var nwp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWPDetail))');
+            console.log('Compat NWP Detail');
+            console.log(nwp);
             jQuery.each(nwp, function (i, item) {
                 jQuery("#pulCwnwpPolicy").append('<li>' + item.nationalWtrPolicyShortTitle + ' (' + item.nationalWtrPolicyArticleTitle + ') </li>');
             });
@@ -1328,6 +1338,7 @@
 
             pSetTextValue('pNWMPApplicantCmt', '@ViewBag.ProjectCommonDetail.NWMPApplicantCmt');
             pSetTextValue('pNWMPAuthorityCmt', '@ViewBag.ProjectCommonDetail.NWMPAuthorityCmt');
+            pSetAnchorTextValue('lnkNWMPDocLink', '@ViewBag.ProjectCommonDetail.NWMPDocLink');
 
             var nwmp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWMPDetail))');
             jQuery.each(nwmp, function (i, item) {
@@ -1355,6 +1366,7 @@
 
             pSetTextValue('pSDGApplicantCmt', '@ViewBag.ProjectCommonDetail.SDGApplicantCmt');
             pSetTextValue('pSDGAuthorityCmt', '@ViewBag.ProjectCommonDetail.SDGAuthorityCmt');
+            pSetAnchorTextValue('lnkSDGDocLink', '@ViewBag.ProjectCommonDetail.SDGDocLink');
 
             var sdgdetail = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatSDGDetail))');
             jQuery.each(sdgdetail, function (i, item) {
@@ -1376,6 +1388,7 @@
 
             pSetTextValue('pDeltaPlan2100ApplicantCmt', '@ViewBag.ProjectCommonDetail.DeltaPlan2100ApplicantCmt');
             pSetTextValue('pDeltaPlan2100AuthorityCmt', '@ViewBag.ProjectCommonDetail.DeltaPlan2100AuthorityCmt');
+            pSetAnchorTextValue('lnkDeltaPlan2100DocLink', '@ViewBag.ProjectCommonDetail.DeltaPlan2100DocLink');
 
             var bdp2100goal = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.BDP2100GoalDetail))');
             jQuery.each(bdp2100goal, function (i, item) {
@@ -1392,6 +1405,7 @@
 
             pSetTextValue('pCostalZoneApplicantCmt', '@ViewBag.ProjectCommonDetail.CostalZoneApplicantCmt');
             pSetTextValue('pCostalZoneAuthorityCmt', '@ViewBag.ProjectCommonDetail.CostalZoneAuthorityCmt');
+            pSetAnchorTextValue('lnkCostalZoneDocLink', '@ViewBag.ProjectCommonDetail.CostalZoneDocLink');
 
             if ('@ViewBag.ProjectCommonDetail.AgriculturalYesNoId' == '1') {
                 jQuery("#pcwapYes").text('✓');
@@ -1403,6 +1417,7 @@
 
             pSetTextValue('pAgriApplicantCmt', '@ViewBag.ProjectCommonDetail.AgriApplicantCmt');
             pSetTextValue('pAgriAuthorityCmt', '@ViewBag.ProjectCommonDetail.AgriAuthorityCmt');
+            pSetAnchorTextValue('lnkAgriDocLink', '@ViewBag.ProjectCommonDetail.AgriDocLink');
 
             if ('@ViewBag.ProjectCommonDetail.FisheriesYesNoId' == '1') {
                 jQuery("#pcwfpYes").text('✓');
@@ -1414,6 +1429,7 @@
 
             pSetTextValue('pFisheriesApplicantCmt', '@ViewBag.ProjectCommonDetail.FisheriesApplicantCmt');
             pSetTextValue('pFisheriesAuthorityCmt', '@ViewBag.ProjectCommonDetail.FisheriesAuthorityCmt');
+            pSetAnchorTextValue('lnkFisheriesDocLink', '@ViewBag.ProjectCommonDetail.FisheriesDocLink');
 
             if ('@ViewBag.ProjectCommonDetail.IWRMYesNoId' == '1') {
                 jQuery("#pcwiwrmYes").text('✓');

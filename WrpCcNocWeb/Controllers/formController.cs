@@ -28,6 +28,8 @@ namespace WrpCcNocWeb.Controllers
         private readonly WrpCcNocDbContext _db = new WrpCcNocDbContext();
         private readonly CommonHelper ch = new CommonHelper();
         private Notification noti = new Notification();
+        private readonly string rootDirOfProjFile = "../images";
+        private readonly string rootDirOfDocs = "../docs";
         #endregion
 
         private readonly ILogger<formController> logger;
@@ -238,11 +240,18 @@ namespace WrpCcNocWeb.Controllers
                 ViewBag.TypesOfFloodDetail = _typesofflood;
 
                 var _compatnwpdetail = _db.CcModPrjCompatNWPDetail.Where(w => w.ProjectId == _psi.ProjectId)
-                                       .Select(x => new { x.PrjCompatNWPId, x.ProjectId, x.NationalWaterPolicyArticleId }).ToList();
+                                       .Select(x => new
+                                       {
+                                           x.PrjCompatNWPId,
+                                           x.ProjectId,
+                                           x.NationalWaterPolicyArticleId,
+                                           x.LookUpCcModNWPArticle.NationalWtrPolicyShortTitle,
+                                           x.LookUpCcModNWPArticle.NationalWtrPolicyArticleTitle
+                                       }).ToList();
                 ViewBag.CompatNWPDetail = _compatnwpdetail;
 
                 var _compatnwmpdetail = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == _psi.ProjectId)
-                                       .Select(x => new { x.PrjCompatNWMPId, x.ProjectId, x.NWMPProgrammeId }).ToList();
+                                       .Select(x => new { x.PrjCompatNWMPId, x.ProjectId, x.NWMPProgrammeId, x.LookUpCcModNWMPProgramme.NWMPProgrammeTitle }).ToList();
                 ViewBag.CompatNWMPDetail = _compatnwmpdetail;
 
                 var _compatsdgdetail = _db.CcModPrjCompatSDGDetail.Where(w => w.ProjectId == _psi.ProjectId)
@@ -834,7 +843,8 @@ namespace WrpCcNocWeb.Controllers
                                     un.UnionName,
                                     Latitude = string.IsNullOrEmpty(d.Latitude) ? string.Empty : d.Latitude,
                                     Longitude = string.IsNullOrEmpty(d.Longitude) ? string.Empty : d.Longitude,
-                                    ImageFileName = String.Format("{0}/{1}", "../images/ProjectLocationPhotos", d.ImageFileName)
+                                    ImageFileName = String.Format("{0}/{1}/{2}", rootDirOfProjFile, "ProjectLocationPhotos", d.ImageFileName),
+                                    OnlyImageFileName = d.ImageFileName
                                 }).OrderBy(o => o.LocationId).ToList();
 
                 if (_details.Count > 0)
@@ -2493,7 +2503,7 @@ namespace WrpCcNocWeb.Controllers
                         _db.Entry(pcd).State = EntityState.Modified;
                         _db.Entry(p31id).State = EntityState.Modified;
 
-                        if (CompatNWPDetail.Count > 0)
+                        if (CompatNWPDetail != null && CompatNWPDetail.Count > 0)
                         {
                             List<CcModPrjCompatNWPDetail> _cnwp = _db.CcModPrjCompatNWPDetail.Where(w => w.ProjectId == ProjectId).ToList();
 
@@ -2505,7 +2515,7 @@ namespace WrpCcNocWeb.Controllers
                             _db.CcModPrjCompatNWPDetail.AddRange(CompatNWPDetail);
                         }
 
-                        if (CompatNWMPDetail.Count > 0)
+                        if (CompatNWMPDetail != null && CompatNWMPDetail.Count > 0)
                         {
                             List<CcModPrjCompatNWMPDetail> _cnwmp = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == ProjectId).ToList();
 
@@ -2517,7 +2527,7 @@ namespace WrpCcNocWeb.Controllers
                             _db.CcModPrjCompatNWMPDetail.AddRange(CompatNWMPDetail);
                         }
 
-                        if (CompatSDGDetail.Count > 0)
+                        if (CompatSDGDetail != null && CompatSDGDetail.Count > 0)
                         {
                             List<CcModPrjCompatSDGDetail> _csdg = _db.CcModPrjCompatSDGDetail.Where(w => w.ProjectId == ProjectId).ToList();
 
@@ -2529,7 +2539,7 @@ namespace WrpCcNocWeb.Controllers
                             _db.CcModPrjCompatSDGDetail.AddRange(CompatSDGDetail);
                         }
 
-                        if (CompatSDGIndiDetail.Count > 0)
+                        if (CompatSDGIndiDetail != null && CompatSDGIndiDetail.Count > 0)
                         {
                             List<CcModPrjCompatSDGIndiDetail> _csdgi = _db.CcModPrjCompatSDGIndiDetail.Where(w => w.ProjectId == ProjectId).ToList();
 
@@ -2541,7 +2551,7 @@ namespace WrpCcNocWeb.Controllers
                             _db.CcModPrjCompatSDGIndiDetail.AddRange(CompatSDGIndiDetail);
                         }
 
-                        if (BDP2100GoalDetail.Count > 0)
+                        if (BDP2100GoalDetail != null && BDP2100GoalDetail.Count > 0)
                         {
                             List<CcModBDP2100GoalDetail> _bdp2100goal = _db.CcModBDP2100GoalDetail.Where(w => w.ProjectId == ProjectId).ToList();
 
@@ -2553,7 +2563,7 @@ namespace WrpCcNocWeb.Controllers
                             _db.CcModBDP2100GoalDetail.AddRange(BDP2100GoalDetail);
                         }
 
-                        if (GPWMGroupTypeDetail.Count > 0)
+                        if (GPWMGroupTypeDetail != null && GPWMGroupTypeDetail.Count > 0)
                         {
                             List<CcModGPWMGroupTypeDetail> _gpwm = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == ProjectId).ToList();
 
@@ -2660,6 +2670,10 @@ namespace WrpCcNocWeb.Controllers
                         }
 
                         #region Common Detail Data Binding for Recommendation
+                        pcd.NocTypeId = _recDetail.NocTypeId;
+                        pcd.PaymentMethodId = _recDetail.PaymentMethodId;
+                        pcd.PaymentDocNumber = _recDetail.PaymentDocNumber;
+                        pcd.PaidAmount = _recDetail.PaidAmount;
                         pcd.RecommendationId = _recDetail.RecommendationId;
                         pcd.RecommendationComment = _recDetail.RecommendationComment;
                         #endregion
@@ -2675,7 +2689,7 @@ namespace WrpCcNocWeb.Controllers
                             {
                                 id = pcd.ProjectId.ToString(),
                                 status = "success",
-                                message = "Recommendation information has been save successfully. "
+                                message = "Administrative information has been save successfully."
                             };
 
                             goto Finish;
@@ -3162,6 +3176,14 @@ namespace WrpCcNocWeb.Controllers
                         case "FisheriesDocLink":
                             pcd.FisheriesDocLink = filename;
                             break;
+
+                        case "NocFileName":
+                            pcd.NocFileName = filename;
+                            break;
+
+                        case "PaymentDocFileName":
+                            pcd.PaymentDocFileName = filename;
+                            break;
                     }
 
                     _db.Entry(pcd).State = EntityState.Modified;
@@ -3327,6 +3349,14 @@ namespace WrpCcNocWeb.Controllers
 
                 case "FisheriesDocLink":
                     result = projectId + "_FISDL_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "NocFileName":
+                    result = projectId + "_NOC_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "PaymentDocFileName":
+                    result = projectId + "_PAYDF_" + DateTime.Now.ToString("yyMMddHHmmssfff");
                     break;
             }
 
