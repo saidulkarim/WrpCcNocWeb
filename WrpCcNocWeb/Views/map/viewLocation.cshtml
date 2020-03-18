@@ -10,6 +10,7 @@
     <link href="~/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
     <link href="~/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
 
+    <link href="~/css/msgstyle.css" rel="stylesheet" />
     <link href="~/css/mapstyle.css" rel="stylesheet" />
     <link href="~/lib/photo-viewer/css/photo.viewer.css" rel="stylesheet" />
     <link href="~/lib/leaflet/leaflet.css" rel="stylesheet" />
@@ -21,6 +22,7 @@
     <link href="~/css/app.min.css" rel="stylesheet" type="text/css" />
     <link href="~/libs/jquery-toast/toastr.css" rel="stylesheet" type="text/css" />
     
+
     <style>
         body {
             margin: 0;
@@ -29,7 +31,7 @@
 
         #map {
             position: absolute;
-            top: 20%;
+            top: 0;
             bottom: 0;
             right: 0;
             left: 0;
@@ -39,7 +41,7 @@
         .leaflet-zoom-anim .leaflet-zoom-animated {
             will-change: auto !important;
         }
-        
+
         .leaflet-popup-content {
             width: auto !important;
         }
@@ -59,23 +61,23 @@
             padding: 0;
         }
 
-        .admin-bds > .row {
-            border-color: #ccc;
-            border-style: solid;
-            border-width: 0 0 1px 0;
-            margin: 0 3px 0 12px;
-            padding: 0;
-        }
+            .admin-bds > .row {
+                border-color: #ccc;
+                border-style: solid;
+                border-width: 0 0 1px 0;
+                margin: 0 3px 0 12px;
+                padding: 0;
+            }
 
-        .admin-bds > .row > [class*="col-"] {
-            border: 0 none;
-            margin: 0;
-            padding: 3px;
-        }
+                .admin-bds > .row > [class*="col-"] {
+                    border: 0 none;
+                    margin: 0;
+                    padding: 3px;
+                }
 
-        .admin-bds > .row > [class*="col-sm-3"] {
-            text-align: center;
-        }
+                .admin-bds > .row > [class*="col-sm-3"] {
+                    text-align: center;
+                }
 
         .data-table {
             width: auto;
@@ -87,11 +89,11 @@
             font: normal 12px/1.5 Roboto, Helvetica, Arial, sans-serif;
         }
 
-        .data-table > tr > th {
-            min-width: 70px;
-            font-weight: bold;
-            text-align: center;
-        }
+            .data-table > tr > th {
+                min-width: 70px;
+                font-weight: bold;
+                text-align: center;
+            }
 
         #basemaps-wrapper {
             position: absolute;
@@ -110,14 +112,14 @@
             background-color: #f6fafc;
             border: 1px solid #fff;
             padding: 3px;
-            font-size:13px;            
+            font-size: 13px;
         }
 
         .altDataRow {
             background-color: #faf9fc;
             border: 1px solid #fff;
             padding: 3px;
-            font-size:13px;
+            font-size: 13px;
         }
 
         .colon {
@@ -132,15 +134,16 @@
             padding: 2px 5px;
         }
 
-        .dataCol {            
-            width: 200px;
+        .dataCol {
+            width: 120px;
             padding: 2px 5px;
-            color:#187fad;
+            color: #187fad;
         }
-
     </style>
 
-    <script type="text/javascript" src="~/libs/jquery/dist/jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    @*<script type="text/javascript" src="~/libs/jquery/dist/jquery.js"></script>*@
     <script type="text/javascript" src="~/lib/leaflet/leaflet.js"></script>
     <script type="text/javascript" src="~/lib/leaflet/tools/d3/d3.js"></script>
     <script type="text/javascript" src="~/lib/leaflet/tools/chroma-js/chroma.min.js"></script>
@@ -153,37 +156,208 @@
     <script type="text/javascript" src="~/js/maps/map_data/legend_theme.js"></script>
     @*<script type="text/javascript" src="~/js/maps/load_map_data.js"></script>*@
     <script type="text/javascript" src="~/lib/photo-viewer/js/photo.viewer.js"></script>
+
 </head>
 <body>
 
     <div id="map_info" class="map_info map-full-screen">
         <div id="map" class="map_content"></div>
-        
-        <div class="map_opt_content">
+        <div id="map_cord_info" class="coordinate_info"></div>
+        @*<div class="map_opt_content">
             <label><input type="checkbox" id="legend_info_opt" checked="checked" title="Show/Hide Map Information" />Map Information</label>
-            <label><input type="checkbox" id="legend_opt" checked="checked" title="Show/Hide Map Legend" />Map Legend</label>
+                 <label><input type="checkbox" id="legend_opt" checked="checked" title="Show/Hide Map Legend" />Map Legend</label>
             <label><input type="checkbox" id="map_label_opt" checked="checked" title="Show/Hide Map Label" />Map Label</label>
-        </div>
+        </div>*@
 
         <div id="map_btns_content" class="map_btns_content">
             <div id="map_center" class="map_btns btn_full_extent" title="Full extent the map"></div>
-            <div id="map_full_screen" class="map_btns btn_full_screen" title="Full-screen the map"></div>
+            @*<div id="map_full_screen" class="map_btns btn_full_screen" title="Full-screen the map"></div>*@
             <div id="filter_option" class="map_btns btn_map_layers" title="Filter the Map" onclick="map_filter_open_close('map_filter', true);"></div>
             <div id="map_bglayers" class="map_btns btn_map_bglayers" title="Select the Map Background Layer"></div>
         </div>
-    </div>    
+
+        <div id="map_filter_bg" class="modal-bg">
+            <div id="map_filter_content" class="modal-content no-select" style="width: 35vw;min-width: 250px;margin: 35px auto 0 auto;">
+                <div id="option_title" class="modal-title">
+                    <span class="modal-title-txt">▣ Map Filter Options</span>
+                    <button class="close" onclick="map_filter_open_close('map_filter', false); return false;">✖</button>
+                </div>
+                <div id="option_content" class="option-content no-select">
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <fieldset style="margin: 5px;">
+                                <legend>▣ Admin Boundaries:</legend>
+
+                                <div class="admin-bds">
+                                    <div class="row">
+                                        <div class="col-sm-6">Admin</div>
+                                        <div class="col-sm-3">Map</div>
+                                        <div class="col-sm-3">Label</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label for="admin_dist">☐ District</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="checkbox" id="admin_dist" class="multi-chkbx admin" title="Show/Hide District Boundary" />
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="checkbox" id="admin_label_dist" class="multi-chkbx admin-label" disabled title="Show/Hide District Label" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label for="admin_upaz">⚀ Upazila</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="checkbox" id="admin_upaz" class="multi-chkbx admin" title="Show/Hide Upazila Boundary" />
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="checkbox" id="admin_label_upaz" class="multi-chkbx admin-label" disabled title="Show/Hide Upazila Label" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label for="admin_union">☉ Union</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="checkbox" id="admin_union" class="multi-chkbx admin" title="Show/Hide Union Boundary" />
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="checkbox" id="admin_label_union" class="multi-chkbx admin-label" disabled title="Show/Hide Union Label" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <fieldset style="margin: 5px;">
+                                <legend>▣ Others Map Layers</legend>
+                                <div class="checkbox" style="margin: 5px 0 0 15px;">
+                                    <!--<div class="checkbox">
+                                        <label for="wtr_body"><input type="checkbox" id="wtr_body" class="multi-chkbx other_layer" data="WBNAME" title="Show/Hide Waterbodies" />Waterbodies</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label for="mjr_river"><input type="checkbox" id="mjr_river" class="multi-chkbx other_layer" data="RIVNAME" title="Show/Hide Major Rivers" />Major Rivers</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label for="main_river"><input type="checkbox" id="main_river" class="multi-chkbx other_layer" data="RIVNAME" title="Show/Hide Main Rivers" />Main Rivers</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label for="det_river"><input type="checkbox" id="det_river" class="multi-chkbx other_layer" data="RIVNAME" title="Show/Hide Detail Rivers" />Detail Rivers</label>
+                                    </div>-->
+
+                                    <div class="checkbox">
+                                        <label for="all_river"><input type="checkbox" id="all_river" class="multi-chkbx layer" data="RIV_NM" title="Show/Hide All Rivers" />All River</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label for="major_river"><input type="checkbox" id="major_river" class="multi-chkbx layer" data="RIVNAME" title="Show/Hide Major Rivers" />Major River</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-sm-6">
+
+                            <fieldset style="margin: 5px;">
+                                <legend>▣ Waterbodies & Rivers</legend>
+                                <div class="checkbox" style="margin: 5px 0 0 15px;">
+                                    <div class="checkbox">
+                                        <label for="wtr_body"><input type="checkbox" id="wtr_body" class="multi-chkbx other_layer" data="WBNAME" title="Show/Hide Waterbodies" />Waterbodies</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label for="mjr_river"><input type="checkbox" id="mjr_river" class="multi-chkbx other_layer" data="RIVNAME" title="Show/Hide Major Rivers" />Major Rivers</label>
+                                    </div>
+                                    <!--<div class="checkbox">
+                                        <label for="main_river"><input type="checkbox" id="main_river" class="multi-chkbx other_layer" data="RIVNAME" title="Show/Hide Main Rivers" />Main Rivers</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label for="det_river"><input type="checkbox" id="det_river" class="multi-chkbx other_layer" data="RIVNAME" title="Show/Hide Detail Rivers" />Detail Rivers</label>
+                                    </div>-->
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="option-footer">
+                    <div class="row" style="border-top: 1px solid #fff;">
+                        <div class="col-sm-12" style="text-align: center;padding: 5px 5px 6px 5px;">
+                            <button class="modal-btns modal-close" onclick="map_filter_open_close('map_filter', false); return false;">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script type="text/javascript">
+
+
+var draggable_modal = function (title, content, modalBg, kbIsActive) {
+    $("body").on("mousedown touchstart", "#" + title, function (evt) {
+        $("#" + content).addClass("draggable");
+        var ptSt = evt.type === "touchstart" ? (evt.originalEvent.touches[0] || evt.originalEvent.changedTouches[0]) : evt;
+        var offsetY = ptSt.clientY - $(".draggable").offset().top;
+        var offsetX = ptSt.clientX - $(".draggable").offset().left;
+        $("body").on("mousemove touchmove", function (e) {
+            var ptMv = e.type === "touchmove" ? (e.originalEvent.touches[0] || e.originalEvent.changedTouches[0]) : e;
+            $(".draggable").offset({
+                top: ptMv.clientY - offsetY,
+                left: ptMv.clientX - offsetX
+            }).on("mouseup touchend touchcancel", function () {
+                $("#" + content).removeClass("draggable");
+                $("body").off("mousemove touchmove", false);
+            });
+            e.preventDefault();
+        });
+    }).on("mouseup touchend touchcancel", function () {
+        $(".draggable").removeClass("draggable");
+        $("body").off("mousemove touchmove", false);
+    });
+
+    if (kbIsActive) {
+        $("body").on("keyup", function (e) {
+            if (e.which === 27 || e.which === 13)
+                $("#" + modalBg).hide();
+        });
+    }
+};
+
+var modal_open = function (content, top) {
+    top = top || 0;
+
+    $("#" + content + "_content").css({ top: "-50%", left: 0, opacity: 0 });
+    $("#" + content + "_bg").fadeIn(430,
+        function () {
+            $("#" + content + "_content").animate({ top: top, opacity: 1 }, 500);
+        });
+},
+    modal_close = function (content) {
+        $("#" + content + "_content").animate({ top: "-50%", opacity: 0 },
+            500,
+            function () {
+                $("#" + content + "_bg").fadeOut(430);
+            });
+    };
+
+
+
         var projectId = parseInt("@ViewBag.ProjectId");
         var map,
             mapZoom = 7,
             dataCode,
             dataName,
             dataAdminCode,
-            dataAdminName,            
+            dataAdminName,
             map_data = [],
             other_data = [],
-            //data_info = [],            
+            //data_info = [],
             noDataColor = "#FFFFFF",
             defaultTheme,
             dataLayer = null,
@@ -200,12 +374,13 @@
                 fillOpacity: 0.8
             },
             adminFocused = null;
-        
+
         $(function () {
 
-            //$("#admin_info").val("dist");
-            //dataAdminCode = $("#admin_info").val();
-            //dataAdminName = $("#admin_info option:selected").text();
+            $("#admin_info").val("dist");
+
+            dataAdminCode = $("#admin_info").val();
+            dataAdminName = $("#admin_info option:selected").text();
 
             //dataCode = $("#survey_info").val();
             //dataName = $("#survey_info option:selected").text();
@@ -215,7 +390,7 @@
             set_basic_opts();
 
             //load_project_location_info();
-            //draggable_modal("option_title", "map_filter_content", "map_filter_bg", false);
+            draggable_modal("option_title", "map_filter_content", "map_filter_bg", false);
             //draggable_modal("data_title", "map_data_content", "map_data_bg", false);
 
         });
@@ -233,7 +408,7 @@
 
                 return false;
             }
-                        
+
             var blankUrl = "../images/blank.png",
                 osmUrl = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 googleUrlHy = "http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}",
@@ -242,7 +417,7 @@
                 googleUrlTr = "http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
                 mapbUrl = "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYWxoYWRpLWNzZSIsImEiOiJjamx1azJ5emcwamlkM3ZxeHB0ajB0d3I1In0.k_DovXLLPpp7fQ_i685ocA",
                 esriUrl = "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                mapAttrib = "Map data © <a href='https://www.cegisbd.com/' target='_blank'>CEGIS</a> & <a href='http://badc.gov.bd/' target='_blank'>BADC</a>";
+                mapAttrib = "©<a href='http://www.warpo.gov.bd/' target='_blank'>WARPO</a> & Developed by <a href='https://www.cegisbd.com/' target='_blank'>CEGIS</a>";
 
             var openstreet = L.tileLayer(osmUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib }),
                 googleHy = L.tileLayer(googleUrlHy, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
@@ -253,7 +428,7 @@
                 mapboxSt = L.tileLayer(mapbUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, id: "mapbox.streets", attribution: mapAttrib }),
                 esri = L.tileLayer(esriUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib }),
                 blank = L.tileLayer(blankUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib });
-            
+
             map = new L.Map("map",
                 {
                     center: new L.LatLng(23.737777, 90.537777),
@@ -331,158 +506,157 @@
                     $("#map_info").toggleClass("map-full-screen");
                 });
 
-                /*                $("input[type='checkbox'].multi-chkbx.admin").each(function () {
-                                $(this).on("change",
-                                    function () {
+            $("input[type='checkbox'].multi-chkbx.admin").each(function () {
+                $(this).on("change",
+                    function () {
 
-                                        if (!$(this).prop("id").replace("admin_", ""))
-                                            return;
+                        if (!$(this).prop("id").replace("admin_", ""))
+                            return;
 
-                                        var adminCode = $(this).prop("id").replace("admin_", "");
+                        var adminCode = $(this).prop("id").replace("admin_", "");
 
-                                        $("#busy-indicator").fadeIn();
+                        $("#busy-indicator").fadeIn();
 
-                                        if (this.checked)
-                                            add_admin_boundary(adminCode);
-                                        else
-                                            remove_admin_boundary(adminCode);
+                        if (this.checked)
+                            add_admin_boundary(adminCode);
+                        else
+                            remove_admin_boundary(adminCode);
 
-                                        $("#busy-indicator").fadeOut();
-                                    });
-                            });
+                        $("#busy-indicator").fadeOut();
+                    });
+            });
 
-                            $("input[type='checkbox'].multi-chkbx.other_layer").each(function () {
-                                $(this).on("change",
-                                    function () {
-                                        if (!$(this).prop("id"))
-                                            return;
+            $("input[type='checkbox'].multi-chkbx.other_layer").each(function () {
+                $(this).on("change",
+                    function () {
+                        if (!$(this).prop("id"))
+                            return;
 
-                                        var layerCode = $(this).prop("id"),
-                                            layerDataCode = $(this).attr("data");
+                        var layerCode = $(this).prop("id"),
+                            layerDataCode = $(this).attr("data");
 
-                                        $("#busy-indicator").fadeIn();
+                        $("#busy-indicator").fadeIn();
 
-                                        if (this.checked) {
+                        if (this.checked) {
 
-                                            if ($("#" + layerCode + "_data_code").length) {
+                            if ($("#" + layerCode + "_data_code").length) {
 
-                                                $("#" + layerCode + "_data_code").show(250);
+                                $("#" + layerCode + "_data_code").show(250);
 
-                                                if ($("#" + layerCode + "_data_code").val()) {
-                                                    layerDataCode = $("#" + layerCode + "_data_code").val();
-                                                } else {
-                                                    $("#" + layerCode + "_data_code").val(layerDataCode);
-                                                }
-
-                                                $("#" + layerCode + "_data_code").on("change", function (e) { resetOtherDataLayerStyle(layerCode, $(this).val()); });
-
-                                                //setOtherDataLayerStyle(layerCode, $(this).val());
-                                                //console.log(mapLayers["other_" + layerCode].layer.onEachFeature);
-                                            }
-
-                                            add_other_layer(layerCode, layerDataCode);
-
-                                        }
-                                        else {
-                                            remove_other_layer(layerCode);
-
-                                            if ($("#" + layerCode + "_data_code").length) {
-                                                $("#" + layerCode + "_data_code").hide(250);
-                                                $("#" + layerCode + "_data_code").off("change");
-                                            }
-                                        }
-
-                                        $("#busy-indicator").fadeOut();
-                                    });
-                            });
-
-                            $("input[type='checkbox'].multi-chkbx.admin-label").each(function () {
-                                $(this).on("change",
-                                    function () {
-                                        if (!$(this).prop("id").replace("admin_label_", ""))
-                                            return;
-
-                                        var adminCode = $(this).prop("id").replace("admin_label_", "");
-
-                                        $("#busy-indicator").fadeIn();
-
-                                        add_remove_admin_label(adminCode, this.checked);
-
-                                        $("#busy-indicator").fadeOut();
-                                    });
-                            });
-
-                            $("#admin_info").on("change",
-                                function () {
-                                    dataAdminCode = $("#admin_info").val();
-                                    dataAdminName = $("#admin_info option:selected").text();
-
-                                    //dataCode = $("#survey_info").val();
-                                    //dataName = $("#survey_info option:selected").text();
-                                    //equipmentId = $("#survey_info option:selected").attr("data-id");
-
-                                    set_survey_data();
-                                    return false;
-                                });
-
-
-                            $("#data_year").on("change",
-                                function () {
-                                    set_survey_data();
-                                    return false;
-                                });
-
-
-                            $("#survey_info").on("change",
-                                function () {
-
-                                    if ($("#survey_info").val()) {
-                                        //dataAdminCode = $("#admin_info").val();
-                                        //dataAdminName = $("#admin_info option:selected").text();
-
-                                        dataCode = $("#survey_info").val();
-                                        dataName = $("#survey_info option:selected").text();
-                                        equipmentId = $("#survey_info option:selected").attr("data-id");
-
-                                        set_survey_data();
-                                    }
-                                });
-
-                            $("#legend_theme").on("change",
-                                function () {
-                                    set_survey_data();
-                                });
-
-                            //$("#legend_theme").on("change", function () {
-                            //    map_init($("#admin_info").val());
-                            //});
-
-                            $("#legend_info_opt").change(function () {
-                                if (this.checked) {
-                                    legend_open_close("legend_info", "open", "left");
+                                if ($("#" + layerCode + "_data_code").val()) {
+                                    layerDataCode = $("#" + layerCode + "_data_code").val();
                                 } else {
-                                    legend_open_close("legend_info", "close", "left");
+                                    $("#" + layerCode + "_data_code").val(layerDataCode);
                                 }
-                                return false;
-                            });
 
-                            $("#legend_opt").change(function () {
-                                if (this.checked) {
-                                    legend_open_close("legend", "open", "right");
-                                } else {
-                                    legend_open_close("legend", "close", "right");
-                                }
-                                return false;
-                            });
+                                $("#" + layerCode + "_data_code").on("change", function (e) { resetOtherDataLayerStyle(layerCode, $(this).val()); });
+
+                                //setOtherDataLayerStyle(layerCode, $(this).val());
+                                //console.log(mapLayers["other_" + layerCode].layer.onEachFeature);
+                            }
+
+                            add_other_layer(layerCode, layerDataCode);
+
+                        }
+                        else {
+                            remove_other_layer(layerCode);
+
+                            if ($("#" + layerCode + "_data_code").length) {
+                                $("#" + layerCode + "_data_code").hide(250);
+                                $("#" + layerCode + "_data_code").off("change");
+                            }
+                        }
+
+                        $("#busy-indicator").fadeOut();
+                    });
+            });
+
+            $("input[type='checkbox'].multi-chkbx.admin-label").each(function () {
+                $(this).on("change",
+                    function () {
+                        if (!$(this).prop("id").replace("admin_label_", ""))
+                            return;
+
+                        var adminCode = $(this).prop("id").replace("admin_label_", "");
+
+                        $("#busy-indicator").fadeIn();
+
+                        add_remove_admin_label(adminCode, this.checked);
+
+                        $("#busy-indicator").fadeOut();
+                    });
+            });
+
+            $("#admin_info").on("change",
+                function () {
+                    dataAdminCode = $("#admin_info").val();
+                    dataAdminName = $("#admin_info option:selected").text();
+
+                    //dataCode = $("#survey_info").val();
+                    //dataName = $("#survey_info option:selected").text();
+                    //equipmentId = $("#survey_info option:selected").attr("data-id");
+
+                    //set_survey_data();
+                    return false;
+                });
+
+        /*
+            $("#data_year").on("change",
+                function () {
+                    set_survey_data();
+                    return false;
+                });
 
 
-                            $("#basic_survey").on("change", function () { set_data_layer(this.checked); });
+            $("#survey_info").on("change",
+                function () {
 
-                            $("#eqp_loc").on("change", function () { set_equipment_locations(this.checked); });
+                    if ($("#survey_info").val()) {
+                        //dataAdminCode = $("#admin_info").val();
+                        //dataAdminName = $("#admin_info option:selected").text();
+
+                        dataCode = $("#survey_info").val();
+                        dataName = $("#survey_info option:selected").text();
+                        equipmentId = $("#survey_info option:selected").attr("data-id");
+
+                        set_survey_data();
+                    }
+                });
+
+            $("#legend_theme").on("change",
+                function () {
+                    set_survey_data();
+                });
+
+            //$("#legend_theme").on("change", function () {
+            //    map_init($("#admin_info").val());
+            //});
+
+            $("#legend_info_opt").change(function () {
+                if (this.checked) {
+                    legend_open_close("legend_info", "open", "left");
+                } else {
+                    legend_open_close("legend_info", "close", "left");
+                }
+                return false;
+            });
+
+            $("#legend_opt").change(function () {
+                if (this.checked) {
+                    legend_open_close("legend", "open", "right");
+                } else {
+                    legend_open_close("legend", "close", "right");
+                }
+                return false;
+            });
 
 
-                            //tt();
-                            //add_admin_boundary("div"); */
+            $("#basic_survey").on("change", function () { set_data_layer(this.checked); });
+
+            $("#eqp_loc").on("change", function () { set_equipment_locations(this.checked); });
+
+
+            //tt(); */
             set_project_locations(true);
 
             return true;
@@ -492,22 +666,22 @@
         function set_project_locations(isShow) {
 
             if (isShow) {
-                try {                   
+                try {
                      var url = '@Url.Action("GetProjectLocation", "map")';
-                    
+
                      $.ajax({
-                        type: "GET",                        
+                        type: "GET",
                         url: url,
-                        dataType: "json", 
+                        dataType: "json",
                         data: { projectId: projectId },
                         cache: false,
                         beforeSend: function () {
                             $("#busy-indicator").fadeIn();
-                        },                       
+                        },
                         success: function (locData) {
 
                             var allLocations = locData && locData.value ? locData.value : null;
-                                                        
+
                             if (allLocations && allLocations.length > 0) {
 
                                 var icon = {
@@ -519,30 +693,30 @@
                                     fillColor: "red",
                                     fillOpacity: 0.4
                                 },
-                                getLatLng = function (lat, lng) {                                        
+                                getLatLng = function (lat, lng) {
                                     return new L.LatLng(lat, lng);
                                 },
                                 getInfo = function (el) {
                                     if (!el)
                                         return "";
-                                                                       
+
                                     var admin_boundary_name = "";
 
-                                    if (el.dist_code != "") {                                        
+                                    if (el.dist_code != "") {
                                         admin_boundary_name = "<tr class='dataRow'><td class='headCol'>District</td><td class='colon'> : </td><td class='dataCol'>" + el.district+ "</td></tr>";
 
-                                        if(el.upaz_code != "") {                                                                                
+                                        if(el.upaz_code != "") {
                                             admin_boundary_name = admin_boundary_name + "<tr class='altDataRow'><td class='headCol'>Upazila</td><td class='colon'> : </td><td class='dataCol'>" + el.upazila+ "</td></tr>";
 
-                                            if(el.union_code != "") {                                               
-                                                admin_boundary_name = admin_boundary_name + "<tr class='dataRow'><td class='headCol'>Union</td><td> : </td><td class='dataCol'>" + el.union+ "</td></tr>";
+                                            if(el.union_code != "") {
+                                                admin_boundary_name = admin_boundary_name + "<tr class='dataRow'><td class='headCol'>Union</td><td class='colon'> : </td><td class='dataCol'>" + el.union+ "</td></tr>";
                                             }
                                         }
                                     }
 
                                     var image_file_name = "../images/ProjectLocationPhotos/" + el.image_file_name;
-                                    
-                                    var img_name = el.project_name;                                                  
+
+                                    var img_name = el.project_name;
 
                                     return "<div style='display:inline-block; overflow:auto; width:650px; max-width:754px; max-height:654px;'>" +
                                         "    <table style='width: 100%;'>" +
@@ -554,26 +728,26 @@
                                         "        <tr>" +
                                         "            <td style='width: 100%; min-width:200px; vertical-align: top;'>" +
                                         "               <table>"
-                                                            + admin_boundary_name + 
-                                        "                   <tr class='altDataRow'><td class='headCol'>Latitude</td><td class='colon'>:</td><td class='dataCol'>" + el.lat + "</td></tr>" + 
-                                        "                   <tr class='dataRow'><td class='headCol'>Longitude</td><td class='colon'>:</td><td class='dataCol'>" + el.lng + "</td></tr>" +                                       
+                                                            + admin_boundary_name +
+                                        "                   <tr class='altDataRow'><td class='headCol'>Latitude</td><td class='colon'>:</td><td class='dataCol'>" + el.lat + "</td></tr>" +
+                                        "                   <tr class='dataRow'><td class='headCol'>Longitude</td><td class='colon'>:</td><td class='dataCol'>" + el.lng + "</td></tr>" +
                                         "               </table>" +
-                                        "            </td>"+ 
+                                        "            </td>"+
                                         "            <td style='width: auto; vertical-align:top;'>" +
-                                        "                <img src='" + image_file_name + "' alt='Picture : " + img_name + "' >" +                                 
+                                        "                <img src='" + image_file_name + "' alt='Picture : " + img_name + "' style='width:550px;height: 450px;' >" +
                                         "            </td>" +
                                         "        </tr>" +
                                         "    </table>" +
                                         "</div>";
-                                };                                                                
-                               
+                                };
+
                                 allLocations.forEach(function (el, i) {
-                                                                        
+
                                     if (el.lat == 'undefined' || el.lng == 'undefined')
                                         return;
-                                                                        
+
                                     icon.radius = 15;
-                                    icon.weight = 2.25;                                    
+                                    icon.weight = 2.25;
                                     icon.color = '#059b9e';
                                     //icon.fillColor = '#c6fcf9';fc9a03
                                     icon.fillColor = '#fc9a03';
@@ -586,7 +760,7 @@
                                                 this.setStyle({
                                                     weight: 3.5,
                                                     opacity: 0.9
-                                                });                                                
+                                                });
                                             },
                                             "mouseout": function () {
                                                 //e.target.resetStyle();
@@ -596,9 +770,9 @@
                                                 });
                                             }
                                         });
-                                                                        
-                                    map.addLayer(location); 
-                                });                                                                
+
+                                    map.addLayer(location);
+                                });
 
                                 $("#map_legend_colors").append(
                                     "<div id='map_legend_loc_1'><label class='map_legend_label'>" +
@@ -611,7 +785,7 @@
                             console.log(ex);
                             msg.init("Error", "Error... . .", "Unable to load project location data !!");
                             $("#busy-indicator").fadeOut();
-                        },                        
+                        },
                         complete: function () {
                             $("#busy-indicator").fadeOut();
                         }
@@ -620,7 +794,506 @@
                 } catch (e) {
                     msg.init("Error", "Error... . .", "Error trying to Unable to load project location data !! <br />" + e.message);
                 }
-            } 
+            }
+        }
+
+
+        function add_remove_admin_label(adminCode, isShow) {
+
+            if (!adminCode || !mapLayers["admin_" + adminCode] || !mapLayers["admin_" + adminCode].label)
+                return;
+
+            if (isShow && !map.hasLayer(mapLayers["admin_" + adminCode].label)) {
+                map.addLayer(mapLayers["admin_" + adminCode].label);
+                return;
+            }
+
+            if (!isShow && map.hasLayer(mapLayers["admin_" + adminCode].label)) {
+                map.removeLayer(mapLayers["admin_" + adminCode].label);
+                return;
+            }
+
+            return;
+        }
+
+
+        function remove_admin_boundary(adminCode) {
+            if (!adminCode) return;
+
+            if (mapLayers["admin_" + adminCode] && map.hasLayer(mapLayers["admin_" + adminCode].layer)) {
+                map.removeLayer(mapLayers["admin_" + adminCode].layer);
+
+                $("#admin_label_" + adminCode).prop("disabled", true);
+
+                if (map.hasLayer(mapLayers["admin_" + adminCode].label))
+                    map.removeLayer(mapLayers["admin_" + adminCode].label);
+            }
+
+            if ($("div#map_legend_" + adminCode)) {
+                $("div#map_legend_" + adminCode).remove();
+            }
+
+            return;
+        }
+
+
+        function add_admin_boundary(adminCode) {
+            if (!adminCode) return;
+
+            var labelClass = "map_label",
+                labelContent = "",
+                offsetLeft = 0,
+                lineStyle = {
+                    pane: "admin-layer",
+                    color: "#5A3322",
+                    weight: 1.0,
+                    opacity: 1,
+                    scale: 0.5,
+                    fill: false,
+                    fillColor: null,
+                    fillOpacity: 0.0
+                },
+                hoverStyle = {
+                    dashArray: null,
+                    zIndex: 9999,
+                    weight: 2.5,
+                    fill: false,
+                    color: "#FC4F3A",
+                    opacity: 1.0,
+                    fillColor: null,
+                    fillOpacity: 0.15
+                },
+                focusStyle = {
+                    dashArray: null,
+                    zIndex: 9999,
+                    weight: 3.0,
+                    fill: true,
+                    color: "#3587EA",
+                    opacity: 1.0,
+                    fillColor: "#35A3E8",
+                    fillOpacity: 0.15
+                };
+
+            switch (adminCode) {
+                case "div":
+                    lineStyle.zIndex = 107;
+                    lineStyle.dashArray = "7 3 2 4 2 3";
+                    lineStyle.color = "#3A2211";
+                    lineStyle.weight = 1.5;
+                    lineStyle.scale = 1.5;
+
+                    hoverStyle.weight = 2.5;
+
+                    offsetLeft = 10;
+                    labelClass = "map_admin_label";
+
+                    labelContent = "<span style='font-size:15px;font-weight:500;color:#123;'>▣ ";
+
+                    $("#map_legend_colors").append("<div id='map_legend_div'><label class='map_legend_label'>" +
+                        "<svg height='15' width='36'> <g fill='none' stroke='#3A2211'> <path stroke-width='1.5' stroke='#3A2211' stroke-linecap='round' stroke-dasharray='5 3 2 3 2 3' d='M7 11 l025 0' /> </g>" +
+                        "<label class='map_legend_color' style='height:0; border: 1px dashed #3A2211;'></label> </svg>" +
+                        "▣ Division Boundary</label> <br /><div>");
+
+                    //$("#map_legend_colors").append("<div id='map_legend_div'><label class='map_legend_label'>" +
+                    //    "<label class='map_legend_color' style='height:0; border: 1px dashed #3A2211;'></label>" +
+                    //    "▣ Division Boundary</label> <br /><div>");
+                    break;
+
+                case "dist":
+                    lineStyle.zIndex = 105;
+                    lineStyle.dashArray = "5 2 1 3 1 2";
+                    lineStyle.color = "#5A3322";
+                    lineStyle.weight = 1.0;
+                    lineStyle.scale = 1.0;
+
+                    hoverStyle.weight = 1.5;
+
+                    offsetLeft = 10;
+                    labelClass = "map_admin_label";
+
+                    labelContent = "<span style='font-size:13px;font-weight:400;color:#137;'>☐ ";
+
+                    $("#map_legend_colors").append("<div id='map_legend_dist'><label class='map_legend_label'>" +
+                        "<svg height='15' width='36'> <g fill='none' stroke='#5A3322'> <path stroke-width='1.0' stroke='#5A3322' stroke-linecap='round' stroke-dasharray='5 2 1 3 1 2' d='M7 11 l025 0' /> </g>" +
+                        "<label class='map_legend_color' style='height:0; border-top: 1px dashed #5A3322;'></label> </svg>" +
+                        "☐ District Boundary</label> <br /><div>");
+
+                    //$("#map_legend_colors").append("<div id='map_legend_dist'><label class='map_legend_label'>" +
+                    //    "<label class='map_legend_color' style='height:0; border-top: 1px dashed #5A3322;'></label>" +
+                    //    "☐ District Boundary</label> <br /><div>");
+                    break;
+
+                case "upaz":
+                    lineStyle.zIndex = 103;
+                    lineStyle.dashArray = "3 2";
+                    lineStyle.color = "#4A0000";
+                    lineStyle.weight = 0.5;
+                    lineStyle.scale = 0.7;
+
+                    hoverStyle.weight = 1.0;
+
+                    labelContent = "⚀ ";
+
+                    $("#map_legend_colors").append("<div id='map_legend_upaz'><label class='map_legend_label'>" +
+                        "<svg height='15' width='36'> <g fill='none' stroke='#4A0000'> <path stroke-width='0.7' stroke='#4A0000' stroke-linecap='round' stroke-dasharray='2 3' d='M7 11 l025 0' /> </g>" +
+                        "<label class='map_legend_color' style='height:1px; background-color:#4A0000;'></label> </svg>" +
+                        "⚀ Upazila Boundary </label> <br /><div>");
+                    break;
+
+                case "union":
+                    lineStyle.zIndex = 102;
+                    lineStyle.dashArray = "2 4";
+                    lineStyle.color = "#AA5533";
+                    lineStyle.weight = 0.5;
+                    lineStyle.scale = 0.5;
+
+                    hoverStyle.weight = 1.0;
+                    labelContent = "☉ ";
+
+                    $("#map_legend_colors").append("<div id='map_legend_union'><label class='map_legend_label'>" +
+                        "<svg height='15' width='36'> <g fill='none' stroke='#AA5533'> <path stroke-width='0.5' stroke='#AA5533' stroke-linecap='round' stroke-dasharray='2 3' d='M7 11 l025 0' /> </g>" +
+                        "<label class='map_legend_color' style='height:1px; background-color:#AA5533;'></label> </svg>" +
+                        "☉ Union Boundary </label> <br /><div>");
+                    break;
+
+                case "sban":
+                    lineStyle.zIndex = 102;
+                    lineStyle.dashArray = "";
+                    lineStyle.color = "#228800";
+                    lineStyle.fill = "url(../images/mangrove.png)";
+                    lineStyle.fillColor = "#22BB00";
+                    lineStyle.fillOpacity = 1.0;
+                    lineStyle.weight = 0.5;
+                    lineStyle.scale = 0.5;
+
+                    $("#map_legend_colors").append("<div id='map_legend_sban'><label class='map_legend_label'>" +
+                        "<label class='map_legend_color' style='border:1px solid #3a0; background:#22AA00 url(../images/mangrove.png);'></label>" +
+                        "Sundarban Area </label> <br /><div>");
+                    break;
+
+                default:
+                    hoverStyle.weight = 1.0;
+
+                    labelContent = "";
+                    break;
+            }
+
+            if (mapLayers["admin_" + adminCode]) {
+
+                if (map.hasLayer(mapLayers["admin_" + adminCode].layer))
+                    map.removeLayer(mapLayers["admin_" + adminCode].layer);
+
+                map.addLayer(mapLayers["admin_" + adminCode].layer);
+
+
+                if ($("#admin_" + adminCode).length && !$("#admin_" + adminCode).prop("checked"))
+                    $("#admin_" + adminCode).prop("checked", true);
+
+                //admin-label
+                $("#admin_label_" + adminCode).prop("disabled", false);
+
+                if ($("#admin_label_" + adminCode).length && $("#admin_label_" + adminCode).prop("checked"))
+                    map.addLayer(mapLayers["admin_" + adminCode].label);
+
+                return;
+            }
+
+            var adminLayer = null,
+                adminLabels = new L.LayerGroup(),
+                adminLayerPath = "../js/maps/map_data/" + adminCode + ".json",
+                selectedAdminCode = "30";
+
+            adminLayer = L.geoJson(null, {
+                style: lineStyle,
+                onEachFeature: function (feature, layer) {
+                    getMapLabels(feature, layer, adminCode, labelClass, adminLabels, labelContent, offsetLeft, lineStyle, hoverStyle, focusStyle)
+                    //getMapLabels(feature, layer, adminCode, adminLabels, lineStyle);
+                }
+                //onEachFeature: getMapLabels,
+                //filter: function (feature) {
+                //    return setMapFilter(feature, adminCode, selectedAdminCode);
+                //}
+            });
+
+            $.getJSON(adminLayerPath, function (adminLayerInfo) {
+                if (!adminLayerInfo) return;
+
+                adminLayer.addData(adminLayerInfo);
+            }).done(function (e) {
+                mapLayers["admin_" + adminCode] = { layer: adminLayer, label: adminLabels };
+
+                map.addLayer(mapLayers["admin_" + adminCode].layer);
+
+
+                if ($("#admin_" + adminCode).length && !$("#admin_" + adminCode).prop("checked"))
+                    $("#admin_" + adminCode).prop("checked", true);
+
+                $("#admin_label_" + adminCode).prop("disabled", false);
+
+                if (adminCode == "div" || adminCode == "dist") {
+                    $("#admin_label_" + adminCode).prop("checked", true);
+                } else {
+                    var labelGroups = new L.MarkerClusterGroup({
+                        disableClusteringAtZoom: adminCode == "upaz" ? 10 : 11,
+                        pane: "label-layer"
+                    });
+                    labelGroups.addLayer(adminLabels);
+                    mapLayers["admin_" + adminCode]["label"] = labelGroups;
+                }
+
+                if ($("#admin_label_" + adminCode).prop("checked"))
+                    map.addLayer(mapLayers["admin_" + adminCode].label);
+
+                //set_map_filter();
+            });
+
+            return;
+        }
+
+
+        function getMapLabels(feature, layer, adminCode, labelClass, adminLabels, labelContent, offsetLeftDefault, defaultStyle, hoverStyle, focusStyle) {
+
+    var adminFieldName = adminCode + "_name";
+
+    if (!feature || !feature.properties[adminFieldName]) {
+
+        if (adminCode == "sban") {
+            layer.bindTooltip("<span style='padding:3px 6px; font-size:15px;font-weight:600;color:#258;'>Sundarban Area</span>", { sticky: true });
+        }
+        return;
+    }
+
+    var currAdminName = feature.properties[adminFieldName],
+        polyCenter = new L.LatLng(feature.properties["CNT_LAT"], feature.properties["CNT_LONG"]),
+        offsetTop = 10,
+        offsetLeft = ((285 * currAdminName.length) / 100) + offsetLeftDefault;
+
+    defaultStyle = defaultStyle
+        ? defaultStyle
+        : { opacity: 1, scale: 0.5, color: "#5A3322", weight: 1.0, fill: false, fillColor: null, fillOpacity: 0.0 };
+    labelContent = labelContent ? labelContent + currAdminName + "</span>" : currAdminName;
+
+    //,
+    //labelClass = "map_label",
+    //labelContent,
+    //hoverStyle = { dashArray: null, zIndex: 9999, weight: 2.5, fill: false, color: "#FC4F3A", opacity: 1.0, fillColor: null, fillOpacity: 0.15 },
+    //focusStyle = { dashArray: null, zIndex: 9999, weight: 3.0, fill: true, color: "#3587EA", opacity: 1.0, fillColor: "#35A3E8", fillOpacity: 0.15 };
+
+    //switch (adminCode) {
+    //    case "div":
+    //        defaultStyle.weight = 1.5;
+    //        hoverStyle.weight = 2.5;
+
+    //        offsetLeft += 10;
+    //        labelClass = "map_admin_label";
+
+    //        labelContent = "<span style='font-size:15px;font-weight:500;color:#123;'>▣ " + currAdminName + "</span>";
+    //        break;
+
+    //    case "dist":
+    //        defaultStyle.weight = 1.0;
+    //        hoverStyle.weight = 1.5;
+
+    //        offsetLeft += 10;
+    //        labelClass = "map_admin_label";
+
+    //        labelContent = "<span style='font-size:13px;font-weight:400;color:#137;'>☐ " + currAdminName + "</span>";
+    //        break;
+
+    //    case "upaz":
+    //        defaultStyle.weight = 0.5;
+    //        hoverStyle.weight = 1.0;
+
+    //        labelContent = "⚀ " + currAdminName;
+    //        break;
+
+    //    case "union":
+    //        defaultStyle.weight = 0.25;
+    //        hoverStyle.weight = 1.0;
+    //        labelContent = "☉ " + currAdminName;
+    //        break;
+
+    //    default:
+    //        defaultStyle.weight = 0.5;
+    //        hoverStyle.weight = 1.0;
+
+    //        labelContent = currAdminName;
+    //        break;
+    //}
+
+    var labelInfo = new L.Marker(polyCenter, {
+        pane: "label-layer",
+        icon: L.divIcon({
+            iconSize: null,
+            className: labelClass,
+            iconAnchor: [offsetLeft, offsetTop],
+            html: labelContent
+        })
+    }).on({
+        "mouseover": function (e) {
+            var isFocus = layer.className && layer.className == "focused";
+            layer.setStyle(isFocus ? focusStyle : hoverStyle);
+        },
+        "mouseout": function (e) {
+            var isFocus = layer.className && layer.className == "focused";
+            layer.setStyle(isFocus ? focusStyle : defaultStyle);
+        }
+    });
+
+    layer.on({
+        "click": function (e) {
+
+            SetAdminData(adminCode, feature.properties);
+
+            //if (adminCode == "union") {
+            //    var unionCode = feature.properties["union_code"],
+            //        unionName = feature.properties["union_name"],
+            //        upazName = feature.properties["upaz_name"],
+            //        distName = feature.properties["dist_name"],
+            //        divName = feature.properties["div_name"];
+
+            //    SetUnionData(unionCode, unionName, upazName, distName, divName);
+            //}
+
+            if (layer.className && layer.className == "focused") {
+                layer.className = "";
+                layer.setStyle(hoverStyle);
+            }
+
+            if (adminFocused && adminFocused.layer && adminFocused.layer == layer) {
+                adminFocused.layer.className = "";
+                adminFocused.layer.setStyle(defaultStyle);
+
+                adminFocused = null;
+            }
+        }
+    });
+    //.on({
+    //    "mouseover": function (e) {
+    //        var isFocus = layer.className && layer.className == "focused";
+    //        layer.setStyle(isFocus ? focusStyle : hoverStyle);
+    //    },
+    //    "mouseout": function (e) {
+    //        var isFocus = layer.className && layer.className == "focused";
+    //        layer.setStyle(isFocus ? focusStyle : defaultStyle);
+    //    }
+    //});
+
+
+    if (adminCode == "div" || adminCode == "dist") {
+
+        labelInfo.on("click", function (e) {
+
+            if (adminFocused && adminFocused.layer && adminFocused.layer != layer) {
+                adminFocused.layer.className = "";
+                adminFocused.layer.setStyle(defaultStyle);
+            }
+            adminFocused = null;
+
+            if (layer.className && layer.className == "focused") {
+                layer.className = "";
+                layer.setStyle(hoverStyle);
+
+                //layer.setZIndex(400);
+                //layer.setZIndexOffset(0);
+                return;
+            }
+
+            layer.className = "focused";
+            layer.setStyle(focusStyle);
+            //layer.setZIndex(450);
+            //layer.setZIndexOffset(250);
+
+            adminFocused = { layer: layer, label: labelInfo };
+
+            var geoCode = feature.properties[adminCode + "_code"],
+                zoomLevel = (geoCode && (geoCode == 20 || geoCode == 30 || geoCode == 40)) ? 7.5 : 8.5;
+
+            //zoomLevel = map.getZoom() > zoomLevel ? map.getZoom() : zoomLevel;
+            //zoomLevel = adminCode == "dist" ? zoomLevel + 1.5 : zoomLevel;
+            zoomLevel = map.getZoom() > zoomLevel
+                ? map.getZoom()
+                : adminCode == "dist"
+                    ? zoomLevel + 1.5 : zoomLevel;
+
+            map.setView(polyCenter, zoomLevel);
+        });
+    }
+
+
+
+    //if (adminCode == "union") {
+
+    labelInfo.on("click", function (e) {
+
+        SetAdminData(adminCode, feature.properties);
+
+        //var unionCode = feature.properties["union_code"],
+        //    unionName = feature.properties["union_name"],
+        //    upazName = feature.properties["upaz_name"],
+        //    distName = feature.properties["dist_name"],
+        //    divName = feature.properties["div_name"];
+
+        //SetUnionData(unionCode, unionName, upazName, distName, divName);
+
+
+        if (adminFocused && adminFocused.layer && adminFocused.layer != layer) {
+            adminFocused.layer.className = "";
+            adminFocused.layer.setStyle(defaultStyle);
+        }
+        adminFocused = null;
+
+        if (layer.className && layer.className == "focused") {
+            layer.className = "";
+            layer.setStyle(hoverStyle);
+
+            //layer.setZIndex(400);
+            //layer.setZIndexOffset(0);
+            return;
+        }
+
+        layer.className = "focused";
+        layer.setStyle(focusStyle);
+        //layer.setZIndex(450);
+        //layer.setZIndexOffset(250);
+
+        adminFocused = { layer: layer, label: labelInfo };
+
+        //{"union_code":"10040903","div_name":"Barishal","dist_name":"Barguna","upaz_name":"Amtali","union_name":"Ward No-03","CNT_LAT":22.1323710898,"CNT_LONG":90.2388422647}},
+
+        //var geoCode = feature.properties[adminCode + "_code"],
+        //    zoomLevel = (geoCode && (geoCode == 20 || geoCode == 30 || geoCode == 40)) ? 7.5 : 8.5;
+
+        ////zoomLevel = map.getZoom() > zoomLevel ? map.getZoom() : zoomLevel;
+        ////zoomLevel = adminCode == "dist" ? zoomLevel + 1.5 : zoomLevel;
+        //zoomLevel = map.getZoom() > zoomLevel
+        //    ? map.getZoom()
+        //    : adminCode == "dist"
+        //    ? zoomLevel + 1.5 : zoomLevel;
+
+        //map.setView(polyCenter, zoomLevel);
+    });
+    //}
+
+
+    adminLabels.addLayer(labelInfo);
+
+    return;
+}
+
+        var isOpened = false, isDataOpened = false;
+
+        function map_filter_open_close(content, isOpen) {
+
+            if (isOpened === isOpen) return;
+
+            if (isOpen && !isOpened) {
+                modal_open(content, 50);
+            }
+            else if (!isOpen && isOpened) {
+                modal_close(content);
+            }
+            isOpened = isOpen;
         }
 
     </script>

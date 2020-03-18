@@ -14,7 +14,7 @@ namespace WrpCcNocWeb.Controllers
         private readonly WrpCcNocDbContext _dbContext = new WrpCcNocDbContext();                
 
         
-        public IActionResult viewLocation(long projectId = 48) {
+        public IActionResult viewLocation(long projectId) {
             ViewBag.ProjectId = projectId;
             return View();
         }
