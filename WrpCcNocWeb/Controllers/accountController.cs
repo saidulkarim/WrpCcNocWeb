@@ -233,7 +233,7 @@ namespace WrpCcNocWeb.Controllers
         {
             if (!string.IsNullOrEmpty(id))
             {
-                AdminModUserRegistrationDetail userRegVerify = _db.AdminModUserRegistrationDetail.Where(w => w.EmailVerificationCode.ToString().Equals(id)).FirstOrDefault();
+                AdminModUserRegistrationDetail userRegVerify = _db.AdminModUserRegistrationDetail.Where(w => w.EmailVerificationCode.Equals(id)).FirstOrDefault();
 
                 if (userRegVerify != null)
                 {
@@ -296,30 +296,51 @@ namespace WrpCcNocWeb.Controllers
 
                 if (_user == null)
                 {
+                    using var dbContextTransaction = _db.Database.BeginTransaction();
                     try
                     {
                         userDetail.UserDateOfBirth = userDetail.UserDateOfBirth.ToString().ToDatabaseDateFormat();
                         userDetail.IsProfileSubmitted = 1;
 
-                        _db.AdminModUsersDetail.Add(userDetail);
 
+
+                        _db.AdminModUsersDetail.Add(userDetail);
                         result = _db.SaveChanges();
 
                         if (result > 0)
                         {
-                            UserInfo _ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
-                            _ui.UserID = userDetail.UserId;
-                            HttpContext.Session.SetComplexData("LoggerUserInfo", _ui);
+                            AdminModUserGrpDistDetail ugdd = new AdminModUserGrpDistDetail
+                            {
+                                UserId = userDetail.UserId,
+                                UserGroupId = 1000000001
+                            };
+                            _db.AdminModUserGrpDistDetail.Add(ugdd);
+                            result = _db.SaveChanges();
 
-                            return RedirectToAction("index", "home");
+                            if (result > 0)
+                            {
+                                dbContextTransaction.Commit();
+                                UserInfo _ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+                                _ui.UserID = userDetail.UserId;
+                                HttpContext.Session.SetComplexData("LoggerUserInfo", _ui);
+
+                                return RedirectToAction("index", "home");
+                            }
+                            else
+                            {
+                                dbContextTransaction.Rollback();
+                                TempData["Message"] = ch.ShowMessage(Sign.Error, "Sorry, your profile information not submitted!");
+                            }
                         }
                         else
                         {
+                            dbContextTransaction.Rollback();
                             TempData["Message"] = ch.ShowMessage(Sign.Error, "Sorry, your profile information not submitted!");
                         }
                     }
                     catch (Exception ex)
                     {
+                        dbContextTransaction.Rollback();
                         var message = ch.ExtractInnerException(ex);
                         TempData["Message"] = ch.ShowMessage(Sign.Danger, message);
                     }

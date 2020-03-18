@@ -78,29 +78,65 @@ namespace WrpCcNocWeb.Controllers
         //Using: UserMenu sf = HttpContext.Session.GetComplexData<UserMenu>("UserMenu");
         private void UserMenuPermissionToSession(UserInfo ui)
         {
-            List<UserMenu> uml = (from u in _db.AdminModUsersDetail
-                                  join amugdd in _db.AdminModUserGrpDistDetail on u.UserId equals amugdd.UserId into ugd
-                                  from ug in ugd.DefaultIfEmpty()
-                                  join amugwmd in _db.AdminModUserGrpWiseMenuDetail on ug.UserGroupId equals amugwmd.UserGroupId into ugmd
-                                  from ugm in ugmd.DefaultIfEmpty()
-                                  join luamm in _db.LookUpAdminModMenu on ugm.MenuId equals luamm.MenuId into amm
-                                  from m in amm.DefaultIfEmpty()
-                                  join luamsm in _db.LookUpAdminModSubMenu on ugm.SubMenuId equals luamsm.SubMenuId into amsm
-                                  from sm in amsm.DefaultIfEmpty()
+            List<UserMenu> uml = new List<UserMenu>();
+            long userGroupID = _db.AdminModUserGrpDistDetail.Where(w => w.UserId == ui.UserID).Select(s => s.UserGroupId).FirstOrDefault();
+            var HasAuthLevelId = (from ugd in _db.AdminModUserGrpDistDetail
+                                  join uGroup in _db.LookUpAdminModUserGroup on ugd.UserGroupId equals uGroup.UserGroupId into userGroup
+                                  from ug in userGroup.DefaultIfEmpty()
+                                  where ugd.UserId == ui.UserID
+                                  select new { ug.AuthorityLevelId }).FirstOrDefault();
 
-                                  where u.UserId == ui.UserID
+            int AuthLevelID = HasAuthLevelId.AuthorityLevelId ?? 0;
 
-                                  select new UserMenu
-                                  {
-                                      UserId = u.UserId,
-                                      UserGroupId = ug.UserGroupId,
-                                      MenuId = ugm.MenuId,
-                                      MenuTitle = m.MenuTitle,
-                                      SubMenuId = ugm.SubMenuId,
-                                      SubMenuTitle = sm.SubMenuTitle,
-                                      Controller = sm.Controller,
-                                      Action = sm.Action
-                                  }).ToList();
+            if (AuthLevelID == 0)
+            {
+                uml = (from u in _db.AdminModUsersDetail
+                       join amugdd in _db.AdminModUserGrpDistDetail on u.UserId equals amugdd.UserId into ugd
+                       from ug in ugd.DefaultIfEmpty()
+                       join amugwmd in _db.AdminModUserGrpWiseMenuDetail on ug.UserGroupId equals amugwmd.UserGroupId into ugmd
+                       from ugm in ugmd.DefaultIfEmpty()
+                       join luamm in _db.LookUpAdminModMenu on ugm.MenuId equals luamm.MenuId into amm
+                       from m in amm.DefaultIfEmpty()
+                       join luamsm in _db.LookUpAdminModSubMenu on ugm.SubMenuId equals luamsm.SubMenuId into amsm
+                       from sm in amsm.DefaultIfEmpty()
+
+                       where u.UserId == ui.UserID
+
+                       select new UserMenu
+                       {
+                           UserId = u.UserId,
+                           UserGroupId = ug.UserGroupId,
+                           MenuId = ugm.MenuId,
+                           MenuTitle = m.MenuTitle,
+                           SubMenuId = ugm.SubMenuId,
+                           SubMenuTitle = sm.SubMenuTitle,
+                           Controller = sm.Controller,
+                           Action = sm.Action
+                       }).ToList();
+            }
+            else
+            {
+
+                uml = (from amugwmd in _db.AdminModUserGrpWiseMenuDetail
+                       join luamm in _db.LookUpAdminModMenu on amugwmd.MenuId equals luamm.MenuId into amm
+                       from m in amm.DefaultIfEmpty()
+                       join luamsm in _db.LookUpAdminModSubMenu on amugwmd.SubMenuId equals luamsm.SubMenuId into amsm
+                       from sm in amsm.DefaultIfEmpty()
+
+                       where amugwmd.AuthorityLevelId == AuthLevelID
+
+                       select new UserMenu
+                       {
+                           UserId = ui.UserID,
+                           UserGroupId = userGroupID,
+                           MenuId = amugwmd.MenuId,
+                           MenuTitle = m.MenuTitle,
+                           SubMenuId = amugwmd.SubMenuId,
+                           SubMenuTitle = sm.SubMenuTitle,
+                           Controller = sm.Controller,
+                           Action = sm.Action
+                       }).ToList();
+            }
 
             if (uml.Count > 0)
             {

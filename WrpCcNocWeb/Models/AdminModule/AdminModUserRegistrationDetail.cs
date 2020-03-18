@@ -49,12 +49,12 @@ namespace WrpCcNocWeb.Models
 
         [Display(Name = "Date Of Creation")]
         [Column("DateOfCreation", Order = 6)]        
-        public DateTime DateOfCreation { get; set; }               
+        public DateTime? DateOfCreation { get; set; }               
 
 
         [Display(Name = "Last Modified Date")]
         [Column("LastModifiedDate", Order = 7)]        
-        public DateTime LastModifiedDate { get; set; }        
+        public DateTime? LastModifiedDate { get; set; }        
        
 
         [Display(Name = "Email Verification Code")]

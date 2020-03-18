@@ -17,7 +17,7 @@ namespace WrpCcNocWeb.Models.UserManagement
         public string UserAddress { get; set; }        
         public string UserDesignation { get; set; }
         public int? UserActivationStatus { get; set; }
-        public DateTime DateOfCreation { get; set; }
-        public DateTime LastModifiedDate { get; set; }
+        public DateTime? DateOfCreation { get; set; }
+        public DateTime? LastModifiedDate { get; set; }
     }
 }
