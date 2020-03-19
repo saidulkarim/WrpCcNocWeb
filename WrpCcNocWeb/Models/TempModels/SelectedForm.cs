@@ -9,5 +9,6 @@ namespace WrpCcNocWeb.Models.TempModels
     {
         public string ProjectTypeId { get; set; }
         public string ProjectTitle { get; set; }
+        public string LanguageTypeId { get; set; }
     }
 }

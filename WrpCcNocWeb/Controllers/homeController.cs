@@ -90,6 +90,7 @@ namespace WrpCcNocWeb.Controllers
 
             if (AuthLevelID == 0)
             {
+                uml = new List<UserMenu>();
                 uml = (from u in _db.AdminModUsersDetail
                        join amugdd in _db.AdminModUserGrpDistDetail on u.UserId equals amugdd.UserId into ugd
                        from ug in ugd.DefaultIfEmpty()
@@ -100,7 +101,7 @@ namespace WrpCcNocWeb.Controllers
                        join luamsm in _db.LookUpAdminModSubMenu on ugm.SubMenuId equals luamsm.SubMenuId into amsm
                        from sm in amsm.DefaultIfEmpty()
 
-                       where u.UserId == ui.UserID
+                       where u.UserId == ui.UserID && ugm.MenuId == sm.MenuId
 
                        select new UserMenu
                        {
@@ -112,18 +113,19 @@ namespace WrpCcNocWeb.Controllers
                            SubMenuTitle = sm.SubMenuTitle,
                            Controller = sm.Controller,
                            Action = sm.Action
-                       }).ToList();
+                       }).OrderBy(o => o.MenuId).ThenBy(t => t.SubMenuId).ToList();
             }
             else
             {
-
-                uml = (from amugwmd in _db.AdminModUserGrpWiseMenuDetail
+                uml = new List<UserMenu>();
+                uml = (from amugwmd in _db.AdminModUserGrpWiseMenuDetail.Where(w => w.AuthorityLevelId == AuthLevelID)
                        join luamm in _db.LookUpAdminModMenu on amugwmd.MenuId equals luamm.MenuId into amm
                        from m in amm.DefaultIfEmpty()
                        join luamsm in _db.LookUpAdminModSubMenu on amugwmd.SubMenuId equals luamsm.SubMenuId into amsm
                        from sm in amsm.DefaultIfEmpty()
 
-                       where amugwmd.AuthorityLevelId == AuthLevelID
+                       //where amugwmd.AuthorityLevelId == AuthLevelID
+                       where sm.MenuId == m.MenuId
 
                        select new UserMenu
                        {
@@ -135,7 +137,7 @@ namespace WrpCcNocWeb.Controllers
                            SubMenuTitle = sm.SubMenuTitle,
                            Controller = sm.Controller,
                            Action = sm.Action
-                       }).ToList();
+                       }).OrderBy(o => o.MenuId).ThenBy(t => t.SubMenuId).ToList();
             }
 
             if (uml.Count > 0)
