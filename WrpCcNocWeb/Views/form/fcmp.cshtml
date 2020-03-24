@@ -1,6 +1,13 @@
 ﻿@using static WrpCcNocWeb.ViewModels.GeneralInfo
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{    
+    var language = HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString();
 }
 
 <div class="row">
@@ -43,7 +50,11 @@
                                                 <div class="col-sm-3">
                                                     <div class="nav flex-column nav-pills nav-pills-tab" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                                                         <a class="nav-link show mb-2 active" id="v-gen-info-tab" data-toggle="pill" href="#v-gen-info" role="tab" aria-controls="v-gen-info" aria-selected="true">
-                                                            General Information
+                                                            @{if (language == "1")
+                                                                { <span> সাধারণ তথ্য </span>}
+                                                                else
+                                                                {<span> General Information </span>}
+                                                            }
                                                         </a>
                                                         <a class="nav-link mb-2" id="v-project-location-tab" data-toggle="pill" href="#v-project-location" role="tab" aria-controls="v-project-location" aria-selected="false">
                                                             Project Location
@@ -56,7 +67,7 @@
                                                         </a>
                                                         <a class="nav-link mb-2" id="v-administrative-tab" data-toggle="pill" href="#v-administrative" role="tab" aria-controls="v-administrative" aria-selected="false">
                                                             Administrative
-                                                        </a>                                                       
+                                                        </a>
                                                         <a class="nav-link mb-2" id="v-final-submit-tab" data-toggle="pill" href="#v-final-submit" role="tab" aria-controls="v-final-submit" aria-selected="false">
                                                             Final Submit
                                                         </a>
@@ -198,7 +209,7 @@
 
                                                                                                 <button id="btnClearProjLocation" type="button" class="btn btn-warning waves-effect waves-light" value="Clear">
                                                                                                     <i class="mdi mdi-refresh"></i>
-                                                                                                </button>                                                                                                
+                                                                                                </button>
                                                                                             </th>
                                                                                         </tr>
                                                                                     </thead>
@@ -688,7 +699,7 @@
                                                                             <label>Participant List</label>
                                                                             <div class="input-group">
                                                                                 <div class="custom-file">
-                                                                                    <input id="DiscussWithStakeParticipntLst" name="DiscussWithStakeParticipntLst" type="file" 
+                                                                                    <input id="DiscussWithStakeParticipntLst" name="DiscussWithStakeParticipntLst" type="file"
                                                                                            class="custom-file-input" onchange="UploadCommonFiles('DiscussWithStakeParticipntLst');" />
                                                                                     <label class="custom-file-label" for="DiscussWithStakeParticipntLst">Choose file</label>
                                                                                 </div>
@@ -699,7 +710,7 @@
                                                                             <label>Meeting Minutes</label>
                                                                             <div class="input-group">
                                                                                 <div class="custom-file">
-                                                                                    <input id="DiscussWithStakeMeetingMin" name="DiscussWithStakeMeetingMin" type="file" 
+                                                                                    <input id="DiscussWithStakeMeetingMin" name="DiscussWithStakeMeetingMin" type="file"
                                                                                            class="custom-file-input" onchange="UploadCommonFiles('DiscussWithStakeMeetingMin');" />
                                                                                     <label class="custom-file-label" for="DiscussWithStakeMeetingMin">Choose file</label>
                                                                                 </div>
@@ -1810,7 +1821,7 @@
                                                                 </div>
 
                                                                 <br />
-                                                            </fieldset>                                                               
+                                                            </fieldset>
                                                         </div>
 
                                                         <div class="tab-pane fade" id="v-final-submit" role="tabpanel" aria-labelledby="v-final-submit-tab">
@@ -1818,7 +1829,7 @@
                                                                 <div id="gen-info-form">
                                                                     <div class="form-group col-md-12">
                                                                         <center>
-                                                                            <p><h1>Before you submit, please make sure you have entered all valid information and attached relevant documents.</h1></p>                                                                            
+                                                                            <p><h1>Before you submit, please make sure you have entered all valid information and attached relevant documents.</h1></p>
                                                                         </center>
                                                                         <button id="btnFinalSubmit" type="button" class="btn btn-block btn-info waves-effect waves-light">
                                                                             <i class="mdi mdi-bookmark-check"></i> Final Submit
@@ -1842,13 +1853,13 @@
                             </div>
 
                             @*<ul class="list-inline wizard mb-0">
-                                <li id="btnPrevious" class="previous list-inline-item disabled">
-                                    <a href="javascript: void(0);" class="btn btn-secondary">Previous</a>
-                                </li>
-                                <li id="btnNext" class="next list-inline-item float-right">
-                                    <a href="javascript: void(0);" class="btn btn-secondary">Next</a>
-                                </li>
-                            </ul>*@
+                                    <li id="btnPrevious" class="previous list-inline-item disabled">
+                                        <a href="javascript: void(0);" class="btn btn-secondary">Previous</a>
+                                    </li>
+                                    <li id="btnNext" class="next list-inline-item float-right">
+                                        <a href="javascript: void(0);" class="btn btn-secondary">Next</a>
+                                    </li>
+                                </ul>*@
 
                         </div>
                     </div>
@@ -2052,12 +2063,12 @@
                     "Latitude": Latitude,
                     "Longitude": Longitude
                 };
-               
+
                 var url = '@Url.Action("plds", "form")';
                 jQuery.ajax({
                     type: "POST",
                     url: url,
-                    data: { _plds: plds },                    
+                    data: { _plds: plds },
                     dataType: "json",
                     success: function (data, status, jqXHR) {
                         if (data.status == 'success') {
@@ -2085,9 +2096,9 @@
             ClearProjLocation();
         });
 
-        function SaveProjLocFile(locationid, projectid) {            
+        function SaveProjLocFile(locationid, projectid) {
             var locfile = jQuery('#ImageFileName').prop('files')[0];
-            
+
             var formData = new FormData();
             formData.append("locationid", locationid);
             formData.append("projectid", projectid);
@@ -3661,11 +3672,11 @@
                 console.log('Form 31 ViewBag.ProjectCommonDetail.ProjectId: ' + projectId);
 
                 //General Info
-                SetHiddenValue('ProjectId', projectId);                                
+                SetHiddenValue('ProjectId', projectId);
                 SetHiddenValue('Project31IndvId', '@ViewBag.ProjectIndvDetail31.Project31IndvId');
 
                 SetHiddenValue('UserId', '@ViewBag.ProjectCommonDetail.UserId');
-                
+
                 if('@ViewBag.ProjectCommonDetail.ProjectTypeId' != '' && '@ViewBag.ProjectCommonDetail.ProjectTypeId' != 0)
                     SetHiddenValue('ProjectTypeId', '@ViewBag.ProjectCommonDetail.ProjectTypeId');
 
@@ -3922,14 +3933,14 @@
                 }
             });
         });
-        
+
         function UploadCommonFiles(inputid) {
 	        var projectid = GetHiddenValue('ProjectId');
 	        var input = document.getElementById(inputid);
 	        var files = input.files;
-	
+
 	        var formData = new FormData();
-	        formData.append("projectid", projectid);	
+	        formData.append("projectid", projectid);
 	        formData.append("controltitle", inputid);
 	        formData.append("file", files[0]);
 

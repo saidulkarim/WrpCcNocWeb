@@ -1,4 +1,9 @@
-﻿@*<link href="~/css/PDF.css" rel="stylesheet" type="text/css" />*@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@*<link href="~/css/PDF.css" rel="stylesheet" type="text/css" />*@
+@{
+    var prev_lang = HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString();
+}
 
 <input id="pProjectId" type="hidden" />
 <input id="pProject31IndvId" type="hidden" />
@@ -6,7 +11,14 @@
 <input id="pProjectTypeId" type="hidden" />
 
 <div class="col-md-12 text-center">
-    <h3 class="HeaderTitle">Application for Clearance Certificate</h3>
+    <h3 class="HeaderTitle">
+        @{if (prev_lang == "1")
+            { <span> ছাড়পত্রের সনদের জন্য আবেদন </span>}
+            else
+            {<span> Application for Clearance Certificate </span>}
+        }
+
+    </h3>
     <h4 class="HeaderSubTitle">(Flood Control/ Management Project)</h4>
 </div>
 

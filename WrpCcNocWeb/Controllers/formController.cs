@@ -69,10 +69,24 @@ namespace WrpCcNocWeb.Controllers
                 HttpContext.Session.SetComplexData("SelectedForm", _selectedForm);
                 ViewBag.ProjectTypeId = new SelectList(_db.LookUpCcModProjectType.ToList(), "ProjectTypeId", "ProjectType", _selectedForm.ProjectTypeId);
 
+                HttpContext.Response.Cookies.Append("FormLanguage", string.Empty, new CookieOptions()
+                {
+                    Expires = DateTime.Now.AddDays(-1)
+                });
+
                 if (_selectedForm.ProjectTypeId.Equals("1"))
+                {                    
+                    HttpContext.Response.Cookies.Append("FormLanguage", _selectedForm.LanguageTypeId, new CookieOptions()
+                    {
+                        Expires = DateTime.Now.AddDays(1)
+                    });
+
                     return RedirectToAction("fcmp", "form");
+                }
                 else
+                {
                     TempData["Message"] = ch.ShowMessage(Sign.Warning, "Under Development", "Sorry, select project is under development.");
+                }
             }
             else
             {
