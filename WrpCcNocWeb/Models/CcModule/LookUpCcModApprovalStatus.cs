@@ -19,10 +19,10 @@ namespace WrpCcNocWeb.Models.CcModule
         [Display(Name = "Approval Status")]
         public string ApprovalStatus { get; set; }
 
-
-        [Column("RecommendationStatus", Order = 2)]
-        [MaxLength(50)]
-        [Display(Name = "Recommendation Status")]
-        public string RecommendationStatus { get; set; }
+        
+        [Column("ApprovalStatusBn", Order = 2)]
+        [MaxLength(100)]
+        [Display(Name = "Approval Status")]
+        public string ApprovalStatusBn { get; set; }
     }
 }

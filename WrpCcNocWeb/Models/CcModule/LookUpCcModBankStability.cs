@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(100)]
         [Display(Name = "Bank Stability Type")]
         public string BankStabilityType { get; set; }
+
+                
+        [Column("BankStabilityTypeBn", Order = 2)]
+        [MaxLength(100)]
+        [Display(Name = "Bank Stability Type")]
+        public string BankStabilityTypeBn { get; set; }
     }
 }

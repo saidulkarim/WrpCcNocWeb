@@ -25,5 +25,16 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Eco And Financial Unit")]
         public string EcoAndFinancialUnit { get; set; }
 
+
+        [Column("EcoAndFinancialParamNameBn", Order = 3)]
+        [Display(Name = "Eco And Financial Param Name")]
+        public string EcoAndFinancialParamNameBn { get; set; }
+
+
+        [Column("EcoAndFinancialUnitBn", Order = 4)]
+        [MaxLength(50)]
+        [Display(Name = "Eco And Financial Unit")]
+        public string EcoAndFinancialUnitBn { get; set; }
+
     }
 }

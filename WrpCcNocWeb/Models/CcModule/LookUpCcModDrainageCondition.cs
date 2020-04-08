@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(50)]
         [Display(Name = "Drainage Condition")]
         public string DrainageCondition { get; set; }
+
+
+        [Column("DrainageConditionBn", Order = 2)]
+        [MaxLength(50)]
+        [Display(Name = "Drainage Condition")]
+        public string DrainageConditionBn { get; set; }
     }
 }

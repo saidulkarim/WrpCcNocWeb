@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(150)]
         [Display(Name = "Sedimentation Name")]
         public string SedimentationName { get; set; }
+
+
+        [Column("SedimentationNameBn", Order = 2)]
+        [MaxLength(150)]
+        [Display(Name = "Sedimentation Name")]
+        public string SedimentationNameBn { get; set; }
     }
 }

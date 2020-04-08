@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(50)]
         [Display(Name = "Water Body Type")]
         public string WaterBodyType { get; set; }
+
+
+        [Column("WaterBodyTypeBn", Order = 2)]
+        [MaxLength(50)]
+        [Display(Name = "Water Body Type")]
+        public string WaterBodyTypeBn { get; set; }
     }
 }

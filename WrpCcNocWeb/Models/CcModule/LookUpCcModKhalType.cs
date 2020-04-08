@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(100)]
         [Display(Name = "Khal Type Name")]
         public string KhalTypeName { get; set; }
+
+
+        [Column("KhalTypeNameBn", Order = 2)]
+        [MaxLength(100)]
+        [Display(Name = "Khal Type Name")]
+        public string KhalTypeNameBn { get; set; }
     }
 }

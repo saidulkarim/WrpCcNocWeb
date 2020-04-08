@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(50)]
         [Display(Name = "River Nature")]
         public string NatureTypeName { get; set; }
+
+
+        [Column("RiverNatureTitleBn", Order = 2)]
+        [MaxLength(50)]
+        [Display(Name = "River Nature")]
+        public string RiverNatureTitleBn { get; set; }
     }
 }

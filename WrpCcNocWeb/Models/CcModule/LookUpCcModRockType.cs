@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(50)]
         [Display(Name = "Rock Type Name")]
         public string RockTypeName { get; set; }
+
+
+        [Column("RockTypeNameBn", Order = 2)]
+        [MaxLength(50)]
+        [Display(Name = "Rock Type Name")]
+        public string RockTypeNameBn { get; set; }
     }
 }

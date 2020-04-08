@@ -20,5 +20,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(100)]
         [Display(Name = "Payment Method")]
         public string PaymentMethod { get; set; }
+
+
+        [Column("PaymentMethodBn", Order = 2)]
+        [MaxLength(100)]
+        [Display(Name = "Payment Method")]
+        public string PaymentMethodBn { get; set; }
     }
 }

@@ -25,5 +25,17 @@ namespace WrpCcNocWeb.Models
         [MaxLength(20)]
         [Display(Name = "Hydro System Unit")]
         public string HydroSysCategoryUnit { get; set; }
+
+
+        [Column("HydroSystemCategoryBn", Order = 3)]
+        [MaxLength(100)]
+        [Display(Name = "Hydro System Category")]
+        public string HydroSystemCategoryBn { get; set; }
+
+
+        [Column("HydroSysCategoryUnitBn", Order = 4)]
+        [MaxLength(20)]
+        [Display(Name = "Hydro System Unit")]
+        public string HydroSysCategoryUnitBn { get; set; }
     }
 }

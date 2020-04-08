@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(100)]
         [Display(Name = "Conserv Location")]
         public string ConservLocation { get; set; }
+
+
+        [Column("ConservLocationBn", Order = 2)]
+        [MaxLength(100)]
+        [Display(Name = "Conserv Location")]
+        public string ConservLocationBn { get; set; }
     }
 }

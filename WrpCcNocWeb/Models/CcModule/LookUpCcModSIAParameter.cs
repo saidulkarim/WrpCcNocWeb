@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(50)]
         [Display(Name = "SIA Parameter Name")]
         public string SIAParameterName { get; set; }
+
+
+        [Column("SIAParameterNameBn", Order = 2)]
+        [MaxLength(50)]
+        [Display(Name = "SIA Parameter Name")]
+        public string SIAParameterNameBn { get; set; }
     }
 }

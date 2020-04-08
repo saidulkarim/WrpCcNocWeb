@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(50)]
         [Display(Name = "Structure Name")]
         public string StructureName { get; set; }
+
+
+        [Column("StructureNameBn", Order = 2)]
+        [MaxLength(50)]
+        [Display(Name = "Structure Name")]
+        public string StructureNameBn { get; set; }
     }
 }

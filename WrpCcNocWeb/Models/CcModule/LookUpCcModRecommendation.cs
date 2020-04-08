@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(150)]
         [Display(Name = "Title")]
         public string RecommendationTitle { get; set; }
+
+
+        [Column("RecommendationTitleBn", Order = 2)]
+        [MaxLength(150)]
+        [Display(Name = "Title")]
+        public string RecommendationTitleBn { get; set; }
     }
 }

@@ -20,5 +20,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(150)]
         [Display(Name = "Indicator Name")]
         public string IndicatorName { get; set; }
+
+
+        [Column("IndicatorNameBn", Order = 2)]
+        [MaxLength(150)]
+        [Display(Name = "Indicator Name")]
+        public string IndicatorNameBn { get; set; }
     }
 }

@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(100)]
         [Display(Name = "Bank Line Title")]
         public string BankLineTitle { get; set; }
+
+
+        [Column("BankLineTitleBn", Order = 2)]
+        [MaxLength(100)]
+        [Display(Name = "Bank Line Title")]
+        public string BankLineTitleBn { get; set; }
     }
 }

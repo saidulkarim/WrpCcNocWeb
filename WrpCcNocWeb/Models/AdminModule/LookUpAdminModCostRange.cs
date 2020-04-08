@@ -17,11 +17,19 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Upper Value")]
         public decimal UpperValue { get; set; }
 
-        [Column("StateId", Order = 3)]
+        [Column("LowerValueBn", Order = 3)]
+        [Display(Name = "Lower Value")]
+        public decimal LowerValueBn { get; set; }
+
+        [Column("UpperValueBn", Order = 4)]
+        [Display(Name = "Upper Value")]
+        public decimal UpperValueBn { get; set; }
+
+        [Column("StateId", Order = 5)]
         [Display(Name = "State")]
         public int StateId { get; set; }
 
-        [Column("AdminBndLevel", Order = 4)]
+        [Column("AdminBndLevel", Order = 6)]
         [Display(Name = "Admin Boundary Level")]
         public int? AdminBndLevel { get; set; }
     }

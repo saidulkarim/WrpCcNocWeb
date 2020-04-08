@@ -47,23 +47,10 @@ namespace WrpCcNocWeb.Controllers
             }
 
             UserMenuPermissionToSession(ui);
+            GetUserLevelInfo(ui.UserID);
+
             int count = _db.CcModAppProjectCommonDetail.Where(w => w.UserId == ui.UserID).Count();
             ViewBag.TotalAppliedApplication = count.ToString().PadLeft(3, '0');
-
-            //string UserRegistrationID = HttpContext.Session.GetString("UserRegistrationID").ToString();
-            //string UserName = HttpContext.Session.GetString("UserName").ToString();
-            //string UserEmail = HttpContext.Session.GetString("UserEmail").ToString();
-            //string UserMobile = HttpContext.Session.GetString("UserMobile").ToString();
-
-            //if (ui != null)
-            //{
-            //    TempData["Message"] = ch.ShowMessage(Sign.Info, Sign.Info.ToString(), "Hello, this is " + ui.UserID);
-            //}
-            //else
-            //{
-            //    TempData["Message"] = ch.ShowMessage(Sign.Info, Sign.Info.ToString(), "Hello, Session not working.");
-            //    return RedirectToActionPermanent("login", "account");
-            //}
 
             return View();
         }
@@ -124,7 +111,7 @@ namespace WrpCcNocWeb.Controllers
                        join luamsm in _db.LookUpAdminModSubMenu on amugwmd.SubMenuId equals luamsm.SubMenuId into amsm
                        from sm in amsm.DefaultIfEmpty()
 
-                       //where amugwmd.AuthorityLevelId == AuthLevelID
+                           //where amugwmd.AuthorityLevelId == AuthLevelID
                        where sm.MenuId == m.MenuId
 
                        select new UserMenu
@@ -177,6 +164,36 @@ namespace WrpCcNocWeb.Controllers
                     Expires = DateTime.Now.AddDays(1)
                 });
             }
+        }
+
+        /// <summary>
+        /// Author: A.T.M. saidul Karim.
+        /// Written on: 08 Apr, 2020.
+        /// Purpose: Getting user level info
+        /// </summary>
+        /// <param name="userID"></param>
+        private void GetUserLevelInfo(long userID)
+        {
+            UserLevelInfo userLevelInfo = (from ugd in _db.AdminModUserGrpDistDetail.Where(w => w.UserId == userID)
+                                           join uGroup in _db.LookUpAdminModUserGroup on ugd.UserGroupId equals uGroup.UserGroupId into userGroup
+                                           from ug in userGroup.DefaultIfEmpty()
+                                           join aState in _db.LookUpCcModApplicationState on ug.AuthorityLevelId equals aState.AuthorityLevelId into aGroup
+                                           from st in aGroup.DefaultIfEmpty()
+                                               //where ugd.UserId == userID
+                                           select new UserLevelInfo
+                                           {
+                                               UserID = userID,
+                                               UserGroupId = ug.UserGroupId,
+                                               UserGroupName = ug.UserGroupName,
+                                               AuthorityLevelId = ug.AuthorityLevelId ?? 0,
+                                               ApplicationStateId = st.ApplicationStateId,
+                                               DistrictGeoCode = ug.DistrictGeoCode,
+                                               UpazilaGeoCode = ug.UpazilaGeoCode,
+                                               UnionGeoCode = ug.UnionGeoCode
+                                           }).FirstOrDefault();
+
+            HttpContext.Session.SetComplexData("UserLevelInfo", userLevelInfo);
+            ViewBag.UserLevelInfo = userLevelInfo;
         }
 
         public IActionResult privacy()

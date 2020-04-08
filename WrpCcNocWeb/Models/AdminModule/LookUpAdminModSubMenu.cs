@@ -22,9 +22,14 @@ namespace WrpCcNocWeb.Models
 
         [Required]
         [Column("SubMenuTitle", Order = 2)]
-        [MaxLength(50)]
+        [MaxLength(100)]
         [Display(Name = "Sub Menu Title")]
         public string SubMenuTitle { get; set; }
+
+        [Column("SubMenuTitleBn", Order = 2)]
+        [MaxLength(100)]
+        [Display(Name = "Sub Menu Title")]
+        public string SubMenuTitleBn { get; set; }
 
         [Column("Controller", Order = 3)]
         [MaxLength(100)]

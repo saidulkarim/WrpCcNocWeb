@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(150)]
         [Display(Name = "Water Use Purpose")]
         public string WaterUsePurpose { get; set; }
+
+
+        [Column("WaterUsePurposeBn", Order = 2)]
+        [MaxLength(150)]
+        [Display(Name = "Water Use Purpose")]
+        public string WaterUsePurposeBn { get; set; }
     }
 }

@@ -25,5 +25,19 @@ namespace WrpCcNocWeb.Models.CcModule
         [MaxLength(550)]
         [Display(Name = "Instruction")]
         public string InstructionForUser { get; set; }
+
+                
+        [Column("AuthorityLevelId", Order = 3)]
+        [Display(Name = "Authority Level")]
+        public int? AuthorityLevelId { get; set; }
+        [ForeignKey("AuthorityLevelId")]
+        public virtual LookUpAdminModAuthorityLevel LookUpAdminModAuthorityLevel { get; set; }
+        
+                
+        [Column("UserGroupId", Order = 4)]
+        [Display(Name = "User Group")]
+        public long UserGroupId { get; set; }
+        [ForeignKey("UserGroupId")]
+        public virtual LookUpAdminModUserGroup LookUpAdminModUserGroup { get; set; }
     }
 }

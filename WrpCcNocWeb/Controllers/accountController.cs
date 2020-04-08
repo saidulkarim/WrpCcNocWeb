@@ -652,78 +652,78 @@ namespace WrpCcNocWeb.Controllers
             {
                 var exitsGroupUnion = _db.LookUpAdminModUserGroup.Where(w => w.UnionGeoCode == UnionGeoCode).ToList();
 
-                if (exitsGroupUnion.Count == 2)
+                //if (exitsGroupUnion.Count == 2)
+                //{
+                //    TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "All authority level user group already created under this union.");
+                //    goto Final;
+                //}
+                //else
+                //{
+                count = exitsGroupUnion.Where(w => w.AuthorityLevelId == amug.AuthorityLevelId).Count();
+
+                if (count > 0)
                 {
-                    TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "All authority level user group already created under this union.");
+                    TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "User group of this authority level already exists.");
                     goto Final;
                 }
                 else
                 {
-                    count = exitsGroupUnion.Where(w => w.AuthorityLevelId == amug.AuthorityLevelId).Count();
-
-                    if (count == 0)
-                    {
-                        UserGroupId = UnionGeoCode + (exitsGroupUnion.Count() + 1).ToString().PadLeft(2, '0');
-                        goto DatabaseOperation;
-                    }
-                    else
-                    {
-                        TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "This authority level is already exists.");
-                        goto Final;
-                    }
+                    UserGroupId = UnionGeoCode + (exitsGroupUnion.Count() + 1).ToString().PadLeft(2, '0');
+                    goto DatabaseOperation;
                 }
+                //}
             }
 
             if (!string.IsNullOrEmpty(UpazilaGeoCode))
             {
                 var exitsGroupUpazila = _db.LookUpAdminModUserGroup.Where(w => w.UpazilaGeoCode == UpazilaGeoCode).ToList();
 
-                if (exitsGroupUpazila.Count == 2)
+                //if (exitsGroupUpazila.Count == 2)
+                //{
+                //    TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "All authority level user group already created under this upazila.");
+                //    goto Final;
+                //}
+                //else
+                //{
+                count = exitsGroupUpazila.Where(w => w.AuthorityLevelId == amug.AuthorityLevelId).Count();
+
+                if (count > 0)
                 {
-                    TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "All authority level user group already created under this upazila.");
+                    TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "User group of this authority level already exists.");
                     goto Final;
                 }
                 else
                 {
-                    count = exitsGroupUpazila.Where(w => w.AuthorityLevelId == amug.AuthorityLevelId).Count();
-
-                    if (count == 0)
-                    {
-                        UserGroupId = UpazilaGeoCode + (exitsGroupUpazila.Count() + 1).ToString().PadLeft(4, '0');
-                        goto DatabaseOperation;
-                    }
-                    else
-                    {
-                        TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "This authority level is already exists.");
-                        goto Final;
-                    }
+                    UserGroupId = UpazilaGeoCode + (exitsGroupUpazila.Count() + 1).ToString().PadLeft(4, '0');
+                    goto DatabaseOperation;
                 }
+                //}
             }
 
             if (!string.IsNullOrEmpty(DistrictGeoCode))
             {
                 var exitsGroupDsitrict = _db.LookUpAdminModUserGroup.Where(w => w.DistrictGeoCode == DistrictGeoCode).ToList();
 
-                if (exitsGroupDsitrict.Count == 2)
+                //if (exitsGroupDsitrict.Count == 2)
+                //{
+                //    TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "All authority level user group already created under this district.");
+                //    goto Final;
+                //}
+                //else
+                //{
+                count = exitsGroupDsitrict.Where(w => w.AuthorityLevelId == amug.AuthorityLevelId).Count();
+
+                if (count > 0)
                 {
-                    TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "All authority level user group already created under this district.");
+                    TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "User group of this authority level already exists.");
                     goto Final;
                 }
                 else
                 {
-                    count = exitsGroupDsitrict.Where(w => w.AuthorityLevelId == amug.AuthorityLevelId).Count();
-
-                    if (count == 0)
-                    {
-                        UserGroupId = DistrictGeoCode + (exitsGroupDsitrict.Count() + 1).ToString().PadLeft(6, '0');
-                        goto DatabaseOperation;
-                    }
-                    else
-                    {
-                        TempData["Message"] = ch.ShowMessage(Sign.Warning, Sign.Warning.ToString(), "This authority level is already exists.");
-                        goto Final;
-                    }
+                    UserGroupId = DistrictGeoCode + (exitsGroupDsitrict.Count() + 1).ToString().PadLeft(6, '0');
+                    goto DatabaseOperation;
                 }
+                //}
             }
         #endregion
 

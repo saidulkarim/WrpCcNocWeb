@@ -21,6 +21,12 @@ namespace WrpCcNocWeb.Models
         public string YesNoTitle { get; set; }
 
 
+        [Column("YesNoTitleBn", Order = 2)]
+        [MaxLength(50)]
+        [Display(Name = "Title")]
+        public string YesNoTitleBn { get; set; }
+
+
         [InverseProperty("LookUpCcModYesNoStake")]
         public virtual List<CcModAppProjectCommonDetail> LookUpCcModYesNoStake { get; set; }
 

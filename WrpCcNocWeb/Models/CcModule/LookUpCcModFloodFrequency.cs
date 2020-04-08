@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(100)]
         [Display(Name = "Flood Frequency")]
         public string FloodFrequency { get; set; }
+
+
+        [Column("FloodFrequencyBn", Order = 2)]
+        [MaxLength(100)]
+        [Display(Name = "Flood Frequency")]
+        public string FloodFrequencyBn { get; set; }
     }
 }

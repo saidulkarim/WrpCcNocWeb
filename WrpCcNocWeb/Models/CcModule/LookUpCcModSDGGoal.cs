@@ -25,5 +25,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(250)]
         [Display(Name = "SDG Documents Link")]
         public string SDGDocLink { get; set; }
+
+
+        [Column("SDGGoalNumberBn", Order = 1)]
+        [MaxLength(50)]
+        [Display(Name = "SDG Goal Number")]
+        public string SDGGoalNumberBn { get; set; }
     }
 }

@@ -15,8 +15,13 @@ namespace WrpCcNocWeb.Models
 
         [Required]
         [Column("AuthorityLevel", Order = 1)]
-        [MaxLength(50)]
+        [MaxLength(100)]
         [Display(Name = "Authority Level")]
         public string AuthorityLevel { get; set; }
+
+        [Column("AuthorityLevelBn", Order = 2)]
+        [MaxLength(100)]
+        [Display(Name = "Authority Level")]
+        public string AuthorityLevelBn { get; set; }
     }
 }

@@ -9,15 +9,28 @@ namespace WrpCcNocWeb.Models.UserManagement
     public class UserInfo
     {
         public long UserID { get; set; }
-        public long UserRegistrationID { get; set; }        
+        public long UserRegistrationID { get; set; }
         public string UserName { get; set; }
         public string UserFullName { get; set; }
         public string UserEmail { get; set; }
-        public string UserMobile { get; set; }       
-        public string UserAddress { get; set; }        
+        public string UserMobile { get; set; }
+        public string UserAddress { get; set; }
         public string UserDesignation { get; set; }
         public int? UserActivationStatus { get; set; }
         public DateTime? DateOfCreation { get; set; }
         public DateTime? LastModifiedDate { get; set; }
+    }
+
+    [Serializable]
+    public class UserLevelInfo
+    {
+        public long UserID { get; set; }
+        public long UserGroupId { get; set; }
+        public string UserGroupName { get; set; }
+        public int? AuthorityLevelId { get; set; }
+        public int? ApplicationStateId { get; set; }
+        public string DistrictGeoCode { get; set; }
+        public string UpazilaGeoCode { get; set; }
+        public string UnionGeoCode { get; set; }
     }
 }

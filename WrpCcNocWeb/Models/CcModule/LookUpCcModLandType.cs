@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(100)]
         [Display(Name = "Land Type Name")]
         public string LandTypeName { get; set; }
+
+
+        [Column("LandTypeNameBn", Order = 2)]
+        [MaxLength(100)]
+        [Display(Name = "Land Type Name")]
+        public string LandTypeNameBn { get; set; }
     }
 }

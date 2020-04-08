@@ -24,5 +24,10 @@ namespace WrpCcNocWeb.Models
         [MaxLength(100)]
         [Display(Name = "Delta Plan 2100 Goal Doc Link")]
         public string DeltPlan2100GoaDocLink { get; set; }
+
+        [Column("DeltPlan2100GoalBn", Order = 3)]
+        [MaxLength(100)]
+        [Display(Name = "Delta Plan 2100 Goal")]
+        public string DeltPlan2100GoalBn { get; set; }
     }
 }

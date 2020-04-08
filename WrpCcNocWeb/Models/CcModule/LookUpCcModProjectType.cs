@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(150)]
         [Display(Name = "Project Type")]
         public string ProjectType { get; set; }
+
+
+        [Column("ProjectTypeBn", Order = 2)]
+        [MaxLength(150)]
+        [Display(Name = "Project Type")]
+        public string ProjectTypeBn { get; set; }
     }
 }

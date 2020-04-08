@@ -19,6 +19,12 @@ namespace WrpCcNocWeb.Models
         [Column("NocType", Order = 1)]
         [MaxLength(150)]
         [Display(Name = "NOC Type")]
-        public string NocType { get; set; }                       
+        public string NocType { get; set; }
+
+
+        [Column("NocTypeBn", Order = 2)]
+        [MaxLength(150)]
+        [Display(Name = "NOC Type")]
+        public string NocTypeBn { get; set; }
     }
 }

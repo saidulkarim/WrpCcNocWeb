@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(100)]
         [Display(Name = "Source Name")]
         public string SourceName { get; set; }
+
+
+        [Column("SourceNameBn", Order = 2)]
+        [MaxLength(100)]
+        [Display(Name = "Source Name")]
+        public string SourceNameBn { get; set; }
     }
 }

@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(50)]
         [Display(Name = "Flood Type Name")]
         public string FloodTypeName { get; set; }
+
+
+        [Column("FloodTypeNameBn", Order = 2)]
+        [MaxLength(50)]
+        [Display(Name = "Flood Type Name")]
+        public string FloodTypeNameBn { get; set; }
     }
 }

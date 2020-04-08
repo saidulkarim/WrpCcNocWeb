@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(100)]
         [Display(Name = "Parameter Name")]
         public string ParameterName { get; set; }
+
+
+        [Column("ParameterNameBn", Order = 2)]
+        [MaxLength(100)]
+        [Display(Name = "Parameter Name")]
+        public string ParameterNameBn { get; set; }
     }
 }

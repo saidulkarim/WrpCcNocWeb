@@ -75,7 +75,7 @@ namespace WrpCcNocWeb.Controllers
                 });
 
                 if (_selectedForm.ProjectTypeId.Equals("1"))
-                {                    
+                {
                     HttpContext.Response.Cookies.Append("FormLanguage", _selectedForm.LanguageTypeId, new CookieOptions()
                     {
                         Expires = DateTime.Now.AddDays(1)
@@ -99,7 +99,50 @@ namespace WrpCcNocWeb.Controllers
         public IActionResult list()
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
-            ViewBag.PCDS = _db.CcModAppProjectCommonDetail.Where(w => w.UserId == ui.UserID).ToList();
+            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+
+            if (uli.UserGroupId == 1000000001 && uli.AuthorityLevelId == 0)
+            {
+                ViewBag.PCDS = _db.CcModAppProjectCommonDetail.Where(w => w.UserId == ui.UserID).ToList();
+            }
+            else if (uli.UserGroupId != 1000000001 && uli.AuthorityLevelId == 0)
+            {
+                ViewBag.PCDS = _db.CcModAppProjectCommonDetail.Where(w => w.UserId == ui.UserID).ToList();
+            }
+            else
+            {
+                List<CcModAppProjectCommonDetail> pcds = new List<CcModAppProjectCommonDetail>();
+                List<long> ProjectList = new List<long>();
+
+                if (!string.IsNullOrEmpty(uli.UnionGeoCode))
+                {
+                    ProjectList = new List<long>();
+                    pcds = new List<CcModAppProjectCommonDetail>();
+
+                    ProjectList = _db.CcModPrjLocationDetail.Where(w => w.UnionGeoCode == uli.UnionGeoCode).Select(s => s.ProjectId).Distinct().ToList();
+                    pcds = _db.CcModAppProjectCommonDetail.Where(w => w.ApplicationStateId == uli.ApplicationStateId && ProjectList.Any(a => w.ProjectId == a.ToString().ToLong())).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(uli.UpazilaGeoCode) && string.IsNullOrEmpty(uli.UnionGeoCode))
+                {
+                    ProjectList = new List<long>();
+                    pcds = new List<CcModAppProjectCommonDetail>();
+
+                    ProjectList = _db.CcModPrjLocationDetail.Where(w => w.UpazilaGeoCode == uli.UpazilaGeoCode).Select(s => s.ProjectId).Distinct().ToList();
+                    pcds = _db.CcModAppProjectCommonDetail.Where(w => w.ApplicationStateId == uli.ApplicationStateId && ProjectList.Any(a => w.ProjectId == a.ToString().ToLong())).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(uli.DistrictGeoCode) && string.IsNullOrEmpty(uli.UpazilaGeoCode) && string.IsNullOrEmpty(uli.UnionGeoCode))
+                {
+                    ProjectList = new List<long>();
+                    pcds = new List<CcModAppProjectCommonDetail>();
+
+                    ProjectList = _db.CcModPrjLocationDetail.Where(w => w.DistrictGeoCode == uli.DistrictGeoCode).Select(s => s.ProjectId).Distinct().ToList();
+                    pcds = _db.CcModAppProjectCommonDetail.Where(w => w.ApplicationStateId == uli.ApplicationStateId && ProjectList.Any(a => w.ProjectId == a.ToString().ToLong())).ToList();
+                }
+
+                ViewBag.PCDS = pcds;
+            }
 
             return View();
         }
@@ -476,41 +519,41 @@ namespace WrpCcNocWeb.Controllers
 
                 if (tUnion > 1)
                 {
-                    appState = 3; //Pending for Review of Upazila Technical Committee
+                    appState = 21; //Pending for Review of Upazila Water Resources Management Committee. Old => 3; //Pending for Review of Upazila Technical Committee
                 }
                 else
                 {
-                    appState = 2; //Pending for Review of Union Technical Committee
+                    appState = 11; //Pending for Review of Union Water Resources Management Committee. Old => 2; //Pending for Review of Union Technical Committee
                 }
 
                 if (tUpazila > 1)
                 {
-                    appState = 4; //Pending for Review of District Technical Committee
+                    appState = 31; //Pending for Review of District Water Resources Management Committee. Old => 4; //Pending for Review of District Technical Committee
                 }
                 else
                 {
                     if (tUnion == 0 && tUpazila == 1)
-                        appState = 3; //Pending for Review of Upazila Technical Committee
+                        appState = 21;// 3; //Pending for Review of Upazila Technical Committee
                     else if (tUnion == 1 && tUpazila == 1)
-                        appState = 2; //Pending for Review of Union Technical Committee
-                                      //else
-                                      //    appState = 1; //Not Yet Submitted
+                        appState = 11; // 2; //Pending for Review of Union Technical Committee
+                                       //else
+                                       //    appState = 1; //Not Yet Submitted
                 }
 
                 if (tDistrict > 1)
                 {
-                    appState = 5; //Pending for Review of WARPO Technical Committee
+                    appState = 41; //Pending for Review of WARPO Water Resources Management Committee. Old => 5; //Pending for Review of WARPO Technical Committee
                 }
                 else
                 {
                     if (tUnion == 0 && tUpazila == 0 && tDistrict == 1)
-                        appState = 4; //Pending for Review of District Technical Committee
+                        appState = 31; // 4; //Pending for Review of District Technical Committee
                     else if (tUnion == 1 && tUpazila == 1 && tDistrict == 1)
-                        appState = 2; //Pending for Review of Union Technical Committee
+                        appState = 11; // 2; //Pending for Review of Union Technical Committee
                     else if (tUnion == 0 && tUpazila == 1 && tDistrict == 1)
-                        appState = 3; //Pending for Review of Upazila Technical Committee
-                                      //else
-                                      //    appState = 1; //Not Yet Submitted
+                        appState = 21; // 3; //Pending for Review of Upazila Technical Committee
+                                       //else
+                                       //    appState = 1; //Not Yet Submitted
                 }
             }
 

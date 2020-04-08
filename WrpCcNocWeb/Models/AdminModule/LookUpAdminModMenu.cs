@@ -15,8 +15,13 @@ namespace WrpCcNocWeb.Models
                
         [Required]       
         [Column("MenuTitle", Order = 1)]
-        [MaxLength(50)]
+        [MaxLength(100)]
         [Display(Name = "Menu Title")]
         public string MenuTitle { get; set; }
+
+        [Column("MenuTitleBn", Order = 2)]
+        [MaxLength(100)]
+        [Display(Name = "Menu Title")]
+        public string MenuTitleBn { get; set; }
     }
 }
