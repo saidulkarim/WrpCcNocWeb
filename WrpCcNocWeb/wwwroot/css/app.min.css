@@ -5176,5 +5176,9 @@ table[data-toggle=table] {
 }
 
 .myspinner {
-    
+}
+
+/* added by rony */
+.cursor {
+    cursor: pointer;
 }

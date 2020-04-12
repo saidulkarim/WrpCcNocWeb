@@ -22,7 +22,7 @@
                         <div class="form-group">
                             <label for="LanguageTypeId">Choose Form Language</label>
                             <select id="LanguageTypeId" name="LanguageTypeId" class="form-control" style="width: 100%;">
-                                <option value="0">Choose...</option>
+                                <option value="">Choose...</option>
                                 <option value="1">বাংলা</option>
                                 <option value="2">English</option>
                             </select>
@@ -32,7 +32,7 @@
 
                 <div class="row justify-content-center">
                     <div class="form-group">
-                        <button id="btnSubmitFormSelection" class="btn btn-info" type="submit" style="width: 250px;"> Submit </button>
+                        <button id="btnSubmitFormSelection" class="btn btn-info" type="button" style="width: 250px;"> Next </button>
                     </div>
                 </div>
             </div>
@@ -46,6 +46,22 @@
             jQuery("#ProjectTypeId").change(function () {
                 var text = jQuery("#ProjectTypeId option:selected").text();
                 jQuery("#ProjectTitle").val(text);
+            });
+
+            jQuery("#btnSubmitFormSelection").click(function () {
+                var ProjectTypeId = $("#ProjectTypeId").val();
+                var LanguageTypeId = $("#LanguageTypeId").val();
+
+                if (ProjectTypeId != '') {
+                    if (LanguageTypeId != '') {
+                        $("#FormSelection").submit();
+                    } else {
+                        Swal.fire("Select Language", "Please select a preferred language.", "warning");
+                    }
+                } else {
+                    Swal.fire("Project Type", "Please select a project type.", "warning");
+                }
+                
             });
         });
     </script>

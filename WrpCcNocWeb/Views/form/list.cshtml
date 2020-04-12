@@ -1,4 +1,5 @@
-﻿
+﻿@using WrpCcNocWeb.Models.Utility;
+
 @{
     ViewData["Title"] = "Project List";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,26 +11,63 @@
             <div class="card-body">
                 <h4 class="header-title mb-3"> Application List</h4>
                 @{
-                    List<CcModAppProjectCommonDetail> _pcds = ViewBag.PCDS;
+                    List<ProjectViewList> _pcds = ViewBag.PCDS;
 
                     if (_pcds.Count > 0)
                     {
                         int count = 1;
                         <table class="table table-hover table-striped" style="width: 100%;">
                             <thead>
-                                <tr><th class="text-center">Sl.</th><th>Project Name</th><th>Project Estimated Cost</th><th style="width: 150px;"></th></tr>
+                                <tr>
+                                    <th class="text-center">Sl.</th>
+                                    <th>Application Type</th>
+                                    <th>Project Name</th>
+                                    <th>Estimated Cost</th>
+                                    <th>Staus</th>
+                                    <th style="width: 150px;"></th>
+                                </tr>
                             </thead>
                             <tbody>
-                                @foreach (CcModAppProjectCommonDetail pcd in _pcds)
+                                @foreach (ProjectViewList pcd in _pcds)
                                 {
-                                    <tr><td class="text-center">@count</td><td>@pcd.ProjectName</td><td>@pcd.ProjectEstimatedCost</td><td><a href="@Url.Action("view", "form", new { id = pcd.ProjectId })" class="btn btn-info">View</a></td></tr>
+                                    if (pcd.IsCompleted == null || pcd.IsCompleted == 0)
+                                    {
+                                        <tr class="bg-blue text-white font-italic font-weight-bold">
+                                            <td class="text-center align-middle">@count</td>
+                                            <td class="align-middle">@pcd.ProjectType</td>
+                                            <td class="align-middle">@pcd.ProjectName</td>
+                                            <td class="align-middle">@pcd.ProjectEstimatedCost</td>
+                                            <td class="align-middle">@pcd.ApprovalStatus</td>
+                                            <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId, status = pcd.IsCompleted ?? 0 })" class="btn btn-info">View</a></td>
+                                        </tr>
+                                    }
+                                    else if (pcd.IsCompleted == 1)
+                                    {
+                                        <tr class="bg-success text-white">
+                                            <td class="text-center align-middle">@count</td>
+                                            <td class="align-middle">@pcd.ProjectType</td>
+                                            <td class="align-middle">@pcd.ProjectName</td>
+                                            <td class="align-middle">@pcd.ProjectEstimatedCost</td>
+                                            <td class="align-middle">@pcd.ApprovalStatus</td>
+                                            <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId, status = pcd.IsCompleted ?? 0 })" class="btn btn-info">View</a></td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr class="bg-secondary text-white">
+                                            <td class="text-center align-middle">@count</td>
+                                            <td class="align-middle">@pcd.ProjectType</td>
+                                            <td class="align-middle">@pcd.ProjectName</td>
+                                            <td class="align-middle">@pcd.ProjectEstimatedCost</td>
+                                            <td class="align-middle">@pcd.ApprovalStatus</td>
+                                            <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId, status = pcd.IsCompleted ?? 0 })" class="btn btn-info">View</a></td>
+                                        </tr>
+                                    }
 
                                     count++;
                                 }
                             </tbody>
                         </table>
-
-
                     }
                 }
             </div>

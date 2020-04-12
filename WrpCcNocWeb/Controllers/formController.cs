@@ -99,56 +99,166 @@ namespace WrpCcNocWeb.Controllers
         public IActionResult list()
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
             UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+            List<ProjectViewList> pvl = new List<ProjectViewList>();
 
             if (uli.UserGroupId == 1000000001 && uli.AuthorityLevelId == 0)
             {
-                ViewBag.PCDS = _db.CcModAppProjectCommonDetail.Where(w => w.UserId == ui.UserID).ToList();
+                pvl = (from p in _db.CcModAppProjectCommonDetail.Where(w => w.UserId == ui.UserID)
+                       join t in _db.LookUpCcModProjectType on p.ProjectTypeId equals t.ProjectTypeId into tGroup
+                       from pt in tGroup.DefaultIfEmpty()
+                       join s in _db.LookUpCcModApplicationState on p.ApplicationStateId equals s.ApplicationStateId into sGroup
+                       from st in sGroup.DefaultIfEmpty()
+                       join a in _db.LookUpCcModApprovalStatus on p.ApprovalStatusId equals a.ApprovalStatusId into aGroup
+                       from ap in aGroup.DefaultIfEmpty()
+
+                       select new ProjectViewList
+                       {
+                           ProjectId = p.ProjectId,
+                           ProjectTypeId = p.ProjectTypeId,
+                           ProjectType = pt.ProjectType,
+                           ProjectName = p.ProjectName,
+                           ProjectEstimatedCost = p.ProjectEstimatedCost,
+                           ApplicationStateId = p.ApplicationStateId,
+                           ApplicationState = st.ApplicationState,
+                           ApprovalStatusId = p.ApprovalStatusId ?? 0,
+                           ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
+                           IsCompleted = p.IsCompleted
+                       }).ToList();
             }
             else if (uli.UserGroupId != 1000000001 && uli.AuthorityLevelId == 0)
             {
-                ViewBag.PCDS = _db.CcModAppProjectCommonDetail.Where(w => w.UserId == ui.UserID).ToList();
+                pvl = (from p in _db.CcModAppProjectCommonDetail
+                       join t in _db.LookUpCcModProjectType on p.ProjectTypeId equals t.ProjectTypeId into tGroup
+                       from pt in tGroup.DefaultIfEmpty()
+                       join s in _db.LookUpCcModApplicationState on p.ApplicationStateId equals s.ApplicationStateId into sGroup
+                       from st in sGroup.DefaultIfEmpty()
+                       join a in _db.LookUpCcModApprovalStatus on p.ApprovalStatusId equals a.ApprovalStatusId into aGroup
+                       from ap in aGroup.DefaultIfEmpty()
+
+                       select new ProjectViewList
+                       {
+                           ProjectId = p.ProjectId,
+                           ProjectTypeId = p.ProjectTypeId,
+                           ProjectType = pt.ProjectType,
+                           ProjectName = p.ProjectName,
+                           ProjectEstimatedCost = p.ProjectEstimatedCost,
+                           ApplicationStateId = p.ApplicationStateId,
+                           ApplicationState = st.ApplicationState,
+                           ApprovalStatusId = p.ApprovalStatusId ?? 0,
+                           ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
+                           IsCompleted = p.IsCompleted
+                       }).ToList();
             }
             else
             {
-                List<CcModAppProjectCommonDetail> pcds = new List<CcModAppProjectCommonDetail>();
                 List<long> ProjectList = new List<long>();
 
                 if (!string.IsNullOrEmpty(uli.UnionGeoCode))
                 {
                     ProjectList = new List<long>();
-                    pcds = new List<CcModAppProjectCommonDetail>();
-
                     ProjectList = _db.CcModPrjLocationDetail.Where(w => w.UnionGeoCode == uli.UnionGeoCode).Select(s => s.ProjectId).Distinct().ToList();
-                    pcds = _db.CcModAppProjectCommonDetail.Where(w => w.ApplicationStateId == uli.ApplicationStateId && ProjectList.Any(a => w.ProjectId == a.ToString().ToLong())).ToList();
+                    pvl = (from p in _db.CcModAppProjectCommonDetail.Where(w => w.ApplicationStateId == uli.ApplicationStateId && ProjectList.Any(a => w.ProjectId == a.ToString().ToLong()))
+                           join t in _db.LookUpCcModProjectType on p.ProjectTypeId equals t.ProjectTypeId into tGroup
+                           from pt in tGroup.DefaultIfEmpty()
+                           join s in _db.LookUpCcModApplicationState on p.ApplicationStateId equals s.ApplicationStateId into sGroup
+                           from st in sGroup.DefaultIfEmpty()
+                           join a in _db.LookUpCcModApprovalStatus on p.ApprovalStatusId equals a.ApprovalStatusId into aGroup
+                           from ap in aGroup.DefaultIfEmpty()
+
+                           select new ProjectViewList
+                           {
+                               ProjectId = p.ProjectId,
+                               ProjectTypeId = p.ProjectTypeId,
+                               ProjectType = pt.ProjectType,
+                               ProjectName = p.ProjectName,
+                               ProjectEstimatedCost = p.ProjectEstimatedCost,
+                               ApplicationStateId = p.ApplicationStateId,
+                               ApplicationState = st.ApplicationState,
+                               ApprovalStatusId = p.ApprovalStatusId ?? 0,
+                               ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
+                               IsCompleted = p.IsCompleted
+                           }).ToList();
                 }
 
                 if (!string.IsNullOrEmpty(uli.UpazilaGeoCode) && string.IsNullOrEmpty(uli.UnionGeoCode))
                 {
                     ProjectList = new List<long>();
-                    pcds = new List<CcModAppProjectCommonDetail>();
-
                     ProjectList = _db.CcModPrjLocationDetail.Where(w => w.UpazilaGeoCode == uli.UpazilaGeoCode).Select(s => s.ProjectId).Distinct().ToList();
-                    pcds = _db.CcModAppProjectCommonDetail.Where(w => w.ApplicationStateId == uli.ApplicationStateId && ProjectList.Any(a => w.ProjectId == a.ToString().ToLong())).ToList();
+                    pvl = (from p in _db.CcModAppProjectCommonDetail.Where(w => w.ApplicationStateId == uli.ApplicationStateId && ProjectList.Any(a => w.ProjectId == a.ToString().ToLong()))
+                           join t in _db.LookUpCcModProjectType on p.ProjectTypeId equals t.ProjectTypeId into tGroup
+                           from pt in tGroup.DefaultIfEmpty()
+                           join s in _db.LookUpCcModApplicationState on p.ApplicationStateId equals s.ApplicationStateId into sGroup
+                           from st in sGroup.DefaultIfEmpty()
+                           join a in _db.LookUpCcModApprovalStatus on p.ApprovalStatusId equals a.ApprovalStatusId into aGroup
+                           from ap in aGroup.DefaultIfEmpty()
+
+                           select new ProjectViewList
+                           {
+                               ProjectId = p.ProjectId,
+                               ProjectTypeId = p.ProjectTypeId,
+                               ProjectType = pt.ProjectType,
+                               ProjectName = p.ProjectName,
+                               ProjectEstimatedCost = p.ProjectEstimatedCost,
+                               ApplicationStateId = p.ApplicationStateId,
+                               ApplicationState = st.ApplicationState,
+                               ApprovalStatusId = p.ApprovalStatusId ?? 0,
+                               ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
+                               IsCompleted = p.IsCompleted
+                           }).ToList();
                 }
 
                 if (!string.IsNullOrEmpty(uli.DistrictGeoCode) && string.IsNullOrEmpty(uli.UpazilaGeoCode) && string.IsNullOrEmpty(uli.UnionGeoCode))
                 {
                     ProjectList = new List<long>();
-                    pcds = new List<CcModAppProjectCommonDetail>();
-
                     ProjectList = _db.CcModPrjLocationDetail.Where(w => w.DistrictGeoCode == uli.DistrictGeoCode).Select(s => s.ProjectId).Distinct().ToList();
-                    pcds = _db.CcModAppProjectCommonDetail.Where(w => w.ApplicationStateId == uli.ApplicationStateId && ProjectList.Any(a => w.ProjectId == a.ToString().ToLong())).ToList();
-                }
+                    pvl = (from p in _db.CcModAppProjectCommonDetail.Where(w => w.ApplicationStateId == uli.ApplicationStateId && ProjectList.Any(a => w.ProjectId == a.ToString().ToLong()))
+                           join t in _db.LookUpCcModProjectType on p.ProjectTypeId equals t.ProjectTypeId into tGroup
+                           from pt in tGroup.DefaultIfEmpty()
+                           join s in _db.LookUpCcModApplicationState on p.ApplicationStateId equals s.ApplicationStateId into sGroup
+                           from st in sGroup.DefaultIfEmpty()
+                           join a in _db.LookUpCcModApprovalStatus on p.ApprovalStatusId equals a.ApprovalStatusId into aGroup
+                           from ap in aGroup.DefaultIfEmpty()
 
-                ViewBag.PCDS = pcds;
+                           select new ProjectViewList
+                           {
+                               ProjectId = p.ProjectId,
+                               ProjectTypeId = p.ProjectTypeId,
+                               ProjectType = pt.ProjectType,
+                               ProjectName = p.ProjectName,
+                               ProjectEstimatedCost = p.ProjectEstimatedCost,
+                               ApplicationStateId = p.ApplicationStateId,
+                               ApplicationState = st.ApplicationState,
+                               ApprovalStatusId = p.ApprovalStatusId ?? 0,
+                               ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
+                               IsCompleted = p.IsCompleted
+                           }).ToList();
+                }
             }
 
+            ViewBag.PCDS = pvl;
             return View();
         }
 
-        public IActionResult view(long id)
+        public IActionResult view(long id, int status)
         {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
+            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+            ViewBag.UserLevel = uli.UserGroupId;
+            ChangeStatus(id, status);
+
             CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(id);
 
             if (pcd != null)
@@ -212,6 +322,29 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.ProjectTypeId = pcd.ProjectTypeId;
 
             return View();
+        }
+
+        public int ChangeStatus(long id, int status)
+        {
+            CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(id);
+            int result = 0;
+
+            if (pcd != null)
+            {
+                if (status == 0)
+                {
+                    pcd.IsCompleted = 1;
+                }
+                else if (status == 1)
+                {
+                    pcd.IsCompleted = 2;
+                }
+
+                _db.Entry(pcd).State = EntityState.Modified;
+                result = _db.SaveChanges();
+            }
+
+            return result;
         }
 
         public IActionResult status()

@@ -40,6 +40,7 @@ namespace WrpCcNocWeb.Controllers
         public IActionResult index()
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            List<CcModAppProjectCommonDetail> pcds = new List<CcModAppProjectCommonDetail>();
 
             if (ui == null)
             {
@@ -49,7 +50,49 @@ namespace WrpCcNocWeb.Controllers
             UserMenuPermissionToSession(ui);
             GetUserLevelInfo(ui.UserID);
 
-            int count = _db.CcModAppProjectCommonDetail.Where(w => w.UserId == ui.UserID).Count();
+            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+
+            if (uli.UserGroupId == 1000000001 && uli.AuthorityLevelId == 0)
+            {
+                pcds = _db.CcModAppProjectCommonDetail.Where(w => w.UserId == ui.UserID).ToList();
+            }
+            else if (uli.UserGroupId != 1000000001 && uli.AuthorityLevelId == 0)
+            {
+                pcds = _db.CcModAppProjectCommonDetail.ToList();
+            }
+            else
+            {
+                List<long> ProjectList = new List<long>();
+
+                if (!string.IsNullOrEmpty(uli.UnionGeoCode))
+                {
+                    ProjectList = new List<long>();
+                    pcds = new List<CcModAppProjectCommonDetail>();
+
+                    ProjectList = _db.CcModPrjLocationDetail.Where(w => w.UnionGeoCode == uli.UnionGeoCode).Select(s => s.ProjectId).Distinct().ToList();
+                    pcds = _db.CcModAppProjectCommonDetail.Where(w => w.ApplicationStateId == uli.ApplicationStateId && ProjectList.Any(a => w.ProjectId == a.ToString().ToLong())).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(uli.UpazilaGeoCode) && string.IsNullOrEmpty(uli.UnionGeoCode))
+                {
+                    ProjectList = new List<long>();
+                    pcds = new List<CcModAppProjectCommonDetail>();
+
+                    ProjectList = _db.CcModPrjLocationDetail.Where(w => w.UpazilaGeoCode == uli.UpazilaGeoCode).Select(s => s.ProjectId).Distinct().ToList();
+                    pcds = _db.CcModAppProjectCommonDetail.Where(w => w.ApplicationStateId == uli.ApplicationStateId && ProjectList.Any(a => w.ProjectId == a.ToString().ToLong())).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(uli.DistrictGeoCode) && string.IsNullOrEmpty(uli.UpazilaGeoCode) && string.IsNullOrEmpty(uli.UnionGeoCode))
+                {
+                    ProjectList = new List<long>();
+                    pcds = new List<CcModAppProjectCommonDetail>();
+
+                    ProjectList = _db.CcModPrjLocationDetail.Where(w => w.DistrictGeoCode == uli.DistrictGeoCode).Select(s => s.ProjectId).Distinct().ToList();
+                    pcds = _db.CcModAppProjectCommonDetail.Where(w => w.ApplicationStateId == uli.ApplicationStateId && ProjectList.Any(a => w.ProjectId == a.ToString().ToLong())).ToList();
+                }
+            }
+
+            int count = pcds.Count();
             ViewBag.TotalAppliedApplication = count.ToString().PadLeft(3, '0');
 
             return View();

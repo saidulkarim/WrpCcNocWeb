@@ -11870,3 +11870,8 @@ button:focus {
 .font-24 {
     font-size: 24px !important
 }
+
+/* added by rony */
+.cursor {
+    cursor: pointer;
+}
