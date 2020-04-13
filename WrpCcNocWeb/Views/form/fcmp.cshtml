@@ -1225,7 +1225,13 @@
                                                                         </div>
 
                                                                         <div class="form-group">
-                                                                            <label>Participant List</label>
+                                                                            <label for="DiscussWithStakeParticipntLst">
+                                                                                @{if (language == "1")
+                                                                                    { <span>অংশগ্রহণকারীদের তালিকা</span>}
+                                                                                    else
+                                                                                    {<span>Participant List</span>}
+                                                                                }
+                                                                            </label>
                                                                             <div class="input-group">
                                                                                 <div class="custom-file">
                                                                                     <input id="DiscussWithStakeParticipntLst" name="DiscussWithStakeParticipntLst" type="file"
@@ -1236,7 +1242,13 @@
                                                                         </div>
 
                                                                         <div class="form-group">
-                                                                            <label>Meeting Minutes</label>
+                                                                            <label for="DiscussWithStakeMeetingMin">
+                                                                                @{if (language == "1")
+                                                                                    { <span>মিটিং মিনিট</span>}
+                                                                                    else
+                                                                                    {<span>Meeting Minutes</span>}
+                                                                                }
+                                                                            </label>
                                                                             <div class="input-group">
                                                                                 <div class="custom-file">
                                                                                     <input id="DiscussWithStakeMeetingMin" name="DiscussWithStakeMeetingMin" type="file"
@@ -1405,7 +1417,14 @@
                                                                                                         {
                                                                                                             foreach (LookUpCcModDesignSubmitParam dsp in _dsp)
                                                                                                             {
-                                                                                                                <option value="@dsp.DesignSubmittedParameterId" title="@dsp.DesignSubmittedParameterId">@dsp.ParameterName</option>
+                                                                                                                if (language == "1")
+                                                                                                                {
+                                                                                                                    <option value="@dsp.DesignSubmittedParameterId">@dsp.ParameterNameBn</option>
+                                                                                                                }
+                                                                                                                else
+                                                                                                                {
+                                                                                                                    <option value="@dsp.DesignSubmittedParameterId">@dsp.ParameterName</option>
+                                                                                                                }
                                                                                                             }
                                                                                                         }
                                                                                                     }
@@ -1566,7 +1585,14 @@
                                                                                                         {
                                                                                                             foreach (LookUpCcModEIAParameter eia in _eias)
                                                                                                             {
-                                                                                                                <option value="@eia.EIAParameterId">@eia.ParameterName</option>
+                                                                                                                if (language == "1")
+                                                                                                                {
+                                                                                                                    <option value="@eia.EIAParameterId">@eia.ParameterNameBn</option>
+                                                                                                                }
+                                                                                                                else
+                                                                                                                {
+                                                                                                                    <option value="@eia.EIAParameterId">@eia.ParameterName</option>
+                                                                                                                }
                                                                                                             }
                                                                                                         }
                                                                                                     }
@@ -1672,7 +1698,14 @@
                                                                                                         {
                                                                                                             foreach (LookUpCcModSIAParameter sia in _sias)
                                                                                                             {
-                                                                                                                <option value="@sia.SIAParameterId">@sia.SIAParameterName</option>
+                                                                                                                if (language == "1")
+                                                                                                                {
+                                                                                                                    <option value="@sia.SIAParameterId">@sia.SIAParameterNameBn</option>
+                                                                                                                }
+                                                                                                                else
+                                                                                                                {
+                                                                                                                    <option value="@sia.SIAParameterId">@sia.SIAParameterName</option>
+                                                                                                                }
                                                                                                             }
                                                                                                         }
                                                                                                     }
@@ -1807,7 +1840,14 @@
                                                                                                         {
                                                                                                             foreach (LookUpCcModEcoAndFinancial eaf in _eaf)
                                                                                                             {
-                                                                                                                <option value="@eaf.EcoAndFinancialParamId" title="@eaf.EcoAndFinancialUnit">@eaf.EcoAndFinancialParamName</option>
+                                                                                                                if (language == "1")
+                                                                                                                {
+                                                                                                                    <option value="@eaf.EcoAndFinancialParamId" title="@eaf.EcoAndFinancialUnit">@eaf.EcoAndFinancialParamNameBn</option>
+                                                                                                                }
+                                                                                                                else
+                                                                                                                {
+                                                                                                                    <option value="@eaf.EcoAndFinancialParamId" title="@eaf.EcoAndFinancialUnit">@eaf.EcoAndFinancialParamName</option>
+                                                                                                                }
                                                                                                             }
                                                                                                         }
                                                                                                     }
@@ -3010,7 +3050,16 @@
                                                                 <div id="gen-info-form">
                                                                     <div class="form-group col-md-12">
                                                                         <center>
-                                                                            <p><h1>Before you submit, please make sure you have entered all valid information and attached relevant documents.</h1></p>
+                                                                            <p><h1>
+                                                                                if (language == "1") 
+                                                                                { 
+                                                                                   <span>জমা দেওয়ার আগে দয়া করে নিশ্চিত হয়ে নিন যে আপনি সমস্ত বৈধ তথ্য এবং প্রাসঙ্গিক নথি সংযুক্ত করেছেন।</span>
+                                                                                } 
+                                                                                else 
+                                                                                { 
+                                                                                    <span>Before you submit, please make sure you have entered all valid information and attached relevant documents.</span>
+                                                                                }
+                                                                            </h1></p>
                                                                         </center>
                                                                         <button id="btnFinalSubmit" type="button" class="btn btn-block btn-info waves-effect waves-light">
                                                                             <i class="mdi mdi-bookmark-check"></i> Final Submit
