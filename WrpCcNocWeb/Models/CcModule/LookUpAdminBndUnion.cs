@@ -13,7 +13,7 @@ namespace WrpCcNocWeb.Models
         [Column("UnionGeoCode", Order = 0)]
         [MaxLength(8)]
         public string UnionGeoCode { get; set; }
-        
+
         [Required]
         [Column("UpazilaGeoCode", Order = 1)]
         [Display(Name = "Upazila")]
@@ -27,5 +27,11 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Union Name")]
         [MaxLength(50)]
         public string UnionName { get; set; }
+
+        [Required]
+        [Column("UnionNameBn", Order = 3)]
+        [Display(Name = "ইউনিয়ন")]
+        [MaxLength(100)]
+        public string UnionNameBn { get; set; }
     }
 }

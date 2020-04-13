@@ -19,5 +19,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(50)]
         [Display(Name = "District Name")]
         public string DistrictName { get; set; }
+
+        [Required]
+        [Column("DistrictNameBn", Order = 2)]
+        [MaxLength(100)]
+        [Display(Name = "জেলা")]
+        public string DistrictNameBn { get; set; }
     }
 }

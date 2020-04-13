@@ -27,5 +27,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(50)]
         [Display(Name = "Upazila Name")]
         public string UpazilaName { get; set; }
+
+        [Required]
+        [Column("UpazilaNameBn", Order = 3)]
+        [MaxLength(100)]
+        [Display(Name = "উপজেলা")]
+        public string UpazilaNameBn { get; set; }
     }
 }
