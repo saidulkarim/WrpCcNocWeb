@@ -41,9 +41,9 @@
     <!-- End Navigation Bar-->
     <!-- Start Page Content here -->
     <div class="wrapper">
-        <div class="container-fluid">
+        <div class="container-fluid" style="margin-top: 20px;">
             <!-- breadcrumb start-->
-            @Html.Partial("_Breadcrumb")
+            @*@Html.Partial("_Breadcrumb")*@
             <!-- breadcrumb end-->
 
             @RenderBody()
@@ -54,8 +54,6 @@
     <!-- Footer Start -->
     @Html.Partial("_Footer")
     <!-- Footer End -->
-
-    <vc:culture-switcher />
 
     <!-- Start Right Sidebar -->
     @Html.Partial("_RightSidebar")

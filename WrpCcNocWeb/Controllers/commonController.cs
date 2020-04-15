@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WrpCcNocWeb.DatabaseContext;
 using WrpCcNocWeb.Helpers;
+using WrpCcNocWeb.Models;
 using WrpCcNocWeb.Models.TempModels;
 using WrpCcNocWeb.Models.Utility;
 
@@ -18,6 +19,25 @@ namespace WrpCcNocWeb.Controllers
         private readonly CommonHelper ch = new CommonHelper();
         private Notification noti = new Notification();
         #endregion
+
+        //common/GetProjectTypeData
+        [HttpGet]
+        public JsonResult gptd()
+        {
+            List<LookUpCcModProjectType> _items = new List<LookUpCcModProjectType>();
+
+            try
+            {
+                _items = _db.LookUpCcModProjectType.ToList();
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+                _items = new List<LookUpCcModProjectType>();
+            }
+
+            return Json(_items);
+        }
 
         //common/GetAdminBoundary :: Upazila, Union
         [HttpGet]

@@ -57,7 +57,9 @@ namespace WrpCcNocWeb.Controllers
                 return RedirectToAction("login", "account");
             }
 
-            ViewBag.ProjectTypeId = new SelectList(_db.LookUpCcModProjectType.ToList(), "ProjectTypeId", "ProjectType");
+            ViewData["Title"] = "Apply";
+            //ViewBag.ProjectTypeId = new SelectList(_db.LookUpCcModProjectType.ToList(), "ProjectTypeId", "ProjectType");
+            //ViewBag.ProjectTypeBnId = new SelectList(_db.LookUpCcModProjectType.ToList(), "ProjectTypeId", "ProjectTypeBn");
             return View();
         }
 
@@ -67,7 +69,8 @@ namespace WrpCcNocWeb.Controllers
             if (!string.IsNullOrEmpty(_selectedForm.ProjectTypeId))
             {
                 HttpContext.Session.SetComplexData("SelectedForm", _selectedForm);
-                ViewBag.ProjectTypeId = new SelectList(_db.LookUpCcModProjectType.ToList(), "ProjectTypeId", "ProjectType", _selectedForm.ProjectTypeId);
+                //ViewBag.ProjectTypeId = new SelectList(_db.LookUpCcModProjectType.ToList(), "ProjectTypeId", "ProjectType", _selectedForm.ProjectTypeId);
+                //ViewBag.ProjectTypeBnId = new SelectList(_db.LookUpCcModProjectType.ToList(), "ProjectTypeId", "ProjectTypeBn", _selectedForm.ProjectTypeId);
 
                 HttpContext.Response.Cookies.Append("FormLanguage", string.Empty, new CookieOptions()
                 {
@@ -93,6 +96,7 @@ namespace WrpCcNocWeb.Controllers
                 TempData["Message"] = ch.ShowMessage(Sign.Warning, "Required", "Please select a form to apply.");
             }
 
+            ViewData["Title"] = "Apply";
             return View();
         }
 

@@ -1250,7 +1250,9 @@
             });
 
             //tdDrainageCondition
-            jQuery("#tdDrainageCondition-" + @ViewBag.ProjectIndvDetail31.DrainageConditionId).addClass('bg-dark text-white').prepend('<i class="mdi mdi-check"></i> ');
+            var DrainageConditionId = '@ViewBag.ProjectIndvDetail31.DrainageConditionId';
+            if (DrainageConditionId!='')
+                jQuery("#tdDrainageCondition-" + DrainageConditionId).addClass('bg-dark text-white').prepend('<i class="mdi mdi-check"></i> ');
 
             pSetTextValue('pWaterSalinity', '@ViewBag.ProjectIndvDetail31.WaterSalinity');
             pSetTextValue('pWaterDO', '@ViewBag.ProjectIndvDetail31.WaterDO');

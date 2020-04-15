@@ -11,20 +11,42 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title mb-3"> Apply for: <b>@ViewBag.ProjectTitle</b></h4>
+                <h4 class="header-title mb-3">
+                    <b>@ViewBag.ProjectTitle</b>
+                
+                    <button id="btnGoBack" type="button" class="btn btn-secondary float-right" style="margin-top: -10px;">Back</button>
+                </h4>
                 <form>
                     <div id="basicwizard">
                         <ul class="nav nav-pills bg-light nav-justified form-wizard-header">
                             <li class="nav-item">
                                 <a id="lnkTab1" href="#basictab1" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2 active">
                                     <i class="mdi mdi-format-float-right mr-1"></i>
-                                    <span class="d-none d-sm-inline">@ViewBag.ProjectTitle</span>
+                                    <span class="d-none d-sm-inline">
+                                        @if (language == "1")
+                                        {
+                                            <span>আবেদনপত্র</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Application Form</span>
+                                        }
+                                    </span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a id="lnkTab2" href="#basictab2" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                     <i class="mdi mdi-face-profile mr-1"></i>
-                                    <span class="d-none d-sm-inline">Preview</span>
+                                    <span class="d-none d-sm-inline">
+                                        @if (language == "1")
+                                        {
+                                            <span>প্রিভিউ</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Preview</span>
+                                        }
+                                    </span>
                                 </a>
                             </li>
                         </ul>
@@ -103,7 +125,6 @@
                                                                 <div id="gen-info-form">
                                                                     <div class="form-group">
                                                                         <label for="ProjectName">
-
                                                                             @{if (language == "1")
                                                                                 { <span> প্রকল্প শিরোনাম </span>}
                                                                                 else
@@ -116,7 +137,6 @@
 
                                                                     <div class="form-group">
                                                                         <label for="BackgroundAndRationale">
-
                                                                             @{if (language == "1")
                                                                                 { <span> প্রকল্পের পূর্ব ইতিহাস ও যৌক্তিকতা  </span>}
                                                                                 else
@@ -128,7 +148,6 @@
 
                                                                     <div class="form-group">
                                                                         <label for="ProjectTarget">
-
                                                                             @{if (language == "1")
                                                                                 { <span>  প্রকল্পের লক্ষ্য </span>}
                                                                                 else
@@ -140,7 +159,6 @@
 
                                                                     <div class="form-group">
                                                                         <label for="ProjectObjective">
-
                                                                             @{if (language == "1")
                                                                                 { <span>  প্রকল্পের উদ্দেশ্য </span>}
                                                                                 else
@@ -218,13 +236,27 @@
                                                                     <div class="form-group mb-0">
                                                                         <button id="btnSaveGeneral" type="button" class="btn btn-info waves-effect waves-light">
                                                                             <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
-                                                                            <span style="text-decoration: underline;">S</span>ave
+                                                                            @if (language == "1")
+                                                                            {
+                                                                                <span>সংরক্ষণ করুন</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>Save</span>
+                                                                            }
                                                                             <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
                                                                         </button>
 
                                                                         <button id="btnClearGeneral" type="button" class="btn btn-secondary waves-effect waves-light">
                                                                             <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
-                                                                            Clear
+                                                                            @if (language == "1")
+                                                                            {
+                                                                                <span>পরিষ্কার করুন</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>Clear</span>
+                                                                            }
                                                                         </button>
                                                                     </div>
                                                                 </div>
@@ -291,11 +323,10 @@
 
                                                                                                 <select id="DistrictGeoCode" name="DistrictGeoCode" class="form-control" required="">
                                                                                                     <option value="">
-                                                                                                        @{if (language == "1")
-                                                                                                            { <span>বাছাই করুন...</span>}
-                                                                                                            else
-                                                                                                            {<span>Choose...</span>}
-                                                                                                        }
+                                                                                                        @if (language == "1")
+                                                                                                        { <span>বাছাই করুন...</span>}
+                                                                                                        else
+                                                                                                        {<span>Choose...</span>}                                                                                                        
                                                                                                     </option>
 
                                                                                                     @{
@@ -375,9 +406,9 @@
                                                                 <div id="tech-info-form">
                                                                     <h2>
                                                                         @{if (language == "1")
-                                                                            { <span>বেজলাইন সম্পর্কিত তথ্য বা অবস্থা পর্যালোচনা</span>}
+                                                                            { <span>১. বেজলাইন সম্পর্কিত তথ্য বা অবস্থা পর্যালোচনা</span>}
                                                                             else
-                                                                            {<span> Discussion about baseline related information or situation </span>}
+                                                                            {<span>1. Discussion about baseline related information or situation </span>}
                                                                         }
                                                                     </h2>
 
@@ -404,7 +435,7 @@
                                                                                             <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@hr.HydroRegionFullNameBn">
                                                                                                 <input type="checkbox" name="hydrological_region" id="@id" value="@hr.HydroRegionId" data-parsley-multiple="hydrological_region">
                                                                                                 <label for="@id"> @hr.HydroRegionFullNameBn </label>
-                                                                                            </div>   
+                                                                                            </div>
                                                                                         }
                                                                                         else
                                                                                         {
@@ -514,14 +545,14 @@
                                                                                                         {
                                                                                                             foreach (LookUpCcModHydroSystem hs in _hs)
                                                                                                             {
-                                                                                                                if (language == "1") 
+                                                                                                                if (language == "1")
                                                                                                                 {
                                                                                                                     <option value="@hs.HydroSystemCategoryId" title="@hs.HydroSysCategoryUnitBn">@hs.HydroSystemCategoryBn</option>
                                                                                                                 }
                                                                                                                 else
                                                                                                                 {
                                                                                                                     <option value="@hs.HydroSystemCategoryId" title="@hs.HydroSysCategoryUnit">@hs.HydroSystemCategory</option>
-                                                                                                                }                                                                                                                
+                                                                                                                }
                                                                                                             }
                                                                                                         }
                                                                                                     }
@@ -717,7 +748,7 @@
                                                                                                 }
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                Frequency@{if (language == "1")
+                                                                                                @{if (language == "1")
                                                                                                     { <span>ফ্রিকোয়েন্সি</span>}
                                                                                                     else
                                                                                                     {<span>Frequency</span>}
@@ -1020,7 +1051,16 @@
                                                                     </div>
 
                                                                     <fieldset>
-                                                                        <legend>Fish Production and Diversity</legend>
+                                                                        <legend>
+                                                                            @if (language == "1")
+                                                                            {
+                                                                            <span>মাছ উৎপাদন এবং বৈচিত্র্য</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>Fish Production and Diversity</span>
+                                                                            }
+                                                                        </legend>
 
                                                                         <div class="row">
                                                                             <div class="form-group col-md-4">
@@ -1236,7 +1276,16 @@
                                                                                 <div class="custom-file">
                                                                                     <input id="DiscussWithStakeParticipntLst" name="DiscussWithStakeParticipntLst" type="file"
                                                                                            class="custom-file-input" onchange="UploadCommonFiles('DiscussWithStakeParticipntLst');" />
-                                                                                    <label class="custom-file-label" for="DiscussWithStakeParticipntLst">Choose file</label>
+                                                                                    <label class="custom-file-label" for="DiscussWithStakeParticipntLst">
+                                                                                        @if (language == "1")
+                                                                                        {
+                                                                                            <span>ফাইল পছন্দ করুন</span>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <span>Choose file</span>
+                                                                                        }
+                                                                                    </label>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -1253,7 +1302,16 @@
                                                                                 <div class="custom-file">
                                                                                     <input id="DiscussWithStakeMeetingMin" name="DiscussWithStakeMeetingMin" type="file"
                                                                                            class="custom-file-input" onchange="UploadCommonFiles('DiscussWithStakeMeetingMin');" />
-                                                                                    <label class="custom-file-label" for="DiscussWithStakeMeetingMin">Choose file</label>
+                                                                                    <label class="custom-file-label" for="DiscussWithStakeMeetingMin">
+                                                                                        @if (language == "1")
+                                                                                        {
+                                                                                            <span>ফাইল পছন্দ করুন</span>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <span>Choose file</span>
+                                                                                        }
+                                                                                    </label>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -1261,9 +1319,9 @@
 
                                                                     <h2>
                                                                         @{if (language == "1")
-                                                                            { <span> উদ্দেশ্য পূরনের অপশনসমূহ বিশ্লেষণ</span>}
+                                                                            { <span>৪. উদ্দেশ্য পূরনের অপশনসমূহ বিশ্লেষণ</span>}
                                                                             else
-                                                                            {<span> 4. Analyze options to fulfill objective</span>}
+                                                                            {<span>4. Analyze options to fulfill objective</span>}
                                                                         }
                                                                     </h2>
 
@@ -1271,9 +1329,9 @@
                                                                         <label for="AnalyzeOptFulfillObj">
 
                                                                             @{if (language == "1")
-                                                                                { <span> প্রকল্প  প্রণয়ন পর্যায়ে স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
+                                                                                { <span>প্রকল্প  প্রণয়ন পর্যায়ে স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
                                                                                 else
-                                                                                {<span> Discussion with stakeholders during starting of the project</span>}
+                                                                                {<span>Discussion with stakeholders during starting of the project</span>}
                                                                             }
                                                                         </label>
 
@@ -1332,27 +1390,27 @@
                                                                                         <tr>
                                                                                             <th class="text-center">#</th>
                                                                                             <th class="text-center">
-                                                                                                Option
+                                                                                                
                                                                                                 @{if (language == "1")
-                                                                                                    { <span></span>}
+                                                                                                    { <span>বিকল্প</span>}
                                                                                                     else
-                                                                                                    {<span></span>}
+                                                                                                    {<span>Option</span>}
                                                                                                 }
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                Description
+                                                                                                
                                                                                                 @{if (language == "1")
-                                                                                                    { <span></span>}
+                                                                                                    { <span>বিবরণ</span>}
                                                                                                     else
-                                                                                                    {<span></span>}
+                                                                                                    {<span>Description</span>}
                                                                                                 }
                                                                                             </th>
                                                                                             <th class="text-center">
-                                                                                                Remarks
+                                                                                                
                                                                                                 @{if (language == "1")
-                                                                                                    { <span></span>}
+                                                                                                    { <span>মন্তব্য</span>}
                                                                                                     else
-                                                                                                    {<span></span>}
+                                                                                                    {<span>Remarks</span>}
                                                                                                 }
                                                                                             </th>
                                                                                             <th class="text-center"></th>
@@ -1386,17 +1444,62 @@
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <h2>5. Design submitted with project document</h2>
+                                                                        <h2>
+                                                                            @if (language == "1")
+                                                                            {
+                                                                                <span>৫. প্রকল্প নথির সাথে ডিজাইন জমা দেওয়া</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>5. Design submitted with project document</span>
+                                                                            }
+                                                                            </h2>
                                                                         <div id="divDSWPD" class="row" style="margin-left: -7px;">
                                                                             <div class="table-responsive">
                                                                                 <table class="table mb-0">
                                                                                     <thead>
                                                                                         <tr>
                                                                                             <th class="text-center">#</th>
-                                                                                            <th class="text-center">Parameters</th>
-                                                                                            <th class="text-center">Yes/ No</th>
-                                                                                            <th class="text-center">Applicant Comments</th>
-                                                                                            <th class="text-center">Authority Comments</th>
+                                                                                            <th class="text-center">
+                                                                                                @if (language == "1")
+                                                                                                {
+                                                                                                    <span>প্যারামিটার</span>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    <span>Parameters</span>
+                                                                                                }
+                                                                                            </th>
+                                                                                            <th class="text-center">
+                                                                                                @if (language == "1")
+                                                                                                {
+                                                                                                    <span>হ্যাঁ/ না</span>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    <span>Yes/ No</span>
+                                                                                                }
+                                                                                            </th>
+                                                                                            <th class="text-center">
+                                                                                                @if (language == "1")
+                                                                                                {
+                                                                                                    <span>আবেদনকারী মন্তব্য</span>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    <span>Applicant Comments</span>
+                                                                                                }
+                                                                                            </th>
+                                                                                            <th class="text-center">
+                                                                                                @if (language == "1")
+                                                                                                {
+                                                                                                    <span>কর্তৃপক্ষের মন্তব্য</span>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    <span>Authority Comments</span>
+                                                                                                }
+                                                                                            </th>
                                                                                             <th class="text-center"></th>
                                                                                         </tr>
                                                                                         <tr>
@@ -1407,7 +1510,7 @@
                                                                                                         @{if (language == "1")
                                                                                                             { <span>বাছাই করুন...</span>}
                                                                                                             else
-                                                                                                            {<span> Choose...</span>}
+                                                                                                            {<span>Choose...</span>}
                                                                                                         }
                                                                                                     </option>
                                                                                                     @{
@@ -1526,13 +1629,22 @@
                                                                                 <table class="table mb-0">
                                                                                     <thead>
                                                                                         <tr>
-                                                                                            <th colspan="7" class="text-center">Environmental Impact Assessment</th>
+                                                                                            <th colspan="7" class="text-center">
+                                                                                                @if (language == "1")
+                                                                                                {
+                                                                                                    <span>পরিবেশগত প্রভাব মূল্যায়ন</span>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    <span>Environmental Impact Assessment</span>
+                                                                                                }
+                                                                                            </th>
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <th class="text-center">#</th>
                                                                                             <th class="text-center">
                                                                                                 @{if (language == "1")
-                                                                                                    { <span>বিবরন</span>}
+                                                                                                    { <span>প্যারামিটার</span>}
                                                                                                     else
                                                                                                     {<span>Parameters</span>}
                                                                                                 }
@@ -1635,7 +1747,7 @@
                                                                                         <tr>
                                                                                             <th colspan="7" class="text-center">
                                                                                                 @{if (language == "1")
-                                                                                                    { <span>সামাজিক প্রভাব</span>}
+                                                                                                    { <span>সামাজিক প্রভাব মূল্যায়ন</span>}
                                                                                                     else
                                                                                                     {<span>Social Impact Assessment</span>}
                                                                                                 }
@@ -1799,9 +1911,9 @@
                                                                     <div class="form-group">
                                                                         <h2>
                                                                             @{if (language == "1")
-                                                                                { <span>৮.	অর্থনৈতিক ও আর্থিক বিশ্লেষণ</span>}
+                                                                                { <span>৮. অর্থনৈতিক ও আর্থিক বিশ্লেষণ</span>}
                                                                                 else
-                                                                                {<span> 8. Economical & Financial Analysis</span>}
+                                                                                {<span>8. Economical & Financial Analysis</span>}
                                                                             }
                                                                         </h2>
                                                                         <div id="divEconFinAna" class="row" style="margin-left: -7px;">
@@ -1810,8 +1922,26 @@
                                                                                     <thead>
                                                                                         <tr>
                                                                                             <th class="text-center">#</th>
-                                                                                            <th class="text-center">Item</th>
-                                                                                            <th class="text-center">Unit</th>
+                                                                                            <th class="text-center">
+                                                                                                @if (language == "1")
+                                                                                                {
+                                                                                                    <span>তালিকা</span>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    <span>Item</span>
+                                                                                                }
+                                                                                            </th>
+                                                                                            <th class="text-center">
+                                                                                                @if (language == "1")
+                                                                                                {
+                                                                                                    <span>একক</span>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    <span>Unit</span>
+                                                                                                }
+                                                                                            </th>
                                                                                             <th class="text-center">
                                                                                                 @{if (language == "1")
                                                                                                     { <span>আবেদনকারীর মন্তব্য</span>}
@@ -1823,7 +1953,7 @@
                                                                                                 @{if (language == "1")
                                                                                                     { <span>কর্তৃপক্ষের মন্তব্য</span>}
                                                                                                     else
-                                                                                                    {<span> Authority Comments</span>}
+                                                                                                    {<span>Authority Comments</span>}
                                                                                                 }
                                                                                             </th>
                                                                                             <th class="text-center"></th>
@@ -1832,7 +1962,13 @@
                                                                                             <th colspan="2" class="text-center">
                                                                                                 <input id="EconomicalAndFinancialId" type="hidden" />
                                                                                                 <select id="EcoAndFinancialParamId" name="EcoAndFinancialParamId" class="form-control" style="width: 80%;">
-                                                                                                    <option value="">Choose..</option>
+                                                                                                    <option value="">
+                                                                                                        @{if (language == "1")
+                                                                                                            { <span>বাছাই করুন...</span>}
+                                                                                                            else
+                                                                                                            {<span>Choose...</span>}
+                                                                                                        }
+                                                                                                    </option>
                                                                                                     @{
                                                                                                         List<LookUpCcModEcoAndFinancial> _eaf = ViewBag.LookUpCcModEcoAndFinancial;
 
@@ -1859,7 +1995,7 @@
                                                                                                         @{if (language == "1")
                                                                                                             { <span>বাছাই করুন...</span>}
                                                                                                             else
-                                                                                                            {<span> Choose...</span>}
+                                                                                                            {<span>Choose...</span>}
                                                                                                         }
                                                                                                     </option>
                                                                                                     @{
@@ -1904,13 +2040,27 @@
                                                                 <div class="form-group mb-0">
                                                                     <button id="btnSaveTechInfo" type="button" class="btn btn-info waves-effect waves-light">
                                                                         <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
-                                                                        <span style="text-decoration: underline;">S</span>ave
+                                                                        @if (language == "1")
+                                                                        {
+                                                                            <span>সংরক্ষণ করুন</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span>Save</span>
+                                                                        }
                                                                         <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
                                                                     </button>
 
                                                                     <button id="btnClearTechInfo" type="button" class="btn btn-danger waves-effect waves-light">
                                                                         <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
-                                                                        Clear
+                                                                        @if (language == "1")
+                                                                        {
+                                                                            <span>পরিষ্কার করুন</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span>Clear</span>
+                                                                        }
                                                                     </button>
                                                                 </div>
                                                             </div>
@@ -1923,7 +2073,7 @@
                                                                         @{if (language == "1")
                                                                             { <span>৯. প্রকল্পটি জাতীয় পানি নীতির সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
                                                                             else
-                                                                            {<span> 9. Compatibility with National Water Policy</span>}
+                                                                            {<span>9. Compatibility with National Water Policy</span>}
                                                                         }
                                                                     </h2>
 
@@ -1969,29 +2119,47 @@
                                                                             @{if (language == "1")
                                                                                 { <span>কর্তৃপক্ষের মন্তব্য</span>}
                                                                                 else
-                                                                                {<span> Authority Comments</span>}
+                                                                                {<span>Authority Comments</span>}
                                                                             }
                                                                         </label>
                                                                         <input type="text" id="CompatibilityNWPAuthorityCmt" name="CompatibilityNWPAuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label>Document Link</label>
+                                                                        <label for="CompatibilityNWPDocLink">
+                                                                            @if (language == "1")
+                                                                            {
+                                                                                <span>নথি লিঙ্ক</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>Document Link</span>
+                                                                            }
+                                                                        </label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
                                                                                 <input id="CompatibilityNWPDocLink" name="CompatibilityNWPDocLink" type="file"
                                                                                        class="custom-file-input" onchange="UploadCommonFiles('CompatibilityNWPDocLink');" />
-                                                                                <label class="custom-file-label" for="CompatibilityNWPDocLink">Choose file</label>
+                                                                                <label class="custom-file-label" for="CompatibilityNWPDocLink">
+                                                                                    @if (language == "1")
+                                                                                    {
+                                                                                        <span>ফাইল পছন্দ করুন</span>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <span>Choose file</span>
+                                                                                    }
+                                                                                </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div id="divCwnwpPolicy" class="form-group d-none">
                                                                         <h4>
-                                                                            Please choose article@{if (language == "1")
-                                                                                { <span></span>}
+                                                                            @{if (language == "1")
+                                                                                { <span>নিবন্ধটি চয়ন করুন</span>}
                                                                                 else
-                                                                                {<span></span>}
+                                                                                {<span>Please choose article</span>}
                                                                             }
                                                                         </h4>
                                                                         <div id="chkCwnwpPolicy" class="row" style="margin-left: 5px;">
@@ -2003,10 +2171,21 @@
                                                                                     foreach (LookUpCcModNWPArticle article in _articles)
                                                                                     {
                                                                                         var id = "chkCwnwpArticle" + article.NationalWaterPolicyArticleId;
-                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" title="@article.NationalWtrPolicyArticleTitle">
-                                                                                            <input type="checkbox" name="NationalWaterPolicyArticleId" id="@id" value="@article.NationalWaterPolicyArticleId" data-parsley-multiple="NationalWaterPolicyArticleId">
-                                                                                            <label for="@id"> @article.NationalWtrPolicyShortTitle </label> <a href="@article.NWPArticleLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                                                                        </div>
+
+                                                                                        if (language == "1")
+                                                                                        {
+                                                                                            <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@article.NWPArticleTitleBn">
+                                                                                                <input type="checkbox" name="NationalWaterPolicyArticleId" id="@id" value="@article.NationalWaterPolicyArticleId" data-parsley-multiple="NationalWaterPolicyArticleId">
+                                                                                                <label for="@id"> @article.NWPArticleShortTitleBn </label> <a href="@article.NWPArticleLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                                                                            </div>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@article.NationalWtrPolicyArticleTitle">
+                                                                                                <input type="checkbox" name="NationalWaterPolicyArticleId" id="@id" value="@article.NationalWaterPolicyArticleId" data-parsley-multiple="NationalWaterPolicyArticleId">
+                                                                                                <label for="@id"> @article.NationalWtrPolicyShortTitle </label> <a href="@article.NWPArticleLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                                                                            </div>
+                                                                                        }
                                                                                     }
                                                                                 }
                                                                             }
@@ -2070,18 +2249,45 @@
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label>Document Link</label>
+                                                                        <label for="NWMPDocLink">
+                                                                            @if (language == "1")
+                                                                            {
+                                                                                <span>নথি লিঙ্ক</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>Document Link</span>
+                                                                            }
+                                                                        </label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
                                                                                 <input id="NWMPDocLink" name="NWMPDocLink" type="file"
                                                                                        class="custom-file-input" onchange="UploadCommonFiles('NWMPDocLink');" />
-                                                                                <label class="custom-file-label" for="NWMPDocLink">Choose file</label>
+                                                                                <label class="custom-file-label" for="NWMPDocLink">
+                                                                                    @if (language == "1")
+                                                                                    {
+                                                                                        <span>ফাইল পছন্দ করুন</span>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <span>Choose file</span>
+                                                                                    }
+                                                                                </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div id="divCNWMP" class="form-group d-none">
-                                                                        <h4>If Yes (programme involved)</h4>
+                                                                        <h4>                                                                            
+                                                                            @if (language == "1")
+                                                                            {
+                                                                            <span>যদি হ্যাঁ হয় (প্রোগ্রাম জড়িত)</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                        <span>If Yes (programme involved)</span>
+                                                                            }
+                                                                        </h4>
                                                                         <div id="chkCNWMP" class="row" style="margin-left: 5px;">
                                                                             @{
                                                                                 List<LookUpCcModNWMPProgramme> _progs = ViewBag.LookUpCcModNWMPProgramme;
@@ -2095,10 +2301,21 @@
                                                                                         var id = "chkCNWMP" + prog.NWMPProgrammeId;
                                                                                         var name = prog.NWMPProgrammeTitle.Split(" ")[0].ToString();
 
-                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" title="@prog.NWMPProgrammeTitle">
-                                                                                            <input type="checkbox" name="PrjCompatNWMPId" id="@id" value="@prog.NWMPProgrammeId" data-parsley-multiple="PrjCompatNWMPId">
-                                                                                            <label for="@id"> @prog.NWMPProgrammeTitle </label> <a href="@prog.NWMPLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                                                                        </div>
+                                                                                        if (language == "1")
+                                                                                        {
+                                                                                            <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@prog.NWMPProgrammeTitle">
+                                                                                                <input type="checkbox" name="PrjCompatNWMPId" id="@id" value="@prog.NWMPProgrammeId" data-parsley-multiple="PrjCompatNWMPId">
+                                                                                                <label for="@id"> @prog.NWMPProgrammeTitle </label> <a href="@prog.NWMPLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                                                                            </div>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@prog.NWMPProgrammeTitle">
+                                                                                                <input type="checkbox" name="PrjCompatNWMPId" id="@id" value="@prog.NWMPProgrammeId" data-parsley-multiple="PrjCompatNWMPId">
+                                                                                                <label for="@id"> @prog.NWMPProgrammeTitle </label> <a href="@prog.NWMPLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                                                                            </div>
+                                                                                        }
+
 
                                                                                         if (new_name != name && !string.IsNullOrEmpty(new_name))
                                                                                         {
@@ -2117,7 +2334,7 @@
                                                                         @{if (language == "1")
                                                                             { <span>১১. প্রকল্পটি পানি সম্পদ ব্যবস্থাপনায় চলমান পঞ্চবার্ষিকী পরিকল্পনা এর সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
                                                                             else
-                                                                            {<span>11.	Compatibility with Current Fifth Year Plan (FYP)</span>}
+                                                                            {<span>11. Compatibility with Current Fifth Year Plan (FYP)</span>}
                                                                         }
                                                                     </h2>
 
@@ -2126,22 +2343,20 @@
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
                                                                                 <input type="radio" name="FYPYesNoId" id="cwcfypYes" value="1" data-parsley-multiple="FYPYesNoId">
                                                                                 <label for="cwcfypYes">
-                                                                                    @{if (language == "1")
+                                                                                    @if (language == "1")
                                                                                         { <span>হ্যাঁ</span>}
                                                                                         else
-                                                                                        {<span>Yes</span>}
-                                                                                    }
+                                                                                        {<span>Yes</span>}                                                                                    
                                                                                 </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
                                                                                 <input type="radio" name="FYPYesNoId" id="cwcfypNo" value="0" checked data-parsley-multiple="FYPYesNoId">
                                                                                 <label for="cwcfypNo">
-                                                                                    @{if (language == "1")
+                                                                                    @if (language == "1")
                                                                                         { <span>না</span>}
                                                                                         else
-                                                                                        {<span>No</span>}
-                                                                                    }
+                                                                                        {<span>No</span>}                                                                                    
                                                                                 </label>
                                                                             </div>
                                                                         </div>
@@ -2149,32 +2364,29 @@
 
                                                                     <div class="form-group">
                                                                         <label for="FYPApplicantCmt">
-                                                                            @{if (language == "1")
+                                                                            @if (language == "1")
                                                                                 { <span>আবেদনকারীর মন্তব্য</span>}
                                                                                 else
-                                                                                {<span>Applicant Comments</span>}
-                                                                            }
+                                                                                {<span>Applicant Comments</span>}                                                                            
                                                                         </label>
                                                                         <input type="text" id="FYPApplicantCmt" name="FYPApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
                                                                         <label for="FYPAuthorityCmt">
-                                                                            @{if (language == "1")
+                                                                            @if (language == "1")
                                                                                 { <span>কর্তৃপক্ষের মন্তব্য</span>}
                                                                                 else
-                                                                                {<span> Authority Comments</span>}
-                                                                            }
+                                                                                {<span>Authority Comments</span>}                                                                            
                                                                         </label>
                                                                         <input type="text" id="FYPAuthorityCmt" name="FYPAuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <h2>
-                                                                        @{if (language == "1")
+                                                                        @if (language == "1")
                                                                             { <span>১২. প্রকল্পটি টেকসই উন্নয়ন লক্ষ্যমাত্রা (এসডিজি) এর সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
                                                                             else
-                                                                            {<span>12.	Compatibility with Sustainable Development Goal (SDG)</span>}
-                                                                        }
+                                                                            {<span>12. Compatibility with Sustainable Development Goal (SDG)</span>}                                                                        
                                                                     </h2>
 
                                                                     <div class="form-group">
@@ -2182,22 +2394,21 @@
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
                                                                                 <input type="radio" name="SDGYesNoId" id="cwsdgYes" value="1" data-parsley-multiple="SDGYesNoId">
                                                                                 <label for="cwsdgYes">
-                                                                                    @{if (language == "1")
+                                                                                    @if (language == "1")
                                                                                         { <span>হ্যাঁ</span>}
                                                                                         else
                                                                                         {<span>Yes</span>}
-                                                                                    }
+                                                                                    
                                                                                 </label>
                                                                             </div>
 
                                                                             <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
                                                                                 <input type="radio" name="SDGYesNoId" id="cwsdgNo" value="0" checked data-parsley-multiple="SDGYesNoId">
                                                                                 <label for="cwsdgNo">
-                                                                                    @{if (language == "1")
+                                                                                    @if (language == "1")
                                                                                         { <span>না</span>}
                                                                                         else
-                                                                                        {<span>No</span>}
-                                                                                    }
+                                                                                        {<span>No</span>}                                                                                    
                                                                                 </label>
                                                                             </div>
                                                                         </div>
@@ -2205,39 +2416,64 @@
 
                                                                     <div class="form-group">
                                                                         <label for="SDGApplicantCmt">
-                                                                            @{if (language == "1")
+                                                                            @if (language == "1")
                                                                                 { <span>আবেদনকারীর মন্তব্য</span>}
                                                                                 else
-                                                                                {<span>Applicant Comments</span>}
-                                                                            }
+                                                                                {<span>Applicant Comments</span>}                                                                            
                                                                         </label>
                                                                         <input type="text" id="SDGApplicantCmt" name="SDGApplicantCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
                                                                         <label for="SDGAuthorityCmt">
-                                                                            @{if (language == "1")
+                                                                            @if (language == "1")
                                                                                 { <span>কর্তৃপক্ষের মন্তব্য</span>}
                                                                                 else
-                                                                                {<span> Authority Comments</span>}
-                                                                            }
+                                                                                {<span> Authority Comments</span>}                                                                          
                                                                         </label>
                                                                         <input type="text" id="SDGAuthorityCmt" name="SDGAuthorityCmt" class="form-control" />
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label>Document Link</label>
+                                                                        <label for="SDGDocLink">
+                                                                            @if (language == "1")
+                                                                            {
+                                                                                <span>নথি লিঙ্ক</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>Document Link</span>
+                                                                            }
+                                                                        </label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
                                                                                 <input id="SDGDocLink" name="SDGDocLink" type="file"
                                                                                        class="custom-file-input" onchange="UploadCommonFiles('SDGDocLink');" />
-                                                                                <label class="custom-file-label" for="SDGDocLink">Choose file</label>
+                                                                                <label class="custom-file-label" for="SDGDocLink">
+                                                                                    @if (language == "1")
+                                                                                    {
+                                                                                        <span>ফাইল পছন্দ করুন</span>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <span>Choose file</span>
+                                                                                    }
+                                                                                </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div id="divCwsdg" class="form-group d-none">
-                                                                        <h4>If Yes</h4>
+                                                                        <h4>
+                                                                            @if (language == "1")
+                                                                            {
+                                                                                <span>যদি হ্যাঁ</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>If Yes</span>
+                                                                            }
+                                                                        </h4>
                                                                         <div id="chkSDG" class="row" style="margin-left: 5px;">
                                                                             @{
                                                                                 List<LookUpCcModSDGGoal> _goals = ViewBag.LookUpCcModSDGGoal;
@@ -2250,10 +2486,20 @@
                                                                                     {
                                                                                         var id = "chkCWSDG" + goal.SDGGoalId;
 
-                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" title="@goal.SDGGoalNumber">
-                                                                                            <input type="checkbox" name="SDGGoalId" id="@id" value="@goal.SDGGoalId" data-parsley-multiple="SDGGoalId">
-                                                                                            <label for="@id"> @goal.SDGGoalNumber </label> <a href="@goal.SDGDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                                                                        </div>
+                                                                                        if (language == "1")
+                                                                                        {
+                                                                                            <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@goal.SDGGoalNumberBn">
+                                                                                                <input type="checkbox" name="SDGGoalId" id="@id" value="@goal.SDGGoalId" data-parsley-multiple="SDGGoalId">
+                                                                                                <label for="@id"> @goal.SDGGoalNumberBn </label> <a href="@goal.SDGDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                                                                            </div>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@goal.SDGGoalNumber">
+                                                                                                <input type="checkbox" name="SDGGoalId" id="@id" value="@goal.SDGGoalId" data-parsley-multiple="SDGGoalId">
+                                                                                                <label for="@id"> @goal.SDGGoalNumber </label> <a href="@goal.SDGDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                                                                            </div>
+                                                                                        }
                                                                                     }
                                                                                 }
                                                                             }
@@ -2280,10 +2526,21 @@
                                                                                     {
                                                                                         var id = "chkSdgIndicator" + indicator.SDGIndicatorId;
 
-                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" title="@indicator.SDGIndicatorName">
-                                                                                            <input type="checkbox" name="SDGIndicatorId" id="@id" value="@indicator.SDGIndicatorId" data-parsley-multiple="SDGIndicatorId">
-                                                                                            <label for="@id"> @indicator.SDGIndicatorName </label> <a href="@indicator.SDGIndicatorDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                                                                        </div>
+                                                                                        if (language == "1")
+                                                                                        {
+                                                                                            <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@indicator.SDGIndicatorNameBn">
+                                                                                                <input type="checkbox" name="SDGIndicatorId" id="@id" value="@indicator.SDGIndicatorId" data-parsley-multiple="SDGIndicatorId">
+                                                                                                <label for="@id"> @indicator.SDGIndicatorNameBn </label> <a href="@indicator.SDGIndicatorDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                                                                            </div>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@indicator.SDGIndicatorName">
+                                                                                                <input type="checkbox" name="SDGIndicatorId" id="@id" value="@indicator.SDGIndicatorId" data-parsley-multiple="SDGIndicatorId">
+                                                                                                <label for="@id"> @indicator.SDGIndicatorName </label> <a href="@indicator.SDGIndicatorDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                                                                            </div>
+                                                                                        }
+
                                                                                     }
                                                                                 }
                                                                             }
@@ -2292,9 +2549,9 @@
 
                                                                     <h2>
                                                                         @{if (language == "1")
-                                                                            { <span>প্রকল্পটি বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০ এর সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                                                                            { <span>১৩. প্রকল্পটি বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০ এর সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
                                                                             else
-                                                                            {<span>13.	Compatibility with Bangladesh Delta Plan 2100</span>}
+                                                                            {<span>13. Compatibility with Bangladesh Delta Plan 2100</span>}
                                                                         }
                                                                     </h2>
 
@@ -2347,18 +2604,45 @@
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label>Document Link</label>
+                                                                        <label for="DeltaPlan2100DocLink">
+                                                                            @if (language == "1")
+                                                                            {
+                                                                                <span>নথি লিঙ্ক</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>Document Link</span>
+                                                                            }
+                                                                        </label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
                                                                                 <input id="DeltaPlan2100DocLink" name="DeltaPlan2100DocLink" type="file"
                                                                                        class="custom-file-input" onchange="UploadCommonFiles('DeltaPlan2100DocLink');" />
-                                                                                <label class="custom-file-label" for="DeltaPlan2100DocLink">Choose file</label>
+                                                                                <label class="custom-file-label" for="DeltaPlan2100DocLink">
+                                                                                    @if (language == "1")
+                                                                                    {
+                                                                                        <span>ফাইল পছন্দ করুন</span>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <span>Choose file</span>
+                                                                                    }
+                                                                                </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div id="divCwbdp2100" class="form-group d-none">
-                                                                        <h4>If Yes</h4>
+                                                                        <h4>
+                                                                            @if (language == "1")
+                                                                            {
+                                                                                <span>যদি হ্যাঁ হয়</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>If yes</span>
+                                                                            }
+                                                                        </h4>
                                                                         <div id="chkCwbdp2100" class="row" style="margin-left: 5px;">
                                                                             @{
                                                                                 List<LookUpCcModDeltPlan2100Goal> _bdp_goals = ViewBag.LookUpCcModDeltPlan2100Goal;
@@ -2369,10 +2653,21 @@
                                                                                     {
                                                                                         var id = "chkCwbdp2100" + bdp_goal.DeltPlan2100GoalId;
 
-                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 8%;" title="@bdp_goal.DeltPlan2100Goal">
-                                                                                            <input type="checkbox" name="DeltPlan2100GoalId" id="@id" value="@bdp_goal.DeltPlan2100GoalId" data-parsley-multiple="DeltPlan2100GoalId">
-                                                                                            <label for="@id"> @bdp_goal.DeltPlan2100Goal </label> <a href="@bdp_goal.DeltPlan2100GoaDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                                                                        </div>
+                                                                                        if (language == "1")
+                                                                                        {
+                                                                                            <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 8%;" data-placement="top" title="" data-original-title="@bdp_goal.DeltPlan2100GoalBn">
+                                                                                                <input type="checkbox" name="DeltPlan2100GoalId" id="@id" value="@bdp_goal.DeltPlan2100GoalId" data-parsley-multiple="DeltPlan2100GoalId">
+                                                                                                <label for="@id"> @bdp_goal.DeltPlan2100GoalBn </label> <a href="@bdp_goal.DeltPlan2100GoaDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                                                                            </div>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 8%;" data-placement="top" title="" data-original-title="@bdp_goal.DeltPlan2100Goal">
+                                                                                                <input type="checkbox" name="DeltPlan2100GoalId" id="@id" value="@bdp_goal.DeltPlan2100GoalId" data-parsley-multiple="DeltPlan2100GoalId">
+                                                                                                <label for="@id"> @bdp_goal.DeltPlan2100Goal </label> <a href="@bdp_goal.DeltPlan2100GoaDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                                                                            </div>
+                                                                                        }
+
                                                                                     }
                                                                                 }
                                                                             }
@@ -2381,7 +2676,7 @@
 
                                                                     <h2>
                                                                         @{if (language == "1")
-                                                                            { <span>প্রকল্পটি উপকূলীয় অঞ্চল নীতির সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                                                                            { <span>১৪. প্রকল্পটি উপকূলীয় অঞ্চল নীতির সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
                                                                             else
                                                                             {<span>14. Compatibility with Coastal Zone Policy</span>}
                                                                         }
@@ -2436,21 +2731,39 @@
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label>Document Link</label>
+                                                                        <label>
+                                                                            @if (language == "1")
+                                                                            {
+                                                                                <span>নথি লিঙ্ক</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>Document Link</span>
+                                                                            }
+                                                                        </label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
                                                                                 <input id="CostalZoneDocLink" name="CostalZoneDocLink" type="file"
                                                                                        class="custom-file-input" onchange="UploadCommonFiles('CostalZoneDocLink');" />
-                                                                                <label class="custom-file-label" for="CostalZoneDocLink">Choose file</label>
+                                                                                <label class="custom-file-label" for="CostalZoneDocLink">
+                                                                                    @if (language == "1")
+                                                                                    {
+                                                                                        <span>ফাইল পছন্দ করুন</span>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <span>Choose file</span>
+                                                                                    }
+                                                                                </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <h2>
                                                                         @{if (language == "1")
-                                                                            { <span>প্রকল্পটি কৃষি নীতির সাথে সামঞ্জস্যপূণর্  কিনা</span>}
+                                                                            { <span>১৫. প্রকল্পটি কৃষি নীতির সাথে সামঞ্জস্যপূণর্  কিনা</span>}
                                                                             else
-                                                                            {<span> 15.	Compatibility with Agricultural Policy</span>}
+                                                                            {<span>15. Compatibility with Agricultural Policy</span>}
                                                                         }
                                                                     </h2>
 
@@ -2503,21 +2816,39 @@
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label>Document Link</label>
+                                                                        <label for="AgriDocLink">
+                                                                            @if (language == "1")
+                                                                            {
+                                                                                <span>নথি লিঙ্ক</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>Document Link</span>
+                                                                            }
+                                                                        </label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
                                                                                 <input id="AgriDocLink" name="AgriDocLink" type="file"
                                                                                        class="custom-file-input" onchange="UploadCommonFiles('AgriDocLink');" />
-                                                                                <label class="custom-file-label" for="AgriDocLink">Choose file</label>
+                                                                                <label class="custom-file-label" for="AgriDocLink">
+                                                                                    @if (language == "1")
+                                                                                    {
+                                                                                        <span>ফাইল পছন্দ করুন</span>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <span>Choose file</span>
+                                                                                    }
+                                                                                </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <h2>
                                                                         @{if (language == "1")
-                                                                            { <span>প্রকল্পটি মৎস্য নীতির সাথে সামঞ্জস্যপূণর্  কিনা</span>}
+                                                                            { <span>১৬. প্রকল্পটি মৎস্য নীতির সাথে সামঞ্জস্যপূণর্  কিনা</span>}
                                                                             else
-                                                                            {<span> 16.	Compatibility with Fisheries Policy</span>}
+                                                                            {<span>16. Compatibility with Fisheries Policy</span>}
                                                                         }
                                                                     </h2>
 
@@ -2570,21 +2901,39 @@
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label>Document Link</label>
+                                                                        <label for="FisheriesDocLink">
+                                                                            @if (language == "1")
+                                                                            {
+                                                                                <span>নথি লিঙ্ক</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>Document Link</span>
+                                                                            }
+                                                                        </label>
                                                                         <div class="input-group">
                                                                             <div class="custom-file">
                                                                                 <input id="FisheriesDocLink" name="FisheriesDocLink" type="file"
                                                                                        class="custom-file-input" onchange="UploadCommonFiles('FisheriesDocLink');" />
-                                                                                <label class="custom-file-label" for="FisheriesDocLink">Choose file</label>
+                                                                                <label class="custom-file-label" for="FisheriesDocLink">
+                                                                                    @if (language == "1")
+                                                                                    {
+                                                                                        <span>ফাইল পছন্দ করুন</span>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <span>Choose file</span>
+                                                                                    }
+                                                                                </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <h2>
                                                                         @{if (language == "1")
-                                                                            { <span>প্রকল্পটি সমন্বিত পানি সম্পদ ব্যবস্থাপনা (আইডবিøউআরএম) ধারণার সাথে সংগতিপূর্ণ কিনা</span>}
+                                                                            { <span>১৭. প্রকল্পটি সমন্বিত পানি সম্পদ ব্যবস্থাপনা (আইডবিøউআরএম) ধারণার সাথে সংগতিপূর্ণ কিনা</span>}
                                                                             else
-                                                                            {<span>17.	Compatibility with Integrated Water Resource Management</span>}
+                                                                            {<span>17. Compatibility with Integrated Water Resource Management</span>}
                                                                         }
                                                                     </h2>
 
@@ -2638,9 +2987,9 @@
 
                                                                     <h2>
                                                                         @{if (language == "1")
-                                                                            { <span>প্রকল্পটি অংশগ্রহণমূলক পানি ব্যবস্থাপনা (জিপিডবিøউএম) এর দিকনির্দেশনা অনুসরণপূর্বক প্রস্তুত করা হয়েছে কিনা</span>}
+                                                                            { <span>১৮. প্রকল্পটি অংশগ্রহণমূলক পানি ব্যবস্থাপনা (জিপিডবিøউএম) এর দিকনির্দেশনা অনুসরণপূর্বক প্রস্তুত করা হয়েছে কিনা</span>}
                                                                             else
-                                                                            {<span> 18.	Compatibility with GPWM</span>}
+                                                                            {<span>18.	Compatibility with GPWM</span>}
                                                                         }
                                                                     </h2>
 
@@ -2693,7 +3042,16 @@
                                                                     </div>
 
                                                                     <div id="divCwgpwm" class="form-group d-none">
-                                                                        <h4>If Yes (type of group formation)</h4>
+                                                                        <h4>
+                                                                            @if (language == "1")
+                                                                            {
+                                                                                <span>যদি হ্যাঁ (গ্রুপ গঠনের ধরণ)</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>If Yes (type of group formation)</span>
+                                                                            }
+                                                                        </h4>
                                                                         <div id="chkCwgpwm" class="row" style="margin-left: 5px;">
                                                                             @{
                                                                                 List<LookUpCcModGPWMGroupType> _gpwm_groups = ViewBag.LookUpCcModGPWMGroupType;
@@ -2706,10 +3064,20 @@
                                                                                     {
                                                                                         var id = "chkCwgpwm" + gpwm_group.GPWMGroupTypeId;
 
-                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 8%;" title="@gpwm_group.GPWMGroupTypeName">
-                                                                                            <input type="checkbox" name="GPWMGroupTypeId" id="@id" value="@gpwm_group.GPWMGroupTypeId" data-parsley-multiple="GPWMGroupTypeId">
-                                                                                            <label for="@id"> @gpwm_group.GPWMGroupTypeName </label> <a href="@gpwm_group.GPWMGroupTypeName" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                                                                        </div>
+                                                                                        if (language == "1")
+                                                                                        {
+                                                                                            <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 8%;" data-placement="top" title="" data-original-title="@gpwm_group.GPWMGroupTypeNameBn">
+                                                                                                <input type="checkbox" name="GPWMGroupTypeId" id="@id" value="@gpwm_group.GPWMGroupTypeId" data-parsley-multiple="GPWMGroupTypeId">
+                                                                                                <label for="@id"> @gpwm_group.GPWMGroupTypeNameBn </label> <a href="@gpwm_group.GPWMGroupTypeName" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                                                                            </div>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 8%;" data-placement="top" title="" data-original-title="@gpwm_group.GPWMGroupTypeName">
+                                                                                                <input type="checkbox" name="GPWMGroupTypeId" id="@id" value="@gpwm_group.GPWMGroupTypeId" data-parsley-multiple="GPWMGroupTypeId">
+                                                                                                <label for="@id"> @gpwm_group.GPWMGroupTypeName </label> <a href="@gpwm_group.GPWMGroupTypeName" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                                                                            </div>
+                                                                                        }
                                                                                     }
                                                                                 }
                                                                             }
@@ -2718,9 +3086,9 @@
 
                                                                     <h2>
                                                                         @{if (language == "1")
-                                                                            { <span>প্রকল্পটির ফেজিবিলিটি স্ট্যাডি (সম্ভাব্যতা যাচাই সমীক্ষা) নিরুপন করা হয়েছে কিনা</span>}
+                                                                            { <span>১৯. প্রকল্পটির সম্ভাব্যতা অধ্যয়ন</span>}
                                                                             else
-                                                                            {<span> 19.	Feasibility Study</span>}
+                                                                            {<span>19. Feasibility Study</span>}
                                                                         }
                                                                     </h2>
 
@@ -2774,7 +3142,7 @@
 
                                                                     <h2>
                                                                         @{if (language == "1")
-                                                                            { <span>অন্যান্য সংস্থা, ব্যক্তি/গোষ্ঠি কর্তৃক পরিচালিত বা সমাপ্ত প্রকল্পসমূহের সহিত প্রস্তাবিত প্রকল্পটির কোন দ্বৈততা বা পুনরাবৃত্তি আছে কিনা বা থাকলেও সংস্থা, ব্যক্তি বা গোষ্ঠির সহিত সমন্বয় করা হয়েছে কিনা</span>}
+                                                                            { <span>২০. অন্যান্য সংস্থা, ব্যক্তি/গোষ্ঠি কর্তৃক পরিচালিত বা সমাপ্ত প্রকল্পসমূহের সহিত প্রস্তাবিত প্রকল্পটির কোন দ্বৈততা বা পুনরাবৃত্তি আছে কিনা বা থাকলেও সংস্থা, ব্যক্তি বা গোষ্ঠির সহিত সমন্বয় করা হয়েছে কিনা</span>}
                                                                             else
                                                                             {<span> 20.	Duplication of the Project</span>}
                                                                         }
@@ -2822,7 +3190,7 @@
                                                                             @{if (language == "1")
                                                                                 { <span>কর্তৃপক্ষের মন্তব্য</span>}
                                                                                 else
-                                                                                {<span> Authority Comments</span>}
+                                                                                {<span>Authority Comments</span>}
                                                                             }
                                                                         </label>
                                                                         <input type="text" id="DuplicationAuthorityComments" name="DuplicationAuthorityComments" class="form-control" />
@@ -2830,9 +3198,9 @@
 
                                                                     <h2>
                                                                         @{if (language == "1")
-                                                                            { <span>প্রকল্পটি গুরুত্বপূর্ণ সামাজিক বিষয়াদি এবং নারী, শিশু, দরিদ্র ও অনগ্রসর  জনগোষ্ঠীর প্রতি বিশেষ গুরুত্ব দিয়ে প্রস্তুত করা হয়েছে কিনা</span>}
+                                                                            { <span>২১. প্রকল্পটি গুরুত্বপূর্ণ সামাজিক বিষয়াদি এবং নারী, শিশু, দরিদ্র ও অনগ্রসর  জনগোষ্ঠীর প্রতি বিশেষ গুরুত্ব দিয়ে প্রস্তুত করা হয়েছে কিনা</span>}
                                                                             else
-                                                                            {<span>  21. Project development by emphasizing on underprivileged people, child, women and important social issues</span>}
+                                                                            {<span>21. Project development by emphasizing on underprivileged people, child, women and important social issues</span>}
                                                                         }
                                                                     </h2>
 
@@ -2878,7 +3246,7 @@
                                                                             @{if (language == "1")
                                                                                 { <span>কর্তৃপক্ষের মন্তব্য</span>}
                                                                                 else
-                                                                                {<span> Authority Comments</span>}
+                                                                                {<span>Authority Comments</span>}
                                                                             }
                                                                         </label>
                                                                         <input type="text" id="SocialIssuesAuthorityCmt" name="SocialIssuesAuthorityCmt" class="form-control" />
@@ -2890,13 +3258,27 @@
                                                                 <div class="form-group mb-0">
                                                                     <button id="btnSaveDeed" type="button" class="btn btn-info waves-effect waves-light">
                                                                         <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
-                                                                        <span style="text-decoration: underline;">S</span>ave
+                                                                        @if (language == "1")
+                                                                        {
+                                                                            <span>সংরক্ষণ করুন</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span>Save</span>
+                                                                        }
                                                                         <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
                                                                     </button>
 
                                                                     <button id="btnClearDeed" type="button" class="btn btn-danger waves-effect waves-light">
                                                                         <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
-                                                                        Clear
+                                                                        @if (language == "1")
+                                                                        {
+                                                                            <span>পরিষ্কার করুন</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span>Clear</span>
+                                                                        }
                                                                     </button>
                                                                 </div>
                                                             </div>
@@ -2905,32 +3287,64 @@
                                                         <div class="tab-pane fade" id="v-administrative" role="tabpanel" aria-labelledby="v-administrative-tab">
                                                             <fieldset>
                                                                 <legend>
-                                                                    @{if (language == "1")
-                                                                        { <span>অনাপত্তি পত্র</span>}
-                                                                        else
-                                                                        {<span>No Objection Certificate</span>}
-                                                                    }
+                                                                    @if (language == "1")
+                                                                    {<span>অনাপত্তি পত্র</span>}
+                                                                    else
+                                                                    {<span>No Objection Certificate</span>}
                                                                 </legend>
 
                                                                 <div class="form-group">
-                                                                    <label>NOC Type/ এনওসি টাইপ</label>
+                                                                    <label>
+                                                                        @if (language == "1")
+                                                                            { <span>এনওসি টাইপ</span>}
+                                                                            else
+                                                                            {<span>NOC Type</span>}                                                                        
+                                                                    </label>
                                                                     <div class="input-group">
                                                                         <select id="NocTypeId" name="NocTypeId" class="custom-select">
-                                                                            <option>Choose...</option>
-                                                                            <option value="1">NOC from District IWRM Committee</option>
-                                                                            <option value="2">Upazila IWRM Committee</option>
-                                                                            <option value="3">Union IWRM Committee</option>
+                                                                            @if (language == "1")
+                                                                            {
+                                                                                <option value="">পছন্দ করুন...</option>
+                                                                                <option value="1">জেলা আইডব্লিউআরএম কমিটি থেকে এনওসি</option>
+                                                                                <option value="2">উপজেলা আইডব্লিউআরএম কমিটি</option>
+                                                                                <option value="3">ইউনিয়ন আইডব্লিউআরএম কমিটি</option>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <option value="">Choose...</option>
+                                                                                <option value="1">NOC from District IWRM Committee</option>
+                                                                                <option value="2">Upazila IWRM Committee</option>
+                                                                                <option value="3">Union IWRM Committee</option>
+                                                                            }
                                                                         </select>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="NocFileName">Upload NOC Documents/ এনওসি ডকুমেন্টস আপলোড করুন</label>
+                                                                    <label for="NocFileName">
+                                                                        @if (language == "1")
+                                                                        {
+                                                                            <span>এনওসি ডকুমেন্টস আপলোড করুন</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span>Upload NOC Documents</span>
+                                                                        }
+                                                                    </label>
                                                                     <div class="input-group">
                                                                         <div class="custom-file">
                                                                             <input id="NocFileName" name="NocFileName" type="file" class="custom-file-input"
                                                                                    onchange="UploadCommonFiles('NocFileName');">
-                                                                            <label class="custom-file-label" for="NocFileName">Choose file</label>
+                                                                            <label class="custom-file-label" for="NocFileName">
+                                                                                @if (language == "1")
+                                                                                {
+                                                                                    <span>ফাইল পছন্দ করুন</span>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <span>Choose file</span>
+                                                                                }
+                                                                            </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2939,22 +3353,59 @@
                                                             <hr />
 
                                                             <fieldset>
-                                                                <legend>Payments</legend>
+                                                                <legend>
+                                                                    @if (language == "1")
+                                                                    {
+                                                                        <span>টাকা প্রদান</span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span>Payments</span>
+                                                                    }
+                                                                </legend>
 
                                                                 <div class="form-group">
-                                                                    <label>Payment Type/ পেমেন্টের ধরন</label>
+                                                                    <label>
+                                                                    @if (language == "1")
+                                                                    {
+                                                                        <span>পেমেন্টের ধরন</span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span>Payment Type</span>
+                                                                    }
+                                                                    </label>
                                                                     <div class="input-group">
                                                                         <select id="PaymentMethodId" name="PaymentMethodId" class="custom-select">
-                                                                            <option>Choose...</option>
-                                                                            <option value="1">Chalan Number</option>
-                                                                            <option value="2">Bank Draft</option>
-                                                                            <option value="3">Pay Order No</option>
+                                                                            @if (language == "1")
+                                                                            {
+                                                                                <option>নির্বাচন করুন...</option>
+                                                                                <option value="1">চালান নম্বর</option>
+                                                                                <option value="2">ব্যাঙ্ক ড্রাফট</option>
+                                                                                <option value="3">পে অর্ডার নং</option>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <option>Choose...</option>
+                                                                                <option value="1">Chalan Number</option>
+                                                                                <option value="2">Bank Draft</option>
+                                                                                <option value="3">Pay Order No</option>
+                                                                            }
                                                                         </select>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="PaymentDocNumber">Payment Document Number/ পেমেন্ট ডকুমেন্ট নম্বর</label>
+                                                                    <label for="PaymentDocNumber">                                                                        
+                                                                        @if (language == "1")
+                                                                        {
+                                                                            <span>পেমেন্ট ডকুমেন্ট নম্বর</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span>Payment Document Number</span>
+                                                                        }
+                                                                    </label>
                                                                     <div class="input-group">
                                                                         <div class="custom-file">
                                                                             <input id="PaymentDocNumber" name="PaymentDocNumber" type="text" class="form-control">
@@ -2963,7 +3414,16 @@
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="PaidAmount">Paid Amount/ পরিশোধের পরিমান</label>
+                                                                    <label for="PaidAmount">
+                                                                        @if (language == "1")
+                                                                        {
+                                                                            <span>পরিশোধের পরিমান</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span>Paid Amount</span>
+                                                                        }
+                                                                    </label>
                                                                     <div class="input-group">
                                                                         <div class="custom-file">
                                                                             <input id="PaidAmount" name="PaidAmount" type="text" class="form-control">
@@ -2972,34 +3432,60 @@
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="PaymentDocFileName">Payment Document File/ পেমেন্ট ডকুমেন্ট ফাইল আপলোড করুন</label>
+                                                                    <label for="PaymentDocFileName">
+                                                                        @if (language == "1")
+                                                                        {
+                                                                            <span>পেমেন্ট ডকুমেন্ট ফাইল আপলোড করুন</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span>Payment Document File</span>
+                                                                        }
+                                                                    </label>
                                                                     <div class="input-group">
                                                                         <div class="custom-file">
                                                                             <input id="PaymentDocFileName" name="PaymentDocFileName" type="file" class="custom-file-input"
                                                                                    onchange="UploadCommonFiles('PaymentDocFileName');">
-                                                                            <label class="custom-file-label" for="PaymentDocFileName">Choose file</label>
+                                                                            <label class="custom-file-label" for="PaymentDocFileName">
+                                                                                @if (language == "1")
+                                                                                {
+                                                                                    <span>ফাইল পছন্দ করুন</span>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <span>Choose file</span>
+                                                                                }
+                                                                            </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </fieldset>
 
                                                             <fieldset>
-                                                                <legend>Recommendation</legend>
+                                                                <legend>
+                                                                    @if (language == "1")
+                                                                    {
+                                                                        <span>সুপারিশ</span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span>Recommendation</span>
+                                                                    }
+                                                                </legend>
 
                                                                 <div class="form-group">
                                                                     <label for="RecommendationId">
-                                                                        @{if (language == "1")
-                                                                            { <span>সুপারিশ</span>}
-                                                                            else
-                                                                            {<span>  Recommendation</span>}
-                                                                        }
+                                                                        @if (language == "1")
+                                                                        {<span>সুপারিশ</span>}
+                                                                        else
+                                                                        {<span>Recommendation</span>}
                                                                     </label>
                                                                     <select id="RecommendationId" name="RecommendationId" class="form-control" required="">
                                                                         <option value="">
                                                                             @{if (language == "1")
                                                                                 { <span>বাছাই করুন...</span>}
                                                                                 else
-                                                                                {<span> Choose...</span>}
+                                                                                {<span>Choose...</span>}
                                                                             }
                                                                         </option>
 
@@ -3010,7 +3496,14 @@
                                                                             {
                                                                                 foreach (LookUpCcModRecommendation rec in _rec)
                                                                                 {
-                                                                                    <option value="@rec.RecommendationId">@rec.RecommendationTitle</option>
+                                                                                    if (language == "1")
+                                                                                    {
+                                                                                        <option value="@rec.RecommendationId">@rec.RecommendationTitleBn</option>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <option value="@rec.RecommendationId">@rec.RecommendationTitle</option>
+                                                                                    }
                                                                                 }
                                                                             }
                                                                         }
@@ -3019,10 +3512,10 @@
 
                                                                 <div class="form-group">
                                                                     <label for="RecommendationComment">
-                                                                        Conditional@{if (language == "1")
-                                                                            { <span></span>}
+                                                                        @{if (language == "1")
+                                                                            { <span>শর্তাধীন</span>}
                                                                             else
-                                                                            {<span></span>}
+                                                                            {<span>Conditional</span>}
                                                                         }
                                                                     </label>
                                                                     <input type="text" id="RecommendationComment" name="RecommendationComment" class="form-control" />
@@ -3031,13 +3524,27 @@
                                                                 <div class="form-group mb-0">
                                                                     <button id="btnSaveAdministrative" type="button" class="btn btn-info waves-effect waves-light">
                                                                         <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
-                                                                        <span style="text-decoration: underline;">S</span>ave
+                                                                        @if (language == "1")
+                                                                        {
+                                                                            <span>সংরক্ষণ করুন</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span>Save</span>
+                                                                        }
                                                                         <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
                                                                     </button>
 
                                                                     <button id="btnClearAdministrative" type="button" class="btn btn-danger waves-effect waves-light">
                                                                         <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
-                                                                        Clear
+                                                                        @if (language == "1")
+                                                                        {
+                                                                            <span>পরিষ্কার করুন</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span>Clear</span>
+                                                                        }
                                                                     </button>
                                                                 </div>
 
@@ -3050,19 +3557,29 @@
                                                                 <div id="gen-info-form">
                                                                     <div class="form-group col-md-12">
                                                                         <center>
-                                                                            <p><h1>
-                                                                                if (language == "1") 
-                                                                                { 
-                                                                                   <span>জমা দেওয়ার আগে দয়া করে নিশ্চিত হয়ে নিন যে আপনি সমস্ত বৈধ তথ্য এবং প্রাসঙ্গিক নথি সংযুক্ত করেছেন।</span>
-                                                                                } 
-                                                                                else 
-                                                                                { 
-                                                                                    <span>Before you submit, please make sure you have entered all valid information and attached relevant documents.</span>
-                                                                                }
-                                                                            </h1></p>
+                                                                            <p>
+                                                                                <h1>
+                                                                                    @if (language == "1")
+                                                                                    {
+                                                                                        <span>জমা দেওয়ার আগে দয়া করে নিশ্চিত হয়ে নিন যে আপনি সমস্ত বৈধ তথ্য এবং প্রাসঙ্গিক নথি সংযুক্ত করেছেন।</span>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <span>Before you submit, please make sure you have entered all valid information and attached relevant documents.</span>
+                                                                                    }
+                                                                                </h1>
+                                                                            </p>
                                                                         </center>
                                                                         <button id="btnFinalSubmit" type="button" class="btn btn-block btn-info waves-effect waves-light">
-                                                                            <i class="mdi mdi-bookmark-check"></i> Final Submit
+                                                                            <i class="mdi mdi-bookmark-check"></i>
+                                                                            @if (language == "1")
+                                                                            {
+                                                                                <span>চূড়ান্তভাবে জমা</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>Final Submission</span>
+                                                                            }
                                                                         </button>
                                                                     </div>
                                                                 </div>
@@ -3083,13 +3600,13 @@
                             </div>
 
                             @*<ul class="list-inline wizard mb-0">
-                                    <li id="btnPrevious" class="previous list-inline-item disabled">
-                                        <a href="javascript: void(0);" class="btn btn-secondary">Previous</a>
-                                    </li>
-                                    <li id="btnNext" class="next list-inline-item float-right">
-                                        <a href="javascript: void(0);" class="btn btn-secondary">Next</a>
-                                    </li>
-                            </ul>*@
+                            <li id="btnPrevious" class="previous list-inline-item disabled">
+                                <a href="javascript: void(0);" class="btn btn-secondary">Previous</a>
+                            </li>
+                            <li id="btnNext" class="next list-inline-item float-right">
+                                <a href="javascript: void(0);" class="btn btn-secondary">Next</a>
+                            </li>
+                    </ul>*@
                         </div>
                     </div>
                 </form>
@@ -3104,6 +3621,10 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function () {
+            $("#btnGoBack").click(function () {
+                GoBack();                
+            });
+
             $('textarea, input[type=text]').avro({ 'bn': true });
 
             var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
@@ -4966,7 +5487,9 @@
                     $(":checkbox[name='types_of_flood'][value='" + item.floodTypeId + "']").attr('checked', true);
                 });
 
-                $(":radio[name='drainage_condition'][value='" + @ViewBag.ProjectIndvDetail31.DrainageConditionId + "']").attr('checked', true);
+                var DrainageConditionId = '@ViewBag.ProjectIndvDetail31.DrainageConditionId';
+                if(DrainageConditionId != '')
+                    $(":radio[name='drainage_condition'][value='" + DrainageConditionId + "']").attr('checked', true);
 
                 SetTextValue('WaterSalinity', '@ViewBag.ProjectIndvDetail31.WaterSalinity');
                 SetTextValue('WaterDO', '@ViewBag.ProjectIndvDetail31.WaterDO');
@@ -5202,6 +5725,35 @@
 			        Swal.fire('Error Occured', errorMsg, 'error');
 		        }
 	        });
+        }
+
+        function GoBack() {
+            var title='', text = '', lang = '@HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString()';
+            console.log(lang);
+            if (lang == "1") {
+                title = "আপনি কি নিশ্চিত?";
+                text = "আপনার প্রদত্ত ডেটা সফলভাবে সংরক্ষণ করা হয়েছে কিনা তা নিশ্চিত করুন!";
+            } else {
+                title = "Are you sure?";
+                text = "Please make sure the data you have provided that has been saved successfully!";
+            }
+
+            Swal.fire({
+                title: title,
+                text: text,
+                type: "warning",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                showCancelButton: !0,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sure"
+            }).then(function (t) {
+                if (t.value == true) {
+                    var url = '@Url.Action("index", "form")';
+                    window.location.href = url;
+                }
+            });
         }
     </script>
 }

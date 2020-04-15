@@ -1,38 +1,52 @@
 ﻿@using static WrpCcNocWeb.Models.TempModels.SelectedForm
 
 @{
-    ViewData["Title"] = "index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using (Html.BeginForm("index", "form", FormMethod.Post, new { enctype = "multipart/form-data", id = "FormSelection", role = "form" }))
 {
-    <div class="row">
-        <div class="col-12">
+    <div class="row justify-content-md-center">
+        <div class="col-6">
             <div class="card-box widget-inline">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="ProjectTypeId">Select Form Type</label>
-                            @Html.DropDownList("ProjectTypeId", null, string.Empty, new { @id = "ProjectTypeId", @class = "form-control", @style = "width: 100%;" })
-                            @Html.Hidden("ProjectTitle")
-                        </div>
-                    </div>
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="LanguageTypeId">
+                                        Choose Language/ ভাষা নির্বাচন করুন
+                                        <span class="text-danger bold">*</span>
+                                    </label>
+                                    <select id="LanguageTypeId" name="LanguageTypeId" class="form-control" style="width: 100%;">
+                                        <option value="">Choose...</option>
+                                        <option value="1" data-toggle="tooltip" data-placement="top" title="" data-original-title="বাংলা">বাংলা</option>
+                                        <option value="2" data-toggle="tooltip" data-placement="top" title="" data-original-title="English">English</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="LanguageTypeId">Choose Form Language</label>
-                            <select id="LanguageTypeId" name="LanguageTypeId" class="form-control" style="width: 100%;">
-                                <option value="">Choose...</option>
-                                <option value="1">বাংলা</option>
-                                <option value="2">English</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="ProjectTypeId">
+                                        Select Project Type
+                                        <span class="text-danger bold">*</span>
+                                    </label>
+                                    <select id="ProjectTypeId" name="ProjectTypeId" class="form-control" style="width: 100%;">
+                                    </select>
 
-                <div class="row justify-content-center">
-                    <div class="form-group">
-                        <button id="btnSubmitFormSelection" class="btn btn-info" type="button" style="width: 250px;"> Next </button>
+                                    @*@Html.DropDownList("ProjectTypeId", null, string.Empty, new { @id = "ProjectTypeId", @class = "form-control", @style = "width: 100%;" })*@
+                                    @Html.Hidden("ProjectTitle")
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="form-group">
+                                <button id="btnSubmitFormSelection" class="btn btn-info" type="button" style="width: 250px;">
+                                    Next
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -42,7 +56,22 @@
 
 @section PageScripts {
     <script type="text/javascript">
+
         jQuery(document).ready(function () {
+            jQuery("#LanguageTypeId").change(function () {
+                var val = jQuery("#LanguageTypeId option:selected").val();
+
+                if (val != '') {
+                    GetProjectTypeData(val);
+
+                    if (val == 1) {
+                        jQuery("#btnSubmitFormSelection").text('পরবর্তী >>');
+                    } else {
+                        jQuery("#btnSubmitFormSelection").text('Next >>');
+                    }
+                }
+            });
+
             jQuery("#ProjectTypeId").change(function () {
                 var text = jQuery("#ProjectTypeId option:selected").text();
                 jQuery("#ProjectTitle").val(text);
@@ -56,13 +85,52 @@
                     if (LanguageTypeId != '') {
                         $("#FormSelection").submit();
                     } else {
-                        Swal.fire("Select Language", "Please select a preferred language.", "warning");
+                        if (LanguageTypeId == 1)
+                            Swal.fire("ভাষা নির্বাচন করুন", "একটি পছন্দসই ভাষা নির্বাচন করুন।", "warning");
+                        else
+                            Swal.fire("Select Language", "Please select a preferred language.", "warning");
                     }
                 } else {
-                    Swal.fire("Project Type", "Please select a project type.", "warning");
+                    if (LanguageTypeId == 1)
+                        Swal.fire("প্রকল্পের ধরন", "একটি প্রকল্পের ধরন নির্বাচন করুন।", "warning");
+                    else
+                        Swal.fire("Project Type", "Please select a project type.", "warning");
                 }
-                
+
             });
         });
+
+        function GetProjectTypeData(type) {
+            var url = '@Url.Action("gptd", "common")';
+
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                //data: { code: code, type: type },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    if (type == 1) {
+                        jQuery("#ProjectTypeId").html('');
+                        jQuery("#ProjectTypeId").html('<option value="">নির্বাচন করুন...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            var content = '<option value="' + item.projectTypeId + '">' + item.projectTypeBn + '</option>';
+                            jQuery("#ProjectTypeId").append(content);
+                        });
+                    } else {
+                        jQuery("#ProjectTypeId").html('');
+                        jQuery("#ProjectTypeId").html('<option value="">Choose...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            var content = '<option value="' + item.projectTypeId + '">' + item.projectType + '</option>';
+                            jQuery("#ProjectTypeId").append(content);
+                        });
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
+        }
     </script>
 }
