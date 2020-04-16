@@ -1024,20 +1024,23 @@ namespace WrpCcNocWeb.Controllers
                                 from up in upaz.DefaultIfEmpty()
                                 join union in _db.LookUpAdminBndUnion on d.UnionGeoCode equals union.UnionGeoCode into unio
                                 from un in unio.DefaultIfEmpty()
-                                where d.ProjectId != null && d.ProjectId == project_id
+                                where d.ProjectId == project_id
                                 select new
                                 {
                                     d.LocationId,
                                     d.ProjectId,
                                     d.DistrictGeoCode,
                                     ds.DistrictName,
+                                    ds.DistrictNameBn,
                                     d.UpazilaGeoCode,
                                     up.UpazilaName,
+                                    up.UpazilaNameBn,
                                     d.UnionGeoCode,
                                     un.UnionName,
+                                    un.UnionNameBn,
                                     Latitude = string.IsNullOrEmpty(d.Latitude) ? string.Empty : d.Latitude,
                                     Longitude = string.IsNullOrEmpty(d.Longitude) ? string.Empty : d.Longitude,
-                                    ImageFileName = String.Format("{0}/{1}/{2}", rootDirOfProjFile, "ProjectLocationPhotos", d.ImageFileName),
+                                    ImageFileName = (!string.IsNullOrEmpty(d.ImageFileName)) ? String.Format("{0}/{1}/{2}", rootDirOfProjFile, "ProjectLocationPhotos", d.ImageFileName) : "",
                                     OnlyImageFileName = d.ImageFileName
                                 }).OrderBy(o => o.LocationId).ToList();
 

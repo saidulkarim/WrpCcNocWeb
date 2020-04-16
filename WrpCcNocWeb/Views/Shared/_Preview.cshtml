@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 @*<link href="~/css/PDF.css" rel="stylesheet" type="text/css" />*@
+
 @{
     var prev_lang = HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString();
 }
@@ -12,14 +13,12 @@
 
 <div class="col-md-12 text-center">
     <h3 class="HeaderTitle">
-        @{if (prev_lang == "1")
-            { <span> ছাড়পত্রের সনদের জন্য আবেদন </span>}
-            else
-            {<span> Application for Clearance Certificate </span>}
-        }
-
+        @if (prev_lang == "1")
+        {<span>ছাড়পত্রের সনদের জন্য আবেদন</span>}
+        else
+        {<span>Application for Clearance Certificate</span>}
     </h3>
-    <h4 class="HeaderSubTitle">(Flood Control/ Management Project)</h4>
+    <h4 class="HeaderSubTitle">(@ViewBag.ProjectTitle)</h4>
 </div>
 
 <div id="form-preview" class="form-preview container">
@@ -1198,10 +1197,10 @@
                 jQuery("#tbodyEcoFinAnaPreview").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
             }
         });
-}
+    }
 
     function pBindData() {
-        var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
+        var projectId = '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectId)';
 
         if (projectId != '') {
             console.log('ViewBag.ProjectCommonDetail.ProjectId Preview: ' + projectId);
@@ -1209,18 +1208,18 @@
             //General Info
             SetHiddenValue('pProjectId', projectId);
 
-            SetHiddenValue('pProject31IndvId', '@ViewBag.ProjectIndvDetail31.Project31IndvId');
-            SetHiddenValue('pUserId', '@ViewBag.ProjectCommonDetail.UserId');
-            SetHiddenValue('pProjectTypeId', '@ViewBag.ProjectCommonDetail.ProjectTypeId');
+            SetHiddenValue('pProject31IndvId', '@Html.Raw(ViewBag.ProjectIndvDetail31.Project31IndvId)');
+            SetHiddenValue('pUserId', '@Html.Raw(ViewBag.ProjectCommonDetail.UserId)');
+            SetHiddenValue('pProjectTypeId', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectTypeId)');
 
-            pSetTextValue('pProjectName', '@ViewBag.ProjectCommonDetail.ProjectName');
-            pSetTextValue('pBackgroundAndRationale', '@ViewBag.ProjectCommonDetail.BackgroundAndRationale');
-            pSetTextValue('pProjectTarget', '@ViewBag.ProjectCommonDetail.ProjectTarget');
-            pSetTextValue('pProjectObjective', '@ViewBag.ProjectCommonDetail.ProjectObjective');
-            pSetTextValue('ProjectActivity', '@ViewBag.ProjectCommonDetail.ProjectActivity');
-            pSetTextValue('pProjectStartDate', '@ViewBag.ProjectCommonDetail.ProjectStartDate');
-            pSetTextValue('pProjectCompletionDate', '@ViewBag.ProjectCommonDetail.ProjectCompletionDate');
-            pSetTextValue('pProjectEstimatedCost', '@ViewBag.ProjectCommonDetail.ProjectEstimatedCost');
+            pSetTextValue('pProjectName', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectName)');
+            pSetTextValue('pBackgroundAndRationale', '@Html.Raw(ViewBag.ProjectCommonDetail.BackgroundAndRationale)');
+            pSetTextValue('pProjectTarget', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectTarget)');
+            pSetTextValue('pProjectObjective', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectObjective)');
+            pSetTextValue('ProjectActivity', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectActivity)');
+            pSetTextValue('pProjectStartDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate)');
+            pSetTextValue('pProjectCompletionDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate)');
+            pSetTextValue('pProjectEstimatedCost', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectEstimatedCost)');
 
             var hrs = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.HydroRegionDetail))');
             jQuery.each(hrs, function (i, item) {
@@ -1232,17 +1231,17 @@
                 jQuery("#tdBDP2100HotSpot-" + item.deltaPlanHotSpotId).addClass('bg-dark text-white').prepend('<i class="mdi mdi-check"></i> ');
             });
 
-            pSetTextValue('pConnectivityAmidWaterland', '@ViewBag.ProjectIndvDetail31.ConnectivityAmidWaterland');
-            pSetTextValue('pCatchmentArea', '@ViewBag.ProjectIndvDetail31.CatchmentArea');
+            pSetTextValue('pConnectivityAmidWaterland', '@Html.Raw(ViewBag.ProjectIndvDetail31.ConnectivityAmidWaterland)');
+            pSetTextValue('pCatchmentArea', '@Html.Raw(ViewBag.ProjectIndvDetail31.CatchmentArea)');
 
-            pSetTextValue('pAnnualRainFallLast1Year', '@ViewBag.ProjectCommonDetail.AnnualRainFallLast1Year');
-            pSetTextValue('pAnnualRainFallLast2Years', '@ViewBag.ProjectCommonDetail.AnnualRainFallLast2Years');
-            pSetTextValue('pAnnualRainFallLast3Years', '@ViewBag.ProjectCommonDetail.AnnualRainFallLast3Years');
-            pSetTextValue('pAnnualRainFallLast4Years', '@ViewBag.ProjectCommonDetail.AnnualRainFallLast4Years');
-            pSetTextValue('pAnnualRainFallLast5Years', '@ViewBag.ProjectCommonDetail.AnnualRainFallLast5Years');
+            pSetTextValue('pAnnualRainFallLast1Year', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast1Year)');
+            pSetTextValue('pAnnualRainFallLast2Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast2Years)');
+            pSetTextValue('pAnnualRainFallLast3Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast3Years)');
+            pSetTextValue('pAnnualRainFallLast4Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast4Years)');
+            pSetTextValue('pAnnualRainFallLast5Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast5Years)');
 
-            pSetTextValue('pHighestFloodLevel', '@ViewBag.ProjectIndvDetail31.HighestFloodLevel');
-            pSetTextValue('pMaximumDischarge', '@ViewBag.ProjectIndvDetail31.MaximumDischarge');
+            pSetTextValue('pHighestFloodLevel', '@Html.Raw(ViewBag.ProjectIndvDetail31.HighestFloodLevel)');
+            pSetTextValue('pMaximumDischarge', '@Html.Raw(ViewBag.ProjectIndvDetail31.MaximumDischarge)');
 
             var tof = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.TypesOfFloodDetail))');
             jQuery.each(tof, function (i, item) {
@@ -1250,32 +1249,32 @@
             });
 
             //tdDrainageCondition
-            var DrainageConditionId = '@ViewBag.ProjectIndvDetail31.DrainageConditionId';
-            if (DrainageConditionId!='')
+            var DrainageConditionId = '@Html.Raw(ViewBag.ProjectIndvDetail31.DrainageConditionId)';
+            if(DrainageConditionId != '')
                 jQuery("#tdDrainageCondition-" + DrainageConditionId).addClass('bg-dark text-white').prepend('<i class="mdi mdi-check"></i> ');
 
-            pSetTextValue('pWaterSalinity', '@ViewBag.ProjectIndvDetail31.WaterSalinity');
-            pSetTextValue('pWaterDO', '@ViewBag.ProjectIndvDetail31.WaterDO');
-            pSetTextValue('pWaterTDS', '@ViewBag.ProjectIndvDetail31.WaterTDS');
-            pSetTextValue('pWaterPhLevel', '@ViewBag.ProjectIndvDetail31.WaterPhLevel');
-            pSetTextValue('pHighLandPercent', '@ViewBag.ProjectIndvDetail31.HighLandPercent');
-            pSetTextValue('pMediumHighLandPercent', '@ViewBag.ProjectIndvDetail31.MediumHighLandPercent');
-            pSetTextValue('pMediumLowLandPercent', '@ViewBag.ProjectIndvDetail31.MediumLowLandPercent');
-            pSetTextValue('pLowLandPercent', '@ViewBag.ProjectIndvDetail31.LowLandPercent');
-            pSetTextValue('pVeryLowLandPercent', '@ViewBag.ProjectIndvDetail31.VeryLowLandPercent');
-            pSetTextValue('pCultivableCrops', '@ViewBag.ProjectIndvDetail31.CultivableCrops');
-            pSetTextValue('pCropProduction', '@ViewBag.ProjectIndvDetail31.CropProduction');
-            pSetTextValue('pFishProduction', '@ViewBag.ProjectIndvDetail31.FishProduction');
-            pSetTextValue('pFishDiversity', '@ViewBag.ProjectIndvDetail31.FishDiversity');
-            pSetTextValue('pFishMigration', '@ViewBag.ProjectIndvDetail31.FishMigration');
-            pSetTextValue('pFloraAndFauna', '@ViewBag.ProjectIndvDetail31.FloraAndFauna');
-            pSetTextValue('pLandLessPeoplePercentage', '@ViewBag.ProjectIndvDetail31.LandLessPeoplePercentage');
-            pSetTextValue('pSmallFarmerPercentage', '@ViewBag.ProjectIndvDetail31.SmallFarmerPercentage');
-            pSetTextValue('pAvgMonthlyIncome', '@ViewBag.ProjectIndvDetail31.AvgMonthlyIncome');
+            pSetTextValue('pWaterSalinity', '@Html.Raw(ViewBag.ProjectIndvDetail31.WaterSalinity)');
+            pSetTextValue('pWaterDO', '@Html.Raw(ViewBag.ProjectIndvDetail31.WaterDO)');
+            pSetTextValue('pWaterTDS', '@Html.Raw(ViewBag.ProjectIndvDetail31.WaterTDS)');
+            pSetTextValue('pWaterPhLevel', '@Html.Raw(ViewBag.ProjectIndvDetail31.WaterPhLevel)');
+            pSetTextValue('pHighLandPercent', '@Html.Raw(ViewBag.ProjectIndvDetail31.HighLandPercent)');
+            pSetTextValue('pMediumHighLandPercent', '@Html.Raw(ViewBag.ProjectIndvDetail31.MediumHighLandPercent)');
+            pSetTextValue('pMediumLowLandPercent', '@Html.Raw(ViewBag.ProjectIndvDetail31.MediumLowLandPercent)');
+            pSetTextValue('pLowLandPercent', '@Html.Raw(ViewBag.ProjectIndvDetail31.LowLandPercent)');
+            pSetTextValue('pVeryLowLandPercent', '@Html.Raw(ViewBag.ProjectIndvDetail31.VeryLowLandPercent)');
+            pSetTextValue('pCultivableCrops', '@Html.Raw(ViewBag.ProjectIndvDetail31.CultivableCrops)');
+            pSetTextValue('pCropProduction', '@Html.Raw(ViewBag.ProjectIndvDetail31.CropProduction)');
+            pSetTextValue('pFishProduction', '@Html.Raw(ViewBag.ProjectIndvDetail31.FishProduction)');
+            pSetTextValue('pFishDiversity', '@Html.Raw(ViewBag.ProjectIndvDetail31.FishDiversity)');
+            pSetTextValue('pFishMigration', '@Html.Raw(ViewBag.ProjectIndvDetail31.FishMigration)');
+            pSetTextValue('pFloraAndFauna', '@Html.Raw(ViewBag.ProjectIndvDetail31.FloraAndFauna)');
+            pSetTextValue('pLandLessPeoplePercentage', '@Html.Raw(ViewBag.ProjectIndvDetail31.LandLessPeoplePercentage)');
+            pSetTextValue('pSmallFarmerPercentage', '@Html.Raw(ViewBag.ProjectIndvDetail31.SmallFarmerPercentage)');
+            pSetTextValue('pAvgMonthlyIncome', '@Html.Raw(ViewBag.ProjectIndvDetail31.AvgMonthlyIncome)');
 
-            pSetTextValue('pIssueChallageProblem', '@ViewBag.ProjectCommonDetail.IssueChallageProblem');
+            pSetTextValue('pIssueChallageProblem', '@Html.Raw(ViewBag.ProjectCommonDetail.IssueChallageProblem)');
 
-            if ('@ViewBag.ProjectCommonDetail.YesNoStakeId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectCommonDetail.YesNoStakeId)' == '1') {
                 jQuery("#pchkDSDSPYes").text('✓');
                 jQuery("#pchkDSDSPNo").text('');
             } else {
@@ -1283,14 +1282,14 @@
                 jQuery("#pchkDSDSPYes").text('');
             }
 
-            pSetTextValue('pDiscussWithStakeApplicantCmt', '@ViewBag.ProjectCommonDetail.DiscussWithStakeApplicantCmt');
-            pSetTextValue('pDiscussWithStakeAuthorityCmt', '@ViewBag.ProjectCommonDetail.DiscussWithStakeAuthorityCmt');
-            pSetTextValue('pDiscussWithStakePosFeedback', '@ViewBag.ProjectCommonDetail.DiscussWithStakePosFeedback');
-            pSetTextValue('pDiscussWithStakeNegFeedback', '@ViewBag.ProjectCommonDetail.DiscussWithStakeNegFeedback');
-            pSetAnchorTextValue('lnkDiscussWithStakeParticipntLst', '@ViewBag.ProjectCommonDetail.DiscussWithStakeParticipntLst');
-            pSetAnchorTextValue('lnkDiscussWithStakeMeetingMin', '@ViewBag.ProjectCommonDetail.DiscussWithStakeMeetingMin');
+            pSetTextValue('pDiscussWithStakeApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeApplicantCmt)');
+            pSetTextValue('pDiscussWithStakeAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeAuthorityCmt)');
+            pSetTextValue('pDiscussWithStakePosFeedback', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakePosFeedback)');
+            pSetTextValue('pDiscussWithStakeNegFeedback', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeNegFeedback)');
+            pSetAnchorTextValue('lnkDiscussWithStakeParticipntLst', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeParticipntLst)');
+            pSetAnchorTextValue('lnkDiscussWithStakeMeetingMin', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeMeetingMin)');
 
-            if ('@ViewBag.ProjectCommonDetail.AnalyzeOptYesNoId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptYesNoId)' == '1') {
                 jQuery("#pchkAOFOYes").text('✓');
                 jQuery("#pchkAOFONo").text('');
             } else {
@@ -1298,10 +1297,10 @@
                 jQuery("#pchkAOFOYes").text('');
             }
 
-            pSetTextValue('pAnalyzeOptionsApplicantCmt', '@ViewBag.ProjectCommonDetail.AnalyzeOptionsApplicantCmt');
-            pSetTextValue('pAnalyzeOptionsAuthorityCmt', '@ViewBag.ProjectCommonDetail.AnalyzeOptionsAuthorityCmt');
+            pSetTextValue('pAnalyzeOptionsApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptionsApplicantCmt)');
+            pSetTextValue('pAnalyzeOptionsAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptionsAuthorityCmt)');
 
-            if ('@ViewBag.ProjectCommonDetail.EnvAndSocialYesNoId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialYesNoId)' == '1') {
                 jQuery("#pchkESIAYes").text('✓');
                 jQuery("#pchkESIANo").text('');
             } else {
@@ -1309,10 +1308,10 @@
                 jQuery("#pchkESIAYes").text('');
             }
 
-            pSetTextValue('pEnvAndSocialApplicantCmt', '@ViewBag.ProjectCommonDetail.EnvAndSocialApplicantCmt');
-            pSetTextValue('pEnvAndSocialAuthorityCmt', '@ViewBag.ProjectCommonDetail.EnvAndSocialAuthorityCmt');
+            pSetTextValue('pEnvAndSocialApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialApplicantCmt)');
+            pSetTextValue('pEnvAndSocialAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialAuthorityCmt)');
 
-            if ('@ViewBag.ProjectIndvDetail31.UseOfToolsYesNoId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectIndvDetail31.UseOfToolsYesNoId)' == '1') {
                 jQuery("#pchkAppropriateTTAPYes").text('✓');
                 jQuery("#pchkAppropriateTTAPNo").text('');
             } else {
@@ -1320,10 +1319,10 @@
                 jQuery("#pchkAppropriateTTAPYes").text('');
             }
 
-            pSetTextValue('pToolsApplicantComments', '@ViewBag.ProjectIndvDetail31.ToolsApplicantComments');
-            pSetTextValue('pToolsAuthorityComments', '@ViewBag.ProjectIndvDetail31.ToolsAuthorityComments');
+            pSetTextValue('pToolsApplicantComments', '@Html.Raw(ViewBag.ProjectIndvDetail31.ToolsApplicantComments)');
+            pSetTextValue('pToolsAuthorityComments', '@Html.Raw(ViewBag.ProjectIndvDetail31.ToolsAuthorityComments)');
 
-            if ('@ViewBag.ProjectCommonDetail.CompatNWPYesNoId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectCommonDetail.CompatNWPYesNoId)' == '1') {
                 jQuery("#pcwnwpYes").text('✓');
                 jQuery("#pcwnwpNo").text('');
             } else {
@@ -1331,18 +1330,16 @@
                 jQuery("#pcwnwpYes").text('');
             }
 
-            pSetTextValue('pCompatibilityNWPApplicantCmt', '@ViewBag.ProjectCommonDetail.CompatibilityNWPApplicantCmt');
-            pSetTextValue('pCompatibilityNWPAuthorityCmt', '@ViewBag.ProjectCommonDetail.CompatibilityNWPAuthorityCmt');
-            pSetAnchorTextValue('lnkCompatibilityNWPDocLink', '@ViewBag.ProjectCommonDetail.CompatibilityNWPDocLink');
+            pSetTextValue('pCompatibilityNWPApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CompatibilityNWPApplicantCmt)');
+            pSetTextValue('pCompatibilityNWPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CompatibilityNWPAuthorityCmt)');
+            pSetAnchorTextValue('lnkCompatibilityNWPDocLink', '@Html.Raw(ViewBag.ProjectCommonDetail.CompatibilityNWPDocLink)');
 
             var nwp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWPDetail))');
-            console.log('Compat NWP Detail');
-            console.log(nwp);
             jQuery.each(nwp, function (i, item) {
                 jQuery("#pulCwnwpPolicy").append('<li>' + item.nationalWtrPolicyShortTitle + ' (' + item.nationalWtrPolicyArticleTitle + ') </li>');
             });
 
-            if ('@ViewBag.ProjectCommonDetail.CompatNWPYesNoId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectCommonDetail.CompatNWPYesNoId)' == '1') {
                 jQuery("#pcnwmpYes").text('✓');
                 jQuery("#pcnwmpNo").text('');
             } else {
@@ -1350,16 +1347,16 @@
                 jQuery("#pcnwmpYes").text('');
             }
 
-            pSetTextValue('pNWMPApplicantCmt', '@ViewBag.ProjectCommonDetail.NWMPApplicantCmt');
-            pSetTextValue('pNWMPAuthorityCmt', '@ViewBag.ProjectCommonDetail.NWMPAuthorityCmt');
-            pSetAnchorTextValue('lnkNWMPDocLink', '@ViewBag.ProjectCommonDetail.NWMPDocLink');
+            pSetTextValue('pNWMPApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.NWMPApplicantCmt)');
+            pSetTextValue('pNWMPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.NWMPAuthorityCmt)');
+            pSetAnchorTextValue('lnkNWMPDocLink', '@Html.Raw(ViewBag.ProjectCommonDetail.NWMPDocLink)');
 
             var nwmp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWMPDetail))');
             jQuery.each(nwmp, function (i, item) {
                 jQuery("#pulCwnwmpPolicy").append('<li>' + item.nwmpProgrammeTitle + '</li>');
             });
 
-            if ('@ViewBag.ProjectCommonDetail.FYPYesNoId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectCommonDetail.FYPYesNoId)' == '1') {
                 jQuery("#pcwcfypYes").text('✓');
                 jQuery("#pcwcfypNo").text('');
             } else {
@@ -1367,10 +1364,10 @@
                 jQuery("#pcwcfypYes").text('');
             }
 
-            pSetTextValue('pFYPApplicantCmt', '@ViewBag.ProjectCommonDetail.FYPApplicantCmt');
-            pSetTextValue('pFYPAuthorityCmt', '@ViewBag.ProjectCommonDetail.FYPAuthorityCmt');
+            pSetTextValue('pFYPApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FYPApplicantCmt)');
+            pSetTextValue('pFYPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FYPAuthorityCmt)');
 
-            if ('@ViewBag.ProjectCommonDetail.SDGYesNoId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectCommonDetail.SDGYesNoId)' == '1') {
                 jQuery("#pcwsdgYes").text('✓');
                 jQuery("#pcwsdgNo").text('');
             } else {
@@ -1378,9 +1375,9 @@
                 jQuery("#pcwsdgYes").text('');
             }
 
-            pSetTextValue('pSDGApplicantCmt', '@ViewBag.ProjectCommonDetail.SDGApplicantCmt');
-            pSetTextValue('pSDGAuthorityCmt', '@ViewBag.ProjectCommonDetail.SDGAuthorityCmt');
-            pSetAnchorTextValue('lnkSDGDocLink', '@ViewBag.ProjectCommonDetail.SDGDocLink');
+            pSetTextValue('pSDGApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SDGApplicantCmt)');
+            pSetTextValue('pSDGAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SDGAuthorityCmt)');
+            pSetAnchorTextValue('lnkSDGDocLink', '@Html.Raw(ViewBag.ProjectCommonDetail.SDGDocLink)');
 
             var sdgdetail = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatSDGDetail))');
             jQuery.each(sdgdetail, function (i, item) {
@@ -1392,7 +1389,7 @@
                 jQuery("#pulSDGIndicators").append('<li>' + item.sdgIndicatorName + '</li>');
             });
 
-            if ('@ViewBag.ProjectCommonDetail.DeltaPlanYesNoId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectCommonDetail.DeltaPlanYesNoId)' == '1') {
                 jQuery("#pcwbdp2100Yes").text('✓');
                 jQuery("#pcwbdp2100No").text('');
             } else {
@@ -1400,16 +1397,16 @@
                 jQuery("#pcwbdp2100Yes").text('');
             }
 
-            pSetTextValue('pDeltaPlan2100ApplicantCmt', '@ViewBag.ProjectCommonDetail.DeltaPlan2100ApplicantCmt');
-            pSetTextValue('pDeltaPlan2100AuthorityCmt', '@ViewBag.ProjectCommonDetail.DeltaPlan2100AuthorityCmt');
-            pSetAnchorTextValue('lnkDeltaPlan2100DocLink', '@ViewBag.ProjectCommonDetail.DeltaPlan2100DocLink');
+            pSetTextValue('pDeltaPlan2100ApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DeltaPlan2100ApplicantCmt)');
+            pSetTextValue('pDeltaPlan2100AuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DeltaPlan2100AuthorityCmt)');
+            pSetAnchorTextValue('lnkDeltaPlan2100DocLink', '@Html.Raw(ViewBag.ProjectCommonDetail.DeltaPlan2100DocLink)');
 
             var bdp2100goal = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.BDP2100GoalDetail))');
             jQuery.each(bdp2100goal, function (i, item) {
                 jQuery("#pulCwbdp2100").append('<li>' + item.deltPlan2100Goal + '</li>');
             });
 
-            if ('@ViewBag.ProjectCommonDetail.CostalZoneYesNoId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectCommonDetail.CostalZoneYesNoId)' == '1') {
                 jQuery("#pcwczpYes").text('✓');
                 jQuery("#pcwczpNo").text('');
             } else {
@@ -1417,11 +1414,11 @@
                 jQuery("#pcwczpYes").text('');
             }
 
-            pSetTextValue('pCostalZoneApplicantCmt', '@ViewBag.ProjectCommonDetail.CostalZoneApplicantCmt');
-            pSetTextValue('pCostalZoneAuthorityCmt', '@ViewBag.ProjectCommonDetail.CostalZoneAuthorityCmt');
-            pSetAnchorTextValue('lnkCostalZoneDocLink', '@ViewBag.ProjectCommonDetail.CostalZoneDocLink');
+            pSetTextValue('pCostalZoneApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CostalZoneApplicantCmt)');
+            pSetTextValue('pCostalZoneAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CostalZoneAuthorityCmt)');
+            pSetAnchorTextValue('lnkCostalZoneDocLink', '@Html.Raw(ViewBag.ProjectCommonDetail.CostalZoneDocLink)');
 
-            if ('@ViewBag.ProjectCommonDetail.AgriculturalYesNoId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectCommonDetail.AgriculturalYesNoId)' == '1') {
                 jQuery("#pcwapYes").text('✓');
                 jQuery("#pcwapNo").text('');
             } else {
@@ -1429,11 +1426,11 @@
                 jQuery("#pcwapYes").text('');
             }
 
-            pSetTextValue('pAgriApplicantCmt', '@ViewBag.ProjectCommonDetail.AgriApplicantCmt');
-            pSetTextValue('pAgriAuthorityCmt', '@ViewBag.ProjectCommonDetail.AgriAuthorityCmt');
-            pSetAnchorTextValue('lnkAgriDocLink', '@ViewBag.ProjectCommonDetail.AgriDocLink');
+            pSetTextValue('pAgriApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AgriApplicantCmt)');
+            pSetTextValue('pAgriAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AgriAuthorityCmt)');
+            pSetAnchorTextValue('lnkAgriDocLink', '@Html.Raw(ViewBag.ProjectCommonDetail.AgriDocLink)');
 
-            if ('@ViewBag.ProjectCommonDetail.FisheriesYesNoId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectCommonDetail.FisheriesYesNoId)' == '1') {
                 jQuery("#pcwfpYes").text('✓');
                 jQuery("#pcwfpNo").text('');
             } else {
@@ -1441,11 +1438,11 @@
                 jQuery("#pcwfpYes").text('');
             }
 
-            pSetTextValue('pFisheriesApplicantCmt', '@ViewBag.ProjectCommonDetail.FisheriesApplicantCmt');
-            pSetTextValue('pFisheriesAuthorityCmt', '@ViewBag.ProjectCommonDetail.FisheriesAuthorityCmt');
-            pSetAnchorTextValue('lnkFisheriesDocLink', '@ViewBag.ProjectCommonDetail.FisheriesDocLink');
+            pSetTextValue('pFisheriesApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FisheriesApplicantCmt)');
+            pSetTextValue('pFisheriesAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FisheriesAuthorityCmt)');
+            pSetAnchorTextValue('lnkFisheriesDocLink', '@Html.Raw(ViewBag.ProjectCommonDetail.FisheriesDocLink)');
 
-            if ('@ViewBag.ProjectCommonDetail.IWRMYesNoId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectCommonDetail.IWRMYesNoId)' == '1') {
                 jQuery("#pcwiwrmYes").text('✓');
                 jQuery("#pcwiwrmNo").text('');
             } else {
@@ -1453,10 +1450,10 @@
                 jQuery("#pcwiwrmYes").text('');
             }
 
-            pSetTextValue('pIWRMApplicantCmt', '@ViewBag.ProjectCommonDetail.IWRMApplicantCmt');
-            pSetTextValue('pIWRMAuthorityCmt', '@ViewBag.ProjectCommonDetail.IWRMAuthorityCmt');
+            pSetTextValue('pIWRMApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.IWRMApplicantCmt)');
+            pSetTextValue('pIWRMAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.IWRMAuthorityCmt)');
 
-            if ('@ViewBag.ProjectCommonDetail.GPWMYesNoId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectCommonDetail.GPWMYesNoId)' == '1') {
                 jQuery("#pcwgpwmYes").text('✓');
                 jQuery("#pcwgpwmNo").text('');
             } else {
@@ -1464,15 +1461,15 @@
                 jQuery("#pcwgpwmYes").text('');
             }
 
-            pSetTextValue('pGPWMApplicantCmt', '@ViewBag.ProjectCommonDetail.GPWMApplicantCmt');
-            pSetTextValue('pGPWMAuthorityCmt', '@ViewBag.ProjectCommonDetail.GPWMAuthorityCmt');
+            pSetTextValue('pGPWMApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.GPWMApplicantCmt)');
+            pSetTextValue('pGPWMAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.GPWMAuthorityCmt)');
 
             var gpwmgroup = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.GPWMGroupType))');
             jQuery.each(gpwmgroup, function (i, item) {
                 jQuery("#pulGPWMGroupType").append('<li>' + item.gpwmGroupTypeName + '</li>');
             });
 
-            if ('@ViewBag.ProjectCommonDetail.FeasibilityYesNoId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectCommonDetail.FeasibilityYesNoId)' == '1') {
                 jQuery("#pfeasibilitystudyYes").text('✓');
                 jQuery("#pfeasibilitystudyNo").text('');
             } else {
@@ -1480,10 +1477,10 @@
                 jQuery("#pfeasibilitystudyYes").text('');
             }
 
-            pSetTextValue('pFeasibilityApplicantCmt', '@ViewBag.ProjectCommonDetail.FeasibilityApplicantCmt');
-            pSetTextValue('pFeasibilityAuthorityCmt', '@ViewBag.ProjectCommonDetail.FeasibilityAuthorityCmt');
+            pSetTextValue('pFeasibilityApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FeasibilityApplicantCmt)');
+            pSetTextValue('pFeasibilityAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FeasibilityAuthorityCmt)');
 
-            if ('@ViewBag.ProjectIndvDetail31.DuplicatYesNoId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectIndvDetail31.DuplicatYesNoId)' == '1') {
                 jQuery("#pduplicationprojectYes").text('✓');
                 jQuery("#pduplicationprojectNo").text('');
             } else {
@@ -1491,10 +1488,10 @@
                 jQuery("#pduplicationprojectYes").text('');
             }
 
-            pSetTextValue('pDuplicationApplicantComments', '@ViewBag.ProjectIndvDetail31.DuplicationApplicantComments');
-            pSetTextValue('pDuplicationAuthorityComments', '@ViewBag.ProjectIndvDetail31.DuplicationAuthorityComments');
+            pSetTextValue('pDuplicationApplicantComments', '@Html.Raw(ViewBag.ProjectIndvDetail31.DuplicationApplicantComments)');
+            pSetTextValue('pDuplicationAuthorityComments', '@Html.Raw(ViewBag.ProjectIndvDetail31.DuplicationAuthorityComments)');
 
-            if ('@ViewBag.ProjectCommonDetail.SocialIssuesYesNoId' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectCommonDetail.SocialIssuesYesNoId)' == '1') {
                 jQuery("#ppdeuYes").text('✓');
                 jQuery("#ppdeuNo").text('');
             } else {
@@ -1502,11 +1499,11 @@
                 jQuery("#ppdeuYes").text('');
             }
 
-            pSetTextValue('pSocialIssuesApplicantCmt', '@ViewBag.ProjectCommonDetail.SocialIssuesApplicantCmt');
-            pSetTextValue('pSocialIssuesAuthorityCmt', '@ViewBag.ProjectCommonDetail.SocialIssuesAuthorityCmt');
+            pSetTextValue('pSocialIssuesApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SocialIssuesApplicantCmt)');
+            pSetTextValue('pSocialIssuesAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SocialIssuesAuthorityCmt)');
 
-            pSetTextValue('pRecommendationId', '@ViewBag.ProjectCommonDetail.RecommendationId');
-            pSetTextValue('pRecommendationComment', '@ViewBag.ProjectCommonDetail.RecommendationComment');
+            pSetTextValue('pRecommendationId', '@Html.Raw(ViewBag.ProjectCommonDetail.RecommendationId)');
+            pSetTextValue('pRecommendationComment', '@Html.Raw(ViewBag.ProjectCommonDetail.RecommendationComment)');
         }
     }
 </script>

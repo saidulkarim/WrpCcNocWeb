@@ -27,7 +27,7 @@
 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="ProjectTypeId">
+                                    <label id="lblSelectProjectType" for="ProjectTypeId">
                                         Select Project Type
                                         <span class="text-danger bold">*</span>
                                     </label>
@@ -65,8 +65,10 @@
                     GetProjectTypeData(val);
 
                     if (val == 1) {
+                        jQuery("#lblSelectProjectType").text('প্রকল্পের ধরণ নির্বাচন করুন');
                         jQuery("#btnSubmitFormSelection").text('পরবর্তী >>');
                     } else {
+                        jQuery("#lblSelectProjectType").text('Select Project Type');
                         jQuery("#btnSubmitFormSelection").text('Next >>');
                     }
                 }
