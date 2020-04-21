@@ -54,7 +54,8 @@ namespace WrpCcNocWeb.Controllers
                               select new ListItems
                               {
                                   code = u.UpazilaGeoCode,
-                                  ab_name = u.UpazilaName
+                                  ab_name = u.UpazilaName,
+                                  ab_name_bn = u.UpazilaNameBn
                               }).ToList();
                 }
                 else if (type == "uni")
@@ -64,7 +65,8 @@ namespace WrpCcNocWeb.Controllers
                               select new ListItems
                               {
                                   code = u.UnionGeoCode,
-                                  ab_name = u.UnionName
+                                  ab_name = u.UnionName,
+                                  ab_name_bn = u.UnionNameBn
                               }).ToList();
                 }
 

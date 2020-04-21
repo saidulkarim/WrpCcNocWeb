@@ -58,8 +58,7 @@ namespace WrpCcNocWeb.Controllers
             }
 
             ViewData["Title"] = "Apply";
-            //ViewBag.ProjectTypeId = new SelectList(_db.LookUpCcModProjectType.ToList(), "ProjectTypeId", "ProjectType");
-            //ViewBag.ProjectTypeBnId = new SelectList(_db.LookUpCcModProjectType.ToList(), "ProjectTypeId", "ProjectTypeBn");
+
             return View();
         }
 
@@ -322,10 +321,44 @@ namespace WrpCcNocWeb.Controllers
 
             ViewBag.ProjectId = pcd.ProjectId;
             ViewBag.Project31IndvId = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project31IndvId).FirstOrDefault();
-            ViewBag.UserId = pcd.UserId;
+            ViewBag.UserId = ui.UserID;
             ViewBag.ProjectTypeId = pcd.ProjectTypeId;
+            GetApplicantInfo(pcd.UserId);
 
             return View();
+        }
+
+        public void GetApplicantInfo(long userID)
+        {
+            var applicant_info = (from u in _db.AdminModUsersDetail
+                                  join r in _db.AdminModUserRegistrationDetail on u.UserRegistrationId equals r.UserRegistrationId into rList
+                                  from reg in rList.DefaultIfEmpty()
+                                  join a in _db.AdminModUserGrpDistDetail on u.UserId equals a.UserId into aList
+                                  from ugd in aList.DefaultIfEmpty()
+                                  join ug in _db.LookUpAdminModUserGroup on ugd.UserGroupId equals ug.UserGroupId into ugList
+                                  from ugl in ugList.DefaultIfEmpty()
+
+                                  where u.UserId == userID
+
+                                  select new ApplicantInfo
+                                  {
+                                      ApplicantUserId = u.UserId,
+                                      ApplicantName = u.UserFullName,
+                                      ApplicantAddress = u.UserAddress,
+                                      ApplicantMobile = reg.UserMobile,
+                                      ApplicantEmail = reg.UserEmail,
+                                      ApplicantGroupName = ugl.UserGroupName
+                                  }).FirstOrDefault();
+
+            if (applicant_info != null)
+            {
+                ViewBag.ApplicantName = applicant_info.ApplicantName;
+                ViewBag.ApplicantAddress = applicant_info.ApplicantAddress;
+                ViewBag.ApplicantMobile = applicant_info.ApplicantMobile;
+                ViewBag.ApplicantEmail = applicant_info.ApplicantEmail;
+                ViewBag.ApplicantGroupName = applicant_info.ApplicantGroupName;
+            }
+
         }
 
         public int ChangeStatus(long id, int status)
@@ -364,6 +397,13 @@ namespace WrpCcNocWeb.Controllers
         //form/FloodControlManagementProject :: fcmp       
         public IActionResult fcmp()
         {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
             ViewData["Title"] = "Flood Control Management Project";
             SelectedForm sf = HttpContext.Session.GetComplexData<SelectedForm>("SelectedForm");
 
@@ -462,9 +502,10 @@ namespace WrpCcNocWeb.Controllers
 
                 var _gpwmgrouptype = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                        .Select(x => new { x.GPWMGroupTypeDetailId, x.ProjectId, x.GPWMGroupTypeId }).ToList();
-                ViewBag.GPWMGroupType = _gpwmgrouptype;
+                ViewBag.GPWMGroupType = _gpwmgrouptype;                
             }
 
+            GetApplicantInfo(ui.UserID);
             return View();
         }
 
@@ -3117,7 +3158,23 @@ namespace WrpCcNocWeb.Controllers
                             using var dbContextTransaction = _db.Database.BeginTransaction();
                             try
                             {
-                                _db.CcModAppProjDataAnalysis.Add(pda); ;
+                                CcModAppProjDataAnalysis exists = _db.CcModAppProjDataAnalysis
+                                                                     .Where(w =>
+                                                                                w.UserId == pda.UserId &&
+                                                                                w.ProjectTypeId == pda.ProjectTypeId &&
+                                                                                w.ProjectId == pda.ProjectId)
+                                                                     .FirstOrDefault();
+
+                                if (exists != null)
+                                {
+                                    exists.Comments = pda.Comments;
+                                    _db.Entry(exists).State = EntityState.Modified;
+                                }
+                                else
+                                {
+                                    _db.CcModAppProjDataAnalysis.Add(pda);
+                                }
+
                                 result = _db.SaveChanges();
 
                                 if (result > 0)
@@ -3225,6 +3282,7 @@ namespace WrpCcNocWeb.Controllers
                             select new FormCommentsListTemp
                             {
                                 AppProjDataAnalysisId = d.AppProjDataAnalysisId,
+                                UserId = d.UserId,
                                 UserComments = d.Comments,
                                 UserName = String.Format("{0}, {1}", user.UserFullName, ugl.UserGroupName)
                             }).ToList();
@@ -3436,7 +3494,6 @@ namespace WrpCcNocWeb.Controllers
 
             return Json(noti);
         }
-
 
         [HttpPost]
         [Obsolete]

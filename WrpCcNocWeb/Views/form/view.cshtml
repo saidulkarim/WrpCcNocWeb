@@ -1076,26 +1076,40 @@
 
                     <div class="row">
                         <div class="col">
-                            <p> I certify that  the information and attachment provided with this application is correct to the best of my knowledge and belief. </p>
+                            <p>I certify that  the information and attachment provided with this application is correct to the best of my knowledge and belief.</p>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col">
                             <p></p>
+                            <p>Applied by</p>
                             <p>----------------------</p>
-                            <p>Signature of Applicant</p>
+                            <p id="pApplicantName">@ViewBag.ApplicantName</p>
+                            <p id="pApplicantGroupName">@ViewBag.ApplicantGroupName</p>
                         </div>
                     </div>
                 </div>
 
-                <div id="control-popup-comments" class="modal-demo">
-                    <div class="modal-dialog">
+                <hr />
+
+                <div class="row justify-content-md-center">
+                    <div class="form-group">
+                        <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
+                            Forward
+                        </button>
+                    </div>
+                </div>
+
+                <div id="control-popup-comments" class="modal-demo" style="width: 800px;">
+                    <div class="modal-dialog" style="">
                         <div class="modal-content">
                             <div class="modal-header" style="padding: 0px !important;">
-                                <h4 id="control-name-for-title" class="modal-title">Project Name Comments</h4>
+                                <h4 id="control-name-for-title" class="modal-title text-center">Project Name</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             </div>
-                            <div class="modal-body p-0" style="padding-left: 0px !important; padding-right: 0px !important;">
+                            <div class="modal-body p-0" style="padding-left: 0px !important; padding-right: 0px !important;
+                                max-height: 400px; overflow-x: hidden; overflow-y: auto;">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <table class="table mb-0 p-0" style="width: 100%; border-color: none;">
@@ -1112,7 +1126,7 @@
                             </div>
                             <div class="modal-footer" style="padding-left: 0px !important; padding-right: 0px !important;">
                                 <input id="LabelNameOfControl" type="hidden" />
-                                <textarea id="Comments" name="Comments" class="form-control" rows="1" placeholder="Write your comments here"></textarea>
+                                <textarea id="Comments" name="Comments" class="form-control" rows="3" placeholder="Write your comments here"></textarea>
                                 <button id="btnPopupCommentsSave" type="button" class="btn btn-info waves-effect waves-light">
                                     <i class="mdi mdi-content-save"></i>
                                 </button>
@@ -1130,7 +1144,7 @@
 
 <!-- Modal Popup for Comments -->
 <script type="text/javascript">
-    jQuery(document).ready(function () {       
+    jQuery(document).ready(function () {
         jQuery('#btnPopupCommentsSave').click(function () {
             SaveProjComments();
         });
@@ -1217,10 +1231,13 @@
 
                 if (data.length > 0) {
                     var rows = '';
-                    var count = 0;
 
                     jQuery.each(data, function (i, item) {
                         rows += '<tr><td class="p-1" data-id="' + item.appProjDataAnalysisId + '">' + item.userComments + '</td><td class="p-1">' + item.userName + '</td></tr>';
+
+                        if (item.userId == prevUserId) {
+                            jQuery('#Comments').val(item.userComments);
+                        }
                     });
 
                     jQuery("#tbodyCommentList").html(rows);
@@ -1240,7 +1257,7 @@
 <script type="text/javascript">
     jQuery(document).ready(function () {
         var group_id = '@ViewBag.UserLevel';
-        console.log(group_id);
+        //console.log(group_id);
 
         if (group_id != '' && group_id != undefined && group_id != null) {
             if (group_id == 1000000001) {
@@ -1254,10 +1271,10 @@
 
         var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
 
-        SetHiddenValue('pProjectId', projectId);
-        SetHiddenValue('pProject31IndvId', projectId);
-        SetHiddenValue('pUserId', projectId);
-        SetHiddenValue('pProjectTypeId', projectId);
+        //SetHiddenValue('pProjectId', projectId);
+        //SetHiddenValue('pProject31IndvId', projectId);
+        //SetHiddenValue('pUserId', projectId);
+        //SetHiddenValue('pProjectTypeId', projectId);
 
         if (projectId != '') {
             pBindData();
@@ -1603,9 +1620,9 @@
             //General Info
             SetHiddenValue('pProjectId', projectId);
 
-            SetHiddenValue('pProject31IndvId', '@Html.Raw(ViewBag.ProjectIndvDetail31.Project31IndvId)');
-            SetHiddenValue('pUserId', '@Html.Raw(ViewBag.ProjectCommonDetail.UserId)');
-            SetHiddenValue('pProjectTypeId', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectTypeId)');
+            //SetHiddenValue('pProject31IndvId', 'Html.Raw(ViewBag.ProjectIndvDetail31.Project31IndvId)');
+            //SetHiddenValue('pUserId', 'Html.Raw(ViewBag.UserId)');
+            //SetHiddenValue('pProjectTypeId', 'Html.Raw(ViewBag.ProjectCommonDetail.ProjectTypeId)');
 
             pSetTextValue('pProjectName', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectName)');
             pSetTextValue('pBackgroundAndRationale', '@Html.Raw(ViewBag.ProjectCommonDetail.BackgroundAndRationale)');

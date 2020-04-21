@@ -17,6 +17,7 @@ using WrpCcNocWeb.Models.UserManagement;
 using WrpCcNocWeb.DatabaseContext;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WrpCcNocWeb.ViewModels;
+using WrpCcNocWeb.Models.AdminModule;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -24,6 +25,8 @@ namespace WrpCcNocWeb.Controllers
     {
         private readonly WrpCcNocDbContext _db = new WrpCcNocDbContext();
         private readonly CommonHelper ch = new CommonHelper();
+        private EmailService es = new EmailService();
+        private string msg = string.Empty;
 
         public IActionResult index()
         {
@@ -151,6 +154,16 @@ namespace WrpCcNocWeb.Controllers
             {
                 HttpContext.Session.SetComplexData("LoggerUserInfo", _ui);
 
+                HttpContext.Response.Cookies.Append("UserName", string.Empty, new CookieOptions()
+                {
+                    Expires = DateTime.Now.AddDays(-1)
+                });
+
+                HttpContext.Response.Cookies.Append("UserName", _ui.UserName, new CookieOptions()
+                {
+                    Expires = DateTime.Now.AddDays(1)
+                });
+
                 //HttpContext.Session.SetString("UserID", _ui.UserID.ToString());
                 //HttpContext.Session.SetString("UserRegistrationID", _ui.UserRegistrationID.ToString());
                 //HttpContext.Session.SetString("UserName", _ui.UserName);
@@ -163,18 +176,18 @@ namespace WrpCcNocWeb.Controllers
 
         private void userloghist(long userID)
         {
-            //if (userID > 0)
-            //{
-            //    AdminModUserLogHistoryDetail _log = new AdminModUserLogHistoryDetail
-            //    {
-            //        UserId = userID,
-            //        LoginDateTime = DateTime.Now,
-            //        MachineIPOrUrl = "130.180.3.215"
-            //    };
+            if (userID > 0)
+            {
+                AdminModUserLogHistoryDetail _log = new AdminModUserLogHistoryDetail
+                {
+                    UserId = userID,
+                    LoginDateTime = DateTime.Now,
+                    MachineIPOrUrl = HttpContext.Connection.RemoteIpAddress.ToString()
+                };
 
-            //    _db.AdminModUserLogHistoryDetail.Add(_log);
-            //    _db.SaveChanges();
-            //}
+                _db.AdminModUserLogHistoryDetail.Add(_log);
+                _db.SaveChanges();
+            }
         }
 
         //account/register
@@ -187,6 +200,9 @@ namespace WrpCcNocWeb.Controllers
         [HttpPost]
         public IActionResult register(AdminModUserRegistrationDetail userReg)
         {
+            string result = string.Empty;
+            using var dbContextTransaction = _db.Database.BeginTransaction();
+
             try
             {
                 userReg.UserActivationStatus = 0;
@@ -202,23 +218,59 @@ namespace WrpCcNocWeb.Controllers
                     ViewBag.UserVerificationCode = userReg.EmailVerificationCode;
                     TempData["Message"] = ch.ShowMessage(Sign.Success, Sign.Success.ToString(), OperationMessage.Success.ToDescription());
 
-                    return RedirectToAction("verify", new { id = ViewBag.UserVerificationCode });
+                    result = NewRegSendEmailConfirmation(userReg);
+
+                    if (result == "success")
+                    {
+                        dbContextTransaction.Commit();
+                        msg = "Your have successfully registered. Please check your mail to verify account.";
+                        TempData["Message"] = ch.ShowMessage(Sign.Success, Sign.Success.ToString(), msg);
+
+                        //return View();
+                        return RedirectToAction("login");
+                        //return RedirectToAction("verify", new { id = ViewBag.UserVerificationCode });
+                    }
+                    else
+                    {
+                        TempData["Message"] = ch.ShowMessage(Sign.Error, "An Error Occured", result);
+                        return View();
+                    }
                 }
                 else
                 {
+                    dbContextTransaction.Rollback();
                     ViewBag.UserVerificationCode = string.Empty;
-                    TempData["Message"] = ch.ShowMessage(Sign.Error, Sign.Error.ToString(), OperationMessage.NotSuccess.ToDescription());
+                    TempData["Message"] = ch.ShowMessage(Sign.Error, "An Error Occured", OperationMessage.NotSuccess.ToDescription());
                 }
             }
             catch (Exception ex)
             {
+                dbContextTransaction.Rollback();
                 ViewBag.UserVerificationCode = string.Empty;
-
                 var message = ch.ExtractInnerException(ex);
-                TempData["Message"] = ch.ShowMessage(Sign.Danger, Sign.Danger.ToString(), message);
+                TempData["Message"] = ch.ShowMessage(Sign.Danger, "An Error Occured", message);
             }
 
             return View();
+        }
+
+        public string NewRegSendEmailConfirmation(AdminModUserRegistrationDetail userReg)
+        {
+            string result = string.Empty;
+            string verifyUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
+            List<string> vars = new List<string>();
+
+            if (userReg != null)
+            {
+                verifyUrl = verifyUrl + "/account/verify/" + ViewBag.UserVerificationCode;
+                vars.Add(userReg.UserName);
+                vars.Add(userReg.UserPassword);
+                vars.Add(verifyUrl);
+
+                result = es.SendEmail(userReg.UserEmail, "new_req_reg", vars);
+            }
+
+            return result;
         }
 
         //account/verify
@@ -273,9 +325,10 @@ namespace WrpCcNocWeb.Controllers
         public IActionResult profile()
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            ViewBag.UserName = ui.UserName;
             ViewBag.UserRegistrationID = ui.UserRegistrationID;
             ViewBag.SecurityQuestionId = new SelectList(_db.LookUpAdminModSecurityQuestion.ToList(), "SecurityQuestionId", "SecurityQuestion");
-
+            ViewBag.BaseUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
             return View();
         }
 
@@ -365,6 +418,16 @@ namespace WrpCcNocWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult logout()
         {
+            HttpContext.Response.Cookies.Append("FormLanguage", string.Empty, new CookieOptions()
+            {
+                Expires = DateTime.Now.AddDays(-1)
+            });
+
+            HttpContext.Response.Cookies.Append("UserName", string.Empty, new CookieOptions()
+            {
+                Expires = DateTime.Now.AddDays(-1)
+            });
+
             return RedirectToAction("login");
         }
 

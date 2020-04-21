@@ -93,7 +93,7 @@ namespace WrpCcNocWeb.Controllers
             }
 
             int count = pcds.Count();
-            ViewBag.TotalAppliedApplication = count.ToString().PadLeft(3, '0');
+            ViewBag.TotalAppliedApplication = count.ToString().PadLeft(3, '0');            
 
             return View();
         }

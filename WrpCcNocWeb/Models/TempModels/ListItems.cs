@@ -9,5 +9,6 @@ namespace WrpCcNocWeb.Models.TempModels
     {
         public string code { get; set; }
         public string ab_name { get; set; }
+        public string ab_name_bn { get; set; }
     }
 }
