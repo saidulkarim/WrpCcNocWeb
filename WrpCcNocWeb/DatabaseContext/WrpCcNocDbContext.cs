@@ -25,8 +25,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<AdminModUserGrpWiseMenuDetail> AdminModUserGrpWiseMenuDetail { get; set; }
         public DbSet<AdminModUserLogHistoryDetail> AdminModUserLogHistoryDetail { get; set; }
         public DbSet<AdminModUserRegistrationDetail> AdminModUserRegistrationDetail { get; set; }
-        public DbSet<AdminModUsersDetail> AdminModUsersDetail { get; set; }
-        public DbSet<LookUpAdminModCostRange> LookUpAdminModCostRange { get; set; }
+        public DbSet<AdminModUsersDetail> AdminModUsersDetail { get; set; }        
         public DbSet<CcModAppProjDataAnalysis> CcModAppProjDataAnalysis { get; set; }
         #endregion
 

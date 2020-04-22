@@ -25,7 +25,7 @@ namespace WrpCcNocWeb.Models
         [Required]
         [Column("UserFullName", Order = 2)]
         [MaxLength(100)]
-        [Display(Name = "Name")]
+        [Display(Name = "Name In English")]
         public string UserFullName { get; set; }
 
 
@@ -66,11 +66,11 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Designation")]
         [MaxLength(50)]
         public string UserDesignation { get; set; }
-                
+
 
         [Required]
         [Column("UserAddress", Order = 9)]
-        [Display(Name = "Address")]
+        [Display(Name = "Address In English")]
         [MaxLength(200)]
         public string UserAddress { get; set; }
 
@@ -101,9 +101,18 @@ namespace WrpCcNocWeb.Models
         [MaxLength(50)]
         public string SecurityQuestionAnswer { get; set; }
 
-
         [Display(Name = "Is Profile Submitted")]
         [Column("IsProfileSubmitted", Order = 14)]
         public int? IsProfileSubmitted { get; set; }
+
+        [Display(Name = "Name In Bengali")]
+        [Column("UserFullNameBn", Order = 15)]
+        [MaxLength(100)]
+        public string UserFullNameBn { get; set; }
+
+        [Display(Name = "Address In Bengali")]
+        [Column("UserAddressBn", Order = 16)]
+        [MaxLength(200)]
+        public string UserAddressBn { get; set; }
     }
 }

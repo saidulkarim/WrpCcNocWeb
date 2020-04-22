@@ -16,7 +16,7 @@
                 <div class="card bg-pattern">
                     <div class="card-body">
                         <div class="text-left m-auto">
-                            <h3>User ID: <b class="text-blue">@ViewBag.UserName | @ViewBag.BaseUrl</b></h3>
+                            <h3>User ID: <b class="text-blue">@ViewBag.UserName</b></h3>
                         </div>
 
                         <div class="text-right m-auto" style="margin-top: -50px !important; margin-right: -50px !important;">
@@ -33,8 +33,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.UserFullName, new { @class = "control-label" }) <span class="text-danger bold">*</span>
-                                        @Html.EditorFor(m => m.UserFullName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter full name", @required = "required", @autocomplete = ac } })
+                                        @Html.EditorFor(m => m.UserFullName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter full name in english", @required = "required", @autocomplete = ac } })
                                     </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.UserFullNameBn, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                        @Html.EditorFor(m => m.UserFullNameBn, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter full name in bengali", @required = "required", @autocomplete = ac } })
+                                    </div>
+
 
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.UserFatherName, new { @class = "control-label" }) <span class="text-danger bold">*</span>
@@ -74,7 +80,12 @@
 
                                     <div class="form-group">
                                         <label for="UserAddress">Address <span class="text-danger bold">*</span></label>
-                                        <textarea id="UserAddress" name="UserAddress" class="form-control" rows="1" required="" placeholder="Address"></textarea>
+                                        <textarea id="UserAddress" name="UserAddress" class="form-control" rows="1" required="" placeholder="Address in english"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="UserAddressBn">Address In Bengali <span class="text-danger bold">*</span></label>
+                                        <textarea id="UserAddressBn" name="UserAddressBn" class="form-control" rows="1" required="" placeholder="Address in bengali"></textarea>
                                     </div>
 
                                     <div class="form-group">
@@ -114,8 +125,6 @@
     jQuery.noConflict();
 
     jQuery(document).ready(function () {
-        jQuery("#refreshCaptcha").click(function () {
-            resetCaptchaImage();
-        });
+        jQuery('#UserFullNameBn, #UserAddressBn').avro({ 'bn': true });        
     });
 </script>

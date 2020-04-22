@@ -328,7 +328,7 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.UserName = ui.UserName;
             ViewBag.UserRegistrationID = ui.UserRegistrationID;
             ViewBag.SecurityQuestionId = new SelectList(_db.LookUpAdminModSecurityQuestion.ToList(), "SecurityQuestionId", "SecurityQuestion");
-            ViewBag.BaseUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
+            
             return View();
         }
 
@@ -354,8 +354,6 @@ namespace WrpCcNocWeb.Controllers
                     {
                         userDetail.UserDateOfBirth = userDetail.UserDateOfBirth.ToString().ToDatabaseDateFormat();
                         userDetail.IsProfileSubmitted = 1;
-
-
 
                         _db.AdminModUsersDetail.Add(userDetail);
                         result = _db.SaveChanges();
