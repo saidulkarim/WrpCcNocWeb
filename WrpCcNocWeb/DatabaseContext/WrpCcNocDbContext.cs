@@ -27,7 +27,6 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<AdminModUserRegistrationDetail> AdminModUserRegistrationDetail { get; set; }
         public DbSet<AdminModUsersDetail> AdminModUsersDetail { get; set; }
         public DbSet<LookUpAdminModCostRange> LookUpAdminModCostRange { get; set; }
-        public DbSet<LookUpAdminModEmailFormat> LookUpAdminModEmailFormat { get; set; }
         public DbSet<CcModAppProjDataAnalysis> CcModAppProjDataAnalysis { get; set; }
         #endregion
 
@@ -37,6 +36,8 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<LookUpAdminBndUpazila> LookUpAdminBndUpazila { get; set; }
         public DbSet<LookUpAdminBndUnion> LookUpAdminBndUnion { get; set; }
         public DbSet<LookUpAdminModAuthorityLevel> LookUpAdminModAuthorityLevel { get; set; }
+        public DbSet<LookUpAdminModCostRange> LookUpAdminModCostRange { get; set; }
+        public DbSet<LookUpAdminModEmailFormat> LookUpAdminModEmailFormat { get; set; }
         public DbSet<LookUpAdminModErrorSlvStatus> LookUpAdminModErrorSlvStatus { get; set; }
         public DbSet<LookUpAdminModMenu> LookUpAdminModMenu { get; set; }
         public DbSet<LookUpAdminModSecurityQuestion> LookUpAdminModSecurityQuestion { get; set; }
