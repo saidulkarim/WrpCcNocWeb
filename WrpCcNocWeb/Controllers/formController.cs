@@ -344,8 +344,11 @@ namespace WrpCcNocWeb.Controllers
                                   {
                                       ApplicantUserId = u.UserId,
                                       ApplicantName = u.UserFullName,
+                                      ApplicantNameBn = u.UserFullNameBn,
                                       ApplicantAddress = u.UserAddress,
+                                      ApplicantAddressBn = u.UserAddressBn,
                                       ApplicantMobile = reg.UserMobile,
+                                      ApplicantMobileBn = reg.UserMobile,
                                       ApplicantEmail = reg.UserEmail,
                                       ApplicantGroupName = ugl.UserGroupName
                                   }).FirstOrDefault();
@@ -353,8 +356,11 @@ namespace WrpCcNocWeb.Controllers
             if (applicant_info != null)
             {
                 ViewBag.ApplicantName = applicant_info.ApplicantName;
+                ViewBag.ApplicantNameBn = applicant_info.ApplicantNameBn;
                 ViewBag.ApplicantAddress = applicant_info.ApplicantAddress;
+                ViewBag.ApplicantAddressBn = applicant_info.ApplicantAddressBn;
                 ViewBag.ApplicantMobile = applicant_info.ApplicantMobile;
+                ViewBag.ApplicantMobileBn = applicant_info.ApplicantMobileBn.NumberEnglishToBengali();
                 ViewBag.ApplicantEmail = applicant_info.ApplicantEmail;
                 ViewBag.ApplicantGroupName = applicant_info.ApplicantGroupName;
             }
@@ -502,7 +508,7 @@ namespace WrpCcNocWeb.Controllers
 
                 var _gpwmgrouptype = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                        .Select(x => new { x.GPWMGroupTypeDetailId, x.ProjectId, x.GPWMGroupTypeId }).ToList();
-                ViewBag.GPWMGroupType = _gpwmgrouptype;                
+                ViewBag.GPWMGroupType = _gpwmgrouptype;
             }
 
             GetApplicantInfo(ui.UserID);
@@ -3630,6 +3636,96 @@ namespace WrpCcNocWeb.Controllers
         {
             var path = Path.Combine(hostingEnvironment.WebRootPath, folderName, fileName);
             return path;
+        }
+        #endregion
+
+        #region Application Forwarding
+        //form/ForwardApplication :: fwapp
+        [HttpPost]
+        public JsonResult fwapp(long pid)
+        {
+            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+            List<LookUpAdminModUserGroup> userGroupList = new List<LookUpAdminModUserGroup>();
+            int appState = 0, result = 0;
+
+            if (!string.IsNullOrEmpty(uli.UnionGeoCode))
+            {
+                userGroupList = _db.LookUpAdminModUserGroup.Where(w => w.UnionGeoCode == uli.UnionGeoCode).ToList();
+            }
+
+            if (string.IsNullOrEmpty(uli.UnionGeoCode) && !string.IsNullOrEmpty(uli.UpazilaGeoCode))
+            {
+                userGroupList = _db.LookUpAdminModUserGroup.Where(w => w.UpazilaGeoCode == uli.UpazilaGeoCode).ToList();
+            }
+
+            if (string.IsNullOrEmpty(uli.UnionGeoCode) && string.IsNullOrEmpty(uli.UpazilaGeoCode) && !string.IsNullOrEmpty(uli.DistrictGeoCode))
+            {
+                userGroupList = _db.LookUpAdminModUserGroup.Where(w => w.DistrictGeoCode == uli.DistrictGeoCode).ToList();
+            }
+
+            if (userGroupList.Count > 0)
+            {
+                userGroupList = userGroupList.Where(w => w.AuthorityLevelId < uli.AuthorityLevelId).ToList();
+                int maxAuthLevelId = userGroupList.Max(m => m.AuthorityLevelId).Value;
+
+                LookUpAdminModUserGroup nextLevelInfo = userGroupList.Where(w => w.AuthorityLevelId == maxAuthLevelId).FirstOrDefault();
+                appState = _db.LookUpCcModApplicationState.Where(w => w.AuthorityLevelId == nextLevelInfo.AuthorityLevelId).Select(s => s.ApplicationStateId).FirstOrDefault();
+            }
+
+            using var dbContextTransaction = _db.Database.BeginTransaction();
+            try
+            {
+                CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(pid);
+
+                if (_pcd != null)
+                {
+                    _pcd.ApplicationStateId = appState;
+                    _pcd.IsCompleted = 0;
+
+                    _db.Entry(_pcd).State = EntityState.Modified;
+                    result = _db.SaveChanges();
+
+                    if (result > 0)
+                    {
+                        dbContextTransaction.Commit();
+
+                        noti = new Notification
+                        {
+                            id = pid.ToString(),
+                            status = "success",
+                            title = "Success",
+                            message = "Application has been successfully forwarded to next level authority. Application tracking code is: " + _pcd.AppSubmissionId
+                        };
+                    };
+                }
+                else
+                {
+                    dbContextTransaction.Rollback();
+
+                    noti = new Notification
+                    {
+                        id = pid.ToString(),
+                        status = "error",
+                        title = "Forwarding Error",
+                        message = "Application not forwarded. Application tracking code is: " + _pcd.AppSubmissionId
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                dbContextTransaction.Rollback();
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    title = "An Exception Error Occured",
+                    message = message
+                };
+            }
+
+            return Json(noti);
         }
         #endregion
     }

@@ -10,6 +10,57 @@ namespace WrpCcNocWeb.Helpers
 {
     public static class Extention
     {
+        public static string NumberEnglishToBengali(this string englishStr)
+        {
+
+            Dictionary<string, string> LettersDictionary = new Dictionary<string, string>
+            {
+                ["0"] = "০",
+                ["1"] = "১",
+                ["2"] = "২",
+                ["3"] = "৩",
+                ["4"] = "৪",
+                ["5"] = "৫",
+                ["6"] = "৬",
+                ["7"] = "৭",
+                ["8"] = "৮",
+                ["9"] = "৯",
+                ["."] = ".",
+                ["+"] = "+",
+                ["-"] = "-"
+            };
+
+            if (!string.IsNullOrEmpty(englishStr))
+                return LettersDictionary.Aggregate(englishStr, (current, item) => current.Replace(item.Key, item.Value));
+            else
+                return string.Empty;
+        }
+
+        public static string NumberBengaliToEnglish(this string bengaliStr)
+        {
+            Dictionary<string, string> LettersDictionary = new Dictionary<string, string>
+            {
+                ["০"] = "0",
+                ["১"] = "1",
+                ["২"] = "2",
+                ["৩"] = "3",
+                ["৪"] = "4",
+                ["৫"] = "5",
+                ["৬"] = "6",
+                ["৭"] = "7",
+                ["৮"] = "8",
+                ["৯"] = "9",
+                ["."] = ".",
+                ["+"] = "+",
+                ["-"] = "-"
+            };
+
+            if (!string.IsNullOrEmpty(bengaliStr))
+                return LettersDictionary.Aggregate(bengaliStr, (current, item) => current.Replace(item.Key, item.Value));
+            else
+                return string.Empty;
+        }
+
         /// <summary>
         /// Convert Byte to String
         /// </summary>

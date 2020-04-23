@@ -82,10 +82,20 @@
             </p>
         </div>
         <div class="col-md-12">
-            <div>@ViewBag.ApplicantName,</div>
-            <div>@ViewBag.ApplicantAddress</div>
-            <div>Mobile: @ViewBag.ApplicantMobile</div>
-            <div>Email: @ViewBag.ApplicantEmail</div>
+            @if (prev_lang == "1")
+            {
+                <div>@ViewBag.ApplicantNameBn,</div>
+                <div>@ViewBag.ApplicantAddressBn</div>
+                <div>যোগাযোগ: @ViewBag.ApplicantMobileBn</div>
+                <div>ইমেইল: @ViewBag.ApplicantEmail</div>
+            }
+            else
+            {
+                <div>@ViewBag.ApplicantName,</div>
+                <div>@ViewBag.ApplicantAddress</div>
+                <div>Mobile: @ViewBag.ApplicantMobile</div>
+                <div>Email: @ViewBag.ApplicantEmail</div>
+            }
         </div>
     </div>
 
@@ -2048,16 +2058,23 @@
     </div>
     <div class="row">
         <div class="col">
-            <p></p>
-            <p>----------------------</p>
             <p>
                 @if (prev_lang == "1")
                 {<span>আবেদনকারীর স্বাক্ষর</span>}
                 else
                 {<span>Signature of Applicant</span>}
             </p>
-            <span id="pApplicantName">@ViewBag.ApplicantName</span><br />
-            <span id="pApplicantGroupName">@ViewBag.ApplicantGroupName</span>
+            <p>----------------------</p>
+            @if (prev_lang == "1")
+            {
+                <span id="pApplicantName">@ViewBag.ApplicantNameBn</span><br />
+                <span id="pApplicantGroupName">@ViewBag.ApplicantGroupNameBn</span>
+            }
+            else
+            {
+                <span id="pApplicantName">@ViewBag.ApplicantName</span><br />
+                <span id="pApplicantGroupName">@ViewBag.ApplicantGroupName</span>
+            }
         </div>
     </div>
 </div>
