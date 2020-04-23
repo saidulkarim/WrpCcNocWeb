@@ -19,8 +19,17 @@
                                     </label>
                                     <select id="LanguageTypeId" name="LanguageTypeId" class="form-control" style="width: 100%;">
                                         <option value="">Choose...</option>
-                                        <option value="1" data-toggle="tooltip" data-placement="top" title="" data-original-title="বাংলা">বাংলা</option>
-                                        <option value="2" data-toggle="tooltip" data-placement="top" title="" data-original-title="English">English</option>
+                                        @{
+                                            List<LookUpAdminModLanguage> _langs = ViewBag.LookUpAdminModLanguage;
+
+                                            if (_langs.Count > 0)
+                                            {
+                                                foreach (LookUpAdminModLanguage lang in _langs)
+                                                {
+                                                    <option value="@lang.LanguageId" data-toggle="tooltip" data-placement="top" title="" data-original-title="@lang.Language">@lang.Language</option>
+                                                }
+                                            }
+                                        }
                                     </select>
                                 </div>
                             </div>

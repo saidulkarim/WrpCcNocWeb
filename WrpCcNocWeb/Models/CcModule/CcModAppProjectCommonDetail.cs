@@ -463,7 +463,7 @@ namespace WrpCcNocWeb.Models
         public virtual LookUpAdminModLanguage LookUpAdminModLanguage { get; set; }
 
 
-        [Column("ReasonOfRejection", Order = 83)]
+        [Column("ReasonOfRejection", Order = 86)]
         [Display(Name = "Reason Of Rejection")]
         [MaxLength(550)]
         public string ReasonOfRejection { get; set; }

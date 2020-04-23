@@ -58,6 +58,7 @@ namespace WrpCcNocWeb.Controllers
             }
 
             ViewData["Title"] = "Apply";
+            ViewBag.LookUpAdminModLanguage = new SelectList(_db.LookUpAdminModLanguage.ToList(), "LanguageId", "Language");
 
             return View();
         }
@@ -96,6 +97,7 @@ namespace WrpCcNocWeb.Controllers
             }
 
             ViewData["Title"] = "Apply";
+            ViewBag.LookUpAdminModLanguage = new SelectList(_db.LookUpAdminModLanguage.ToList(), "LanguageId", "Language", _selectedForm.LanguageTypeId);
             return View();
         }
 
