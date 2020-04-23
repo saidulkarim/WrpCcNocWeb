@@ -38,6 +38,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<LookUpAdminModCostRange> LookUpAdminModCostRange { get; set; }
         public DbSet<LookUpAdminModEmailFormat> LookUpAdminModEmailFormat { get; set; }
         public DbSet<LookUpAdminModErrorSlvStatus> LookUpAdminModErrorSlvStatus { get; set; }
+        public DbSet<LookUpAdminModLanguage> LookUpAdminModLanguage { get; set; }
         public DbSet<LookUpAdminModMenu> LookUpAdminModMenu { get; set; }
         public DbSet<LookUpAdminModSecurityQuestion> LookUpAdminModSecurityQuestion { get; set; }
         public DbSet<LookUpAdminModSubMenu> LookUpAdminModSubMenu { get; set; }

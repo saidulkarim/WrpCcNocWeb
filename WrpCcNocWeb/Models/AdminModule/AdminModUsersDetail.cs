@@ -114,5 +114,10 @@ namespace WrpCcNocWeb.Models
         [Column("UserAddressBn", Order = 16)]
         [MaxLength(200)]
         public string UserAddressBn { get; set; }
+
+        [Column("SignatureFileName", Order = 17)]
+        [MaxLength(50)]
+        public string SignatureFileName { get; set; }
+        
     }
 }

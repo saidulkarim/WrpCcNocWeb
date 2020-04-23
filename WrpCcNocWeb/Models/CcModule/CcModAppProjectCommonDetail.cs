@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using WrpCcNocWeb.Models.AdminModule;
 using WrpCcNocWeb.Models.CcModule;
 
 namespace WrpCcNocWeb.Models
@@ -454,6 +455,19 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Is Completed")]
         public int? IsCompleted { get; set; }
 
+
+        [Column("LanguageId", Order = 85)]
+        [Display(Name = "Language")]
+        public int? LanguageId { get; set; }
+        [ForeignKey("LanguageId")]
+        public virtual LookUpAdminModLanguage LookUpAdminModLanguage { get; set; }
+
+
+        [Column("ReasonOfRejection", Order = 83)]
+        [Display(Name = "Reason Of Rejection")]
+        [MaxLength(550)]
+        public string ReasonOfRejection { get; set; }
+        
 
         public virtual List<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetails { get; set; }
         public virtual List<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetails { get; set; }
