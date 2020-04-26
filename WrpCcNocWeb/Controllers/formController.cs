@@ -58,7 +58,7 @@ namespace WrpCcNocWeb.Controllers
             }
 
             ViewData["Title"] = "Apply";
-            ViewBag.LookUpAdminModLanguage = new SelectList(_db.LookUpAdminModLanguage.ToList(), "LanguageId", "Language");
+            ViewBag.LookUpAdminModLanguage = _db.LookUpAdminModLanguage.ToList();
 
             return View();
         }
@@ -97,7 +97,7 @@ namespace WrpCcNocWeb.Controllers
             }
 
             ViewData["Title"] = "Apply";
-            ViewBag.LookUpAdminModLanguage = new SelectList(_db.LookUpAdminModLanguage.ToList(), "LanguageId", "Language", _selectedForm.LanguageTypeId);
+            ViewBag.LookUpAdminModLanguage = _db.LookUpAdminModLanguage.ToList();
             return View();
         }
 
@@ -262,6 +262,8 @@ namespace WrpCcNocWeb.Controllers
 
             UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
             ViewBag.UserLevel = uli.UserGroupId;
+            ViewBag.UserAuthLevelID = uli.AuthorityLevelId;
+            ViewBag.HigherAuthLevelID = GetHighestLevelAuthority();
             ChangeStatus(id, status);
 
             CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(id);
@@ -818,6 +820,7 @@ namespace WrpCcNocWeb.Controllers
         public JsonResult gis(CcModAppProjectCommonDetail _pcd)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            SelectedForm sf = HttpContext.Session.GetComplexData<SelectedForm>("SelectedForm");
             long ProjectID = 0;
             int result = 0;
 
@@ -841,6 +844,7 @@ namespace WrpCcNocWeb.Controllers
                                 pcd.ProjectStartDate = _pcd.ProjectStartDate;
                                 pcd.ProjectCompletionDate = _pcd.ProjectCompletionDate;
                                 pcd.ProjectEstimatedCost = _pcd.ProjectEstimatedCost;
+                                pcd.LanguageId = sf.LanguageTypeId.ToInt();
 
                                 _db.Entry(pcd).State = EntityState.Modified;
                                 result = _db.SaveChanges();
@@ -3170,7 +3174,8 @@ namespace WrpCcNocWeb.Controllers
                                                                      .Where(w =>
                                                                                 w.UserId == pda.UserId &&
                                                                                 w.ProjectTypeId == pda.ProjectTypeId &&
-                                                                                w.ProjectId == pda.ProjectId)
+                                                                                w.ProjectId == pda.ProjectId &&
+                                                                                w.LabelNameOfControl == pda.LabelNameOfControl)
                                                                      .FirstOrDefault();
 
                                 if (exists != null)
@@ -3180,6 +3185,7 @@ namespace WrpCcNocWeb.Controllers
                                 }
                                 else
                                 {
+                                    pda.DateOfAnalysis = DateTime.Now;
                                     _db.CcModAppProjDataAnalysis.Add(pda);
                                 }
 
@@ -3292,7 +3298,8 @@ namespace WrpCcNocWeb.Controllers
                                 AppProjDataAnalysisId = d.AppProjDataAnalysisId,
                                 UserId = d.UserId,
                                 UserComments = d.Comments,
-                                UserName = String.Format("{0}, {1}", user.UserFullName, ugl.UserGroupName)
+                                UserName = String.Format("{0}, {1}", user.UserFullName, ugl.UserGroupName),
+                                DateOfAnalysis = (d.DateOfAnalysis.HasValue) ? d.DateOfAnalysis.Value.ToString("dd MMM, yyyy hh:mm:ss tt") : ""
                             }).ToList();
 
             return Json(comments);
@@ -3641,7 +3648,7 @@ namespace WrpCcNocWeb.Controllers
         }
         #endregion
 
-        #region Application Forwarding
+        #region Application Approving and Forwarding
         //form/ForwardApplication :: fwapp
         [HttpPost]
         public JsonResult fwapp(long pid)
@@ -3728,6 +3735,169 @@ namespace WrpCcNocWeb.Controllers
             }
 
             return Json(noti);
+        }
+
+        //form/ApplicationApprove :: appaprv
+        [HttpPost]
+        public JsonResult appaprv(long pid)
+        {
+            //UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+            //List<LookUpAdminModUserGroup> userGroupList = new List<LookUpAdminModUserGroup>();
+            int result = 0;
+
+            using var dbContextTransaction = _db.Database.BeginTransaction();
+            try
+            {
+                CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(pid);
+
+                if (_pcd != null)
+                {
+                    _pcd.ApprovalStatusId = 1;
+                    _pcd.IsCompleted = 3;
+
+                    _db.Entry(_pcd).State = EntityState.Modified;
+                    result = _db.SaveChanges();
+
+                    if (result > 0)
+                    {
+                        dbContextTransaction.Commit();
+
+                        noti = new Notification
+                        {
+                            id = pid.ToString(),
+                            status = "success",
+                            title = "Success",
+                            message = "Application has been successfully approved. Application tracking code is: " + _pcd.AppSubmissionId
+                        };
+                    };
+                }
+                else
+                {
+                    dbContextTransaction.Rollback();
+
+                    noti = new Notification
+                    {
+                        id = pid.ToString(),
+                        status = "error",
+                        title = "Forwarding Error",
+                        message = "Application not approved. Application tracking code is: " + _pcd.AppSubmissionId
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                dbContextTransaction.Rollback();
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    title = "An Exception Error Occured",
+                    message = message
+                };
+            }
+
+            return Json(noti);
+        }
+
+        //form/ApplicationReject :: apprejt
+        [HttpPost]
+        public JsonResult apprejt(long pid, string reason)
+        {
+            //UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+            //List<LookUpAdminModUserGroup> userGroupList = new List<LookUpAdminModUserGroup>();
+            int result = 0;
+
+            using var dbContextTransaction = _db.Database.BeginTransaction();
+            try
+            {
+                CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(pid);
+
+                if (_pcd != null)
+                {
+                    _pcd.ApprovalStatusId = 3;
+                    _pcd.ReasonOfRejection = reason.Trim();
+                    _pcd.IsCompleted = 3;
+
+                    _db.Entry(_pcd).State = EntityState.Modified;
+                    result = _db.SaveChanges();
+
+                    if (result > 0)
+                    {
+                        dbContextTransaction.Commit();
+
+                        noti = new Notification
+                        {
+                            id = pid.ToString(),
+                            status = "success",
+                            title = "Success",
+                            message = "Application has been successfully rejected. Application tracking code is: " + _pcd.AppSubmissionId
+                        };
+                    };
+                }
+                else
+                {
+                    dbContextTransaction.Rollback();
+
+                    noti = new Notification
+                    {
+                        id = pid.ToString(),
+                        status = "error",
+                        title = "Forwarding Error",
+                        message = "Application not rejected. Application tracking code is: " + _pcd.AppSubmissionId
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                dbContextTransaction.Rollback();
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    title = "An Exception Error Occured",
+                    message = message
+                };
+            }
+
+            return Json(noti);
+        }
+
+        public int GetHighestLevelAuthority()
+        {
+            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+            List<LookUpAdminModUserGroup> userGroupList = new List<LookUpAdminModUserGroup>();
+            int result = 0;
+
+            if (!string.IsNullOrEmpty(uli.UnionGeoCode))
+            {
+                userGroupList = _db.LookUpAdminModUserGroup.Where(w => w.UnionGeoCode == uli.UnionGeoCode).ToList();
+            }
+
+            if (string.IsNullOrEmpty(uli.UnionGeoCode) && !string.IsNullOrEmpty(uli.UpazilaGeoCode))
+            {
+                userGroupList = _db.LookUpAdminModUserGroup.Where(w => w.UpazilaGeoCode == uli.UpazilaGeoCode).ToList();
+            }
+
+            if (string.IsNullOrEmpty(uli.UnionGeoCode) && string.IsNullOrEmpty(uli.UpazilaGeoCode) && !string.IsNullOrEmpty(uli.DistrictGeoCode))
+            {
+                userGroupList = _db.LookUpAdminModUserGroup.Where(w => w.DistrictGeoCode == uli.DistrictGeoCode).ToList();
+            }
+
+            if (userGroupList.Count > 0)
+            {
+                int higherAuthLevelId = userGroupList.Min(m => m.AuthorityLevelId).Value;
+                result = higherAuthLevelId;
+            }
+            else
+            {
+                result = 0;
+            }
+
+            return result;
         }
         #endregion
     }

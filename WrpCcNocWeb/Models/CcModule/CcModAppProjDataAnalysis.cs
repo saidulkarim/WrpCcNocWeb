@@ -13,14 +13,12 @@ namespace WrpCcNocWeb.Models
         [Column("AppProjDataAnalysisId", Order = 0)]
         public long AppProjDataAnalysisId { get; set; }
 
-
         [Required]
         [Column("UserId", Order = 1)]
         [Display(Name = "Name of User")]
         public long UserId { get; set; }
         [ForeignKey("UserId")]
         public virtual AdminModUsersDetail AdminModUsersDetail { get; set; }
-
 
         [Required]
         [Column("ProjectTypeId", Order = 2)]
@@ -29,7 +27,6 @@ namespace WrpCcNocWeb.Models
         [ForeignKey("ProjectTypeId")]
         public virtual LookUpCcModProjectType LookUpCcModProjectType { get; set; }
 
-
         [Required]
         [Column("ProjectId", Order = 3)]
         [Display(Name = "Name of Project")]
@@ -37,17 +34,18 @@ namespace WrpCcNocWeb.Models
         [ForeignKey("ProjectId")]
         public virtual CcModAppProjectCommonDetail CcModAppProjectCommonDetail { get; set; }
 
-
         [Required]
-        [Column("LabelNameOfControl", Order = 4)]        
+        [Column("LabelNameOfControl", Order = 4)]
         [MaxLength(100)]
         public string LabelNameOfControl { get; set; }
-                       
 
         [Column("Comments", Order = 5)]
         [Display(Name = "Comments")]
         [MaxLength(350)]
         public string Comments { get; set; }
 
+        [Column("DateOfAnalysis", Order = 6)]
+        [Display(Name = "Date of Analysis")]
+        public DateTime? DateOfAnalysis { get; set; }
     }
 }

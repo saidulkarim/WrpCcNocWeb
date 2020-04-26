@@ -8,10 +8,15 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <input id="pProjectId" type="hidden" value="@ViewBag.ProjectId" />
+                @*<input id="pProjectId" type="hidden" value="@ViewBag.ProjectId" />
                 <input id="pProject31IndvId" type="hidden" value="@ViewBag.Project31IndvId" />
                 <input id="pUserId" type="hidden" value="@ViewBag.UserId" />
-                <input id="pProjectTypeId" type="hidden" value="@ViewBag.ProjectTypeId" />
+                <input id="pProjectTypeId" type="hidden" value="@ViewBag.ProjectTypeId" />*@
+
+                <input id="pProjectId" type="hidden" />
+                <input id="pProject31IndvId" type="hidden" />
+                <input id="pUserId" type="hidden" value="@ViewBag.UserId" />
+                <input id="pProjectTypeId" type="hidden" />
 
                 <div class="col-md-12 text-center">
                     <h3 class="HeaderTitle">Application for Clearance Certificate</h3>
@@ -1094,11 +1099,46 @@
                 <hr />
 
                 <div class="row justify-content-md-center">
-                    <div class="form-group">
-                        <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
-                            Forward
-                        </button>
-                    </div>
+                    @if (ViewBag.UserAuthLevelID == ViewBag.HigherAuthLevelID)
+                    {
+                        <div class="form-group">
+                            <button id="btnSubmitToApprove" class="btn btn-lg btn-success" type="button" style="width: 250px;">
+                                Approve
+                            </button>
+                        </div>
+
+                        <span>&nbsp;&nbsp;&nbsp;</span>
+
+                        <div class="form-group">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-lg btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Re-evaluate
+                                    <i class="mdi mdi-chevron-down"></i>
+                                </button>
+                                <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                                    <a class="dropdown-item" href="#">Back to Applicant for Correction</a>
+                                    <a class="dropdown-item" href="#">Back to WRMC for Rechecking</a>
+                                    <a class="dropdown-item" href="#">Back to Technical Committee for Re-evaluation</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <span>&nbsp;&nbsp;&nbsp;</span>
+
+                        <div class="form-group">
+                            <button id="btnSubmitToReject" class="btn btn-lg btn-danger" type="button" style="width: 250px;">
+                                Reject
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
+                                Forward
+                            </button>
+                        </div>
+                    }
                 </div>
 
                 <div id="control-popup-comments" class="modal-demo" style="width: 800px;">
@@ -1117,6 +1157,7 @@
                                                 <tr style="border-top: none;">
                                                     <th class="p-1">Comments</th>
                                                     <th class="p-1">User</th>
+                                                    <th class="p-1">Date of Analysis</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tbodyCommentList"></tbody>
@@ -1183,16 +1224,94 @@
                         data: { pid: projectId },
                         dataType: "json",
                         success: function (data, status, jqXHR) {
-                            if (data.message != '') {                                
+                            if (data.message != '') {
                                 Notification(data.status, data.title, data.message);
                                 Swal.fire(data.title, data.message, data.status);
-                            }                            
+                            }
                         }, error: function (jqXHR, exception) {
                             var errorMsg = AjaxErrorHandle(jqXHR, exception);
                             Notification('error', 'Error Occured', errorMsg);
                             Swal.fire('Error Occured', errorMsg, 'error');
                         }
                     });
+                }
+            });
+        });
+
+        jQuery("#btnSubmitToApprove").click(function () {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Application will be approved. \nYou will not be able to comment or analyze anything.",
+                type: "warning",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                showCancelButton: !0,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Approve"
+            }).then(function (t) {
+                if (t.value == true) {
+                    var projectId = GetHiddenValue('pProjectId');
+
+                    var url = '@Url.Action("appaprv", "form")';
+                    jQuery.ajax({
+                        type: "POST",
+                        url: url,
+                        data: { pid: projectId },
+                        dataType: "json",
+                        success: function (data, status, jqXHR) {
+                            if (data.message != '') {
+                                Notification(data.status, data.title, data.message);
+                                Swal.fire(data.title, data.message, data.status);
+                            }
+                        }, error: function (jqXHR, exception) {
+                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                            Notification('error', 'Error Occured', errorMsg);
+                            Swal.fire('Error Occured', errorMsg, 'error');
+                        }
+                    });
+                }
+            });
+        });
+
+        jQuery("#btnSubmitToReject").click(function () {
+            Swal.fire({
+                title: "Are you sure?",
+                html: 'Application will be rejected. Do you wish to continue? <br /> <div class="form-group"><label for="txtRejectReason">Please specify reject reason <span class="text-danger bold">*</span></label><input type="text" id="txtRejectReason" name="txtRejectReason" class="form-control"></div>',
+                type: "warning",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Approve"
+            }).then(function (t) {
+                var projectId = GetHiddenValue('pProjectId');
+                var reason = jQuery("#txtRejectReason").val();
+
+                if (reason != '') {
+                    if (t.value == true) {
+                        var url = '@Url.Action("apprejt", "form")';
+                        jQuery.ajax({
+                            type: "POST",
+                            url: url,
+                            data: { pid: projectId, reason: reason },
+                            dataType: "json",
+                            success: function (data, status, jqXHR) {
+                                if (data.message != '') {
+                                    Notification(data.status, data.title, data.message);
+                                    Swal.fire(data.title, data.message, data.status);
+                                }
+                            }, error: function (jqXHR, exception) {
+                                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                                Notification('error', 'Error Occured', errorMsg);
+                                Swal.fire('Error Occured', errorMsg, 'error');
+                            }
+                        });
+                    }
+                } else {
+                    Notification('error', 'Required', 'Reject reason is required!');
+                    jQuery("#txtRejectReason").focus();
                 }
             });
         });
@@ -1223,6 +1342,8 @@
             LabelNameOfControl: prevControlName,
             Comments: prevComments
         };
+
+        console.log(pda);
 
         var url = '@Url.Action("sfc", "form")';
         jQuery.ajax({
@@ -1269,7 +1390,7 @@
                     var rows = '';
 
                     jQuery.each(data, function (i, item) {
-                        rows += '<tr><td class="p-1" data-id="' + item.appProjDataAnalysisId + '">' + item.userComments + '</td><td class="p-1">' + item.userName + '</td></tr>';
+                        rows += '<tr><td class="p-1" data-id="' + item.appProjDataAnalysisId + '">' + item.userComments + '</td><td class="p-1">' + item.userName + '</td><td class="p-1">' + item.dateOfAnalysis + '</td></tr>';
 
                         if (item.userId == prevUserId) {
                             jQuery('#Comments').val(item.userComments);
@@ -1278,11 +1399,11 @@
 
                     jQuery("#tbodyCommentList").html(rows);
                 } else {
-                    jQuery("#tbodyCommentList").html('<tr><td colspan="2" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no comments found </div></td></tr>');
+                    jQuery("#tbodyCommentList").html('<tr><td colspan="3" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no comments found </div></td></tr>');
                 }
             }, error: function (jqXHR, exception) {
                 var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                jQuery("#tbodyCommentList").html('<tr><td colspan="2" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+                jQuery("#tbodyCommentList").html('<tr><td colspan="3" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
             }
         });
     }
@@ -1655,10 +1776,9 @@
 
             //General Info
             SetHiddenValue('pProjectId', projectId);
-
-            //SetHiddenValue('pProject31IndvId', 'Html.Raw(ViewBag.ProjectIndvDetail31.Project31IndvId)');
+            SetHiddenValue('pProject31IndvId', '@Html.Raw(ViewBag.ProjectIndvDetail31.Project31IndvId)');
             //SetHiddenValue('pUserId', 'Html.Raw(ViewBag.UserId)');
-            //SetHiddenValue('pProjectTypeId', 'Html.Raw(ViewBag.ProjectCommonDetail.ProjectTypeId)');
+            SetHiddenValue('pProjectTypeId', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectTypeId)');
 
             pSetTextValue('pProjectName', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectName)');
             pSetTextValue('pBackgroundAndRationale', '@Html.Raw(ViewBag.ProjectCommonDetail.BackgroundAndRationale)');

@@ -11,5 +11,6 @@ namespace WrpCcNocWeb.Models
         public long UserId { get; set; }
         public string UserComments { get; set; }
         public string UserName { get; set; }
+        public string DateOfAnalysis { get; set; }
     }
 }
