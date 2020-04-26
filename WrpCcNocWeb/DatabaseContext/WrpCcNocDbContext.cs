@@ -76,6 +76,7 @@ namespace WrpCcNocWeb.DatabaseContext
         /*public DbSet<LookUpCcModBankDocType> LookUpCcModBankDocType { get; set; }*/
         public DbSet<LookUpCcModBankLineShifting> LookUpCcModBankLineShifting { get; set; }
         public DbSet<LookUpCcModBankStability> LookUpCcModBankStability { get; set; }
+        public DbSet<LookUpCcModCertificateFormat> LookUpCcModCertificateFormat { get; set; }
         public DbSet<LookUpCcModConservLocation> LookUpCcModConservLocation { get; set; }
         public DbSet<LookUpCcModDeltPlan2100Goal> LookUpCcModDeltPlan2100Goal { get; set; }
         public DbSet<LookUpCcModDeltPlan2100HotSpot> LookUpCcModDeltPlan2100HotSpot { get; set; }
