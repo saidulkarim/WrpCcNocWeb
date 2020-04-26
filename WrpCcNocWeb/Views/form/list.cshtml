@@ -38,7 +38,9 @@
                                             <td class="align-middle">@pcd.ProjectName</td>
                                             <td class="align-middle">@pcd.ProjectEstimatedCost</td>
                                             <td class="align-middle">@pcd.ApprovalStatus</td>
+                                            
                                             <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId, status = pcd.IsCompleted ?? 0 })" class="btn btn-info">View</a></td>
+
                                         </tr>
                                     }
                                     else if (pcd.IsCompleted == 1)

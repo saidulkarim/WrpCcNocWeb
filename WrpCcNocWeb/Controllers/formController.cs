@@ -18,6 +18,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -3853,6 +3854,86 @@ namespace WrpCcNocWeb.Controllers
             {
                 dbContextTransaction.Rollback();
                 var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    title = "An Exception Error Occured",
+                    message = message
+                };
+            }
+
+            return Json(noti);
+        }
+
+        //form/ApplicationRe-evaluate :: appreeva
+        [HttpPost]
+        public JsonResult appreeva(long pid, string level, string reason)
+        {
+            //UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+            //List<LookUpAdminModUserGroup> userGroupList = new List<LookUpAdminModUserGroup>();
+            int result = 0;
+            string message = string.Empty;
+
+            using var dbContextTransaction = _db.Database.BeginTransaction();
+            try
+            {
+                CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(pid);
+
+                if (_pcd != null)
+                {
+                    _pcd.ApprovalStatusId = 2;
+                    _pcd.ReasonOfRejection = reason.Trim();
+                    _pcd.IsCompleted = 0;
+
+                    _db.Entry(_pcd).State = EntityState.Modified;
+                    result = _db.SaveChanges();
+
+                    if (result > 0)
+                    {
+                        dbContextTransaction.Commit();
+
+                        if (level == "applicant")
+                        {
+                            message = "Application has been sent to applicant for correction purpose.";
+                        }
+                        else if (level == "wrmc")
+                        {
+                            message = "Application will be sent to Water Resource Management Committee for re-checking purpose.";
+                        }
+                        else
+                        {
+                            message = "Application will be sent to Technical Committee for re-evaluation purpose.";
+                        }
+
+
+                        noti = new Notification
+                        {
+                            id = pid.ToString(),
+                            status = "success",
+                            title = "Success",
+                            message = "Application has been successfully rejected. Application tracking code is: " + _pcd.AppSubmissionId
+                        };
+                    };
+                }
+                else
+                {
+                    dbContextTransaction.Rollback();
+
+                    noti = new Notification
+                    {
+                        id = pid.ToString(),
+                        status = "error",
+                        title = "Forwarding Error",
+                        message = "Application not sent to re-evaluate. Application tracking code is: " + _pcd.AppSubmissionId
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                dbContextTransaction.Rollback();
+                message = ch.ExtractInnerException(ex);
 
                 noti = new Notification
                 {
