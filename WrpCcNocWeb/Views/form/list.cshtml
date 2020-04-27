@@ -30,39 +30,75 @@
                             <tbody>
                                 @foreach (ProjectViewList pcd in _pcds)
                                 {
+                                    var css_class = (pcd.ApprovalStatusId == 1) ? "bg-success" : (pcd.ApprovalStatusId == 2 || pcd.ApprovalStatusId == 3) ? "bg-secondary" : "bg-info";
+
                                     if (pcd.IsCompleted == null || pcd.IsCompleted == 0)
                                     {
-                                        <tr class="bg-blue text-white font-italic font-weight-bold">
+                                        <tr class="@css_class text-white font-italic font-weight-bold">
                                             <td class="text-center align-middle">@count</td>
                                             <td class="align-middle">@pcd.ProjectType</td>
                                             <td class="align-middle">@pcd.ProjectName</td>
                                             <td class="align-middle">@pcd.ProjectEstimatedCost</td>
                                             <td class="align-middle">@pcd.ApprovalStatus</td>
-                                            
-                                            <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId, status = pcd.IsCompleted ?? 0 })" class="btn btn-info">View</a></td>
 
+                                            @if (@pcd.ApprovalStatusId == 1)
+                                            {
+                                                <td class="align-middle"><a href="@Url.Action("certificate", "form", new { id = pcd.ProjectId })" class="btn btn-info">Download</a></td>
+                                            }
+                                            else if (@pcd.ApprovalStatusId == 2 || @pcd.ApprovalStatusId == 3)
+                                            {
+                                                <td><span>&nbsp;</span></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId, status = pcd.IsCompleted ?? 0 })" class="btn btn-info">View</a></td>
+                                            }
                                         </tr>
                                     }
                                     else if (pcd.IsCompleted == 1)
                                     {
-                                        <tr class="bg-success text-white">
+                                        <tr class="@css_class text-white">
                                             <td class="text-center align-middle">@count</td>
                                             <td class="align-middle">@pcd.ProjectType</td>
                                             <td class="align-middle">@pcd.ProjectName</td>
                                             <td class="align-middle">@pcd.ProjectEstimatedCost</td>
                                             <td class="align-middle">@pcd.ApprovalStatus</td>
-                                            <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId, status = pcd.IsCompleted ?? 0 })" class="btn btn-info">View</a></td>
+
+                                            @if (@pcd.ApprovalStatusId == 1)
+                                            {
+                                                <td class="align-middle"><a href="@Url.Action("certificate", "form", new { id = pcd.ProjectId })" class="btn btn-info">Download</a></td>
+                                            }
+                                            else if (@pcd.ApprovalStatusId == 2 || @pcd.ApprovalStatusId == 3)
+                                            {
+                                                <td><span>&nbsp;</span></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId, status = pcd.IsCompleted ?? 0 })" class="btn btn-info">View</a></td>
+                                            }
                                         </tr>
                                     }
                                     else
                                     {
-                                        <tr class="bg-secondary text-white">
+                                        <tr class="@css_class text-white">
                                             <td class="text-center align-middle">@count</td>
                                             <td class="align-middle">@pcd.ProjectType</td>
                                             <td class="align-middle">@pcd.ProjectName</td>
                                             <td class="align-middle">@pcd.ProjectEstimatedCost</td>
                                             <td class="align-middle">@pcd.ApprovalStatus</td>
-                                            <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId, status = pcd.IsCompleted ?? 0 })" class="btn btn-info">View</a></td>
+
+                                            @if (@pcd.ApprovalStatusId == 1)
+                                            {
+                                                <td class="align-middle"><a href="@Url.Action("certificate", "form", new { id = pcd.ProjectId })" class="btn btn-info">Download</a></td>
+                                            }
+                                            else if (@pcd.ApprovalStatusId == 2 || @pcd.ApprovalStatusId == 3)
+                                            {
+                                                <td><span>&nbsp;</span></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId, status = pcd.IsCompleted ?? 0 })" class="btn btn-info">View</a></td>
+                                            }
                                         </tr>
                                     }
 

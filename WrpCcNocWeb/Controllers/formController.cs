@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
+using Rotativa.AspNetCore;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -400,8 +401,46 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
-        public IActionResult certificate()
+        public IActionResult certificate(long? id)
         {
+            if (id == null || id == 0)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Ivalid ID", "Sorry, invalid project ID provided!");
+                return RedirectToAction("list", "form");
+            }
+
+            CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(id);
+            if (pcd == null)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Project Info Error", "Sorry, project information not found!");
+                return RedirectToAction("list", "form");
+            }
+
+            LookUpCcModProjectType pt = _db.LookUpCcModProjectType.Find(pcd.ProjectTypeId);
+            if (pt == null)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Project Info Error", "Sorry, project type information not found!");
+                return RedirectToAction("list", "form");
+            }
+
+            LookUpCcModCertificateFormat cf = _db.LookUpCcModCertificateFormat.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).FirstOrDefault();
+            if (cf == null)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Certificate Format Error", "Sorry, certificate template not found!");
+                return RedirectToAction("list", "form");
+            }
+
+            GetApplicantInfo(pcd.UserId);
+            ViewBag.LanguageId = pcd.LanguageId;
+            ViewBag.ClearanceNo = pcd.AppSubmissionId;
+            ViewBag.ClearanceNoBn = pcd.AppSubmissionId.ToString().NumberEnglishToBengali();
+            ViewBag.ClearanceDate = DateTime.Now.ToString("dd MMMM, yyyy");
+            ViewBag.ClearanceDateBn = DateTime.Now.ToString("dd MMMM, yyyy").NumberEnglishToBengali().MonthEnglishToBengali();
+            ViewBag.ProjectType = pt;
+            ViewBag.FormNo = pt.ProjectTypeId.ToString().PadLeft(2, '0');
+            ViewBag.FormNoBn = pt.ProjectTypeId.ToString().PadLeft(2, '0').NumberEnglishToBengali();
+            ViewBag.CertificateFormat = cf;
+
             return View();
         }
 

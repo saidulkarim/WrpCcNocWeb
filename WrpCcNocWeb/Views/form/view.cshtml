@@ -1263,6 +1263,10 @@
                             if (data.message != '') {
                                 Notification(data.status, data.title, data.message);
                                 Swal.fire(data.title, data.message, data.status);
+
+                                if (data.status == 'success') {
+                                    RedirectToHome();
+                                }
                             }
                         }, error: function (jqXHR, exception) {
                             var errorMsg = AjaxErrorHandle(jqXHR, exception);
@@ -1350,6 +1354,10 @@
                                 if (data.message != '') {
                                     Notification(data.status, data.title, data.message);
                                     Swal.fire(data.title, data.message, data.status);
+
+                                    if (data.status == 'success') {
+                                        RedirectToHome();
+                                    }
                                 }
                             }, error: function (jqXHR, exception) {
                                 var errorMsg = AjaxErrorHandle(jqXHR, exception);
@@ -1392,7 +1400,11 @@
 					        success: function (data, status, jqXHR) {
 						        if (data.message != '') {
 							        Notification(data.status, data.title, data.message);
-							        Swal.fire(data.title, data.message, data.status);
+                                    Swal.fire(data.title, data.message, data.status);
+
+                                    if (data.status == 'success') {
+                                        RedirectToHome();
+                                    }
 						        }
 					        }, error: function (jqXHR, exception) {
 						        var errorMsg = AjaxErrorHandle(jqXHR, exception);
@@ -1553,7 +1565,6 @@
         window.location.href = url;
     }
 </script>
-
 <!-- end -->
 
 <script type="text/javascript">

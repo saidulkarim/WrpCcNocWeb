@@ -10,6 +10,31 @@ namespace WrpCcNocWeb.Helpers
 {
     public static class Extention
     {
+        public static string MonthEnglishToBengali(this string englishStr)
+        {
+
+            Dictionary<string, string> LettersDictionary = new Dictionary<string, string>
+            {
+                ["January"] = "জানুয়ারী",
+                ["February"] = "ফেব্রুয়ারি",
+                ["March"] = "মার্চ",
+                ["April"] = "এপ্রিল",
+                ["May"] = "মে",
+                ["June"] = "জুন",
+                ["July"] = "জুলাই",
+                ["August"] = "অগাস্ট",
+                ["September"] = "সেপ্টেম্বর",
+                ["October"] = "অক্টোবর",
+                ["November"] = "নভেম্বর",
+                ["December"] = "ডিসেম্বর"
+            };
+
+            if (!string.IsNullOrEmpty(englishStr))
+                return LettersDictionary.Aggregate(englishStr, (current, item) => current.Replace(item.Key, item.Value));
+            else
+                return string.Empty;
+        }
+
         public static string NumberEnglishToBengali(this string englishStr)
         {
 

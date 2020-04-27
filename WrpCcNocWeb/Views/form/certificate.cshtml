@@ -1,81 +1,160 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Certificate";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row justify-content-md-center">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header bg-blue py-3 text-white">
-                <div class="card-widgets">
-                    <a data-toggle="collapse" href="#cardCollpase5" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
-                </div>
-                <h5 class="card-title mb-0 text-white">Project Title</h5>
-            </div>
-            <div id="cardCollpase5" class="collapse show">
-                <div class="card-body" style="padding-left: 2.5rem !important;padding-right: 2.5rem !important;">
-                    <div id="divTopBar">
-                        <p style="text-align: right;">
-                            <span id="lblFormNo">ফরম-৫.১২</span><br />
-                            <span>(নমুনা)</span><br />
-                            <span id="lblRuleName">[বিধি-৩৫(১৩) দ্রঃ]</span>
-                        </p>
+@{
+    int language = ViewBag.LanguageId;
+    LookUpCcModProjectType pt = ViewBag.ProjectType;
+    LookUpCcModCertificateFormat cf = ViewBag.CertificateFormat;
+
+    if (cf == null)
+    {
+        this.Context.Response.HttpContext.Response.Redirect("/form/list", true);
+    }
+}
+
+@if (language == 1)
+{
+    <div class="row justify-content-md-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-blue py-3 text-white">
+                    <div class="card-widgets">
+                        <a href="javascript:void(0);" onclick="printTrigger('divCertificatePrint');"><i class="mdi mdi-printer"></i></a>
+                        <a data-toggle="collapse" href="#divCertificatePrint" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
                     </div>
-                    <p style="text-align: center;">
-                        গণপ্রজাতন্ত্রী বাংলাদেশ সরকার<br />
-                        পানি সম্পদ মন্ত্রণালয়<br />
-                        পানি সম্পদ পরিকল্পনা সংস্থা<br />
-                        ৭২ গ্রীণরোড, ঢাকা।<br />
-                    </p>
-                    <p>
-                        <span id="lblClearanceNo" style="float: left;">ছাড়পত্র নং #200419000059</span>
-                        <span id="lblClearanceDate" style="float: right;">তারিখ: 26 Apr, 2020</span>
-                    </p>
+                    <h5 class="card-title mb-0 text-white">Project Title</h5>
+                </div>
+                <div id="divCertificatePrint" class="collapse show">
+                    <div class="card-body" style="padding-left: 3.5rem !important;padding-right: 3.5rem !important;">
+                        <div id="divTopBar">
+                            <p style="text-align: right;">
+                                <span id="lblFormNo">ফরম-৫.@ViewBag.FormNoBn</span><br />
+                                <span>(নমুনা)</span><br />
+                                <span id="lblRuleName">@cf.RuleAsPerGazetteBn</span>
+                            </p>
+                        </div>
+                        <p style="text-align: center;">
+                            গণপ্রজাতন্ত্রী বাংলাদেশ সরকার<br />
+                            পানি সম্পদ মন্ত্রণালয়<br />
+                            পানি সম্পদ পরিকল্পনা সংস্থা<br />
+                            ৭২ গ্রীণরোড, ঢাকা।<br />
+                        </p>
+                        <p>
+                            <span id="lblClearanceNo" style="float: left;">ছাড়পত্র নং #@ViewBag.ClearanceNoBn</span>
+                            <span id="lblClearanceDate" style="float: right;">তারিখ: @ViewBag.ClearanceDateBn</span>
+                        </p>
+                        <br />
+                        <br />
+                        <p>
+                            <span>প্রতি</span><br />
+                            <span>@ViewBag.ApplicantNameBn</span><br />
+                            <span>@ViewBag.ApplicantAddressBn</span><br />
+                            <span>যোগাযোগ: @ViewBag.ApplicantMobileBn</span><br />
+                            <span>ইমেইল: @ViewBag.ApplicantEmail</span>
+                        </p>
+                        <br />
+                        <p style="text-align: center; font-weight: bold;">
+                            <span>প্রকল্প ছাড়পত্র</span><br />
+                            (<span id="lblProjectTitle">@pt.ProjectTypeBn</span>)
+                        </p>
+                        <br />
+                        <br />
+                        <p style="text-align: justify;">
+                            @Html.Raw(cf.CertificateBodyBn)
+                        </p>
+                        <br />
+                        <p>
+                            <span style="font-weight: bold;">শর্তাদি:</span>
+                            <ul style="list-style-type: none;">
+                                @Html.Raw(cf.TermsConditionsBn)
+                            </ul>
+                        </p>
+                        <br />
+                        <br />
+                        <br />
+                        <span style="text-align: center; float: right">
+                            দায়িত্বপ্রাপ্ত কর্মকর্তার স্বাক্ষর<br />
+                            ও<br />
+                            সীলমোহর
+                        </span>
+                    </div>
                     <br />
-                    <br />
-                    <p>
-                        <span>প্রতি</span><br />
-                        <span>আবু তালিব মুহাম্মদ সাইদুল করিম</span><br />
-                        <span>বাড়ি #০৯, রোড #১২, উত্তর বাড্ডা, ঢাকা-১২১২।</span><br />
-                        <span>০১৯১৯১২৩৪৫৬</span><br />
-                        <span>rony@gmail.com</span>
-                    </p>
-                    <br />
-                    <p style="text-align: center; font-weight: bold;">
-                        <span>প্রকল্প অনাপত্তি পত্র</span><br />
-                        (<span id="lblProjectTitle">ভূগর্ভস্থ পানি আহরণ, সরবরাহ বা ব্যবহার সংক্রান্ত প্রকল্প বা সংশ্লিষ্ট প্রকল্পের অংশবিশেষ</span>)
-                    </p>
-                    <br />
-                    <br />                   
-                    <p style="text-align: justify;">
-                        আপনার আবেদনপত্রের পরিপ্রেক্ষিতে নির্বাহী কমিটি কর্তৃক নির্দেশিত হইয়া নিম্নস্বাক্ষরকারী কর্তৃক
-                        আপনার বরাবর নিম্নবর্ণিত শর্তে প্রকল্প অনাপত্তি পত্র ইস্যু করা হইল:
-                    </p>
-                    <br />
-                    <p>
-                        <span style="font-weight: bold;">শর্তাদি:</span>
-                        <ul style="list-style-type: none;">
-                            <li>(ক) অনাপত্তি পত্রের মেয়াদ হইবে ইস্যুর তারিখ হইতে পরবর্তী ২ (দুই) বৎসর।</li>
-                            <li>(খ) অনাপত্তি পত্রের মেয়াদ উত্তীর্ণের কমপক্ষে ৩০ (ত্রিশ) দিন পূর্বে উহা নবায়ন করিতে হইবে।</li>
-                            <li>(গ) অনাপত্তি পত্রের কোন শর্ত অথবা আইন বা তদোধীন প্রণীত বিধিমালার কোন বিধান লংঘিত হইলে প্রকল্প অনাপত্তি পত্রটি বাতিলযোগ্য হইবে।</li>
-                            <li>(ঘ)	পূর্বানুমতি ব্যতীত ইহা হস্তান্তরযোগ্য হইবে না।</li>
-                            <li>(ঙ)	পানি সম্পদ অনুমোদিত ব্যবহারের বিবরণ।</li>
-                            <li>(চ) পানি সম্পদ দূষণে বিধি-নিষেধ।</li>
-                            <li>(ছ) অনাপত্তি পত্রের কোন শর্ত অথবা আইন বা তদোধীন প্রণীত বিধিমালার কোন বিধান লংঘন করা হইলে আর্থিক জরিমানা আরোপ, কারাদন্ড প্রদান ও পানি সম্পদের অননুমোদিত ব্যবহারের কাজে ব্যবহৃত মালামাল ও দ্রব্য বাজেয়াপ্ত করা হইবে।</li>
-                            <li>(জ)	অন্যান্য শর্ত, যদি প্রয়োজন হয়।</li>
-                        </ul>
-                    </p>
-                    <br />
-                    <br />
-                    <br />
-                    <span style="text-align: center; float: right">
-                        দায়িত্বপ্রাপ্ত কর্মকর্তার স্বাক্ষর<br />
-                        ও<br />
-                        সীলমোহর
-                    </span>
                 </div>
             </div>
         </div>
     </div>
-</div>
+}
+else
+{
+    <div class="row justify-content-md-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-blue py-3 text-white">
+                    <div class="card-widgets">
+                        <a href="javascript:void(0);" onclick="printTrigger('divCertificatePrint');"><i class="mdi mdi-printer"></i></a>
+                        <a data-toggle="collapse" href="#divCertificatePrint" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                    </div>
+                    <h5 class="card-title mb-0 text-white">Project Title</h5>
+                </div>
+                <div id="divCertificatePrint" class="collapse show">
+                    <div class="card-body" style="padding-left: 3.5rem !important;padding-right: 3.5rem !important;">
+                        <div id="divTopBar">
+                            <p style="text-align: right;">
+                                <span id="lblFormNo">Form-5.@ViewBag.FormNo</span><br />
+                                <span>(Sample)</span><br />
+                                <span id="lblRuleName">@cf.RuleAsPerGazette</span>
+                            </p>
+                        </div>
+                        <p style="text-align: center;">
+                            Government of the People's Republic of Bangladesh<br />
+                            Ministry of Water Resources<br />
+                            Water Resources Planning Agency<br />
+                            72 Green Road, Dhaka.<br />
+                        </p>
+                        <p>
+                            <span id="lblClearanceNo" style="float: left;">Clearance Certificate #@ViewBag.ClearanceNo</span>
+                            <span id="lblClearanceDate" style="float: right;">Date: @ViewBag.ClearanceDate</span>
+                        </p>
+                        <br />
+                        <br />
+                        <p>
+                            <span>To</span><br />
+                            <span>@ViewBag.ApplicantName</span><br />
+                            <span>@ViewBag.ApplicantAddress</span><br />
+                            <span>Contact: @ViewBag.ApplicantMobile</span><br />
+                            <span>Email: @ViewBag.ApplicantEmail</span>
+                        </p>
+                        <br />
+                        <p style="text-align: center; font-weight: bold;">
+                            <span>Project Clearance Certificate</span><br />
+                            (<span id="lblProjectTitle">@pt.ProjectType</span>)
+                        </p>
+                        <br />
+                        <br />
+                        <p style="text-align: justify;">
+                            @Html.Raw(cf.CertificateBody)
+                        </p>
+                        <br />
+                        <p>
+                            <span style="font-weight: bold;">Terms:</span>
+                            <ul style="list-style-type: none;">
+                                @Html.Raw(cf.TermsConditions)
+                            </ul>
+                        </p>
+                        <br />
+                        <br />
+                        <br />
+                        <span style="text-align: center; float: right">
+                            Signature of the Officer in Charge<br />
+                            and<br />
+                            Seal
+                        </span>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+}

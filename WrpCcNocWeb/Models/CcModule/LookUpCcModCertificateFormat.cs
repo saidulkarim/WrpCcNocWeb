@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WrpCcNocWeb.Models.CcModule
+namespace WrpCcNocWeb.Models
 {
     public class LookUpCcModCertificateFormat
     {
