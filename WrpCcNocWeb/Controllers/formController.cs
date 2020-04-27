@@ -19,7 +19,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
-using Rotativa.AspNetCore;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -442,6 +441,7 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.CertificateFormat = cf;
 
             return View();
+            //return new ActionAsPdf();
         }
 
         //form/FloodControlManagementProject :: fcmp       

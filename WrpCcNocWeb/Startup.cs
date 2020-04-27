@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Rotativa.AspNetCore;
 using WrpCcNocWeb.Helpers;
 using WrpCcNocWeb.Models.Utility;
 
@@ -76,8 +75,6 @@ namespace WrpCcNocWeb
                     pattern: "{controller=account}/{action=login}/{id?}");
                 //pattern: "{controller=home}/{action=index}/{id?}");
             });
-            
-            //RotativaConfiguration.Setup(webRootPath, "..\\Rotativa\\");
         }
     }
 }
