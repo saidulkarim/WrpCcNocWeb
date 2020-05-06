@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using WrpCcNocWeb.DatabaseContext;
 using WrpCcNocWeb.Helpers;
 using WrpCcNocWeb.Models;
@@ -17,8 +16,8 @@ using System.IO;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
+using Rotativa.AspNetCore;
+using Rotativa.AspNetCore.Options;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -31,16 +30,12 @@ namespace WrpCcNocWeb.Controllers
         private Notification noti = new Notification();
         private readonly string rootDirOfProjFile = "../images";
         private readonly string rootDirOfDocs = "../docs";
-        #endregion
-
-        private readonly ILogger<formController> logger;
-        [Obsolete]
-        private readonly IHostingEnvironment hostingEnvironment;
-
-        [Obsolete]
-        public formController(ILogger<formController> logger, IHostingEnvironment hostingEnvironment)
-        {
-            this.logger = logger;
+        #endregion               
+        
+        private readonly IWebHostEnvironment hostingEnvironment;
+                
+        public formController(IWebHostEnvironment hostingEnvironment)
+        {            
             this.hostingEnvironment = hostingEnvironment;
         }
 
@@ -430,20 +425,25 @@ namespace WrpCcNocWeb.Controllers
             }
 
             GetApplicantInfo(pcd.UserId);
-            ViewBag.LanguageId = pcd.LanguageId;
-            ViewBag.ClearanceNo = pcd.AppSubmissionId;
-            ViewBag.ClearanceNoBn = pcd.AppSubmissionId.ToString().NumberEnglishToBengali();
-            ViewBag.ClearanceDate = DateTime.Now.ToString("dd MMMM, yyyy");
-            ViewBag.ClearanceDateBn = DateTime.Now.ToString("dd MMMM, yyyy").NumberEnglishToBengali().MonthEnglishToBengali();
-            ViewBag.ProjectType = pt;
-            ViewBag.FormNo = pt.ProjectTypeId.ToString().PadLeft(2, '0');
-            ViewBag.FormNoBn = pt.ProjectTypeId.ToString().PadLeft(2, '0').NumberEnglishToBengali();
-            ViewBag.CertificateFormat = cf;
+            
+            ViewData["LanguageId"] = pcd.LanguageId;
+            ViewData["ClearanceNo"] = pcd.AppSubmissionId;
+            ViewData["ClearanceNoBn"] = pcd.AppSubmissionId.ToString().NumberEnglishToBengali();
+            ViewData["ClearanceDate"] = DateTime.Now.ToString("dd MMMM, yyyy");
+            ViewData["ClearanceDateBn"] = DateTime.Now.ToString("dd MMMM, yyyy").NumberEnglishToBengali().MonthEnglishToBengali();
+            ViewData["ProjectType"] = pt;
+            ViewData["FormNo"] = pt.ProjectTypeId.ToString().PadLeft(2, '0');
+            ViewData["FormNoBn"] = pt.ProjectTypeId.ToString().PadLeft(2, '0').NumberEnglishToBengali();
+            ViewData["CertificateFormat"] = cf;
 
-            return View();
-            //return new ActionAsPdf();
-        }
-
+            return new ViewAsPdf("~/Views/form/certificate.cshtml", viewData: ViewData)
+            {
+                PageSize = Size.A4,
+                PageOrientation = Orientation.Portrait,
+                PageMargins = new Margins(10, 10, 10, 10)
+            };
+        }                
+       
         //form/FloodControlManagementProject :: fcmp       
         public IActionResult fcmp()
         {
@@ -3679,8 +3679,7 @@ namespace WrpCcNocWeb.Controllers
 
             return filename;
         }
-
-        [Obsolete]
+                
         private string GetPathAndFilename(string fileName, string folderName)
         {
             var path = Path.Combine(hostingEnvironment.WebRootPath, folderName, fileName);

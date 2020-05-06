@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WrpCcNocWeb.Helpers;
+using Rotativa.AspNetCore;
 using WrpCcNocWeb.Models.Utility;
 
 namespace WrpCcNocWeb
@@ -30,7 +30,7 @@ namespace WrpCcNocWeb
             services.AddControllersWithViews();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMemoryCache();
-            services.AddMvc();
+            services.AddMvc();            
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -42,14 +42,15 @@ namespace WrpCcNocWeb
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(20);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
+                //options.Cookie.HttpOnly = true;
+                //options.Cookie.IsEssential = true;
             });
 
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        //public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment() || env.IsStaging())
@@ -73,8 +74,10 @@ namespace WrpCcNocWeb
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=account}/{action=login}/{id?}");
-                //pattern: "{controller=home}/{action=index}/{id?}");
+                  //pattern: "{controller=home}/{action=index}/{id?}");
             });
+            RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");
+            //RotativaConfiguration.Setup(env);
         }
     }
 }
