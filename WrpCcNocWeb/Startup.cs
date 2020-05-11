@@ -49,8 +49,7 @@ namespace WrpCcNocWeb
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);            
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        //public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        //This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment() || env.IsStaging())
@@ -76,8 +75,8 @@ namespace WrpCcNocWeb
                     pattern: "{controller=account}/{action=login}/{id?}");
                   //pattern: "{controller=home}/{action=index}/{id?}");
             });
-            RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");
-            //RotativaConfiguration.Setup(env);
+
+            RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");            
         }
     }
 }

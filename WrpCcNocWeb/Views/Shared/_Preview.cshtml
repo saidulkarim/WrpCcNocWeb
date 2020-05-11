@@ -1,6 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-@*<link href="~/css/PDF.css" rel="stylesheet" type="text/css" />*@
 
 @{
     var prev_lang = HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString();

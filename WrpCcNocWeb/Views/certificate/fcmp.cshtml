@@ -1,0 +1,156 @@
+﻿@using WrpCcNocWeb.Models.TempModels;
+
+@{
+    ViewData["Title"] = "Certificate";
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+    //Layout = null;
+
+    WrpCcNocWebCertificate crt = ViewData["WrpCcNocWebCertificate"] as WrpCcNocWebCertificate;
+
+    int language = crt.LanguageId;
+    LookUpCcModProjectType pt = crt.ProjectType;
+    LookUpCcModCertificateFormat cf = crt.CertificateFormat;
+
+    if (cf == null)
+    {
+        this.Context.Response.HttpContext.Response.Redirect("/form/list", true);
+    }
+}
+
+@if (language == 1)
+{
+    <div class="row justify-content-md-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div id="divCertificatePrint" class="collapse show">
+                    <div class="card-body" style="padding-left: 3.5rem !important;padding-right: 3.5rem !important;">
+                        <div id="divTopBar">
+                            <p style="text-align: right;">
+                                <span id="lblFormNo">ফরম-৫.@crt.FormNoBn</span><br />
+                                <span>(নমুনা)</span><br />
+                                <span id="lblRuleName">@cf.RuleAsPerGazetteBn</span>
+                            </p>
+                        </div>
+                        <p style="text-align: center;">
+                            গণপ্রজাতন্ত্রী বাংলাদেশ সরকার<br />
+                            পানি সম্পদ মন্ত্রণালয়<br />
+                            পানি সম্পদ পরিকল্পনা সংস্থা<br />
+                            ৭২ গ্রীণরোড, ঢাকা।<br />
+                        </p>
+                        <p>
+                            <span id="lblClearanceNo" style="float: left;">ছাড়পত্র নং #@crt.ClearanceNoBn</span>
+                            <span id="lblClearanceDate" style="float: right;">তারিখ: @crt.ClearanceDateBn</span>
+                        </p>
+                        <br />
+                        <br />
+                        <p>
+                            <span>প্রতি</span><br />
+                            <span>@crt.ApplicantNameBn</span><br />
+                            <span>@crt.ApplicantAddressBn</span><br />
+                            <span>যোগাযোগ: @crt.ApplicantMobileBn</span><br />
+                            <span>ইমেইল: @crt.ApplicantEmail</span>
+                        </p>
+                        <br />
+                        <p style="text-align: center; font-weight: bold;">
+                            <span>প্রকল্প ছাড়পত্র</span><br />
+                            (<span id="lblProjectTitle">@pt.ProjectTypeBn</span>)
+                        </p>
+                        <br />
+                        <br />
+                        <p style="text-align: justify;">
+                            @Html.Raw(cf.CertificateBodyBn)
+                        </p>
+                        <br />
+                        <p>
+                            <span style="font-weight: bold;">শর্তাদি:</span>
+                            <ul style="list-style-type: none;">
+                                @Html.Raw(cf.TermsConditionsBn)
+                            </ul>
+                        </p>
+                        <br />
+                        <br />
+                        <br />
+                        <span style="text-align: center; float: right">
+                            দায়িত্বপ্রাপ্ত কর্মকর্তার স্বাক্ষর<br />
+                            ও<br />
+                            সীলমোহর
+                        </span>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row justify-content-md-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-blue py-3 text-white">
+                    <div class="card-widgets">
+                        <a href="javascript:void(0);" onclick="printTrigger('divCertificatePrint');"><i class="mdi mdi-printer"></i></a>
+                        <a data-toggle="collapse" href="#divCertificatePrint" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                    </div>
+                    <h5 class="card-title mb-0 text-white">Project Title</h5>
+                </div>
+                <div id="divCertificatePrint" class="collapse show">
+                    <div class="card-body" style="padding-left: 3.5rem !important;padding-right: 3.5rem !important;">
+                        <div id="divTopBar">
+                            <p style="text-align: right;">
+                                <span id="lblFormNo">Form-5.@crt.FormNo</span><br />
+                                <span>(Sample)</span><br />
+                                <span id="lblRuleName">@cf.RuleAsPerGazette</span>
+                            </p>
+                        </div>
+                        <p style="text-align: center;">
+                            Government of the People's Republic of Bangladesh<br />
+                            Ministry of Water Resources<br />
+                            Water Resources Planning Agency<br />
+                            72 Green Road, Dhaka.<br />
+                        </p>
+                        <p>
+                            <span id="lblClearanceNo" style="float: left;">Clearance Certificate #@crt.ClearanceNo</span>
+                            <span id="lblClearanceDate" style="float: right;">Date: @crt.ClearanceDate</span>
+                        </p>
+                        <br />
+                        <br />
+                        <p>
+                            <span>To</span><br />
+                            <span>@crt.ApplicantName</span><br />
+                            <span>@crt.ApplicantAddress</span><br />
+                            <span>Contact: @crt.ApplicantMobile</span><br />
+                            <span>Email: @crt.ApplicantEmail</span>
+                        </p>
+                        <br />
+                        <p style="text-align: center; font-weight: bold;">
+                            <span>Project Clearance Certificate</span><br />
+                            (<span id="lblProjectTitle">@pt.ProjectType</span>)
+                        </p>
+                        <br />
+                        <br />
+                        <p style="text-align: justify;">
+                            @Html.Raw(cf.CertificateBody)
+                        </p>
+                        <br />
+                        <p>
+                            <span style="font-weight: bold;">Terms:</span>
+                            <ul style="list-style-type: none;">
+                                @Html.Raw(cf.TermsConditions)
+                            </ul>
+                        </p>
+                        <br />
+                        <br />
+                        <br />
+                        <span style="text-align: center; float: right">
+                            Signature of the Officer in Charge<br />
+                            and<br />
+                            Seal
+                        </span>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+}

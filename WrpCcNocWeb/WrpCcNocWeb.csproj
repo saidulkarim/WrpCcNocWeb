@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="bin\**" />
+    <Content Remove="bin\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <None Remove="bin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Controllers\emailController.cs" />
     <Compile Remove="DatabaseContext\WrpCcNocDbContext - Copy.cs" />
     <Compile Remove="Models\AdminModule\1AdminModUserGrpWiseMenuDetail.cs" />
@@ -38,7 +45,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="bin\Debug\netcoreapp3.1\" />
     <Folder Include="wwwroot\images\CommonDetails\" />
   </ItemGroup>
 

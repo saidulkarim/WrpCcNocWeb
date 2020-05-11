@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Rotativa.AspNetCore;
 using Rotativa.AspNetCore.Options;
+using Microsoft.CodeAnalysis;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -30,12 +31,12 @@ namespace WrpCcNocWeb.Controllers
         private Notification noti = new Notification();
         private readonly string rootDirOfProjFile = "../images";
         private readonly string rootDirOfDocs = "../docs";
-        #endregion               
-        
+        #endregion
+
         private readonly IWebHostEnvironment hostingEnvironment;
-                
+
         public formController(IWebHostEnvironment hostingEnvironment)
-        {            
+        {
             this.hostingEnvironment = hostingEnvironment;
         }
 
@@ -323,9 +324,116 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.Project31IndvId = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project31IndvId).FirstOrDefault();
             ViewBag.UserId = ui.UserID;
             ViewBag.ProjectTypeId = pcd.ProjectTypeId;
+            ViewBag.ProjectTypeTitle = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectType).FirstOrDefault();
+            ViewBag.ProjectTypeTitleBn = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectTypeBn).FirstOrDefault();
+            ViewBag.LanguageId = pcd.LanguageId;
             GetApplicantInfo(pcd.UserId);
 
             return View();
+        }
+
+        public IActionResult printfcmp(long id, int status)
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
+            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+            ViewData["UserLevel"] = uli.UserGroupId;
+            ViewData["UserAuthLevelID"] = uli.AuthorityLevelId;
+            ViewData["HigherAuthLevelID"] = GetHighestLevelAuthority();
+            ChangeStatus(id, status);
+
+            CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(id);
+
+            if (pcd != null)
+                ViewData["ProjectCommonDetail"] = pcd;
+            else
+                ViewData["ProjectCommonDetail"] = new CcModAppProjectCommonDetail();
+
+            List<ProjectLocationTemp> _locationdetail = GetProjectLocation(pcd.ProjectId);
+            if (_locationdetail.Count > 0)
+                ViewData["ProjectLocationDetail"] = _locationdetail;
+            else
+                ViewData["ProjectLocationDetail"] = new List<CcModPrjLocationDetail>();
+
+            CcModAppProject_31_IndvDetail _indvdetail = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).FirstOrDefault();
+            if (_indvdetail != null)
+                ViewData["ProjectIndvDetail31"] = _indvdetail;
+            else
+                ViewData["ProjectIndvDetail31"] = new CcModAppProject_31_IndvDetail();
+
+            var _hydroregiondetail = GetHydrologicalRegion(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["HydroRegionDetail"] = _hydroregiondetail;
+
+            var _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModDeltPlan2100HotSpot)
+                                    .Select(x => new BDP2100HotSpotDetailTemp
+                                    {
+                                        DeltaPlanHotSpotId = x.DeltaPlanHotSpotId,
+                                        PlanName = x.LookUpCcModDeltPlan2100HotSpot.PlanName,
+                                        PlanNameBn = x.LookUpCcModDeltPlan2100HotSpot.PlanNameBn
+                                    }).ToList();
+            ViewData["BDP2100HotSpotDetail"] = _hotspotdetail;
+
+            var _hydrosystemdetail = GetHydroSystemDetail(pcd.ProjectId);
+            ViewData["HydroSystemDetail"] = _hydrosystemdetail;
+
+            var _typesofflood = _db.CcModPrjTypesOfFloodDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModTypeOfFlood)
+                                   .Select(x => new TypesOfFloodTemp
+                                   {
+                                       FloodTypeDetailId = x.FloodTypeDetailId,
+                                       ProjectId = x.ProjectId,
+                                       FloodTypeId = x.FloodTypeId,
+                                       FloodTypeName = x.LookUpCcModTypeOfFlood.FloodTypeName,
+                                       FloodTypeNameBn = x.LookUpCcModTypeOfFlood.FloodTypeNameBn
+                                   }).ToList();
+            ViewData["TypesOfFloodDetail"] = _typesofflood;
+
+            var _floodfrequencydetail = GetFloodFrequencyDetail(pcd.ProjectId);
+            ViewData["FloodFrequencyDetail"] = _floodfrequencydetail;
+
+            var _compatnwpdetail = _db.CcModPrjCompatNWPDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                   .Select(x => new { x.PrjCompatNWPId, x.ProjectId, x.NationalWaterPolicyArticleId }).ToList();
+            ViewData["CompatNWPDetail"] = _compatnwpdetail;
+
+            var _compatnwmpdetail = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                   .Select(x => new { x.PrjCompatNWMPId, x.ProjectId, x.NWMPProgrammeId }).ToList();
+            ViewData["CompatNWMPDetail"] = _compatnwmpdetail;
+
+            var _compatsdgdetail = _db.CcModPrjCompatSDGDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                   .Select(x => new { x.SDGCompabilityId, x.ProjectId, x.SDGGoalId }).ToList();
+            ViewData["CompatSDGDetail"] = _compatsdgdetail;
+
+            var _compatsdgindidetail = _db.CcModPrjCompatSDGIndiDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                   .Select(x => new { x.SDGIndicatorDetailId, x.ProjectId, x.SDGIndicatorId }).ToList();
+            ViewData["CompatSDGIndiDetail"] = _compatsdgindidetail;
+
+            var _bdp2100goaldetail = _db.CcModBDP2100GoalDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                   .Select(x => new { x.DeltaGoalDetailId, x.ProjectId, x.DeltPlan2100GoalId }).ToList();
+            ViewData["BDP2100GoalDetail"] = _bdp2100goaldetail;
+
+            var _gpwmgrouptype = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                   .Select(x => new { x.GPWMGroupTypeDetailId, x.ProjectId, x.GPWMGroupTypeId }).ToList();
+            ViewData["GPWMGroupType"] = _gpwmgrouptype;
+
+            ViewData["ProjectId"] = pcd.ProjectId;
+            ViewData["Project31IndvId"] = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project31IndvId).FirstOrDefault();
+            ViewData["UserId"] = ui.UserID;
+            ViewData["ProjectTypeId"] = pcd.ProjectTypeId;
+            ViewData["Title"] = "Flood Control Management Project | Print";
+            ViewData["LanguageId"] = pcd.LanguageId;
+
+            GetApplicantInfoViewData(pcd.UserId);
+
+            return new ViewAsPdf("~/Views/form/printfcmp.cshtml", viewData: ViewData)
+            {
+                PageSize = Size.A4,
+                PageOrientation = Orientation.Landscape,
+                PageMargins = new Margins(10, 10, 10, 10)
+            };
         }
 
         public void GetApplicantInfo(long userID)
@@ -364,7 +472,44 @@ namespace WrpCcNocWeb.Controllers
                 ViewBag.ApplicantEmail = applicant_info.ApplicantEmail;
                 ViewBag.ApplicantGroupName = applicant_info.ApplicantGroupName;
             }
+        }
 
+        public void GetApplicantInfoViewData(long userID)
+        {
+            var applicant_info = (from u in _db.AdminModUsersDetail
+                                  join r in _db.AdminModUserRegistrationDetail on u.UserRegistrationId equals r.UserRegistrationId into rList
+                                  from reg in rList.DefaultIfEmpty()
+                                  join a in _db.AdminModUserGrpDistDetail on u.UserId equals a.UserId into aList
+                                  from ugd in aList.DefaultIfEmpty()
+                                  join ug in _db.LookUpAdminModUserGroup on ugd.UserGroupId equals ug.UserGroupId into ugList
+                                  from ugl in ugList.DefaultIfEmpty()
+
+                                  where u.UserId == userID
+
+                                  select new ApplicantInfo
+                                  {
+                                      ApplicantUserId = u.UserId,
+                                      ApplicantName = u.UserFullName,
+                                      ApplicantNameBn = u.UserFullNameBn,
+                                      ApplicantAddress = u.UserAddress,
+                                      ApplicantAddressBn = u.UserAddressBn,
+                                      ApplicantMobile = reg.UserMobile,
+                                      ApplicantMobileBn = reg.UserMobile,
+                                      ApplicantEmail = reg.UserEmail,
+                                      ApplicantGroupName = ugl.UserGroupName
+                                  }).FirstOrDefault();
+
+            if (applicant_info != null)
+            {
+                ViewData["ApplicantName"] = applicant_info.ApplicantName;
+                ViewData["ApplicantNameBn"] = applicant_info.ApplicantNameBn;
+                ViewData["ApplicantAddress"] = applicant_info.ApplicantAddress;
+                ViewData["ApplicantAddressBn"] = applicant_info.ApplicantAddressBn;
+                ViewData["ApplicantMobile"] = applicant_info.ApplicantMobile;
+                ViewData["ApplicantMobileBn"] = applicant_info.ApplicantMobileBn.NumberEnglishToBengali();
+                ViewData["ApplicantEmail"] = applicant_info.ApplicantEmail;
+                ViewData["ApplicantGroupName"] = applicant_info.ApplicantGroupName;
+            }
         }
 
         public int ChangeStatus(long id, int status)
@@ -395,55 +540,6 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
-        public IActionResult certificate(long? id)
-        {
-            if (id == null || id == 0)
-            {
-                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Ivalid ID", "Sorry, invalid project ID provided!");
-                return RedirectToAction("list", "form");
-            }
-
-            CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(id);
-            if (pcd == null)
-            {
-                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Project Info Error", "Sorry, project information not found!");
-                return RedirectToAction("list", "form");
-            }
-
-            LookUpCcModProjectType pt = _db.LookUpCcModProjectType.Find(pcd.ProjectTypeId);
-            if (pt == null)
-            {
-                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Project Info Error", "Sorry, project type information not found!");
-                return RedirectToAction("list", "form");
-            }
-
-            LookUpCcModCertificateFormat cf = _db.LookUpCcModCertificateFormat.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).FirstOrDefault();
-            if (cf == null)
-            {
-                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Certificate Format Error", "Sorry, certificate template not found!");
-                return RedirectToAction("list", "form");
-            }
-
-            GetApplicantInfo(pcd.UserId);
-            
-            ViewData["LanguageId"] = pcd.LanguageId;
-            ViewData["ClearanceNo"] = pcd.AppSubmissionId;
-            ViewData["ClearanceNoBn"] = pcd.AppSubmissionId.ToString().NumberEnglishToBengali();
-            ViewData["ClearanceDate"] = DateTime.Now.ToString("dd MMMM, yyyy");
-            ViewData["ClearanceDateBn"] = DateTime.Now.ToString("dd MMMM, yyyy").NumberEnglishToBengali().MonthEnglishToBengali();
-            ViewData["ProjectType"] = pt;
-            ViewData["FormNo"] = pt.ProjectTypeId.ToString().PadLeft(2, '0');
-            ViewData["FormNoBn"] = pt.ProjectTypeId.ToString().PadLeft(2, '0').NumberEnglishToBengali();
-            ViewData["CertificateFormat"] = cf;
-
-            return new ViewAsPdf("~/Views/form/certificate.cshtml", viewData: ViewData)
-            {
-                PageSize = Size.A4,
-                PageOrientation = Orientation.Portrait,
-                PageMargins = new Margins(10, 10, 10, 10)
-            };
-        }                
-       
         //form/FloodControlManagementProject :: fcmp       
         public IActionResult fcmp()
         {
@@ -1168,6 +1264,183 @@ namespace WrpCcNocWeb.Controllers
 
                 return Json(noti);
             }
+        }
+
+        public List<ProjectLocationTemp> GetProjectLocation(long project_id)
+        {
+            List<ProjectLocationTemp> _details = new List<ProjectLocationTemp>();
+
+            try
+            {
+                _details = (from d in _db.CcModPrjLocationDetail
+                            join district in _db.LookUpAdminBndDistrict on d.DistrictGeoCode equals district.DistrictGeoCode into dist
+                            from ds in dist.DefaultIfEmpty()
+                            join upazila in _db.LookUpAdminBndUpazila on d.UpazilaGeoCode equals upazila.UpazilaGeoCode into upaz
+                            from up in upaz.DefaultIfEmpty()
+                            join union in _db.LookUpAdminBndUnion on d.UnionGeoCode equals union.UnionGeoCode into unio
+                            from un in unio.DefaultIfEmpty()
+                            where d.ProjectId == project_id
+                            select new ProjectLocationTemp
+                            {
+                                LocationId = d.LocationId,
+                                ProjectId = d.ProjectId,
+                                DistrictGeoCode = d.DistrictGeoCode,
+                                DistrictName = ds.DistrictName,
+                                DistrictNameBn = ds.DistrictNameBn,
+                                UpazilaGeoCode = d.UpazilaGeoCode,
+                                UpazilaName = up.UpazilaName,
+                                UpazilaNameBn = up.UpazilaNameBn,
+                                UnionGeoCode = d.UnionGeoCode,
+                                UnionName = un.UnionName,
+                                UnionNameBn = un.UnionNameBn,
+                                Latitude = string.IsNullOrEmpty(d.Latitude) ? string.Empty : d.Latitude,
+                                LatitudeBn = string.IsNullOrEmpty(d.Latitude) ? string.Empty : d.Latitude.NumberEnglishToBengali(),
+                                Longitude = string.IsNullOrEmpty(d.Longitude) ? string.Empty : d.Longitude,
+                                LongitudeBn = string.IsNullOrEmpty(d.Longitude) ? string.Empty : d.Longitude.NumberEnglishToBengali(),
+                                ImageFileName = (!string.IsNullOrEmpty(d.ImageFileName)) ? String.Format("{0}/{1}/{2}", rootDirOfProjFile, "ProjectLocationPhotos", d.ImageFileName) : "",
+                                OnlyImageFileName = d.ImageFileName
+                            }).OrderBy(o => o.LocationId).ToList();
+            }
+            catch (Exception ex)
+            {
+                _details = new List<ProjectLocationTemp>();
+            }
+
+            return _details;
+        }
+
+        public string GetHydrologicalRegion(long project_id, int language)
+        {
+            int i = 1;
+            string html = string.Empty, className = string.Empty, tickTag = string.Empty;
+            List<ProjectHydrologicalRegionTemp> _details = new List<ProjectHydrologicalRegionTemp>();
+            List<CcModPrjHydroRegionDetail> hrd = new List<CcModPrjHydroRegionDetail>();
+
+            try
+            {
+                _details = (from d in _db.LookUpCcModHydroRegion
+                            select new ProjectHydrologicalRegionTemp
+                            {
+                                HydroRegionId = d.HydroRegionId,
+                                ProjectId = 0,
+                                HydroRegionShortName = d.HydroRegionShortName,
+                                HydroRegionShortNameBn = d.HydroRegionShortNameBn,
+                                HydroRegionFullName = d.HydroRegionFullName,
+                                HydroRegionFullNameBn = d.HydroRegionFullNameBn,
+                                IsSelected = false
+                            }).OrderBy(o => o.HydroRegionId).ToList();
+
+                if (_details.Count > 0)
+                {
+                    hrd = _db.CcModPrjHydroRegionDetail.Where(w => w.ProjectId == project_id).ToList();
+                    foreach (var item in _details.Where(m => hrd.Any(a => a.HydroRegionId == m.HydroRegionId)))
+                    {
+                        item.IsSelected = true;
+                        item.ProjectId = project_id;
+                    }
+
+                    _details.OrderBy(o => o.HydroRegionId).ToList();
+
+                    bool isNewLine = false;
+                    foreach (ProjectHydrologicalRegionTemp hrt in _details)
+                    {
+                        isNewLine = false;
+                        className = hrt.IsSelected ? "bg-dark text-white" : "";
+                        tickTag = hrt.IsSelected ? "<span>✓</span>" : "";
+
+                        if (i == 1)
+                        {
+                            html += "<tr>";
+                        }
+
+                        if (language == 1)
+                        {
+                            html += "<td title='" + hrt.HydroRegionShortNameBn + "' class='" + className + "'>" + tickTag + " " + hrt.HydroRegionFullNameBn + "</td>";
+                        }
+                        else
+                        {
+                            html += "<td title='" + hrt.HydroRegionShortName + "' class='" + className + "'>" + tickTag + " " + hrt.HydroRegionFullName + "</td>";
+                        }
+
+                        if (i == 4)
+                        {
+                            html += "</tr>";
+                            i = 1;
+                            isNewLine = true;
+                        }
+
+                        if (!isNewLine)
+                            i++;
+                    }
+                }
+                else
+                {
+                    html = "<tr><td colspan='4'>no data found!</td></tr>";
+                }
+            }
+            catch (Exception ex)
+            {
+                html = "<tr><td colspan='4'>" + ex.Message + "</td></tr>";
+            }
+
+            return html;
+        }
+
+        public List<HydroSystemDetailTemp> GetHydroSystemDetail(long project_id)
+        {
+            List<HydroSystemDetailTemp> _details = new List<HydroSystemDetailTemp>();
+
+            try
+            {
+                _details = (from d in _db.CcModHydroSystemDetail
+                            join l in _db.LookUpCcModHydroSystem on d.HydroSystemCategoryId equals l.HydroSystemCategoryId
+                            where d.ProjectId == project_id
+                            select new HydroSystemDetailTemp
+                            {
+                                HydroSysDetailId = d.HydroSysDetailId,
+                                ProjectId = d.ProjectId,
+                                HydroSystemCategoryId = d.HydroSystemCategoryId,
+                                HydroSystemCategory = l.HydroSystemCategory,
+                                HydroSystemCategoryBn = l.HydroSystemCategoryBn,
+                                NameOfHydroSystem = d.NameOfHydroSystem,
+                                HydroSystemLengthArea = d.HydroSystemLengthArea.ToString(),
+                                HydroSystemUnit = l.HydroSysCategoryUnit,
+                                HydroSystemUnitBn = l.HydroSysCategoryUnitBn
+                            }).OrderBy(o => o.HydroSysDetailId).ToList();
+            }
+            catch (Exception ex)
+            {
+                _details = new List<HydroSystemDetailTemp>();
+            }
+
+            return _details;
+        }
+
+        public List<FloodFrequencyDetailTemp> GetFloodFrequencyDetail(long project_id)
+        {
+            List<FloodFrequencyDetailTemp> _details = new List<FloodFrequencyDetailTemp>();
+
+            try
+            {
+                _details = (from d in _db.CcModFloodFrequencyDetail
+                            join l in _db.LookUpCcModFloodFrequency on d.FloodFrequencyId equals l.FloodFrequencyId
+                            where d.ProjectId == project_id
+                            select new FloodFrequencyDetailTemp
+                            {
+                                FloodFrequencyDetailId = d.FloodFrequencyDetailId,
+                                ProjectId = d.ProjectId,
+                                FloodFrequencyId = d.FloodFrequencyId,
+                                FloodFrequency = l.FloodFrequency,
+                                FloodFrequencyBn = l.FloodFrequencyBn,
+                                FloodFrequencyLevel = d.FloodFrequencyLevel.ToString()
+                            }).ToList();
+            }
+            catch (Exception ex)
+            {
+                _details = new List<FloodFrequencyDetailTemp>();
+            }
+
+            return _details;
         }
         #endregion
 
@@ -3679,7 +3952,7 @@ namespace WrpCcNocWeb.Controllers
 
             return filename;
         }
-                
+
         private string GetPathAndFilename(string fileName, string folderName)
         {
             var path = Path.Combine(hostingEnvironment.WebRootPath, folderName, fileName);

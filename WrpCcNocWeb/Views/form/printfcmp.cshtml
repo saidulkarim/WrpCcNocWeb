@@ -1,0 +1,868 @@
+﻿@using WrpCcNocWeb.Helpers
+
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+    CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["ProjectCommonDetail"];
+    CcModAppProject_31_IndvDetail project31indev = (CcModAppProject_31_IndvDetail)ViewData["ProjectIndvDetail31"];
+
+    //List<CcModPrjLocationDetail> location = (CcModPrjLocationDetail)ViewData["ProjectLocationDetail"];
+
+    var location = ViewData["ProjectLocationDetail"];
+    var prev_lang = ViewData["LanguageId"].ToString();
+    //var hrd = ViewData["HydroRegionDetail"];
+    var hsd = ViewData["BDP2100HotSpotDetail"];
+    var hydrosys = ViewData["HydroSystemDetail"];
+    var tofd = ViewData["TypesOfFloodDetail"];
+    var ffd = ViewData["FloodFrequencyDetail"];
+    var cnwpd = ViewData["CompatNWPDetail"];
+    var cnwmpd = ViewData["CompatNWMPDetail"];
+    var sdgd = ViewData["CompatSDGDetail"];
+    var sdgid = ViewData["CompatSDGIndiDetail"];
+    var bdp2100gd = ViewData["BDP2100GoalDetail"];
+    var gpwmgtd = ViewData["GPWMGroupType"];
+
+    long ProjectId = (long)ViewData["ProjectId"];
+    long Project31IndvId = (long)ViewData["Project31IndvId"];
+    long UserId = (long)ViewData["UserId"];
+    int ProjectTypeId = (int)ViewData["ProjectTypeId"];
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <input id="pProjectId" type="hidden" />
+                <input id="pProject31IndvId" type="hidden" />
+                <input id="pUserId" type="hidden" value="@UserId" />
+                <input id="pProjectTypeId" type="hidden" />
+
+                <center>
+                    <div class="col-md-12 text-center">
+                        <h3 class="HeaderTitle">
+                            @if (prev_lang == "1")
+                            {<span>ছাড়পত্রের সনদের জন্য আবেদন</span>}
+                            else
+                            {<span>Application for Clearance Certificate</span>}
+                        </h3>
+                        <h4 class="HeaderSubTitle">
+                            (
+                            @if (prev_lang == "1")
+                            {<span>বন্যা নিয়ন্ত্রণ/ পরিচালনা</span>}
+                            else
+                            {<span>(Flood Control/ Management Project)</span>}
+                            )
+                        </h4>
+                    </div>
+                </center>
+
+                <div id="form-preview" class="form-preview container">
+                    <div class="row lineGap">
+                        <div class="col">
+                            <span>
+                                @if (prev_lang == "1")
+                                {<span>বরাবর</span>}
+                                else
+                                {<span>To</span>}
+                            </span><br />
+                            <span>
+                                @if (prev_lang == "1")
+                                {<span>কার্যনির্বাহী কমিটি</span>}
+                                else
+                                {<span>Executive Committee</span>}
+                            </span><br />
+                            <span>
+                                @if (prev_lang == "1")
+                                {<span>ন্যাশনাল ওয়াটার রিসোর্সেস প্রজেক্ট কমিটি।</span>}
+                                else
+                                {<span>National Water Resources Project Committee.</span>}
+                            </span>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row lineGap">
+                        <div class="col">
+                            <p>
+                                @if (prev_lang == "1")
+                                {<strong>মাধ্যম:</strong>}
+                                else
+                                {<strong>Through:</strong>}
+
+                                @if (prev_lang == "1")
+                                {<span>মহাপরিচালক, জল সম্পদ পরিকল্পনা সংস্থা।</span>}
+                                else
+                                {<span>Director General, Water Resources Planning Organization.</span>}
+                            </p>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row lineGap">
+                        <div class="col">
+                            <p>
+                                @if (prev_lang == "1")
+                                {<span>আমি, নীচে স্বাক্ষরিত, বন্যা নিয়ন্ত্রণ/ পরিচালনা সম্পর্কিত একটি প্রকল্প শুরু এবং বাস্তবায়নে ইচ্ছুক এবং আমি এখানে প্রাসঙ্গিক সংযুক্তিগুলির সাথে ছাড়পত্রের জন্য অনুরোধ করছি।</span>}
+                                else
+                                {<span>I, the undersigned, willing to initiate and implement a project on Flood Control/Management, And I am hereby requesting for clearance certificate with relevant attachments.</span>}
+                            </p>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row lineGap">
+                        <div class="col-md-12">
+                            <h4>
+                                <strong>
+                                    @if (prev_lang == "1")
+                                    {<span>আবেদনকারীর পুরো নাম এবং ঠিকানা:</span>}
+                                    else
+                                    {<span>Full Name and Address of Applicant:</span>}
+                                </strong>
+                            </h4>
+
+                            @if (prev_lang == "1")
+                            {
+                                @ViewData["ApplicantNameBn"].ToString()<br />
+                                @ViewData["ApplicantAddressBn"].ToString()<br />
+                                <span>যোগাযোগ:</span> @ViewData["ApplicantMobileBn"].ToString()<br />
+                                <span>ইমেইল:</span> @ViewData["ApplicantEmail"].ToString()
+                            }
+                            else
+                            {
+                                @ViewData["ApplicantName"].ToString()<br />
+                                @ViewData["ApplicantAddress"].ToString()<br />
+                                <span>Mobile:</span> @ViewData["ApplicantMobile"].ToString()<br />
+                                <span>Email:</span> @ViewData["ApplicantEmail"].ToString()
+                            }
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <table style="border: 1px solid #808080;" border="1">
+                        <tr>
+                            <td colspan="3">
+                                <h4>
+                                    @if (prev_lang == "1")
+                                    {<span>১. সাধারণ তথ্য</span>}
+                                    else
+                                    {<span>A. General Information</span>}
+                                </h4>
+                            </td>
+                        </tr>
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. প্রকল্পের নাম</span>}
+                                    else
+                                    {<span>i. Project Name</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@pcd.ProjectName</td>
+                            <td style="word-wrap: break-word;">
+                                1. General Information. General Information. General Information. General Information<br />
+                                2. General Information. General Information. General Information. General Information<br />
+                            </td>
+                        </tr>
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>ii. প্রকল্পের পূর্ব ইতিহাস ও যৌক্তিকতা</span>}
+                                    else
+                                    {<span>ii. Project Background and Rationale</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@pcd.BackgroundAndRationale</td>
+                            <td style="word-wrap: break-word;">
+                                1. General Information. General Information. General Information. General Information<br />
+                                2. General Information. General Information. General Information. General Information<br />
+                            </td>
+                        </tr>
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>iii. প্রকল্পের লক্ষ্য</span>}
+                                    else
+                                    {<span>iii. Project Target</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@pcd.ProjectTarget</td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>                        
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>iv. প্রকল্পের উদ্দেশ্য</span>}
+                                    else
+                                    {<span>iv. Project Objective</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@pcd.ProjectObjective</td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>v. প্রকল্প ব্যয়</span>}
+                                    else
+                                    {<span>v. Estimated Project Cost</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                @if (prev_lang == "1")
+                                {<span>@pcd.ProjectEstimatedCost.ToString().NumberEnglishToBengali()</span>}
+                            else
+                            {<span>@pcd.ProjectEstimatedCost</span>}
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>vi. প্রকল্প সময়কাল</span>}
+                                    else
+                                    {<span>vi. Project Period</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                @if (prev_lang == "1")
+                                {
+                                    <span>প্রাম্ভিক কাল: @pcd.ProjectStartDate.Value.ToString("dd MMMM, yyyy").MonthEnglishToBengali().NumberEnglishToBengali()</span>
+                                }
+                                else
+                                {
+                                    <span>Starting Time: @pcd.ProjectStartDate.Value.ToString("dd MMMM, yyyy")</span>
+                                }
+
+                                <br />
+
+                                @if (prev_lang == "1")
+                                {
+                                    <span>সমাপ্তি কাল: @pcd.ProjectCompletionDate.Value.ToString("dd MMMM, yyyy").MonthEnglishToBengali().NumberEnglishToBengali()</span>
+                                }
+                                else
+                                {
+                                    <span>Completion Time: @pcd.ProjectCompletionDate.Value.ToString("dd MMMM, yyyy")</span>
+                                }
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td colspan="3">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>vii. প্রকল্পের অবস্থান</span>}
+                                    else
+                                    {<span>vii. Project Location</span>}
+                                </b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <thead style="background: #9d9b9b; font-weight: bold;">
+                                        <tr>
+                                            <th class="text-center">
+                                                @if (prev_lang == "1")
+                                                {<span>ইউনিয়ন</span>}
+                                                else
+                                                {<span>Union</span>}
+                                            </th>
+                                            <th class="text-center">
+                                                @if (prev_lang == "1")
+                                                {<span>উপজেলা</span>}
+                                                else
+                                                {<span>Upazila</span>}
+                                            </th>
+                                            <th class="text-center">
+                                                @if (prev_lang == "1")
+                                                {<span>জেলা</span>}
+                                                else
+                                                {<span>District</span>}
+                                            </th>
+                                            <th class="text-center">
+                                                @if (prev_lang == "1")
+                                                {<span>অক্ষাংশ</span>}
+                                                else
+                                                {<span>Latitude</span>}
+                                            </th>
+                                            <th class="text-center">
+                                                @if (prev_lang == "1")
+                                                {<span>দ্রাঘিমাংশ</span>}
+                                                else
+                                                {<span>Longitude</span>}
+                                            </th>
+                                            <th class="text-center">
+                                                @if (prev_lang == "1")
+                                                {<span>সংযুক্তি</span>}
+                                                else
+                                                {<span>Attchments</span>}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyProjectLocationPreview">
+                                        @foreach (ProjectLocationTemp loc in location as List<ProjectLocationTemp>)
+                                        {
+                                            if (prev_lang == "1")
+                                            {
+                                                <tr>
+                                                    <td>@loc.UnionNameBn</td>
+                                                    <td>@loc.UpazilaNameBn</td>
+                                                    <td>@loc.DistrictNameBn</td>
+                                                    <td>@loc.LatitudeBn</td>
+                                                    <td>@loc.LongitudeBn</td>
+                                                    <td><a href="@loc.ImageFileName" target="_blank">@loc.OnlyImageFileName</a></td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td>@loc.UnionName</td>
+                                                    <td>@loc.UpazilaName</td>
+                                                    <td>@loc.DistrictName</td>
+                                                    <td>@loc.Latitude</td>
+                                                    <td>@loc.Longitude</td>
+                                                    <td><a href="@loc.ImageFileName" target="_blank">@loc.OnlyImageFileName</a></td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                control_comments
+                            </td>
+                        </tr>
+                        <tr style="border-left: none; border-right: none;">
+                            <td colspan="3">
+                                intentionally blank
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <h4>
+                                    @if (prev_lang == "1")
+                                    {<span>২. কারিগরি তথ্য</span>}
+                                    else
+                                    {<span>B. Technical Information</span>}
+                                </h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <h5>
+                                    @if (prev_lang == "1")
+                                    {<span>২.১ বেজলাইন সম্পর্কিত তথ্য বা অবস্থা পর্যালোচনা</span>}
+                                    else
+                                    {<span>2.1 Discussion about baseline related information or situation</span>}
+                                </h5>
+                            </td>
+                        </tr>
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. হাইড্রোলজিক্যাল অঞ্চল</span>}
+                                    else
+                                    {<span>i. Hydrological Region</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                                    <tbody>@Html.Raw(ViewData["HydroRegionDetail"].ToString())</tbody>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>ii. বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০ হট স্পট</span>}
+                                    else
+                                    {<span>ii. Bangladesh Delta Plan 2100 Hot Spot</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <ol>
+                                    @foreach (var bdphsd in (List<BDP2100HotSpotDetailTemp>)ViewData["BDP2100HotSpotDetail"])
+                                    {
+                                        if (prev_lang == "1")
+                                        {
+                                            <li>@bdphsd.PlanNameBn</li>
+                                        }
+                                        else
+                                        {
+                                            <li>@bdphsd.PlanName</li>
+                                        }
+                                    }
+                                </ol>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>iii. হাইড্রোলজিক্যাল সিস্টেম</span>}
+                                    else
+                                    {<span>iii. Hydrological System </span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>হাইড্রোলজিক্যাল সিস্টেম</span>}
+                                                else
+                                                {<span>Hydrological System</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>নাম</span>}
+                                                else
+                                                {<span>Name</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>দৈর্ঘ্য/ অঞ্চল</span>}
+                                                else
+                                                {<span>Length/ Area</span>}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyHydrologicalSystemPreview">
+                                        @foreach (HydroSystemDetailTemp hsdt in (List<HydroSystemDetailTemp>)hydrosys)
+                                        {
+                                            if (prev_lang == "1")
+                                            {
+                                                <tr>
+                                                    <td>@hsdt.HydroSystemCategoryBn</td>
+                                                    <td>@hsdt.NameOfHydroSystem</td>
+                                                    <td>@hsdt.HydroSystemLengthArea.NumberEnglishToBengali() @hsdt.HydroSystemUnitBn</td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td>@hsdt.HydroSystemCategory</td>
+                                                    <td>@hsdt.NameOfHydroSystem</td>
+                                                    <td>@hsdt.HydroSystemLengthArea @hsdt.HydroSystemUnit</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>iv. খাল, নদী এবং জলাভূমির মধ্যে সংযোগ</span>}
+                                    else
+                                    {<span>iv. Connectivity amid khals, river and wetland</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@project31indev.ConnectivityAmidWaterland</td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>v. ক্যাচমেন্ট এলাকা (অববাহিকা) (হেক্টর)</span>}
+                                    else
+                                    {<span>v. Catchment Area (ha)</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@project31indev.CatchmentArea</td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>vi. বার্ষিক বৃষ্টিপাত (বিগত পাঁচ বছর) (মি.মি.)</span>}
+                                    else
+                                    {<span>vi. Annual Rainfall (last five years) </span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th class="text-center">
+                                            @{
+                                                int year1 = DateTime.Now.Year - 1;
+                                                <span>@year1</span>
+                                            }
+                                        </th>
+                                        <th class="text-center">
+                                            @{
+                                                int year2 = DateTime.Now.Year - 2;
+                                                <span>@year2</span>
+                                            }
+                                        </th>
+                                        <th class="text-center">
+                                            @{
+                                                int year3 = DateTime.Now.Year - 3;
+                                                <span>@year3</span>
+                                            }
+                                        </th>
+                                        <th class="text-center">
+                                            @{
+                                                int year4 = DateTime.Now.Year - 4;
+                                                <span>@year4</span>
+                                            }
+                                        </th>
+                                        <th class="text-center">
+                                            @{
+                                                int year5 = DateTime.Now.Year - 5;
+                                                <span>@year5</span>
+                                            }
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td id="pAnnualRainFallLast1Year">@pcd.AnnualRainFallLast1Year</td>
+                                        <td id="pAnnualRainFallLast2Years">@pcd.AnnualRainFallLast2Years</td>
+                                        <td id="pAnnualRainFallLast3Years">@pcd.AnnualRainFallLast3Years</td>
+                                        <td id="pAnnualRainFallLast4Years">@pcd.AnnualRainFallLast4Years</td>
+                                        <td id="pAnnualRainFallLast5Years">@pcd.AnnualRainFallLast5Years</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>vii. সর্বোচ্চ বন্যা সমতল (ফ্লাড লেভেল) (মিটার, পিডব্লিউডি)</span>}
+                                    else
+                                    {<span>vii. Highest Flood Level (m PWD)</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@project31indev.HighestFloodLevel</td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>viii. সর্বোচ্চ  পানির প্রবাহ (ডিসচার্জ) (কিউসেক)</span>}
+                                    else
+                                    {<span>viii. Maximum Discharge (m<sup>3</sup>/s)</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@project31indev.MaximumDischarge</td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>ix. বন্যার ধরণ</span>}
+                                    else
+                                    {<span>ix. Types of Flood</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <ol>
+                                    @{
+                                        foreach (TypesOfFloodTemp tof in (List<TypesOfFloodTemp>)tofd)
+                                        {
+                                            if (prev_lang == "1")
+                                            {
+                                                <li>@tof.FloodTypeNameBn</li>
+                                            }
+                                            else
+                                            {
+                                                <li>@tof.FloodTypeName</li>
+                                            }
+                                        }
+                                    }
+                                </ol>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>x. ফ্লাড ফ্রিকোয়েন্সি এনালাইসিস (মিটার, পিডব্লিউডি)</span>}
+                                    else
+                                    {<span>x. Flood Frequency Analysis (Maximum water level in m, PWD)</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">
+                                                @if (prev_lang == "1")
+                                                {<span>ফ্লাড ফ্রিকোয়েন্সি</span>}
+                                                else
+                                                {<span>Flood Frequency</span>}
+                                            </th>
+                                            <th class="text-center">
+                                                @if (prev_lang == "1")
+                                                {<span>ফ্রিকোয়েন্সি</span>}
+                                                else
+                                                {<span>Frequency</span>}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyFloodFrequencyPreview">
+                                        @{
+                                            foreach (FloodFrequencyDetailTemp ffdt in (List<FloodFrequencyDetailTemp>)ffd)
+                                            {
+                                                if (prev_lang == "1")
+                                                {
+                                                    <tr>
+                                                        <td>@ffdt.FloodFrequencyBn</td>
+                                                        <td>@ffdt.FloodFrequencyLevel.NumberEnglishToBengali()</td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td>@ffdt.FloodFrequency</td>
+                                                        <td>@ffdt.FloodFrequencyLevel</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xi. নিষ্কাশন (ড্রেইনেজ) ব্যবস্থা</span>}
+                                    else
+                                    {<span>xi. Drainage Condition</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                @{
+                                    var eng = project31indev.DrainageConditionId == 1 ? "Good" : project31indev.DrainageConditionId == 2 ? "Moderate" : project31indev.DrainageConditionId == 3 ? "Poor" : "Others";
+                                    var ban = project31indev.DrainageConditionId == 1 ? "ভাল" : project31indev.DrainageConditionId == 2 ? "মধ্যপন্থী" : project31indev.DrainageConditionId == 3 ? "দরিদ্র" : "অন্যান্য";
+
+                                    if (prev_lang == "1")
+                                    {
+                                        <span>@ban</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@eng</span>
+                                    }
+                                }
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xii. ভূপরিস্থ পানির গুনগত মান</span>}
+                                    else
+                                    {<span>xii. Surface Water Quality</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>লবনাক্ততা (পিপিএম)</span>}
+                                            else
+                                            {<span>Salinity (PPM)</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>ডিও (মি.গ্রা/লিটার)</span>}
+                                            else
+                                            {<span>DO (mg/l)</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>টি.ডি.এস</span>}
+                                            else
+                                            {<span>TDS</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>পিএইচ</span>}
+                                            else
+                                            {<span>pH</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td id="pWaterSalinity">@project31indev.WaterSalinity</td>
+                                        <td id="pWaterDO">@project31indev.WaterDO</td>
+                                        <td id="pWaterTDS">@project31indev.WaterTDS</td>
+                                        <td id="pWaterPhLevel">@project31indev.WaterPhLevel</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xiii. ভূমির ধরন (শতকরা)</span>}
+                                    else
+                                    {<span>xiii. Land Type (Percent)</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>উচুঁ ভূমি <br />F<sub>0</sub> (০-৩০ সে.মি.)</span>}
+                                            else
+                                            {<span>High Land <br />F<sub>0</sub> (0-30 cm)</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>মধ্যম উচুঁ ভূমি <br />F<sub>1</sub> (৩০-৯০ সে.মি.)</span>}
+                                            else
+                                            {<span>Medium High Land <br />F<sub>1</sub> (30-90 cm)</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>মধ্যম নিচু ভূমি <br />F<sub>2</sub> (৯০-১৮০ সে.মি)</span>}
+                                            else
+                                            {<span>Medium Low Land <br />F<sub>2</sub> (90-180 cm)</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>নিচু ভূমি <br />F<sub>3</sub> (>১৮০-৩৬০ সে.মি.)</span>}
+                                            else
+                                            {<span>Low Land <br />F<sub>3</sub> (>180-360 cm</span>})
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>অত্যন্ত নিচু জমি <br />F<sub>4</sub> (>৩৬০ সে.মি)</span>}
+                                            else
+                                            {<span>Very Low Land <br />F<sub>4</sub> (>360 cm)</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@project31indev.HighLandPercent</td>
+                                        <td class="text-center">@project31indev.MediumHighLandPercent</td>
+                                        <td class="text-center">@project31indev.MediumLowLandPercent</td>
+                                        <td class="text-center">@project31indev.LowLandPercent</td>
+                                        <td class="text-center">@project31indev.VeryLowLandPercent</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    control_title
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">control_data</td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    control_title
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">control_data</td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    control_title
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">control_data</td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

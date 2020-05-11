@@ -14,13 +14,13 @@
  *  - Inspired by and works great as a companion with Font Awesome
  *  - Font Awesome by Dave Gandy
  */
-@font-face {
+/*@font-face {
     font-family: dripicons-v2;
     src: url(../fonts/dripicons-v2.eot);
     src: url(../fonts/dripicons-v2d41d.eot?#iefix) format("embedded-opentype"),url(../fonts/dripicons-v2.woff) format("woff"),url(../fonts/dripicons-v2.ttf) format("truetype"),url(../fonts/dripicons-v2.svg#dripicons-v2) format("svg");
     font-weight: 400;
     font-style: normal
-}
+}*/
 
 [data-icon]:before {
     font-family: dripicons-v2 !important;

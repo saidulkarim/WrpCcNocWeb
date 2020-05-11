@@ -328,7 +328,7 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.UserName = ui.UserName;
             ViewBag.UserRegistrationID = ui.UserRegistrationID;
             ViewBag.SecurityQuestionId = new SelectList(_db.LookUpAdminModSecurityQuestion.ToList(), "SecurityQuestionId", "SecurityQuestion");
-            
+
             return View();
         }
 
@@ -491,18 +491,88 @@ namespace WrpCcNocWeb.Controllers
 
         public IActionResult viewUsers()
         {
-            List<UserInfo> userDetails = _db.AdminModUsersDetail.Join(_db.AdminModUserRegistrationDetail, u => u.UserRegistrationId, r => r.UserRegistrationId, (u, r) => new { R = r, U = u })
-                                         .Select(s => new UserInfo
-                                         {
-                                             UserID = s.U.UserId,
-                                             UserName = s.R.UserName,
-                                             UserFullName = s.U.UserFullName,
-                                             UserDesignation = s.U.UserDesignation,
-                                             UserEmail = s.R.UserEmail,
-                                             UserMobile = s.R.UserMobile,
-                                             UserActivationStatus = s.R.UserActivationStatus
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+            List<UserInfo> userDetails = new List<UserInfo>();
 
-                                         }).ToList();
+            userDetails = _db.AdminModUsersDetail.Join(_db.AdminModUserRegistrationDetail, u => u.UserRegistrationId, r => r.UserRegistrationId, (u, r) => new { R = r, U = u })
+                             .Select(s => new UserInfo
+                             {
+                                 UserID = s.U.UserId,
+                                 UserName = s.R.UserName,
+                                 UserFullName = s.U.UserFullName,
+                                 UserDesignation = s.U.UserDesignation,
+                                 UserEmail = s.R.UserEmail,
+                                 UserMobile = s.R.UserMobile,
+                                 UserActivationStatus = s.R.UserActivationStatus
+                             }).ToList();
+
+            if (!string.IsNullOrEmpty(uli.UnionGeoCode))
+            {
+                userDetails = (from ud in userDetails.ToList()
+                               join ugdd in _db.AdminModUserGrpDistDetail on ud.UserID equals ugdd.UserId into userGrpDistDetailGroup
+                               from ugd in userGrpDistDetailGroup.DefaultIfEmpty()
+                               join uGroup in _db.LookUpAdminModUserGroup on ugd.UserGroupId equals uGroup.UserGroupId into userGroup
+                               from ug in userGroup.DefaultIfEmpty()
+
+                               where ug.UnionGeoCode == uli.UnionGeoCode
+
+                               select new UserInfo
+                               {
+                                   UserID = ud.UserID,
+                                   UserName = ud.UserName,
+                                   UserFullName = ud.UserFullName,
+                                   UserDesignation = ud.UserDesignation,
+                                   UserEmail = ud.UserEmail,
+                                   UserMobile = ud.UserMobile,
+                                   UserActivationStatus = ud.UserActivationStatus
+                               }).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(uli.UpazilaGeoCode) && string.IsNullOrEmpty(uli.UnionGeoCode))
+            {
+                userDetails = (from ud in userDetails.ToList()
+                               join ugdd in _db.AdminModUserGrpDistDetail on ud.UserID equals ugdd.UserId into userGrpDistDetailGroup
+                               from ugd in userGrpDistDetailGroup.DefaultIfEmpty()
+                               join uGroup in _db.LookUpAdminModUserGroup on ugd.UserGroupId equals uGroup.UserGroupId into userGroup
+                               from ug in userGroup.DefaultIfEmpty()
+
+                               where ug.UpazilaGeoCode == uli.UpazilaGeoCode
+
+                               select new UserInfo
+                               {
+                                   UserID = ud.UserID,
+                                   UserName = ud.UserName,
+                                   UserFullName = ud.UserFullName,
+                                   UserDesignation = ud.UserDesignation,
+                                   UserEmail = ud.UserEmail,
+                                   UserMobile = ud.UserMobile,
+                                   UserActivationStatus = ud.UserActivationStatus
+                               }).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(uli.DistrictGeoCode) && string.IsNullOrEmpty(uli.UpazilaGeoCode) && string.IsNullOrEmpty(uli.UnionGeoCode))
+            {
+                userDetails = (from ud in userDetails.ToList()
+                               join ugdd in _db.AdminModUserGrpDistDetail on ud.UserID equals ugdd.UserId into userGrpDistDetailGroup
+                               from ugd in userGrpDistDetailGroup.DefaultIfEmpty()
+                               join uGroup in _db.LookUpAdminModUserGroup on ugd.UserGroupId equals uGroup.UserGroupId into userGroup
+                               from ug in userGroup.DefaultIfEmpty()
+
+                               where ug.DistrictGeoCode == uli.DistrictGeoCode
+
+                               select new UserInfo
+                               {
+                                   UserID = ud.UserID,
+                                   UserName = ud.UserName,
+                                   UserFullName = ud.UserFullName,
+                                   UserDesignation = ud.UserDesignation,
+                                   UserEmail = ud.UserEmail,
+                                   UserMobile = ud.UserMobile,
+                                   UserActivationStatus = ud.UserActivationStatus
+                               }).ToList();
+            }
+
             ViewData["UserDetails"] = userDetails;
             return View();
         }
