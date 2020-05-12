@@ -24,5 +24,6 @@ namespace WrpCcNocWeb.Models
         public string LongitudeBn { get; set; }
         public string ImageFileName { get; set; }
         public string OnlyImageFileName { get; set; }
+        public string Error { get; set; }
     }
 }

@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Hosting;
 using Rotativa.AspNetCore;
 using Rotativa.AspNetCore.Options;
 using Microsoft.CodeAnalysis;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -394,6 +395,26 @@ namespace WrpCcNocWeb.Controllers
 
             var _floodfrequencydetail = GetFloodFrequencyDetail(pcd.ProjectId);
             ViewData["FloodFrequencyDetail"] = _floodfrequencydetail;
+
+            var _irrigcropareadetail = GetIrrigCropAreaDetail(pcd.ProjectId);
+            ViewData["IrrigCropAreaDetail"] = _irrigcropareadetail;
+
+            var _analyzeoptionsdetail = GetAnalyzeOptionsDetail(pcd.ProjectId);
+            ViewData["AnalyzeOptionsDetail"] = _analyzeoptionsdetail;
+
+            var _designsubmitdetail = GetDesignSubmitDetail(pcd.ProjectId);
+            ViewData["DesignSubmitDetail"] = _designsubmitdetail;
+
+            var _ecofinanalysisdetail = GetEcoFinAnalysisDetail(pcd.ProjectId);
+            ViewData["EcoFinAnalysisDetail"] = _ecofinanalysisdetail;
+
+            var _eiadetail = GetEiaDetailTemp(pcd.ProjectId);
+            ViewData["EiaDetailTemp"] = _eiadetail;
+
+            var _siadetail = GetSiaDetailTemp(pcd.ProjectId);
+            ViewData["SiaDetailTemp"] = _siadetail;
+            
+            //rony
 
             var _compatnwpdetail = _db.CcModPrjCompatNWPDetail.Where(w => w.ProjectId == pcd.ProjectId)
                                    .Select(x => new { x.PrjCompatNWPId, x.ProjectId, x.NationalWaterPolicyArticleId }).ToList();
@@ -1303,7 +1324,12 @@ namespace WrpCcNocWeb.Controllers
             }
             catch (Exception ex)
             {
-                _details = new List<ProjectLocationTemp>();
+                var message = ch.ExtractInnerException(ex);
+
+                _details.Add(new ProjectLocationTemp()
+                {
+                    Error = message
+                });
             }
 
             return _details;
@@ -1410,7 +1436,12 @@ namespace WrpCcNocWeb.Controllers
             }
             catch (Exception ex)
             {
-                _details = new List<HydroSystemDetailTemp>();
+                var message = ch.ExtractInnerException(ex);
+
+                _details.Add(new HydroSystemDetailTemp()
+                {
+                    Error = message
+                });
             }
 
             return _details;
@@ -1437,7 +1468,249 @@ namespace WrpCcNocWeb.Controllers
             }
             catch (Exception ex)
             {
-                _details = new List<FloodFrequencyDetailTemp>();
+                var message = ch.ExtractInnerException(ex);
+
+                _details.Add(new FloodFrequencyDetailTemp()
+                {
+                    Error = message
+                });
+            }
+
+            return _details;
+        }
+
+        public List<IrrigCropAreaDetailTemp> GetIrrigCropAreaDetail(long project_id)
+        {
+            List<IrrigCropAreaDetailTemp> _details = new List<IrrigCropAreaDetailTemp>();
+
+            try
+            {
+                _details = (from d in _db.CcModPrjIrrigCropAreaDetail
+                            where d.ProjectId == project_id
+                            select new IrrigCropAreaDetailTemp
+                            {
+                                IrrigatedCropId = d.IrrigatedCropId,
+                                ProjectId = d.ProjectId,
+                                CropName = d.CropName,
+                                Area = d.Area.ToString()
+                            }).ToList();
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                _details.Add(new IrrigCropAreaDetailTemp()
+                {
+                    Error = message
+                });
+            }
+
+            return _details;
+        }
+
+        public List<AnalyzeOptionsDetailTemp> GetAnalyzeOptionsDetail(long project_id)
+        {
+            List<AnalyzeOptionsDetailTemp> _details = new List<AnalyzeOptionsDetailTemp>();
+
+            try
+            {
+                _details = (from d in _db.CcModAnalyzeOptionsDetail
+                            where d.ProjectId == project_id
+                            select new AnalyzeOptionsDetailTemp
+                            {
+                                AnalyzeOptionsId = d.AnalyzeOptionsId,
+                                ProjectId = d.ProjectId,
+                                OptionNumber = d.OptionNumber,
+                                AnalyzeDescription = d.AnalyzeDescription,
+                                AnalyzeRemarks = d.AnalyzeRemarks
+                            }).OrderBy(o => o.AnalyzeOptionsId).ToList();
+
+                if (_details.Count == 0)
+                {
+                    _details.Add(new AnalyzeOptionsDetailTemp()
+                    {
+                        Error = "sorry, no data found!"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                _details.Add(new AnalyzeOptionsDetailTemp()
+                {
+                    Error = message
+                });
+            }
+
+            return _details;
+        }
+
+        public List<DesignSubmitDetailTemp> GetDesignSubmitDetail(long project_id)
+        {
+            List<DesignSubmitDetailTemp> _details = new List<DesignSubmitDetailTemp>();
+
+            try
+            {
+                _details = (from d in _db.CcModDesignSubmitDetail
+                            join l in _db.LookUpCcModDesignSubmitParam on d.DesignSubmittedParameterId equals l.DesignSubmittedParameterId
+                            where d.ProjectId == project_id
+                            select new DesignSubmitDetailTemp
+                            {
+                                DesignSubmittedId = d.DesignSubmittedId,
+                                ProjectId = d.ProjectId,
+                                DesignSubmittedParameterId = d.DesignSubmittedParameterId,
+                                ParameterName = l.ParameterName,
+                                ParameterNameBn = l.ParameterNameBn,
+                                dswpdYN = d.YesNoId,
+                                DesignSubmitApplicantCmt = d.DesignSubmitApplicantCmt,
+                                DesignSubmitAuthorityCmt = d.DesignSubmitAuthorityCmt
+                            }).ToList();
+
+                if (_details.Count == 0)
+                {
+                    _details.Add(new DesignSubmitDetailTemp()
+                    {
+                        Error = "sorry, no data found!"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                _details.Add(new DesignSubmitDetailTemp()
+                {
+                    Error = message
+                });
+            }
+
+            return _details;
+        }
+
+        public List<EcoFinAnalysisDetailTemp> GetEcoFinAnalysisDetail(long project_id)
+        {
+            List<EcoFinAnalysisDetailTemp> _details = new List<EcoFinAnalysisDetailTemp>();
+
+            try
+            {
+                _details = (from d in _db.CcModPrjEcoFinAnalysisDetail
+                            join l in _db.LookUpCcModEcoAndFinancial on d.EcoAndFinancialParamId equals l.EcoAndFinancialParamId
+                            where d.ProjectId == project_id
+                            select new EcoFinAnalysisDetailTemp
+                            {
+                                EconomicalAndFinancialId = d.EconomicalAndFinancialId,
+                                ProjectId = d.ProjectId,
+                                EcoAndFinancialParamId = d.EcoAndFinancialParamId,
+                                EcoAndFinancialParamName = l.EcoAndFinancialParamName,
+                                EcoAndFinancialParamNameBn = l.EcoAndFinancialParamNameBn,
+                                EcoAndFinancialParamUnit = l.EcoAndFinancialUnit,
+                                EcoAndFinancialApplicantCmt = d.EcoAndFinancialApplicantCmt,
+                                EcoAndFinancialAuthorityCmt = d.EcoAndFinancialAuthorityCmt
+                            }).ToList();
+
+                if (_details.Count == 0)
+                {
+                    _details.Add(new EcoFinAnalysisDetailTemp()
+                    {
+                        Error = "sorry, no data found!"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                _details.Add(new EcoFinAnalysisDetailTemp()
+                {
+                    Error = message
+                });
+            }
+
+            return _details;
+        }
+
+        public List<EiaDetailTemp> GetEiaDetailTemp(long project_id)
+        {
+            List<EiaDetailTemp> _details = new List<EiaDetailTemp>();
+
+            try
+            {
+                _details = (from d in _db.CcModPrjEIADetail
+                            join l in _db.LookUpCcModEIAParameter on d.EIAParameterId equals l.EIAParameterId
+                            where d.ProjectId == project_id
+                            select new EiaDetailTemp
+                            {
+                                EIAId = d.EIAId,
+                                ProjectId = d.ProjectId,
+                                EIAParameterId = d.EIAParameterId,
+                                ParameterName = l.ParameterName,
+                                ParameterNameBn = l.ParameterNameBn,
+                                PreProjectSituation = d.PreProjectSituation,
+                                PostProjectSituation = d.PostProjectSituation,
+                                PositiveNegativeImpact = d.PositiveNegativeImpact,
+                                MitigationPlan = d.MitigationPlan
+                            }).OrderBy(o => o.EIAId).ToList();
+
+                if (_details.Count == 0)
+                {
+                    _details.Add(new EiaDetailTemp()
+                    {
+                        Error = "sorry, no data found!"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                _details.Add(new EiaDetailTemp()
+                {
+                    Error = message
+                });
+            }
+
+            return _details;
+        }
+
+        public List<SiaDetailTemp> GetSiaDetailTemp(long project_id)
+        {
+            List<SiaDetailTemp> _details = new List<SiaDetailTemp>();
+
+            try
+            {
+                _details = (from d in _db.CcModPrjSIADetail
+                            join l in _db.LookUpCcModSIAParameter on d.SIAParameterId equals l.SIAParameterId
+                            where d.ProjectId == project_id
+                            select new SiaDetailTemp
+                            {
+                                SIAId = d.SIAId,
+                                ProjectId = d.ProjectId,
+                                SIAParameterId = d.SIAParameterId,
+                                SIAParameterName = l.SIAParameterName,
+                                SIAParameterNameBn = l.SIAParameterNameBn,
+                                PreProjectSituation = d.PreProjectSituation,
+                                PostProjectSituation = d.PostProjectSituation,
+                                PositiveNegativeImpact = d.PositiveNegativeImpact,
+                                MitigationPlan = d.MitigationPlan
+                            }).OrderBy(o => o.SIAId).ToList();
+
+                if (_details.Count == 0)
+                {
+                    _details.Add(new SiaDetailTemp()
+                    {
+                        Error = "sorry, no data found!"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                _details.Add(new SiaDetailTemp()
+                {
+                    Error = message
+                });
             }
 
             return _details;

@@ -14,6 +14,13 @@
     var hydrosys = ViewData["HydroSystemDetail"];
     var tofd = ViewData["TypesOfFloodDetail"];
     var ffd = ViewData["FloodFrequencyDetail"];
+    var icad = ViewData["IrrigCropAreaDetail"];
+    var aodt = ViewData["AnalyzeOptionsDetail"];
+    var dsd = ViewData["DesignSubmitDetail"];
+    var efad = ViewData["EcoFinAnalysisDetail"];
+    var eiad = ViewData["EiaDetailTemp"];
+    var siad = ViewData["SiaDetailTemp"];
+
     var cnwpd = ViewData["CompatNWPDetail"];
     var cnwmpd = ViewData["CompatNWMPDetail"];
     var sdgd = ViewData["CompatSDGDetail"];
@@ -142,7 +149,7 @@
 
                     <br />
 
-                    <table style="border: 1px solid #808080;" border="1">
+                    <table style="border: 1px solid #808080;" border="1" cellpadding="0" cellspacing="0">
                         <tr>
                             <td colspan="3">
                                 <h4>
@@ -153,6 +160,7 @@
                                 </h4>
                             </td>
                         </tr>
+
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
@@ -168,6 +176,7 @@
                                 2. General Information. General Information. General Information. General Information<br />
                             </td>
                         </tr>
+
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
@@ -196,7 +205,7 @@
                             <td style="word-wrap: break-word;">
                                 control_comments
                             </td>
-                        </tr>                        
+                        </tr>
 
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
@@ -828,10 +837,13 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    control_title
+                                    @if (prev_lang == "1")
+                                    {<span>xiv. উৎপাদিত শস্য</span>}
+                                    else
+                                    {<span>xiv. Cultivable Crops</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">control_data</td>
+                            <td style="width: 500px; word-wrap: break-word;">@project31indev.CultivableCrops</td>
                             <td style="word-wrap: break-word;">
                                 control_comments
                             </td>
@@ -840,10 +852,53 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    control_title
+                                    @if (prev_lang == "1")
+                                    {<span>xv. চাষাবাদকৃত খাদ্যশস্য এলাকা (হেক্টর)</span>}
+                                    else
+                                    {<span>xv. Irrigated Crop Area (ha)</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">control_data</td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>ফসলের নাম</span>}
+                                                else
+                                                {<span>Crops Name</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>এলাকা</span>}
+                                                else
+                                                {<span>Area</span>}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyIrrigatedCropAreaPreview">
+                                        @{
+                                            foreach (IrrigCropAreaDetailTemp icadt in (List<IrrigCropAreaDetailTemp>)icad)
+                                            {
+                                                if (prev_lang == "1")
+                                                {
+                                                    <tr>
+                                                        <td>@icadt.CropName</td>
+                                                        <td>@icadt.Area.NumberEnglishToBengali()</td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td>@icadt.CropName</td>
+                                                        <td>@icadt.Area</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
                             <td style="word-wrap: break-word;">
                                 control_comments
                             </td>
@@ -852,14 +907,901 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    control_title
+                                    @if (prev_lang == "1")
+                                    {<span>xvi. ফসল/ খাদ্যশস্য উৎপাদনের পরিমান (টন)</span>}
+                                    else
+                                    {<span>xvi. Crop Production (Ton)</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">control_data</td>
+                            <td style="width: 500px; word-wrap: break-word;">@project31indev.CropProduction</td>
                             <td style="word-wrap: break-word;">
                                 control_comments
                             </td>
                         </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xvii. মাছ উৎপাদন, বৈচিত্র্য এবং অভিবাসন</span>}
+                                    else
+                                    {<span>xvii. Fish Production, Diversity and Migration</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>উৎপাদন</span>}
+                                            else
+                                            {<span>Production</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>বৈচিত্র্য</span>}
+                                            else
+                                            {<span>Diversity</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>মাইগ্রেশন</span>}
+                                            else
+                                            {<span>Migration</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@project31indev.FishProduction</td>
+                                        <td class="text-center">@project31indev.FishDiversity</td>
+                                        <td class="text-center">@project31indev.FishMigration</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xviii. প্রকল্প এলাকায় বিদ্যমান গাছপালা ও পশুপাখি</span>}
+                                    else
+                                    {<span>xviii. Flora and Fauna</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@project31indev.FloraAndFauna</td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xix. আর্থ সামাজিক অবস্থা</span>}
+                                    else
+                                    {<span>xix. Socio Economic Condition</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>ল্যান্ড হীন মানুষ (%)</span>}
+                                            else
+                                            {<span>% of land less people</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>ক্ষুদ্র কৃষক (%)</span>}
+                                            else
+                                            {<span>% of small farmer</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>গড় মাসিক আয়</span>}
+                                            else
+                                            {<span>Average monthly income</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@project31indev.LandLessPeoplePercentage</td>
+                                        <td class="text-center">@project31indev.SmallFarmerPercentage</td>
+                                        <td class="text-center">@project31indev.AvgMonthlyIncome</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h5>
+                                    @if (prev_lang == "1")
+                                    {<span>২.২ ইস্যু, চ্যালেঞ্জ সমূহ বা সমস্যা</span>}
+                                    else
+                                    {<span>2.2 Issue, Challenge or Problem</span>}
+                                </h5>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. ইস্যু, চ্যালেঞ্জ বা সমস্যার বিবরণ</span>}
+                                    else
+                                    {<span>i. Issue, Challenge or Problem Details</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@pcd.IssueChallageProblem</td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h5>
+                                    @if (prev_lang == "1")
+                                    {<span>৩. প্রকল্প প্রণয়ন পর্যায়ে স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
+                                    else
+                                    {<span>3. Discussion with stakeholders during starting of the project</span>}
+                                </h5>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. প্রকল্প প্রণয়ন পর্যায়ে আলাপ-আলোচনা</span>}
+                                    else
+                                    {<span>i. Discussion at the Project Preparation Stage</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th width="10%">
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th width="10%">
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th width="40%">
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th width="40%">
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            string yesTickMark = string.Empty, noTickMark = string.Empty;
+
+                                            if (pcd.YesNoStakeId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td class="text-center">@yesTickMark</td>
+                                            <td class="text-center">@noTickMark</td>
+                                            <td>@pcd.DiscussWithStakeApplicantCmt</td>
+                                            <td>@pcd.DiscussWithStakeAuthorityCmt</td>
+                                        }
+                                    </tr>
+                                </table>
+                                @if (pcd.YesNoStakeId == 1)
+                                {
+                                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                        <tr>
+                                            <th width="30%">
+                                                @if (prev_lang == "1")
+                                                {<span>ইতিবাচক প্রতিক্রিয়া</span>}
+                                                else
+                                                {<span>Positive Feedback</span>}
+                                            </th>
+                                            <th width="30%">
+                                                @if (prev_lang == "1")
+                                                {<span>নেতিবাচক প্রতিক্রিয়া</span>}
+                                                else
+                                                {<span>Negative Feedback</span>}
+                                            </th>
+                                            <th style="width: 20%; word-wrap: break-word;">
+                                                @if (prev_lang == "1")
+                                                {<span>অংশগ্রহণকারীদের তালিকা</span>}
+                                                else
+                                                {<span>Participant List</span>}
+                                            </th>
+                                            <th style="width: 20%; word-wrap: break-word;">
+                                                @if (prev_lang == "1")
+                                                {<span>মিটিং মিনিট</span>}
+                                                else
+                                                {<span>Meeting Minutes</span>}
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>@pcd.DiscussWithStakePosFeedback</td>
+                                            <td>@pcd.DiscussWithStakeNegFeedback</td>
+                                            <td style="word-wrap: break-word;"><a href="~/images/CommonDetails/@pcd.DiscussWithStakeParticipntLst" target="_blank">@pcd.DiscussWithStakeParticipntLst</a></td>
+                                            <td style="word-wrap: break-word;"><a href="~/images/CommonDetails/@pcd.DiscussWithStakeMeetingMin" target="_blank">@pcd.DiscussWithStakeMeetingMin</a></td>
+                                        </tr>
+                                    </table>
+                                }
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h5>
+                                    @if (prev_lang == "1")
+                                    {<span>৪. উদ্দেশ্য পূরনের অপশনসমূহ বিশ্লেষণ</span>}
+                                    else
+                                    {<span>4. Analyze Options to fulfill objective</span>}
+                                </h5>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. বিকল্পগুলি বিশ্লেষণ করুন</span>}
+                                    else
+                                    {<span>i. Analyze Options</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th width="10%">
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th width="10%">
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th width="40%">
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th width="40%">
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (pcd.AnalyzeOptYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td class="text-center">@yesTickMark</td>
+                                            <td class="text-center">@noTickMark</td>
+                                            <td>@pcd.AnalyzeOptionsApplicantCmt</td>
+                                            <td>@pcd.AnalyzeOptionsAuthorityCmt</td>
+                                        }
+                                    </tr>
+                                </table>
+                                @if (pcd.AnalyzeOptYesNoId == 1)
+                                {
+                                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    @if (prev_lang == "1")
+                                                    {<span>বিকল্প</span>}
+                                                    else
+                                                    {<span>Options</span>}
+                                                </th>
+                                                <th>
+                                                    @if (prev_lang == "1")
+                                                    {<span>বিবরণ</span>}
+                                                    else
+                                                    {<span>Description</span>}
+                                                </th>
+                                                <th>
+                                                    @if (prev_lang == "1")
+                                                    {<span>মন্তব্য</span>}
+                                                    else
+                                                    {<span>Remarks</span>}
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbodyAnalyzeOptFulfillObjPreview">
+                                            @{
+                                                foreach (AnalyzeOptionsDetailTemp aod in (List<AnalyzeOptionsDetailTemp>)aodt)
+                                                {
+                                                    if (string.IsNullOrEmpty(aod.Error))
+                                                    {
+                                                        <tr>
+                                                            <td>@aod.OptionNumber</td>
+                                                            <td>@aod.AnalyzeDescription</td>
+                                                            <td>@aod.AnalyzeRemarks</td>
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="3">@aod.Error</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h5>
+                                    @if (prev_lang == "1")
+                                    {<span>৫. প্রকল্প নথির সাথে ডিজাইন জমা দেওয়া</span>}
+                                    else
+                                    {<span>5. Design submitted with project document</span>}
+                                </h5>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. নথি জমা দেওয়া</span>}
+                                    else
+                                    {<span>i. Design Submition</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">
+                                                @if (prev_lang == "1")
+                                                {<span>প্যারামিটার</span>}
+                                                else
+                                                {<span>Parameters</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>হ্যাঁ</span>}
+                                                else
+                                                {<span>Yes</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>না</span>}
+                                                else
+                                                {<span>No</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>আবেদনকারীর মন্তব্য</span>}
+                                                else
+                                                {<span>Applicant Comments</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                                else
+                                                {<span>Authority Comments</span>}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyDesignSubProjDocPreview">
+                                        @{
+                                            foreach (DesignSubmitDetailTemp dsdt in (List<DesignSubmitDetailTemp>)dsd)
+                                            {
+                                                yesTickMark = string.Empty;
+                                                noTickMark = string.Empty;
+
+                                                if (dsdt.dswpdYN == 1)
+                                                {
+                                                    yesTickMark = "✔";
+                                                    noTickMark = "";
+                                                }
+                                                else
+                                                {
+                                                    yesTickMark = "";
+                                                    noTickMark = "✔";
+                                                }
+
+                                                if (string.IsNullOrEmpty(dsdt.Error))
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @if (prev_lang == "1")
+                                                            {
+                                                                <span>@dsdt.ParameterNameBn</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>@dsdt.ParameterNameBn</span>
+                                                            }
+                                                        </td>
+                                                        <td class="text-center">@yesTickMark</td>
+                                                        <td class="text-center">@noTickMark</td>
+                                                        <td>@dsdt.DesignSubmitApplicantCmt</td>
+                                                        <td>@dsdt.DesignSubmitAuthorityCmt</td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="5">@dsdt.Error</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h5>
+                                    @if (prev_lang == "1")
+                                    {<span>৬. পরিবেশগত  ও সামাজিক প্রভাব</span>}
+                                    else
+                                    {<span>6. Environmental and Social Impact Assessment</span>}
+                                </h5>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. প্রভাব মূল্যায়ন</span>}
+                                    else
+                                    {<span>i. Impact Assessment</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (pcd.EnvAndSocialYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td>@yesTickMark</td>
+                                            <td>@noTickMark</td>
+                                            <td>@pcd.EnvAndSocialApplicantCmt</td>
+                                            <td>@pcd.EnvAndSocialAuthorityCmt</td>
+                                        }
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        @if (pcd.EnvAndSocialYesNoId == 1)
+                        {
+                            <tr class="text-center">
+                                <td colspan="3">
+                                    <h5>
+                                        @if (prev_lang == "1")
+                                        {<span>(a) পরিবেশগত প্রভাব মূল্যায়ন</span>}
+                                        else
+                                        {<span>(a) Environmental Impact Assessment</span>}
+                                    </h5>
+                                </td>
+                            </tr>
+
+                            <tr class="text-center">
+                                <td colspan="3">
+                                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>প্যারামিটার</span>}
+                                                    else
+                                                    {<span>Parameters</span>}
+                                                </th>
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>প্রকল্প পূর্ববর্তী পরিস্থিতি</span>}
+                                                    else
+                                                    {<span>Pre Project Situation</span>}
+                                                </th>
+
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>প্রকল্প পরবর্তী পরিস্থিতি</span>}
+                                                    else
+                                                    {<span>Post Project Situation</span>}
+                                                </th>
+
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>ইতিবাচক/ নেতিবাচক প্রভাব</span>}
+                                                    else
+                                                    {<span>Positive/ Negative Impact</span>}
+                                                </th>
+
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>প্রশমন পরিকল্পনা</span>}
+                                                    else
+                                                    {<span>Mitigation Plan</span>}
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbodyEIADetailPreview">
+                                            @{
+                                                foreach (EiaDetailTemp eia in (List<EiaDetailTemp>)eiad)
+                                                {
+                                                    if (string.IsNullOrEmpty(eia.Error))
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @if (prev_lang == "1")
+                                                                {<span>@eia.ParameterNameBn</span>}
+                                                                else
+                                                                {<span>@eia.ParameterName</span>}
+                                                            </td>
+                                                            <td>@eia.PreProjectSituation</td>
+                                                            <td>@eia.PostProjectSituation</td>
+                                                            <td>@eia.PositiveNegativeImpact</td>
+                                                            <td>@eia.MitigationPlan</td>
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="5">@eia.Error</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                        <tfoot><tr><td colspan="5">comments goes here</td></tr></tfoot>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <tr class="text-center">
+                                <td colspan="3">
+                                    <h5>
+                                        @if (prev_lang == "1")
+                                        {<span>(b) সামাজিক প্রভাব মূল্যায়ন</span>}
+                                        else
+                                        {<span>(b) Social Impact Assessment</span>}
+                                    </h5>
+                                </td>
+                            </tr>
+
+                            <tr class="text-center">
+                                <td colspan="3">
+                                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                        <tbody>
+                                            <tr>
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>প্যারামিটার</span>}
+                                                    else
+                                                    {<span>Parameters</span>}
+                                                </th>
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>প্রকল্প পূর্ববর্তী পরিস্থিতি</span>}
+                                                    else
+                                                    {<span>Pre Project Situation</span>}
+                                                </th>
+
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>প্রকল্প পরবর্তী পরিস্থিতি</span>}
+                                                    else
+                                                    {<span>Post Project Situation</span>}
+                                                </th>
+
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>ইতিবাচক/ নেতিবাচক প্রভাব</span>}
+                                                    else
+                                                    {<span>Positive/ Negative Impact</span>}
+                                                </th>
+
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>প্রশমন পরিকল্পনা</span>}
+                                                    else
+                                                    {<span>Mitigation Plan</span>}
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                        <tbody id="tbodySIADetailPreview">
+                                            @{
+                                                foreach (SiaDetailTemp sia in (List<SiaDetailTemp>)siad)
+                                                {
+                                                    if (string.IsNullOrEmpty(sia.Error))
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @if (prev_lang == "1")
+                                                                {<span>@sia.SIAParameterNameBn</span>}
+                                                                else
+                                                                {<span>@sia.SIAParameterName</span>}
+                                                            </td>
+                                                            <td>@sia.PreProjectSituation</td>
+                                                            <td>@sia.PostProjectSituation</td>
+                                                            <td>@sia.PositiveNegativeImpact</td>
+                                                            <td>@sia.MitigationPlan</td>
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="5">@sia.Error</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                        <tfoot><tr><td colspan="5">comments goes here</td></tr></tfoot>
+                                    </table>
+                                </td>
+                            </tr>
+                        }
+
+                        <tr>
+                            <td colspan="3">
+                                <h4>
+                                    @if (prev_lang == "1")
+                                    {<span>৭. প্রকল্পটি তৈরিতে উপযুক্ত ও পরীক্ষিত  বিশ্লেষণি প্রক্রিয়া, মুল্যায়ন পদ্ধতি, কৌশল ও টুলস্ ব্যবহার করা হয়েছে কিনা</span>}
+                                    else
+                                    {<span>7. Use of Appropriate tools, technics, analytical procedures etc</span>}
+                                </h4>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. প্রকল্পটি তৈরিতে উপযুক্ত ও পরীক্ষিত বিশ্লেষণ প্রক্রিয়া মুল্যায়ন পদ্ধতি</span>}
+                                    else
+                                    {<span>i. Use of Appropriate technics, analytical procedures</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (project31indev.UseOfToolsYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td>@yesTickMark</td>
+                                            <td>@noTickMark</td>
+                                            <td>@project31indev.ToolsApplicantComments</td>
+                                            <td>@project31indev.ToolsAuthorityComments</td>
+                                        }
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                control_comments
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h4>
+                                    @if (prev_lang == "1")
+                                    {<span>৮. অর্থনৈতিক এবং আর্থিক বিশ্লেষণ</span>}
+                                    else
+                                    {<span>8. Economical & Financial Analysis</span>}
+                                </h4>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td colspan="3">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">
+                                                @if (prev_lang == "1")
+                                                {<span>তালিকা</span>}
+                                                else
+                                                {<span>Item</span>}
+                                            </th>
+                                            <th class="text-center">
+                                                @if (prev_lang == "1")
+                                                {<span>একক</span>}
+                                                else
+                                                {<span>Unit</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>আবেদনকারীর মন্তব্য</span>}
+                                                else
+                                                {<span>Applicant Comments</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                                else
+                                                {<span>Authority Comments</span>}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyEcoFinAnaPreview">
+                                        @{
+                                            foreach (EcoFinAnalysisDetailTemp efa in (List<EcoFinAnalysisDetailTemp>)efad)
+                                            {
+                                                if (string.IsNullOrEmpty(efa.Error))
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @if (prev_lang == "1")
+                                                            {
+                                                                <span>@efa.EcoAndFinancialParamNameBn</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>@efa.EcoAndFinancialParamName</span>
+                                                            }
+                                                        </td>
+                                                        <td>@efa.EcoAndFinancialParamUnit</td>
+                                                        <td>@efa.EcoAndFinancialApplicantCmt</td>
+                                                        <td>@efa.EcoAndFinancialAuthorityCmt</td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="4">@efa.Error</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td id="tdEcoFinAnalysisComments" colspan="3">
+                                comments
+                            </td>
+                        </tr>
+
                     </table>
                 </div>
             </div>
