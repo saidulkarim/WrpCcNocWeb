@@ -131,4 +131,18 @@ namespace WrpCcNocWeb.Models
         public string MitigationPlan { get; set; }
         public string Error { get; set; }
     }
+
+    public class ProjectNWPArticleTemp
+    {
+        public int NWPArticleId { get; set; }
+        public long ProjectId { get; set; }
+        public string NWPShortTitle { get; set; }
+        public string NWPShortTitleBn { get; set; }
+        public string NWPArticleTitle { get; set; }
+        public string NWPArticleTitleBn { get; set; }
+
+        [DefaultValue(false)]
+        public bool IsSelected { get; set; }
+        public string Error { get; set; }
+    }
 }

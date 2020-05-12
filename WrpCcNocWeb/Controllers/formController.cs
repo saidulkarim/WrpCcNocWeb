@@ -413,11 +413,10 @@ namespace WrpCcNocWeb.Controllers
 
             var _siadetail = GetSiaDetailTemp(pcd.ProjectId);
             ViewData["SiaDetailTemp"] = _siadetail;
-            
+
             //rony
 
-            var _compatnwpdetail = _db.CcModPrjCompatNWPDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                   .Select(x => new { x.PrjCompatNWPId, x.ProjectId, x.NationalWaterPolicyArticleId }).ToList();
+            var _compatnwpdetail = GetCompatNWPDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
             ViewData["CompatNWPDetail"] = _compatnwpdetail;
 
             var _compatnwmpdetail = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == pcd.ProjectId)
@@ -1321,6 +1320,14 @@ namespace WrpCcNocWeb.Controllers
                                 ImageFileName = (!string.IsNullOrEmpty(d.ImageFileName)) ? String.Format("{0}/{1}/{2}", rootDirOfProjFile, "ProjectLocationPhotos", d.ImageFileName) : "",
                                 OnlyImageFileName = d.ImageFileName
                             }).OrderBy(o => o.LocationId).ToList();
+
+                if (_details.Count == 0)
+                {
+                    _details.Add(new ProjectLocationTemp()
+                    {
+                        Error = "sorry, no data found!"
+                    });
+                }
             }
             catch (Exception ex)
             {
@@ -1372,7 +1379,7 @@ namespace WrpCcNocWeb.Controllers
                     {
                         isNewLine = false;
                         className = hrt.IsSelected ? "bg-dark text-white" : "";
-                        tickTag = hrt.IsSelected ? "<span>✓</span>" : "";
+                        tickTag = hrt.IsSelected ? "<span>✔</span>" : "";
 
                         if (i == 1)
                         {
@@ -1406,7 +1413,8 @@ namespace WrpCcNocWeb.Controllers
             }
             catch (Exception ex)
             {
-                html = "<tr><td colspan='4'>" + ex.Message + "</td></tr>";
+                var message = ch.ExtractInnerException(ex);
+                html = "<tr><td colspan='4'>" + message + "</td></tr>";
             }
 
             return html;
@@ -1433,6 +1441,14 @@ namespace WrpCcNocWeb.Controllers
                                 HydroSystemUnit = l.HydroSysCategoryUnit,
                                 HydroSystemUnitBn = l.HydroSysCategoryUnitBn
                             }).OrderBy(o => o.HydroSysDetailId).ToList();
+
+                if (_details.Count == 0)
+                {
+                    _details.Add(new HydroSystemDetailTemp()
+                    {
+                        Error = "sorry, no data found!"
+                    });
+                }
             }
             catch (Exception ex)
             {
@@ -1465,6 +1481,14 @@ namespace WrpCcNocWeb.Controllers
                                 FloodFrequencyBn = l.FloodFrequencyBn,
                                 FloodFrequencyLevel = d.FloodFrequencyLevel.ToString()
                             }).ToList();
+
+                if (_details.Count == 0)
+                {
+                    _details.Add(new FloodFrequencyDetailTemp()
+                    {
+                        Error = "sorry, no data found!"
+                    });
+                }
             }
             catch (Exception ex)
             {
@@ -1494,6 +1518,14 @@ namespace WrpCcNocWeb.Controllers
                                 CropName = d.CropName,
                                 Area = d.Area.ToString()
                             }).ToList();
+
+                if (_details.Count == 0)
+                {
+                    _details.Add(new IrrigCropAreaDetailTemp()
+                    {
+                        Error = "sorry, no data found!"
+                    });
+                }
             }
             catch (Exception ex)
             {
@@ -1714,6 +1746,84 @@ namespace WrpCcNocWeb.Controllers
             }
 
             return _details;
+        }
+
+        public string GetCompatNWPDetail(long project_id, int language)
+        {
+            int i = 1;
+            string html = string.Empty, className = string.Empty, tickTag = string.Empty;
+            List<ProjectNWPArticleTemp> _details = new List<ProjectNWPArticleTemp>();
+            List<CcModPrjCompatNWPDetail> cnwpd = new List<CcModPrjCompatNWPDetail>();
+
+            try
+            {
+                _details = (from d in _db.LookUpCcModNWPArticle
+                            select new ProjectNWPArticleTemp
+                            {
+                                NWPArticleId = d.NationalWaterPolicyArticleId,
+                                ProjectId = 0,
+                                NWPShortTitle = d.NationalWtrPolicyShortTitle,
+                                NWPShortTitleBn = d.NWPArticleShortTitleBn,
+                                NWPArticleTitle = d.NationalWtrPolicyArticleTitle,
+                                NWPArticleTitleBn = d.NWPArticleTitleBn,
+                                IsSelected = false
+                            }).OrderBy(o => o.NWPArticleId).ToList();
+
+                if (_details.Count > 0)
+                {
+                    cnwpd = _db.CcModPrjCompatNWPDetail.Where(w => w.ProjectId == project_id).ToList();
+                    foreach (var item in _details.Where(m => cnwpd.Any(a => a.NationalWaterPolicyArticleId == m.NWPArticleId)))
+                    {
+                        item.IsSelected = true;
+                        item.ProjectId = project_id;
+                    }
+
+                    _details.OrderBy(o => o.NWPArticleId).ToList();
+
+                    bool isNewLine = false;
+                    foreach (ProjectNWPArticleTemp nwpat in _details)
+                    {
+                        isNewLine = false;
+                        className = nwpat.IsSelected ? "bg-dark text-white" : "";
+                        tickTag = nwpat.IsSelected ? "<span>✔</span>" : "";
+
+                        if (i == 1)
+                        {
+                            html += "<tr>";
+                        }
+
+                        if (language == 1)
+                        {
+                            html += "<td title='" + nwpat.NWPArticleTitleBn + "' class='" + className + "'>" + tickTag + " " + nwpat.NWPShortTitleBn + "</td>";
+                        }
+                        else
+                        {
+                            html += "<td title='" + nwpat.NWPArticleTitle + "' class='" + className + "'>" + tickTag + " " + nwpat.NWPShortTitle + "</td>";
+                        }
+
+                        if (i == 4)
+                        {
+                            html += "</tr>";
+                            i = 1;
+                            isNewLine = true;
+                        }
+
+                        if (!isNewLine)
+                            i++;
+                    }
+                }
+                else
+                {
+                    html = "<tr><td colspan='4'>no data found!</td></tr>";
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+                html = "<tr><td colspan='4'>" + message + "</td></tr>";
+            }
+
+            return html;
         }
         #endregion
 
