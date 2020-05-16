@@ -9,6 +9,7 @@ namespace WrpCcNocWeb.Models
     {
         public long? AppProjDataAnalysisId { get; set; }
         public long UserId { get; set; }
+        public string LabelNameOfControl { get; set; }
         public string UserComments { get; set; }
         public string UserName { get; set; }
         public string DateOfAnalysis { get; set; }

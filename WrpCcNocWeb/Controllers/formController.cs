@@ -414,30 +414,26 @@ namespace WrpCcNocWeb.Controllers
             var _siadetail = GetSiaDetailTemp(pcd.ProjectId);
             ViewData["SiaDetailTemp"] = _siadetail;
 
-            //rony
-
             var _compatnwpdetail = GetCompatNWPDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
             ViewData["CompatNWPDetail"] = _compatnwpdetail;
 
-            var _compatnwmpdetail = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                   .Select(x => new { x.PrjCompatNWMPId, x.ProjectId, x.NWMPProgrammeId }).ToList();
+            var _compatnwmpdetail = GetCompatNWMPDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
             ViewData["CompatNWMPDetail"] = _compatnwmpdetail;
 
-            var _compatsdgdetail = _db.CcModPrjCompatSDGDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                   .Select(x => new { x.SDGCompabilityId, x.ProjectId, x.SDGGoalId }).ToList();
+            var _compatsdgdetail = GetCompatSDGDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
             ViewData["CompatSDGDetail"] = _compatsdgdetail;
 
-            var _compatsdgindidetail = _db.CcModPrjCompatSDGIndiDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                   .Select(x => new { x.SDGIndicatorDetailId, x.ProjectId, x.SDGIndicatorId }).ToList();
+            var _compatsdgindidetail = GetCompatSDGIndicatorDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
             ViewData["CompatSDGIndiDetail"] = _compatsdgindidetail;
 
-            var _bdp2100goaldetail = _db.CcModBDP2100GoalDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                   .Select(x => new { x.DeltaGoalDetailId, x.ProjectId, x.DeltPlan2100GoalId }).ToList();
+            var _bdp2100goaldetail = GetBDP2100GoalDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
             ViewData["BDP2100GoalDetail"] = _bdp2100goaldetail;
 
-            var _gpwmgrouptype = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                   .Select(x => new { x.GPWMGroupTypeDetailId, x.ProjectId, x.GPWMGroupTypeId }).ToList();
+            var _gpwmgrouptype = GetGPWMGroupTypeDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
             ViewData["GPWMGroupType"] = _gpwmgrouptype;
+
+            var _formcommentslisttemp = GetFormDataAnalysisComments(pcd.ProjectTypeId, pcd.ProjectId);
+            ViewData["FormCommentsListTemp"] = _formcommentslisttemp;
 
             ViewData["ProjectId"] = pcd.ProjectId;
             ViewData["Project31IndvId"] = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project31IndvId).FirstOrDefault();
@@ -448,6 +444,7 @@ namespace WrpCcNocWeb.Controllers
 
             GetApplicantInfoViewData(pcd.UserId);
 
+            //return View();
             return new ViewAsPdf("~/Views/form/printfcmp.cshtml", viewData: ViewData)
             {
                 PageSize = Size.A4,
@@ -1286,7 +1283,7 @@ namespace WrpCcNocWeb.Controllers
             }
         }
 
-        public List<ProjectLocationTemp> GetProjectLocation(long project_id)
+        private List<ProjectLocationTemp> GetProjectLocation(long project_id)
         {
             List<ProjectLocationTemp> _details = new List<ProjectLocationTemp>();
 
@@ -1342,7 +1339,7 @@ namespace WrpCcNocWeb.Controllers
             return _details;
         }
 
-        public string GetHydrologicalRegion(long project_id, int language)
+        private string GetHydrologicalRegion(long project_id, int language)
         {
             int i = 1;
             string html = string.Empty, className = string.Empty, tickTag = string.Empty;
@@ -1420,7 +1417,7 @@ namespace WrpCcNocWeb.Controllers
             return html;
         }
 
-        public List<HydroSystemDetailTemp> GetHydroSystemDetail(long project_id)
+        private List<HydroSystemDetailTemp> GetHydroSystemDetail(long project_id)
         {
             List<HydroSystemDetailTemp> _details = new List<HydroSystemDetailTemp>();
 
@@ -1463,7 +1460,7 @@ namespace WrpCcNocWeb.Controllers
             return _details;
         }
 
-        public List<FloodFrequencyDetailTemp> GetFloodFrequencyDetail(long project_id)
+        private List<FloodFrequencyDetailTemp> GetFloodFrequencyDetail(long project_id)
         {
             List<FloodFrequencyDetailTemp> _details = new List<FloodFrequencyDetailTemp>();
 
@@ -1503,7 +1500,7 @@ namespace WrpCcNocWeb.Controllers
             return _details;
         }
 
-        public List<IrrigCropAreaDetailTemp> GetIrrigCropAreaDetail(long project_id)
+        private List<IrrigCropAreaDetailTemp> GetIrrigCropAreaDetail(long project_id)
         {
             List<IrrigCropAreaDetailTemp> _details = new List<IrrigCropAreaDetailTemp>();
 
@@ -1540,7 +1537,7 @@ namespace WrpCcNocWeb.Controllers
             return _details;
         }
 
-        public List<AnalyzeOptionsDetailTemp> GetAnalyzeOptionsDetail(long project_id)
+        private List<AnalyzeOptionsDetailTemp> GetAnalyzeOptionsDetail(long project_id)
         {
             List<AnalyzeOptionsDetailTemp> _details = new List<AnalyzeOptionsDetailTemp>();
 
@@ -1578,7 +1575,7 @@ namespace WrpCcNocWeb.Controllers
             return _details;
         }
 
-        public List<DesignSubmitDetailTemp> GetDesignSubmitDetail(long project_id)
+        private List<DesignSubmitDetailTemp> GetDesignSubmitDetail(long project_id)
         {
             List<DesignSubmitDetailTemp> _details = new List<DesignSubmitDetailTemp>();
 
@@ -1620,7 +1617,7 @@ namespace WrpCcNocWeb.Controllers
             return _details;
         }
 
-        public List<EcoFinAnalysisDetailTemp> GetEcoFinAnalysisDetail(long project_id)
+        private List<EcoFinAnalysisDetailTemp> GetEcoFinAnalysisDetail(long project_id)
         {
             List<EcoFinAnalysisDetailTemp> _details = new List<EcoFinAnalysisDetailTemp>();
 
@@ -1662,7 +1659,7 @@ namespace WrpCcNocWeb.Controllers
             return _details;
         }
 
-        public List<EiaDetailTemp> GetEiaDetailTemp(long project_id)
+        private List<EiaDetailTemp> GetEiaDetailTemp(long project_id)
         {
             List<EiaDetailTemp> _details = new List<EiaDetailTemp>();
 
@@ -1705,7 +1702,7 @@ namespace WrpCcNocWeb.Controllers
             return _details;
         }
 
-        public List<SiaDetailTemp> GetSiaDetailTemp(long project_id)
+        private List<SiaDetailTemp> GetSiaDetailTemp(long project_id)
         {
             List<SiaDetailTemp> _details = new List<SiaDetailTemp>();
 
@@ -1748,7 +1745,7 @@ namespace WrpCcNocWeb.Controllers
             return _details;
         }
 
-        public string GetCompatNWPDetail(long project_id, int language)
+        private string GetCompatNWPDetail(long project_id, int language)
         {
             int i = 1;
             string html = string.Empty, className = string.Empty, tickTag = string.Empty;
@@ -1779,6 +1776,8 @@ namespace WrpCcNocWeb.Controllers
                     }
 
                     _details.OrderBy(o => o.NWPArticleId).ToList();
+
+                    html = "<tr style='background: #9d9b9b; font-weight: bold;'><td colspan='4'>Articles</td></tr>";
 
                     bool isNewLine = false;
                     foreach (ProjectNWPArticleTemp nwpat in _details)
@@ -1821,6 +1820,397 @@ namespace WrpCcNocWeb.Controllers
             {
                 var message = ch.ExtractInnerException(ex);
                 html = "<tr><td colspan='4'>" + message + "</td></tr>";
+            }
+
+            return html;
+        }
+
+        private string GetCompatNWMPDetail(long project_id, int language)
+        {
+            int i = 1;
+            string html = string.Empty, className = string.Empty, tickTag = string.Empty;
+            List<ProjectNWMPProgramTemp> _details = new List<ProjectNWMPProgramTemp>();
+            List<CcModPrjCompatNWMPDetail> cnwmpd = new List<CcModPrjCompatNWMPDetail>();
+
+            try
+            {
+                _details = (from d in _db.LookUpCcModNWMPProgramme
+                            select new ProjectNWMPProgramTemp
+                            {
+                                NWMPProgrammeId = d.NWMPProgrammeId,
+                                ProjectId = 0,
+                                NWMPProgShortName = d.NWMPProgShortName,
+                                NWMPProgrammeTitle = d.NWMPProgrammeTitle,
+                                NWMPLink = d.NWMPLink,
+                                IsSelected = false
+                            }).OrderBy(o => o.NWMPProgrammeId).ToList();
+
+                if (_details.Count > 0)
+                {
+                    cnwmpd = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == project_id).ToList();
+                    foreach (var item in _details.Where(m => cnwmpd.Any(a => a.NWMPProgrammeId == m.NWMPProgrammeId)))
+                    {
+                        item.IsSelected = true;
+                        item.ProjectId = project_id;
+                    }
+
+                    _details.OrderBy(o => o.NWMPProgrammeId).ToList();
+
+                    html = "<tr style='background: #9d9b9b; font-weight: bold;'><td colspan='5'>Involved Programme</td></tr>";
+
+                    bool isNewLine = false;
+                    foreach (ProjectNWMPProgramTemp nwmp in _details)
+                    {
+                        isNewLine = false;
+                        className = nwmp.IsSelected ? "bg-dark text-white" : "";
+                        tickTag = nwmp.IsSelected ? "<span>✔</span>" : "";
+
+                        if (i == 1)
+                        {
+                            html += "<tr>";
+                        }
+
+                        html += "<td title='" + nwmp.NWMPProgrammeTitle + "' class='" + className + "'>" + tickTag + " " + nwmp.NWMPProgrammeTitle + "</td>";
+
+                        if (i == 5)
+                        {
+                            html += "</tr>";
+                            i = 1;
+                            isNewLine = true;
+                        }
+
+                        if (!isNewLine)
+                            i++;
+                    }
+                }
+                else
+                {
+                    html = "<tr><td colspan='5'>no data found!</td></tr>";
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+                html = "<tr><td colspan='5'>" + message + "</td></tr>";
+            }
+
+            return html;
+        }
+
+        private string GetCompatSDGDetail(long project_id, int language)
+        {
+            int i = 1;
+            string html = string.Empty, className = string.Empty, tickTag = string.Empty;
+            List<ProjectSDGTemp> _details = new List<ProjectSDGTemp>();
+            List<CcModPrjCompatSDGDetail> sdgd = new List<CcModPrjCompatSDGDetail>();
+
+            try
+            {
+                _details = (from d in _db.LookUpCcModSDGGoal
+                            select new ProjectSDGTemp
+                            {
+                                SDGGoalId = d.SDGGoalId,
+                                ProjectId = 0,
+                                SDGGoalNumber = d.SDGGoalNumber,
+                                SDGGoalNumberBn = d.SDGGoalNumberBn,
+                                SDGDocLink = d.SDGDocLink,
+                                IsSelected = false
+                            }).OrderBy(o => o.SDGGoalId).ToList();
+
+                if (_details.Count > 0)
+                {
+                    sdgd = _db.CcModPrjCompatSDGDetail.Where(w => w.ProjectId == project_id).ToList();
+                    foreach (var item in _details.Where(m => sdgd.Any(a => a.SDGGoalId == m.SDGGoalId)))
+                    {
+                        item.IsSelected = true;
+                        item.ProjectId = project_id;
+                    }
+
+                    _details.OrderBy(o => o.SDGGoalId).ToList();
+
+                    string title = language == 1 ? "টেকসই উন্নয়নের লক্ষ্য" : "Sustainable Development Goal";
+                    html = "<tr style='background: #9d9b9b; font-weight: bold;'><td colspan='5'>" + title + "</td></tr>";
+
+                    bool isNewLine = false;
+                    foreach (ProjectSDGTemp sdg in _details)
+                    {
+                        isNewLine = false;
+                        className = sdg.IsSelected ? "bg-dark text-white" : "";
+                        tickTag = sdg.IsSelected ? "<span>✔</span>" : "";
+
+                        if (i == 1)
+                        {
+                            html += "<tr>";
+                        }
+
+                        if (language == 1)
+                        {
+                            html += "<td title='" + sdg.SDGGoalNumberBn + "' class='" + className + "'>" + tickTag + " " + sdg.SDGGoalNumberBn + "</td>";
+                        }
+                        else
+                        {
+                            html += "<td title='" + sdg.SDGGoalNumber + "' class='" + className + "'>" + tickTag + " " + sdg.SDGGoalNumber + "</td>";
+                        }
+
+                        if (i == 5)
+                        {
+                            html += "</tr>";
+                            i = 1;
+                            isNewLine = true;
+                        }
+
+                        if (!isNewLine)
+                            i++;
+                    }
+                }
+                else
+                {
+                    html = "<tr><td colspan='5'>no data found!</td></tr>";
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+                html = "<tr><td colspan='5'>" + message + "</td></tr>";
+            }
+
+            return html;
+        }
+
+        private string GetCompatSDGIndicatorDetail(long project_id, int language)
+        {
+            int i = 1;
+            string html = string.Empty, className = string.Empty, tickTag = string.Empty;
+            List<ProjectSDGITemp> _details = new List<ProjectSDGITemp>();
+            List<CcModPrjCompatSDGIndiDetail> sdgd = new List<CcModPrjCompatSDGIndiDetail>();
+
+            try
+            {
+                _details = (from d in _db.LookUpCcModSDGIndicator
+                            select new ProjectSDGITemp
+                            {
+                                SDGIndicatorId = d.SDGIndicatorId,
+                                ProjectId = 0,
+                                SDGIndicatorName = d.SDGIndicatorName,
+                                SDGIndicatorNameBn = d.SDGIndicatorNameBn,
+                                SDGIndicatorDocLink = d.SDGIndicatorDocLink,
+                                IsSelected = false
+                            }).OrderBy(o => o.SDGIndicatorId).ToList();
+
+                if (_details.Count > 0)
+                {
+                    sdgd = _db.CcModPrjCompatSDGIndiDetail.Where(w => w.ProjectId == project_id).ToList();
+                    foreach (var item in _details.Where(m => sdgd.Any(a => a.SDGIndicatorId == m.SDGIndicatorId)))
+                    {
+                        item.IsSelected = true;
+                        item.ProjectId = project_id;
+                    }
+
+                    _details.OrderBy(o => o.SDGIndicatorId).ToList();
+
+                    string title = language == 1 ? "টেকসই উন্নয়নের লক্ষ্য ৬.০ সূচক" : "Sustainable Development Goal 6.0 Indicators";
+                    html = "<tr style='background: #9d9b9b; font-weight: bold;'><td colspan='5'>" + title + "</td></tr>";
+
+                    bool isNewLine = false;
+                    foreach (ProjectSDGITemp sdg in _details)
+                    {
+                        isNewLine = false;
+                        className = sdg.IsSelected ? "bg-dark text-white" : "";
+                        tickTag = sdg.IsSelected ? "<span>✔</span>" : "";
+
+                        if (i == 1)
+                        {
+                            html += "<tr>";
+                        }
+
+                        if (language == 1)
+                        {
+                            html += "<td title='" + sdg.SDGIndicatorNameBn + "' class='" + className + "'>" + tickTag + " " + sdg.SDGIndicatorNameBn + "</td>";
+                        }
+                        else
+                        {
+                            html += "<td title='" + sdg.SDGIndicatorName + "' class='" + className + "'>" + tickTag + " " + sdg.SDGIndicatorName + "</td>";
+                        }
+
+                        if (i == 5)
+                        {
+                            html += "</tr>";
+                            i = 1;
+                            isNewLine = true;
+                        }
+
+                        if (!isNewLine)
+                            i++;
+                    }
+                }
+                else
+                {
+                    html = "<tr><td colspan='5'>no data found!</td></tr>";
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+                html = "<tr><td colspan='5'>" + message + "</td></tr>";
+            }
+
+            return html;
+        }
+
+        private string GetBDP2100GoalDetail(long project_id, int language)
+        {
+            int i = 1;
+            string html = string.Empty, className = string.Empty, tickTag = string.Empty;
+            List<BDP2100GoalDetailTemp> _details = new List<BDP2100GoalDetailTemp>();
+            List<CcModBDP2100GoalDetail> sdgd = new List<CcModBDP2100GoalDetail>();
+
+            try
+            {
+                _details = (from d in _db.LookUpCcModDeltPlan2100Goal
+                            select new BDP2100GoalDetailTemp
+                            {
+                                DeltPlan2100GoalId = d.DeltPlan2100GoalId,
+                                ProjectId = 0,
+                                DeltPlan2100Goal = d.DeltPlan2100Goal,
+                                DeltPlan2100GoalBn = d.DeltPlan2100GoalBn,
+                                DeltPlan2100GoaDocLink = d.DeltPlan2100GoaDocLink,
+                                IsSelected = false
+                            }).OrderBy(o => o.DeltPlan2100GoalId).ToList();
+
+                if (_details.Count > 0)
+                {
+                    sdgd = _db.CcModBDP2100GoalDetail.Where(w => w.ProjectId == project_id).ToList();
+                    foreach (var item in _details.Where(m => sdgd.Any(a => a.DeltPlan2100GoalId == m.DeltPlan2100GoalId)))
+                    {
+                        item.IsSelected = true;
+                        item.ProjectId = project_id;
+                    }
+
+                    _details.OrderBy(o => o.DeltPlan2100GoalId).ToList();
+
+                    string title = language == 1 ? "বাংলাদেশ ডেল্টা পরিকল্পনা 2100 লক্ষ্য" : "Bangladesh Delta Plan 2100 Goal";
+                    html = "<tr style='background: #9d9b9b; font-weight: bold;'><td colspan='3'>" + title + "</td></tr>";
+
+                    bool isNewLine = false;
+                    foreach (BDP2100GoalDetailTemp bdpg in _details)
+                    {
+                        isNewLine = false;
+                        className = bdpg.IsSelected ? "bg-dark text-white" : "";
+                        tickTag = bdpg.IsSelected ? "<span>✔</span>" : "";
+
+                        if (i == 1)
+                        {
+                            html += "<tr>";
+                        }
+
+                        if (language == 1)
+                        {
+                            html += "<td title='" + bdpg.DeltPlan2100GoalBn + "' class='" + className + "'>" + tickTag + " " + bdpg.DeltPlan2100GoalBn + "</td>";
+                        }
+                        else
+                        {
+                            html += "<td title='" + bdpg.DeltPlan2100Goal + "' class='" + className + "'>" + tickTag + " " + bdpg.DeltPlan2100Goal + "</td>";
+                        }
+
+                        if (i == 3)
+                        {
+                            html += "</tr>";
+                            i = 1;
+                            isNewLine = true;
+                        }
+
+                        if (!isNewLine)
+                            i++;
+                    }
+                }
+                else
+                {
+                    html = "<tr><td colspan='3'>no data found!</td></tr>";
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+                html = "<tr><td colspan='3'>" + message + "</td></tr>";
+            }
+
+            return html;
+        }
+
+        private string GetGPWMGroupTypeDetail(long project_id, int language)
+        {
+            int i = 1;
+            string html = string.Empty, className = string.Empty, tickTag = string.Empty;
+            List<GPWMGroupTypeTemp> _details = new List<GPWMGroupTypeTemp>();
+            List<CcModGPWMGroupTypeDetail> sdgd = new List<CcModGPWMGroupTypeDetail>();
+
+            try
+            {
+                _details = (from d in _db.LookUpCcModGPWMGroupType
+                            select new GPWMGroupTypeTemp
+                            {
+                                GPWMGroupTypeId = d.GPWMGroupTypeId,
+                                ProjectId = 0,
+                                GPWMGroupTypeName = d.GPWMGroupTypeName,
+                                GPWMGroupTypeNameBn = d.GPWMGroupTypeNameBn,
+                                IsSelected = false
+                            }).OrderBy(o => o.GPWMGroupTypeId).ToList();
+
+                if (_details.Count > 0)
+                {
+                    sdgd = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == project_id).ToList();
+                    foreach (var item in _details.Where(m => sdgd.Any(a => a.GPWMGroupTypeId == m.GPWMGroupTypeId)))
+                    {
+                        item.IsSelected = true;
+                        item.ProjectId = project_id;
+                    }
+
+                    _details.OrderBy(o => o.GPWMGroupTypeId).ToList();
+
+                    string title = language == 1 ? "জিপিডব্লিউএম গ্রুপ" : "GPWM Group";
+                    html = "<tr style='background: #9d9b9b; font-weight: bold;'><td colspan='5'>" + title + "</td></tr>";
+
+                    bool isNewLine = false;
+                    foreach (GPWMGroupTypeTemp bdpg in _details)
+                    {
+                        isNewLine = false;
+                        className = bdpg.IsSelected ? "bg-dark text-white" : "";
+                        tickTag = bdpg.IsSelected ? "<span>✔</span>" : "";
+
+                        if (i == 1)
+                        {
+                            html += "<tr>";
+                        }
+
+                        if (language == 1)
+                        {
+                            html += "<td title='" + bdpg.GPWMGroupTypeNameBn + "' class='" + className + "'>" + tickTag + " " + bdpg.GPWMGroupTypeNameBn + "</td>";
+                        }
+                        else
+                        {
+                            html += "<td title='" + bdpg.GPWMGroupTypeName + "' class='" + className + "'>" + tickTag + " " + bdpg.GPWMGroupTypeName + "</td>";
+                        }
+
+                        if (i == 5)
+                        {
+                            html += "</tr>";
+                            i = 1;
+                            isNewLine = true;
+                        }
+
+                        if (!isNewLine)
+                            i++;
+                    }
+                }
+                else
+                {
+                    html = "<tr><td colspan='5'>no data found!</td></tr>";
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+                html = "<tr><td colspan='5'>" + message + "</td></tr>";
             }
 
             return html;
@@ -3999,6 +4389,44 @@ namespace WrpCcNocWeb.Controllers
                             }).ToList();
 
             return Json(comments);
+        }
+
+        public List<DataAnalysisControlComments> GetFormDataAnalysisComments(int project_type_id, long project_id)
+        {
+            List<DataAnalysisControlComments> result = new List<DataAnalysisControlComments>();
+
+            var comments = (from d in _db.CcModAppProjDataAnalysis
+                            join u in _db.AdminModUsersDetail on d.UserId equals u.UserId into uList
+                            from user in uList.DefaultIfEmpty()
+                            join a in _db.AdminModUserGrpDistDetail on user.UserId equals a.UserId into aList
+                            from ugd in aList.DefaultIfEmpty()
+                            join ug in _db.LookUpAdminModUserGroup on ugd.UserGroupId equals ug.UserGroupId into ugList
+                            from ugl in ugList.DefaultIfEmpty()
+
+                            where d.ProjectTypeId == project_type_id &&
+                                  d.ProjectId == project_id
+
+                            select new FormCommentsListTemp
+                            {
+                                AppProjDataAnalysisId = d.AppProjDataAnalysisId,
+                                UserId = d.UserId,
+                                LabelNameOfControl = d.LabelNameOfControl,
+                                UserComments = d.Comments,
+                                UserName = String.Format("{0}, {1}", user.UserFullName, ugl.UserGroupName),
+                                DateOfAnalysis = (d.DateOfAnalysis.HasValue) ? d.DateOfAnalysis.Value.ToString("dd MMM, yyyy hh:mm:ss tt") : ""
+                            }).ToList();
+
+            if (comments.Count > 0)
+            {
+                result = comments.GroupBy(g => g.LabelNameOfControl)
+                        .Select(s => new DataAnalysisControlComments
+                        {
+                            ControlTitle = s.Key,
+                            Comments = string.Join("<br /><hr />", s.Select(ss => ss.UserComments + "<br />--" + ss.UserName + "<br />" + ss.DateOfAnalysis))
+                        }).ToList();
+            }
+
+            return result;
         }
         #endregion
 

@@ -92,6 +92,6 @@ namespace WrpCcNocWeb.Helpers
         {
             string result = DateTime.Now.ToString("yyMMdd") + projectId.PadLeft(len, '0');
             return result;
-        }
+        }        
     }
 }

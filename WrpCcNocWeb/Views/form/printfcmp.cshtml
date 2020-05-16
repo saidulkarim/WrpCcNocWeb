@@ -1,15 +1,16 @@
-﻿@using WrpCcNocWeb.Helpers
+﻿@using WrpCcNocWeb.DatabaseContext
+@using WrpCcNocWeb.Helpers
 
 @{
     Layout = "~/Views/Shared/_ReportLayout.cshtml";
+
+    WrpCcNocDbContext _db = new WrpCcNocDbContext();
     CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["ProjectCommonDetail"];
     CcModAppProject_31_IndvDetail project31indev = (CcModAppProject_31_IndvDetail)ViewData["ProjectIndvDetail31"];
 
-    //List<CcModPrjLocationDetail> location = (CcModPrjLocationDetail)ViewData["ProjectLocationDetail"];
-
     var location = ViewData["ProjectLocationDetail"];
     var prev_lang = ViewData["LanguageId"].ToString();
-    //var hrd = ViewData["HydroRegionDetail"];
+    var hrd = ViewData["HydroRegionDetail"];
     var hsd = ViewData["BDP2100HotSpotDetail"];
     var hydrosys = ViewData["HydroSystemDetail"];
     var tofd = ViewData["TypesOfFloodDetail"];
@@ -27,6 +28,8 @@
     var sdgid = ViewData["CompatSDGIndiDetail"];
     var bdp2100gd = ViewData["BDP2100GoalDetail"];
     var gpwmgtd = ViewData["GPWMGroupType"];
+
+    List<DataAnalysisControlComments> fdac = (List<DataAnalysisControlComments>)ViewData["FormCommentsListTemp"];
 
     long ProjectId = (long)ViewData["ProjectId"];
     long Project31IndvId = (long)ViewData["Project31IndvId"];
@@ -149,8 +152,8 @@
 
                     <br />
 
-                    <table style="border: 1px solid #808080;" border="1" cellpadding="0" cellspacing="0">
-                        <tr>
+                    <table style="border: 1px solid #808080;" border="1" cellpadding="1" cellspacing="0">
+                        <tr style="background: #9d9b9b; font-weight: bold;">
                             <td colspan="3">
                                 <h4>
                                     @if (prev_lang == "1")
@@ -170,10 +173,9 @@
                                     {<span>i. Project Name</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">@pcd.ProjectName</td>
-                            <td style="word-wrap: break-word;">
-                                1. General Information. General Information. General Information. General Information<br />
-                                2. General Information. General Information. General Information. General Information<br />
+                            <td style="width: 500px; max-width: 500px; word-wrap: break-word;">@pcd.ProjectName</td>
+                            <td style="width: 600px !important; word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectName").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -187,9 +189,8 @@
                                 </b>
                             </td>
                             <td style="width: 500px; word-wrap: break-word;">@pcd.BackgroundAndRationale</td>
-                            <td style="word-wrap: break-word;">
-                                1. General Information. General Information. General Information. General Information<br />
-                                2. General Information. General Information. General Information. General Information<br />
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "BackgroundAndRationale").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
                         <tr style="vertical-align: top; text-align: left;">
@@ -202,8 +203,8 @@
                                 </b>
                             </td>
                             <td style="width: 500px; word-wrap: break-word;">@pcd.ProjectTarget</td>
-                            <td style="word-wrap: break-word;">
-                                control_comments
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectTarget").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -217,8 +218,8 @@
                                 </b>
                             </td>
                             <td style="width: 500px; word-wrap: break-word;">@pcd.ProjectObjective</td>
-                            <td style="word-wrap: break-word;">
-                                control_comments
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectObjective").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
                         <tr style="vertical-align: top; text-align: left;">
@@ -236,8 +237,8 @@
                             else
                             {<span>@pcd.ProjectEstimatedCost</span>}
                             </td>
-                            <td style="word-wrap: break-word;">
-                                control_comments
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectEstimatedCost").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
                         <tr style="vertical-align: top; text-align: left;">
@@ -270,8 +271,8 @@
                                     <span>Completion Time: @pcd.ProjectCompletionDate.Value.ToString("dd MMMM, yyyy")</span>
                                 }
                             </td>
-                            <td style="word-wrap: break-word;">
-                                control_comments
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectPeriod").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
                         <tr style="vertical-align: top; text-align: left;">
@@ -358,17 +359,16 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="3">
-                                control_comments
+                            <td colspan="3" style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectLocation").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
-                        <tr style="border-left: none; border-right: none;">
+                        <tr style="border-left: none !important; border-right: none !important;">
                             <td colspan="3">
-                                intentionally blank
                             </td>
                         </tr>
 
-                        <tr>
+                        <tr style="background: #9d9b9b; font-weight: bold;">
                             <td colspan="3">
                                 <h4>
                                     @if (prev_lang == "1")
@@ -389,12 +389,1438 @@
                                 </h5>
                             </td>
                         </tr>
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. হাইড্রোলজিক্যাল অঞ্চল</span>}
+                                    else
+                                    {<span>i. Hydrological Region</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                                    <tbody>@Html.Raw(hrd.ToString())</tbody>
+                                </table>
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "HydrologicalRegion").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>ii. বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০ হট স্পট</span>}
+                                    else
+                                    {<span>ii. Bangladesh Delta Plan 2100 Hot Spot</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <ol>
+                                    @foreach (var bdphsd in (List<BDP2100HotSpotDetailTemp>)ViewData["BDP2100HotSpotDetail"])
+                                    {
+                                        if (prev_lang == "1")
+                                        {
+                                            <li>@bdphsd.PlanNameBn</li>
+                                        }
+                                        else
+                                        {
+                                            <li>@bdphsd.PlanName</li>
+                                        }
+                                    }
+                                </ol>
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "BDP2100HotSpot").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>iii. হাইড্রোলজিক্যাল সিস্টেম</span>}
+                                    else
+                                    {<span>iii. Hydrological System </span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>হাইড্রোলজিক্যাল সিস্টেম</span>}
+                                                else
+                                                {<span>Hydrological System</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>নাম</span>}
+                                                else
+                                                {<span>Name</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>দৈর্ঘ্য/ অঞ্চল</span>}
+                                                else
+                                                {<span>Length/ Area</span>}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyHydrologicalSystemPreview">
+                                        @foreach (HydroSystemDetailTemp hsdt in (List<HydroSystemDetailTemp>)hydrosys)
+                                        {
+                                            if (prev_lang == "1")
+                                            {
+                                                <tr>
+                                                    <td>@hsdt.HydroSystemCategoryBn</td>
+                                                    <td>@hsdt.NameOfHydroSystem</td>
+                                                    <td>@hsdt.HydroSystemLengthArea.NumberEnglishToBengali() @hsdt.HydroSystemUnitBn</td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td>@hsdt.HydroSystemCategory</td>
+                                                    <td>@hsdt.NameOfHydroSystem</td>
+                                                    <td>@hsdt.HydroSystemLengthArea @hsdt.HydroSystemUnit</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "HydrologicalSystem").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>iv. খাল, নদী এবং জলাভূমির মধ্যে সংযোগ</span>}
+                                    else
+                                    {<span>iv. Connectivity amid khals, river and wetland</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@project31indev.ConnectivityAmidWaterland</td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ConnectivityAmidWaterland").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>v. ক্যাচমেন্ট এলাকা (অববাহিকা) (হেক্টর)</span>}
+                                    else
+                                    {<span>v. Catchment Area (ha)</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@project31indev.CatchmentArea</td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CatchmentArea").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>vi. বার্ষিক বৃষ্টিপাত (বিগত পাঁচ বছর) (মি.মি.)</span>}
+                                    else
+                                    {<span>vi. Annual Rainfall (last five years) </span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th class="text-center">
+                                            @{
+                                                int year1 = DateTime.Now.Year - 1;
+                                                <span>@year1</span>
+                                            }
+                                        </th>
+                                        <th class="text-center">
+                                            @{
+                                                int year2 = DateTime.Now.Year - 2;
+                                                <span>@year2</span>
+                                            }
+                                        </th>
+                                        <th class="text-center">
+                                            @{
+                                                int year3 = DateTime.Now.Year - 3;
+                                                <span>@year3</span>
+                                            }
+                                        </th>
+                                        <th class="text-center">
+                                            @{
+                                                int year4 = DateTime.Now.Year - 4;
+                                                <span>@year4</span>
+                                            }
+                                        </th>
+                                        <th class="text-center">
+                                            @{
+                                                int year5 = DateTime.Now.Year - 5;
+                                                <span>@year5</span>
+                                            }
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td id="pAnnualRainFallLast1Year">@pcd.AnnualRainFallLast1Year</td>
+                                        <td id="pAnnualRainFallLast2Years">@pcd.AnnualRainFallLast2Years</td>
+                                        <td id="pAnnualRainFallLast3Years">@pcd.AnnualRainFallLast3Years</td>
+                                        <td id="pAnnualRainFallLast4Years">@pcd.AnnualRainFallLast4Years</td>
+                                        <td id="pAnnualRainFallLast5Years">@pcd.AnnualRainFallLast5Years</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "AnnualRainfallLastFiveYears").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>vii. সর্বোচ্চ বন্যা সমতল (ফ্লাড লেভেল) (মিটার, পিডব্লিউডি)</span>}
+                                    else
+                                    {<span>vii. Highest Flood Level (m PWD)</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@project31indev.HighestFloodLevel</td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "HighestFloodLevel").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>viii. সর্বোচ্চ  পানির প্রবাহ (ডিসচার্জ) (কিউসেক)</span>}
+                                    else
+                                    {<span>viii. Maximum Discharge (m<sup>3</sup>/s)</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@project31indev.MaximumDischarge</td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "MaximumDischarge").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>ix. বন্যার ধরণ</span>}
+                                    else
+                                    {<span>ix. Types of Flood</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <ol>
+                                    @{
+                                        foreach (TypesOfFloodTemp tof in (List<TypesOfFloodTemp>)tofd)
+                                        {
+                                            if (prev_lang == "1")
+                                            {
+                                                <li>@tof.FloodTypeNameBn</li>
+                                            }
+                                            else
+                                            {
+                                                <li>@tof.FloodTypeName</li>
+                                            }
+                                        }
+                                    }
+                                </ol>
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "TypesOfFlood").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>x. ফ্লাড ফ্রিকোয়েন্সি এনালাইসিস (মিটার, পিডব্লিউডি)</span>}
+                                    else
+                                    {<span>x. Flood Frequency Analysis (Maximum water level in m, PWD)</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">
+                                                @if (prev_lang == "1")
+                                                {<span>ফ্লাড ফ্রিকোয়েন্সি</span>}
+                                                else
+                                                {<span>Flood Frequency</span>}
+                                            </th>
+                                            <th class="text-center">
+                                                @if (prev_lang == "1")
+                                                {<span>ফ্রিকোয়েন্সি</span>}
+                                                else
+                                                {<span>Frequency</span>}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyFloodFrequencyPreview">
+                                        @{
+                                            foreach (FloodFrequencyDetailTemp ffdt in (List<FloodFrequencyDetailTemp>)ffd)
+                                            {
+                                                if (prev_lang == "1")
+                                                {
+                                                    <tr>
+                                                        <td>@ffdt.FloodFrequencyBn</td>
+                                                        <td>@ffdt.FloodFrequencyLevel.NumberEnglishToBengali()</td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td>@ffdt.FloodFrequency</td>
+                                                        <td>@ffdt.FloodFrequencyLevel</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "FloodFrequencyAnalysis").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xi. নিষ্কাশন (ড্রেইনেজ) ব্যবস্থা</span>}
+                                    else
+                                    {<span>xi. Drainage Condition</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                @{
+                                    var eng = project31indev.DrainageConditionId == 1 ? "Good" : project31indev.DrainageConditionId == 2 ? "Moderate" : project31indev.DrainageConditionId == 3 ? "Poor" : "Others";
+                                    var ban = project31indev.DrainageConditionId == 1 ? "ভাল" : project31indev.DrainageConditionId == 2 ? "মধ্যপন্থী" : project31indev.DrainageConditionId == 3 ? "দরিদ্র" : "অন্যান্য";
+
+                                    if (prev_lang == "1")
+                                    {
+                                        <span>@ban</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@eng</span>
+                                    }
+                                }
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DrainageCondition").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xii. ভূপরিস্থ পানির গুনগত মান</span>}
+                                    else
+                                    {<span>xii. Surface Water Quality</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>লবনাক্ততা (পিপিএম)</span>}
+                                            else
+                                            {<span>Salinity (PPM)</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>ডিও (মি.গ্রা/লিটার)</span>}
+                                            else
+                                            {<span>DO (mg/l)</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>টি.ডি.এস</span>}
+                                            else
+                                            {<span>TDS</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>পিএইচ</span>}
+                                            else
+                                            {<span>pH</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td id="pWaterSalinity">@project31indev.WaterSalinity</td>
+                                        <td id="pWaterDO">@project31indev.WaterDO</td>
+                                        <td id="pWaterTDS">@project31indev.WaterTDS</td>
+                                        <td id="pWaterPhLevel">@project31indev.WaterPhLevel</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "SurfaceWaterQuality").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xiii. ভূমির ধরন (শতকরা)</span>}
+                                    else
+                                    {<span>xiii. Land Type (Percent)</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>উচুঁ ভূমি <br />F<sub>0</sub> (০-৩০ সে.মি.)</span>}
+                                            else
+                                            {<span>High Land <br />F<sub>0</sub> (0-30 cm)</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>মধ্যম উচুঁ ভূমি <br />F<sub>1</sub> (৩০-৯০ সে.মি.)</span>}
+                                            else
+                                            {<span>Medium High Land <br />F<sub>1</sub> (30-90 cm)</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>মধ্যম নিচু ভূমি <br />F<sub>2</sub> (৯০-১৮০ সে.মি)</span>}
+                                            else
+                                            {<span>Medium Low Land <br />F<sub>2</sub> (90-180 cm)</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>নিচু ভূমি <br />F<sub>3</sub> (>১৮০-৩৬০ সে.মি.)</span>}
+                                            else
+                                            {<span>Low Land <br />F<sub>3</sub> (>180-360 cm</span>})
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>অত্যন্ত নিচু জমি <br />F<sub>4</sub> (>৩৬০ সে.মি)</span>}
+                                            else
+                                            {<span>Very Low Land <br />F<sub>4</sub> (>360 cm)</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@project31indev.HighLandPercent</td>
+                                        <td class="text-center">@project31indev.MediumHighLandPercent</td>
+                                        <td class="text-center">@project31indev.MediumLowLandPercent</td>
+                                        <td class="text-center">@project31indev.LowLandPercent</td>
+                                        <td class="text-center">@project31indev.VeryLowLandPercent</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "LandTypePercent").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xiv. উৎপাদিত শস্য</span>}
+                                    else
+                                    {<span>xiv. Cultivable Crops</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@project31indev.CultivableCrops</td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CultivableCrops").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xv. চাষাবাদকৃত খাদ্যশস্য এলাকা (হেক্টর)</span>}
+                                    else
+                                    {<span>xv. Irrigated Crop Area (ha)</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>ফসলের নাম</span>}
+                                                else
+                                                {<span>Crops Name</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>এলাকা</span>}
+                                                else
+                                                {<span>Area</span>}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyIrrigatedCropAreaPreview">
+                                        @{
+                                            foreach (IrrigCropAreaDetailTemp icadt in (List<IrrigCropAreaDetailTemp>)icad)
+                                            {
+                                                if (prev_lang == "1")
+                                                {
+                                                    <tr>
+                                                        <td>@icadt.CropName</td>
+                                                        <td>@icadt.Area.NumberEnglishToBengali()</td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td>@icadt.CropName</td>
+                                                        <td>@icadt.Area</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "IrrigatedCropAreaHa").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xvi. ফসল/ খাদ্যশস্য উৎপাদনের পরিমান (টন)</span>}
+                                    else
+                                    {<span>xvi. Crop Production (Ton)</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@project31indev.CropProduction</td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CropProduction").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xvii. মাছ উৎপাদন, বৈচিত্র্য এবং অভিবাসন</span>}
+                                    else
+                                    {<span>xvii. Fish Production, Diversity and Migration</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>উৎপাদন</span>}
+                                            else
+                                            {<span>Production</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>বৈচিত্র্য</span>}
+                                            else
+                                            {<span>Diversity</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>মাইগ্রেশন</span>}
+                                            else
+                                            {<span>Migration</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@project31indev.FishProduction</td>
+                                        <td class="text-center">@project31indev.FishDiversity</td>
+                                        <td class="text-center">@project31indev.FishMigration</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "FishProductionDiversityMigration").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xviii. প্রকল্প এলাকায় বিদ্যমান গাছপালা ও পশুপাখি</span>}
+                                    else
+                                    {<span>xviii. Flora and Fauna</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@project31indev.FloraAndFauna</td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "FloraAndFauna").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xix. আর্থ সামাজিক অবস্থা</span>}
+                                    else
+                                    {<span>xix. Socio Economic Condition</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>ল্যান্ড হীন মানুষ (%)</span>}
+                                            else
+                                            {<span>% of land less people</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>ক্ষুদ্র কৃষক (%)</span>}
+                                            else
+                                            {<span>% of small farmer</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>গড় মাসিক আয়</span>}
+                                            else
+                                            {<span>Average monthly income</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@project31indev.LandLessPeoplePercentage</td>
+                                        <td class="text-center">@project31indev.SmallFarmerPercentage</td>
+                                        <td class="text-center">@project31indev.AvgMonthlyIncome</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "SocioEconomicCondition").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h5>
+                                    @if (prev_lang == "1")
+                                    {<span>২.২ ইস্যু, চ্যালেঞ্জ সমূহ বা সমস্যা</span>}
+                                    else
+                                    {<span>2.2 Issue, Challenge or Problem</span>}
+                                </h5>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. ইস্যু, চ্যালেঞ্জ বা সমস্যার বিবরণ</span>}
+                                    else
+                                    {<span>i. Issue, Challenge or Problem Details</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">@pcd.IssueChallageProblem</td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "IssueChallageProblem").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h5>
+                                    @if (prev_lang == "1")
+                                    {<span>৩. প্রকল্প প্রণয়ন পর্যায়ে স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
+                                    else
+                                    {<span>3. Discussion with stakeholders during starting of the project</span>}
+                                </h5>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. প্রকল্প প্রণয়ন পর্যায়ে আলাপ-আলোচনা</span>}
+                                    else
+                                    {<span>i. Discussion at the Project Preparation Stage</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th width="10%">
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th width="10%">
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th width="40%">
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th width="40%">
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            string yesTickMark = string.Empty, noTickMark = string.Empty;
+
+                                            if (pcd.YesNoStakeId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td class="text-center">@yesTickMark</td>
+                                            <td class="text-center">@noTickMark</td>
+                                            <td>@pcd.DiscussWithStakeApplicantCmt</td>
+                                            <td>@pcd.DiscussWithStakeAuthorityCmt</td>
+                                        }
+                                    </tr>
+                                </table>
+                                @if (pcd.YesNoStakeId == 1)
+                                {
+                                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                        <tr>
+                                            <th width="30%">
+                                                @if (prev_lang == "1")
+                                                {<span>ইতিবাচক প্রতিক্রিয়া</span>}
+                                                else
+                                                {<span>Positive Feedback</span>}
+                                            </th>
+                                            <th width="30%">
+                                                @if (prev_lang == "1")
+                                                {<span>নেতিবাচক প্রতিক্রিয়া</span>}
+                                                else
+                                                {<span>Negative Feedback</span>}
+                                            </th>
+                                            <th style="width: 20%; word-wrap: break-word;">
+                                                @if (prev_lang == "1")
+                                                {<span>অংশগ্রহণকারীদের তালিকা</span>}
+                                                else
+                                                {<span>Participant List</span>}
+                                            </th>
+                                            <th style="width: 20%; word-wrap: break-word;">
+                                                @if (prev_lang == "1")
+                                                {<span>মিটিং মিনিট</span>}
+                                                else
+                                                {<span>Meeting Minutes</span>}
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>@pcd.DiscussWithStakePosFeedback</td>
+                                            <td>@pcd.DiscussWithStakeNegFeedback</td>
+                                            <td style="word-wrap: break-word;"><a href="~/images/CommonDetails/@pcd.DiscussWithStakeParticipntLst" target="_blank">@pcd.DiscussWithStakeParticipntLst</a></td>
+                                            <td style="word-wrap: break-word;"><a href="~/images/CommonDetails/@pcd.DiscussWithStakeMeetingMin" target="_blank">@pcd.DiscussWithStakeMeetingMin</a></td>
+                                        </tr>
+                                    </table>
+                                }
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DiscussionWithstakeholders").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h5>
+                                    @if (prev_lang == "1")
+                                    {<span>৪. উদ্দেশ্য পূরনের অপশনসমূহ বিশ্লেষণ</span>}
+                                    else
+                                    {<span>4. Analyze Options to fulfill objective</span>}
+                                </h5>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. বিকল্পগুলি বিশ্লেষণ করুন</span>}
+                                    else
+                                    {<span>i. Analyze Options</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th width="10%">
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th width="10%">
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th width="40%">
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th width="40%">
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (pcd.AnalyzeOptYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td class="text-center">@yesTickMark</td>
+                                            <td class="text-center">@noTickMark</td>
+                                            <td>@pcd.AnalyzeOptionsApplicantCmt</td>
+                                            <td>@pcd.AnalyzeOptionsAuthorityCmt</td>
+                                        }
+                                    </tr>
+                                </table>
+                                @if (pcd.AnalyzeOptYesNoId == 1)
+                                {
+                                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    @if (prev_lang == "1")
+                                                    {<span>বিকল্প</span>}
+                                                    else
+                                                    {<span>Options</span>}
+                                                </th>
+                                                <th>
+                                                    @if (prev_lang == "1")
+                                                    {<span>বিবরণ</span>}
+                                                    else
+                                                    {<span>Description</span>}
+                                                </th>
+                                                <th>
+                                                    @if (prev_lang == "1")
+                                                    {<span>মন্তব্য</span>}
+                                                    else
+                                                    {<span>Remarks</span>}
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbodyAnalyzeOptFulfillObjPreview">
+                                            @{
+                                                foreach (AnalyzeOptionsDetailTemp aod in (List<AnalyzeOptionsDetailTemp>)aodt)
+                                                {
+                                                    if (string.IsNullOrEmpty(aod.Error))
+                                                    {
+                                                        <tr>
+                                                            <td>@aod.OptionNumber</td>
+                                                            <td>@aod.AnalyzeDescription</td>
+                                                            <td>@aod.AnalyzeRemarks</td>
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="3">@aod.Error</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "AnalyzeOptionsFulfillObjective").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h5>
+                                    @if (prev_lang == "1")
+                                    {<span>৫. প্রকল্প নথির সাথে ডিজাইন জমা দেওয়া</span>}
+                                    else
+                                    {<span>5. Design submitted with project document</span>}
+                                </h5>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. নথি জমা দেওয়া</span>}
+                                    else
+                                    {<span>i. Design Submition</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">
+                                                @if (prev_lang == "1")
+                                                {<span>প্যারামিটার</span>}
+                                                else
+                                                {<span>Parameters</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>হ্যাঁ</span>}
+                                                else
+                                                {<span>Yes</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>না</span>}
+                                                else
+                                                {<span>No</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>আবেদনকারীর মন্তব্য</span>}
+                                                else
+                                                {<span>Applicant Comments</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                                else
+                                                {<span>Authority Comments</span>}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyDesignSubProjDocPreview">
+                                        @{
+                                            foreach (DesignSubmitDetailTemp dsdt in (List<DesignSubmitDetailTemp>)dsd)
+                                            {
+                                                yesTickMark = string.Empty;
+                                                noTickMark = string.Empty;
+
+                                                if (dsdt.dswpdYN == 1)
+                                                {
+                                                    yesTickMark = "✔";
+                                                    noTickMark = "";
+                                                }
+                                                else
+                                                {
+                                                    yesTickMark = "";
+                                                    noTickMark = "✔";
+                                                }
+
+                                                if (string.IsNullOrEmpty(dsdt.Error))
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @if (prev_lang == "1")
+                                                            {
+                                                                <span>@dsdt.ParameterNameBn</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>@dsdt.ParameterNameBn</span>
+                                                            }
+                                                        </td>
+                                                        <td class="text-center">@yesTickMark</td>
+                                                        <td class="text-center">@noTickMark</td>
+                                                        <td>@dsdt.DesignSubmitApplicantCmt</td>
+                                                        <td>@dsdt.DesignSubmitAuthorityCmt</td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="5">@dsdt.Error</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DesignSubmittedWithProjectDocument").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h5>
+                                    @if (prev_lang == "1")
+                                    {<span>৬. পরিবেশগত  ও সামাজিক প্রভাব</span>}
+                                    else
+                                    {<span>6. Environmental and Social Impact Assessment</span>}
+                                </h5>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. প্রভাব মূল্যায়ন</span>}
+                                    else
+                                    {<span>i. Impact Assessment</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (pcd.EnvAndSocialYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td>@yesTickMark</td>
+                                            <td>@noTickMark</td>
+                                            <td>@pcd.EnvAndSocialApplicantCmt</td>
+                                            <td>@pcd.EnvAndSocialAuthorityCmt</td>
+                                        }
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "EnvironmentalAndSocialImpactAssessment").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        @if (pcd.EnvAndSocialYesNoId == 1)
+                        {
+                            <tr class="text-center">
+                                <td colspan="3">
+                                    <h5>
+                                        @if (prev_lang == "1")
+                                        {<span>(a) পরিবেশগত প্রভাব মূল্যায়ন</span>}
+                                        else
+                                        {<span>(a) Environmental Impact Assessment</span>}
+                                    </h5>
+                                </td>
+                            </tr>
+
+                            <tr class="text-center">
+                                <td colspan="3">
+                                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>প্যারামিটার</span>}
+                                                    else
+                                                    {<span>Parameters</span>}
+                                                </th>
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>প্রকল্প পূর্ববর্তী পরিস্থিতি</span>}
+                                                    else
+                                                    {<span>Pre Project Situation</span>}
+                                                </th>
+
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>প্রকল্প পরবর্তী পরিস্থিতি</span>}
+                                                    else
+                                                    {<span>Post Project Situation</span>}
+                                                </th>
+
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>ইতিবাচক/ নেতিবাচক প্রভাব</span>}
+                                                    else
+                                                    {<span>Positive/ Negative Impact</span>}
+                                                </th>
+
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>প্রশমন পরিকল্পনা</span>}
+                                                    else
+                                                    {<span>Mitigation Plan</span>}
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbodyEIADetailPreview">
+                                            @{
+                                                foreach (EiaDetailTemp eia in (List<EiaDetailTemp>)eiad)
+                                                {
+                                                    if (string.IsNullOrEmpty(eia.Error))
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @if (prev_lang == "1")
+                                                                {<span>@eia.ParameterNameBn</span>}
+                                                            else
+                                                            {<span>@eia.ParameterName</span>}
+                                                            </td>
+                                                            <td>@eia.PreProjectSituation</td>
+                                                            <td>@eia.PostProjectSituation</td>
+                                                            <td>@eia.PositiveNegativeImpact</td>
+                                                            <td>@eia.MitigationPlan</td>
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="5">@eia.Error</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="5">
+                                                    @Html.Raw(fdac.Where(w => w.ControlTitle == "EnvironmentalImpactAssessment").Select(s => s.Comments).FirstOrDefault())
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <tr class="text-center">
+                                <td colspan="3">
+                                    <h5>
+                                        @if (prev_lang == "1")
+                                        {<span>(b) সামাজিক প্রভাব মূল্যায়ন</span>}
+                                        else
+                                        {<span>(b) Social Impact Assessment</span>}
+                                    </h5>
+                                </td>
+                            </tr>
+
+                            <tr class="text-center">
+                                <td colspan="3">
+                                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                        <tbody>
+                                            <tr>
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>প্যারামিটার</span>}
+                                                    else
+                                                    {<span>Parameters</span>}
+                                                </th>
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>প্রকল্প পূর্ববর্তী পরিস্থিতি</span>}
+                                                    else
+                                                    {<span>Pre Project Situation</span>}
+                                                </th>
+
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>প্রকল্প পরবর্তী পরিস্থিতি</span>}
+                                                    else
+                                                    {<span>Post Project Situation</span>}
+                                                </th>
+
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>ইতিবাচক/ নেতিবাচক প্রভাব</span>}
+                                                    else
+                                                    {<span>Positive/ Negative Impact</span>}
+                                                </th>
+
+                                                <th class="text-center">
+                                                    @if (prev_lang == "1")
+                                                    {<span>প্রশমন পরিকল্পনা</span>}
+                                                    else
+                                                    {<span>Mitigation Plan</span>}
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                        <tbody id="tbodySIADetailPreview">
+                                            @{
+                                                foreach (SiaDetailTemp sia in (List<SiaDetailTemp>)siad)
+                                                {
+                                                    if (string.IsNullOrEmpty(sia.Error))
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @if (prev_lang == "1")
+                                                                {<span>@sia.SIAParameterNameBn</span>}
+                                                            else
+                                                            {<span>@sia.SIAParameterName</span>}
+                                                            </td>
+                                                            <td>@sia.PreProjectSituation</td>
+                                                            <td>@sia.PostProjectSituation</td>
+                                                            <td>@sia.PositiveNegativeImpact</td>
+                                                            <td>@sia.MitigationPlan</td>
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="5">@sia.Error</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="5">
+                                                    @Html.Raw(fdac.Where(w => w.ControlTitle == "SocialImpactAssessment").Select(s => s.Comments).FirstOrDefault())
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </td>
+                            </tr>
+                        }
 
                         <tr>
                             <td colspan="3">
                                 <h4>
                                     @if (prev_lang == "1")
-                                    {<span>3. দলিল প্রতিপালন</span>}
+                                    {<span>৭. প্রকল্পটি তৈরিতে উপযুক্ত ও পরীক্ষিত  বিশ্লেষণি প্রক্রিয়া, মুল্যায়ন পদ্ধতি, কৌশল ও টুলস্ ব্যবহার করা হয়েছে কিনা</span>}
+                                    else
+                                    {<span>7. Use of Appropriate tools, technics, analytical procedures etc</span>}
+                                </h4>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. প্রকল্পটি তৈরিতে উপযুক্ত ও পরীক্ষিত বিশ্লেষণ প্রক্রিয়া মুল্যায়ন পদ্ধতি</span>}
+                                    else
+                                    {<span>i. Use of Appropriate technics, analytical procedures</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (project31indev.UseOfToolsYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td>@yesTickMark</td>
+                                            <td>@noTickMark</td>
+                                            <td>@project31indev.ToolsApplicantComments</td>
+                                            <td>@project31indev.ToolsAuthorityComments</td>
+                                        }
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "UseOfAppropriateToolsTechnics").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h4>
+                                    @if (prev_lang == "1")
+                                    {<span>৮. অর্থনৈতিক এবং আর্থিক বিশ্লেষণ</span>}
+                                    else
+                                    {<span>8. Economical & Financial Analysis</span>}
+                                </h4>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td colspan="3">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">
+                                                @if (prev_lang == "1")
+                                                {<span>তালিকা</span>}
+                                                else
+                                                {<span>Item</span>}
+                                            </th>
+                                            <th class="text-center">
+                                                @if (prev_lang == "1")
+                                                {<span>একক</span>}
+                                                else
+                                                {<span>Unit</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>আবেদনকারীর মন্তব্য</span>}
+                                                else
+                                                {<span>Applicant Comments</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                                else
+                                                {<span>Authority Comments</span>}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyEcoFinAnaPreview">
+                                        @{
+                                            foreach (EcoFinAnalysisDetailTemp efa in (List<EcoFinAnalysisDetailTemp>)efad)
+                                            {
+                                                if (string.IsNullOrEmpty(efa.Error))
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @if (prev_lang == "1")
+                                                            {
+                                                                <span>@efa.EcoAndFinancialParamNameBn</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>@efa.EcoAndFinancialParamName</span>
+                                                            }
+                                                        </td>
+                                                        <td>@efa.EcoAndFinancialParamUnit</td>
+                                                        <td>@efa.EcoAndFinancialApplicantCmt</td>
+                                                        <td>@efa.EcoAndFinancialAuthorityCmt</td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="4">@efa.Error</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="word-break: break-all;" colspan="3">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "EconomicalFinancialAnalysis").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="background: #9d9b9b; font-weight: bold;">
+                            <td colspan="3">
+                                <h4>
+                                    @if (prev_lang == "1")
+                                    {<span>৩. দলিল প্রতিপালন</span>}
                                     else
                                     {<span>C. Deed Obligatory</span>}
                                 </h4>
@@ -447,8 +1873,8 @@
                                     </tr>
                                     <tr>
                                         @{
-                                            string yesTickMark = string.Empty;
-                                            string noTickMark = string.Empty;
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
 
                                             if (pcd.CompatNWPYesNoId == 1)
                                             {
@@ -473,15 +1899,1111 @@
                                 {
                                     <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                         <tbody>@Html.Raw(cnwpd.ToString())</tbody>
-                                    </table>                                    
+                                    </table>
                                 }
                             </td>
                             <td style="word-wrap: break-word;">
-                                control_comments
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "EconomicalFinancialAnalysis").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>ii. প্রকল্পটি জাতীয় পানি ব্যবস্থাপনা পরিকল্পনা (এনডব্লিউএমপি) এর সহিত সামঞ্জস্যপূর্ণ কিনা</span>}
+                                    else
+                                    {<span>ii. Compatibility with National Water Management Plan (NWMP)</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>নথি লিঙ্ক</span>}
+                                            else
+                                            {<span>Document Link</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (pcd.NWMPCompatYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td>@yesTickMark</td>
+                                            <td>@noTickMark</td>
+                                            <td>@pcd.NWMPApplicantCmt</td>
+                                            <td>@pcd.NWMPAuthorityCmt</td>
+                                            <td><a href="~/images/CommonDetails/@pcd.NWMPDocLink" target="_blank">@pcd.NWMPDocLink</a></td>
+                                        }
+                                    </tr>
+                                </table>
+                                @if (pcd.CompatNWPYesNoId == 1)
+                                {
+                                    <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                                        <tbody>@Html.Raw(cnwmpd.ToString())</tbody>
+                                    </table>
+                                }
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityNationalWaterManagementPlan").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>iii. প্রকল্পটি পানি সম্পদ ব্যবস্থাপনায় চলমান পঞ্চবার্ষিকী পরিকল্পনা এর সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                                    else
+                                    {<span>iii.	Compatibility with Current Fifth Year Plan (FYP)</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (pcd.FYPYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td>@yesTickMark</td>
+                                            <td>@noTickMark</td>
+                                            <td>@pcd.FYPApplicantCmt</td>
+                                            <td>@pcd.FYPAuthorityCmt</td>
+                                        }
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityCurrentFifthYearPlan").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>iv. প্রকল্পটি টেকসই উন্নয়ন লক্ষ্যমাত্রা (এসডিজি) এর সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                                    else
+                                    {<span>iv. Compatibility with Sustainable Development Goal (SDG)</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>নথি লিঙ্ক</span>}
+                                            else
+                                            {<span>Document Link</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (pcd.SDGYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td>@yesTickMark</td>
+                                            <td>@noTickMark</td>
+                                            <td>@pcd.SDGApplicantCmt</td>
+                                            <td>@pcd.SDGAuthorityCmt</td>
+                                            <td><a href="~/images/CommonDetails/@pcd.SDGDocLink" target="_blank">@pcd.SDGDocLink</a></td>
+                                        }
+                                    </tr>
+                                </table>
+                                @if (pcd.SDGYesNoId == 1)
+                                {
+                                    <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                                        <tbody>
+                                            @Html.Raw(sdgd.ToString())
+                                            @Html.Raw(sdgid.ToString())
+                                        </tbody>
+                                    </table>
+                                }
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilitySustainableDevelopmentGoal").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>v. প্রকল্পটি বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০ এর সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                                    else
+                                    {<span>v. Compatibility with Bangladesh Delta Plan 2100</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>নথি লিঙ্ক</span>}
+                                            else
+                                            {<span>Document Link</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (pcd.DeltaPlanYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td>@yesTickMark</td>
+                                            <td>@noTickMark</td>
+                                            <td>@pcd.DeltaPlan2100ApplicantCmt</td>
+                                            <td>@pcd.DeltaPlan2100AuthorityCmt</td>
+                                            <td><a href="~/images/CommonDetails/@pcd.DeltaPlan2100DocLink" target="_blank">@pcd.DeltaPlan2100DocLink</a></td>
+                                        }
+                                    </tr>
+                                </table>
+                                @if (pcd.DeltaPlanYesNoId == 1)
+                                {
+                                    <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                                        <tbody>@Html.Raw(bdp2100gd.ToString())</tbody>
+                                    </table>
+                                }
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityBangladeshDeltaPlan2100").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>vi. প্রকল্পটি উপকূলীয় অঞ্চল নীতির সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                                    else
+                                    {<span>vi. Compatibility with Coastal Zone Policy</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>নথি লিঙ্ক</span>}
+                                            else
+                                            {<span>Document Link</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (pcd.CostalZoneYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td>@yesTickMark</td>
+                                            <td>@noTickMark</td>
+                                            <td>@pcd.CostalZoneApplicantCmt</td>
+                                            <td>@pcd.CostalZoneAuthorityCmt</td>
+                                            <td><a href="~/images/CommonDetails/@pcd.CostalZoneDocLink" target="_blank">@pcd.CostalZoneDocLink</a></td>
+                                        }
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityCoastalZonePolicy").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>vii. কৃষি নীতিমালার সাথে সামঞ্জস্যতা</span>}
+                                    else
+                                    {<span>vii.	Compatibility with Agricultural Policy</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>নথি লিঙ্ক</span>}
+                                            else
+                                            {<span>Document Link</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (pcd.AgriculturalYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td>@yesTickMark</td>
+                                            <td>@noTickMark</td>
+                                            <td>@pcd.AgriApplicantCmt</td>
+                                            <td>@pcd.AgriAuthorityCmt</td>
+                                            <td><a href="~/images/CommonDetails/@pcd.AgriDocLink" target="_blank">@pcd.AgriDocLink</a></td>
+                                        }
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityAgriculturalPolicy").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>viii. মৎস্য নীতির সঙ্গে সামঞ্জস্য</span>}
+                                    else
+                                    {<span>viii. Compatibility with Fisheries Policy</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>নথি লিঙ্ক</span>}
+                                            else
+                                            {<span>Document Link</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (pcd.FisheriesYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td>@yesTickMark</td>
+                                            <td>@noTickMark</td>
+                                            <td>@pcd.FisheriesApplicantCmt</td>
+                                            <td>@pcd.FisheriesAuthorityCmt</td>
+                                            <td><a href="~/images/CommonDetails/@pcd.FisheriesDocLink" target="_blank">@pcd.FisheriesDocLink</a></td>
+                                        }
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityFisheriesPolicy").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>ix. ইন্টিগ্রেটেড ওয়াটার রিসোর্স ম্যানেজমেন্টের সাথে সামঞ্জস্যতা</span>}
+                                    else
+                                    {<span>ix. Compatibility with Integrated Water Resource Management (IWRM)</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (pcd.IWRMYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td>@yesTickMark</td>
+                                            <td>@noTickMark</td>
+                                            <td>@pcd.IWRMApplicantCmt</td>
+                                            <td>@pcd.IWRMAuthorityCmt</td>
+                                        }
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityIntegratedWaterResourceManagement").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>x. জিপিডব্লিউএম এর সাথে সামঞ্জস্যতা</span>}
+                                    else
+                                    {<span>x. Compatibility with GPWM</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (pcd.GPWMYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td>@yesTickMark</td>
+                                            <td>@noTickMark</td>
+                                            <td>@pcd.GPWMApplicantCmt</td>
+                                            <td>@pcd.GPWMAuthorityCmt</td>
+                                        }
+                                    </tr>
+                                </table>
+                                @if (pcd.GPWMYesNoId == 1)
+                                {
+                                    <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                                        <tbody>@Html.Raw(gpwmgtd.ToString())</tbody>
+                                    </table>
+                                }
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityGPWM").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xi. প্রকল্পটির সম্ভাব্যতা অধ্যয়ন</span>}
+                                    else
+                                    {<span>xi. Feasibility Study</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (pcd.FeasibilityYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td>@yesTickMark</td>
+                                            <td>@noTickMark</td>
+                                            <td>@pcd.FeasibilityApplicantCmt</td>
+                                            <td>@pcd.FeasibilityAuthorityCmt</td>
+                                        }
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "FeasibilityStudy").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xii. প্রকল্পটির সদৃশ</span>}
+                                    else
+                                    {<span>xii. Duplication of the Project</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (project31indev.DuplicatYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td>@yesTickMark</td>
+                                            <td>@noTickMark</td>
+                                            <td>@project31indev.DuplicationApplicantComments</td>
+                                            <td>@project31indev.DuplicationAuthorityComments</td>
+                                        }
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DuplicationOfTheProject").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xiii. প্রকল্পটি গুরুত্বপূর্ণ সামাজিক বিষয়াদি এবং নারী, শিশু, দরিদ্র ও অনগ্রসর  জনগোষ্ঠীর প্রতি বিশেষ গুরুত্ব দিয়ে প্রস্তুত করা হয়েছে কিনা</span>}
+                                    else
+                                    {<span>xiii. Project development by emphasizing on underprivileged people, child, women and important social issues</span>}
+                                </b>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 750px; word-wrap: break-word;" colspan="2">
+                                <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (pcd.SocialIssuesYesNoId == 1)
+                                            {
+                                                yesTickMark = "✔";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "✔";
+                                            }
+
+                                            <td>@yesTickMark</td>
+                                            <td>@noTickMark</td>
+                                            <td>@pcd.SocialIssuesApplicantCmt</td>
+                                            <td>@pcd.SocialIssuesAuthorityCmt</td>
+                                        }
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectDevelopmentEmphasizingPeople").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="background: #9d9b9b; font-weight: bold;">
+                            <td colspan="3">
+                                <h4>
+                                    @if (prev_lang == "1")
+                                    {<span>৪. প্রশাসনিক</span>}
+                                    else
+                                    {<span>D. Administrative</span>}
+                                </h4>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. অনাপত্তি পত্র</span>}
+                                    else
+                                    {<span>i. No Objection Certificate</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>NOC Type</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>অনাপত্তি কাগজপত্র সংযুক্তি</span>}
+                                            else
+                                            {<span>Attchments of NOC Document</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @if (pcd.NocTypeId != null)
+                                            {
+                                                LookUpCcModNocType nt = _db.LookUpCcModNocType.Where(w => w.NocTypeId == pcd.NocTypeId).FirstOrDefault();
+
+                                                if (prev_lang == "1")
+                                                {
+                                                    <span>@nt.NocTypeBn</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>@nt.NocType</span>
+                                                }
+                                            }
+                                        </td>
+                                        <td><a href="~/images/CommonDetails/@pcd.NocFileName" target="_blank">@pcd.NocFileName</a></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "Administrative").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>ii. টাকা প্রদান</span>}
+                                    else
+                                    {<span>ii. Payments</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>টাকা প্রদানের ধরণ</span>}
+                                            else
+                                            {<span>Payment Type</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>পেমেন্ট ডকুমেন্ট নম্বর</span>}
+                                            else
+                                            {<span>Payment Document Number</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>টাকার পরিমাণ</span>}
+                                            else
+                                            {<span>Paid Amount</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>টাকা প্রদানের সংযুক্তি</span>}
+                                            else
+                                            {<span>Payment Document File</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @if (pcd.PaymentMethodId != null)
+                                            {
+                                                LookUpCcModPaymentMethod pm = _db.LookUpCcModPaymentMethod.Where(w => w.PaymentMethodId == pcd.PaymentMethodId).FirstOrDefault();
+
+                                                if (prev_lang == "1")
+                                                {
+                                                    <span>@pm.PaymentMethodBn</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>@pm.PaymentMethod</span>
+                                                }
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (prev_lang == "1")
+                                            {
+                                                <span>@pcd.PaymentDocNumber.ToString().NumberEnglishToBengali()</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@pcd.PaymentDocNumber</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (prev_lang == "1")
+                                            {
+                                                <span>@pcd.PaidAmount.ToString().NumberEnglishToBengali()</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@pcd.PaidAmount</span>
+                                            }
+                                        </td>
+                                        <td><a href="~/images/CommonDetails/@pcd.PaymentDocFileName" target="_blank">@pcd.PaymentDocFileName</a></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "Administrative").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>iii. সুপারিশ</span>}
+                                    else
+                                    {<span>iii. Recommendation</span>}
+                                </b>
+                            </td>
+                            <td style="width: 500px; word-wrap: break-word;">
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>সুপারিশ</span>}
+                                            else
+                                            {<span>Recommendation</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>শর্ত</span>}
+                                            else
+                                            {<span>Condition</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @if (pcd.RecommendationId != null)
+                                            {
+                                                LookUpCcModRecommendation rec = _db.LookUpCcModRecommendation.Where(w => w.RecommendationId == pcd.RecommendationId).FirstOrDefault();
+
+                                                if (prev_lang == "1")
+                                                {
+                                                    <span>@rec.RecommendationTitleBn</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>@rec.RecommendationTitle</span>
+                                                }
+                                            }
+                                        </td>
+                                        <td>@pcd.RecommendationComment</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "Recommendation").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
                     </table>
+
+                    <br />
+                    <hr />
+
+                    <div class="row">
+                        <div class="col">
+                            <p>
+                                @if (prev_lang == "1")
+                                {<span>আমি নিশ্চিত ভাবে বলছি যে এই আবেদন এর সাথে সকল তথ্য এন্ড সংযুক্তি সঠিক এবং আমার জানামতে সর্বশেষ্ঠ।</span>}
+                                else
+                                {<span>I certify that the information and attachment provided with this application are correct to the best of my knowledge and belief. </span>}
+                            </p>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+                        <div class="col">
+                            <p>
+                                @if (prev_lang == "1")
+                                {<span>আবেদনকারীর স্বাক্ষর</span>}
+                                else
+                                {<span>Signature of Applicant</span>}
+                            </p>
+                            <br />
+                            <span>----------------------</span>
+                            @if (prev_lang == "1")
+                            {
+                                <span id="pApplicantName">@ViewData["ApplicantNameBn"].ToString()</span><br />
+                                <span id="pApplicantGroupName">@ViewData["ApplicantGroupName"].ToString()</span>
+                            }
+                            else
+                            {
+                                <span id="pApplicantName">@ViewData["ApplicantName"].ToString()</span><br />
+                                <span id="pApplicantGroupName">@ViewData["ApplicantGroupName"].ToString()</span>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -145,4 +145,80 @@ namespace WrpCcNocWeb.Models
         public bool IsSelected { get; set; }
         public string Error { get; set; }
     }
+
+    public class ProjectNWMPProgramTemp
+    {
+        public int NWMPProgrammeId { get; set; }
+        public long ProjectId { get; set; }
+        public string NWMPProgShortName { get; set; }
+        public string NWMPProgrammeTitle { get; set; }
+        public string NWMPLink { get; set; }
+
+        [DefaultValue(false)]
+        public bool IsSelected { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class ProjectSDGTemp
+    {
+        public int SDGGoalId { get; set; }
+        public long ProjectId { get; set; }
+        public string SDGGoalNumber { get; set; }
+        public string SDGGoalNumberBn { get; set; }
+        public string SDGDocLink { get; set; }
+
+        [DefaultValue(false)]
+        public bool IsSelected { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class ProjectSDGITemp
+    {
+        public int SDGIndicatorId { get; set; }
+        public long ProjectId { get; set; }
+        public string SDGIndicatorName { get; set; }
+        public string SDGIndicatorNameBn { get; set; }
+        public string SDGIndicatorDocLink { get; set; }
+
+        [DefaultValue(false)]
+        public bool IsSelected { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class BDP2100GoalDetailTemp
+    {
+        public int DeltPlan2100GoalId { get; set; }
+        public long ProjectId { get; set; }
+        public string DeltPlan2100Goal { get; set; }
+        public string DeltPlan2100GoalBn { get; set; }
+        public string DeltPlan2100GoaDocLink { get; set; }
+
+        [DefaultValue(false)]
+        public bool IsSelected { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class GPWMGroupTypeTemp
+    {
+        public int GPWMGroupTypeId { get; set; }
+        public long ProjectId { get; set; }
+        public string GPWMGroupTypeName { get; set; }
+        public string GPWMGroupTypeNameBn { get; set; }
+
+        [DefaultValue(false)]
+        public bool IsSelected { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class DataAnalysisControlHeaderGroup
+    {
+        public string ControlTitle { get; set; }
+        public string ControlId { get; set; }
+    }
+
+    public class DataAnalysisControlComments
+    {
+        public string ControlTitle { get; set; }
+        public string Comments { get; set; }
+    }
 }

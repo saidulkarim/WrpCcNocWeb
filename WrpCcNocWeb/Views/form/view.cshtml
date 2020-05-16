@@ -3283,7 +3283,7 @@
                 jQuery("#pulCwnwpPolicy").append('<li>' + item.nationalWtrPolicyShortTitle + ' (' + item.nationalWtrPolicyArticleTitle + ') </li>');
             });
 
-            if ('@Html.Raw(ViewBag.ProjectCommonDetail.CompatNWPYesNoId)' == '1') {
+            if ('@Html.Raw(ViewBag.ProjectCommonDetail.NWMPCompatYesNoId)' == '1') {
                 jQuery("#pcnwmpYes").text('✓');
                 jQuery("#pcnwmpNo").text('');
             } else {
