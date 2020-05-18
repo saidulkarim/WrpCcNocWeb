@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'AdorshoLipi';
+    src: url('../fonts/adorsholipi/AdorshoLipi.eot');
+    src: url('../fonts/adorsholipi/AdorshoLipi.woff') format('woff'), url('.../fonts/adorsholipi/AdorshoLipi.ttf') format('truetype'), url('../fonts/adorsholipi/AdorshoLipi.svg#AdorshoLipi') format('svg'), url('../fonts/adorsholipi/AdorshoLipi.eot?#iefix') format('embedded-opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Bangla';
+    src: url('../fonts/bangla/Bangla.eot');
+    src: url('../fonts/bangla/Bangla.woff') format('woff'), url('../fonts/bangla/Bangla.ttf') format('truetype'), url('../fonts/bangla/Bangla.svg#Bangla') format('svg'), url('../fonts/bangla/Bangla.eot?#iefix') format('embedded-opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SiyamRupali';
+    src: url('../fonts/siyamrupali/SiyamRupali.eot');
+    src: url('../fonts/siyamrupali/SiyamRupali.woff') format('woff'), url('../fonts/siyamrupali/SiyamRupali.ttf') format('truetype'), url('../fonts/siyamrupali/SiyamRupali.svg#SiyamRupali') format('svg'), url('../fonts/siyamrupali/SiyamRupali.eot?#iefix') format('embedded-opentype');
+    font-weight: normal;
+    font-style: normal;
+}

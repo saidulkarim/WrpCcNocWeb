@@ -18,6 +18,8 @@ using WrpCcNocWeb.DatabaseContext;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WrpCcNocWeb.ViewModels;
 using WrpCcNocWeb.Models.AdminModule;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Hosting;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -27,6 +29,14 @@ namespace WrpCcNocWeb.Controllers
         private readonly CommonHelper ch = new CommonHelper();
         private EmailService es = new EmailService();
         private string msg = string.Empty;
+        private Notification noti = new Notification();
+
+        private readonly IWebHostEnvironment hostingEnvironment;
+
+        public accountController(IWebHostEnvironment hostingEnvironment)
+        {
+            this.hostingEnvironment = hostingEnvironment;
+        }
 
         public IActionResult index()
         {
@@ -332,77 +342,228 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
-        //account/profile
+        //account/saveprofile
         [HttpPost]
-        public IActionResult profile(AdminModUsersDetail userDetail)
+        [Obsolete]
+        public JsonResult saveprofile(long UserRegistrationId, string UserFullName, string UserFullNameBn,
+            string UserFatherName, string UserDateOfBirth, string UserNID, string UserPassportNo,
+            string UserProfession, string UserDesignation, string UserAddress, string UserAddressBn,
+            string UserAlternateEmail, string UserAlternateMobile, int SecurityQuestionId, 
+            string SecurityQuestionAnswer, IFormFile file)
         {
             int result = 0;
+            AdminModUsersDetail _user = new AdminModUsersDetail();
 
-            if (userDetail != null)
+            if (UserRegistrationId > 0)
             {
-                var _user = _db.AdminModUsersDetail
-                    .Where(u => u.UserId != null && u.UserId == userDetail.UserId)
-                    .Select(x => new
-                    {
-                        UserId = x.UserId,
-                    }).FirstOrDefault();
+                var _userExistCheck = _db.AdminModUsersDetail.Where(u => u.UserRegistrationId == UserRegistrationId).FirstOrDefault();
 
-                if (_user == null)
+                if (_userExistCheck == null)
                 {
                     using var dbContextTransaction = _db.Database.BeginTransaction();
+
                     try
                     {
-                        userDetail.UserDateOfBirth = userDetail.UserDateOfBirth.ToString().ToDatabaseDateFormat();
-                        userDetail.IsProfileSubmitted = 1;
+                        _user.UserRegistrationId = UserRegistrationId;
+                        _user.UserFullName = UserFullName;
+                        _user.UserFullNameBn = UserFullNameBn;
+                        _user.UserFatherName = UserFatherName;
+                        _user.UserDateOfBirth = DateTime.Parse(UserDateOfBirth.ToString());
+                        _user.UserNID = UserNID;
+                        _user.UserPassportNo = UserPassportNo;
+                        _user.UserProfession = UserProfession;
+                        _user.UserDesignation = UserDesignation;
+                        _user.UserAddress = UserAddress;
+                        _user.UserAddressBn = UserAddressBn;
+                        _user.UserAlternateEmail = UserAlternateEmail;
+                        _user.UserAlternateMobile = UserAlternateMobile;
+                        _user.SecurityQuestionId = SecurityQuestionId;
+                        _user.SecurityQuestionAnswer = SecurityQuestionAnswer;
+                        _user.IsProfileSubmitted = 1;
 
-                        _db.AdminModUsersDetail.Add(userDetail);
+                        _db.AdminModUsersDetail.Add(_user);
                         result = _db.SaveChanges();
 
                         if (result > 0)
                         {
                             AdminModUserGrpDistDetail ugdd = new AdminModUserGrpDistDetail
                             {
-                                UserId = userDetail.UserId,
+                                UserId = _user.UserId,
                                 UserGroupId = 1000000001
                             };
+
                             _db.AdminModUserGrpDistDetail.Add(ugdd);
                             result = _db.SaveChanges();
 
                             if (result > 0)
                             {
-                                dbContextTransaction.Commit();
-                                UserInfo _ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
-                                _ui.UserID = userDetail.UserId;
-                                HttpContext.Session.SetComplexData("LoggerUserInfo", _ui);
+                                noti = uusf(_user.UserId, "SignatureFileName", file);
 
-                                return RedirectToAction("index", "home");
+                                if (noti.status == "success")
+                                {
+                                    dbContextTransaction.Commit();
+                                    UserInfo _ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+                                    _ui.UserID = _user.UserId;
+                                    HttpContext.Session.SetComplexData("LoggerUserInfo", _ui);
+
+                                    noti = new Notification
+                                    {
+                                        id = _ui.UserID.ToString(),
+                                        status = "success",
+                                        title = "Success",
+                                        message = "Profile information has been successfully submitted. Your signature also uploaded."
+                                    };
+
+                                    //return RedirectToAction("index", "home");
+                                }
                             }
                             else
                             {
                                 dbContextTransaction.Rollback();
-                                TempData["Message"] = ch.ShowMessage(Sign.Error, "Sorry, your profile information not submitted!");
+
+                                noti = new Notification
+                                {
+                                    id = "0",
+                                    status = "error",
+                                    title = "Submission Error",
+                                    message = "Sorry, your profile information not submitted!"
+                                };
                             }
                         }
                         else
                         {
                             dbContextTransaction.Rollback();
-                            TempData["Message"] = ch.ShowMessage(Sign.Error, "Sorry, your profile information not submitted!");
+
+                            noti = new Notification
+                            {
+                                id = "0",
+                                status = "error",
+                                title = "Submission Error",
+                                message = "Sorry, your profile information not submitted!"
+                            };
                         }
                     }
                     catch (Exception ex)
                     {
                         dbContextTransaction.Rollback();
                         var message = ch.ExtractInnerException(ex);
-                        TempData["Message"] = ch.ShowMessage(Sign.Danger, message);
+
+                        noti = new Notification
+                        {
+                            id = "0",
+                            status = "error",
+                            title = "Exception Error",
+                            message = message
+                        };
                     }
                 }
-
-                UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
-                ViewBag.UserRegistrationID = ui.UserRegistrationID;
             }
 
-            ViewBag.SecurityQuestionId = new SelectList(_db.LookUpAdminModSecurityQuestion.ToList(), "SecurityQuestionId", "SecurityQuestion", userDetail.SecurityQuestionId);
-            return View(userDetail);
+            return Json(noti);
+        }
+        
+        [Obsolete]
+        public Notification uusf(long urid, string controltitle, IFormFile file)
+        {
+            int result = 0;
+            string filename = "", extension = "", foldername = "images/signature";
+            AdminModUsersDetail ud = new AdminModUsersDetail();
+
+            if (urid != 0)
+            {
+                ud = _db.AdminModUsersDetail.Find(urid);
+            }
+
+            try
+            {
+                if (file != null)
+                {
+                    if (ud != null)
+                    {
+                        filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                        extension = filename.Substring(filename.IndexOf('.'));
+                        filename = EnsureCorrectFilename(filename);
+                        filename = String.Format("{0}_{1}{2}", ud.UserId, "signature", extension);
+
+                        ud.SignatureFileName = filename;
+
+                        _db.Entry(ud).State = EntityState.Modified;
+                        result = _db.SaveChanges();
+
+                        if (result > 0)
+                        {
+                            using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
+                            file.CopyTo(output);
+
+                            noti = new Notification
+                            {
+                                id = ud.UserId.ToString(),
+                                status = "success",
+                                title = "Success",
+                                message = "Your signature has been successfully uploaded."
+                            };
+                        }
+                        else
+                        {
+                            noti = new Notification
+                            {
+                                id = ud.UserId.ToString(),
+                                status = "error",
+                                title = "Signature Upload Error",
+                                message = "Your selected file has not uploaded."
+                            };
+                        }
+                    }
+                    else
+                    {
+                        noti = new Notification
+                        {
+                            id = "0",
+                            status = "warning",
+                            title = "Profile Error",
+                            message = "Your profile has not submit yet!"
+                        };
+                    }
+                }
+                else
+                {
+                    noti = new Notification
+                    {
+                        id = "0",
+                        status = "warning",
+                        title = "Select File",
+                        message = "No file(s) selected!"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    title = "An Exception Error Occured",
+                    message = message
+                };
+            }
+
+            return noti;
+        }
+
+        private string EnsureCorrectFilename(string filename)
+        {
+            if (filename.Contains("\\"))
+                filename = filename.Substring(filename.LastIndexOf("\\") + 1);
+
+            return filename;
+        }
+
+        private string GetPathAndFilename(string fileName, string folderName)
+        {
+            var path = Path.Combine(hostingEnvironment.WebRootPath, folderName, fileName);
+            return path;
         }
 
         //account/recover

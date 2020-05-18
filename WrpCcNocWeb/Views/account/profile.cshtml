@@ -3,9 +3,7 @@
 @{
     ViewData["Title"] = "Profile";
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
-}
 
-@{
     var ac = "on";
 }
 
@@ -19,101 +17,123 @@
                             <h3>User ID: <b class="text-blue">@ViewBag.UserName</b></h3>
                         </div>
 
-                        <div class="text-right m-auto" style="margin-top: -50px !important; margin-right: -50px !important;">
+                        <div class="text-right m-auto d-sm-none" style="margin-top: -50px !important; margin-right: -50px !important;">
                             <a href="javascript: void(0);">
                                 <span><img src="~/images/logo-dark.png" alt="WARPO" height="60"></span>
                             </a>
                         </div>
 
-                        @using (Html.BeginForm("profile", "account", FormMethod.Post, new { enctype = "multipart/form-data", id = "ProfileForm", role = "form" }))
-                        {
-                            <input type="hidden" id="UserRegistrationId" name="UserRegistrationId" value="@ViewBag.UserRegistrationID" />
+                        <input type="hidden" id="UserRegistrationId" name="UserRegistrationId" value="@ViewBag.UserRegistrationID" />
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.UserFullName, new { @class = "control-label" }) <span class="text-danger bold">*</span>
-                                        @Html.EditorFor(m => m.UserFullName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter full name in english", @required = "required", @autocomplete = ac } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.UserFullNameBn, new { @class = "control-label" }) <span class="text-danger bold">*</span>
-                                        @Html.EditorFor(m => m.UserFullNameBn, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter full name in bengali", @required = "required", @autocomplete = ac } })
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.UserFatherName, new { @class = "control-label" }) <span class="text-danger bold">*</span>
-                                        @Html.EditorFor(m => m.UserFatherName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter father name", @required = "required", @autocomplete = ac } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.UserDateOfBirth, new { @class = "control-label" }) <span class="text-danger bold">*</span>
-                                        @Html.EditorFor(m => m.UserDateOfBirth, new { htmlAttributes = new { @class = "form-control datepicker", @type = "text", @placeholder = "Date of birth", @required = "required", @autocomplete = ac } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.UserNID, new { @class = "control-label" })
-                                        @Html.EditorFor(m => m.UserNID, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "National ID card", @autocomplete = ac } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.UserPassportNo, new { @class = "control-label" })
-                                        @Html.EditorFor(m => m.UserPassportNo, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Passport no", @autocomplete = ac } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.UserProfession, new { @class = "control-label" })
-                                        @Html.EditorFor(m => m.UserProfession, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Profession" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        <button id="btnSubmitProfileInfo" class="btn btn-primary btn-block" type="submit"> Submit </button>
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.UserFullName, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                    @Html.EditorFor(m => m.UserFullName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter full name in english", @required = "required", @autocomplete = ac } })
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.UserDesignation, new { @class = "control-label" })
-                                        @Html.EditorFor(m => m.UserDesignation, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Designation" } })
-                                    </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.UserFullNameBn, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                    @Html.EditorFor(m => m.UserFullNameBn, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter full name in bengali", @required = "required", @autocomplete = ac } })
+                                </div>
 
-                                    <div class="form-group">
-                                        <label for="UserAddress">Address <span class="text-danger bold">*</span></label>
-                                        <textarea id="UserAddress" name="UserAddress" class="form-control" rows="1" required="" placeholder="Address in english"></textarea>
-                                    </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.UserFatherName, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                    @Html.EditorFor(m => m.UserFatherName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter father name", @required = "required", @autocomplete = ac } })
+                                </div>
 
-                                    <div class="form-group">
-                                        <label for="UserAddressBn">Address In Bengali <span class="text-danger bold">*</span></label>
-                                        <textarea id="UserAddressBn" name="UserAddressBn" class="form-control" rows="1" required="" placeholder="Address in bengali"></textarea>
-                                    </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.UserDateOfBirth, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                    @Html.EditorFor(m => m.UserDateOfBirth, new { htmlAttributes = new { @class = "form-control datepicker", @type = "text", @placeholder = "Date of birth", @required = "required", @autocomplete = ac } })
+                                </div>
 
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.UserAlternateEmail, new { @class = "control-label" })
-                                        @Html.EditorFor(m => m.UserAlternateEmail, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Alternate email address" } })
-                                    </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.UserNID, new { @class = "control-label" })
+                                    @Html.EditorFor(m => m.UserNID, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "National ID card", @autocomplete = ac } })
+                                </div>
 
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.UserAlternateMobile, new { @class = "control-label" })
-                                        @Html.EditorFor(m => m.UserAlternateMobile, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Alternate mobile no" } })
-                                    </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.UserPassportNo, new { @class = "control-label" })
+                                    @Html.EditorFor(m => m.UserPassportNo, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Passport no", @autocomplete = ac } })
+                                </div>
 
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.SecurityQuestionId, new { @class = "control-label" }) <span class="text-danger bold">*</span>
-                                        @Html.DropDownList("SecurityQuestionId", null, string.Empty, new { @id = "SecurityQuestionId", @class = "form-control", @style = "width: 100%;" })
-                                    </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.UserProfession, new { @class = "control-label" })
+                                    @Html.EditorFor(m => m.UserProfession, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Profession" } })
+                                </div>
+                            </div>
 
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.SecurityQuestionAnswer, new { @class = "control-label" }) <span class="text-danger bold">*</span>
-                                        @Html.EditorFor(m => m.SecurityQuestionAnswer, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Security question answer" } })
-                                    </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.UserDesignation, new { @class = "control-label" })
+                                    @Html.EditorFor(m => m.UserDesignation, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Designation" } })
+                                </div>
 
-                                    <div class="form-group">
-                                        <button id="btnClearProfileInfo" class="btn btn-secondary btn-block" type="reset"> Clear </button>
+                                <div class="form-group">
+                                    <label for="UserAddress">Address <span class="text-danger bold">*</span></label>
+                                    <textarea id="UserAddress" name="UserAddress" class="form-control" rows="1" required="" placeholder="Address in english"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="UserAddressBn">Address In Bengali <span class="text-danger bold">*</span></label>
+                                    <textarea id="UserAddressBn" name="UserAddressBn" class="form-control" rows="1" required="" placeholder="Address in bengali"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.UserAlternateEmail, new { @class = "control-label" })
+                                    @Html.EditorFor(m => m.UserAlternateEmail, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Alternate email address" } })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.UserAlternateMobile, new { @class = "control-label" })
+                                    @Html.EditorFor(m => m.UserAlternateMobile, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Alternate mobile no" } })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.SecurityQuestionId, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                    @Html.DropDownList("SecurityQuestionId", null, string.Empty, new { @id = "SecurityQuestionId", @class = "form-control", @style = "width: 100%;" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.SecurityQuestionAnswer, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                    @Html.EditorFor(m => m.SecurityQuestionAnswer, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Security question answer" } })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="SignatureFileName">Upload Signature <span class="text-danger bold">*</span></label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input id="SignatureFileName" name="SignatureFileName" type="file" class="custom-file-input" />
+                                            <label class="custom-file-label" for="SignatureFileName">
+                                                Choose file
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        }
+
+                            <br />
+
+                            <div class="col-md-6" style="margin-top: 30px;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <button id="btnSubmitProfileInfo" class="btn btn-primary btn-block" type="submit"> Submit </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <button id="btnClearProfileInfo" class="btn btn-secondary btn-block" type="reset"> Clear </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -125,6 +145,152 @@
     jQuery.noConflict();
 
     jQuery(document).ready(function () {
-        jQuery('#UserFullNameBn, #UserAddressBn').avro({ 'bn': true });        
+        jQuery('#UserFullNameBn, #UserAddressBn').avro({ 'bn': true });
     });
+
+    jQuery("#btnSubmitProfileInfo").click(function () {
+        var urid = GetHiddenValue('UserRegistrationId');
+        var input = document.getElementById('SignatureFileName');
+        var files = input.files;
+
+        Swal.fire({
+            title: "Are you sure?",
+            //html: 'Application will be rejected. Do you wish to continue? <br /> <div class="form-group"><label for="txtRejectReason"><span class="badge badge-info">Please Specify Reject Reason</span> <span class="text-danger bold">*</span></label><input type="text" id="txtRejectReason" name="txtRejectReason" class="form-control"></div>',
+            type: "warning",
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Submit"
+        }).then(function (t) {
+            var urid = GetHiddenValue('UserRegistrationId');
+            var ufn = GetTextValue('UserFullName');
+            var ufnbn = GetTextValue('UserFullNameBn');
+            var ufn = GetTextValue('UserFatherName');
+            var udb = GetTextValue('UserDateOfBirth');
+            var nid = GetTextValue('UserNID');
+            var upn = GetTextValue('UserPassportNo');
+            var ups = GetTextValue('UserProfession');
+            var udg = GetTextValue('UserDesignation');
+            var adr = GetTextValue('UserAddress');
+            var adrbn = GetTextValue('UserAddressBn');
+            var uae = GetTextValue('UserAlternateEmail');
+            var uam = GetTextValue('UserAlternateMobile');
+            var sqid = GetTextValue('SecurityQuestionId');
+            var sqa = GetTextValue('SecurityQuestionAnswer');
+
+            //var userDetail = {
+            //    "UserRegistrationId": urid,
+            //    "UserFullName": ufn,
+            //    "UserFullNameBn": ufnbn,
+            //    "UserFatherName": ufn,
+            //    "UserDateOfBirth": udb,
+            //    "UserNID": nid,
+            //    "UserPassportNo": upn,
+            //    "UserProfession": ups,
+            //    "UserDesignation": udg,
+            //    "UserAddress": adr,
+            //    "UserAddressBn": adrbn,
+            //    "UserAlternateEmail": uae,
+            //    "UserAlternateMobile": uam,
+            //    "SecurityQuestionId": sqid,
+            //    "SecurityQuestionAnswer": sqa,
+            //    "IsProfileSubmitted": 1
+            //};
+
+            var formData = new FormData();
+            formData.append("UserRegistrationId", urid);
+            formData.append("UserFullName", ufn);
+            formData.append("UserFullNameBn", ufnbn),
+            formData.append("UserFatherName", ufn),
+            formData.append("UserDateOfBirth", udb),
+            formData.append("UserNID", nid),
+            formData.append("UserPassportNo", upn),
+            formData.append("UserProfession", ups),
+            formData.append("UserDesignation", udg),
+            formData.append("UserAddress", adr),
+            formData.append("UserAddressBn", adrbn),
+            formData.append("UserAlternateEmail", uae),
+            formData.append("UserAlternateMobile", uam),
+            formData.append("SecurityQuestionId", sqid),
+            formData.append("SecurityQuestionAnswer", sqa),
+            formData.append("file", files[0]);
+
+            if (t.value == true) {
+                if (urid != '') {
+                    var url = '@Url.Action("saveprofile", "account")';
+
+                    $.ajax({
+                        url: url,
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        type: "POST",
+                        success: function (data, status, jqXHR) {
+                            console.log(data);
+                            if (data.message != '') {
+                                if (data.status == 'success') {
+                                    Notification(data.status, data.title, data.message);
+                                    Swal.fire(data.title, data.message, data.status);
+                                    
+                                    setTimeout(function () { RedirectToHome(); }, 5000);
+                                } else {
+                                    Notification(data.status, data.title, data.message);
+                                    Swal.fire(data.title, data.message, data.status);
+                                }
+                            }
+                        }, error: function (jqXHR, exception) {
+                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                            Notification('error', 'Error Occured', errorMsg);
+                            Swal.fire('Error Occured', errorMsg, 'error');
+                        }
+                    });
+                } else {
+                    Swal.fire('Required', 'User registration ID is required!', 'warning');
+                    Notification('warning', 'Required', 'User registration ID is required!');                    
+                }
+            }
+        });
+    });
+
+    function RedirectToHome() {
+        var url = '@Url.Action("index", "home")';
+        window.location.href = url;
+    }
+
+    function GetTextValue(control) {
+        return jQuery('#' + control).val();
+    }
+
+    function GetHiddenValue(control) {
+        return jQuery('#' + control).val();
+    }
+
+    function UploadSignatureFile(inputid) {
+        var urid = GetHiddenValue('UserRegistrationId');
+	    var input = document.getElementById(inputid);
+	    var files = input.files;
+
+	    var formData = new FormData();
+        formData.append("urid", urid);
+	    formData.append("controltitle", inputid);
+	    formData.append("file", files[0]);
+
+        var url = '@Url.Action("uusf", "account")';
+	    $.ajax({
+		    url: url,
+		    data: formData,
+		    processData: false,
+		    contentType: false,
+		    type: "POST",
+		    success: function (data) {
+			    if (data.message != '')
+				    Swal.fire(data.title, data.message, data.status);
+		    }, error: function (jqXHR, exception) {
+			    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			    Swal.fire('Error Occured', errorMsg, 'error');
+		    }
+	    });
+    }
 </script>

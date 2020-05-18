@@ -54,13 +54,11 @@
                             else
                             {<span>Application for Clearance Certificate</span>}
                         </h3>
-                        <h4 class="HeaderSubTitle">
-                            (
+                        <h4 class="HeaderSubTitle">                            
                             @if (prev_lang == "1")
-                            {<span>বন্যা নিয়ন্ত্রণ/ পরিচালনা</span>}
+                            {<span>(বন্যা নিয়ন্ত্রণ/ পরিচালনা)</span>}
                             else
-                            {<span>(Flood Control/ Management Project)</span>}
-                            )
+                            {<span>(Flood Control/ Management Project)</span>}                            
                         </h4>
                     </div>
                 </center>
@@ -152,7 +150,7 @@
 
                     <br />
 
-                    <table style="border: 1px solid #808080;" border="1" cellpadding="1" cellspacing="0">
+                    <table style="border: 1px solid #808080; table-layout: fixed; width: 1500px;" border="1" cellpadding="1" cellspacing="0">
                         <tr style="background: #9d9b9b; font-weight: bold;">
                             <td colspan="3">
                                 <h4>
@@ -165,7 +163,7 @@
                         </tr>
 
                         <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
+                            <td style="width: 200px;">
                                 <b>
                                     @if (prev_lang == "1")
                                     {<span>i. প্রকল্পের নাম</span>}
@@ -173,14 +171,14 @@
                                     {<span>i. Project Name</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; max-width: 500px; word-wrap: break-word;">@pcd.ProjectName</td>
-                            <td style="width: 600px !important; word-break: break-all;">
+                            <td style="width: 700px; max-width: 700px; word-break: break-all;">@pcd.ProjectName</td>
+                            <td style="width: 600px !important;">
                                 @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectName").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
                         <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
+                            <td>
                                 <b>
                                     @if (prev_lang == "1")
                                     {<span>ii. প্রকল্পের পূর্ব ইতিহাস ও যৌক্তিকতা</span>}
@@ -188,7 +186,7 @@
                                     {<span>ii. Project Background and Rationale</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">@pcd.BackgroundAndRationale</td>
+                            <td style="word-break: break-all;">@pcd.BackgroundAndRationale</td>
                             <td style="word-break: break-all;">
                                 @Html.Raw(fdac.Where(w => w.ControlTitle == "BackgroundAndRationale").Select(s => s.Comments).FirstOrDefault())
                             </td>
@@ -202,7 +200,7 @@
                                     {<span>iii. Project Target</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">@pcd.ProjectTarget</td>
+                            <td>@pcd.ProjectTarget</td>
                             <td style="word-break: break-all;">
                                 @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectTarget").Select(s => s.Comments).FirstOrDefault())
                             </td>
@@ -217,7 +215,7 @@
                                     {<span>iv. Project Objective</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">@pcd.ProjectObjective</td>
+                            <td>@pcd.ProjectObjective</td>
                             <td style="word-break: break-all;">
                                 @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectObjective").Select(s => s.Comments).FirstOrDefault())
                             </td>
@@ -231,7 +229,7 @@
                                     {<span>v. Estimated Project Cost</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 @if (prev_lang == "1")
                                 {<span>@pcd.ProjectEstimatedCost.ToString().NumberEnglishToBengali()</span>}
                             else
@@ -250,7 +248,7 @@
                                     {<span>vi. Project Period</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 @if (prev_lang == "1")
                                 {
                                     <span>প্রাম্ভিক কাল: @pcd.ProjectStartDate.Value.ToString("dd MMMM, yyyy").MonthEnglishToBengali().NumberEnglishToBengali()</span>
@@ -339,7 +337,7 @@
                                                     <td>@loc.DistrictNameBn</td>
                                                     <td>@loc.LatitudeBn</td>
                                                     <td>@loc.LongitudeBn</td>
-                                                    <td><a href="@loc.ImageFileName" target="_blank">@loc.OnlyImageFileName</a></td>
+                                                    <td style="word-break: break-all;"><a href="@loc.ImageFileName" target="_blank">@loc.OnlyImageFileName</a></td>
                                                 </tr>
                                             }
                                             else
@@ -350,7 +348,7 @@
                                                     <td>@loc.DistrictName</td>
                                                     <td>@loc.Latitude</td>
                                                     <td>@loc.Longitude</td>
-                                                    <td><a href="@loc.ImageFileName" target="_blank">@loc.OnlyImageFileName</a></td>
+                                                    <td style="word-break: break-all;"><a href="@loc.ImageFileName" target="_blank">@loc.OnlyImageFileName</a></td>
                                                 </tr>
                                             }
                                         }
@@ -398,7 +396,7 @@
                                     {<span>i. Hydrological Region</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tbody>@Html.Raw(hrd.ToString())</tbody>
                                 </table>
@@ -416,7 +414,7 @@
                                     {<span>ii. Bangladesh Delta Plan 2100 Hot Spot</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <ol>
                                     @foreach (var bdphsd in (List<BDP2100HotSpotDetailTemp>)ViewData["BDP2100HotSpotDetail"])
                                     {
@@ -445,7 +443,7 @@
                                     {<span>iii. Hydrological System </span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <thead>
                                         <tr>
@@ -506,7 +504,7 @@
                                     {<span>iv. Connectivity amid khals, river and wetland</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">@project31indev.ConnectivityAmidWaterland</td>
+                            <td>@project31indev.ConnectivityAmidWaterland</td>
                             <td style="word-break: break-all;">
                                 @Html.Raw(fdac.Where(w => w.ControlTitle == "ConnectivityAmidWaterland").Select(s => s.Comments).FirstOrDefault())
                             </td>
@@ -521,7 +519,7 @@
                                     {<span>v. Catchment Area (ha)</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">@project31indev.CatchmentArea</td>
+                            <td>@project31indev.CatchmentArea</td>
                             <td style="word-break: break-all;">
                                 @Html.Raw(fdac.Where(w => w.ControlTitle == "CatchmentArea").Select(s => s.Comments).FirstOrDefault())
                             </td>
@@ -536,7 +534,7 @@
                                     {<span>vi. Annual Rainfall (last five years) </span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th class="text-center">
@@ -593,7 +591,7 @@
                                     {<span>vii. Highest Flood Level (m PWD)</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">@project31indev.HighestFloodLevel</td>
+                            <td>@project31indev.HighestFloodLevel</td>
                             <td style="word-break: break-all;">
                                 @Html.Raw(fdac.Where(w => w.ControlTitle == "HighestFloodLevel").Select(s => s.Comments).FirstOrDefault())
                             </td>
@@ -608,7 +606,7 @@
                                     {<span>viii. Maximum Discharge (m<sup>3</sup>/s)</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">@project31indev.MaximumDischarge</td>
+                            <td>@project31indev.MaximumDischarge</td>
                             <td style="word-break: break-all;">
                                 @Html.Raw(fdac.Where(w => w.ControlTitle == "MaximumDischarge").Select(s => s.Comments).FirstOrDefault())
                             </td>
@@ -623,7 +621,7 @@
                                     {<span>ix. Types of Flood</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <ol>
                                     @{
                                         foreach (TypesOfFloodTemp tof in (List<TypesOfFloodTemp>)tofd)
@@ -654,7 +652,7 @@
                                     {<span>x. Flood Frequency Analysis (Maximum water level in m, PWD)</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <thead>
                                         <tr>
@@ -709,7 +707,7 @@
                                     {<span>xi. Drainage Condition</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 @{
                                     var eng = project31indev.DrainageConditionId == 1 ? "Good" : project31indev.DrainageConditionId == 2 ? "Moderate" : project31indev.DrainageConditionId == 3 ? "Poor" : "Others";
                                     var ban = project31indev.DrainageConditionId == 1 ? "ভাল" : project31indev.DrainageConditionId == 2 ? "মধ্যপন্থী" : project31indev.DrainageConditionId == 3 ? "দরিদ্র" : "অন্যান্য";
@@ -738,7 +736,7 @@
                                     {<span>xii. Surface Water Quality</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th class="text-center">
@@ -788,7 +786,7 @@
                                     {<span>xiii. Land Type (Percent)</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th class="text-center">
@@ -845,7 +843,7 @@
                                     {<span>xiv. Cultivable Crops</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">@project31indev.CultivableCrops</td>
+                            <td>@project31indev.CultivableCrops</td>
                             <td style="word-break: break-all;">
                                 @Html.Raw(fdac.Where(w => w.ControlTitle == "CultivableCrops").Select(s => s.Comments).FirstOrDefault())
                             </td>
@@ -860,7 +858,7 @@
                                     {<span>xv. Irrigated Crop Area (ha)</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <thead>
                                         <tr>
@@ -915,7 +913,7 @@
                                     {<span>xvi. Crop Production (Ton)</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">@project31indev.CropProduction</td>
+                            <td>@project31indev.CropProduction</td>
                             <td style="word-break: break-all;">
                                 @Html.Raw(fdac.Where(w => w.ControlTitle == "CropProduction").Select(s => s.Comments).FirstOrDefault())
                             </td>
@@ -930,7 +928,7 @@
                                     {<span>xvii. Fish Production, Diversity and Migration</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -973,7 +971,7 @@
                                     {<span>xviii. Flora and Fauna</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">@project31indev.FloraAndFauna</td>
+                            <td>@project31indev.FloraAndFauna</td>
                             <td style="word-break: break-all;">
                                 @Html.Raw(fdac.Where(w => w.ControlTitle == "FloraAndFauna").Select(s => s.Comments).FirstOrDefault())
                             </td>
@@ -988,7 +986,7 @@
                                     {<span>xix. Socio Economic Condition</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -1042,7 +1040,7 @@
                                     {<span>i. Issue, Challenge or Problem Details</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">@pcd.IssueChallageProblem</td>
+                            <td>@pcd.IssueChallageProblem</td>
                             <td style="word-break: break-all;">
                                 @Html.Raw(fdac.Where(w => w.ControlTitle == "IssueChallageProblem").Select(s => s.Comments).FirstOrDefault())
                             </td>
@@ -1102,17 +1100,17 @@
 
                                             if (pcd.YesNoStakeId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td class="text-center">@yesTickMark</td>
-                                            <td class="text-center">@noTickMark</td>
+                                            <td class="text-center">@Html.Raw(yesTickMark)</td>
+                                            <td class="text-center">@Html.Raw(noTickMark)</td>
                                             <td>@pcd.DiscussWithStakeApplicantCmt</td>
                                             <td>@pcd.DiscussWithStakeAuthorityCmt</td>
                                         }
@@ -1148,10 +1146,10 @@
                                             </th>
                                         </tr>
                                         <tr>
-                                            <td>@pcd.DiscussWithStakePosFeedback</td>
-                                            <td>@pcd.DiscussWithStakeNegFeedback</td>
-                                            <td style="word-wrap: break-word;"><a href="~/images/CommonDetails/@pcd.DiscussWithStakeParticipntLst" target="_blank">@pcd.DiscussWithStakeParticipntLst</a></td>
-                                            <td style="word-wrap: break-word;"><a href="~/images/CommonDetails/@pcd.DiscussWithStakeMeetingMin" target="_blank">@pcd.DiscussWithStakeMeetingMin</a></td>
+                                            <td style="word-break: break-all;">@pcd.DiscussWithStakePosFeedback</td>
+                                            <td style="word-break: break-all;">@pcd.DiscussWithStakeNegFeedback</td>
+                                            <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.DiscussWithStakeParticipntLst" target="_blank">@pcd.DiscussWithStakeParticipntLst</a></td>
+                                            <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.DiscussWithStakeMeetingMin" target="_blank">@pcd.DiscussWithStakeMeetingMin</a></td>
                                         </tr>
                                     </table>
                                 }
@@ -1181,7 +1179,7 @@
                                     {<span>i. Analyze Options</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th width="10%">
@@ -1216,17 +1214,17 @@
 
                                             if (pcd.AnalyzeOptYesNoId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td class="text-center">@yesTickMark</td>
-                                            <td class="text-center">@noTickMark</td>
+                                            <td class="text-center">@Html.Raw(yesTickMark)</td>
+                                            <td class="text-center">@Html.Raw(noTickMark)</td>
                                             <td>@pcd.AnalyzeOptionsApplicantCmt</td>
                                             <td>@pcd.AnalyzeOptionsAuthorityCmt</td>
                                         }
@@ -1306,7 +1304,7 @@
                                     {<span>i. Design Submition</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <thead>
                                         <tr>
@@ -1351,13 +1349,13 @@
 
                                                 if (dsdt.dswpdYN == 1)
                                                 {
-                                                    yesTickMark = "✔";
+                                                    yesTickMark = "<span class='fe-check'></span>";
                                                     noTickMark = "";
                                                 }
                                                 else
                                                 {
                                                     yesTickMark = "";
-                                                    noTickMark = "✔";
+                                                    noTickMark = "<span class='fe-check'></span>";
                                                 }
 
                                                 if (string.IsNullOrEmpty(dsdt.Error))
@@ -1373,8 +1371,8 @@
                                                                 <span>@dsdt.ParameterNameBn</span>
                                                             }
                                                         </td>
-                                                        <td class="text-center">@yesTickMark</td>
-                                                        <td class="text-center">@noTickMark</td>
+                                                        <td class="text-center">@Html.Raw(yesTickMark)</td>
+                                                        <td class="text-center">@Html.Raw(noTickMark)</td>
                                                         <td>@dsdt.DesignSubmitApplicantCmt</td>
                                                         <td>@dsdt.DesignSubmitAuthorityCmt</td>
                                                     </tr>
@@ -1415,7 +1413,7 @@
                                     {<span>i. Impact Assessment</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -1450,17 +1448,17 @@
 
                                             if (pcd.EnvAndSocialYesNoId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td>@yesTickMark</td>
-                                            <td>@noTickMark</td>
+                                            <td>@Html.Raw(yesTickMark)</td>
+                                            <td>@Html.Raw(noTickMark)</td>
                                             <td>@pcd.EnvAndSocialApplicantCmt</td>
                                             <td>@pcd.EnvAndSocialAuthorityCmt</td>
                                         }
@@ -1555,7 +1553,7 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td colspan="5">
+                                                <td colspan="5" style="text-align: left;">
                                                     @Html.Raw(fdac.Where(w => w.ControlTitle == "EnvironmentalImpactAssessment").Select(s => s.Comments).FirstOrDefault())
                                                 </td>
                                             </tr>
@@ -1645,7 +1643,7 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td colspan="5">
+                                                <td colspan="5" style="text-align: left;">
                                                     @Html.Raw(fdac.Where(w => w.ControlTitle == "SocialImpactAssessment").Select(s => s.Comments).FirstOrDefault())
                                                 </td>
                                             </tr>
@@ -1675,7 +1673,7 @@
                                     {<span>i. Use of Appropriate technics, analytical procedures</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -1711,17 +1709,17 @@
 
                                             if (project31indev.UseOfToolsYesNoId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td>@yesTickMark</td>
-                                            <td>@noTickMark</td>
+                                            <td>@Html.Raw(yesTickMark)</td>
+                                            <td>@Html.Raw(noTickMark)</td>
                                             <td>@project31indev.ToolsApplicantComments</td>
                                             <td>@project31indev.ToolsAuthorityComments</td>
                                         }
@@ -1836,7 +1834,7 @@
                                     {<span>i. Compatibility with National Water Policy</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -1878,20 +1876,20 @@
 
                                             if (pcd.CompatNWPYesNoId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td>@yesTickMark</td>
-                                            <td>@noTickMark</td>
-                                            <td>@pcd.CompatibilityNWPApplicantCmt</td>
-                                            <td>@pcd.CompatibilityNWPAuthorityCmt</td>
-                                            <td><a href="~/images/CommonDetails/@pcd.CompatibilityNWPDocLink" target="_blank">@pcd.CompatibilityNWPDocLink</a></td>
+                                            <td>@Html.Raw(yesTickMark)</td>
+                                            <td>@Html.Raw(noTickMark)</td>
+                                            <td style="word-break: break-all;">@pcd.CompatibilityNWPApplicantCmt</td>
+                                            <td style="word-break: break-all;">@pcd.CompatibilityNWPAuthorityCmt</td>
+                                            <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.CompatibilityNWPDocLink" target="_blank">@pcd.CompatibilityNWPDocLink</a></td>
                                         }
                                     </tr>
                                 </table>
@@ -1916,7 +1914,7 @@
                                     {<span>ii. Compatibility with National Water Management Plan (NWMP)</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -1958,20 +1956,20 @@
 
                                             if (pcd.NWMPCompatYesNoId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td>@yesTickMark</td>
-                                            <td>@noTickMark</td>
-                                            <td>@pcd.NWMPApplicantCmt</td>
-                                            <td>@pcd.NWMPAuthorityCmt</td>
-                                            <td><a href="~/images/CommonDetails/@pcd.NWMPDocLink" target="_blank">@pcd.NWMPDocLink</a></td>
+                                            <td>@Html.Raw(yesTickMark)</td>
+                                            <td>@Html.Raw(noTickMark)</td>
+                                            <td style="word-break: break-all;">@pcd.NWMPApplicantCmt</td>
+                                            <td style="word-break: break-all;">@pcd.NWMPAuthorityCmt</td>
+                                            <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.NWMPDocLink" target="_blank">@pcd.NWMPDocLink</a></td>
                                         }
                                     </tr>
                                 </table>
@@ -1996,7 +1994,7 @@
                                     {<span>iii.	Compatibility with Current Fifth Year Plan (FYP)</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -2031,19 +2029,19 @@
 
                                             if (pcd.FYPYesNoId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td>@yesTickMark</td>
-                                            <td>@noTickMark</td>
-                                            <td>@pcd.FYPApplicantCmt</td>
-                                            <td>@pcd.FYPAuthorityCmt</td>
+                                            <td>@Html.Raw(yesTickMark)</td>
+                                            <td>@Html.Raw(noTickMark)</td>
+                                            <td style="word-break: break-all;">@pcd.FYPApplicantCmt</td>
+                                            <td style="word-break: break-all;">@pcd.FYPAuthorityCmt</td>
                                         }
                                     </tr>
                                 </table>
@@ -2062,7 +2060,7 @@
                                     {<span>iv. Compatibility with Sustainable Development Goal (SDG)</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -2103,20 +2101,20 @@
 
                                             if (pcd.SDGYesNoId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td>@yesTickMark</td>
-                                            <td>@noTickMark</td>
-                                            <td>@pcd.SDGApplicantCmt</td>
-                                            <td>@pcd.SDGAuthorityCmt</td>
-                                            <td><a href="~/images/CommonDetails/@pcd.SDGDocLink" target="_blank">@pcd.SDGDocLink</a></td>
+                                            <td>@Html.Raw(yesTickMark)</td>
+                                            <td>@Html.Raw(noTickMark)</td>
+                                            <td style="word-break: break-all;">@pcd.SDGApplicantCmt</td>
+                                            <td style="word-break: break-all;">@pcd.SDGAuthorityCmt</td>
+                                            <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.SDGDocLink" target="_blank">@pcd.SDGDocLink</a></td>
                                         }
                                     </tr>
                                 </table>
@@ -2144,7 +2142,7 @@
                                     {<span>v. Compatibility with Bangladesh Delta Plan 2100</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -2185,20 +2183,20 @@
 
                                             if (pcd.DeltaPlanYesNoId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td>@yesTickMark</td>
-                                            <td>@noTickMark</td>
-                                            <td>@pcd.DeltaPlan2100ApplicantCmt</td>
-                                            <td>@pcd.DeltaPlan2100AuthorityCmt</td>
-                                            <td><a href="~/images/CommonDetails/@pcd.DeltaPlan2100DocLink" target="_blank">@pcd.DeltaPlan2100DocLink</a></td>
+                                            <td>@Html.Raw(yesTickMark)</td>
+                                            <td>@Html.Raw(noTickMark)</td>
+                                            <td style="word-break: break-all;">@pcd.DeltaPlan2100ApplicantCmt</td>
+                                            <td style="word-break: break-all;">@pcd.DeltaPlan2100AuthorityCmt</td>
+                                            <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.DeltaPlan2100DocLink" target="_blank">@pcd.DeltaPlan2100DocLink</a></td>
                                         }
                                     </tr>
                                 </table>
@@ -2223,7 +2221,7 @@
                                     {<span>vi. Compatibility with Coastal Zone Policy</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -2264,20 +2262,20 @@
 
                                             if (pcd.CostalZoneYesNoId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td>@yesTickMark</td>
-                                            <td>@noTickMark</td>
-                                            <td>@pcd.CostalZoneApplicantCmt</td>
-                                            <td>@pcd.CostalZoneAuthorityCmt</td>
-                                            <td><a href="~/images/CommonDetails/@pcd.CostalZoneDocLink" target="_blank">@pcd.CostalZoneDocLink</a></td>
+                                            <td>@Html.Raw(yesTickMark)</td>
+                                            <td>@Html.Raw(noTickMark)</td>
+                                            <td style="word-break: break-all;">@pcd.CostalZoneApplicantCmt</td>
+                                            <td style="word-break: break-all;">@pcd.CostalZoneAuthorityCmt</td>
+                                            <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.CostalZoneDocLink" target="_blank">@pcd.CostalZoneDocLink</a></td>
                                         }
                                     </tr>
                                 </table>
@@ -2296,7 +2294,7 @@
                                     {<span>vii.	Compatibility with Agricultural Policy</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -2337,20 +2335,20 @@
 
                                             if (pcd.AgriculturalYesNoId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td>@yesTickMark</td>
-                                            <td>@noTickMark</td>
-                                            <td>@pcd.AgriApplicantCmt</td>
-                                            <td>@pcd.AgriAuthorityCmt</td>
-                                            <td><a href="~/images/CommonDetails/@pcd.AgriDocLink" target="_blank">@pcd.AgriDocLink</a></td>
+                                            <td>@Html.Raw(yesTickMark)</td>
+                                            <td>@Html.Raw(noTickMark)</td>
+                                            <td style="word-break: break-all;">@pcd.AgriApplicantCmt</td>
+                                            <td style="word-break: break-all;">@pcd.AgriAuthorityCmt</td>
+                                            <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.AgriDocLink" target="_blank">@pcd.AgriDocLink</a></td>
                                         }
                                     </tr>
                                 </table>
@@ -2369,7 +2367,7 @@
                                     {<span>viii. Compatibility with Fisheries Policy</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -2410,20 +2408,20 @@
 
                                             if (pcd.FisheriesYesNoId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td>@yesTickMark</td>
-                                            <td>@noTickMark</td>
-                                            <td>@pcd.FisheriesApplicantCmt</td>
-                                            <td>@pcd.FisheriesAuthorityCmt</td>
-                                            <td><a href="~/images/CommonDetails/@pcd.FisheriesDocLink" target="_blank">@pcd.FisheriesDocLink</a></td>
+                                            <td>@Html.Raw(yesTickMark)</td>
+                                            <td>@Html.Raw(noTickMark)</td>
+                                            <td style="word-break: break-all;">@pcd.FisheriesApplicantCmt</td>
+                                            <td style="word-break: break-all;">@pcd.FisheriesAuthorityCmt</td>
+                                            <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.FisheriesDocLink" target="_blank">@pcd.FisheriesDocLink</a></td>
                                         }
                                     </tr>
                                 </table>
@@ -2442,7 +2440,7 @@
                                     {<span>ix. Compatibility with Integrated Water Resource Management (IWRM)</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -2477,19 +2475,19 @@
 
                                             if (pcd.IWRMYesNoId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td>@yesTickMark</td>
-                                            <td>@noTickMark</td>
-                                            <td>@pcd.IWRMApplicantCmt</td>
-                                            <td>@pcd.IWRMAuthorityCmt</td>
+                                            <td>@Html.Raw(yesTickMark)</td>
+                                            <td>@Html.Raw(noTickMark)</td>
+                                            <td style="word-break: break-all;">@pcd.IWRMApplicantCmt</td>
+                                            <td style="word-break: break-all;">@pcd.IWRMAuthorityCmt</td>
                                         }
                                     </tr>
                                 </table>
@@ -2508,7 +2506,7 @@
                                     {<span>x. Compatibility with GPWM</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -2543,19 +2541,19 @@
 
                                             if (pcd.GPWMYesNoId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td>@yesTickMark</td>
-                                            <td>@noTickMark</td>
-                                            <td>@pcd.GPWMApplicantCmt</td>
-                                            <td>@pcd.GPWMAuthorityCmt</td>
+                                            <td>@Html.Raw(yesTickMark)</td>
+                                            <td>@Html.Raw(noTickMark)</td>
+                                            <td style="word-break: break-all;">@pcd.GPWMApplicantCmt</td>
+                                            <td style="word-break: break-all;">@pcd.GPWMAuthorityCmt</td>
                                         }
                                     </tr>
                                 </table>
@@ -2580,7 +2578,7 @@
                                     {<span>xi. Feasibility Study</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -2615,19 +2613,19 @@
 
                                             if (pcd.FeasibilityYesNoId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td>@yesTickMark</td>
-                                            <td>@noTickMark</td>
-                                            <td>@pcd.FeasibilityApplicantCmt</td>
-                                            <td>@pcd.FeasibilityAuthorityCmt</td>
+                                            <td>@Html.Raw(yesTickMark)</td>
+                                            <td>@Html.Raw(noTickMark)</td>
+                                            <td style="word-break: break-all;">@pcd.FeasibilityApplicantCmt</td>
+                                            <td style="word-break: break-all;">@pcd.FeasibilityAuthorityCmt</td>
                                         }
                                     </tr>
                                 </table>
@@ -2646,7 +2644,7 @@
                                     {<span>xii. Duplication of the Project</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -2681,19 +2679,19 @@
 
                                             if (project31indev.DuplicatYesNoId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td>@yesTickMark</td>
-                                            <td>@noTickMark</td>
-                                            <td>@project31indev.DuplicationApplicantComments</td>
-                                            <td>@project31indev.DuplicationAuthorityComments</td>
+                                            <td>@Html.Raw(yesTickMark)</td>
+                                            <td>@Html.Raw(noTickMark)</td>
+                                            <td style="word-break: break-all;">@project31indev.DuplicationApplicantComments</td>
+                                            <td style="word-break: break-all;">@project31indev.DuplicationAuthorityComments</td>
                                         }
                                     </tr>
                                 </table>
@@ -2750,19 +2748,19 @@
 
                                             if (pcd.SocialIssuesYesNoId == 1)
                                             {
-                                                yesTickMark = "✔";
+                                                yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
                                             }
                                             else
                                             {
                                                 yesTickMark = "";
-                                                noTickMark = "✔";
+                                                noTickMark = "<span class='fe-check'></span>";
                                             }
 
-                                            <td>@yesTickMark</td>
-                                            <td>@noTickMark</td>
-                                            <td>@pcd.SocialIssuesApplicantCmt</td>
-                                            <td>@pcd.SocialIssuesAuthorityCmt</td>
+                                            <td>@Html.Raw(yesTickMark)</td>
+                                            <td>@Html.Raw(noTickMark)</td>
+                                            <td style="word-break: break-all;">@pcd.SocialIssuesApplicantCmt</td>
+                                            <td style="word-break: break-all;">@pcd.SocialIssuesAuthorityCmt</td>
                                         }
                                     </tr>
                                 </table>
@@ -2792,7 +2790,7 @@
                                     {<span>i. No Objection Certificate</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -2824,7 +2822,7 @@
                                                 }
                                             }
                                         </td>
-                                        <td><a href="~/images/CommonDetails/@pcd.NocFileName" target="_blank">@pcd.NocFileName</a></td>
+                                        <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.NocFileName" target="_blank">@pcd.NocFileName</a></tdword-break:>
                                     </tr>
                                 </table>
                             </td>
@@ -2842,7 +2840,7 @@
                                     {<span>ii. Payments</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -2906,7 +2904,7 @@
                                                 <span>@pcd.PaidAmount</span>
                                             }
                                         </td>
-                                        <td><a href="~/images/CommonDetails/@pcd.PaymentDocFileName" target="_blank">@pcd.PaymentDocFileName</a></td>
+                                        <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.PaymentDocFileName" target="_blank">@pcd.PaymentDocFileName</a></td>
                                     </tr>
                                 </table>
                             </td>
@@ -2924,7 +2922,7 @@
                                     {<span>iii. Recommendation</span>}
                                 </b>
                             </td>
-                            <td style="width: 500px; word-wrap: break-word;">
+                            <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
@@ -2990,8 +2988,10 @@
                                 else
                                 {<span>Signature of Applicant</span>}
                             </p>
+                            <img src="~/images/signature/@ViewData["SignatureFileName"].ToString()" height="80" sty />
                             <br />
                             <span>----------------------</span>
+                            <br />
                             @if (prev_lang == "1")
                             {
                                 <span id="pApplicantName">@ViewData["ApplicantNameBn"].ToString()</span><br />

@@ -221,4 +221,24 @@ namespace WrpCcNocWeb.Models
         public string ControlTitle { get; set; }
         public string Comments { get; set; }
     }
+
+    public class AdminModUsersDetailTemp
+    {
+        public long UserRegistrationId { get; set; }
+        public string UserFullName { get; set; }
+        public string UserFullNameBn { get; set; }
+        public string UserFatherName { get; set; }
+        public string UserDateOfBirth { get; set; }
+        public string UserNID { get; set; }
+        public string UserPassportNo { get; set; }
+        public string UserProfession { get; set; }
+        public string UserDesignation { get; set; }
+        public string UserAddress { get; set; }
+        public string UserAddressBn { get; set; }
+        public string UserAlternateEmail { get; set; }
+        public string UserAlternateMobile { get; set; }
+        public int SecurityQuestionId { get; set; }
+        public string SecurityQuestionAnswer { get; set; }
+        public int? IsProfileSubmitted { get; set; }
+    }
 }

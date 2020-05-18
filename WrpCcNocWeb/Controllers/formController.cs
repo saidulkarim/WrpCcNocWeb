@@ -441,6 +441,7 @@ namespace WrpCcNocWeb.Controllers
             ViewData["ProjectTypeId"] = pcd.ProjectTypeId;
             ViewData["Title"] = "Flood Control Management Project | Print";
             ViewData["LanguageId"] = pcd.LanguageId;
+            ViewData["SignatureFileName"] = _db.AdminModUsersDetail.Where(w => w.UserId == pcd.UserId).Select(s => s.SignatureFileName).FirstOrDefault();
 
             GetApplicantInfoViewData(pcd.UserId);
 
@@ -1376,7 +1377,7 @@ namespace WrpCcNocWeb.Controllers
                     {
                         isNewLine = false;
                         className = hrt.IsSelected ? "bg-dark text-white" : "";
-                        tickTag = hrt.IsSelected ? "<span>✔</span>" : "";
+                        tickTag = hrt.IsSelected ? "<span class='fe-check'></span>" : "";
 
                         if (i == 1)
                         {
@@ -1784,7 +1785,7 @@ namespace WrpCcNocWeb.Controllers
                     {
                         isNewLine = false;
                         className = nwpat.IsSelected ? "bg-dark text-white" : "";
-                        tickTag = nwpat.IsSelected ? "<span>✔</span>" : "";
+                        tickTag = nwpat.IsSelected ? "<span class='fe-check'></span>" : "";
 
                         if (i == 1)
                         {
@@ -1863,7 +1864,7 @@ namespace WrpCcNocWeb.Controllers
                     {
                         isNewLine = false;
                         className = nwmp.IsSelected ? "bg-dark text-white" : "";
-                        tickTag = nwmp.IsSelected ? "<span>✔</span>" : "";
+                        tickTag = nwmp.IsSelected ? "<span class='fe-check'></span>" : "";
 
                         if (i == 1)
                         {
@@ -1936,7 +1937,7 @@ namespace WrpCcNocWeb.Controllers
                     {
                         isNewLine = false;
                         className = sdg.IsSelected ? "bg-dark text-white" : "";
-                        tickTag = sdg.IsSelected ? "<span>✔</span>" : "";
+                        tickTag = sdg.IsSelected ? "<span class='fe-check'></span>" : "";
 
                         if (i == 1)
                         {
@@ -2016,7 +2017,7 @@ namespace WrpCcNocWeb.Controllers
                     {
                         isNewLine = false;
                         className = sdg.IsSelected ? "bg-dark text-white" : "";
-                        tickTag = sdg.IsSelected ? "<span>✔</span>" : "";
+                        tickTag = sdg.IsSelected ? "<span class='fe-check'></span>" : "";
 
                         if (i == 1)
                         {
@@ -2096,7 +2097,7 @@ namespace WrpCcNocWeb.Controllers
                     {
                         isNewLine = false;
                         className = bdpg.IsSelected ? "bg-dark text-white" : "";
-                        tickTag = bdpg.IsSelected ? "<span>✔</span>" : "";
+                        tickTag = bdpg.IsSelected ? "<span class='fe-check'></span>" : "";
 
                         if (i == 1)
                         {
@@ -2175,7 +2176,7 @@ namespace WrpCcNocWeb.Controllers
                     {
                         isNewLine = false;
                         className = bdpg.IsSelected ? "bg-dark text-white" : "";
-                        tickTag = bdpg.IsSelected ? "<span>✔</span>" : "";
+                        tickTag = bdpg.IsSelected ? "<span class='fe-check'></span>" : "";
 
                         if (i == 1)
                         {

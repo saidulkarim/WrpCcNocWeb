@@ -26,6 +26,9 @@
 
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="wwwroot\fonts\adorsholipi\AdorshoLipi.svg" />
+    <None Include="wwwroot\fonts\bangla\Bangla.svg" />
+    <None Include="wwwroot\fonts\siyamrupali\SiyamRupali.svg" />
     <None Include="wwwroot\Rotativa\wkhtmltoimage.exe" />
     <None Include="wwwroot\Rotativa\wkhtmltopdf.exe" />
     <None Include="wwwroot\Rotativa\wkhtmltox.dll" />
@@ -46,6 +49,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\CommonDetails\" />
+    <Folder Include="wwwroot\images\signature\" />
   </ItemGroup>
 
 
