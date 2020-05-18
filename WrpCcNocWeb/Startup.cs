@@ -30,7 +30,7 @@ namespace WrpCcNocWeb
             services.AddControllersWithViews();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMemoryCache();
-            services.AddMvc();            
+            services.AddMvc();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -46,7 +46,7 @@ namespace WrpCcNocWeb
                 //options.Cookie.IsEssential = true;
             });
 
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);            
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
         }
 
         //This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,11 +72,12 @@ namespace WrpCcNocWeb
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=account}/{action=login}/{id?}");
-                  //pattern: "{controller=home}/{action=index}/{id?}");
+                    pattern: "{controller=account}/{action=index}/{id?}");
+                //pattern: "{controller=account}/{action=login}/{id?}");
+                //pattern: "{controller=home}/{action=index}/{id?}");
             });
 
-            RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");            
+            RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");
         }
     }
 }
