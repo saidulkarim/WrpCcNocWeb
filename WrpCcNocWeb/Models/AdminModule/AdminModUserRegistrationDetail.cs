@@ -77,5 +77,9 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Is Verified by Mobile")]
         [Column("IsMobileVerified", Order = 11)]
         public int? IsMobileVerified { get; set; }
+
+        [Display(Name = "Is Deleted")]
+        [Column("IsDeleted", Order = 12)]
+        public int? IsDeleted { get; set; }
     }
 }

@@ -1,8 +1,260 @@
-﻿
+﻿@using WrpCcNocWeb.Models.UserManagement
+
 @{
-    ViewData["Title"] = "Edit User Profile";
+    ViewData["Title"] = "Update User Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    AdminModUsersDetail ud = ViewBag.UpdateUserInfo as AdminModUsersDetail;
+    var ac = "on";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div style="padding: 5px 3px; width:100%" class="panel panel-default">
+    <div class="panel-heading text-center justify-content-center">
+        <h4>@ViewData["Title"]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;@Html.ActionLink("Back to User List", "viewUsers", "account")</h4>
+    </div>
 
+    <div class="panel-body">
+        <div class="account-pages mt-5 mb-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-10 col-lg-10" style="margin-top: 5px;">
+                        <div class="card bg-pattern">
+                            <div class="card-body">
+                                <input type="hidden" id="UserId" name="UserId" value="@ud.UserId" />
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="UserFullName" class="control-label">Full Name <span class="text-danger bold">*</span></label>
+                                            <input type="text" id="UserFullName" name="UserFullName" class="form-control" value="@ud.UserFullName"
+                                                   placeholder="Enter full name in english" required="required" autocomplete=@ac />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="UserFullNameBn" class="control-label">Full Name In Bengali <span class="text-danger bold">*</span></label>
+                                            <input type="text" id="UserFullNameBn" name="UserFullNameBn" class="form-control" value="@ud.UserFullNameBn"
+                                                   placeholder="Enter full name in bengali" required="required" autocomplete=@ac />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="UserFatherName" class="control-label">Father Name <span class="text-danger bold">*</span></label>
+                                            <input type="text" id="UserFatherName" name="UserFatherName" class="form-control" value="@ud.UserFatherName"
+                                                   placeholder="Enter father name" required="required" autocomplete=@ac />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="UserDateOfBirth" class="control-label">Date of Birth <span class="text-danger bold">*</span></label>
+                                            <input type="text" id="UserDateOfBirth" name="UserFatherName" class="form-control datepicker" value="@ud.UserDateOfBirth"
+                                                   placeholder="Enter date of birth" required="required" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="UserNID" class="control-label">NID <span class="text-danger bold">*</span></label>
+                                            <input type="text" id="UserNID" name="UserNID" class="form-control" value="@ud.UserNID"
+                                                   placeholder="Enter National ID" required="required" autocomplete=@ac />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="UserPassportNo" class="control-label">Passport <span class="text-danger bold">*</span></label>
+                                            <input type="text" id="UserPassportNo" name="UserPassportNo" class="form-control" value="@ud.UserPassportNo"
+                                                   placeholder="Enter passport no" required="required" autocomplete=@ac />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="UserProfession" class="control-label">Profession <span class="text-danger bold">*</span></label>
+                                            <input type="text" id="UserProfession" name="UserProfession" class="form-control" value="@ud.UserProfession"
+                                                   placeholder="Enter profession" required="required" autocomplete=@ac />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="SignatureFileName">Upload Signature <span class="text-danger bold">*</span></label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input id="SignatureFileName" name="SignatureFileName" type="file" class="custom-file-input" />
+                                                    <label class="custom-file-label" for="SignatureFileName">
+                                                        Choose file
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="UserDesignation" class="control-label">Designation <span class="text-danger bold">*</span></label>
+                                            <input type="text" id="UserDesignation" name="UserDesignation" class="form-control" value="@ud.UserDesignation"
+                                                   placeholder="Enter designation" required="required" autocomplete=@ac />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="UserAddress">Address <span class="text-danger bold">*</span></label>
+                                            <input id="UserAddress" name="UserAddress" class="form-control" required="required"
+                                                   placeholder="Address in english" value="@ud.UserAddress" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="UserAddressBn">Address In Bengali <span class="text-danger bold">*</span></label>
+                                            <input id="UserAddressBn" name="UserAddressBn" class="form-control" required="required"
+                                                   placeholder="Address in bengali" value="@ud.UserAddressBn" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="UserAlternateEmail" class="control-label">Alternate Email</label>
+                                            <input type="text" id="UserAlternateEmail" name="UserAlternateEmail" class="form-control" value="@ud.UserAlternateEmail"
+                                                   placeholder="Enter alternate email address" required="required" autocomplete=@ac />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="UserAlternateMobile" class="control-label">Alternate Mobile</label>
+                                            <input type="text" id="UserAlternateMobile" name="UserAlternateMobile" class="form-control" value="@ud.UserAlternateMobile"
+                                                   placeholder="Enter alternate mobile no" required="required" autocomplete=@ac />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="SecurityQuestionId" class="control-label">Security Question <span class="text-danger bold">*</span></label>
+                                            @Html.DropDownList("SecurityQuestionId", null, string.Empty, new { @id = "SecurityQuestionId", @class = "form-control", @style = "width: 100%;" })
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="SecurityQuestionAnswer" class="control-label">Security Question Answer <span class="text-danger bold">*</span></label>
+                                            <input type="text" id="SecurityQuestionAnswer" name="SecurityQuestionAnswer" class="form-control" value="@ud.SecurityQuestionAnswer"
+                                                   placeholder="Enter security question answer" required="required" autocomplete=@ac />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6" style="margin-top: 30px;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <button id="btnSubmitProfileInfo" class="btn btn-primary btn-block" type="submit"> Submit </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <button id="btnClearProfileInfo" class="btn btn-secondary btn-block" type="reset"> Clear </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+    jQuery.noConflict();
+
+    jQuery(document).ready(function () {
+        jQuery('#UserFullNameBn, #UserAddressBn').avro({ 'bn': true });
+    });
+
+    jQuery("#btnSubmitProfileInfo").click(function () {
+        var uid = GetHiddenValue('UserId');
+        var input = document.getElementById('SignatureFileName');
+        var files = input.files;
+
+        Swal.fire({
+            title: "Are you sure?",
+            //html: 'Application will be rejected. Do you wish to continue? <br /> <div class="form-group"><label for="txtRejectReason"><span class="badge badge-info">Please Specify Reject Reason</span> <span class="text-danger bold">*</span></label><input type="text" id="txtRejectReason" name="txtRejectReason" class="form-control"></div>',
+            type: "warning",
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Submit"
+        }).then(function (t) {
+            var uid = GetHiddenValue('UserId');
+            var ufn = GetTextValue('UserFullName');
+            var ufnbn = GetTextValue('UserFullNameBn');
+            var uftn = GetTextValue('UserFatherName');
+            var udb = GetTextValue('UserDateOfBirth');
+            var nid = GetTextValue('UserNID');
+            var upn = GetTextValue('UserPassportNo');
+            var ups = GetTextValue('UserProfession');
+            var udg = GetTextValue('UserDesignation');
+            var adr = GetTextValue('UserAddress');
+            var adrbn = GetTextValue('UserAddressBn');
+            var uae = GetTextValue('UserAlternateEmail');
+            var uam = GetTextValue('UserAlternateMobile');
+            var sqid = GetTextValue('SecurityQuestionId');
+            var sqa = GetTextValue('SecurityQuestionAnswer');
+
+            var formData = new FormData();
+            formData.append("UserId", uid);
+            formData.append("UserRegistrationId", '0');
+            formData.append("UserFullName", ufn);
+            formData.append("UserFullNameBn", ufnbn);
+            formData.append("UserFatherName", uftn);
+            formData.append("UserDateOfBirth", udb);
+            formData.append("UserNID", nid);
+            formData.append("UserPassportNo", upn);
+            formData.append("UserProfession", ups);
+            formData.append("UserDesignation", udg);
+            formData.append("UserAddress", adr);
+            formData.append("UserAddressBn", adrbn);
+            formData.append("UserAlternateEmail", uae);
+            formData.append("UserAlternateMobile", uam);
+            formData.append("SecurityQuestionId", sqid);
+            formData.append("SecurityQuestionAnswer", sqa);
+            formData.append("file", files[0]);
+
+            if (t.value == true) {
+                if (uid != '') {
+                    var url = '@Url.Action("saveprofile", "account")';
+
+                    $.ajax({
+                        url: url,
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        type: "POST",
+                        success: function (data, status, jqXHR) {
+                            console.log(data);
+                            if (data.message != '') {
+                                if (data.status == 'success') {
+                                    Notification(data.status, data.title, data.message);
+                                    Swal.fire(data.title, data.message, data.status);
+
+                                    setTimeout(function () { RedirectToHome(); }, 5000);
+                                } else {
+                                    Notification(data.status, data.title, data.message);
+                                    Swal.fire(data.title, data.message, data.status);
+                                }
+                            }
+                        }, error: function (jqXHR, exception) {
+                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                            Notification('error', 'Error Occured', errorMsg);
+                            Swal.fire('Error Occured', errorMsg, 'error');
+                        }
+                    });
+                } else {
+                    Swal.fire('Required', 'User ID can not be leave empty!', 'warning');
+                    Notification('warning', 'Required', 'User ID can not be leave empty!');
+                }
+            }
+        });
+    });
+
+    function RedirectToHome() {
+        var url = '@Url.Action("viewusers", "account")';
+        window.location.href = url;
+    }
+
+    function GetTextValue(control) {
+        return jQuery('#' + control).val();
+    }
+
+    function GetHiddenValue(control) {
+        return jQuery('#' + control).val();
+    }
+    </script>
+</div>

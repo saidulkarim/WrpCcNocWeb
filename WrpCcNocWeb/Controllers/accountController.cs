@@ -345,15 +345,16 @@ namespace WrpCcNocWeb.Controllers
         //account/saveprofile
         [HttpPost]
         [Obsolete]
-        public JsonResult saveprofile(long UserRegistrationId, string UserFullName, string UserFullNameBn,
+        public JsonResult saveprofile(long UserId, long UserRegistrationId, string UserFullName, string UserFullNameBn,
             string UserFatherName, string UserDateOfBirth, string UserNID, string UserPassportNo,
             string UserProfession, string UserDesignation, string UserAddress, string UserAddressBn,
-            string UserAlternateEmail, string UserAlternateMobile, int SecurityQuestionId, 
+            string UserAlternateEmail, string UserAlternateMobile, int SecurityQuestionId,
             string SecurityQuestionAnswer, IFormFile file)
         {
             int result = 0;
             AdminModUsersDetail _user = new AdminModUsersDetail();
 
+            #region New Applicant User Registration
             if (UserRegistrationId > 0)
             {
                 var _userExistCheck = _db.AdminModUsersDetail.Where(u => u.UserRegistrationId == UserRegistrationId).FirstOrDefault();
@@ -402,13 +403,13 @@ namespace WrpCcNocWeb.Controllers
                                 if (noti.status == "success")
                                 {
                                     dbContextTransaction.Commit();
-                                    UserInfo _ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
-                                    _ui.UserID = _user.UserId;
-                                    HttpContext.Session.SetComplexData("LoggerUserInfo", _ui);
+                                    //UserInfo _ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+                                    //_ui.UserID = _user.UserId;
+                                    //HttpContext.Session.SetComplexData("LoggerUserInfo", _ui);
 
                                     noti = new Notification
                                     {
-                                        id = _ui.UserID.ToString(),
+                                        id = _user.UserId.ToString(),
                                         status = "success",
                                         title = "Success",
                                         message = "Profile information has been successfully submitted. Your signature also uploaded."
@@ -458,10 +459,190 @@ namespace WrpCcNocWeb.Controllers
                     }
                 }
             }
+            #endregion
+
+            #region User Info Update by Admin
+            if (UserId > 0)
+            {
+                var _userExistCheck = _db.AdminModUsersDetail.Find(UserId);
+
+                if (_userExistCheck != null)
+                {
+                    using var dbContextTransaction = _db.Database.BeginTransaction();
+
+                    try
+                    {
+                        //_userExistCheck.UserRegistrationId = _userExistCheck.UserRegistrationId;
+                        _userExistCheck.UserFullName = UserFullName;
+                        _userExistCheck.UserFullNameBn = UserFullNameBn;
+                        _userExistCheck.UserFatherName = UserFatherName;
+                        _userExistCheck.UserDateOfBirth = DateTime.Parse(UserDateOfBirth.ToString());
+                        _userExistCheck.UserNID = UserNID;
+                        _userExistCheck.UserPassportNo = UserPassportNo;
+                        _userExistCheck.UserProfession = UserProfession;
+                        _userExistCheck.UserDesignation = UserDesignation;
+                        _userExistCheck.UserAddress = UserAddress;
+                        _userExistCheck.UserAddressBn = UserAddressBn;
+                        _userExistCheck.UserAlternateEmail = UserAlternateEmail;
+                        _userExistCheck.UserAlternateMobile = UserAlternateMobile;
+                        _userExistCheck.SecurityQuestionId = SecurityQuestionId;
+                        _userExistCheck.SecurityQuestionAnswer = SecurityQuestionAnswer;
+                        _userExistCheck.IsProfileSubmitted = _userExistCheck.IsProfileSubmitted;
+
+                        _db.Entry(_userExistCheck).State = EntityState.Modified;
+                        result = _db.SaveChanges();
+
+                        if (result > 0)
+                        {
+                            if (result > 0)
+                            {
+                                if (file != null)
+                                {
+                                    noti = uusf(_userExistCheck, "SignatureFileName", file);
+
+                                    if (noti.status == "success")
+                                    {
+                                        dbContextTransaction.Commit();
+                                        //UserInfo _ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+                                        //_ui.UserID = _userExistCheck.UserId;
+                                        //HttpContext.Session.SetComplexData("LoggerUserInfo", _ui);
+
+                                        noti = new Notification
+                                        {
+                                            id = _userExistCheck.UserId.ToString(),
+                                            status = "success",
+                                            title = "Success",
+                                            message = "Profile information has been successfully updated and signature also uploaded."
+                                        };
+                                    }
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Commit();
+                                    //UserInfo _ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+                                    //_ui.UserID = _userExistCheck.UserId;
+                                    //HttpContext.Session.SetComplexData("LoggerUserInfo", _ui);
+
+                                    noti = new Notification
+                                    {
+                                        id = _userExistCheck.UserId.ToString(),
+                                        status = "success",
+                                        title = "Success",
+                                        message = "Profile information has been successfully updated."
+                                    };
+                                }
+                            }
+                            else
+                            {
+                                dbContextTransaction.Rollback();
+
+                                noti = new Notification
+                                {
+                                    id = "0",
+                                    status = "error",
+                                    title = "Submission Error",
+                                    message = "Sorry, profile information not update!"
+                                };
+                            }
+                        }
+                        else
+                        {
+                            dbContextTransaction.Rollback();
+
+                            noti = new Notification
+                            {
+                                id = "0",
+                                status = "error",
+                                title = "Submission Error",
+                                message = "Sorry, your profile information not submitted!"
+                            };
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContextTransaction.Rollback();
+                        var message = ch.ExtractInnerException(ex);
+
+                        noti = new Notification
+                        {
+                            id = "0",
+                            status = "error",
+                            title = "Exception Error",
+                            message = message
+                        };
+                    }
+                }
+            }
+            #endregion
 
             return Json(noti);
         }
-        
+
+        //account/saveprofile
+        [HttpPost]
+        public JsonResult rupw(long urid, string uopw, string ucpw)
+        {
+            int result = 0;
+
+            if (urid > 0)
+            {
+                var _userRegDetail = _db.AdminModUserRegistrationDetail.Find(urid);
+
+                if (_userRegDetail != null)
+                {
+                    using var dbContextTransaction = _db.Database.BeginTransaction();
+
+                    try
+                    {
+                        _userRegDetail.UserPassword = ucpw;
+
+                        _db.Entry(_userRegDetail).State = EntityState.Modified;
+                        result = _db.SaveChanges();
+
+                        if (result > 0)
+                        {
+                            dbContextTransaction.Commit();
+
+                            noti = new Notification
+                            {
+                                id = _userRegDetail.UserRegistrationId.ToString(),
+                                status = "success",
+                                title = "Success",
+                                message = "User password has been changed successfully."
+                            };
+                        }
+                        else
+                        {
+                            dbContextTransaction.Rollback();
+
+                            noti = new Notification
+                            {
+                                id = "0",
+                                status = "error",
+                                title = "Password Change Error",
+                                message = "Sorry, User password not changed!"
+                            };
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContextTransaction.Rollback();
+                        var message = ch.ExtractInnerException(ex);
+
+                        noti = new Notification
+                        {
+                            id = "0",
+                            status = "error",
+                            title = "Password Change Exception Error",
+                            message = message
+                        };
+                    }
+                }
+            }
+
+            return Json(noti);
+        }
+
         [Obsolete]
         public Notification uusf(long urid, string controltitle, IFormFile file)
         {
@@ -473,6 +654,90 @@ namespace WrpCcNocWeb.Controllers
             {
                 ud = _db.AdminModUsersDetail.Find(urid);
             }
+
+            try
+            {
+                if (file != null)
+                {
+                    if (ud != null)
+                    {
+                        filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                        extension = filename.Substring(filename.IndexOf('.'));
+                        filename = EnsureCorrectFilename(filename);
+                        filename = String.Format("{0}_{1}{2}", ud.UserId, "signature", extension);
+
+                        ud.SignatureFileName = filename;
+
+                        _db.Entry(ud).State = EntityState.Modified;
+                        result = _db.SaveChanges();
+
+                        if (result > 0)
+                        {
+                            using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
+                            file.CopyTo(output);
+
+                            noti = new Notification
+                            {
+                                id = ud.UserId.ToString(),
+                                status = "success",
+                                title = "Success",
+                                message = "Your signature has been successfully uploaded."
+                            };
+                        }
+                        else
+                        {
+                            noti = new Notification
+                            {
+                                id = ud.UserId.ToString(),
+                                status = "error",
+                                title = "Signature Upload Error",
+                                message = "Your selected file has not uploaded."
+                            };
+                        }
+                    }
+                    else
+                    {
+                        noti = new Notification
+                        {
+                            id = "0",
+                            status = "warning",
+                            title = "Profile Error",
+                            message = "Your profile has not submit yet!"
+                        };
+                    }
+                }
+                else
+                {
+                    noti = new Notification
+                    {
+                        id = "0",
+                        status = "warning",
+                        title = "Select File",
+                        message = "No file(s) selected!"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    title = "An Exception Error Occured",
+                    message = message
+                };
+            }
+
+            return noti;
+        }
+
+        [Obsolete]
+        public Notification uusf(AdminModUsersDetail ud, string controltitle, IFormFile file)
+        {
+            int result = 0;
+            string filename = "", extension = "", foldername = "images/signature";
 
             try
             {
@@ -665,7 +930,8 @@ namespace WrpCcNocWeb.Controllers
                                  UserDesignation = s.U.UserDesignation,
                                  UserEmail = s.R.UserEmail,
                                  UserMobile = s.R.UserMobile,
-                                 UserActivationStatus = s.R.UserActivationStatus
+                                 UserActivationStatus = s.R.UserActivationStatus,
+                                 IsDeleted = s.R.IsDeleted
                              }).ToList();
 
             if (!string.IsNullOrEmpty(uli.UnionGeoCode))
@@ -686,7 +952,8 @@ namespace WrpCcNocWeb.Controllers
                                    UserDesignation = ud.UserDesignation,
                                    UserEmail = ud.UserEmail,
                                    UserMobile = ud.UserMobile,
-                                   UserActivationStatus = ud.UserActivationStatus
+                                   UserActivationStatus = ud.UserActivationStatus,
+                                   IsDeleted = ud.IsDeleted
                                }).ToList();
             }
 
@@ -708,7 +975,8 @@ namespace WrpCcNocWeb.Controllers
                                    UserDesignation = ud.UserDesignation,
                                    UserEmail = ud.UserEmail,
                                    UserMobile = ud.UserMobile,
-                                   UserActivationStatus = ud.UserActivationStatus
+                                   UserActivationStatus = ud.UserActivationStatus,
+                                   IsDeleted = ud.IsDeleted
                                }).ToList();
             }
 
@@ -730,11 +998,12 @@ namespace WrpCcNocWeb.Controllers
                                    UserDesignation = ud.UserDesignation,
                                    UserEmail = ud.UserEmail,
                                    UserMobile = ud.UserMobile,
-                                   UserActivationStatus = ud.UserActivationStatus
+                                   UserActivationStatus = ud.UserActivationStatus,
+                                   IsDeleted = ud.IsDeleted
                                }).ToList();
             }
 
-            ViewData["UserDetails"] = userDetails;
+            ViewData["UserDetails"] = userDetails.Where(w => w.IsDeleted == 0).ToList();
             return View();
         }
 
@@ -836,10 +1105,10 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
-        public IActionResult userDetails(long userId)
+        public IActionResult userDetails(long id)
         {
             UserInfo userDetails = _db.AdminModUsersDetail.Join(_db.AdminModUserRegistrationDetail, u => u.UserRegistrationId, r => r.UserRegistrationId, (u, r) => new { R = r, U = u })
-                                         .Where(w => w.U.UserId == userId)
+                                         .Where(w => w.U.UserId == id)
                                          .Select(s => new UserInfo
                                          {
                                              UserID = s.U.UserId,
@@ -858,24 +1127,103 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
-        public IActionResult editUserProfile()
+        public IActionResult editUserProfile(long id)
         {
+            AdminModUsersDetail userDetails = _db.AdminModUsersDetail.Where(w => w.UserId == id).FirstOrDefault();
+
+            ViewBag.SecurityQuestionId = new SelectList(_db.LookUpAdminModSecurityQuestion.ToList(), "SecurityQuestionId", "SecurityQuestion", userDetails.SecurityQuestionId);
+            ViewBag.UpdateUserInfo = userDetails;
             return View();
         }
 
-        public IActionResult resetPassword()
+        public IActionResult resetPassword(long id)
         {
+            AdminModUsersDetail userDetails = _db.AdminModUsersDetail.Find(id);
+            ViewBag.UpdateUserInfo = userDetails;
+
             return View();
         }
 
-        public IActionResult makeActiveInactive()
+        public IActionResult makeActiveInactive(long id)
         {
-            return View();
+            int result = 0;
+            string msg = string.Empty;
+            AdminModUsersDetail userDetails = _db.AdminModUsersDetail.Find(id);
+            AdminModUserRegistrationDetail userRegDetails = _db.AdminModUserRegistrationDetail.Find(userDetails.UserRegistrationId);
+
+            //ViewBag.UserRegDetails = userRegDetails;
+            using var dbContextTransaction = _db.Database.BeginTransaction();
+
+            try
+            {
+                if (userRegDetails.UserActivationStatus == 1)
+                {
+                    userRegDetails.UserActivationStatus = 0;
+                    msg = "User " + userRegDetails.UserName + " has been inactivated successfully!";
+                }
+                else
+                {
+                    userRegDetails.UserActivationStatus = 1;
+                    msg = "User " + userRegDetails.UserName + " has been activated successfully!";
+                }
+
+                _db.Entry(userRegDetails).State = EntityState.Modified;
+                result = _db.SaveChanges();
+
+                if (result > 0)
+                {
+                    dbContextTransaction.Commit();
+                    TempData["Message"] = ch.ShowMessage(Sign.Success, "Active/ Inactive Status", msg);
+                }
+                else
+                {
+                    dbContextTransaction.Rollback();
+                    TempData["Message"] = ch.ShowMessage(Sign.Error, "Active/ Inactive Error", "An error occured!");
+                }
+            }
+            catch (Exception ex)
+            {
+                dbContextTransaction.Rollback();
+                TempData["Message"] = ch.ShowMessage(Sign.Error, "Active/ Inactive Error", ch.ExtractInnerException(ex));
+            }
+
+            return RedirectToAction("viewusers", "account");
         }
 
-        public IActionResult deleteUser()
+        public IActionResult deleteUser(long id)
         {
-            return View();
+            int result = 0;
+            string msg = string.Empty;
+            AdminModUsersDetail userDetails = _db.AdminModUsersDetail.Find(id);
+            AdminModUserRegistrationDetail userRegDetails = _db.AdminModUserRegistrationDetail.Find(userDetails.UserRegistrationId);
+
+            using var dbContextTransaction = _db.Database.BeginTransaction();
+
+            try
+            {
+                userRegDetails.IsDeleted = 1;
+
+                _db.Entry(userRegDetails).State = EntityState.Modified;
+                result = _db.SaveChanges();
+
+                if (result > 0)
+                {
+                    dbContextTransaction.Commit();
+                    TempData["Message"] = ch.ShowMessage(Sign.Success, "Deletion Status", "User " + userRegDetails.UserName + " has been deleted!");
+                }
+                else
+                {
+                    dbContextTransaction.Rollback();
+                    TempData["Message"] = ch.ShowMessage(Sign.Error, "Deletion Status", "An error occured, user not deleted");
+                }
+            }
+            catch (Exception ex)
+            {
+                dbContextTransaction.Rollback();
+                TempData["Message"] = ch.ShowMessage(Sign.Error, "User Deletion Exception Error", ch.ExtractInnerException(ex));
+            }
+
+            return RedirectToAction("viewusers", "account");
         }
 
         public IActionResult viewUserGroups()

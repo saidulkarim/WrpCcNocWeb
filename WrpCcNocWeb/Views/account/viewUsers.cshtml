@@ -31,17 +31,16 @@
             {
                 <tr>
                     <td>@item.UserName</td>
-                    <td>@item.UserFullName</td>
-                    @*<td>@item.CreatedDate.ToString("dd MMMM, yyyy")</td>*@
+                    <td>@item.UserFullName</td>                    
                     <td>@item.UserDesignation</td>                   
                     <td>@item.UserMobile</td>
                     <td>@((item.UserActivationStatus != null && item.UserActivationStatus == 1) ? "Active" : "Inactive")</td>
                     <td>
-                        @Html.ActionLink("Details", "userDetails", new { RegId = item.UserRegistrationID, UserId = @item.UserID })&nbsp;&nbsp;|&nbsp;&nbsp;
-                        @Html.ActionLink("Edit Profile", "editUserProfile", new { RegId = item.UserRegistrationID, UserId = @item.UserID })&nbsp;&nbsp;|&nbsp;&nbsp;
-                        @Html.ActionLink("Reset Password", "resetPassword", new { RegId = item.UserRegistrationID, UserId = @item.UserID })&nbsp;&nbsp;|&nbsp;&nbsp;
-                        @Html.ActionLink(((item.UserActivationStatus != null && item.UserActivationStatus == 1) ? "Make Inactive" : "Activate"), "makeActiveInactive", new { RegId = item.UserRegistrationID, UserId = @item.UserID })&nbsp;&nbsp;|&nbsp;&nbsp;
-                        @Html.ActionLink("Delete", "deleteUser", new { RegId = item.UserRegistrationID, UserId = @item.UserID })
+                        @Html.ActionLink("Details", "userDetails", new { id = @item.UserID }, new { target = "_blank" })&nbsp;&nbsp;|&nbsp;&nbsp;
+                        @Html.ActionLink("Edit Profile", "editUserProfile", new { id = @item.UserID }, new { target = "_blank" })&nbsp;&nbsp;|&nbsp;&nbsp;
+                        @Html.ActionLink("Reset Password", "resetPassword", new { id = @item.UserID }, new { target = "_blank" })&nbsp;&nbsp;|&nbsp;&nbsp;
+                        @Html.ActionLink(((item.UserActivationStatus != null && item.UserActivationStatus == 1) ? "Make Inactive" : "Activate"), "makeActiveInactive", new { id = @item.UserID }, new { target = "_blank" })&nbsp;&nbsp;|&nbsp;&nbsp;
+                        @Html.ActionLink("Delete", "deleteUser", new { id = @item.UserID }, new { target = "_blank" })
                     </td>
                 </tr>
             }

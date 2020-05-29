@@ -180,26 +180,8 @@
             var sqid = GetTextValue('SecurityQuestionId');
             var sqa = GetTextValue('SecurityQuestionAnswer');
 
-            //var userDetail = {
-            //    "UserRegistrationId": urid,
-            //    "UserFullName": ufn,
-            //    "UserFullNameBn": ufnbn,
-            //    "UserFatherName": ufn,
-            //    "UserDateOfBirth": udb,
-            //    "UserNID": nid,
-            //    "UserPassportNo": upn,
-            //    "UserProfession": ups,
-            //    "UserDesignation": udg,
-            //    "UserAddress": adr,
-            //    "UserAddressBn": adrbn,
-            //    "UserAlternateEmail": uae,
-            //    "UserAlternateMobile": uam,
-            //    "SecurityQuestionId": sqid,
-            //    "SecurityQuestionAnswer": sqa,
-            //    "IsProfileSubmitted": 1
-            //};
-
             var formData = new FormData();
+            formData.append("UserId", '0');
             formData.append("UserRegistrationId", urid);
             formData.append("UserFullName", ufn);
             formData.append("UserFullNameBn", ufnbn),
