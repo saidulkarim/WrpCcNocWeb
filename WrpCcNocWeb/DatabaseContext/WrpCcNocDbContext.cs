@@ -50,6 +50,7 @@ namespace WrpCcNocWeb.DatabaseContext
         #region Detail --- CC Module        
         public DbSet<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetail { get; set; }
         public DbSet<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetail { get; set; }
+        public DbSet<CcModAppProject_32_IndvDetail> CcModAppProject_32_IndvDetail { get; set; }
         public DbSet<CcModAppProjectCommonDetail> CcModAppProjectCommonDetail { get; set; }
         public DbSet<CcModBDP2100GoalDetail> CcModBDP2100GoalDetail { get; set; }
         public DbSet<CcModBDP2100HotSpotDetail> CcModBDP2100HotSpotDetail { get; set; }
@@ -63,10 +64,12 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<CcModPrjCompatSDGIndiDetail> CcModPrjCompatSDGIndiDetail { get; set; }
         public DbSet<CcModPrjEcoFinAnalysisDetail> CcModPrjEcoFinAnalysisDetail { get; set; }
         public DbSet<CcModPrjEIADetail> CcModPrjEIADetail { get; set; }
+        public DbSet<CcModPrjGrndWtrDepthDetail> CcModPrjGrndWtrDepthDetail { get; set; }
         public DbSet<CcModPrjHydroRegionDetail> CcModPrjHydroRegionDetail { get; set; }
         public DbSet<CcModPrjIrrigCropAreaDetail> CcModPrjIrrigCropAreaDetail { get; set; }
         public DbSet<CcModPrjLocationDetail> CcModPrjLocationDetail { get; set; }
         public DbSet<CcModPrjSIADetail> CcModPrjSIADetail { get; set; }
+        public DbSet<CcModPrjSWADetail> CcModPrjSWADetail { get; set; }
         public DbSet<CcModPrjTypesOfFloodDetail> CcModPrjTypesOfFloodDetail { get; set; }
         #endregion
 
@@ -91,6 +94,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<LookUpCcModHydroSystem> LookUpCcModHydroSystem { get; set; }
         public DbSet<LookUpCcModKhalType> LookUpCcModKhalType { get; set; }
         public DbSet<LookUpCcModLandType> LookUpCcModLandType { get; set; }
+        public DbSet<LookUpCcModMonth> LookUpCcModMonth { get; set; }
         public DbSet<LookUpCcModNameOfWaterBody> LookUpCcModNameOfWaterBody { get; set; }
         public DbSet<LookUpCcModNocType> LookUpCcModNocType { get; set; }
         public DbSet<LookUpCcModNWMPProgramme> LookUpCcModNWMPProgramme { get; set; }

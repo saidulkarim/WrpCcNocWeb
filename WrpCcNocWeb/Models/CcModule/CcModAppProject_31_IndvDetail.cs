@@ -128,7 +128,7 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Was there any Use Of Tools")]
         public int? UseOfToolsYesNoId { get; set; }
         [ForeignKey("UseOfToolsYesNoId")]
-        public virtual LookUpCcModYesNo LookUpYesNoUseOfTool { get; set; }
+        public virtual LookUpCcModYesNo LookUpYesNoUseOfTool_31 { get; set; }
 
         [Column("ToolsApplicantComments", Order = 26)]
         [Display(Name = "Tools Applicant Comments")]

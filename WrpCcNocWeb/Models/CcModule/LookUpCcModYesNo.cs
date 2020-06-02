@@ -83,11 +83,27 @@ namespace WrpCcNocWeb.Models
         public virtual List<CcModAppProjectCommonDetail> LookUpYesNoSocialIssue { get; set; }
         
         
-        [InverseProperty("LookUpYesNoUseOfTool")]
-        public virtual List<CcModAppProject_31_IndvDetail> LookUpYesNoUseOfTool { get; set; }
+        [InverseProperty("LookUpYesNoUseOfTool_31")]
+        public virtual List<CcModAppProject_31_IndvDetail> LookUpYesNoUseOfTool_31 { get; set; }
 
         
-        [InverseProperty("LookUpYesNoDuplication")]
-        public virtual List<CcModAppProject_31_IndvDetail> LookUpYesNoDuplication { get; set; }
+        [InverseProperty("LookUpYesNoDuplication_31")]
+        public virtual List<CcModAppProject_31_IndvDetail> LookUpYesNoDuplication_31 { get; set; }
+
+
+        [InverseProperty("LookUpCcModYesNoUseOfFlowMeter")]
+        public virtual List<CcModAppProject_32_IndvDetail> LookUpCcModYesNoUseOfFlowMeter { get; set; }
+
+
+        [InverseProperty("LookUpCcModYesNoDivertWtrRtnSrc")]
+        public virtual List<CcModAppProject_32_IndvDetail> LookUpCcModYesNoDivertWtrRtnSrc { get; set; }
+
+
+        [InverseProperty("LookUpYesNoUseOfTool_32")]
+        public virtual List<CcModAppProject_32_IndvDetail> LookUpYesNoUseOfTool_32 { get; set; }
+
+
+        [InverseProperty("LookUpYesNoDuplication_32")]
+        public virtual List<CcModAppProject_32_IndvDetail> LookUpYesNoDuplication_32 { get; set; }
     }
 }
