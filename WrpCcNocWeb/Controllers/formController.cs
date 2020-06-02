@@ -84,6 +84,15 @@ namespace WrpCcNocWeb.Controllers
 
                     return RedirectToAction("fcmp", "form");
                 }
+                else if (_selectedForm.ProjectTypeId.Equals("2"))
+                {
+                    HttpContext.Response.Cookies.Append("FormLanguage", _selectedForm.LanguageTypeId, new CookieOptions()
+                    {
+                        Expires = DateTime.Now.AddDays(1)
+                    });
+
+                    return RedirectToAction("swwdu", "form");
+                }
                 else
                 {
                     TempData["Message"] = ch.ShowMessage(Sign.Warning, "Under Development", "Sorry, select project is under development.");
@@ -562,20 +571,18 @@ namespace WrpCcNocWeb.Controllers
         public IActionResult fcmp()
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
-
             if (ui == null)
             {
                 return RedirectToAction("login", "account");
             }
-
-            ViewData["Title"] = "Flood Control Management Project";
+            
             SelectedForm sf = HttpContext.Session.GetComplexData<SelectedForm>("SelectedForm");
-
             if (sf == null)
             {
                 return RedirectToAction("index", "form");
             }
 
+            ViewData["Title"] = sf.LanguageTypeId == "1" ? "বন্যা নিয়ন্ত্রন বা ব্যবস্থাপনা প্রকল্প" : "Flood Control Management Project";
             ViewBag.ProjectTypeId = sf.ProjectTypeId;
             ViewBag.ProjectTitle = sf.ProjectTitle;
 
@@ -591,7 +598,7 @@ namespace WrpCcNocWeb.Controllers
                 ViewBag.ProjectCommonDetail = _pcd;
 
                 LoadDropdownData();
-                NewEmptyForm();
+                FcmpNewEmptyForm();
 
                 //TempData["Message"] = ch.ShowMessage(Sign.Info, "Information", "Please enter new project information.");                
             }
@@ -793,7 +800,259 @@ namespace WrpCcNocWeb.Controllers
             return Json(noti);
         }
 
-        private void NewEmptyForm()
+        private void FcmpNewEmptyForm()
+        {
+            CcModAppProjectCommonDetail _pcd = new CcModAppProjectCommonDetail();
+            ViewBag.ProjectCommonDetail = _pcd;
+            CcModPrjLocationDetail _locationdetail = new CcModPrjLocationDetail();
+            ViewBag.ProjectLocationDetail = _locationdetail;
+            CcModAppProject_31_IndvDetail _indvdetail = new CcModAppProject_31_IndvDetail();
+            ViewBag.ProjectIndvDetail31 = _indvdetail;
+
+            List<CcModPrjHydroRegionDetail> _hydroregiondetail = new List<CcModPrjHydroRegionDetail>();
+            ViewBag.HydroRegionDetail = _hydroregiondetail;
+            List<CcModBDP2100HotSpotDetail> _hotspotdetail = new List<CcModBDP2100HotSpotDetail>();
+            ViewBag.BDP2100HotSpotDetail = _hotspotdetail;
+            List<CcModPrjTypesOfFloodDetail> _typesofflood = new List<CcModPrjTypesOfFloodDetail>();
+            ViewBag.TypesOfFloodDetail = _typesofflood;
+            List<CcModPrjCompatNWPDetail> _compatnwpdetail = new List<CcModPrjCompatNWPDetail>();
+            ViewBag.CompatNWPDetail = _compatnwpdetail;
+            List<CcModPrjCompatNWMPDetail> _compatnwmpdetail = new List<CcModPrjCompatNWMPDetail>();
+            ViewBag.CompatNWMPDetail = _compatnwmpdetail;
+            List<CcModPrjCompatSDGDetail> _compatsdgdetail = new List<CcModPrjCompatSDGDetail>();
+            ViewBag.CompatSDGDetail = _compatsdgdetail;
+            List<CcModPrjCompatSDGIndiDetail> _compatsdgindidetail = new List<CcModPrjCompatSDGIndiDetail>();
+            ViewBag.CompatSDGIndiDetail = _compatsdgindidetail;
+            List<CcModBDP2100GoalDetail> _bdp2100goaldetail = new List<CcModBDP2100GoalDetail>();
+            ViewBag.BDP2100GoalDetail = _bdp2100goaldetail;
+            List<CcModGPWMGroupTypeDetail> _gpwmgrouptype = new List<CcModGPWMGroupTypeDetail>();
+            ViewBag.GPWMGroupType = _gpwmgrouptype;
+        }
+
+        //form/SurfaceWaterWithdrawalDistributionUse :: swwdu
+        public IActionResult sw_temp()
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
+            SelectedForm sf = HttpContext.Session.GetComplexData<SelectedForm>("SelectedForm");
+            if (sf == null)
+            {
+                return RedirectToAction("index", "form");
+            }
+
+            ViewData["Title"] = sf.LanguageTypeId == "1" ? "ভূপরিস্থ পানি সংক্রান্ত প্রকল্প" : "Project for Surface Water";
+            ViewBag.ProjectTypeId = sf.ProjectTypeId;
+            ViewBag.ProjectTitle = sf.ProjectTitle;
+
+            ProjectStatusInfo _psi = GetProjectInfoByType(sf.ProjectTypeId.ToString());
+
+            if (_psi == null)
+            {
+                CcModAppProjectCommonDetail _pcd = new CcModAppProjectCommonDetail
+                {
+                    ProjectId = 0
+                };
+
+                ViewBag.ProjectCommonDetail = _pcd;
+
+                LoadDropdownData();
+                SwwduNewEmptyForm();
+            }
+            else if (_psi.ProjectId != 0 && _psi.AppSubmissionId == null)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Warning, "Problem Occured", "Sorry, " + sf.ProjectTitle + " form submission status not found! Please contact with System Administrator.");
+                return RedirectToAction("index", "form");
+            }
+            else
+            {
+                LoadDropdownData();
+
+                CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(_psi.ProjectId);
+                if (_pcd != null)
+                    ViewBag.ProjectCommonDetail = _pcd;
+                else
+                    ViewBag.ProjectCommonDetail = new CcModAppProjectCommonDetail();
+
+                CcModPrjLocationDetail _locationdetail = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == _psi.ProjectId).FirstOrDefault();
+                if (_locationdetail != null)
+                    ViewBag.ProjectLocationDetail = _locationdetail;
+                else
+                    ViewBag.ProjectLocationDetail = new CcModPrjLocationDetail();
+
+                CcModAppProject_31_IndvDetail _indvdetail = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == _psi.ProjectId).FirstOrDefault();
+                if (_indvdetail != null)
+                    ViewBag.ProjectIndvDetail31 = _indvdetail;
+                else
+                    ViewBag.ProjectIndvDetail31 = new CcModAppProject_31_IndvDetail();
+
+                var _hydroregiondetail = _db.CcModPrjHydroRegionDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                            .Select(x => new { x.PrjHydroRegionDetailId, x.ProjectId, x.HydroRegionId }).ToList();
+                ViewBag.HydroRegionDetail = _hydroregiondetail;
+
+                var _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                        .Select(x => new { x.HotSpotDetailId, x.ProjectId, x.DeltaPlanHotSpotId }).ToList();
+                ViewBag.BDP2100HotSpotDetail = _hotspotdetail;
+
+                var _typesofflood = _db.CcModPrjTypesOfFloodDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.FloodTypeDetailId, x.ProjectId, x.FloodTypeId }).ToList();
+                ViewBag.TypesOfFloodDetail = _typesofflood;
+
+                var _compatnwpdetail = _db.CcModPrjCompatNWPDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new
+                                       {
+                                           x.PrjCompatNWPId,
+                                           x.ProjectId,
+                                           x.NationalWaterPolicyArticleId,
+                                           x.LookUpCcModNWPArticle.NationalWtrPolicyShortTitle,
+                                           x.LookUpCcModNWPArticle.NationalWtrPolicyArticleTitle
+                                       }).ToList();
+                ViewBag.CompatNWPDetail = _compatnwpdetail;
+
+                var _compatnwmpdetail = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.PrjCompatNWMPId, x.ProjectId, x.NWMPProgrammeId, x.LookUpCcModNWMPProgramme.NWMPProgrammeTitle }).ToList();
+                ViewBag.CompatNWMPDetail = _compatnwmpdetail;
+
+                var _compatsdgdetail = _db.CcModPrjCompatSDGDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.SDGCompabilityId, x.ProjectId, x.SDGGoalId }).ToList();
+                ViewBag.CompatSDGDetail = _compatsdgdetail;
+
+                var _compatsdgindidetail = _db.CcModPrjCompatSDGIndiDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.SDGIndicatorDetailId, x.ProjectId, x.SDGIndicatorId }).ToList();
+                ViewBag.CompatSDGIndiDetail = _compatsdgindidetail;
+
+                var _bdp2100goaldetail = _db.CcModBDP2100GoalDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.DeltaGoalDetailId, x.ProjectId, x.DeltPlan2100GoalId }).ToList();
+                ViewBag.BDP2100GoalDetail = _bdp2100goaldetail;
+
+                var _gpwmgrouptype = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.GPWMGroupTypeDetailId, x.ProjectId, x.GPWMGroupTypeId }).ToList();
+                ViewBag.GPWMGroupType = _gpwmgrouptype;
+            }
+
+            GetApplicantInfo(ui.UserID);
+            return View();
+        }
+
+        //form/SurfaceWaterWithdrawalDistributionUse :: swwdu
+        public IActionResult swwdu()
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
+            SelectedForm sf = HttpContext.Session.GetComplexData<SelectedForm>("SelectedForm");            
+            if (sf == null)
+            {
+                return RedirectToAction("index", "form");
+            }
+
+            ViewData["Title"] = sf.LanguageTypeId == "1" ? "ভূপরিস্থ পানি সংক্রান্ত প্রকল্প" : "Project for Surface Water";
+            ViewBag.ProjectTypeId = sf.ProjectTypeId;
+            ViewBag.ProjectTitle = sf.ProjectTitle;
+
+            ProjectStatusInfo _psi = GetProjectInfoByType(sf.ProjectTypeId.ToString());
+
+            if (_psi == null)
+            {
+                CcModAppProjectCommonDetail _pcd = new CcModAppProjectCommonDetail
+                {
+                    ProjectId = 0
+                };
+
+                ViewBag.ProjectCommonDetail = _pcd;
+
+                LoadDropdownData();
+                SwwduNewEmptyForm();                
+            }
+            else if (_psi.ProjectId != 0 && _psi.AppSubmissionId == null)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Warning, "Problem Occured", "Sorry, " + sf.ProjectTitle + " form submission status not found! Please contact with System Administrator.");
+                return RedirectToAction("index", "form");
+            }
+            else
+            {
+                LoadDropdownData();
+
+                CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(_psi.ProjectId);
+                if (_pcd != null)
+                    ViewBag.ProjectCommonDetail = _pcd;
+                else
+                    ViewBag.ProjectCommonDetail = new CcModAppProjectCommonDetail();
+
+                CcModPrjLocationDetail _locationdetail = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == _psi.ProjectId).FirstOrDefault();
+                if (_locationdetail != null)
+                    ViewBag.ProjectLocationDetail = _locationdetail;
+                else
+                    ViewBag.ProjectLocationDetail = new CcModPrjLocationDetail();
+
+                CcModAppProject_31_IndvDetail _indvdetail = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == _psi.ProjectId).FirstOrDefault();
+                if (_indvdetail != null)
+                    ViewBag.ProjectIndvDetail31 = _indvdetail;
+                else
+                    ViewBag.ProjectIndvDetail31 = new CcModAppProject_31_IndvDetail();
+
+                var _hydroregiondetail = _db.CcModPrjHydroRegionDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                            .Select(x => new { x.PrjHydroRegionDetailId, x.ProjectId, x.HydroRegionId }).ToList();
+                ViewBag.HydroRegionDetail = _hydroregiondetail;
+
+                var _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                        .Select(x => new { x.HotSpotDetailId, x.ProjectId, x.DeltaPlanHotSpotId }).ToList();
+                ViewBag.BDP2100HotSpotDetail = _hotspotdetail;
+
+                var _typesofflood = _db.CcModPrjTypesOfFloodDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.FloodTypeDetailId, x.ProjectId, x.FloodTypeId }).ToList();
+                ViewBag.TypesOfFloodDetail = _typesofflood;
+
+                var _compatnwpdetail = _db.CcModPrjCompatNWPDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new
+                                       {
+                                           x.PrjCompatNWPId,
+                                           x.ProjectId,
+                                           x.NationalWaterPolicyArticleId,
+                                           x.LookUpCcModNWPArticle.NationalWtrPolicyShortTitle,
+                                           x.LookUpCcModNWPArticle.NationalWtrPolicyArticleTitle
+                                       }).ToList();
+                ViewBag.CompatNWPDetail = _compatnwpdetail;
+
+                var _compatnwmpdetail = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.PrjCompatNWMPId, x.ProjectId, x.NWMPProgrammeId, x.LookUpCcModNWMPProgramme.NWMPProgrammeTitle }).ToList();
+                ViewBag.CompatNWMPDetail = _compatnwmpdetail;
+
+                var _compatsdgdetail = _db.CcModPrjCompatSDGDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.SDGCompabilityId, x.ProjectId, x.SDGGoalId }).ToList();
+                ViewBag.CompatSDGDetail = _compatsdgdetail;
+
+                var _compatsdgindidetail = _db.CcModPrjCompatSDGIndiDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.SDGIndicatorDetailId, x.ProjectId, x.SDGIndicatorId }).ToList();
+                ViewBag.CompatSDGIndiDetail = _compatsdgindidetail;
+
+                var _bdp2100goaldetail = _db.CcModBDP2100GoalDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.DeltaGoalDetailId, x.ProjectId, x.DeltPlan2100GoalId }).ToList();
+                ViewBag.BDP2100GoalDetail = _bdp2100goaldetail;
+
+                var _gpwmgrouptype = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.GPWMGroupTypeDetailId, x.ProjectId, x.GPWMGroupTypeId }).ToList();
+                ViewBag.GPWMGroupType = _gpwmgrouptype;
+            }
+
+            GetApplicantInfo(ui.UserID);
+            return View();
+        }
+
+        //form/SurfaceWaterWithdrawalDistributionUse :: swwdu
+        [HttpPost]
+        public IActionResult swwdu(long id)
+        {
+            return View();
+        }
+
+        private void SwwduNewEmptyForm()
         {
             CcModAppProjectCommonDetail _pcd = new CcModAppProjectCommonDetail();
             ViewBag.ProjectCommonDetail = _pcd;

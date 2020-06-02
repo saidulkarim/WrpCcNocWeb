@@ -575,7 +575,7 @@
                                                                                     </div>
                                                                                 </div>
 
-                                                                                <div class="form-group">
+                                                                                @*<div class="form-group">
                                                                                     <label for="ConnectivityAmidWaterland">
                                                                                         @{if (language == "1")
                                                                                             { <span>খাল, নদী এবং জলাভূমির মধ্যে সংযোগ</span>}
@@ -595,7 +595,7 @@
                                                                                         }
                                                                                     </label>
                                                                                     <input type="number" id="CatchmentArea" name="CatchmentArea" class="form-control" />
-                                                                                </div>
+                                                                                </div>*@
 
                                                                                 <div id="divAnnualRainfall">
                                                                                     <label for="AnnualRainfall" class="bold">
@@ -1098,7 +1098,7 @@
                                                                                     <input type="text" id="FloraAndFauna" name="FloraAndFauna" class="form-control" />
                                                                                 </div>
 
-                                                                                <fieldset>
+                                                                                @*<fieldset>
                                                                                     <legend>
                                                                                         @{if (language == "1")
                                                                                             { <span>আর্থ সামাজিক অবস্থা</span>}
@@ -1141,7 +1141,7 @@
                                                                                             <input type="text" id="AvgMonthlyIncome" name="AvgMonthlyIncome" class="form-control" />
                                                                                         </div>
                                                                                     </div>
-                                                                                </fieldset>
+                                                                                </fieldset>*@
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -3290,7 +3290,7 @@
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="card">
+                                                                    @*<div class="card">
                                                                         <div class="card-header bg-pink py-3 text-white">
                                                                             <div class="card-widgets">
                                                                                 <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
@@ -3353,7 +3353,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
+                                                                    </div>*@
 
                                                                     <div class="card">
                                                                         <div class="card-header bg-warning py-3 text-white">
@@ -5386,7 +5386,7 @@
                 success: function (data, status, jqXHR) {
                     var content = '';
 
-                    if (type == 'upz') {                        
+                    if (type == 'upz') {
                         if (lang == '1') {
                             jQuery("#UpazilaGeoCode").html('<option value="">বাছাই করুন...</option>');
 
@@ -5412,7 +5412,7 @@
 
                             //jQuery("#UpazilaGeoCode").val(val);
                         }
-                    } else if (type == 'uni') {                       
+                    } else if (type == 'uni') {
                         if (lang == '1') {
                             jQuery("#UnionGeoCode").html('<option value="">বাছাই করুন...</option>');
 
