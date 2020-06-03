@@ -144,7 +144,7 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Was there any Duplication")]
         public int? DuplicatYesNoId { get; set; }
         [ForeignKey("DuplicatYesNoId")]
-        public virtual LookUpCcModYesNo LookUpYesNoDuplication { get; set; }
+        public virtual LookUpCcModYesNo LookUpYesNoDuplication_31 { get; set; }
 
         [Column("DuplicationApplicantComments", Order = 29)]
         [Display(Name = "Duplication Applicant Comments")]
