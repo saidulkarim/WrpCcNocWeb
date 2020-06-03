@@ -72,9 +72,9 @@ namespace WrpCcNocWeb
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=account}/{action=index}/{id?}");
-                //pattern: "{controller=account}/{action=login}/{id?}");
-                //pattern: "{controller=home}/{action=index}/{id?}");
+                    //pattern: "{controller=account}/{action=index}/{id?}");
+                    pattern: "{controller=account}/{action=login}/{id?}");
+                    //pattern: "{controller=home}/{action=index}/{id?}");
             });
 
             RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");
