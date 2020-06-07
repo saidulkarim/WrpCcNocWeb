@@ -1089,13 +1089,15 @@ namespace WrpCcNocWeb.Controllers
                                              .FirstOrDefault();
 
             int ApplicationState = _db.LookUpAdminModCostRange
-                                      .Where(w => (w.LowerValue < ProjectEstimatedCost.ToString().ToDecimal() || w.LowerValue == ProjectEstimatedCost.ToString().ToDecimal()) && (w.UpperValue > ProjectEstimatedCost.ToString().ToDecimal() || w.UpperValue == ProjectEstimatedCost.ToString().ToDecimal()))
+                                      .Where(w => (w.LowerValue < ProjectEstimatedCost.ToString().ToDecimal() || w.LowerValue == ProjectEstimatedCost.ToString().ToDecimal()) && 
+                                                  (w.UpperValue > ProjectEstimatedCost.ToString().ToDecimal() || w.UpperValue == ProjectEstimatedCost.ToString().ToDecimal()))
                                       .Select(s => s.StateId)
                                       .FirstOrDefault();
 
             return ApplicationState;
         }
 
+        /* // this method was blocked on 07 Jun 2020
         private int GetProjectMultipleLocation(long projectId)
         {
             int appState = 0;
@@ -1155,6 +1157,68 @@ namespace WrpCcNocWeb.Controllers
                         appState = 21; // 3; //Pending for Review of Upazila Technical Committee
                                        //else
                                        //    appState = 1; //Not Yet Submitted
+                }
+            }
+
+            return appState;
+        }
+        */
+
+        private int GetProjectMultipleLocation(long projectId)
+        {
+            int appState = 0;
+            int tUnion = 0, tUpazila = 0, tDistrict = 0;
+            List<CcModPrjLocationDetail> _projLocation = _db.CcModPrjLocationDetail
+                                                            .Where(w => w.ProjectId == projectId)
+                                                            .ToList();
+
+            if (_projLocation.Count > 0)
+            {
+                tUnion = _projLocation.Where(w => w.UnionGeoCode != string.Empty)
+                                      .DistinctBy(d => d.UnionGeoCode)
+                                      .Select(s => s.UnionGeoCode).Count();
+
+                tUpazila = _projLocation.Where(w => w.UpazilaGeoCode != string.Empty)
+                                        .DistinctBy(d => d.UpazilaGeoCode)
+                                        .Select(s => s.UpazilaGeoCode).Count();
+
+                tDistrict = _projLocation.Where(w => w.DistrictGeoCode != string.Empty)
+                                         .DistinctBy(d => d.DistrictGeoCode)
+                                         .Select(s => s.DistrictGeoCode).Count();
+
+                if (tUnion > 1)
+                {
+                    appState = 23; //Pending for Final Approval of Upazila Higher Authority
+                }
+                else
+                {
+                    appState = 13; //Pending for Final Approval of Union Higher Authority
+                }
+
+                if (tUpazila > 1)
+                {
+                    appState = 33; //Pending for Final Approval of District Higher Authority
+                }
+                else
+                {
+                    if (tUnion == 0 && tUpazila == 1)
+                        appState = 23; //Pending for Final Approval of Upazila Higher Authority
+                    else if (tUnion == 1 && tUpazila == 1)
+                        appState = 13; //Pending for Final Approval of Union Higher Authority
+                }
+
+                if (tDistrict > 1)
+                {
+                    appState = 43; //Pending for Review of WARPO DG
+                }
+                else
+                {
+                    if (tUnion == 0 && tUpazila == 0 && tDistrict == 1)
+                        appState = 33; //Pending for Final Approval of District Higher Authority
+                    else if (tUnion == 1 && tUpazila == 1 && tDistrict == 1)
+                        appState = 13; //Pending for Final Approval of Union Higher Authority
+                    else if (tUnion == 0 && tUpazila == 1 && tDistrict == 1)
+                        appState = 23; //Pending for Final Approval of Upazila Higher Authority
                 }
             }
 
