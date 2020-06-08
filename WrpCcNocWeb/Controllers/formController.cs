@@ -141,7 +141,7 @@ namespace WrpCcNocWeb.Controllers
                            ApplicationState = st.ApplicationState,
                            ApprovalStatusId = p.ApprovalStatusId ?? 0,
                            ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
-                           IsCompleted = p.IsCompleted
+                           IsCompleted = p.IsCompletedId
                        }).ToList();
             }
             else if (uli.UserGroupId != 1000000001 && uli.AuthorityLevelId == 0)
@@ -165,7 +165,7 @@ namespace WrpCcNocWeb.Controllers
                            ApplicationState = st.ApplicationState,
                            ApprovalStatusId = p.ApprovalStatusId ?? 0,
                            ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
-                           IsCompleted = p.IsCompleted
+                           IsCompleted = p.IsCompletedId
                        }).ToList();
             }
             else
@@ -195,7 +195,7 @@ namespace WrpCcNocWeb.Controllers
                                ApplicationState = st.ApplicationState,
                                ApprovalStatusId = p.ApprovalStatusId ?? 0,
                                ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
-                               IsCompleted = p.IsCompleted
+                               IsCompleted = p.IsCompletedId
                            }).ToList();
                 }
 
@@ -222,7 +222,7 @@ namespace WrpCcNocWeb.Controllers
                                ApplicationState = st.ApplicationState,
                                ApprovalStatusId = p.ApprovalStatusId ?? 0,
                                ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
-                               IsCompleted = p.IsCompleted
+                               IsCompleted = p.IsCompletedId
                            }).ToList();
                 }
 
@@ -249,7 +249,7 @@ namespace WrpCcNocWeb.Controllers
                                ApplicationState = st.ApplicationState,
                                ApprovalStatusId = p.ApprovalStatusId ?? 0,
                                ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
-                               IsCompleted = p.IsCompleted
+                               IsCompleted = p.IsCompletedId
                            }).ToList();
                 }
             }
@@ -548,11 +548,11 @@ namespace WrpCcNocWeb.Controllers
             {
                 if (status == 0)
                 {
-                    pcd.IsCompleted = 1;
+                    pcd.IsCompletedId = 1;
                 }
                 else if (status == 1)
                 {
-                    pcd.IsCompleted = 2;
+                    pcd.IsCompletedId = 2;
                 }
 
                 _db.Entry(pcd).State = EntityState.Modified;
@@ -575,7 +575,7 @@ namespace WrpCcNocWeb.Controllers
             {
                 return RedirectToAction("login", "account");
             }
-            
+
             SelectedForm sf = HttpContext.Session.GetComplexData<SelectedForm>("SelectedForm");
             if (sf == null)
             {
@@ -946,7 +946,7 @@ namespace WrpCcNocWeb.Controllers
                 return RedirectToAction("login", "account");
             }
 
-            SelectedForm sf = HttpContext.Session.GetComplexData<SelectedForm>("SelectedForm");            
+            SelectedForm sf = HttpContext.Session.GetComplexData<SelectedForm>("SelectedForm");
             if (sf == null)
             {
                 return RedirectToAction("index", "form");
@@ -968,7 +968,7 @@ namespace WrpCcNocWeb.Controllers
                 ViewBag.ProjectCommonDetail = _pcd;
 
                 LoadDropdownData();
-                SwwduNewEmptyForm();                
+                SwwduNewEmptyForm();
             }
             else if (_psi.ProjectId != 0 && _psi.AppSubmissionId == null)
             {
@@ -1089,15 +1089,14 @@ namespace WrpCcNocWeb.Controllers
                                              .FirstOrDefault();
 
             int ApplicationState = _db.LookUpAdminModCostRange
-                                      .Where(w => (w.LowerValue < ProjectEstimatedCost.ToString().ToDecimal() || w.LowerValue == ProjectEstimatedCost.ToString().ToDecimal()) && 
+                                      .Where(w => (w.LowerValue < ProjectEstimatedCost.ToString().ToDecimal() || w.LowerValue == ProjectEstimatedCost.ToString().ToDecimal()) &&
                                                   (w.UpperValue > ProjectEstimatedCost.ToString().ToDecimal() || w.UpperValue == ProjectEstimatedCost.ToString().ToDecimal()))
                                       .Select(s => s.StateId)
                                       .FirstOrDefault();
 
             return ApplicationState;
         }
-
-        /* // this method was blocked on 07 Jun 2020
+        
         private int GetProjectMultipleLocation(long projectId)
         {
             int appState = 0;
@@ -1162,8 +1161,8 @@ namespace WrpCcNocWeb.Controllers
 
             return appState;
         }
-        */
 
+        /* // this method written and blocked on 07 Jun 2020 to change logic
         private int GetProjectMultipleLocation(long projectId)
         {
             int appState = 0;
@@ -1224,6 +1223,7 @@ namespace WrpCcNocWeb.Controllers
 
             return appState;
         }
+        */
 
         private void LoadDropdownData()
         {
@@ -1322,6 +1322,7 @@ namespace WrpCcNocWeb.Controllers
                                 pcd.ProjectCompletionDate = _pcd.ProjectCompletionDate;
                                 pcd.ProjectEstimatedCost = _pcd.ProjectEstimatedCost;
                                 pcd.LanguageId = sf.LanguageTypeId.ToInt();
+                                pcd.IsCompletedId = 0;
 
                                 _db.Entry(pcd).State = EntityState.Modified;
                                 result = _db.SaveChanges();
@@ -1357,7 +1358,9 @@ namespace WrpCcNocWeb.Controllers
                             {
                                 _pcd.UserId = ui.UserID;
                                 _pcd.AppSubmissionId = 0;
+                                _pcd.IsCompletedId = 0;
                                 _pcd.ApplicationStateId = 1; //should come from database
+                                _pcd.LanguageId = sf.LanguageTypeId.ToInt();
 
                                 _db.CcModAppProjectCommonDetail.Add(_pcd);
                                 result = _db.SaveChanges();
@@ -3874,19 +3877,52 @@ namespace WrpCcNocWeb.Controllers
                             {
                                 _db.CcModAppProject_31_IndvDetail.Add(Project31Indv);
 
-                                if (HydroRegion.Count > 0)
+                                if (HydroRegion != null && HydroRegion.Count > 0)
                                 {
                                     _db.CcModPrjHydroRegionDetail.AddRange(HydroRegion);
                                 }
+                                else
+                                {
+                                    noti = new Notification
+                                    {
+                                        id = "",
+                                        status = "error",
+                                        message = "Please select hydrological region!"
+                                    };
 
-                                if (BDP2100HotSpot.Count > 0)
+                                    goto Finish;
+                                }
+
+                                if (BDP2100HotSpot != null && BDP2100HotSpot.Count > 0)
                                 {
                                     _db.CcModBDP2100HotSpotDetail.AddRange(BDP2100HotSpot);
                                 }
+                                else
+                                {
+                                    noti = new Notification
+                                    {
+                                        id = "",
+                                        status = "error",
+                                        message = "Please select bangladesh delta plan 2100 hot spot!"
+                                    };
 
-                                if (TypesOfFlood.Count > 0)
+                                    goto Finish;
+                                }
+
+                                if (TypesOfFlood != null && TypesOfFlood.Count > 0)
                                 {
                                     _db.CcModPrjTypesOfFloodDetail.AddRange(TypesOfFlood);
+                                }
+                                else
+                                {
+                                    noti = new Notification
+                                    {
+                                        id = "",
+                                        status = "error",
+                                        message = "Please select types of flood!"
+                                    };
+
+                                    goto Finish;
                                 }
 
                                 result = _db.SaveChanges();
@@ -3897,9 +3933,9 @@ namespace WrpCcNocWeb.Controllers
 
                                     noti = new Notification
                                     {
-                                        id = pcd.ProjectId.ToString(),
+                                        id = Project31Indv.Project31IndvId.ToString(),
                                         status = "success",
-                                        message = "Information has been save successfully. "
+                                        message = "Information has been save successfully."
                                     };
 
                                     goto Finish;
@@ -3988,9 +4024,9 @@ namespace WrpCcNocWeb.Controllers
 
                                     noti = new Notification
                                     {
-                                        id = pcd.ProjectId.ToString(),
+                                        id = Project31Indv.Project31IndvId.ToString(),
                                         status = "success",
-                                        message = "Information has been save successfully. "
+                                        message = "Information has been updated successfully."
                                     };
 
                                     goto Finish;
@@ -4013,7 +4049,7 @@ namespace WrpCcNocWeb.Controllers
 
                         noti = new Notification
                         {
-                            id = "", //_form31.HydroSysDetailId.ToString(),
+                            id = "0", //_form31.HydroSysDetailId.ToString(),
                             status = "error",
                             message = "Saving data transaction has been rollbacked. " + message
                         };
@@ -5136,7 +5172,7 @@ namespace WrpCcNocWeb.Controllers
                 if (_pcd != null)
                 {
                     _pcd.ApplicationStateId = appState;
-                    _pcd.IsCompleted = 0;
+                    _pcd.IsCompletedId = 0;
 
                     _db.Entry(_pcd).State = EntityState.Modified;
                     result = _db.SaveChanges();
@@ -5200,7 +5236,7 @@ namespace WrpCcNocWeb.Controllers
                 if (_pcd != null)
                 {
                     _pcd.ApprovalStatusId = 1;
-                    _pcd.IsCompleted = 3;
+                    _pcd.IsCompletedId = 3;
 
                     _db.Entry(_pcd).State = EntityState.Modified;
                     result = _db.SaveChanges();
@@ -5265,7 +5301,7 @@ namespace WrpCcNocWeb.Controllers
                 {
                     _pcd.ApprovalStatusId = 3;
                     _pcd.ReasonOfRejection = reason.Trim();
-                    _pcd.IsCompleted = 3;
+                    _pcd.IsCompletedId = 3;
 
                     _db.Entry(_pcd).State = EntityState.Modified;
                     result = _db.SaveChanges();
@@ -5331,7 +5367,7 @@ namespace WrpCcNocWeb.Controllers
                 {
                     _pcd.ApprovalStatusId = 2;
                     _pcd.ReasonOfRejection = reason.Trim();
-                    _pcd.IsCompleted = 0;
+                    _pcd.IsCompletedId = 0;
 
                     _db.Entry(_pcd).State = EntityState.Modified;
                     result = _db.SaveChanges();

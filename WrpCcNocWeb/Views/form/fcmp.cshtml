@@ -159,7 +159,7 @@
                                                                     <div class="form-group">
                                                                         <label for="ProjectActivity">
                                                                             @{if (language == "1")
-                                                                                { <span>প্রকল্পের ক্রিয়াকলাপ/ উপাদানসমূহ</span>}
+                                                                                { <span>প্রকল্পের আওতায় প্রধান প্রধান ভৌত কাজের বিবরণ</span>}
                                                                                 else
                                                                                 {<span>Project Activities/ Components</span>}
                                                                             }
@@ -294,9 +294,9 @@
                                                                                             </th>
                                                                                             <th class="text-center">
                                                                                                 @{if (language == "1")
-                                                                                                    { <span>নথি সংযুক্তি</span>}
+                                                                                                    { <span>প্রস্তাবিত জায়গার ছবি</span>}
                                                                                                     else
-                                                                                                    {<span>File Attachment</span>}
+                                                                                                    {<span>Project Location Photo</span>}
                                                                                                 }
                                                                                             </th>
                                                                                             <th class="text-center" style="width: 150px;"></th>
@@ -502,7 +502,7 @@
                                                                                                         <th class="text-center">
                                                                                                             <span id="HydroSystemName"></span>
                                                                                                             @{if (language == "1")
-                                                                                                                { <span>&nbsp;</span>}
+                                                                                                                { <span>নাম</span>}
                                                                                                                 else
                                                                                                                 {<span>Name</span>}
                                                                                                             }
@@ -801,7 +801,7 @@
                                                                                         @{if (language == "1")
                                                                                             { <span>নিষ্কাশন (ড্রেইনেজ) ব্যবস্থা</span>}
                                                                                             else
-                                                                                            {<span> Drainage Condition</span>}
+                                                                                            {<span>Drainage Condition</span>}
                                                                                         }
                                                                                     </label>
                                                                                     <div id="DrainageCondition" class="row" style="margin-left: 5px;">
@@ -3794,7 +3794,10 @@
                 GoBack();                
             });
 
-            $('textarea, input[type=text]').avro({ 'bn': true });
+            var input_lang = '@language';
+            if (input_lang == 1) {
+                $('textarea, input[type=text]').avro({ 'bn': true });
+            }
 
             var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
 
@@ -3867,10 +3870,10 @@
                     //    break;
 
                     //to collapse all accordion panel at same time
-                    case 'k':
-                        event.preventDefault();
-                        alert('You have pressed Ctrl + k');
-                        break;
+                    //case 'k':
+                    //    event.preventDefault();
+                    //    alert('You have pressed Ctrl + k');
+                    //    break;
 
                     //case 's':
                     //    event.preventDefault();
@@ -3878,10 +3881,10 @@
                     //    break;
 
                     //to expand all accordion panel at same time
-                    case 'x':
-                        event.preventDefault();
-                        alert('You have pressed Ctrl + x');
-                        break;
+                    //case 'x':
+                    //    event.preventDefault();
+                    //    alert('You have pressed Ctrl + x');
+                    //    break;
                 }
             }
         });
@@ -4998,6 +5001,8 @@
                     } else {
                         Notification('error', 'Saving Error', data.message);
                     }
+
+                    SetHiddenValue('Project31IndvId', data.id);
                 }, error: function (jqXHR, exception) {
                     var errorMsg = AjaxErrorHandle(jqXHR, exception);
                     Notification('error', 'Error Occured', errorMsg);
@@ -5679,7 +5684,6 @@
                 //General Info
                 SetHiddenValue('ProjectId', projectId);
                 SetHiddenValue('Project31IndvId', '@Html.Raw(@ViewBag.ProjectIndvDetail31.Project31IndvId)');
-
                 SetHiddenValue('UserId', '@Html.Raw(@ViewBag.ProjectCommonDetail.UserId)');
 
                 if('@ViewBag.ProjectCommonDetail.ProjectTypeId' != '' && '@Html.Raw(@ViewBag.ProjectCommonDetail.ProjectTypeId)' != 0)

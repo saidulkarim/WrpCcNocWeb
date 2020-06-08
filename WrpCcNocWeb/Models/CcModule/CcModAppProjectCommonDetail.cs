@@ -451,24 +451,23 @@ namespace WrpCcNocWeb.Models
         [MaxLength(350)]
         public string RecommendationComment { get; set; }
 
-        [Column("IsCompleted", Order = 84)]
+        [Column("IsCompletedId", Order = 84)]
         [Display(Name = "Is Completed")]
-        public int? IsCompleted { get; set; }
-
-
+        public int? IsCompletedId { get; set; }
+        //[ForeignKey("IsCompletedId")]
+        //public virtual LookUpCcModIsCompletedState LookUpCcModIsCompletedState { get; set; }
+		
         [Column("LanguageId", Order = 85)]
         [Display(Name = "Language")]
         public int? LanguageId { get; set; }
         [ForeignKey("LanguageId")]
         public virtual LookUpAdminModLanguage LookUpAdminModLanguage { get; set; }
 
-
         [Column("ReasonOfRejection", Order = 86)]
         [Display(Name = "Reason Of Rejection")]
         [MaxLength(550)]
         public string ReasonOfRejection { get; set; }
         
-
         public virtual List<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetails { get; set; }
         public virtual List<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetails { get; set; }
         public virtual List<CcModBDP2100GoalDetail> CcModBDP2100GoalDetails { get; set; }

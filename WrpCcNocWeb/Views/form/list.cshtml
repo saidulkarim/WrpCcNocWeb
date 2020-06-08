@@ -30,7 +30,7 @@
                             <tbody>
                                 @foreach (ProjectViewList pcd in _pcds)
                                 {
-                                    var css_class = (pcd.ApprovalStatusId == 1) ? "bg-success" : (pcd.ApprovalStatusId == 2 || pcd.ApprovalStatusId == 3) ? "bg-secondary" : "bg-info";
+                                    var css_class = (pcd.ApprovalStatusId == 1) ? "bg-success" : (pcd.ApprovalStatusId == 2 || pcd.ApprovalStatusId == 3) ? "bg-secondary" : "bg-warning";
 
                                     if (pcd.IsCompleted == null || pcd.IsCompleted == 0)
                                     {

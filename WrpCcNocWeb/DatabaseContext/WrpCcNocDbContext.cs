@@ -92,6 +92,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<LookUpCcModGroundWaterQuality> LookUpCcModGroundWaterQuality { get; set; }
         public DbSet<LookUpCcModHydroRegion> LookUpCcModHydroRegion { get; set; }
         public DbSet<LookUpCcModHydroSystem> LookUpCcModHydroSystem { get; set; }
+		public DbSet<LookUpCcModIsCompletedState> LookUpCcModIsCompletedState { get; set; }
         public DbSet<LookUpCcModKhalType> LookUpCcModKhalType { get; set; }
         public DbSet<LookUpCcModLandType> LookUpCcModLandType { get; set; }
         public DbSet<LookUpCcModMonth> LookUpCcModMonth { get; set; }
