@@ -1,7 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Project View";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
     var prev_lang = ViewBag.LanguageId.ToString();
+    var app_state_id = ViewBag.ProjectCommonDetail.ApplicationStateId;
+    var app_state = ViewBag.ApplicationState;
+    var is_complete_id = ViewBag.ProjectCommonDetail.IsCompletedId;
+    var review_cycle_no = ViewBag.ProjectCommonDetail.ReviewCycleNo;
 }
 
 <div class="row">
@@ -24,8 +29,8 @@
                         (
                         @if (prev_lang == "1")
                         {<span>@ViewBag.ProjectTypeTitleBn</span>}
-                        else
-                        {<span>@ViewBag.ProjectTypeTitle</span>}
+                    else
+                    {<span>@ViewBag.ProjectTypeTitle</span>}
                         )
                     </h4>
                 </div>
@@ -2310,7 +2315,7 @@
                 <hr />
 
                 <div class="row justify-content-md-center">
-                    @if (ViewBag.UserAuthLevelID == ViewBag.HigherAuthLevelID)
+                    @if (is_complete_id == 6 && (app_state_id == 13 || app_state_id == 23 || app_state_id == 33 || app_state_id == 43))
                     {
                         <div class="form-group">
                             <button id="btnSubmitToApprove" class="btn btn-lg btn-success" type="button" style="width: 250px;">
@@ -2327,9 +2332,9 @@
                                     <i class="mdi mdi-chevron-down"></i>
                                 </button>
                                 <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                                    <a id="btnSubmitToApplicant" class="dropdown-item" href="javascript:void(0);">Back to Applicant for Correction</a>
-                                    <a id="btnSubmitToWRMC" class="dropdown-item" href="javascript:void(0);">Back to WRMC for Rechecking</a>
+                                    <!--<a id="btnSubmitToApplicant" class="dropdown-item" href="javascript:void(0);">Back to Applicant for Correction</a>-->
                                     <a id="btnSubmitToTechnicalCommittee" class="dropdown-item" href="javascript:void(0);">Back to Technical Committee for Re-evaluation</a>
+                                    <a id="btnSubmitToWRMC" class="dropdown-item" href="javascript:void(0);">Back to WRMC for Rechecking</a>
                                 </div>
                             </div>
                         </div>
@@ -2351,6 +2356,13 @@
                         </div>
                     }
 
+                    <!--
+                    <div class="form-group">
+                        <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
+                            Forward
+                        </button>
+                    </div>
+                    -->
                     <span>&nbsp;&nbsp;&nbsp;</span>
 
                     <div class="form-group">
@@ -2391,7 +2403,7 @@
                                 <button id="btnPopupCommentsSave" type="button" class="btn btn-info waves-effect waves-light">
                                     <i class="mdi mdi-content-save"></i>
                                 </button>
-                                <button id="btnPopupClear" type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" onclick="Custombox.modal.close();">
+                                <button id="btnPopupClear" type="button" class="btn btn-danger waves-effect" data-dismiss="modal" onclick="Custombox.modal.close();">
                                     <i class="mdi mdi-close-outline"></i>
                                 </button>
                             </div>
@@ -2406,6 +2418,50 @@
 <!-- Modal Popup for Comments -->
 <script type="text/javascript">
     jQuery(document).ready(function () {
+        var app_state_id = '@app_state_id';
+        var is_complete_id = '@is_complete_id';
+        var group_id = '@ViewBag.UserLevel';
+
+        if (group_id != '' && group_id != undefined && group_id != null) {
+            if (group_id == 1000000001) {
+                $('.comment').addClass('d-none');
+            }
+            //else {
+            //    $('.comment').removeClass('d-none');
+            //}
+        } else {
+            $('.comment').addClass('d-none');
+        }
+
+        if (app_state_id == 13 || app_state_id == 23 || app_state_id == 33 || app_state_id == 43) {
+            if (is_complete_id < 3) {
+                $('.comment').addClass('d-none');
+            } else {
+                $('.comment').removeClass('d-none');
+            }
+        }
+
+        var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
+
+        //SetHiddenValue('pProjectId', projectId);
+        //SetHiddenValue('pProject31IndvId', projectId);
+        //SetHiddenValue('pUserId', projectId);
+        //SetHiddenValue('pProjectTypeId', projectId);
+
+        if (projectId != '') {
+            pBindData();
+
+            pGetProjLocationsData();
+            pGetHydroSystemData();
+            pGetFloodFrequencyData();
+            pGetIrrigatedCropAreaData();
+            pGetAoFOData();
+            pGetDswpdData();
+            pGetEiaData();
+            pGetSiaData();
+            pGetEconFinAnaData();
+        }
+
         jQuery('#btnPopupCommentsSave').click(function () {
             SaveProjComments();
         });
@@ -2423,16 +2479,20 @@
         });
 
         jQuery("#btnSubmitToForward").click(function () {
+            var app_state = '@app_state';
+            var popup_msg = '';
+            popup_msg = 'Application will be forwarded to ' + app_state;
+
             Swal.fire({
                 title: "Are you sure?",
-                text: "Application will be forwarded to higher authority. \nYou will not be able to comment or analyze anything.",
+                text: popup_msg,
                 type: "warning",
                 allowEscapeKey: false,
                 allowOutsideClick: false,
                 showCancelButton: !0,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, Submit"
+                confirmButtonText: "Yes, Forward"
             }).then(function (t) {
                 if (t.value == true) {
                     var projectId = GetHiddenValue('pProjectId');
@@ -2447,6 +2507,12 @@
                             if (data.message != '') {
                                 Notification(data.status, data.title, data.message);
                                 Swal.fire(data.title, data.message, data.status);
+                            }
+
+                            if (data.status == 'success') {
+                                jQuery("#btnSubmitToForward").prop("disabled", true);
+                            } else {
+                                jQuery("#btnSubmitToForward").prop("disabled", false);
                             }
                         }, error: function (jqXHR, exception) {
                             var errorMsg = AjaxErrorHandle(jqXHR, exception);
@@ -2597,7 +2663,7 @@
         jQuery("#btnSubmitToWRMC").click(function () {
 	        Swal.fire({
 		        title: "Are you sure?",
-		        html: 'This application will be sent to water resource management committee for re-checking purpose. <br /> <div class="form-group"><label for="txtRejectReason"><span class="badge badge-info">Please Specify Reason</span> <span class="text-danger bold">*</span></label><input type="text" id="txtRejectReason" name="txtRejectReason" class="form-control"></div>',
+		        html: 'This application will be sent to Integrated Water Resource Management Committee for re-checking purpose.',
 		        type: "warning",
 		        allowEscapeKey: false,
 		        allowOutsideClick: false,
@@ -2607,36 +2673,29 @@
 		        confirmButtonText: "Yes, Send"
 	        }).then(function (t) {
 		        var projectId = GetHiddenValue('pProjectId');
-		        var reason = jQuery("#txtRejectReason").val();
 
 		        if (t.value == true) {
-			        if (reason != '') {
-				        var url = '@Url.Action("appreeva", "form")';
-				        jQuery.ajax({
-					        type: "POST",
-					        url: url,
-                            data: { pid: projectId, level: 'wrmc', reason: reason },
-					        dataType: "json",
-					        success: function (data, status, jqXHR) {
-						        if (data.message != '') {
-							        Notification(data.status, data.title, data.message);
-                                    Swal.fire(data.title, data.message, data.status);
+				    var url = '@Url.Action("appreevatoiwrmc", "form")';
+				    jQuery.ajax({
+					    type: "POST",
+					    url: url,
+                        data: { pid: projectId },
+					    dataType: "json",
+					    success: function (data, status, jqXHR) {
+						    if (data.message != '') {
+							    Notification(data.status, data.title, data.message);
+                                Swal.fire(data.title, data.message, data.status);
 
-                                    if (data.status == 'success') {
-                                        RedirectToHome();
-                                    }
-						        }
-					        }, error: function (jqXHR, exception) {
-						        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-						        Notification('error', 'Error Occured', errorMsg);
-						        Swal.fire('Error Occured', errorMsg, 'error');
-					        }
-				        });
-			        } else {
-				        Swal.fire('Required', 'Reason is required!', 'error');
-				        //Notification('error', 'Required', 'Reject reason is required!');
-				        jQuery("#txtRejectReason").focus();
-			        }
+                                if (data.status == 'success') {
+                                    RedirectToHome();
+                                }
+						    }
+					    }, error: function (jqXHR, exception) {
+						    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+						    Notification('error', 'Error Occured', errorMsg);
+						    Swal.fire('Error Occured', errorMsg, 'error');
+					    }
+				    });
 		        }
 	        });
         });
@@ -2644,7 +2703,7 @@
         jQuery("#btnSubmitToTechnicalCommittee").click(function () {
 	        Swal.fire({
 		        title: "Are you sure?",
-		        html: 'This application will be sent to technical committee for re-evaluation purpose. <br /> <div class="form-group"><label for="txtRejectReason"><span class="badge badge-info">Please Specify Reason</span> <span class="text-danger bold">*</span></label><input type="text" id="txtRejectReason" name="txtRejectReason" class="form-control"></div>',
+		        html: 'This application will be sent to Technical Committee for re-evaluation purpose.',
 		        type: "warning",
 		        allowEscapeKey: false,
 		        allowOutsideClick: false,
@@ -2654,36 +2713,29 @@
 		        confirmButtonText: "Yes, Send"
 	        }).then(function (t) {
 		        var projectId = GetHiddenValue('pProjectId');
-		        var reason = jQuery("#txtRejectReason").val();
 
-		        if (t.value == true) {
-			        if (reason != '') {
-				        var url = '@Url.Action("appreeva", "form")';
-				        jQuery.ajax({
-					        type: "POST",
-					        url: url,
-                            data: { pid: projectId, level: 'tc', reason: reason },
-					        dataType: "json",
-					        success: function (data, status, jqXHR) {
-                                if (data.message != '') {
-							        Notification(data.status, data.title, data.message);
-                                    Swal.fire(data.title, data.message, data.status);
+		        if (t.value == true) {			        
+				    var url = '@Url.Action("appreevatotc", "form")';
+				    jQuery.ajax({
+					    type: "POST",
+					    url: url,
+                        data: { pid: projectId },
+					    dataType: "json",
+					    success: function (data, status, jqXHR) {
+                            if (data.message != '') {
+							    Notification(data.status, data.title, data.message);
+                                Swal.fire(data.title, data.message, data.status);
 
-                                    if (data.status == 'success') {
-                                        RedirectToHome();
-                                    }
-						        }
-					        }, error: function (jqXHR, exception) {
-						        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-						        Notification('error', 'Error Occured', errorMsg);
-						        Swal.fire('Error Occured', errorMsg, 'error');
-					        }
-				        });
-			        } else {
-				        Swal.fire('Required', 'Reason is required!', 'error');
-				        //Notification('error', 'Required', 'Reject reason is required!');
-				        jQuery("#txtRejectReason").focus();
-			        }
+                                if (data.status == 'success') {
+                                    RedirectToHome();
+                                }
+						    }
+					    }, error: function (jqXHR, exception) {
+						    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+						    Notification('error', 'Error Occured', errorMsg);
+						    Swal.fire('Error Occured', errorMsg, 'error');
+					    }
+				    });
 		        }
 	        });
         });
@@ -2786,44 +2838,6 @@
     }
 </script>
 <!-- end -->
-
-<script type="text/javascript">
-    jQuery(document).ready(function () {
-        var group_id = '@ViewBag.UserLevel';
-        //console.log(group_id);
-
-        if (group_id != '' && group_id != undefined && group_id != null) {
-            if (group_id == 1000000001) {
-                $('.comment').addClass('d-none');
-            } else {
-                $('.comment').removeClass('d-none');
-            }
-        } else {
-            $('.comment').addClass('d-none');
-        }
-
-        var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
-
-        //SetHiddenValue('pProjectId', projectId);
-        //SetHiddenValue('pProject31IndvId', projectId);
-        //SetHiddenValue('pUserId', projectId);
-        //SetHiddenValue('pProjectTypeId', projectId);
-
-        if (projectId != '') {
-            pBindData();
-
-            pGetProjLocationsData();
-            pGetHydroSystemData();
-            pGetFloodFrequencyData();
-            pGetIrrigatedCropAreaData();
-            pGetAoFOData();
-            pGetDswpdData();
-            pGetEiaData();
-            pGetSiaData();
-            pGetEconFinAnaData();
-        }
-    });
-</script>
 
 <script type="text/javascript">
     function GetTextValue(control) {

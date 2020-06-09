@@ -47,5 +47,9 @@ namespace WrpCcNocWeb.Models
         [Column("DateOfAnalysis", Order = 6)]
         [Display(Name = "Date of Analysis")]
         public DateTime? DateOfAnalysis { get; set; }
+
+        [Column("ReviewCycleNo", Order = 7)]
+        [Display(Name = "Review Cycle No.")]
+        public int ReviewCycleNo { get; set; }
     }
 }

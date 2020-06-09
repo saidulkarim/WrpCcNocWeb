@@ -16,6 +16,6 @@ namespace WrpCcNocWeb.Models.Utility
         public string ApplicationState { get; set; }
         public int? ApprovalStatusId { get; set; }
         public string ApprovalStatus { get; set; }
-        public int? IsCompleted { get; set; }
+        public int? IsCompletedId { get; set; }
     }
 }

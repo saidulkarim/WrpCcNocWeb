@@ -467,7 +467,11 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Reason Of Rejection")]
         [MaxLength(550)]
         public string ReasonOfRejection { get; set; }
-        
+
+        [Column("ReviewCycleNo", Order = 87)]
+        [Display(Name = "Review Cycle No.")]
+        public int? ReviewCycleNo { get; set; }
+
         public virtual List<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetails { get; set; }
         public virtual List<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetails { get; set; }
         public virtual List<CcModBDP2100GoalDetail> CcModBDP2100GoalDetails { get; set; }

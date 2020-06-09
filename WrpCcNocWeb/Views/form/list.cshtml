@@ -32,7 +32,7 @@
                                 {
                                     var css_class = (pcd.ApprovalStatusId == 1) ? "bg-success" : (pcd.ApprovalStatusId == 2 || pcd.ApprovalStatusId == 3) ? "bg-secondary" : "bg-warning";
 
-                                    if (pcd.IsCompleted == null || pcd.IsCompleted == 0)
+                                    if (pcd.IsCompletedId == null || pcd.IsCompletedId == 0)
                                     {
                                         <tr class="@css_class text-white font-italic font-weight-bold">
                                             <td class="text-center align-middle">@count</td>
@@ -51,11 +51,11 @@
                                             }
                                             else
                                             {
-                                                <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId, status = pcd.IsCompleted ?? 0 })" class="btn btn-info">View</a></td>
+                                                <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId })" class="btn btn-info">View</a></td>
                                             }
                                         </tr>
                                     }
-                                    else if (pcd.IsCompleted == 1)
+                                    else if (pcd.IsCompletedId == 1)
                                     {
                                         <tr class="@css_class text-white">
                                             <td class="text-center align-middle">@count</td>
@@ -74,7 +74,7 @@
                                             }
                                             else
                                             {
-                                                <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId, status = pcd.IsCompleted ?? 0 })" class="btn btn-info">View</a></td>
+                                                <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId })" class="btn btn-info">View</a></td>
                                             }
                                         </tr>
                                     }
@@ -97,7 +97,7 @@
                                             }
                                             else
                                             {
-                                                <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId, status = pcd.IsCompleted ?? 0 })" class="btn btn-info">View</a></td>
+                                                <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId })" class="btn btn-info">View</a></td>
                                             }
                                         </tr>
                                     }

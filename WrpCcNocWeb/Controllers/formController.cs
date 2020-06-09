@@ -141,7 +141,7 @@ namespace WrpCcNocWeb.Controllers
                            ApplicationState = st.ApplicationState,
                            ApprovalStatusId = p.ApprovalStatusId ?? 0,
                            ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
-                           IsCompleted = p.IsCompletedId
+                           IsCompletedId = p.IsCompletedId
                        }).ToList();
             }
             else if (uli.UserGroupId != 1000000001 && uli.AuthorityLevelId == 0)
@@ -165,7 +165,7 @@ namespace WrpCcNocWeb.Controllers
                            ApplicationState = st.ApplicationState,
                            ApprovalStatusId = p.ApprovalStatusId ?? 0,
                            ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
-                           IsCompleted = p.IsCompletedId
+                           IsCompletedId = p.IsCompletedId
                        }).ToList();
             }
             else
@@ -195,7 +195,7 @@ namespace WrpCcNocWeb.Controllers
                                ApplicationState = st.ApplicationState,
                                ApprovalStatusId = p.ApprovalStatusId ?? 0,
                                ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
-                               IsCompleted = p.IsCompletedId
+                               IsCompletedId = p.IsCompletedId
                            }).ToList();
                 }
 
@@ -222,7 +222,7 @@ namespace WrpCcNocWeb.Controllers
                                ApplicationState = st.ApplicationState,
                                ApprovalStatusId = p.ApprovalStatusId ?? 0,
                                ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
-                               IsCompleted = p.IsCompletedId
+                               IsCompletedId = p.IsCompletedId
                            }).ToList();
                 }
 
@@ -249,7 +249,7 @@ namespace WrpCcNocWeb.Controllers
                                ApplicationState = st.ApplicationState,
                                ApprovalStatusId = p.ApprovalStatusId ?? 0,
                                ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
-                               IsCompleted = p.IsCompletedId
+                               IsCompletedId = p.IsCompletedId
                            }).ToList();
                 }
             }
@@ -258,7 +258,7 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
-        public IActionResult view(long id, int status)
+        public IActionResult view(long id)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
 
@@ -271,7 +271,7 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.UserLevel = uli.UserGroupId;
             ViewBag.UserAuthLevelID = uli.AuthorityLevelId;
             ViewBag.HigherAuthLevelID = GetHighestLevelAuthority();
-            ChangeStatus(id, status);
+            //ChangeStatus(id, status);
 
             CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(id);
 
@@ -337,9 +337,36 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.ProjectTypeTitle = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectType).FirstOrDefault();
             ViewBag.ProjectTypeTitleBn = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectTypeBn).FirstOrDefault();
             ViewBag.LanguageId = pcd.LanguageId;
+
+            ViewBag.ApplicationState = GetAppState(pcd.ApplicationStateId, pcd.IsCompletedId.Value);
             GetApplicantInfo(pcd.UserId);
 
             return View();
+        }
+
+        public string GetAppState(int appStateId, int isCompletedId)
+        {
+            if (isCompletedId == 2)
+            {
+                appStateId = appStateId - 1;
+            }
+            if (isCompletedId == 4)
+            {
+                appStateId = appStateId - 2;
+            }
+
+            if (isCompletedId == 3)
+            {
+                appStateId = appStateId + 1;
+            }
+
+            if (isCompletedId == 5)
+            {
+                appStateId = appStateId + 2;
+            }
+
+            string ApplicationState = _db.LookUpCcModApplicationState.Where(w => w.ApplicationStateId == appStateId).Select(s => s.ApplicationState).FirstOrDefault(); ;
+            return ApplicationState.Replace("Pending for Final Approval of ", "").Replace("Pending for Review of ", "");
         }
 
         public IActionResult printfcmp(long id, int status)
@@ -726,6 +753,8 @@ namespace WrpCcNocWeb.Controllers
                             {
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
                                 _pcd.ApplicationStateId = appState;
+                                _pcd.IsCompletedId = 1;
+                                _pcd.ReviewCycleNo = 0;
 
                                 _db.Entry(_pcd).State = EntityState.Modified;
                                 result = _db.SaveChanges();
@@ -1096,7 +1125,8 @@ namespace WrpCcNocWeb.Controllers
 
             return ApplicationState;
         }
-        
+
+        /* //this method blocked on 07 Jun, 2020 and new logic written below this method on same day
         private int GetProjectMultipleLocation(long projectId)
         {
             int appState = 0;
@@ -1161,8 +1191,8 @@ namespace WrpCcNocWeb.Controllers
 
             return appState;
         }
+        */
 
-        /* // this method written and blocked on 07 Jun 2020 to change logic
         private int GetProjectMultipleLocation(long projectId)
         {
             int appState = 0;
@@ -1223,7 +1253,6 @@ namespace WrpCcNocWeb.Controllers
 
             return appState;
         }
-        */
 
         private void LoadDropdownData()
         {
@@ -4609,6 +4638,9 @@ namespace WrpCcNocWeb.Controllers
             {
                 if (pda.ProjectId != 0)
                 {
+                    CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(pda.ProjectId);
+                    int ReviewCycleNo = pcd.ReviewCycleNo.Value;
+
                     if (!string.IsNullOrEmpty(pda.LabelNameOfControl))
                     {
                         if (!string.IsNullOrEmpty(pda.Comments))
@@ -4621,7 +4653,8 @@ namespace WrpCcNocWeb.Controllers
                                                                                 w.UserId == pda.UserId &&
                                                                                 w.ProjectTypeId == pda.ProjectTypeId &&
                                                                                 w.ProjectId == pda.ProjectId &&
-                                                                                w.LabelNameOfControl == pda.LabelNameOfControl)
+                                                                                w.LabelNameOfControl == pda.LabelNameOfControl && 
+                                                                                w.ReviewCycleNo == ReviewCycleNo)
                                                                      .FirstOrDefault();
 
                                 if (exists != null)
@@ -4631,6 +4664,7 @@ namespace WrpCcNocWeb.Controllers
                                 }
                                 else
                                 {
+                                    pda.ReviewCycleNo = ReviewCycleNo;
                                     pda.DateOfAnalysis = DateTime.Now;
                                     _db.CcModAppProjDataAnalysis.Add(pda);
                                 }
@@ -5138,44 +5172,80 @@ namespace WrpCcNocWeb.Controllers
         {
             UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
             List<LookUpAdminModUserGroup> userGroupList = new List<LookUpAdminModUserGroup>();
-            int appState = 0, result = 0;
+            int CurrentAppState = 0, NextAppState = 0, CurrentIsCompletedState = 0, NextIsCompletedState = 0, result = 0;
 
-            if (!string.IsNullOrEmpty(uli.UnionGeoCode))
+            #region
+            //if (!string.IsNullOrEmpty(uli.UnionGeoCode))
+            //{
+            //    userGroupList = _db.LookUpAdminModUserGroup.Where(w => w.UnionGeoCode == uli.UnionGeoCode).ToList();
+            //}
+
+            //if (string.IsNullOrEmpty(uli.UnionGeoCode) && !string.IsNullOrEmpty(uli.UpazilaGeoCode))
+            //{
+            //    userGroupList = _db.LookUpAdminModUserGroup.Where(w => w.UpazilaGeoCode == uli.UpazilaGeoCode).ToList();
+            //}
+
+            //if (string.IsNullOrEmpty(uli.UnionGeoCode) && string.IsNullOrEmpty(uli.UpazilaGeoCode) && !string.IsNullOrEmpty(uli.DistrictGeoCode))
+            //{
+            //    userGroupList = _db.LookUpAdminModUserGroup.Where(w => w.DistrictGeoCode == uli.DistrictGeoCode).ToList();
+            //}
+
+            //if (userGroupList.Count > 0)
+            //{
+            //    userGroupList = userGroupList.Where(w => w.AuthorityLevelId < uli.AuthorityLevelId).ToList();
+            //    int maxAuthLevelId = userGroupList.Max(m => m.AuthorityLevelId).Value;
+
+            //    LookUpAdminModUserGroup nextLevelInfo = userGroupList.Where(w => w.AuthorityLevelId == maxAuthLevelId).FirstOrDefault();
+            //    appState = _db.LookUpCcModApplicationState.Where(w => w.AuthorityLevelId == nextLevelInfo.AuthorityLevelId).Select(s => s.ApplicationStateId).FirstOrDefault();
+            //}
+            #endregion
+
+            CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(pid);
+
+            if (_pcd != null)
             {
-                userGroupList = _db.LookUpAdminModUserGroup.Where(w => w.UnionGeoCode == uli.UnionGeoCode).ToList();
-            }
+                CurrentAppState = _pcd.ApplicationStateId;
+                CurrentIsCompletedState = _pcd.IsCompletedId.Value;
 
-            if (string.IsNullOrEmpty(uli.UnionGeoCode) && !string.IsNullOrEmpty(uli.UpazilaGeoCode))
-            {
-                userGroupList = _db.LookUpAdminModUserGroup.Where(w => w.UpazilaGeoCode == uli.UpazilaGeoCode).ToList();
-            }
+                if (CurrentIsCompletedState == 2)
+                {
+                    NextAppState = CurrentAppState - 1;
+                    NextIsCompletedState = 3;
+                }
 
-            if (string.IsNullOrEmpty(uli.UnionGeoCode) && string.IsNullOrEmpty(uli.UpazilaGeoCode) && !string.IsNullOrEmpty(uli.DistrictGeoCode))
-            {
-                userGroupList = _db.LookUpAdminModUserGroup.Where(w => w.DistrictGeoCode == uli.DistrictGeoCode).ToList();
-            }
+                if (CurrentIsCompletedState == 3)
+                {
+                    NextAppState = CurrentAppState + 1;
+                    NextIsCompletedState = 4;
+                }
 
-            if (userGroupList.Count > 0)
-            {
-                userGroupList = userGroupList.Where(w => w.AuthorityLevelId < uli.AuthorityLevelId).ToList();
-                int maxAuthLevelId = userGroupList.Max(m => m.AuthorityLevelId).Value;
+                if (CurrentIsCompletedState == 4)
+                {
+                    NextAppState = CurrentAppState - 2;
+                    NextIsCompletedState = 5;
+                }
 
-                LookUpAdminModUserGroup nextLevelInfo = userGroupList.Where(w => w.AuthorityLevelId == maxAuthLevelId).FirstOrDefault();
-                appState = _db.LookUpCcModApplicationState.Where(w => w.AuthorityLevelId == nextLevelInfo.AuthorityLevelId).Select(s => s.ApplicationStateId).FirstOrDefault();
+                if (CurrentIsCompletedState == 5)
+                {
+                    NextAppState = CurrentAppState + 2;
+                    NextIsCompletedState = 6;
+                }
             }
 
             using var dbContextTransaction = _db.Database.BeginTransaction();
             try
             {
-                CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(pid);
+                //CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(pid);
 
                 if (_pcd != null)
                 {
-                    _pcd.ApplicationStateId = appState;
-                    _pcd.IsCompletedId = 0;
+                    _pcd.ApplicationStateId = NextAppState;
+                    _pcd.IsCompletedId = NextIsCompletedState;
 
                     _db.Entry(_pcd).State = EntityState.Modified;
                     result = _db.SaveChanges();
+
+                    string ForwardedToMsg = GetAppState(CurrentAppState, CurrentIsCompletedState);
 
                     if (result > 0)
                     {
@@ -5186,7 +5256,7 @@ namespace WrpCcNocWeb.Controllers
                             id = pid.ToString(),
                             status = "success",
                             title = "Success",
-                            message = "Application has been successfully forwarded to next level authority. Application tracking code is: " + _pcd.AppSubmissionId
+                            message = "Application has been successfully forwarded to " + ForwardedToMsg + ". Application tracking code is: " + _pcd.AppSubmissionId
                         };
                     };
                 }
@@ -5236,7 +5306,6 @@ namespace WrpCcNocWeb.Controllers
                 if (_pcd != null)
                 {
                     _pcd.ApprovalStatusId = 1;
-                    _pcd.IsCompletedId = 3;
 
                     _db.Entry(_pcd).State = EntityState.Modified;
                     result = _db.SaveChanges();
@@ -5301,7 +5370,6 @@ namespace WrpCcNocWeb.Controllers
                 {
                     _pcd.ApprovalStatusId = 3;
                     _pcd.ReasonOfRejection = reason.Trim();
-                    _pcd.IsCompletedId = 3;
 
                     _db.Entry(_pcd).State = EntityState.Modified;
                     result = _db.SaveChanges();
@@ -5349,12 +5417,10 @@ namespace WrpCcNocWeb.Controllers
             return Json(noti);
         }
 
-        //form/ApplicationRe-evaluate :: appreeva
+        //form/ApplicationRe-evaluateToTechnicalCommittee :: appreeva
         [HttpPost]
-        public JsonResult appreeva(long pid, string level, string reason)
+        public JsonResult appreevatotc(long pid)
         {
-            //UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
-            //List<LookUpAdminModUserGroup> userGroupList = new List<LookUpAdminModUserGroup>();
             int result = 0;
             string message = string.Empty;
 
@@ -5362,12 +5428,18 @@ namespace WrpCcNocWeb.Controllers
             try
             {
                 CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(pid);
+                int IsCompletedState = _pcd.IsCompletedId.Value;
 
                 if (_pcd != null)
                 {
-                    _pcd.ApprovalStatusId = 2;
-                    _pcd.ReasonOfRejection = reason.Trim();
-                    _pcd.IsCompletedId = 0;
+                    _pcd.ApplicationStateId -= 1; //sending to TC
+                    //_pcd.ApprovalStatusId = 2; //nees to discuss
+                    _pcd.IsCompletedId = 3; // higher committ to tc
+
+                    if (IsCompletedState == 6)
+                    {
+                        _pcd.ReviewCycleNo += 1;
+                    }
 
                     _db.Entry(_pcd).State = EntityState.Modified;
                     result = _db.SaveChanges();
@@ -5375,27 +5447,14 @@ namespace WrpCcNocWeb.Controllers
                     if (result > 0)
                     {
                         dbContextTransaction.Commit();
-
-                        if (level == "applicant")
-                        {
-                            message = "Application has been sent to applicant for correction purpose.";
-                        }
-                        else if (level == "wrmc")
-                        {
-                            message = "Application will be sent to Water Resource Management Committee for re-checking purpose.";
-                        }
-                        else
-                        {
-                            message = "Application will be sent to Technical Committee for re-evaluation purpose.";
-                        }
-
+                        message = "Application has been forwarded to Technical Committee for re-evaluation purpose.";
 
                         noti = new Notification
                         {
                             id = pid.ToString(),
                             status = "success",
                             title = "Success",
-                            message = "Application has been successfully rejected. Application tracking code is: " + _pcd.AppSubmissionId
+                            message = message + " Application tracking code is: " + _pcd.AppSubmissionId
                         };
                     };
                 }
@@ -5408,7 +5467,78 @@ namespace WrpCcNocWeb.Controllers
                         id = pid.ToString(),
                         status = "error",
                         title = "Forwarding Error",
-                        message = "Application not sent to re-evaluate. Application tracking code is: " + _pcd.AppSubmissionId
+                        message = "Application not forwarded to re-evaluate. Application tracking code is: " + _pcd.AppSubmissionId
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                dbContextTransaction.Rollback();
+                message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    title = "An Exception Error Occured",
+                    message = message
+                };
+            }
+
+            return Json(noti);
+        }
+
+        //form/ApplicationRe-evaluateToIWRMC :: appreevatoiwrmc
+        [HttpPost]
+        public JsonResult appreevatoiwrmc(long pid)
+        {
+            int result = 0;
+            string message = string.Empty;
+
+            using var dbContextTransaction = _db.Database.BeginTransaction();
+            try
+            {
+                CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(pid);
+                int IsCompletedState = _pcd.IsCompletedId.Value;
+
+                if (_pcd != null)
+                {
+                    _pcd.ApplicationStateId -= 2; //sending to IWRMC
+                    //_pcd.ApprovalStatusId = 2; //nees to discuss
+                    _pcd.IsCompletedId = 5; // higher committ to IWRMC
+
+                    if (IsCompletedState == 6)
+                    {
+                        _pcd.ReviewCycleNo += 1;
+                    }
+
+                    _db.Entry(_pcd).State = EntityState.Modified;
+                    result = _db.SaveChanges();
+
+                    if (result > 0)
+                    {
+                        dbContextTransaction.Commit();
+                        message = "Application has been forwarded to Integrated Water Resource Management Committee for re-checking purpose.";
+
+                        noti = new Notification
+                        {
+                            id = pid.ToString(),
+                            status = "success",
+                            title = "Success",
+                            message = message + " Application tracking code is: " + _pcd.AppSubmissionId
+                        };
+                    };
+                }
+                else
+                {
+                    dbContextTransaction.Rollback();
+
+                    noti = new Notification
+                    {
+                        id = pid.ToString(),
+                        status = "error",
+                        title = "Forwarding Error",
+                        message = "Application not forwarded to re-evaluate. Application tracking code is: " + _pcd.AppSubmissionId
                     };
                 }
             }
