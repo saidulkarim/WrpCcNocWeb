@@ -24,6 +24,66 @@ namespace WrpCcNocWeb.Models
         public string Error { get; set; }
     }
 
+    public class ProposedWaterUseDetailTemp
+    {
+        public int ProposedWaterUseId { get; set; }
+        public string WaterUseTypeName { get; set; }
+        public string WaterUseTypeNameBn { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class RiverNatureDetailTemp
+    {
+        public int RiverNatureId { get; set; }
+        public string RiverNatureTitle { get; set; }
+        public string RiverNatureTitleBn { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class SediOfRiverOrKhalDetailTemp
+    {
+        public int SedimentationId { get; set; }
+        public string SedimentationName { get; set; }
+        public string SedimentationNameBn { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class SWATemp
+    {
+        public long SWAId { get; set; }
+        public long ProjectId { get; set; }
+        public int MonthId { get; set; }
+        public string Month { get; set; }
+        public double? MinWaterFlow { get; set; }
+        public double? WaterDemandMonth { get; set; }
+    }
+
+    public class WtrDiversionSourceDetailTemp
+    {
+        public int WaterDiversionSourceId { get; set; }
+        public string SourceName { get; set; }
+        public string SourceNameBn { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class GrndWtrDepthDetailTemp
+    {
+        public long GrndWtrDepthDetailId { get; set; }
+        public long ProjectId { get; set; }
+        public int MonthId { get; set; }
+        public string Month { get; set; }
+        public double? WaterDepth { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class TypeOfWaterBodyDetailTemp
+    {
+        public int WaterBodyTypeId { get; set; }
+        public string WaterBodyType { get; set; }
+        public string WaterBodyTypeBn { get; set; }
+        public string Error { get; set; }
+    }
+
     public class HydroSystemDetailTemp
     {
         public long HydroSysDetailId { get; set; }

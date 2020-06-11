@@ -102,5 +102,55 @@ namespace WrpCcNocWeb.Controllers
                 return Json(noti);
             }
         }
+
+        public string RedirectPage(int ProjectTypeId)
+        {
+            string result = string.Empty;
+
+            switch (ProjectTypeId)
+            {
+                case 1:
+                    return "view";
+
+                case 2:
+                    return "view32";
+
+                case 3:
+                    return "view33";
+
+                case 4:
+                    return "view34";
+
+                case 5:
+                    return "view35";
+
+                case 6:
+                    return "view36";
+
+                case 7:
+                    return "view37";
+
+                case 8:
+                    return "view38";
+
+                case 9:
+                    return "view39";
+
+                case 10:
+                    return "view310";
+
+                case 11:
+                    return "view311";
+
+                case 12:
+                    return "view312";
+
+                case 13:
+                    return "view313";
+
+                default:
+                    return "list";
+            }
+        }
     }
 }

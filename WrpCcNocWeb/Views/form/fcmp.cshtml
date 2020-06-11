@@ -259,7 +259,7 @@
                                                                                             <th class="text-center">#</th>
                                                                                             <th class="text-center">
                                                                                                 @{if (language == "1")
-                                                                                                    { <span>জেলা </span>}
+                                                                                                    { <span>জেলা</span>}
                                                                                                     else
                                                                                                     {<span>District</span>}
                                                                                                 }
@@ -5271,7 +5271,7 @@
         }
 
         function GetRadioValue(control) {
-            var value = jQuery("input[type='radio'][name='" + control + "']").val();
+            var value = $("input[name='" + control + "']:checked").val();
             return (value == undefined || value == '') ? 0 : value;
         }
         //endregion

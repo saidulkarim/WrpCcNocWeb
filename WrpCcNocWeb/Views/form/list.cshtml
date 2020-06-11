@@ -11,6 +11,7 @@
             <div class="card-body">
                 <h4 class="header-title mb-3"> Application List</h4>
                 @{
+                    WrpCcNocWeb.Controllers.commonController cc = new WrpCcNocWeb.Controllers.commonController();
                     List<ProjectViewList> _pcds = ViewBag.PCDS;
 
                     if (_pcds.Count > 0)
@@ -30,6 +31,9 @@
                             <tbody>
                                 @foreach (ProjectViewList pcd in _pcds)
                                 {
+                                    var ProjectTypeId = pcd.ProjectTypeId;
+                                    var Redirectpage = cc.RedirectPage(ProjectTypeId);
+
                                     var css_class = (pcd.ApprovalStatusId == 1) ? "bg-success" : (pcd.ApprovalStatusId == 2 || pcd.ApprovalStatusId == 3) ? "bg-secondary" : "bg-warning";
 
                                     if (pcd.IsCompletedId == null || pcd.IsCompletedId == 0)
@@ -51,7 +55,7 @@
                                             }
                                             else
                                             {
-                                                <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId })" class="btn btn-info">View</a></td>
+                                                <td class="align-middle"><a href="@Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" class="btn btn-info">View</a></td>
                                             }
                                         </tr>
                                     }
@@ -74,7 +78,7 @@
                                             }
                                             else
                                             {
-                                                <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId })" class="btn btn-info">View</a></td>
+                                                <td class="align-middle"><a href="@Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" class="btn btn-info">View</a></td>
                                             }
                                         </tr>
                                     }
@@ -97,7 +101,7 @@
                                             }
                                             else
                                             {
-                                                <td class="align-middle"><a href="@Url.Action("view", "form", new { id = pcd.ProjectId })" class="btn btn-info">View</a></td>
+                                                <td class="align-middle"><a href="@Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" class="btn btn-info">View</a></td>
                                             }
                                         </tr>
                                     }

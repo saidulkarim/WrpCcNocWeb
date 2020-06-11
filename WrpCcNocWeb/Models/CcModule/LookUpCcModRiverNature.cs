@@ -18,7 +18,7 @@ namespace WrpCcNocWeb.Models
         [Column("RiverNatureTitle", Order = 1)]
         [MaxLength(50)]
         [Display(Name = "River Nature")]
-        public string NatureTypeName { get; set; }
+        public string RiverNatureTitle { get; set; }
 
 
         [Column("RiverNatureTitleBn", Order = 2)]
