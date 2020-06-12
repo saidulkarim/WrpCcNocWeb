@@ -51,6 +51,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetail { get; set; }
         public DbSet<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetail { get; set; }
         public DbSet<CcModAppProject_32_IndvDetail> CcModAppProject_32_IndvDetail { get; set; }
+        public DbSet<CcModAppProject_33_IndvDetail> CcModAppProject_33_IndvDetail { get; set; }
         public DbSet<CcModAppProjectCommonDetail> CcModAppProjectCommonDetail { get; set; }
         public DbSet<CcModBDP2100GoalDetail> CcModBDP2100GoalDetail { get; set; }
         public DbSet<CcModBDP2100HotSpotDetail> CcModBDP2100HotSpotDetail { get; set; }
