@@ -151,7 +151,7 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Use of Flow Meter to Measure Water Withdrawal")]
         public int? UseOfFlowMeterMeasrYNId { get; set; }
         [ForeignKey("UseOfFlowMeterMeasrYNId")]
-        public virtual LookUpCcModYesNo LookUpCcModYesNoUseOfFlowMeter { get; set; }
+        public virtual LookUpCcModYesNo LookUpCcModYesNoUseOfFlowMeter_32 { get; set; }
         
         [Column("NoOfPump", Order = 29)]
         [Display(Name = "No. of Pump")]        
@@ -169,7 +169,7 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Diverted Water Return to the Source")]
         public int? DivertedWaterRtnSrcYNId { get; set; }
         [ForeignKey("DivertedWaterRtnSrcYNId")]
-        public virtual LookUpCcModYesNo LookUpCcModYesNoDivertWtrRtnSrc { get; set; }
+        public virtual LookUpCcModYesNo LookUpCcModYesNoDivertWtrRtnSrc_32 { get; set; }
         
         [Column("WaterSalinity", Order = 33)]
         [Display(Name = "Salinity (ppm)")]

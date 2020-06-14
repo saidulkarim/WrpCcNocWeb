@@ -81,29 +81,72 @@ namespace WrpCcNocWeb.Models
 
         [InverseProperty("LookUpYesNoSocialIssue")]
         public virtual List<CcModAppProjectCommonDetail> LookUpYesNoSocialIssue { get; set; }
-        
-        
+
+
         [InverseProperty("LookUpYesNoUseOfTool_31")]
         public virtual List<CcModAppProject_31_IndvDetail> LookUpYesNoUseOfTool_31 { get; set; }
-
-        
-        [InverseProperty("LookUpYesNoDuplication_31")]
-        public virtual List<CcModAppProject_31_IndvDetail> LookUpYesNoDuplication_31 { get; set; }
-
-
-        [InverseProperty("LookUpCcModYesNoUseOfFlowMeter")]
-        public virtual List<CcModAppProject_32_IndvDetail> LookUpCcModYesNoUseOfFlowMeter { get; set; }
-
-
-        [InverseProperty("LookUpCcModYesNoDivertWtrRtnSrc")]
-        public virtual List<CcModAppProject_32_IndvDetail> LookUpCcModYesNoDivertWtrRtnSrc { get; set; }
 
 
         [InverseProperty("LookUpYesNoUseOfTool_32")]
         public virtual List<CcModAppProject_32_IndvDetail> LookUpYesNoUseOfTool_32 { get; set; }
 
 
+        [InverseProperty("LookUpYesNoUseOfTool_33")]
+        public virtual List<CcModAppProject_33_IndvDetail> LookUpYesNoUseOfTool_33 { get; set; }
+
+
+        [InverseProperty("LookUpYesNoDuplication_31")]
+        public virtual List<CcModAppProject_31_IndvDetail> LookUpYesNoDuplication_31 { get; set; }
+
+
         [InverseProperty("LookUpYesNoDuplication_32")]
         public virtual List<CcModAppProject_32_IndvDetail> LookUpYesNoDuplication_32 { get; set; }
+
+
+        [InverseProperty("LookUpYesNoDuplication_33")]
+        public virtual List<CcModAppProject_33_IndvDetail> LookUpYesNoDuplication_33 { get; set; }
+
+
+        [InverseProperty("LookUpYesNoDuplication_34")]
+        public virtual List<CcModAppProject_34_IndvDetail> LookUpYesNoDuplication_34 { get; set; }
+
+
+        [InverseProperty("LookUpYesNoDuplication_35")]
+        public virtual List<CcModAppProject_35_IndvDetail> LookUpYesNoDuplication_35 { get; set; }
+
+
+        [InverseProperty("LookUpYesNoDuplication_36")]
+        public virtual List<CcModAppProject_36_IndvDetail> LookUpYesNoDuplication_36 { get; set; }
+
+
+        [InverseProperty("LookUpCcModYesNoUseOfFlowMeter_32")]
+        public virtual List<CcModAppProject_32_IndvDetail> LookUpCcModYesNoUseOfFlowMeter_32 { get; set; }
+
+
+        [InverseProperty("LookUpCcModYesNoUseOfFlowMeter_33")]
+        public virtual List<CcModAppProject_33_IndvDetail> LookUpCcModYesNoUseOfFlowMeter_33 { get; set; }
+
+
+        [InverseProperty("LookUpCcModYesNoDivertWtrRtnSrc_32")]
+        public virtual List<CcModAppProject_32_IndvDetail> LookUpCcModYesNoDivertWtrRtnSrc_32 { get; set; }
+
+
+        [InverseProperty("LookUpCcModYesNoDivertWtrRtnSrc_33")]
+        public virtual List<CcModAppProject_33_IndvDetail> LookUpCcModYesNoDivertWtrRtnSrc_33 { get; set; }
+
+
+        [InverseProperty("LookUpYesNoLandUseMap_36")]
+        public virtual List<CcModAppProject_36_IndvDetail> LookUpYesNoLandUseMap_36 { get; set; }
+
+
+        [InverseProperty("LookUpYesNoLandUseDesign_36")]
+        public virtual List<CcModAppProject_36_IndvDetail> LookUpYesNoLandUseDesign_36 { get; set; }
+
+
+        [InverseProperty("LookUpYesNoImpctFldPlnAra_36")]
+        public virtual List<CcModAppProject_36_IndvDetail> LookUpYesNoImpctFldPlnAra_36 { get; set; }
+
+
+
     }
 }

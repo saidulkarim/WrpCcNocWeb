@@ -52,13 +52,19 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetail { get; set; }
         public DbSet<CcModAppProject_32_IndvDetail> CcModAppProject_32_IndvDetail { get; set; }
         public DbSet<CcModAppProject_33_IndvDetail> CcModAppProject_33_IndvDetail { get; set; }
+        public DbSet<CcModAppProject_34_IndvDetail> CcModAppProject_34_IndvDetail { get; set; }
+        public DbSet<CcModAppProject_35_IndvDetail> CcModAppProject_35_IndvDetail { get; set; }
+        public DbSet<CcModAppProject_36_IndvDetail> CcModAppProject_36_IndvDetail { get; set; }
         public DbSet<CcModAppProjectCommonDetail> CcModAppProjectCommonDetail { get; set; }
         public DbSet<CcModBDP2100GoalDetail> CcModBDP2100GoalDetail { get; set; }
         public DbSet<CcModBDP2100HotSpotDetail> CcModBDP2100HotSpotDetail { get; set; }
         public DbSet<CcModDesignSubmitDetail> CcModDesignSubmitDetail { get; set; }
         public DbSet<CcModFloodFrequencyDetail> CcModFloodFrequencyDetail { get; set; }
         public DbSet<CcModGPWMGroupTypeDetail> CcModGPWMGroupTypeDetail { get; set; }
+        public DbSet<CcModGroundWaterQualityDetail> CcModGroundWaterQualityDetail { get; set; }        
+        public DbSet<CcModHydraInfraParamDetail> CcModHydraInfraParamDetail { get; set; }        
         public DbSet<CcModHydroSystemDetail> CcModHydroSystemDetail { get; set; }
+        public DbSet<CcModNavigationClassDetail> CcModNavigationClassDetail { get; set; }
         public DbSet<CcModPrjCompatNWMPDetail> CcModPrjCompatNWMPDetail { get; set; }
         public DbSet<CcModPrjCompatNWPDetail> CcModPrjCompatNWPDetail { get; set; }
         public DbSet<CcModPrjCompatSDGDetail> CcModPrjCompatSDGDetail { get; set; }
@@ -72,6 +78,11 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<CcModPrjSIADetail> CcModPrjSIADetail { get; set; }
         public DbSet<CcModPrjSWADetail> CcModPrjSWADetail { get; set; }
         public DbSet<CcModPrjTypesOfFloodDetail> CcModPrjTypesOfFloodDetail { get; set; }
+        public DbSet<CcModProposedWaterUseDetail> CcModProposedWaterUseDetail { get; set; }
+        public DbSet<CcModRiverTypeDetail> CcModRiverTypeDetail { get; set; }
+        public DbSet<CcModStructTypeConservDetail> CcModStructTypeConservDetail { get; set; }
+        public DbSet<CcModUsDsConditionDetail> CcModUsDsConditionDetail { get; set; }
+        public DbSet<CcModWaterDiversSourceDetail> CcModWaterDiversSourceDetail { get; set; }
         #endregion
 
         #region LookUp --- CC Module          
@@ -91,6 +102,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<LookUpCcModFloodFrequency> LookUpCcModFloodFrequency { get; set; }
         public DbSet<LookUpCcModGPWMGroupType> LookUpCcModGPWMGroupType { get; set; }
         public DbSet<LookUpCcModGroundWaterQuality> LookUpCcModGroundWaterQuality { get; set; }
+        public DbSet<LookUpCcModHydraInfraParam> LookUpCcModHydraInfraParam { get; set; }
         public DbSet<LookUpCcModHydroRegion> LookUpCcModHydroRegion { get; set; }
         public DbSet<LookUpCcModHydroSystem> LookUpCcModHydroSystem { get; set; }
 		public DbSet<LookUpCcModIsCompletedState> LookUpCcModIsCompletedState { get; set; }
@@ -98,6 +110,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<LookUpCcModLandType> LookUpCcModLandType { get; set; }
         public DbSet<LookUpCcModMonth> LookUpCcModMonth { get; set; }
         public DbSet<LookUpCcModNameOfWaterBody> LookUpCcModNameOfWaterBody { get; set; }
+        public DbSet<LookUpCcModNavigationClass> LookUpCcModNavigationClass { get; set; }
         public DbSet<LookUpCcModNocType> LookUpCcModNocType { get; set; }
         public DbSet<LookUpCcModNWMPProgramme> LookUpCcModNWMPProgramme { get; set; }
         public DbSet<LookUpCcModNWPArticle> LookUpCcModNWPArticle { get; set; }
@@ -119,6 +132,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<LookUpCcModTypeOfFlood> LookUpCcModTypeOfFlood { get; set; }
         public DbSet<LookUpCcModTypeOfWaterBody> LookUpCcModTypeOfWaterBody { get; set; }
         public DbSet<LookUpCcModTypeOfWaterUse> LookUpCcModTypeOfWaterUse { get; set; }
+        public DbSet<LookUpCcModUsDsCondition> LookUpCcModUsDsCondition { get; set; }
         public DbSet<LookUpCcModWaterUse> LookUpCcModWaterUse { get; set; }
         public DbSet<LookUpCcModWtrDiversionSource> LookUpCcModWtrDiversionSource { get; set; }
         public DbSet<LookUpCcModYesNo> LookUpCcModYesNo { get; set; }

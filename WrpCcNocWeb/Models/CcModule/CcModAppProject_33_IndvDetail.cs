@@ -164,7 +164,7 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Use of Flow Meter to Measure Water Withdrawal")]
         public int? UseOfFlowMeterMeasrYNId { get; set; }
         [ForeignKey("UseOfFlowMeterMeasrYNId")]
-        public virtual LookUpCcModYesNo LookUpCcModYesNoUseOfFlowMeter { get; set; }
+        public virtual LookUpCcModYesNo LookUpCcModYesNoUseOfFlowMeter_33 { get; set; }
         
         [Column("NoOfPump", Order = 34)]
         [Display(Name = "No. of Pump")]        
@@ -182,7 +182,7 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Diverted Water Return to the Source")]
         public int? DivertedWaterRtnSrcYNId { get; set; }
         [ForeignKey("DivertedWaterRtnSrcYNId")]
-        public virtual LookUpCcModYesNo LookUpCcModYesNoDivertWtrRtnSrc { get; set; }
+        public virtual LookUpCcModYesNo LookUpCcModYesNoDivertWtrRtnSrc_33 { get; set; }
         
         [Column("WaterSalinity", Order = 38)]
         [Display(Name = "Salinity (ppm)")]
@@ -209,7 +209,7 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Was there any Use Of Tools")]
         public int? UseOfToolsYesNoId { get; set; }
         [ForeignKey("UseOfToolsYesNoId")]
-        public virtual LookUpCcModYesNo LookUpYesNoUseOfTool_32 { get; set; }
+        public virtual LookUpCcModYesNo LookUpYesNoUseOfTool_33 { get; set; }
 
         [Column("ToolsApplicantComments", Order = 43)]
         [Display(Name = "Tools Applicant Comments")]
@@ -225,7 +225,7 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Was there any Duplication")]
         public int? DuplicatYesNoId { get; set; }
         [ForeignKey("DuplicatYesNoId")]
-        public virtual LookUpCcModYesNo LookUpYesNoDuplication_32 { get; set; }
+        public virtual LookUpCcModYesNo LookUpYesNoDuplication_33 { get; set; }
 
         [Column("DuplicationApplicantComments", Order = 46)]
         [Display(Name = "Duplication Applicant Comments")]
