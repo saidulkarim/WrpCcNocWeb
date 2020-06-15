@@ -4301,6 +4301,7 @@
                         if (lang == '1') {
                             jQuery.each(data, function (i, item) {
                                 ++count;
+                               
                                 var lat = (item.latitude == null) ? '' : item.latitude;
                                 var lon = (item.longitude == null) ? '' : item.longitude;
                                 var fileName = item.onlyImageFileName != '' ? item.imageFileName : '../images/no_image.png';
@@ -4309,12 +4310,13 @@
                         } else {
                             jQuery.each(data, function (i, item) {
                                 ++count;
+                                
                                 var latEg = (item.latitude == null) ? '' : item.latitude;
                                 var lonEg = (item.longitude == null) ? '' : item.longitude;
                                 var fileName = item.onlyImageFileName != '' ? item.imageFileName : '../images/no_image.png';
-                                console.log('item.onlyImageFileName: ' + item.onlyImageFileName);
-                                console.log('item.imageFileName: ' + item.imageFileName);
-                                console.log('fileName: ' + fileName);
+                                //console.log('item.onlyImageFileName: ' + item.onlyImageFileName);
+                                //console.log('item.imageFileName: ' + item.imageFileName);
+                                //console.log('fileName: ' + fileName);
 
                                 rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.districtName + '</td><td>' + item.upazilaName + '</td><td>' + item.unionName + '</td><td>' + latEg + '</td><td>' + lonEg + '</td><td><a href="' + fileName + '" target="_blank"><img src="' + fileName + '" height="50px" /></a></td><td class="text-center"><button onclick="javascript:EditLoc(' + item.locationId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.locationId + ', ' + item.projectId + ', \'CcModPrjLocationDetail\'); GetProjLocationsData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
                             });
@@ -5205,7 +5207,7 @@
                 waterDivSource.push(_wds);
             });
 
-            //start :: technical info submission validation 
+            //start :: technical info submission validation
             if (hydroRegions.length == 0) {
                 Notification('warning', 'Required', 'Please select Hydrological Region!');
                 return;
