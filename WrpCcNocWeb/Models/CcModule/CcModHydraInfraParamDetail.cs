@@ -23,7 +23,7 @@ namespace WrpCcNocWeb.Models
         [Required]
         [Column("HydraInfraParamId", Order = 2)]
         [Display(Name = "Parameter Name")]
-        public int HydraInfraParamId { get; set; }
+        public long HydraInfraParamId { get; set; }
         [ForeignKey("HydraInfraParamId")]
         public virtual LookUpCcModHydraInfraParam LookUpCcModHydraInfraParam { get; set; }
 		

@@ -394,23 +394,23 @@ namespace WrpCcNocWeb.Controllers
                                     }).ToList();
             ViewData["BDP2100HotSpotDetail"] = _hotspotdetail;
 
-            var _pwudetail = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModProposedWaterUse)
+            var _pwudetail = _db.CcModProposedWaterUseDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModProposedWaterUse)
                                     .Select(x => new ProposedWaterUseDetailTemp
                                     {
-                                        ProposedWaterUseId = x.ProposedWaterUseId.Value,
+                                        ProposedWaterUseId = x.ProposedWaterUseId,
                                         WaterUseTypeName = x.LookUpCcModProposedWaterUse.WaterUseTypeName,
                                         WaterUseTypeNameBn = x.LookUpCcModProposedWaterUse.WaterUseTypeNameBn
                                     }).ToList();
             ViewData["ProposedWaterUseDetail"] = _pwudetail;
 
-            var _rndetail = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModRiverNature)
-                                    .Select(x => new RiverNatureDetailTemp
+            var _rtdetail = _db.CcModRiverTypeDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModRiverType)
+                                    .Select(x => new RiverTypeDetailTemp
                                     {
-                                        RiverNatureId = x.RiverNatureId.Value,
-                                        RiverNatureTitle = x.LookUpCcModRiverNature.RiverNatureTitle,
-                                        RiverNatureTitleBn = x.LookUpCcModRiverNature.RiverNatureTitleBn
+                                        RiverTypeId = x.RiverTypeId,
+                                        RiverTypeName = x.LookUpCcModRiverType.RiverTypeName,
+                                        RiverTypeNameBn = x.LookUpCcModRiverType.RiverTypeNameBn
                                     }).ToList();
-            ViewData["RiverNatureDetail"] = _rndetail;
+            ViewData["RiverTypeDetail"] = _rtdetail;
 
             var _towbdetail = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModTypeOfWaterBody)
                                     .Select(x => new TypeOfWaterBodyDetailTemp
@@ -446,10 +446,10 @@ namespace WrpCcNocWeb.Controllers
                               }).OrderBy(o => o.SWAId).ToList(); ;
             ViewData["SurfaceWaterAvailDetail"] = _swadetail;
 
-            var _wdsdetail = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModWtrDiversionSource)
+            var _wdsdetail = _db.CcModWaterDiversSourceDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModWtrDiversionSource)
                                     .Select(x => new WtrDiversionSourceDetailTemp
                                     {
-                                        WaterDiversionSourceId = x.WaterDiversionSourceId.Value,
+                                        WaterDiversionSourceId = x.WaterDiversionSourceId,
                                         SourceName = x.LookUpCcModWtrDiversionSource.SourceName,
                                         SourceNameBn = x.LookUpCcModWtrDiversionSource.SourceNameBn
                                     }).ToList();
@@ -467,10 +467,10 @@ namespace WrpCcNocWeb.Controllers
                               }).OrderBy(o => o.GrndWtrDepthDetailId).ToList(); ;
             ViewData["GrndWtrDepthDetail"] = _gwddetail;
 
-            var _gwqdetail = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModGroundWaterQuality)
+            var _gwqdetail = _db.CcModGroundWaterQualityDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModGroundWaterQuality)
                                     .Select(x => new LookUpCcModGroundWaterQuality
                                     {
-                                        GroundWaterQualityId = x.GroundWaterQualityId.Value,
+                                        GroundWaterQualityId = x.GroundWaterQualityId,
                                         ParameterName = x.LookUpCcModGroundWaterQuality.ParameterName,
                                         ParameterNameBn = x.LookUpCcModGroundWaterQuality.ParameterNameBn
                                     }).ToList();
@@ -721,23 +721,23 @@ namespace WrpCcNocWeb.Controllers
                                     }).ToList();
             ViewData["BDP2100HotSpotDetail"] = _hotspotdetail;
 
-            var _pwudetail = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModProposedWaterUse)
+            var _pwudetail = _db.CcModProposedWaterUseDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModProposedWaterUse)
                                     .Select(x => new ProposedWaterUseDetailTemp
                                     {
-                                        ProposedWaterUseId = x.ProposedWaterUseId.Value,
+                                        ProposedWaterUseId = x.ProposedWaterUseId,
                                         WaterUseTypeName = x.LookUpCcModProposedWaterUse.WaterUseTypeName,
                                         WaterUseTypeNameBn = x.LookUpCcModProposedWaterUse.WaterUseTypeNameBn
                                     }).ToList();
             ViewData["ProposedWaterUseDetail"] = _pwudetail;
 
-            var _rndetail = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModRiverNature)
-                                    .Select(x => new RiverNatureDetailTemp
+            var _rtdetail = _db.CcModRiverTypeDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModRiverType)
+                                    .Select(x => new RiverTypeDetailTemp
                                     {
-                                        RiverNatureId = x.RiverNatureId.Value,
-                                        RiverNatureTitle = x.LookUpCcModRiverNature.RiverNatureTitle,
-                                        RiverNatureTitleBn = x.LookUpCcModRiverNature.RiverNatureTitleBn
+                                        RiverTypeId = x.RiverTypeId,
+                                        RiverTypeName = x.LookUpCcModRiverType.RiverTypeName,
+                                        RiverTypeNameBn = x.LookUpCcModRiverType.RiverTypeNameBn
                                     }).ToList();
-            ViewData["RiverNatureDetail"] = _rndetail;
+            ViewData["RiverTypeDetail"] = _rtdetail;
 
             var _towbdetail = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModTypeOfWaterBody)
                                     .Select(x => new TypeOfWaterBodyDetailTemp
@@ -773,10 +773,10 @@ namespace WrpCcNocWeb.Controllers
                               }).OrderBy(o => o.SWAId).ToList(); ;
             ViewData["SurfaceWaterAvailDetail"] = _swadetail;
 
-            var _wdsdetail = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModWtrDiversionSource)
+            var _wdsdetail = _db.CcModWaterDiversSourceDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModWtrDiversionSource)
                                     .Select(x => new WtrDiversionSourceDetailTemp
                                     {
-                                        WaterDiversionSourceId = x.WaterDiversionSourceId.Value,
+                                        WaterDiversionSourceId = x.WaterDiversionSourceId,
                                         SourceName = x.LookUpCcModWtrDiversionSource.SourceName,
                                         SourceNameBn = x.LookUpCcModWtrDiversionSource.SourceNameBn
                                     }).ToList();
@@ -794,10 +794,10 @@ namespace WrpCcNocWeb.Controllers
                               }).OrderBy(o => o.GrndWtrDepthDetailId).ToList(); ;
             ViewData["GrndWtrDepthDetail"] = _gwddetail;
 
-            var _gwqdetail = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModGroundWaterQuality)
+            var _gwqdetail = _db.CcModGroundWaterQualityDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModGroundWaterQuality)
                                     .Select(x => new LookUpCcModGroundWaterQuality
                                     {
-                                        GroundWaterQualityId = x.GroundWaterQualityId.Value,
+                                        GroundWaterQualityId = x.GroundWaterQualityId,
                                         ParameterName = x.LookUpCcModGroundWaterQuality.ParameterName,
                                         ParameterNameBn = x.LookUpCcModGroundWaterQuality.ParameterNameBn
                                     }).ToList();
@@ -1232,6 +1232,8 @@ namespace WrpCcNocWeb.Controllers
         public IActionResult swwdu()
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            System.Globalization.DateTimeFormatInfo mfi = new System.Globalization.DateTimeFormatInfo();
+
             if (ui == null)
             {
                 return RedirectToAction("login", "account");
@@ -1296,9 +1298,42 @@ namespace WrpCcNocWeb.Controllers
                                         .Select(x => new { x.HotSpotDetailId, x.ProjectId, x.DeltaPlanHotSpotId }).ToList();
                 ViewBag.BDP2100HotSpotDetail = _hotspotdetail;
 
-                var _typesofflood = _db.CcModPrjTypesOfFloodDetail.Where(w => w.ProjectId == _psi.ProjectId)
-                                       .Select(x => new { x.FloodTypeDetailId, x.ProjectId, x.FloodTypeId }).ToList();
-                ViewBag.TypesOfFloodDetail = _typesofflood;
+
+                var _pwudetail = _db.CcModProposedWaterUseDetail.Where(w => w.ProjectId == _psi.ProjectId).Include(i => i.LookUpCcModProposedWaterUse)
+                                    .Select(x => new ProposedWaterUseDetailTemp
+                                    {
+                                        ProposedWaterUseId = x.ProposedWaterUseId,
+                                        WaterUseTypeName = x.LookUpCcModProposedWaterUse.WaterUseTypeName,
+                                        WaterUseTypeNameBn = x.LookUpCcModProposedWaterUse.WaterUseTypeNameBn
+                                    }).ToList();
+                ViewBag.ProposedWaterUseDetail = _pwudetail;
+
+                var _rtdetail = _db.CcModRiverTypeDetail.Where(w => w.ProjectId == _psi.ProjectId).Include(i => i.LookUpCcModRiverType)
+                                        .Select(x => new RiverTypeDetailTemp
+                                        {
+                                            RiverTypeId = x.RiverTypeId,
+                                            RiverTypeName = x.LookUpCcModRiverType.RiverTypeName,
+                                            RiverTypeNameBn = x.LookUpCcModRiverType.RiverTypeNameBn
+                                        }).ToList();
+                ViewBag.RiverTypeDetail = _rtdetail;
+
+                var _wdsdetail = _db.CcModWaterDiversSourceDetail.Where(w => w.ProjectId == _psi.ProjectId).Include(i => i.LookUpCcModWtrDiversionSource)
+                                    .Select(x => new WtrDiversionSourceDetailTemp
+                                    {
+                                        WaterDiversionSourceId = x.WaterDiversionSourceId,
+                                        SourceName = x.LookUpCcModWtrDiversionSource.SourceName,
+                                        SourceNameBn = x.LookUpCcModWtrDiversionSource.SourceNameBn
+                                    }).ToList();
+                ViewBag.WtrDiversionSourceDetail = _wdsdetail;
+
+                var _gwqdetail = _db.CcModGroundWaterQualityDetail.Where(w => w.ProjectId == _psi.ProjectId).Include(i => i.LookUpCcModGroundWaterQuality)
+                                    .Select(x => new GroundWaterQualityDetailTemp
+                                    {
+                                        GroundWaterQualityId = x.GroundWaterQualityId,
+                                        ParameterName = x.LookUpCcModGroundWaterQuality.ParameterName,
+                                        ParameterNameBn = x.LookUpCcModGroundWaterQuality.ParameterNameBn
+                                    }).ToList();
+                ViewBag.GroundWaterQuality = _gwqdetail;
 
                 var _compatnwpdetail = _db.CcModPrjCompatNWPDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                        .Select(x => new
@@ -1671,7 +1706,7 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList();
             ViewBag.LookUpCcModDeltPlan2100HotSpot = _db.LookUpCcModDeltPlan2100HotSpot.ToList();
             ViewBag.LookUpCcModProposedWaterUse = _db.LookUpCcModProposedWaterUse.ToList();
-            ViewBag.LookUpCcModRiverNature = _db.LookUpCcModRiverNature.ToList();
+            ViewBag.LookUpCcModRiverType = _db.LookUpCcModRiverType.ToList();
             ViewBag.LookUpCcModTypeOfWaterBody = _db.LookUpCcModTypeOfWaterBody.ToList();
             ViewBag.LookUpCcModHydroSystem = _db.LookUpCcModHydroSystem.ToList();
             ViewBag.LookUpCcModSediOfRiverOrKhal = _db.LookUpCcModSediOfRiverOrKhal.ToList();
@@ -5250,6 +5285,11 @@ namespace WrpCcNocWeb.Controllers
 
                         List<CcModPrjHydroRegionDetail> HydroRegion = _form32TechInfo.HydroRegion;
                         List<CcModBDP2100HotSpotDetail> BDP2100HotSpot = _form32TechInfo.BDP2100HotSpot;
+
+                        List<CcModProposedWaterUseDetail> ProposedWaterUseDetail = _form32TechInfo.ProposedWaterUseDetail;
+                        List<CcModRiverTypeDetail> RiverTypeDetail = _form32TechInfo.RiverTypeDetail;
+                        List<CcModGroundWaterQualityDetail> GroundWaterQltDetail = _form32TechInfo.GroundWaterQltDetail;
+                        List<CcModWaterDiversSourceDetail> WaterDivSourceDetail = _form32TechInfo.WaterDivSourceDetail;
                         #endregion
 
                         #region Common Detail Data Binding
@@ -5259,13 +5299,6 @@ namespace WrpCcNocWeb.Controllers
                         pcd.AnnualRainFallLast4Years = CommonDetail.AnnualRainFallLast4Years;
                         pcd.AnnualRainFallLast5Years = CommonDetail.AnnualRainFallLast5Years;
                         pcd.IssueChallageProblem = CommonDetail.IssueChallageProblem;
-                        //pcd.YesNoStakeId = CommonDetail.YesNoStakeId;
-                        //pcd.DiscussWithStakeApplicantCmt = CommonDetail.DiscussWithStakeApplicantCmt;
-                        //pcd.DiscussWithStakeAuthorityCmt = CommonDetail.DiscussWithStakeAuthorityCmt;
-                        //pcd.DiscussWithStakePosFeedback = CommonDetail.DiscussWithStakePosFeedback;
-                        //pcd.DiscussWithStakeNegFeedback = CommonDetail.DiscussWithStakeNegFeedback;
-                        //pcd.DiscussWithStakeParticipntLst //file
-                        //pcd.DiscussWithStakeMeetingMin //file
                         pcd.AnalyzeOptYesNoId = CommonDetail.AnalyzeOptYesNoId;
                         pcd.AnalyzeOptionsApplicantCmt = CommonDetail.AnalyzeOptionsApplicantCmt;
                         pcd.AnalyzeOptionsAuthorityCmt = CommonDetail.AnalyzeOptionsAuthorityCmt;
@@ -5317,6 +5350,26 @@ namespace WrpCcNocWeb.Controllers
                                     goto Finish;
                                 }
 
+                                if (ProposedWaterUseDetail != null && ProposedWaterUseDetail.Count > 0)
+                                {
+                                    _db.CcModProposedWaterUseDetail.AddRange(ProposedWaterUseDetail);
+                                }
+
+                                if (RiverTypeDetail != null && RiverTypeDetail.Count > 0)
+                                {
+                                    _db.CcModRiverTypeDetail.AddRange(RiverTypeDetail);
+                                }
+
+                                if (GroundWaterQltDetail != null && GroundWaterQltDetail.Count > 0)
+                                {
+                                    _db.CcModGroundWaterQualityDetail.AddRange(GroundWaterQltDetail);
+                                }
+
+                                if (WaterDivSourceDetail != null && WaterDivSourceDetail.Count > 0)
+                                {
+                                    _db.CcModWaterDiversSourceDetail.AddRange(WaterDivSourceDetail);
+                                }
+
                                 result = _db.SaveChanges();
 
                                 if (result > 0)
@@ -5327,7 +5380,7 @@ namespace WrpCcNocWeb.Controllers
                                     {
                                         id = Project32Indv.Project32IndvId.ToString(),
                                         status = "success",
-                                        message = "Information has been save successfully."
+                                        message = "Technical information has been save successfully."
                                     };
 
                                     goto Finish;
@@ -5340,7 +5393,7 @@ namespace WrpCcNocWeb.Controllers
                             else
                             {
                                 #region Deleting Before Data                                
-                                if (HydroRegion.Count > 0)
+                                if (HydroRegion != null && HydroRegion.Count > 0)
                                 {
                                     List<CcModPrjHydroRegionDetail> tempHrList = _db.CcModPrjHydroRegionDetail.Where(w => w.ProjectId == p32i.ProjectId).ToList();
 
@@ -5350,7 +5403,7 @@ namespace WrpCcNocWeb.Controllers
                                     }
                                 }
 
-                                if (BDP2100HotSpot.Count > 0)
+                                if (BDP2100HotSpot != null && BDP2100HotSpot.Count > 0)
                                 {
                                     List<CcModBDP2100HotSpotDetail> tempHsList = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == p32i.ProjectId).ToList();
 
@@ -5360,14 +5413,56 @@ namespace WrpCcNocWeb.Controllers
                                     }
                                 }
 
+                                if (ProposedWaterUseDetail != null && ProposedWaterUseDetail.Count > 0)
+                                {
+                                    List<CcModProposedWaterUseDetail> tempPwuList = _db.CcModProposedWaterUseDetail.Where(w => w.ProjectId == p32i.ProjectId).ToList();
+
+                                    if (tempPwuList.Count > 0)
+                                    {
+                                        _db.CcModProposedWaterUseDetail.RemoveRange(tempPwuList);
+                                    }
+                                }
+
+                                if (RiverTypeDetail != null && RiverTypeDetail.Count > 0)
+                                {
+                                    List<CcModRiverTypeDetail> tempRtList = _db.CcModRiverTypeDetail.Where(w => w.ProjectId == p32i.ProjectId).ToList();
+
+                                    if (tempRtList.Count > 0)
+                                    {
+                                        _db.CcModRiverTypeDetail.RemoveRange(tempRtList);
+                                    }
+                                }
+
+                                if (GroundWaterQltDetail != null && GroundWaterQltDetail.Count > 0)
+                                {
+                                    List<CcModGroundWaterQualityDetail> tempGwqList = _db.CcModGroundWaterQualityDetail.Where(w => w.ProjectId == p32i.ProjectId).ToList();
+
+                                    if (tempGwqList.Count > 0)
+                                    {
+                                        _db.CcModGroundWaterQualityDetail.RemoveRange(tempGwqList);
+                                    }
+                                }
+
+                                if (WaterDivSourceDetail != null && WaterDivSourceDetail.Count > 0)
+                                {
+                                    List<CcModWaterDiversSourceDetail> tempWdsList = _db.CcModWaterDiversSourceDetail.Where(w => w.ProjectId == p32i.ProjectId).ToList();
+
+                                    if (tempWdsList.Count > 0)
+                                    {
+                                        _db.CcModWaterDiversSourceDetail.RemoveRange(tempWdsList);
+                                    }
+                                }
+
                                 _db.CcModPrjHydroRegionDetail.AddRange(HydroRegion);
                                 _db.CcModBDP2100HotSpotDetail.AddRange(BDP2100HotSpot);
+                                _db.CcModProposedWaterUseDetail.AddRange(ProposedWaterUseDetail);
+                                _db.CcModRiverTypeDetail.AddRange(RiverTypeDetail);
+                                _db.CcModGroundWaterQualityDetail.AddRange(GroundWaterQltDetail);
+                                _db.CcModWaterDiversSourceDetail.AddRange(WaterDivSourceDetail);
                                 #endregion
 
-                                #region Project 32 Indvidual Data Binding                                
-                                p32i.ProposedWaterUseId = Project32Indv.ProposedWaterUseId;
+                                #region Project 32 Indvidual Data Binding
                                 p32i.NameOfTheWaterBody = Project32Indv.NameOfTheWaterBody;
-                                p32i.RiverNatureId = Project32Indv.RiverNatureId;
                                 p32i.WaterBodyTypeId = Project32Indv.WaterBodyTypeId;
                                 p32i.Offtake = Project32Indv.Offtake;
                                 p32i.Outfall = Project32Indv.Outfall;
@@ -5389,7 +5484,6 @@ namespace WrpCcNocWeb.Controllers
                                 p32i.FishDiversity = Project32Indv.FishDiversity;
                                 p32i.FishMigration = Project32Indv.FishMigration;
                                 p32i.FloraAndFauna = Project32Indv.FloraAndFauna;
-                                p32i.WaterDiversionSourceId = Project32Indv.WaterDiversionSourceId;
                                 p32i.WaterWithdrawQuantityPerDay = Project32Indv.WaterWithdrawQuantityPerDay;
                                 p32i.UseOfFlowMeterMeasrYNId = Project32Indv.UseOfFlowMeterMeasrYNId;
                                 p32i.NoOfPump = Project32Indv.NoOfPump;
@@ -5400,7 +5494,6 @@ namespace WrpCcNocWeb.Controllers
                                 p32i.WaterDO = Project32Indv.WaterDO;
                                 p32i.WaterTDS = Project32Indv.WaterTDS;
                                 p32i.WaterPhLevel = Project32Indv.WaterPhLevel;
-                                p32i.GroundWaterQualityId = Project32Indv.GroundWaterQualityId;
                                 p32i.UseOfToolsYesNoId = Project32Indv.UseOfToolsYesNoId;
                                 p32i.ToolsApplicantComments = Project32Indv.ToolsApplicantComments;
                                 p32i.ToolsAuthorityComments = Project32Indv.ToolsAuthorityComments;
@@ -5417,7 +5510,7 @@ namespace WrpCcNocWeb.Controllers
                                     {
                                         id = Project32Indv.Project32IndvId.ToString(),
                                         status = "success",
-                                        message = "Information has been updated successfully."
+                                        message = "Technical information has been updated successfully."
                                     };
 
                                     goto Finish;

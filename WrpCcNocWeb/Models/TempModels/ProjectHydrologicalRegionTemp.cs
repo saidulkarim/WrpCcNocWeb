@@ -32,6 +32,14 @@ namespace WrpCcNocWeb.Models
         public string Error { get; set; }
     }
 
+    public class RiverTypeDetailTemp
+    {
+        public int RiverTypeId { get; set; }
+        public string RiverTypeName { get; set; }
+        public string RiverTypeNameBn { get; set; }
+        public string Error { get; set; }
+    }
+
     public class RiverNatureDetailTemp
     {
         public int RiverNatureId { get; set; }
@@ -63,6 +71,14 @@ namespace WrpCcNocWeb.Models
         public int WaterDiversionSourceId { get; set; }
         public string SourceName { get; set; }
         public string SourceNameBn { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class GroundWaterQualityDetailTemp
+    {
+        public long GroundWaterQualityId { get; set; }
+        public string ParameterName { get; set; }
+        public string ParameterNameBn { get; set; }
         public string Error { get; set; }
     }
 

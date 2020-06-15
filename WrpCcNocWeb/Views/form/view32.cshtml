@@ -19,7 +19,7 @@
     var hrd = ViewData["HydroRegionDetail"];
     var hsd = ViewData["BDP2100HotSpotDetail"];
     var pwu = ViewData["ProposedWaterUseDetail"];
-    var rnd = ViewData["RiverNatureDetail"];
+    var rtd = ViewData["RiverTypeDetail"];
     var twb = ViewData["TypeOfWaterBodyDetail"];
     var hydrosys = ViewData["HydroSystemDetail"];
     var sdi = ViewData["SediOfRiverOrKhalDetail"];
@@ -566,22 +566,22 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>v. নদীর প্রকৃতি</span>}
+                                    {<span>v. নদীর ধরণ</span>}
                                     else
-                                    {<span>v. River Nature</span>}
+                                    {<span>v. River Type</span>}
                                 </b>
                             </td>
                             <td>
                                 <ol>
-                                    @foreach (var rn in (List<RiverNatureDetailTemp>)rnd)
+                                    @foreach (var rt in (List<RiverTypeDetailTemp>)rtd)
                                     {
                                         if (prev_lang == "1")
                                         {
-                                            <li>@rn.RiverNatureTitleBn</li>
+                                            <li>@rt.RiverTypeNameBn</li>
                                         }
                                         else
                                         {
-                                            <li>@rn.RiverNatureTitle</li>
+                                            <li>@rt.RiverTypeName</li>
                                         }
                                     }
                                 </ol>

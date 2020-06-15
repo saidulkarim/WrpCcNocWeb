@@ -102,23 +102,23 @@ namespace WrpCcNocWeb.Models
         public double? SedimentationRate { get; set; }
 		
 		[Column("HighLandPercent", Order = 20)]
-        [Display(Name = "High Land F0 (0 - 30 cm)")]
+        [Display(Name = "High Land F0 (0-30 cm)")]
         public double? HighLandPercent { get; set; }
 
         [Column("MediumHighLandPercent", Order = 21)]
-        [Display(Name = "Medium High Land F1 (30 - 90 cm)")]
+        [Display(Name = "Medium High Land F1 (30-90 cm)")]
         public double? MediumHighLandPercent { get; set; }
 
         [Column("MediumLowLandPercent", Order = 22)]
-        [Display(Name = "Medium Low Land F2 (90 - 180 cm)")]
+        [Display(Name = "Medium Low Land F2 (90-180 cm)")]
         public double? MediumLowLandPercent { get; set; }
 
         [Column("LowLandPercent", Order = 23)]
-        [Display(Name = "Low Land F3 (> 180 - 360 cm)")]
+        [Display(Name = "Low Land F3 (> 180-360 cm)")]
         public double? LowLandPercent { get; set; }
 
         [Column("VeryLowLandPercent", Order = 24)]
-        [Display(Name = "Very Low Land F4 (> 360 cm)")]
+        [Display(Name = "Very Low Land F4 (>360 cm)")]
         public double? VeryLowLandPercent { get; set; }
 		
 		[Column("CultivableCrops", Order = 25)]
@@ -152,87 +152,75 @@ namespace WrpCcNocWeb.Models
 
 		[Column("WaterWithdrawQuantityPerDay", Order = 31)]
         [Display(Name = "Water Withdraw Quantity Per Day")]        
-        public double? WaterWithdrawQuantityPerDay { get; set; }
-		
-        [Column("WaterDiversionSourceId", Order = 32)]
-        [Display(Name = "Water Diversion Source Id")]
-        public int? WaterDiversionSourceId { get; set; }
-        [ForeignKey("WaterDiversionSourceId")]
-        public virtual LookUpCcModWtrDiversionSource LookUpCcModWtrDiversionSource { get; set; }
+        public double? WaterWithdrawQuantityPerDay { get; set; }	        
         
-        [Column("UseOfFlowMeterMeasrYNId", Order = 33)]
+        [Column("UseOfFlowMeterMeasrYNId", Order = 32)]
         [Display(Name = "Use of Flow Meter to Measure Water Withdrawal")]
         public int? UseOfFlowMeterMeasrYNId { get; set; }
         [ForeignKey("UseOfFlowMeterMeasrYNId")]
         public virtual LookUpCcModYesNo LookUpCcModYesNoUseOfFlowMeter_33 { get; set; }
         
-        [Column("NoOfPump", Order = 34)]
+        [Column("NoOfPump", Order = 33)]
         [Display(Name = "No. of Pump")]        
         public int? NoOfPump { get; set; }
         
-        [Column("PumpCapacity", Order = 35)]
+        [Column("PumpCapacity", Order = 34)]
         [Display(Name = "Pump Capacity")]        
         public double? PumpCapacity { get; set; }
 
-        [Column("PipeDiameter", Order = 36)]
+        [Column("PipeDiameter", Order = 35)]
         [Display(Name = "Pipe Diameter")]       
         public double? PipeDiameter { get; set; }
 
-        [Column("DivertedWaterRtnSrcYNId", Order = 37)]
+        [Column("DivertedWaterRtnSrcYNId", Order = 36)]
         [Display(Name = "Diverted Water Return to the Source")]
         public int? DivertedWaterRtnSrcYNId { get; set; }
         [ForeignKey("DivertedWaterRtnSrcYNId")]
         public virtual LookUpCcModYesNo LookUpCcModYesNoDivertWtrRtnSrc_33 { get; set; }
         
-        [Column("WaterSalinity", Order = 38)]
+        [Column("WaterSalinity", Order = 37)]
         [Display(Name = "Salinity (ppm)")]
         [MaxLength(50)]
         public string WaterSalinity { get; set; }        
 
-        [Column("WaterTDS", Order = 39)]
+        [Column("WaterTDS", Order = 38)]
         [Display(Name = "TDS")]
         [MaxLength(50)]
         public string WaterTDS { get; set; }
 
-        [Column("WaterPhLevel", Order = 40)]
+        [Column("WaterPhLevel", Order = 39)]
         [Display(Name = "pH")]
         [MaxLength(50)]
         public string WaterPhLevel { get; set; }             
 
-        [Column("GroundWaterQualityId", Order = 41)]
-        [Display(Name = "Ground Water Quality Id")]
-        public int? GroundWaterQualityId { get; set; }
-        [ForeignKey("GroundWaterQualityId")]
-        public virtual LookUpCcModGroundWaterQuality LookUpCcModGroundWaterQuality { get; set; }
-
-        [Column("UseOfToolsYesNoId", Order = 42)]
+        [Column("UseOfToolsYesNoId", Order = 40)]
         [Display(Name = "Was there any Use Of Tools")]
         public int? UseOfToolsYesNoId { get; set; }
         [ForeignKey("UseOfToolsYesNoId")]
         public virtual LookUpCcModYesNo LookUpYesNoUseOfTool_33 { get; set; }
 
-        [Column("ToolsApplicantComments", Order = 43)]
+        [Column("ToolsApplicantComments", Order = 41)]
         [Display(Name = "Tools Applicant Comments")]
         [MaxLength(150)]
         public string ToolsApplicantComments { get; set; }
 
-        [Column("ToolsAuthorityComments", Order = 44)]
+        [Column("ToolsAuthorityComments", Order = 42)]
         [Display(Name = "Tools Authority Comments")]
         [MaxLength(150)]
         public string ToolsAuthorityComments { get; set; }
 
-        [Column("DuplicatYesNoId", Order = 45)]
+        [Column("DuplicatYesNoId", Order = 43)]
         [Display(Name = "Was there any Duplication")]
         public int? DuplicatYesNoId { get; set; }
         [ForeignKey("DuplicatYesNoId")]
         public virtual LookUpCcModYesNo LookUpYesNoDuplication_33 { get; set; }
 
-        [Column("DuplicationApplicantComments", Order = 46)]
+        [Column("DuplicationApplicantComments", Order = 44)]
         [Display(Name = "Duplication Applicant Comments")]
         [MaxLength(150)]
         public string DuplicationApplicantComments { get; set; }
 
-        [Column("DuplicationAuthorityComments", Order = 47)]
+        [Column("DuplicationAuthorityComments", Order = 45)]
         [Display(Name = "Duplication Authority Comments")]
         [MaxLength(150)]
         public string DuplicationAuthorityComments { get; set; }

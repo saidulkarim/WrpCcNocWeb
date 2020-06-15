@@ -507,19 +507,19 @@
                                                                                             {
                                                                                                 foreach (LookUpCcModProposedWaterUse wu in _pwu)
                                                                                                 {
-                                                                                                    var id = "radProposedWaterUse" + wu.ProposedWaterUseId;
+                                                                                                    var id = "chkProposedWaterUse" + wu.ProposedWaterUseId;
 
                                                                                                     if (language == "1")
                                                                                                     {
-                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                            <input type="radio" name="ProposedWaterUseId" id="@id" value="@wu.ProposedWaterUseId" data-parsley-multiple="ProposedWaterUseId">
+                                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@wu.WaterUseTypeNameBn">
+                                                                                                            <input type="checkbox" name="ProposedWaterUseId" id="@id" value="@wu.ProposedWaterUseId" data-parsley-multiple="ProposedWaterUseId">
                                                                                                             <label for="@id"> @wu.WaterUseTypeNameBn </label>
                                                                                                         </div>
                                                                                                     }
                                                                                                     else
                                                                                                     {
-                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                            <input type="radio" name="ProposedWaterUseId" id="@id" value="@wu.ProposedWaterUseId" data-parsley-multiple="ProposedWaterUseId">
+                                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@wu.WaterUseTypeName">
+                                                                                                            <input type="checkbox" name="ProposedWaterUseId" id="@id" value="@wu.ProposedWaterUseId" data-parsley-multiple="ProposedWaterUseId">
                                                                                                             <label for="@id"> @wu.WaterUseTypeName </label>
                                                                                                         </div>
                                                                                                     }
@@ -543,33 +543,33 @@
                                                                                 <div class="form-group">
                                                                                     <label for="RiverNature">
                                                                                         @{if (language == "1")
-                                                                                            {<span>নদীর প্রকৃতি</span>}
+                                                                                            {<span>নদীর ধরণ</span>}
                                                                                             else
-                                                                                            {<span>River Nature</span>}
+                                                                                            {<span>River Type</span>}
                                                                                         }
                                                                                     </label>
                                                                                     <div id="RiverNature" class="row" style="margin-left: 5px;">
                                                                                         @{
-                                                                                            List<LookUpCcModRiverNature> _rvin = ViewBag.LookUpCcModRiverNature;
+                                                                                            List<LookUpCcModRiverType> _rvin = ViewBag.LookUpCcModRiverType;
 
                                                                                             if (_rvin.Count > 0)
                                                                                             {
-                                                                                                foreach (LookUpCcModRiverNature rn in _rvin)
+                                                                                                foreach (LookUpCcModRiverType rn in _rvin)
                                                                                                 {
-                                                                                                    var id = "radRiverNature" + rn.RiverNatureId;
+                                                                                                    var id = "chkRiverType" + rn.RiverTypeId;
 
                                                                                                     if (language == "1")
-                                                                                                    {
-                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                            <input type="radio" name="RiverNatureId" id="@id" value="@rn.RiverNatureId" data-parsley-multiple="RiverNatureId">
-                                                                                                            <label for="@id"> @rn.RiverNatureTitleBn </label>
+                                                                                                    {                                                                                                       
+                                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@rn.RiverTypeNameBn">
+                                                                                                            <input type="checkbox" name="RiverTypeId" id="@id" value="@rn.RiverTypeId" data-parsley-multiple="RiverTypeId">
+                                                                                                            <label for="@id"> @rn.RiverTypeNameBn </label>
                                                                                                         </div>
                                                                                                     }
                                                                                                     else
                                                                                                     {
-                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                            <input type="radio" name="RiverNatureId" id="@id" value="@rn.RiverNatureId" data-parsley-multiple="RiverNatureId">
-                                                                                                            <label for="@id"> @rn.RiverNatureTitle </label>
+                                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@rn.RiverTypeName">
+                                                                                                            <input type="checkbox" name="RiverTypeId" id="@id" value="@rn.RiverTypeId" data-parsley-multiple="RiverTypeId">
+                                                                                                            <label for="@id"> @rn.RiverTypeName </label>
                                                                                                         </div>
                                                                                                     }
                                                                                                 }
@@ -1184,7 +1184,7 @@
                                                                                         @{if (language == "1")
                                                                                             {<span>পানি উত্তোলনের পদ্ধতি</span>}
                                                                                             else
-                                                                                            {<span>Water diversion from source</span>}
+                                                                                            {<span>Water Diversion from Source</span>}
                                                                                         }
                                                                                     </label>
                                                                                     <div id="WaterDiversionSource" class="row" style="margin-left: 5px;">
@@ -1195,19 +1195,19 @@
                                                                                             {
                                                                                                 foreach (LookUpCcModWtrDiversionSource s in _wds)
                                                                                                 {
-                                                                                                    var id = "radWaterDiversionSource" + s.WaterDiversionSourceId;
+                                                                                                    var id = "chkWaterDiversionSource" + s.WaterDiversionSourceId;
 
                                                                                                     if (language == "1")
                                                                                                     {
-                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                            <input type="radio" name="WaterDiversionSourceId" id="@id" value="@s.WaterDiversionSourceId" data-parsley-multiple="WaterDiversionSourceId">
+                                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@s.SourceNameBn">
+                                                                                                            <input type="checkbox" name="WaterDiversionSourceId" id="@id" value="@s.WaterDiversionSourceId" data-parsley-multiple="WaterDiversionSourceId">
                                                                                                             <label for="@id"> @s.SourceNameBn </label>
                                                                                                         </div>
                                                                                                     }
                                                                                                     else
                                                                                                     {
-                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                            <input type="radio" name="WaterDiversionSourceId" id="@id" value="@s.WaterDiversionSourceId" data-parsley-multiple="WaterDiversionSourceId">
+                                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@s.SourceName">
+                                                                                                            <input type="checkbox" name="WaterDiversionSourceId" id="@id" value="@s.WaterDiversionSourceId" data-parsley-multiple="WaterDiversionSourceId">
                                                                                                             <label for="@id"> @s.SourceName </label>
                                                                                                         </div>
                                                                                                     }
@@ -1422,19 +1422,19 @@
                                                                                             {
                                                                                                 foreach (LookUpCcModGroundWaterQuality wq in _gwq)
                                                                                                 {
-                                                                                                    var id = "radGroundWaterQuality" + wq.GroundWaterQualityId;
+                                                                                                    var id = "chkGroundWaterQuality" + wq.GroundWaterQualityId;
 
                                                                                                     if (language == "1")
                                                                                                     {
-                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                            <input type="radio" name="GroundWaterQualityId" id="@id" value="@wq.GroundWaterQualityId" data-parsley-multiple="GroundWaterQualityId">
+                                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@wq.ParameterNameBn">
+                                                                                                            <input type="checkbox" name="GroundWaterQualityId" id="@id" value="@wq.GroundWaterQualityId" data-parsley-multiple="GroundWaterQualityId">
                                                                                                             <label for="@id"> @wq.ParameterNameBn </label>
                                                                                                         </div>
                                                                                                     }
                                                                                                     else
                                                                                                     {
-                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                            <input type="radio" name="GroundWaterQualityId" id="@id" value="@wq.GroundWaterQualityId" data-parsley-multiple="GroundWaterQualityId">
+                                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@wq.ParameterName">
+                                                                                                            <input type="checkbox" name="GroundWaterQualityId" id="@id" value="@wq.GroundWaterQualityId" data-parsley-multiple="GroundWaterQualityId">
                                                                                                             <label for="@id"> @wq.ParameterName </label>
                                                                                                         </div>
                                                                                                     }
@@ -4539,7 +4539,7 @@
 	        var GWDMonth = jQuery("#ddlGWDMonth option:selected").val();	
 	        var WaterDepth = jQuery("#txtGWDepth").val();	
 	
-	        if (GWDMonth != '') {		
+	        if (GWDMonth != '') {
 		        var ProjectId = GetHiddenValue('ProjectId');
 
 		        var gwdDetail = {
@@ -5110,7 +5110,13 @@
         //start :: Technical Information JS
         jQuery("#btnSaveTechInfo").click(function () {
             var FinalObj = [];
-            var hydroRegions = [], bdp2100HotSpot = [];
+            var hydroRegions = [],
+                bdp2100HotSpot = [],
+                proposedWaterUses = [],
+                riverType = [],
+                groundWaterQlt = [],
+                waterDivSource = [];
+                
             var ProjectId = GetHiddenValue('ProjectId');
 
             jQuery.each(jQuery("input[name='hydrological_region']:checked"), function () {
@@ -5133,6 +5139,46 @@
                 bdp2100HotSpot.push(_hsp);
             });
 
+            jQuery.each(jQuery("input[name='ProposedWaterUseId']:checked"), function () {
+                var _pwu = {
+                    "ProposedWaterUseDetailId": 0,
+                    "ProjectId": ProjectId,
+                    "ProposedWaterUseId": jQuery(this).val()
+                };
+
+                proposedWaterUses.push(_pwu);
+            });
+
+            jQuery.each(jQuery("input[name='RiverTypeId']:checked"), function () {
+                var _rvt = {
+                    "RiverTypeDetailId": 0,
+                    "ProjectId": ProjectId,
+                    "RiverTypeId": jQuery(this).val()
+                };
+
+                riverType.push(_rvt);
+            });
+
+            jQuery.each(jQuery("input[name='GroundWaterQualityId']:checked"), function () {
+                var _gwq = {
+                    "GroundWaterQualityDetailId": 0,
+                    "ProjectId": ProjectId,
+                    "GroundWaterQualityId": jQuery(this).val()
+                };
+
+                groundWaterQlt.push(_gwq);
+            });
+
+            jQuery.each(jQuery("input[name='WaterDiversionSourceId']:checked"), function () {
+                var _wds = {
+                    "WaterDiversSourceDetailId": 0,
+                    "ProjectId": ProjectId,
+                    "WaterDiversionSourceId": jQuery(this).val()
+                };
+
+                waterDivSource.push(_wds);
+            });
+
             var ProjectCommonDetail = {
                 "ProjectId": ProjectId,
                 "AnnualRainFallLast1Year": GetTextValue('AnnualRainFallLast1Year'),
@@ -5140,15 +5186,7 @@
                 "AnnualRainFallLast3Years": GetTextValue('AnnualRainFallLast3Years'),
                 "AnnualRainFallLast4Years": GetTextValue('AnnualRainFallLast4Years'),
                 "AnnualRainFallLast5Years": GetTextValue('AnnualRainFallLast5Years'),
-                "IssueChallageProblem": GetTextValue('IssueChallageProblem'),
-                //does not in this form
-                /*"YesNoStakeId"
-                "DiscussWithStakeApplicantCmt"
-                "DiscussWithStakeAuthorityCmt"
-                "DiscussWithStakePosFeedback"
-                "DiscussWithStakeNegFeedback"
-                "DiscussWithStakeParticipntLst"
-                "DiscussWithStakeMeetingMin"*/
+                "IssueChallageProblem": GetTextValue('IssueChallageProblem'),                
                 "AnalyzeOptYesNoId": GetRadioValue('AnalyzeOptYesNoId'),
                 "AnalyzeOptionsApplicantCmt": GetTextValue('AnalyzeOptionsApplicantCmt'),
                 "AnalyzeOptionsAuthorityCmt": GetTextValue('AnalyzeOptionsAuthorityCmt'),
@@ -5159,10 +5197,8 @@
 
             var Project32IndvDetail = {
                 "Project32IndvId": 0,
-                "ProjectId": ProjectId,
-                "ProposedWaterUseId": GetRadioValue('ProposedWaterUseId'),
-                "NameOfTheWaterBody": GetTextValue('NameOfTheWaterBody'),
-                "RiverNatureId": GetRadioValue('RiverNatureId'),
+                "ProjectId": ProjectId,                
+                "NameOfTheWaterBody": GetTextValue('NameOfTheWaterBody'),                
                 "WaterBodyTypeId": GetRadioValue('WaterBodyTypeId'),
                 "Offtake": GetTextValue('Offtake'),
                 "Outfall": GetTextValue('Outfall'),
@@ -5183,8 +5219,7 @@
                 "FishProduction": GetTextValue('FishProduction'),
                 "FishDiversity": GetTextValue('FishDiversity'),
                 "FishMigration": GetTextValue('FishMigration'),
-                "FloraAndFauna": GetTextValue('FloraAndFauna'),
-                "WaterDiversionSourceId": GetRadioValue('WaterDiversionSourceId'),
+                "FloraAndFauna": GetTextValue('FloraAndFauna'),                
                 "WaterWithdrawQuantityPerDay": GetTextValue('WaterWithdrawQuantityPerDay'),
                 "UseOfFlowMeterMeasrYNId": jQuery('#UseOfFlowMeterMeasrYNId option:selected').val(),
                 "NoOfPump": GetTextValue('NoOfPump'),
@@ -5194,8 +5229,7 @@
                 "WaterSalinity": GetTextValue('WaterSalinity'),
                 "WaterDO": GetTextValue('WaterDO'),
                 "WaterTDS": GetTextValue('WaterTDS'),
-                "WaterPhLevel": GetTextValue('WaterPhLevel'),
-                "GroundWaterQualityId": GetRadioValue('GroundWaterQualityId'),
+                "WaterPhLevel": GetTextValue('WaterPhLevel'),                
                 "UseOfToolsYesNoId": GetRadioValue('UseOfToolsYesNoId'),
                 "ToolsApplicantComments": GetTextValue('ToolsApplicantComments'),
                 "ToolsAuthorityComments": GetTextValue('ToolsAuthorityComments')
@@ -5205,7 +5239,11 @@
                 "CommonDetail": ProjectCommonDetail,
                 "Project32Indv": Project32IndvDetail,
                 "HydroRegion": hydroRegions,
-                "BDP2100HotSpot": bdp2100HotSpot
+                "BDP2100HotSpot": bdp2100HotSpot,
+                "ProposedWaterUseDetail": proposedWaterUses,
+                "RiverTypeDetail": riverType,
+                "GroundWaterQltDetail": groundWaterQlt,
+                "WaterDivSourceDetail": waterDivSource
             }
 
             console.log(_Form32FinalObj);
@@ -5887,16 +5925,19 @@
                     $(":checkbox[name='bdp2100_hot_spot'][value='" + item.deltaPlanHotSpotId + "']").attr('checked', true);
                 });
 
+                
                 //technology bind start
-                var ProposedWaterUseId = '@Html.Raw(ViewBag.ProjectIndvDetail32.ProposedWaterUseId)';
-                if(ProposedWaterUseId != '')
-	                $(":radio[name='ProposedWaterUseId'][value='" + ProposedWaterUseId + "']").attr('checked', true);
+                var pwus = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.ProposedWaterUseDetail))');
+                jQuery.each(pwus, function (i, item) {
+                    $(":checkbox[name='ProposedWaterUseId'][value='" + item.proposedWaterUseId + "']").attr('checked', true);
+                });
 
                 SetTextValue('NameOfTheWaterBody', '@Html.Raw(ViewBag.ProjectIndvDetail32.NameOfTheWaterBody)');
 
-                var RiverNatureId = '@Html.Raw(ViewBag.ProjectIndvDetail32.RiverNatureId)';
-                if(RiverNatureId != '')
-	                $(":radio[name='RiverNatureId'][value='" + RiverNatureId + "']").attr('checked', true);
+                var rivt = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.RiverTypeDetail))');
+                jQuery.each(rivt, function (i, item) {
+                    $(":checkbox[name='RiverTypeId'][value='" + item.riverTypeId + "']").attr('checked', true);
+                });
 
                 var WaterBodyTypeId = '@Html.Raw(ViewBag.ProjectIndvDetail32.WaterBodyTypeId)';
                 if(WaterBodyTypeId != '')
@@ -5936,9 +5977,10 @@
                 SetTextValue('FishMigration', '@Html.Raw(ViewBag.ProjectIndvDetail32.FishMigration)');
                 SetTextValue('FloraAndFauna', '@Html.Raw(ViewBag.ProjectIndvDetail32.FloraAndFauna)');
 
-                var WaterDiversionSourceId = '@Html.Raw(ViewBag.ProjectIndvDetail32.WaterDiversionSourceId)';
-                if(WaterDiversionSourceId != '')
-	                $(":radio[name='WaterDiversionSourceId'][value='" + WaterDiversionSourceId + "']").attr('checked', true);
+                var wdsd = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.WtrDiversionSourceDetail))');
+                jQuery.each(wdsd, function (i, item) {
+                    $(":checkbox[name='WaterDiversionSourceId'][value='" + item.waterDiversionSourceId + "']").attr('checked', true);
+                });
 
                 SetTextValue('WaterWithdrawQuantityPerDay', '@Html.Raw(ViewBag.ProjectIndvDetail32.WaterWithdrawQuantityPerDay)');
                 SetDropdownValue('UseOfFlowMeterMeasrYNId', '@Html.Raw(ViewBag.ProjectIndvDetail32.UseOfFlowMeterMeasrYNId)');
@@ -5952,26 +5994,16 @@
                 SetTextValue('WaterTDS', '@Html.Raw(ViewBag.ProjectIndvDetail32.WaterTDS)');
                 SetTextValue('WaterPhLevel', '@Html.Raw(ViewBag.ProjectIndvDetail32.WaterPhLevel)');
 
-                var GroundWaterQualityId = '@Html.Raw(ViewBag.ProjectIndvDetail32.GroundWaterQualityId)';
-                if(GroundWaterQualityId != '')
-	                $(":radio[name='GroundWaterQualityId'][value='" + GroundWaterQualityId + "']").attr('checked', true);
+                var gwqd = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.GroundWaterQuality))');
+                jQuery.each(gwqd, function (i, item) {
+                    $(":checkbox[name='GroundWaterQualityId'][value='" + item.groundWaterQualityId + "']").attr('checked', true);
+                });
 
                 var UseOfToolsYesNoId = '@Html.Raw(ViewBag.ProjectIndvDetail32.UseOfToolsYesNoId)';
                 if(UseOfToolsYesNoId != '')
 	                $(":radio[name='UseOfToolsYesNoId'][value='" + UseOfToolsYesNoId + "']").attr('checked', true);
 
                 SetTextValue('IssueChallageProblem', '@Html.Raw(ViewBag.ProjectCommonDetail.IssueChallageProblem)');
-
-                /*
-                var YesNoStakeId = 'Html.Raw(ViewBag.ProjectCommonDetail.YesNoStakeId)';
-                if(YesNoStakeId != '')
-	                $(":radio[name='YesNoStakeId'][value='" + YesNoStakeId + "']").attr('checked', true);
-
-                SetTextValue('DiscussWithStakeApplicantCmt', 'Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeApplicantCmt)');
-                SetTextValue('DiscussWithStakeAuthorityCmt', 'Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeAuthorityCmt)');
-                SetTextValue('DiscussWithStakePosFeedback', 'Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakePosFeedback)');
-                SetTextValue('DiscussWithStakeNegFeedback', 'Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeNegFeedback)');
-                */
 
                 var AnalyzeOptYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptYesNoId)';
                 if(AnalyzeOptYesNoId != '')
