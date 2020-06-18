@@ -26,7 +26,7 @@
     var swa = ViewData["SurfaceWaterAvailDetail"];
     var wds = ViewData["WtrDiversionSourceDetail"];
     var gwd = ViewData["GrndWtrDepthDetail"];
-    var gwq = ViewData["GroundWaterQltDetail"];   
+    var gwq = ViewData["GroundWaterQltDetail"];
 
     var aodt = ViewData["AnalyzeOptionsDetail"];
     var dsd = ViewData["DesignSubmitDetail"];
@@ -47,6 +47,7 @@
     long Project32IndvId = (long)ViewData["Project32IndvId"];
     long UserId = (long)ViewData["UserId"];
     int ProjectTypeId = (int)ViewData["ProjectTypeId"];
+    var user_group_id = ViewData["UserLevel"].ToString();
 }
 
 <div class="row">
@@ -342,7 +343,12 @@
                                     {<span>viii. প্রকল্পের অবস্থান</span>}
                                     else
                                     {<span>viii. Project Location</span>}
-                                </b> &nbsp;&nbsp;
+                                </b> &nbsp;&nbsp; 
+                                <a id="btnMapView" href="javascript:void(0);" target="_blank" class="btn btn-sm btn-info waves-effect"
+                                   data-toggle="tooltip" data-placement="top" title="" data-original-title="View Map"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-map"></i>
+                                </a> &nbsp;&nbsp; 
                                 <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Location', 'ProjectLocation');"
                                    class="btn btn-sm btn-info waves-effect comment" data-close="false"
                                    data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
@@ -3463,20 +3469,23 @@
                         }
                         else
                         {
-                            <div class="form-group">
-                                <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
-                                    Forward
-                                </button>
-                            </div>
+                            if (app_state_id != 1 && user_group_id != "1000000001")
+                            {
+                                <div class="form-group">
+                                    <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
+                                        Forward
+                                    </button>
+                                </div>
+                            }
                         }
 
                         <!--
-                        <div class="form-group">
-                            <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
-                                Forward
-                            </button>
-                        </div>
-                        -->
+    <div class="form-group">
+        <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
+            Forward
+        </button>
+    </div>
+    -->
                         <span>&nbsp;&nbsp;&nbsp;</span>
 
                         <div class="form-group">
@@ -3536,25 +3545,24 @@
         var app_state_id = '@app_state_id';
         var is_complete_id = '@is_complete_id';
         var group_id = '@ViewData["UserLevel"].ToString()';
-
-        if (group_id != '' && group_id != undefined && group_id != null) {
-            if (group_id == 1000000001) {
+        
+        if (group_id != '' && group_id != undefined && group_id != null) {            
+            if (group_id == 1000000001) {              
                 $('.comment').addClass('d-none');
             }
-            //else {
-            //    $('.comment').removeClass('d-none');
-            //}
         } else {
             $('.comment').addClass('d-none');
         }
-
-        console.log(app_state_id);
 
         if (app_state_id == 13 || app_state_id == 23 || app_state_id == 33 || app_state_id == 43) {
             if (is_complete_id < 3) {
                 $('.comment').addClass('d-none');
             } else {
                 $('.comment').removeClass('d-none');
+            }
+
+            if (group_id == 1000000001) {                
+                $('.comment').addClass('d-none');
             }
         }
 

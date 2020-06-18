@@ -110,7 +110,7 @@ namespace WrpCcNocWeb.Controllers
             switch (ProjectTypeId)
             {
                 case 1:
-                    return "view";
+                    return "view31";
 
                 case 2:
                     return "view32";

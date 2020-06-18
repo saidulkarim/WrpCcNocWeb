@@ -34,7 +34,7 @@
                                 </span>
                             </a>
                         </li>
-                        @*<li class="nav-item">
+                        <li class="nav-item">
                                 <a id="lnkTab2" href="#basictab2" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                     <i class="mdi mdi-face-profile mr-1"></i>
                                     <span class="d-none d-sm-inline">
@@ -48,7 +48,7 @@
                                         }
                                     </span>
                                 </a>
-                            </li>*@
+                            </li>
                     </ul>
 
                     <div class="tab-content b-0 mb-0">
@@ -1032,7 +1032,7 @@
                                                                                                     {<span>Production</span>}
                                                                                                 }
                                                                                             </label>
-                                                                                            <input type="text" id="FishProduction" name="FishProduction" class="form-control" />
+                                                                                            <input type="number" min="0" id="FishProduction" name="FishProduction" class="form-control" />
                                                                                         </div>
 
                                                                                         <div class="form-group col-md-4">
@@ -1148,7 +1148,7 @@
                                                                                                         <th class="text-center">
                                                                                                             <input id="SWAId" type="hidden" />
                                                                                                             <select id="ddlSWAMonth" name="ddlSWAMonth" class="form-control">
-                                                                                                                <option>Choose...</option>
+                                                                                                                <option value="">Choose...</option>
                                                                                                                 <option value="10">October</option>
                                                                                                                 <option value="11">November</option>
                                                                                                                 <option value="12">December</option>
@@ -1374,7 +1374,7 @@
                                                                                                         <th class="text-center">
                                                                                                             <input id="GrndWtrDepthDetailId" type="hidden" />
                                                                                                             <select id="ddlGWDMonth" class="form-control">
-                                                                                                                <option>Choose...</option>
+                                                                                                                <option value="">Choose...</option>
                                                                                                                 <option value="1">January</option>
                                                                                                                 <option value="2">February</option>
                                                                                                                 <option value="3">March</option>
@@ -3967,14 +3967,13 @@
                             </div>
                         </div>
 
-                        @*<div class="tab-pane" id="basictab2">
-                                <div class="row">
-                                   @Html.Partial("_PreviewForm32")
-                                </div>
-                            </div>*@
+                        <div class="tab-pane" id="basictab2">
+                            <div class="row">
+                                @Html.Partial("_PreviewForm32")
+                            </div>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -3986,13 +3985,20 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function () {
+            jQuery('input[type=text], textarea, input[type=number]').on('focusout change blur', function () {
+                var this_id = $(this).attr('id');
+                var this_val = $(this).val();
+
+                jQuery('#p' + this_id).text(this_val);
+            });
+
             $("#btnGoBack").click(function () {
                 GoBack();
             });
 
             var input_lang = '@language';
             if (input_lang == 1) {
-                $('textarea, input[type=text]').avro({ 'bn': true });
+                jQuery('textarea, input[type=text]').avro({ 'bn': true });
             }
 
             var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
@@ -4055,6 +4061,20 @@
 
             jQuery("#btnPrevious").click(function () {
 
+            });
+
+            jQuery('input').each(function (index) {
+                var input = jQuery(this);
+                input.focus();
+                //console.log('ID: ' + input.attr('id') + ' Type: ' + input.attr('type'));
+                //alert('Type: ' + input.attr('type') + 'Name: ' + input.attr('name') + 'Value: ' + input.val());
+            });
+
+            jQuery('textarea').each(function (index) {
+                var input = jQuery(this);
+                input.focus();
+                //console.log('ID: ' + input.attr('id') + ' Type: ' + input.attr('type'));
+                //alert('Type: ' + input.attr('type') + 'Name: ' + input.attr('name') + 'Value: ' + input.val());
             });
         });
 
@@ -4294,7 +4314,7 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.length > 0) {
-                        var rows = '';
+                        var rows = '', preview_row = '';
 
                         var count = 0;
 
@@ -4305,6 +4325,7 @@
                                 var lon = (item.longitude == null) ? '' : item.longitude;
                                 var fileName = item.onlyImageFileName != '' ? item.imageFileName : '../images/no_image.png';
                                 rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.districtNameBn + '</td><td>' + item.upazilaNameBn + '</td><td>' + item.unionNameBn + '</td><td>' + lat + '</td><td>' + lon + '</td><td><a href="' + fileName + '" target="_blank"><img src="' + fileName + '" height="50px" /></a></td><td class="text-center"><button onclick="javascript:EditLoc(' + item.locationId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.locationId + ', ' + item.projectId + ', \'CcModPrjLocationDetail\'); GetProjLocationsData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                                preview_row += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.districtNameBn + '</td><td>' + item.upazilaNameBn + '</td><td>' + item.unionNameBn + '</td><td>' + lat + '</td><td>' + lon + '</td><td><a href="' + fileName + '" target="_blank"><img src="' + fileName + '" height="50px" /></a></td></tr>';
                             });
                         } else {
                             jQuery.each(data, function (i, item) {
@@ -4317,15 +4338,20 @@
                                 console.log('fileName: ' + fileName);
 
                                 rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.districtName + '</td><td>' + item.upazilaName + '</td><td>' + item.unionName + '</td><td>' + latEg + '</td><td>' + lonEg + '</td><td><a href="' + fileName + '" target="_blank"><img src="' + fileName + '" height="50px" /></a></td><td class="text-center"><button onclick="javascript:EditLoc(' + item.locationId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.locationId + ', ' + item.projectId + ', \'CcModPrjLocationDetail\'); GetProjLocationsData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                                preview_row += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.districtName + '</td><td>' + item.upazilaName + '</td><td>' + item.unionName + '</td><td>' + latEg + '</td><td>' + lonEg + '</td><td><a href="' + fileName + '" target="_blank"><img src="' + fileName + '" height="50px" /></a></td></tr>';
                             });
                         }
+
                         jQuery("#tbodyProjectLocation").html(rows);
+                        jQuery("#tbodyProjectLocationPreview").html(preview_row);
                     } else {
                         jQuery("#tbodyProjectLocation").html('<tr><td colspan="8" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                        jQuery("#tbodyProjectLocationPreview").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
                     }
                 }, error: function (jqXHR, exception) {
                     var errorMsg = AjaxErrorHandle(jqXHR, exception);
                     jQuery("#tbodyProjectLocation").html('<tr><td colspan="8" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+                    jQuery("#tbodyProjectLocationPreview").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
                     Notification('error', 'Error Occured', errorMsg);
                 }
             });
@@ -5525,7 +5551,7 @@
 
             //console.log(_recDetail);
 
-            var url = '@Url.Action("f32rds", "form")';
+            var url = '@Url.Action("afrds", "form")';
             jQuery.ajax({
                 type: "POST",
                 url: url,

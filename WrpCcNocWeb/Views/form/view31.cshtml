@@ -7,6 +7,8 @@
     var app_state = ViewBag.ApplicationState;
     var is_complete_id = ViewBag.ProjectCommonDetail.IsCompletedId;
     var review_cycle_no = ViewBag.ProjectCommonDetail.ReviewCycleNo;
+
+    var user_group_id = ViewBag.UserLevel;
 }
 
 <div class="row">
@@ -215,16 +217,16 @@
                                 {<span>iv. Project Location</span>}
                             </b>
                         </label>
-                        &nbsp;
-                        <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Location', 'ProjectLocation');" class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                           data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                           style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                            <i class="mdi mdi-comment-text-multiple"></i>
-                        </a> &nbsp;
+                        &nbsp;&nbsp;
                         <a id="btnMapView" href="javascript:void(0);" target="_blank" class="btn btn-sm btn-info waves-effect comment"
                            data-toggle="tooltip" data-placement="top" title="" data-original-title="View Map"
                            style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                             <i class="mdi mdi-map"></i>
+                        </a> &nbsp;&nbsp;
+                        <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Location', 'ProjectLocation');" class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                           data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                           style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                            <i class="mdi mdi-comment-text-multiple"></i>
                         </a>
                     </div>
 
@@ -2349,20 +2351,23 @@
                     }
                     else
                     {
-                        <div class="form-group">
-                            <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
-                                Forward
-                            </button>
-                        </div>
+                        if (app_state_id != 1 && user_group_id != "1000000001")
+                        {
+                            <div class="form-group">
+                                <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
+                                    Forward
+                                </button>
+                            </div>
+                        }
                     }
 
                     <!--
-                    <div class="form-group">
-                        <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
-                            Forward
-                        </button>
-                    </div>
-                    -->
+    <div class="form-group">
+        <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
+            Forward
+        </button>
+    </div>
+    -->
                     <span>&nbsp;&nbsp;&nbsp;</span>
 
                     <div class="form-group">

@@ -98,190 +98,194 @@
         </div>
     </div>
 
-    <h3>
-        @if (prev_lang == "1")
-        {<span>১. সাধারণ তথ্য</span>}
-        else
-        {<span>A. General Information</span>}
-    </h3>
-    <div class="row">
-        <div class="col">
-            <label for="pname">
+    <br />
+
+    <table style="border: 1px solid #808080; table-layout: fixed; width: 1200px;" border="1" cellpadding="1" cellspacing="0">
+        <tr style="background: #9d9b9b; font-weight: bold;">
+            <td colspan="2">
+                <h4>
+                    @if (prev_lang == "1")
+                    {<span>১. সাধারণ তথ্য</span>}
+                    else
+                    {<span>A. General Information</span>}
+                </h4>
+            </td>
+        </tr>
+
+        <tr style="vertical-align: top; text-align: left;">
+            <td style="width: 200px;">
                 <b>
                     @if (prev_lang == "1")
                     {<span>i. প্রকল্পের নাম</span>}
                     else
-                    {<span>i. Project Name:</span>}
+                    {<span>i. Project Name</span>}
                 </b>
-            </label>
-        </div>
-        <div class="col">
-            <div title="Project Name">
-                <span id="pProjectName">xxxxxxxxxxxxxxxxxx</span>
-            </div>
-        </div>
-    </div>
+            </td>
+            <td id="pProjectName" style="width: 900px; max-width: 700px; word-break: break-all;"></td>
+        </tr>
 
-    <div class="row">
-        <div class="col">
-            <label for="pbg">
+        <tr style="vertical-align: top; text-align: left;">
+            <td>
                 <b>
                     @if (prev_lang == "1")
                     {<span>ii. প্রকল্পের পূর্ব ইতিহাস ও যৌক্তিকতা</span>}
                     else
                     {<span>ii. Project Background and Rationale</span>}
                 </b>
-            </label>
-        </div>
-        <div class="col">
-            <span id="pBackgroundAndRationale" title="Background and Rationale">xxxxxxxxxxxxxxxxxx</span>
-        </div>
-    </div>
+            </td>
+            <td id="pBackgroundAndRationale" style="word-break: break-all;"></td>
+        </tr>
 
-    <div class="row">
-        <div class="col">
-            <label for="pbg">
+        <tr style="vertical-align: top; text-align: left;">
+            <td style="width: 250px;">
                 <b>
                     @if (prev_lang == "1")
                     {<span>iii. প্রকল্পের লক্ষ্য</span>}
                     else
                     {<span>iii. Project Target</span>}
                 </b>
-            </label>
-        </div>
-        <div class="col">
-            <span id="pProjectTarget">xxxxxxxxxxxxxxxxxx</span>
-        </div>
-    </div>
+            </td>
+            <td id="pProjectTarget"></td>
+        </tr>
 
-    <div class="row">
-        <div class="col">
-            <label for="pbg">
+        <tr style="vertical-align: top; text-align: left;">
+            <td style="width: 250px;">
                 <b>
                     @if (prev_lang == "1")
                     {<span>iv. প্রকল্পের উদ্দেশ্য</span>}
                     else
                     {<span>iv. Project Objective</span>}
                 </b>
-            </label>
-        </div>
-        <div class="col">
-            <span id="pProjectObjective">xxxxxxxxxxxxxxxxxx</span>
-        </div>
-    </div>
+            </td>
+            <td id="pProjectObjective"></td>
+        </tr>
 
-    <div class="row">
-        <label for="pbg">
-            <b>
-                @if (prev_lang == "1")
-                {<span>iv. প্রকল্পের অবস্থান</span>}
-                else
-                {<span>iv. Project Location</span>}
-            </b>
-        </label> &nbsp;
-        <a id="btnMapView" href="javascript:void(0);" target="_blank" class="btn btn-sm btn-info waves-effect"
-           data-toggle="tooltip" data-placement="top" title="" data-original-title="View Map"
-           style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-            <i class="mdi mdi-map"></i>
-        </a>
-    </div>
-
-    <div class="row">
-        <table style="width:100%; border: 1px solid #232323;">
-            <thead>
-                <tr>
-                    <th class="text-center">#</th>
-                    <th class="text-center">
-                        @if (prev_lang == "1")
-                        {<span>ইউনিয়ন</span>}
-                        else
-                        {<span>Union</span>}
-                    </th>
-                    <th class="text-center">
-                        @if (prev_lang == "1")
-                        {<span>উপজেলা</span>}
-                        else
-                        {<span>Upazila</span>}
-                    </th>
-                    <th class="text-center">
-                        @if (prev_lang == "1")
-                        {<span>জেলা</span>}
-                        else
-                        {<span>District</span>}
-                    </th>
-                    <th class="text-center">
-                        @if (prev_lang == "1")
-                        {<span>অক্ষাংশ</span>}
-                        else
-                        {<span>Latitude</span>}
-                    </th>
-                    <th class="text-center">
-                        @if (prev_lang == "1")
-                        {<span>দ্রাঘিমাংশ</span>}
-                        else
-                        {<span>Longitude</span>}
-                    </th>
-                    <th class="text-center">
-                        @if (prev_lang == "1")
-                        {<span>সংযুক্তি</span>}
-                        else
-                        {<span>Attchments</span>}
-                    </th>
-                </tr>
-            </thead>
-            <tbody id="tbodyProjectLocationPreview"></tbody>
-        </table>
-    </div>
-    <br />
-
-    <div class="row">
-        <div class="col">
-            <label for="pbg">
+        <tr style="vertical-align: top; text-align: left;">
+            <td style="width: 250px;">
                 <b>
                     @if (prev_lang == "1")
-                    {<span>viii. প্রকল্প ব্যয়</span>}
+                    {<span>v. প্রকল্পের ক্রিয়াকলাপ/ উপাদানসমূহ</span>}
                     else
-                    {<span>viii. Estimated Project Cost</span>}
+                    {<span>v. Project Activities/ Components</span>}
                 </b>
-            </label>
-        </div>
-        <div class="col">
-            <span id="pProjectEstimatedCost">xxxxxxxxxxxxxxxxxx</span>
-        </div>
-    </div>
+            </td>
+            <td id="pProjectActivity"></td>
+        </tr>
 
-    <label for="pbg">
-        <b>
-            @if (prev_lang == "1")
-            {<span>vii. প্রকল্প সময়কাল</span>}
-            else
-            {<span>vii. Project Period</span>}
-        </b>
-    </label>
-    <table>
-        <tr>
-            <th>
+        <tr style="vertical-align: top; text-align: left;">
+            <td style="width: 250px;">
+                <b>
+                    @if (prev_lang == "1")
+                    {<span>vi. প্রকল্প সময়কাল</span>}
+                    else
+                    {<span>vi. Project Period</span>}
+                </b>
+            </td>
+            <td>
                 @if (prev_lang == "1")
-                {<span>প্রাম্ভিক কাল</span>}
+                {
+                    <span>প্রাম্ভিক কাল: <span id="pProjectStartDate"></span></span>
+                }
                 else
-                {<span>Starting time</span>}
-            </th>
-            <th>
+                {
+                    <span>Starting Time: <span id="pProjectStartDate"></span></span>
+                }
+
+                <br />
+
                 @if (prev_lang == "1")
-                {<span>সমাপ্তি কাল</span>}
+                {
+                    <span>সমাপ্তি কাল: <span id="pProjectCompletionDate"></span></span>
+                }
                 else
-                {<span>Completion time</span>}
-            </th>
+                {
+                    <span>Completion Time: <span id="pProjectCompletionDate"></span></span>
+                }
+            </td>
+        </tr>
+
+        <tr style="vertical-align: top; text-align: left;">
+            <td style="width: 250px;">
+                <b>
+                    @if (prev_lang == "1")
+                    {<span>vii. প্রকল্প ব্যয়</span>}
+                    else
+                    {<span>vii. Estimated Project Cost</span>}
+                </b>
+            </td>
+            <td id="pProjectEstimatedCost"></td>
+        </tr>
+
+        <tr style="vertical-align: top; text-align: left;">
+            <td colspan="2">
+                <b>
+                    @if (prev_lang == "1")
+                    {<span>viii. প্রকল্পের অবস্থান</span>}
+                    else
+                    {<span>viii. Project Location</span>}
+                </b> &nbsp;&nbsp;
+                <a id="btnMapView" href="javascript:void(0);" target="_blank" class="btn btn-sm btn-info waves-effect"
+                   data-toggle="tooltip" data-placement="top" title="" data-original-title="View Map"
+                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                    <i class="mdi mdi-map"></i>
+                </a>
+            </td>
         </tr>
         <tr>
-            <td id="pProjectStartDate">XX/XX/XXXX</td>
-            <td id="pProjectCompletionDate">XX/XX/XXXX</td>
+            <td colspan="2">
+                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                    <thead style="background: #9d9b9b; font-weight: bold;">
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">
+                                @if (prev_lang == "1")
+                                {<span>জেলা</span>}
+                                else
+                                {<span>District</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (prev_lang == "1")
+                                {<span>উপজেলা</span>}
+                                else
+                                {<span>Upazila</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (prev_lang == "1")
+                                {<span>ইউনিয়ন</span>}
+                                else
+                                {<span>Union</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (prev_lang == "1")
+                                {<span>অক্ষাংশ</span>}
+                                else
+                                {<span>Latitude</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (prev_lang == "1")
+                                {<span>দ্রাঘিমাংশ</span>}
+                                else
+                                {<span>Longitude</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (prev_lang == "1")
+                                {<span>সংযুক্তি</span>}
+                                else
+                                {<span>Attchments</span>}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyProjectLocationPreview">
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+
+        <tr style="border-left: none !important; border-right: none !important;">
+            <td colspan="2">
+            </td>
         </tr>
     </table>
-
-    <br />
-
-    <!--removed by rony-->
 
     <div class="row">
         <div class="col">
@@ -289,7 +293,7 @@
                 @if (prev_lang == "1")
                 {<span>আমি নিশ্চিত ভাবে বলছি যে এই আবেদন এর সাথে সকল তথ্য এন্ড সংযুক্তি সঠিক এবং আমার জানামতে সর্বশেষ্ঠ।</span>}
                 else
-                {<span> I certify that the information and attachment provided with this application are correct to the best of my knowledge and belief. </span>}
+                {<span>I certify that the information and attachment provided with this application are correct to the best of my knowledge and belief. </span>}
             </p>
         </div>
     </div>
@@ -315,6 +319,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     jQuery(document).ready(function () {
         jQuery('#btnMapView').click(function () {
@@ -323,13 +328,12 @@
             window.open(url.replace('__id__', prevProjId), '_blank');
         });
 
-        var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';        
+        var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
         SetHiddenValue('pProjectId', projectId);
 
         if (projectId != '') {
-            //pBindData();
-            pGetProjLocationsData();
-        }
+
+        }        
     });
 </script>
 
@@ -340,63 +344,5 @@
 
     function pSetAnchorTextValue(control, val) {
         return jQuery('#' + control).attr('href', '../images/CommonDetails/' + val).text(val);
-    }
-
-    function pGetProjLocationsData() {
-        var ProjectId = GetHiddenValue('pProjectId');
-        var url = '@Url.Action("get_pld", "form")';
-
-        jQuery.ajax({
-            type: "GET",
-            url: url,
-            data: { project_id: ProjectId },
-            dataType: "json",
-            success: function (data, status, jqXHR) {
-                console.log('Preview Location Data');
-                console.log(data);
-
-                if (data.length > 0) {
-                    var rows = '';
-                    var count = 0;
-
-                    jQuery.each(data, function (i, item) {
-                        ++count;
-                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.unionName + '</td><td>' + item.upazilaName + '</td><td>' + item.districtName + '</td><td class="text-right">' + item.latitude + '</td><td class="text-right">' + item.longitude + '</td><td class="text-right"><a href="' + item.imageFileName + '" target="_blank">' + item.onlyImageFileName + '</a></td></tr>';
-                    });
-
-                    jQuery("#tbodyProjectLocationPreview").html(rows);
-                } else {
-                    jQuery("#tbodyProjectLocationPreview").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
-                }
-            }, error: function (jqXHR, exception) {
-                var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                jQuery("#tbodyProjectLocationPreview").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
-            }
-        });
-    }
-
-    function pBindData() {
-        var projectId = '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectId)';
-        console.log('projectId: ' + projectId);
-
-        if (projectId != '') {
-            console.log('ViewBag.ProjectCommonDetail.ProjectId Preview: ' + projectId);
-
-            //General Info
-            SetHiddenValue('pProjectId', projectId);
-
-            SetHiddenValue('pProject32IndvId', '@Html.Raw(ViewBag.ProjectIndvDetail32.Project32IndvId)');
-            SetHiddenValue('pUserId', '@Html.Raw(ViewBag.ProjectCommonDetail.UserId)');
-            SetHiddenValue('pProjectTypeId', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectTypeId)');
-
-            pSetTextValue('pProjectName', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectName)');
-            pSetTextValue('pBackgroundAndRationale', '@Html.Raw(ViewBag.ProjectCommonDetail.BackgroundAndRationale)');
-            pSetTextValue('pProjectTarget', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectTarget)');
-            pSetTextValue('pProjectObjective', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectObjective)');
-            pSetTextValue('ProjectActivity', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectActivity)');
-            pSetTextValue('pProjectStartDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate)');
-            pSetTextValue('pProjectCompletionDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate)');
-            pSetTextValue('pProjectEstimatedCost', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectEstimatedCost)');
-        }
     }
 </script>

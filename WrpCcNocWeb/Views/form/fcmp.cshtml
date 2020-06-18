@@ -444,7 +444,7 @@
                                                                                         @{if (language == "1")
                                                                                             { <span>বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০  হট স্পট</span>}
                                                                                             else
-                                                                                            {<span>  Bangladesh Delta Plan 2100 Hot Spot </span>}
+                                                                                            {<span>Bangladesh Delta Plan 2100 Hot Spot </span>}
                                                                                         }
                                                                                     </label>
                                                                                     <div id="chkBDP2100HotSpot" class="row" style="margin-left: 5px;">
@@ -909,7 +909,7 @@
                                                                                                 @{if (language == "1")
                                                                                                     { <span>উচুঁ ভূমি <br />F<sub>0</sub> (০-৩০ সে.মি.)</span>}
                                                                                                     else
-                                                                                                    {<span> High Land <br />F<sub>0</sub> (0-30cm)</span>}
+                                                                                                    {<span> High Land <br />F<sub>0</sub> (0-30 cm)</span>}
                                                                                                 }
                                                                                             </label>
                                                                                             <input type="number" id="HighLandPercent" name="HighLandPercent" class="form-control" />
@@ -920,7 +920,7 @@
                                                                                                 @{if (language == "1")
                                                                                                     { <span>মধ্যম উচুঁ ভূমি <br />F<sub>1</sub> (৩০-৯০ সে.মি.)</span>}
                                                                                                     else
-                                                                                                    {<span>Medium High Land <br />F<sub>1</sub> (30-90cm)</span>}
+                                                                                                    {<span>Medium High Land <br />F<sub>1</sub> (30-90 cm)</span>}
                                                                                                 }
                                                                                             </label>
                                                                                             <input type="number" id="MediumHighLandPercent" name="MediumHighLandPercent" class="form-control" />
@@ -931,7 +931,7 @@
                                                                                                 @{if (language == "1")
                                                                                                     { <span>মধ্যম নিচু ভূমি <br />F<sub>2</sub> (৯০-১৮০ সে.মি)</span>}
                                                                                                     else
-                                                                                                    {<span>Medium Low Land <br />F<sub>2</sub> (90-180cm)</span>}
+                                                                                                    {<span>Medium Low Land <br />F<sub>2</sub> (90-180 cm)</span>}
                                                                                                 }
                                                                                             </label>
                                                                                             <input type="number" id="MediumLowLandPercent" name="MediumLowLandPercent" class="form-control" />
@@ -942,7 +942,7 @@
                                                                                                 @{if (language == "1")
                                                                                                     { <span>নিচু ভূমি <br />F<sub>3</sub> (>১৮০-৩৬০ সে.মি.)</span>}
                                                                                                     else
-                                                                                                    {<span>Low Land <br />F<sub>3</sub> (>180-360cm)</span>}
+                                                                                                    {<span>Low Land <br />F<sub>3</sub> (>180-360 cm)</span>}
                                                                                                 }
                                                                                             </label>
                                                                                             <input type="number" id="LowLandPercent" name="LowLandPercent" class="form-control" />
@@ -953,7 +953,7 @@
                                                                                                 @{if (language == "1")
                                                                                                     { <span>অত্যন্ত নিচু জমি <br />F<sub>4</sub> (>৩৬০ সে.মি)</span>}
                                                                                                     else
-                                                                                                    {<span>Very Low Land <br />F<sub>4</sub> (>360cm)</span>}
+                                                                                                    {<span>Very Low Land <br />F<sub>4</sub> (>360 cm)</span>}
                                                                                                 }
                                                                                             </label>
                                                                                             <input type="number" id="VeryLowLandPercent" name="VeryLowLandPercent" class="form-control" />
@@ -1033,7 +1033,7 @@
                                                                                         @{if (language == "1")
                                                                                             { <span>ফসল/ খাদ্যশস্য উৎপাদনের পরিমান (টন)</span>}
                                                                                             else
-                                                                                            {<span>  Crop Production (ton)</span>}
+                                                                                            {<span>Crop Production (ton)</span>}
                                                                                         }
                                                                                     </label>
                                                                                     <input type="text" id="CropProduction" name="CropProduction" class="form-control" />
@@ -1060,7 +1060,7 @@
                                                                                                     {<span> Fish Production</span>}
                                                                                                 }
                                                                                             </label>
-                                                                                            <input type="text" id="FishProduction" name="FishProduction" class="form-control" />
+                                                                                            <input type="number" min="0" id="FishProduction" name="FishProduction" class="form-control" />
                                                                                         </div>
 
                                                                                         <div class="form-group col-md-4">
@@ -1135,7 +1135,7 @@
                                                                                                 @{if (language == "1")
                                                                                                     { <span>গড় মাসিক আয়</span>}
                                                                                                     else
-                                                                                                    {<span>  Avg Monthly Income</span>}
+                                                                                                    {<span>Avg Monthly Income</span>}
                                                                                                 }
                                                                                             </label>
                                                                                             <input type="text" id="AvgMonthlyIncome" name="AvgMonthlyIncome" class="form-control" />
@@ -1191,7 +1191,7 @@
                                                                                 <div class="form-group">
                                                                                     <label for="DiscussionStakeholdersDuringStartingProject">
                                                                                         @{if (language == "1")
-                                                                                            { <span> প্রকল্প  প্রণয়ন পর্যায়ে স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
+                                                                                            { <span>প্রকল্প  প্রণয়ন পর্যায়ে স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
                                                                                             else
                                                                                             {<span>Discussion with stakeholders during starting of the project</span>}
                                                                                         }
@@ -3564,7 +3564,7 @@
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="PaymentDocNumber">                                                                        
+                                                                    <label for="PaymentDocNumber">
                                                                         @if (language == "1")
                                                                         {
                                                                             <span>পেমেন্ট ডকুমেন্ট নম্বর</span>
@@ -5213,7 +5213,7 @@
 
             //console.log(_recDetail);
 
-            var url = '@Url.Action("f31rds", "form")';
+            var url = '@Url.Action("afrds", "form")';
             jQuery.ajax({
                 type: "POST",
                 url: url,
@@ -5683,13 +5683,13 @@
 
                 //General Info
                 SetHiddenValue('ProjectId', projectId);
-                SetHiddenValue('Project31IndvId', '@Html.Raw(@ViewBag.ProjectIndvDetail31.Project31IndvId)');
-                SetHiddenValue('UserId', '@Html.Raw(@ViewBag.ProjectCommonDetail.UserId)');
+                SetHiddenValue('Project31IndvId', '@Html.Raw(ViewBag.ProjectIndvDetail31.Project31IndvId)');
+                SetHiddenValue('UserId', '@Html.Raw(ViewBag.ProjectCommonDetail.UserId)');
 
-                if('@ViewBag.ProjectCommonDetail.ProjectTypeId' != '' && '@Html.Raw(@ViewBag.ProjectCommonDetail.ProjectTypeId)' != 0)
-                    SetHiddenValue('ProjectTypeId', '@Html.Raw(@ViewBag.ProjectCommonDetail.ProjectTypeId)');
+                if('@ViewBag.ProjectCommonDetail.ProjectTypeId' != '' && '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectTypeId)' != 0)
+                    SetHiddenValue('ProjectTypeId', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectTypeId)');
 
-                var pn = '@Html.Raw(@ViewBag.ProjectCommonDetail.ProjectName)';
+                var pn = '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectName)';
                 console.log(pn);
 
                 SetTextValue('ProjectName', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectName)');
@@ -5718,84 +5718,93 @@
                     $(":checkbox[name='bdp2100_hot_spot'][value='" + item.deltaPlanHotSpotId + "']").attr('checked', true);
                 });
 
-                SetTextValue('ConnectivityAmidWaterland', '@Html.Raw(@ViewBag.ProjectIndvDetail31.ConnectivityAmidWaterland)');
-                SetTextValue('CatchmentArea', '@Html.Raw(@ViewBag.ProjectIndvDetail31.CatchmentArea)');
+                SetTextValue('ConnectivityAmidWaterland', '@Html.Raw(ViewBag.ProjectIndvDetail31.ConnectivityAmidWaterland)');
+                SetTextValue('CatchmentArea', '@Html.Raw(ViewBag.ProjectIndvDetail31.CatchmentArea)');
 
-                SetTextValue('AnnualRainFallLast1Year', '@Html.Raw(@ViewBag.ProjectCommonDetail.AnnualRainFallLast1Year)');
-                SetTextValue('AnnualRainFallLast2Years', '@Html.Raw(@ViewBag.ProjectCommonDetail.AnnualRainFallLast2Years)');
-                SetTextValue('AnnualRainFallLast3Years', '@Html.Raw(@ViewBag.ProjectCommonDetail.AnnualRainFallLast3Years)');
-                SetTextValue('AnnualRainFallLast4Years', '@Html.Raw(@ViewBag.ProjectCommonDetail.AnnualRainFallLast4Years)');
-                SetTextValue('AnnualRainFallLast5Years', '@Html.Raw(@ViewBag.ProjectCommonDetail.AnnualRainFallLast5Years)');
+                SetTextValue('AnnualRainFallLast1Year', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast1Year)');
+                SetTextValue('AnnualRainFallLast2Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast2Years)');
+                SetTextValue('AnnualRainFallLast3Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast3Years)');
+                SetTextValue('AnnualRainFallLast4Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast4Years)');
+                SetTextValue('AnnualRainFallLast5Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast5Years)');
 
-                SetTextValue('HighestFloodLevel', '@Html.Raw(@ViewBag.ProjectIndvDetail31.HighestFloodLevel)');
-                SetTextValue('MaximumDischarge', '@Html.Raw(@ViewBag.ProjectIndvDetail31.MaximumDischarge)');
+                SetTextValue('HighestFloodLevel', '@Html.Raw(ViewBag.ProjectIndvDetail31.HighestFloodLevel)');
+                SetTextValue('MaximumDischarge', '@Html.Raw(ViewBag.ProjectIndvDetail31.MaximumDischarge)');
 
                 var tof = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.TypesOfFloodDetail))');
                 jQuery.each(tof, function (i, item) {
                     $(":checkbox[name='types_of_flood'][value='" + item.floodTypeId + "']").attr('checked', true);
                 });
 
-                var DrainageConditionId = '@Html.Raw(@ViewBag.ProjectIndvDetail31.DrainageConditionId)';
+                var DrainageConditionId = '@Html.Raw(ViewBag.ProjectIndvDetail31.DrainageConditionId)';
                 if(DrainageConditionId != '')
                     $(":radio[name='drainage_condition'][value='" + DrainageConditionId + "']").attr('checked', true);
 
-                SetTextValue('WaterSalinity', '@Html.Raw(@ViewBag.ProjectIndvDetail31.WaterSalinity)');
-                SetTextValue('WaterDO', '@Html.Raw(@ViewBag.ProjectIndvDetail31.WaterDO)');
-                SetTextValue('WaterTDS', '@Html.Raw(@ViewBag.ProjectIndvDetail31.WaterTDS)');
-                SetTextValue('WaterPhLevel', '@Html.Raw(@ViewBag.ProjectIndvDetail31.WaterPhLevel)');
-                SetTextValue('HighLandPercent', '@Html.Raw(@ViewBag.ProjectIndvDetail31.HighLandPercent)');
-                SetTextValue('MediumHighLandPercent', '@Html.Raw(@ViewBag.ProjectIndvDetail31.MediumHighLandPercent)');
-                SetTextValue('MediumLowLandPercent', '@Html.Raw(@ViewBag.ProjectIndvDetail31.MediumLowLandPercent)');
-                SetTextValue('LowLandPercent', '@Html.Raw(@ViewBag.ProjectIndvDetail31.LowLandPercent)');
-                SetTextValue('VeryLowLandPercent', '@Html.Raw(@ViewBag.ProjectIndvDetail31.VeryLowLandPercent)');
-                SetTextValue('CultivableCrops', '@Html.Raw(@ViewBag.ProjectIndvDetail31.CultivableCrops)');
-                SetTextValue('CropProduction', '@Html.Raw(@ViewBag.ProjectIndvDetail31.CropProduction)');
-                SetTextValue('FishProduction', '@Html.Raw(@ViewBag.ProjectIndvDetail31.FishProduction)');
-                SetTextValue('FishDiversity', '@Html.Raw(@ViewBag.ProjectIndvDetail31.FishDiversity)');
-                SetTextValue('FishMigration', '@Html.Raw(@ViewBag.ProjectIndvDetail31.FishMigration)');
-                SetTextValue('FloraAndFauna', '@Html.Raw(@ViewBag.ProjectIndvDetail31.FloraAndFauna)');
-                SetTextValue('LandLessPeoplePercentage', '@Html.Raw(@ViewBag.ProjectIndvDetail31.LandLessPeoplePercentage)');
-                SetTextValue('SmallFarmerPercentage', '@Html.Raw(@ViewBag.ProjectIndvDetail31.SmallFarmerPercentage)');
-                SetTextValue('AvgMonthlyIncome', '@Html.Raw(@ViewBag.ProjectIndvDetail31.AvgMonthlyIncome)');
+                SetTextValue('WaterSalinity', '@Html.Raw(ViewBag.ProjectIndvDetail31.WaterSalinity)');
+                SetTextValue('WaterDO', '@Html.Raw(ViewBag.ProjectIndvDetail31.WaterDO)');
+                SetTextValue('WaterTDS', '@Html.Raw(ViewBag.ProjectIndvDetail31.WaterTDS)');
+                SetTextValue('WaterPhLevel', '@Html.Raw(ViewBag.ProjectIndvDetail31.WaterPhLevel)');
+                SetTextValue('HighLandPercent', '@Html.Raw(ViewBag.ProjectIndvDetail31.HighLandPercent)');
+                SetTextValue('MediumHighLandPercent', '@Html.Raw(ViewBag.ProjectIndvDetail31.MediumHighLandPercent)');
+                SetTextValue('MediumLowLandPercent', '@Html.Raw(ViewBag.ProjectIndvDetail31.MediumLowLandPercent)');
+                SetTextValue('LowLandPercent', '@Html.Raw(ViewBag.ProjectIndvDetail31.LowLandPercent)');
+                SetTextValue('VeryLowLandPercent', '@Html.Raw(ViewBag.ProjectIndvDetail31.VeryLowLandPercent)');
+                SetTextValue('CultivableCrops', '@Html.Raw(ViewBag.ProjectIndvDetail31.CultivableCrops)');
+                SetTextValue('CropProduction', '@Html.Raw(ViewBag.ProjectIndvDetail31.CropProduction)');
+                SetTextValue('FishProduction', '@Html.Raw(ViewBag.ProjectIndvDetail31.FishProduction)');
+                SetTextValue('FishDiversity', '@Html.Raw(ViewBag.ProjectIndvDetail31.FishDiversity)');
+                SetTextValue('FishMigration', '@Html.Raw(ViewBag.ProjectIndvDetail31.FishMigration)');
+                SetTextValue('FloraAndFauna', '@Html.Raw(ViewBag.ProjectIndvDetail31.FloraAndFauna)');
+                SetTextValue('LandLessPeoplePercentage', '@Html.Raw(ViewBag.ProjectIndvDetail31.LandLessPeoplePercentage)');
+                SetTextValue('SmallFarmerPercentage', '@Html.Raw(ViewBag.ProjectIndvDetail31.SmallFarmerPercentage)');
+                SetTextValue('AvgMonthlyIncome', '@Html.Raw(ViewBag.ProjectIndvDetail31.AvgMonthlyIncome)');
 
-                SetTextValue('IssueChallageProblem', '@Html.Raw(@ViewBag.ProjectCommonDetail.IssueChallageProblem)');
+                SetTextValue('IssueChallageProblem', '@Html.Raw(ViewBag.ProjectCommonDetail.IssueChallageProblem)');
 
 				var YesNoStakeId = '@Html.Raw(ViewBag.ProjectCommonDetail.YesNoStakeId)';
-				if(YesNoStakeId != '')
-					$(":radio[name='YesNoStakeId'][value='" + YesNoStakeId + "']").attr('checked', true);
+				if (YesNoStakeId != '') {
+                    $(":radio[name='YesNoStakeId'][value='" + YesNoStakeId + "']").attr('checked', true);
 
-                SetTextValue('DiscussWithStakeApplicantCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.DiscussWithStakeApplicantCmt)');
-                SetTextValue('DiscussWithStakeAuthorityCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.DiscussWithStakeAuthorityCmt)');
-                SetTextValue('DiscussWithStakePosFeedback', '@Html.Raw(@ViewBag.ProjectCommonDetail.DiscussWithStakePosFeedback)');
-                SetTextValue('DiscussWithStakeNegFeedback', '@Html.Raw(@ViewBag.ProjectCommonDetail.DiscussWithStakeNegFeedback)');
+                    if (YesNoStakeId == 1) {
+                        jQuery("#divDSDSPYesControls").removeClass('d-none fadeOut');
+                        jQuery("#divDSDSPYesControls").addClass('d-block fadeIn');
+                    } else {
+                        jQuery("#divDSDSPYesControls").removeClass('d-block fadeIn');
+                        jQuery("#divDSDSPYesControls").addClass('d-none fadeOut');
+                    }
+                }
+
+                SetTextValue('DiscussWithStakeApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeApplicantCmt)');
+                SetTextValue('DiscussWithStakeAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeAuthorityCmt)');
+                SetTextValue('DiscussWithStakePosFeedback', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakePosFeedback)');
+                SetTextValue('DiscussWithStakeNegFeedback', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeNegFeedback)');
 
 				var AnalyzeOptYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptYesNoId)';
 				if(AnalyzeOptYesNoId != '')
 					$(":radio[name='AnalyzeOptYesNoId'][value='" + AnalyzeOptYesNoId + "']").attr('checked', true);
 
-                SetTextValue('AnalyzeOptionsApplicantCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.AnalyzeOptionsApplicantCmt)');
-                SetTextValue('AnalyzeOptionsAuthorityCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.AnalyzeOptionsAuthorityCmt)');
+                SetTextValue('AnalyzeOptionsApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptionsApplicantCmt)');
+                SetTextValue('AnalyzeOptionsAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptionsAuthorityCmt)');
 
 				var EnvAndSocialYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialYesNoId)';
 				if(EnvAndSocialYesNoId != '')
 					$(":radio[name='EnvAndSocialYesNoId'][value='" + EnvAndSocialYesNoId + "']").attr('checked', true);
 
-                SetTextValue('EnvAndSocialApplicantCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.EnvAndSocialApplicantCmt)');
-                SetTextValue('EnvAndSocialAuthorityCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.EnvAndSocialAuthorityCmt)');
+                SetTextValue('EnvAndSocialApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialApplicantCmt)');
+                SetTextValue('EnvAndSocialAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialAuthorityCmt)');
 
 				var UseOfToolsYesNoId = '@Html.Raw(ViewBag.ProjectIndvDetail31.UseOfToolsYesNoId)';
 				if(UseOfToolsYesNoId != '')
 					$(":radio[name='UseOfToolsYesNoId'][value='" + UseOfToolsYesNoId + "']").attr('checked', true);
 
-                SetTextValue('ToolsApplicantComments', '@Html.Raw(@ViewBag.ProjectIndvDetail31.ToolsApplicantComments)');
-                SetTextValue('ToolsAuthorityComments', '@Html.Raw(@ViewBag.ProjectIndvDetail31.ToolsAuthorityComments)');
+                SetTextValue('ToolsApplicantComments', '@Html.Raw(ViewBag.ProjectIndvDetail31.ToolsApplicantComments)');
+                SetTextValue('ToolsAuthorityComments', '@Html.Raw(ViewBag.ProjectIndvDetail31.ToolsAuthorityComments)');
 
 				var CompatNWPYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.CompatNWPYesNoId)';
 				if(CompatNWPYesNoId != '')
 					$(":radio[name='CompatNWPYesNoId'][value='" + CompatNWPYesNoId + "']").attr('checked', true);
 
-                SetTextValue('CompatibilityNWPApplicantCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.CompatibilityNWPApplicantCmt)');
-                SetTextValue('CompatibilityNWPAuthorityCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.CompatibilityNWPAuthorityCmt)');
+                SetTextValue('CompatibilityNWPApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CompatibilityNWPApplicantCmt)');
+                SetTextValue('CompatibilityNWPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CompatibilityNWPAuthorityCmt)');
 
                 var nwp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWPDetail))');
                 jQuery.each(nwp, function (i, item) {
@@ -5806,8 +5815,8 @@
 				if(NWMPCompatYesNoId != '')
 					$(":radio[name='NWMPCompatYesNoId'][value='" + NWMPCompatYesNoId + "']").attr('checked', true);
 
-                SetTextValue('NWMPApplicantCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.NWMPApplicantCmt)');
-                SetTextValue('NWMPAuthorityCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.NWMPAuthorityCmt)');
+                SetTextValue('NWMPApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.NWMPApplicantCmt)');
+                SetTextValue('NWMPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.NWMPAuthorityCmt)');
 
                 var nwmp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWMPDetail))');
                 jQuery.each(nwmp, function (i, item) {
@@ -5818,15 +5827,15 @@
 				if(FYPYesNoId != '')
 					$(":radio[name='FYPYesNoId'][value='" + FYPYesNoId + "']").attr('checked', true);
 
-                SetTextValue('FYPApplicantCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.FYPApplicantCmt)');
-                SetTextValue('FYPAuthorityCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.FYPAuthorityCmt)');
+                SetTextValue('FYPApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FYPApplicantCmt)');
+                SetTextValue('FYPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FYPAuthorityCmt)');
 
 				var SDGYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.SDGYesNoId)';
 				if(SDGYesNoId != '')
 					$(":radio[name='SDGYesNoId'][value='" + SDGYesNoId + "']").attr('checked', true);
 
-                SetTextValue('SDGApplicantCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.SDGApplicantCmt)');
-                SetTextValue('SDGAuthorityCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.SDGAuthorityCmt)');
+                SetTextValue('SDGApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SDGApplicantCmt)');
+                SetTextValue('SDGAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SDGAuthorityCmt)');
 
                 var sdgdetail = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatSDGDetail))');
                 jQuery.each(sdgdetail, function (i, item) {
@@ -5842,8 +5851,8 @@
 				if(DeltaPlanYesNoId != '')
 					$(":radio[name='DeltaPlanYesNoId'][value='" + DeltaPlanYesNoId + "']").attr('checked', true);
 
-                SetTextValue('DeltaPlan2100ApplicantCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.DeltaPlan2100ApplicantCmt)');
-                SetTextValue('DeltaPlan2100AuthorityCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.DeltaPlan2100AuthorityCmt)');
+                SetTextValue('DeltaPlan2100ApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DeltaPlan2100ApplicantCmt)');
+                SetTextValue('DeltaPlan2100AuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DeltaPlan2100AuthorityCmt)');
 
                 var bdp2100goal = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.BDP2100GoalDetail))');
                 jQuery.each(bdp2100goal, function (i, item) {
@@ -5854,36 +5863,36 @@
 				if(CostalZoneYesNoId != '')
 					$(":radio[name='CostalZoneYesNoId'][value='" + CostalZoneYesNoId + "']").attr('checked', true);
 
-                SetTextValue('CostalZoneApplicantCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.CostalZoneApplicantCmt)');
-                SetTextValue('CostalZoneAuthorityCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.CostalZoneAuthorityCmt)');
+                SetTextValue('CostalZoneApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CostalZoneApplicantCmt)');
+                SetTextValue('CostalZoneAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CostalZoneAuthorityCmt)');
 
 				var AgriculturalYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.AgriculturalYesNoId)';
 				if(AgriculturalYesNoId != '')
 					$(":radio[name='AgriculturalYesNoId'][value='" + AgriculturalYesNoId + "']").attr('checked', true);
 
-                SetTextValue('AgriApplicantCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.AgriApplicantCmt)');
-                SetTextValue('AgriAuthorityCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.AgriAuthorityCmt)');
+                SetTextValue('AgriApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AgriApplicantCmt)');
+                SetTextValue('AgriAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AgriAuthorityCmt)');
 
 				var FisheriesYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.FisheriesYesNoId)';
 				if(FisheriesYesNoId != '')
 					$(":radio[name='FisheriesYesNoId'][value='" + FisheriesYesNoId + "']").attr('checked', true);
 
-                SetTextValue('FisheriesApplicantCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.FisheriesApplicantCmt)');
-                SetTextValue('FisheriesAuthorityCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.FisheriesAuthorityCmt)');
+                SetTextValue('FisheriesApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FisheriesApplicantCmt)');
+                SetTextValue('FisheriesAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FisheriesAuthorityCmt)');
 
 				var IWRMYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.IWRMYesNoId)';
 				if(IWRMYesNoId != '')
 					$(":radio[name='IWRMYesNoId'][value='" + IWRMYesNoId + "']").attr('checked', true);
 
-                SetTextValue('IWRMApplicantCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.IWRMApplicantCmt)');
-                SetTextValue('IWRMAuthorityCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.IWRMAuthorityCmt)');
+                SetTextValue('IWRMApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.IWRMApplicantCmt)');
+                SetTextValue('IWRMAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.IWRMAuthorityCmt)');
 
 				var GPWMYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.GPWMYesNoId)';
 				if(GPWMYesNoId != '')
 					$(":radio[name='GPWMYesNoId'][value='" + GPWMYesNoId + "']").attr('checked', true);
 
-                SetTextValue('GPWMApplicantCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.GPWMApplicantCmt)');
-                SetTextValue('GPWMAuthorityCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.GPWMAuthorityCmt)');
+                SetTextValue('GPWMApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.GPWMApplicantCmt)');
+                SetTextValue('GPWMAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.GPWMAuthorityCmt)');
 
                 var gpwmgroup = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.GPWMGroupType))');
                 jQuery.each(gpwmgroup, function (i, item) {
@@ -5894,25 +5903,25 @@
 				if(FeasibilityYesNoId != '')
 					$(":radio[name='FeasibilityYesNoId'][value='" + FeasibilityYesNoId + "']").attr('checked', true);
 
-                SetTextValue('FeasibilityApplicantCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.FeasibilityApplicantCmt)');
-                SetTextValue('FeasibilityAuthorityCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.FeasibilityAuthorityCmt)');
+                SetTextValue('FeasibilityApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FeasibilityApplicantCmt)');
+                SetTextValue('FeasibilityAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FeasibilityAuthorityCmt)');
 
 				var DuplicatYesNoId = '@Html.Raw(ViewBag.ProjectIndvDetail31.DuplicatYesNoId)';
 				if(DuplicatYesNoId != '')
 					$(":radio[name='DuplicatYesNoId'][value='" + DuplicatYesNoId + "']").attr('checked', true);
 
-                SetTextValue('DuplicationApplicantComments', '@Html.Raw(@ViewBag.ProjectIndvDetail31.DuplicationApplicantComments)');
-                SetTextValue('DuplicationAuthorityComments', '@Html.Raw(@ViewBag.ProjectIndvDetail31.DuplicationAuthorityComments)');
+                SetTextValue('DuplicationApplicantComments', '@Html.Raw(ViewBag.ProjectIndvDetail31.DuplicationApplicantComments)');
+                SetTextValue('DuplicationAuthorityComments', '@Html.Raw(ViewBag.ProjectIndvDetail31.DuplicationAuthorityComments)');
 
 				var SocialIssuesYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.SocialIssuesYesNoId)';
 				if(SocialIssuesYesNoId != '')
 					$(":radio[name='SocialIssuesYesNoId'][value='" + SocialIssuesYesNoId + "']").attr('checked', true);
 
-                SetTextValue('SocialIssuesApplicantCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.SocialIssuesApplicantCmt)');
-                SetTextValue('SocialIssuesAuthorityCmt', '@Html.Raw(@ViewBag.ProjectCommonDetail.SocialIssuesAuthorityCmt)');
+                SetTextValue('SocialIssuesApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SocialIssuesApplicantCmt)');
+                SetTextValue('SocialIssuesAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SocialIssuesAuthorityCmt)');
 
-                SetDropdownValue('RecommendationId', '@Html.Raw(@ViewBag.ProjectCommonDetail.RecommendationId)');
-                SetTextValue('RecommendationComment', '@Html.Raw(@ViewBag.ProjectCommonDetail.RecommendationComment)');
+                SetDropdownValue('RecommendationId', '@Html.Raw(ViewBag.ProjectCommonDetail.RecommendationId)');
+                SetTextValue('RecommendationComment', '@Html.Raw(ViewBag.ProjectCommonDetail.RecommendationComment)');
             }
         }
 

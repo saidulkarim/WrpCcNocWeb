@@ -7,7 +7,7 @@
 
     WrpCcNocDbContext _db = new WrpCcNocDbContext();
     CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["ProjectCommonDetail"];
-    CcModAppProject_32_IndvDetail project32indev = (CcModAppProject_32_IndvDetail)ViewData["ProjectIndvDetail32"];
+    CcModAppProject_33_IndvDetail projectindi = (CcModAppProject_33_IndvDetail)ViewData["ProjectIndvDetail33"];
 
     var prev_lang = ViewData["LanguageId"].ToString();
     var app_state_id = pcd.ApplicationStateId;
@@ -18,11 +18,11 @@
     var location = ViewData["ProjectLocationDetail"];
     var hrd = ViewData["HydroRegionDetail"];
     var hsd = ViewData["BDP2100HotSpotDetail"];
-    var pwu = ViewData["ProposedWaterUseDetail"];
-    var rnd = ViewData["RiverNatureDetail"];
+
     var twb = ViewData["TypeOfWaterBodyDetail"];
     var hydrosys = ViewData["HydroSystemDetail"];
     var sdi = ViewData["SediOfRiverOrKhalDetail"];
+    var ica = ViewData["IrrigCropAreaDetailTemp"];
     var swa = ViewData["SurfaceWaterAvailDetail"];
     var wds = ViewData["WtrDiversionSourceDetail"];
     var gwd = ViewData["GrndWtrDepthDetail"];
@@ -44,7 +44,7 @@
     List<DataAnalysisControlComments> fdac = (List<DataAnalysisControlComments>)ViewData["FormCommentsListTemp"];
 
     long ProjectId = (long)ViewData["ProjectId"];
-    long Project32IndvId = (long)ViewData["Project32IndvId"];
+    long ProjectIndvId = (long)ViewData["Project33IndvId"];
     long UserId = (long)ViewData["UserId"];
     int ProjectTypeId = (int)ViewData["ProjectTypeId"];
 }
@@ -54,7 +54,7 @@
         <div class="card">
             <div class="card-body">
                 <input id="pProjectId" type="hidden" value="@ProjectId" />
-                <input id="pProject32IndvId" type="hidden" value="@Project32IndvId" />
+                <input id="pProjectIndvId" type="hidden" value="@ProjectIndvId" />
                 <input id="pUserId" type="hidden" value="@UserId" />
                 <input id="pProjectTypeId" type="hidden" value="@ProjectTypeId" />
 
@@ -184,8 +184,8 @@
                                 </b>
                             </td>
                             <td style="width: 900px; max-width: 700px; word-break: break-all;">@pcd.ProjectName</td>
-                            <td>                                
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectName").Select(s => s.Comments).FirstOrDefault())
+                            <td>
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectName").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -199,7 +199,7 @@
                                 </b>
                             </td>
                             <td style="word-break: break-all;">@pcd.BackgroundAndRationale</td>
-                            <td>                                
+                            <td>
                                 @Html.Raw(fdac.Where(w => w.ControlTitle == "BackgroundAndRationale").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
@@ -229,7 +229,7 @@
                             </td>
                             <td>@pcd.ProjectObjective</td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectObjective").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectObjective").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -244,7 +244,7 @@
                             </td>
                             <td>@pcd.ProjectActivity</td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectActivity").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectActivity").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -264,7 +264,7 @@
                             { <span>@pcd.ProjectEstimatedCost</span>}
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectEstimatedCost").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectEstimatedCost").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
                         <tr style="vertical-align: top; text-align: left;">
@@ -298,7 +298,7 @@
                                 }
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectPeriod").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectPeriod").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
                         <tr style="vertical-align: top; text-align: left;">
@@ -317,9 +317,9 @@
                                 </a>
                             </td>
                         </tr>
-						<tr style="vertical-align: top; text-align: left;">
-                            <td colspan="3">                                
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectPeriod").Select(s => s.Comments).FirstOrDefault())
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td colspan="3">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectPeriod").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
                         <tr>
@@ -437,7 +437,7 @@
                                 </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "HydrologicalRegion").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "HydrologicalRegion").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
                         <tr style="vertical-align: top; text-align: left;">
@@ -464,37 +464,8 @@
                                     }
                                 </ol>
                             </td>
-                            <td style="word-break: break-all;">                                
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "BDP2100HotSpot").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>iii. প্রস্তাবিত পানির ব্যবহার</span>}
-                                    else
-                                    {<span>iii. Proposed Water Use</span>}
-                                </b>
-                            </td>
-                            <td>
-                                <ol>
-                                    @foreach (var wu in (List<ProposedWaterUseDetailTemp>)pwu)
-                                    {
-                                        if (prev_lang == "1")
-                                        {
-                                            <li>@wu.WaterUseTypeNameBn</li>
-                                        }
-                                        else
-                                        {
-                                            <li>@wu.WaterUseTypeName</li>
-                                        }
-                                    }
-                                </ol>
-                            </td>
-                            <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "ProposedWaterUse").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "BDP2100HotSpot").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -507,38 +478,9 @@
                                     {<span>iv. Name of the Water Bodies to be Used (River/ Khal/ Others)</span>}
                                 </b>
                             </td>
-                            <td>@project32indev.NameOfTheWaterBody</td>
+                            <td>@projectindi.NameOfTheWaterBody</td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "NameOfTheWaterBody").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>v. নদীর প্রকৃতি</span>}
-                                    else
-                                    {<span>v. River Nature</span>}
-                                </b>
-                            </td>
-                            <td>
-                                <ol>
-                                    @foreach (var rn in (List<RiverNatureDetailTemp>)rnd)
-                                    {
-                                        if (prev_lang == "1")
-                                        {
-                                            <li>@rn.RiverNatureTitleBn</li>
-                                        }
-                                        else
-                                        {
-                                            <li>@rn.RiverNatureTitle</li>
-                                        }
-                                    }
-                                </ol>
-                            </td>
-                            <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "RiverNature").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "NameOfTheWaterBody").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -567,7 +509,7 @@
                                 </ol>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "TypeOfWaterBodies").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "TypeOfWaterBodies").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -580,9 +522,9 @@
                                     {<span>vii. Offtake</span>}
                                 </b>
                             </td>
-                            <td>@project32indev.Offtake</td>
+                            <td>@projectindi.Offtake</td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "Offtake").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "Offtake").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -595,9 +537,9 @@
                                     {<span>viii. Outfall</span>}
                                 </b>
                             </td>
-                            <td>@project32indev.Outfall</td>
+                            <td>@projectindi.Outfall</td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "Outfall").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "Outfall").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -610,9 +552,9 @@
                                     {<span>ix. Connectivity</span>}
                                 </b>
                             </td>
-                            <td>@project32indev.Connectivity</td>
+                            <td>@projectindi.Connectivity</td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "Connectivity").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "Connectivity").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -625,9 +567,9 @@
                                     {<span>x. Existing use of Water from Source</span>}
                                 </b>
                             </td>
-                            <td>@project32indev.ExistingUseOfWaterFromSource</td>
+                            <td>@projectindi.ExistingUseOfWaterFromSource</td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "ExistingUseOfWaterFromSource").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ExistingUseOfWaterFromSource").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -688,7 +630,7 @@
                                 </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "HydrologicalSystem").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "HydrologicalSystem").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -744,8 +686,8 @@
                                     </tr>
                                 </table>
                             </td>
-                            <td>                                
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "AnnualRainfallLastFiveYears").Select(s => s.Comments).FirstOrDefault())
+                            <td>
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "AnnualRainfallLastFiveYears").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -771,15 +713,15 @@
                                         <th class="text-center">Minimum</th>
                                     </tr>
                                     <tr>
-                                        <td>@project32indev.WaterLevelDryMax</td>
-                                        <td>@project32indev.WaterLevelDryMin</td>
-                                        <td>@project32indev.WaterLevelWetMax</td>
-                                        <td>@project32indev.WaterLevelWetMin</td>
+                                        <td>@projectindi.WaterLevelDryMax</td>
+                                        <td>@projectindi.WaterLevelDryMin</td>
+                                        <td>@projectindi.WaterLevelWetMax</td>
+                                        <td>@projectindi.WaterLevelWetMin</td>
                                     </tr>
                                 </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "WaterLevelIntakePoint").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "WaterLevelIntakePoint").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -805,15 +747,15 @@
                                         <th class="text-center">Minimum</th>
                                     </tr>
                                     <tr>
-                                        <td>@project32indev.DischargeDryMax</td>
-                                        <td>@project32indev.DischargeDryMin</td>
-                                        <td>@project32indev.DischargeWetMax</td>
-                                        <td>@project32indev.DischargeWetMin</td>
+                                        <td>@projectindi.DischargeDryMax</td>
+                                        <td>@projectindi.DischargeDryMin</td>
+                                        <td>@projectindi.DischargeWetMax</td>
+                                        <td>@projectindi.DischargeWetMin</td>
                                     </tr>
                                 </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "DischargeIntakePoint").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DischargeIntakePoint").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -833,13 +775,13 @@
                                         <th class="text-center">Width (m)</th>
                                     </tr>
                                     <tr>
-                                        <td>@project32indev.CrossSectionDepth</td>
-                                        <td>@project32indev.CrossSectionWidth</td>
+                                        <td>@projectindi.CrossSectionDepth</td>
+                                        <td>@projectindi.CrossSectionWidth</td>
                                     </tr>
                                 </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "CrossSectionIntakePoint").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CrossSectionIntakePoint").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -868,7 +810,7 @@
                                 </ol>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "SedimentationOfRiverKhal").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "SedimentationOfRiverKhal").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -881,9 +823,139 @@
                                     {<span>xvii. Sedimentation Rate of River/ Khal (cm/ year)</span>}
                                 </b>
                             </td>
-                            <td>@project32indev.SedimentationRate</td>
+                            <td>@projectindi.SedimentationRate</td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "SedimentationRate").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "SedimentationRate").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xiii. ভূমির ধরন (শতকরা)</span>}
+                                    else
+                                    {<span>xiii. Land Type (Percent)</span>}
+                                </b>
+                            </td>
+                            <td>
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>উচুঁ ভূমি <br />F<sub>0</sub> (০-৩০ সে.মি.)</span>}
+                                            else
+                                            {<span>High Land <br />F<sub>0</sub> (0-30 cm)</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>মধ্যম উচুঁ ভূমি <br />F<sub>1</sub> (৩০-৯০ সে.মি.)</span>}
+                                            else
+                                            {<span>Medium High Land <br />F<sub>1</sub> (30-90 cm)</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>মধ্যম নিচু ভূমি <br />F<sub>2</sub> (৯০-১৮০ সে.মি)</span>}
+                                            else
+                                            {<span>Medium Low Land <br />F<sub>2</sub> (90-180 cm)</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>নিচু ভূমি <br />F<sub>3</sub> (>১৮০-৩৬০ সে.মি.)</span>}
+                                            else
+                                            {<span>Low Land <br />F<sub>3</sub> (>180-360 cm</span>})
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>অত্যন্ত নিচু জমি <br />F<sub>4</sub> (>৩৬০ সে.মি)</span>}
+                                            else
+                                            {<span>Very Low Land <br />F<sub>4</sub> (>360 cm)</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@projectindi.HighLandPercent</td>
+                                        <td class="text-center">@projectindi.MediumHighLandPercent</td>
+                                        <td class="text-center">@projectindi.MediumLowLandPercent</td>
+                                        <td class="text-center">@projectindi.LowLandPercent</td>
+                                        <td class="text-center">@projectindi.VeryLowLandPercent</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "LandTypePercent").Select(s => s.Comments).FirstOrDefault())                               
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. উৎপাদিত শস্য</span>}
+                                    else
+                                    {<span>i. Cultivable Crops</span>}
+                                </b>
+                            </td>
+                            <td>@projectindi.CultivableCrops</td>
+                            <td>
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CultivableCrops").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>ii. চাষাবাদকৃত খাদ্যশস্য এলাকা (হেক্টর)</span>}
+                                    else
+                                    {<span>ii. Irrigated Crop Area (ha)</span>}
+                                </b>
+                            </td>
+                            <td>
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>ফসলের নাম</span>}
+                                                else
+                                                {<span>Crops Name</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>এলাকা</span>}
+                                                else
+                                                {<span>Area</span>}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (IrrigCropAreaDetailTemp ic in (List<IrrigCropAreaDetailTemp>)ica)
+                                        {
+                                            <tr>
+                                                <td>@ic.CropName</td>
+                                                <td>@ic.Area</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "IrrigatedCropAreaHa").Select(s => s.Comments).FirstOrDefault())                                
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>iii. ফসল/ খাদ্যশস্য উৎপাদনের পরিমান (টন)</span>}
+                                    else
+                                    {<span>iii. Crop production (Ton)</span>}
+                                </b>
+                            </td>
+                            <td>@projectindi.CropProduction</td>
+                            <td>
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CropProduction").Select(s => s.Comments).FirstOrDefault())                                
                             </td>
                         </tr>
 
@@ -919,14 +991,14 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td class="text-center">@project32indev.FishProduction</td>
-                                        <td class="text-center">@project32indev.FishDiversity</td>
-                                        <td class="text-center">@project32indev.FishMigration</td>
+                                        <td class="text-center">@projectindi.FishProduction</td>
+                                        <td class="text-center">@projectindi.FishDiversity</td>
+                                        <td class="text-center">@projectindi.FishMigration</td>
                                     </tr>
                                 </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "FishProductionDiversityMigration").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "FishProductionDiversityMigration").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -939,9 +1011,9 @@
                                     {<span>xix. Flora and Fauna</span>}
                                 </b>
                             </td>
-                            <td>@project32indev.FloraAndFauna</td>
+                            <td>@projectindi.FloraAndFauna</td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "FloraAndFauna").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "FloraAndFauna").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -967,7 +1039,7 @@
                             </td>
                             <td>@pcd.IssueChallageProblem</td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "IssueChallageProblem").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "IssueChallageProblem").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -1039,7 +1111,7 @@
                                 </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "SurfaceWaterAvailability").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "SurfaceWaterAvailability").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -1068,7 +1140,7 @@
                                 </ol>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "WaterDiversionSource").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "WaterDiversionSource").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -1081,9 +1153,9 @@
                                     {<span>iii. Water Withdrawal Quantity (m<sup>3</sup>/day)</span>}
                                 </b>
                             </td>
-                            <td>@project32indev.WaterWithdrawQuantityPerDay</td>
+                            <td>@projectindi.WaterWithdrawQuantityPerDay</td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "WaterWithdrawQuantityPerDay").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "WaterWithdrawQuantityPerDay").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -1095,10 +1167,21 @@
                                     else
                                     {<span>iv. Use of Flow meter to measure water withdrawal</span>}
                                 </b>
-                            </td>
-                            <td>@project32indev.UseOfFlowMeterMeasrYNId</td>
+                            </td>                            
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "UseOfFlowMeterMeasrYNId").Select(s => s.Comments).FirstOrDefault())
+                                @{
+                                    if (projectindi.UseOfFlowMeterMeasrYNId == 1)
+                                    {
+                                        <span>Yes</span>
+                                    }
+                                    else
+                                    {
+                                        <span>No</span>
+                                    }
+                                  }
+                            </td>
+                            <td>
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "UseOfFlowMeterMeasrYNId").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -1134,14 +1217,14 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td class="text-center">@project32indev.NoOfPump</td>
-                                        <td class="text-center">@project32indev.PumpCapacity</td>
-                                        <td class="text-center">@project32indev.PipeDiameter</td>
+                                        <td class="text-center">@projectindi.NoOfPump</td>
+                                        <td class="text-center">@projectindi.PumpCapacity</td>
+                                        <td class="text-center">@projectindi.PipeDiameter</td>
                                     </tr>
                                 </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "PumpCapacityPipeDiameter").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "PumpCapacityPipeDiameter").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -1154,9 +1237,18 @@
                                     {<span>vi. Diverted Water Return to the Source</span>}
                                 </b>
                             </td>
-                            <td>@project32indev.DivertedWaterRtnSrcYNId</td>
+                            @{
+                                if (projectindi.DivertedWaterRtnSrcYNId == 1)
+                                {
+                                    <span>Yes</span>
+                                }
+                                else
+                                {
+                                    <span>No</span>
+                                }
+                            }
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "DivertedWaterRtnSrcYNId").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DivertedWaterRtnSrcYNId").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -1180,12 +1272,6 @@
                                         </th>
                                         <th class="text-center">
                                             @if (prev_lang == "1")
-                                            {<span>ডিও (মি.গ্রা/লিটার)</span>}
-                                            else
-                                            {<span>DO (mg/l)</span>}
-                                        </th>
-                                        <th class="text-center">
-                                            @if (prev_lang == "1")
                                             {<span>টি.ডি.এস</span>}
                                             else
                                             {<span>TDS</span>}
@@ -1198,15 +1284,14 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td>@project32indev.WaterSalinity</td>
-                                        <td>@project32indev.WaterDO</td>
-                                        <td>@project32indev.WaterTDS</td>
-                                        <td>@project32indev.WaterPhLevel</td>
+                                        <td>@projectindi.WaterSalinity</td>
+                                        <td>@projectindi.WaterTDS</td>
+                                        <td>@projectindi.WaterPhLevel</td>
                                     </tr>
                                 </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "SurfaceWaterQuality").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "SurfaceWaterQuality").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -1259,7 +1344,7 @@
                                 </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "GroundWaterDepth").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "GroundWaterDepth").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -1288,7 +1373,124 @@
                                 </ol>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "GroundWaterQuality").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "GroundWaterQuality").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                          <tr>
+                            <td colspan="3">
+                                <h5>
+                                    @if (prev_lang == "1")
+                                    {<span>৩. প্রকল্প প্রণয়ন পর্যায়ে স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
+                                    else
+                                    {<span>3. Discussion with stakeholders during starting of the project</span>}
+                                </h5>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
+                                    else
+                                    {<span>i. Discussion with stakeholders</span>}
+                                </b>
+                            </td>
+                            <td>
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            string yesTickMark = string.Empty, noTickMark = string.Empty;
+
+                                            if (pcd.YesNoStakeId == 1)
+                                            {
+                                                yesTickMark = "<span class='fe-check'></span>";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "<span class='fe-check'></span>";
+                                            }
+
+                                            <td class="text-center">@Html.Raw(yesTickMark)</td>
+                                            <td class="text-center">@Html.Raw(noTickMark)</td>
+                                            <td>@pcd.DiscussWithStakeApplicantCmt</td>
+                                            <td>@pcd.DiscussWithStakeAuthorityCmt</td>
+                                        }
+                                    </tr>
+                                </table>
+                                @if (pcd.YesNoStakeId == 1)
+                                {
+                                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    @if (prev_lang == "1")
+                                                    {<span>ইতিবাচক প্রতিক্রিয়া</span>}
+                                                    else
+                                                    {<span>Positive Feedback</span>}
+                                                </th>
+                                                <th>
+                                                    @if (prev_lang == "1")
+                                                    {<span>নেতিবাচক প্রতিক্রিয়া</span>}
+                                                    else
+                                                    {<span>Negative Feedback</span>}
+                                                </th>
+                                                <th>
+                                                    @if (prev_lang == "1")
+                                                    {<span>অংশগ্রহণকারীদের তালিকা</span>}
+                                                    else
+                                                    {<span>Participant list</span>}
+                                                </th>
+                                                <th>
+                                                    @if (prev_lang == "1")
+                                                    {<span>মিটিং মিনিট</span>}
+                                                    else
+                                                    {<span>Meeting minutes</span>}
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbodyAnalyzeOptFulfillObjPreview">
+                                            <tr>
+                                                <td>@pcd.DiscussWithStakePosFeedback</td>
+                                                <td>@pcd.DiscussWithStakeNegFeedback</td>
+                                                <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.DiscussWithStakeParticipntLst" target="_blank">@pcd.DiscussWithStakeParticipntLst</a></td>
+                                                <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.DiscussWithStakeMeetingMin" target="_blank">@pcd.DiscussWithStakeMeetingMin</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                }
+                            </td>
+                            <td>
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DiscussionWithstakeholders").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -1342,7 +1544,8 @@
                                     </tr>
                                     <tr>
                                         @{
-                                            string yesTickMark = string.Empty, noTickMark = string.Empty;
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
 
                                             if (pcd.AnalyzeOptYesNoId == 1)
                                             {
@@ -1412,7 +1615,7 @@
                                 }
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "AnalyzeOptionsFulfillObjective").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "AnalyzeOptionsFulfillObjective").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -1521,7 +1724,7 @@
                                 </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "DesignSubmittedWithProjectDocument").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DesignSubmittedWithProjectDocument").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -1598,7 +1801,7 @@
                                 </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "EnvironmentalAndSocialImpactAssessment").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "EnvironmentalAndSocialImpactAssessment").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -1685,8 +1888,8 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td colspan="5">                                                    
-													@Html.Raw(fdac.Where(w => w.ControlTitle == "EnvironmentalImpactAssessment").Select(s => s.Comments).FirstOrDefault())
+                                                <td colspan="5">
+                                                    @Html.Raw(fdac.Where(w => w.ControlTitle == "EnvironmentalImpactAssessment").Select(s => s.Comments).FirstOrDefault())
                                                 </td>
                                             </tr>
                                         </tfoot>
@@ -1775,8 +1978,8 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td colspan="5">                                                    
-													@Html.Raw(fdac.Where(w => w.ControlTitle == "SocialImpactAssessment").Select(s => s.Comments).FirstOrDefault())
+                                                <td colspan="5">
+                                                    @Html.Raw(fdac.Where(w => w.ControlTitle == "SocialImpactAssessment").Select(s => s.Comments).FirstOrDefault())
                                                 </td>
                                             </tr>
                                         </tfoot>
@@ -1839,7 +2042,7 @@
                                             yesTickMark = string.Empty;
                                             noTickMark = string.Empty;
 
-                                            if (project32indev.UseOfToolsYesNoId == 1)
+                                            if (projectindi.UseOfToolsYesNoId == 1)
                                             {
                                                 yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
@@ -1852,14 +2055,14 @@
 
                                             <td>@Html.Raw(yesTickMark)</td>
                                             <td>@Html.Raw(noTickMark)</td>
-                                            <td>@project32indev.ToolsApplicantComments</td>
-                                            <td>@project32indev.ToolsAuthorityComments</td>
+                                            <td>@projectindi.ToolsApplicantComments</td>
+                                            <td>@projectindi.ToolsAuthorityComments</td>
                                         }
                                     </tr>
                                 </table>
                             </td>
-                            <td style="word-break: break-all;">                                
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "UseOfAppropriateToolsTechnics").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-break: break-all;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "UseOfAppropriateToolsTechnics").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -1941,8 +2144,8 @@
                         </tr>
 
                         <tr>
-                            <td style="word-break: break-all;" colspan="3">                                
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "EconomicalFinancialAnalysis").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-break: break-all;" colspan="3">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "EconomicalFinancialAnalysis").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -2032,8 +2235,8 @@
                                     </table>
                                 }
                             </td>
-                            <td style="word-wrap: break-word;">                               
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityNationalWaterPolicy").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityNationalWaterPolicy").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -2112,8 +2315,8 @@
                                     </table>
                                 }
                             </td>
-                            <td style="word-wrap: break-word;">                                
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityNationalWaterManagementPlan").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityNationalWaterManagementPlan").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -2178,8 +2381,8 @@
                                     </tr>
                                 </table>
                             </td>
-                            <td style="word-wrap: break-word;">                                
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityCurrentFifthYearPlan").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityCurrentFifthYearPlan").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -2260,8 +2463,8 @@
                                     </table>
                                 }
                             </td>
-                            <td style="word-wrap: break-word;">                                
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilitySustainableDevelopmentGoal").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilitySustainableDevelopmentGoal").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -2340,7 +2543,7 @@
                                 }
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityBangladeshDeltaPlan2100").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityBangladeshDeltaPlan2100").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -2412,8 +2615,8 @@
                                     </tr>
                                 </table>
                             </td>
-                            <td style="word-wrap: break-word;">                                
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityCoastalZonePolicy").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityCoastalZonePolicy").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -2485,8 +2688,8 @@
                                     </tr>
                                 </table>
                             </td>
-                            <td style="word-wrap: break-word;">                                
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityAgriculturalPolicy").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityAgriculturalPolicy").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -2559,7 +2762,7 @@
                                 </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityFisheriesPolicy").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityFisheriesPolicy").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -2624,8 +2827,8 @@
                                     </tr>
                                 </table>
                             </td>
-                            <td style="word-wrap: break-word;">                                
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityIntegratedWaterResourceManagement").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityIntegratedWaterResourceManagement").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -2696,8 +2899,8 @@
                                     </table>
                                 }
                             </td>
-                            <td style="word-wrap: break-word;">                                
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityGPWM").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityGPWM").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -2762,8 +2965,8 @@
                                     </tr>
                                 </table>
                             </td>
-                            <td style="word-wrap: break-word;">                               
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "FeasibilityStudy").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "FeasibilityStudy").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -2809,7 +3012,7 @@
                                             yesTickMark = string.Empty;
                                             noTickMark = string.Empty;
 
-                                            if (project32indev.DuplicatYesNoId == 1)
+                                            if (projectindi.DuplicatYesNoId == 1)
                                             {
                                                 yesTickMark = "<span class='fe-check'></span>";
                                                 noTickMark = "";
@@ -2822,14 +3025,14 @@
 
                                             <td>@Html.Raw(yesTickMark)</td>
                                             <td>@Html.Raw(noTickMark)</td>
-                                            <td style="word-break: break-all;">@project32indev.DuplicationApplicantComments</td>
-                                            <td style="word-break: break-all;">@project32indev.DuplicationAuthorityComments</td>
+                                            <td style="word-break: break-all;">@projectindi.DuplicationApplicantComments</td>
+                                            <td style="word-break: break-all;">@projectindi.DuplicationAuthorityComments</td>
                                         }
                                     </tr>
                                 </table>
                             </td>
-                            <td style="word-wrap: break-word;">                               
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "DuplicationOfTheProject").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DuplicationOfTheProject").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -2897,8 +3100,8 @@
                                     </tr>
                                 </table>
                             </td>
-                            <td style="word-wrap: break-word;">                               
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectDevelopmentEmphasizingPeople").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectDevelopmentEmphasizingPeople").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -2958,8 +3161,8 @@
                                     </tr>
                                 </table>
                             </td>
-                            <td style="word-wrap: break-word;">                                
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "Administrative").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "Administrative").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -3040,8 +3243,8 @@
                                     </tr>
                                 </table>
                             </td>
-                            <td style="word-wrap: break-word;">                               
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "Administrative").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "Administrative").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -3090,8 +3293,8 @@
                                     </tr>
                                 </table>
                             </td>
-                            <td style="word-wrap: break-word;">                                
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "Recommendation").Select(s => s.Comments).FirstOrDefault())
+                            <td style="word-wrap: break-word;">
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "Recommendation").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
                     </table>

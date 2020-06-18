@@ -131,9 +131,8 @@ namespace WrpCcNocWeb.Models
         public int? CropProduction { get; set; }
 		
         [Column("FishProduction", Order = 27)]
-        [Display(Name = "Fish Production")]
-		[MaxLength(50)]
-        public string FishProduction { get; set; }
+        [Display(Name = "Fish Production")]		
+        public int? FishProduction { get; set; }
 
         [Column("FishDiversity", Order = 28)]
         [Display(Name = "Fish Diversity")]
