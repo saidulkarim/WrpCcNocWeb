@@ -118,12 +118,7 @@ namespace WrpCcNocWeb.Models
         [Column("FloraAndFauna", Order = 23)]
         [Display(Name = "Flora And Fauna")]
         [MaxLength(250)]
-        public string FloraAndFauna { get; set; }
-
-        [Column("IssueChallageProblem", Order = 24)]
-        [Display(Name = "IssueChallageProblem")]
-        [MaxLength(250)]
-        public string IssueChallageProblem { get; set; }       
+        public string FloraAndFauna { get; set; }            
         
         [Column("WaterWithdrawQuantityPerDay", Order = 25)]
         [Display(Name = "Water Withdraw Quantity Per Day")]        

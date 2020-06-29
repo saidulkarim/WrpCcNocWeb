@@ -81,6 +81,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<CcModProposedWaterUseDetail> CcModProposedWaterUseDetail { get; set; }
         public DbSet<CcModRiverTypeDetail> CcModRiverTypeDetail { get; set; }
         public DbSet<CcModStructTypeConservDetail> CcModStructTypeConservDetail { get; set; }
+        public DbSet<CcModConservLocationDetail> CcModConservLocationDetail { get; set; }
         public DbSet<CcModUsDsConditionDetail> CcModUsDsConditionDetail { get; set; }
         public DbSet<CcModWaterDiversSourceDetail> CcModWaterDiversSourceDetail { get; set; }
         #endregion

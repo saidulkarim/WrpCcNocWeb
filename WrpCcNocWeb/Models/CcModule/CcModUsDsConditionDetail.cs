@@ -30,6 +30,11 @@ namespace WrpCcNocWeb.Models
         [Column("UsParameterValue", Order = 3)]
         [MaxLength(150)]
         [Display(Name = "US Parameter Value")]
-        public string UsParameterValue { get; set; }       
+        public string UsParameterValue { get; set; }
+
+        [Column("DsParameterValue", Order = 4)]
+        [MaxLength(150)]
+        [Display(Name = "DS Parameter Value")]
+        public string DsParameterValue { get; set; }
     }
 }

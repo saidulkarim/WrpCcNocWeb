@@ -60,7 +60,7 @@
                                             @Html.Hidden("AppSubmissionId")
                                             @Html.Hidden("ApplicationStateId")
                                             @Html.Hidden("ApprovalStatusId")
-                                            @Html.Hidden("Project34IndvId")
+                                            @Html.Hidden("Project35IndvId")
                                             @Html.Hidden("UserId")
 
                                             <input id="ProjectTypeId" type="hidden" value="@ViewBag.ProjectTypeId" />
@@ -494,68 +494,35 @@
                                                                                 </div>
 
                                                                                 <div class="form-group">
-                                                                                    <label for="NameOfHydraulicStructure">
+                                                                                    <label for="TypeStructureConservation">
                                                                                         @{if (language == "1")
-                                                                                            { <span>iii. হাইড্র্রাউলিক স্ট্রাকচারের নাম</span>}
+                                                                                            {<span>iii. পানি সংরক্ষণের জন্য নির্মিতব্য অবকাঠামো সমূহ</span>}
                                                                                             else
-                                                                                            {<span>iii. Name of Hydraulic Structure</span>}
+                                                                                            {<span>iii. Type of Structure for Conservation</span>}
                                                                                         }
                                                                                     </label>
-                                                                                    <input type="text" id="NameOfHydraulicStructure" name="NameOfHydraulicStructure" class="form-control" />
-                                                                                </div>
-
-                                                                                <div class="form-group">
-                                                                                    <label for="TypeOfStructure">
-                                                                                        @{if (language == "1")
-                                                                                            { <span>iv. হাইড্র্রাউলিক স্ট্রাকচারের ধরন</span>}
-                                                                                            else
-                                                                                            {<span>iv. Type of Hydraulic Structure</span>}
-                                                                                        }
-                                                                                    </label>
-                                                                                    <input type="text" id="TypeOfStructure" name="TypeOfStructure" class="form-control" />
-                                                                                </div>
-
-                                                                                <div class="form-group">
-                                                                                    <label for="TypeOfTrafficNavigation">
-                                                                                        @{if (language == "1")
-                                                                                            { <span>v. যানবাহন ও নৌচলাচলের ধরন</span>}
-                                                                                            else
-                                                                                            {<span>v. Type of Traffic and Navigation</span>}
-                                                                                        }
-                                                                                    </label>
-                                                                                    <input type="text" id="TypeOfTrafficNavigation" name="TypeOfTrafficNavigation" class="form-control" />
-                                                                                </div>
-
-                                                                                <div class="form-group">
-                                                                                    <label for="NavigationClass">
-                                                                                        @{if (language == "1")
-                                                                                            {<span>vi. নৌপথের শ্রেণী</span>}
-                                                                                            else
-                                                                                            {<span>vi. Navigation Class</span>}
-                                                                                        }
-                                                                                    </label>
-                                                                                    <div id="NavigationClass" class="row" style="margin-left: 5px;">
+                                                                                    <div id="TypeStructureConservation" class="row" style="margin-left: 5px;">
                                                                                         @{
-                                                                                            List<LookUpCcModNavigationClass> _navc = ViewBag.LookUpCcModNavigationClass;
+                                                                                            List<LookUpCcModStructTypeConserv> _stc = ViewBag.LookUpCcModStructTypeConserv;
 
-                                                                                            if (_navc.Count > 0)
+                                                                                            if (_stc.Count > 0)
                                                                                             {
-                                                                                                foreach (LookUpCcModNavigationClass nc in _navc)
+                                                                                                foreach (LookUpCcModStructTypeConserv stc in _stc)
                                                                                                 {
-                                                                                                    var id = "chkNavigationClass" + nc.NavigationClassId;
+                                                                                                    var id = "chkStructTypeConserv" + stc.TypeOfStructureId;
 
                                                                                                     if (language == "1")
                                                                                                     {
-                                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@nc.NavigationClassNameBn">
-                                                                                                            <input type="checkbox" name="NavigationClassId" id="@id" value="@nc.NavigationClassId" data-parsley-multiple="NavigationClassId">
-                                                                                                            <label for="@id"> @nc.NavigationClassNameBn </label>
+                                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@stc.StructureNameBn">
+                                                                                                            <input type="checkbox" name="TypeOfStructureId" id="@id" value="@stc.TypeOfStructureId" data-parsley-multiple="TypeOfStructureId">
+                                                                                                            <label for="@id"> @stc.StructureNameBn </label>
                                                                                                         </div>
                                                                                                     }
                                                                                                     else
                                                                                                     {
-                                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@nc.NavigationClassName">
-                                                                                                            <input type="checkbox" name="NavigationClassId" id="@id" value="@nc.NavigationClassId" data-parsley-multiple="NavigationClassId">
-                                                                                                            <label for="@id"> @nc.NavigationClassName </label>
+                                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@stc.StructureName">
+                                                                                                            <input type="checkbox" name="TypeOfStructureId" id="@id" value="@stc.TypeOfStructureId" data-parsley-multiple="TypeOfStructureId">
+                                                                                                            <label for="@id"> @stc.StructureName </label>
                                                                                                         </div>
                                                                                                     }
                                                                                                 }
@@ -565,35 +532,35 @@
                                                                                 </div>
 
                                                                                 <div class="form-group">
-                                                                                    <label for="RiverNature">
+                                                                                    <label for="ConservationLocation">
                                                                                         @{if (language == "1")
-                                                                                            {<span>vii. নদীর ধরণ</span>}
+                                                                                            {<span>iv. সংরক্ষণ স্থান</span>}
                                                                                             else
-                                                                                            {<span>vii. River Type</span>}
+                                                                                            {<span>iv. Conservation Location</span>}
                                                                                         }
                                                                                     </label>
-                                                                                    <div id="RiverNature" class="row" style="margin-left: 5px;">
+                                                                                    <div id="ConservationLocation" class="row" style="margin-left: 5px;">
                                                                                         @{
-                                                                                            List<LookUpCcModRiverType> _rvin = ViewBag.LookUpCcModRiverType;
+                                                                                            List<LookUpCcModConservLocation> _cl = ViewBag.LookUpCcModConservLocation;
 
-                                                                                            if (_rvin.Count > 0)
+                                                                                            if (_cl.Count > 0)
                                                                                             {
-                                                                                                foreach (LookUpCcModRiverType rn in _rvin)
+                                                                                                foreach (LookUpCcModConservLocation cl in _cl)
                                                                                                 {
-                                                                                                    var id = "chkRiverType" + rn.RiverTypeId;
+                                                                                                    var id = "chkConservLocation" + cl.ConservLocationId;
 
                                                                                                     if (language == "1")
                                                                                                     {
-                                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@rn.RiverTypeNameBn">
-                                                                                                            <input type="checkbox" name="RiverTypeId" id="@id" value="@rn.RiverTypeId" data-parsley-multiple="RiverTypeId">
-                                                                                                            <label for="@id"> @rn.RiverTypeNameBn </label>
+                                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@cl.ConservLocationBn">
+                                                                                                            <input type="checkbox" name="ConservLocationId" id="@id" value="@cl.ConservLocationId" data-parsley-multiple="ConservLocationId">
+                                                                                                            <label for="@id"> @cl.ConservLocationBn </label>
                                                                                                         </div>
                                                                                                     }
                                                                                                     else
                                                                                                     {
-                                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@rn.RiverTypeName">
-                                                                                                            <input type="checkbox" name="RiverTypeId" id="@id" value="@rn.RiverTypeId" data-parsley-multiple="RiverTypeId">
-                                                                                                            <label for="@id"> @rn.RiverTypeName </label>
+                                                                                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@cl.ConservLocation">
+                                                                                                            <input type="checkbox" name="ConservLocationId" id="@id" value="@cl.ConservLocationId" data-parsley-multiple="ConservLocationId">
+                                                                                                            <label for="@id"> @cl.ConservLocation </label>
                                                                                                         </div>
                                                                                                     }
                                                                                                 }
@@ -603,35 +570,35 @@
                                                                                 </div>
 
                                                                                 <div class="form-group">
-                                                                                    <label for="RiverNature">
+                                                                                    <label for="WaterBody">
                                                                                         @{if (language == "1")
-                                                                                            {<span>viii. জোয়ার ভাটার প্রভাব</span>}
+                                                                                            {<span>v. প্রবাহের ধরন</span>}
                                                                                             else
-                                                                                            {<span>viii. River Nature</span>}
+                                                                                            {<span>v. Type of Water Bodies</span>}
                                                                                         }
                                                                                     </label>
-                                                                                    <div id="RiverNature" class="row" style="margin-left: 5px;">
+                                                                                    <div id="WaterBody" class="row" style="margin-left: 5px;">
                                                                                         @{
-                                                                                            List<LookUpCcModRiverNature> _rvnt = ViewBag.LookUpCcModRiverNature;
+                                                                                            List<LookUpCcModTypeOfWaterBody> _towb = ViewBag.LookUpCcModTypeOfWaterBody;
 
-                                                                                            if (_rvnt.Count > 0)
+                                                                                            if (_towb.Count > 0)
                                                                                             {
-                                                                                                foreach (LookUpCcModRiverNature rn in _rvnt)
+                                                                                                foreach (LookUpCcModTypeOfWaterBody wb in _towb)
                                                                                                 {
-                                                                                                    var id = "radRiverNature" + rn.RiverNatureId;
+                                                                                                    var id = "radWaterBody" + wb.WaterBodyTypeId;
 
                                                                                                     if (language == "1")
                                                                                                     {
                                                                                                         <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                            <input type="radio" name="RiverNatureId" id="@id" value="@rn.RiverNatureId" data-parsley-multiple="RiverNatureId">
-                                                                                                            <label for="@id"> @rn.RiverNatureTitleBn </label>
+                                                                                                            <input type="radio" name="WaterBodyTypeId" id="@id" value="@wb.WaterBodyTypeId" data-parsley-multiple="WaterBodyTypeId">
+                                                                                                            <label for="@id"> @wb.WaterBodyTypeBn </label>
                                                                                                         </div>
                                                                                                     }
                                                                                                     else
                                                                                                     {
                                                                                                         <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                            <input type="radio" name="RiverNatureId" id="@id" value="@rn.RiverNatureId" data-parsley-multiple="RiverNatureId">
-                                                                                                            <label for="@id"> @rn.RiverNatureTitle </label>
+                                                                                                            <input type="radio" name="WaterBodyTypeId" id="@id" value="@wb.WaterBodyTypeId" data-parsley-multiple="WaterBodyTypeId">
+                                                                                                            <label for="@id"> @wb.WaterBodyType </label>
                                                                                                         </div>
                                                                                                     }
                                                                                                 }
@@ -640,23 +607,59 @@
                                                                                     </div>
                                                                                 </div>
 
-                                                                                <div class="form-group">
-                                                                                    <label for="CommandArea">
+                                                                                <div id="divOfftakeOutfallConnectivity">
+                                                                                    <label for="OfftakeOutfallConnectivity" class="bold">
                                                                                         @{if (language == "1")
-                                                                                            { <span>ix. কমান্ড এরিয়া (হেক্টর)</span>}
+                                                                                            { <span>vi. উৎস মুখ, পতিত মুখ এবং সংযোগ</span>}
                                                                                             else
-                                                                                            {<span>ix. Command Area (ha)</span>}
+                                                                                            {<span>vi. Offtake, Outfall and Connectivity</span>}
                                                                                         }
                                                                                     </label>
-                                                                                    <input type="text" id="CommandArea" name="CommandArea" class="form-control" />
+
+                                                                                    <hr style="margin-top: 0 !important;" />
+
+                                                                                    <div class="row">
+                                                                                        <div class="form-group col-xl-4 text-center">
+                                                                                            <label for="Offtake">
+                                                                                                @{if (language == "1")
+                                                                                                    { <span>উৎস মুখ</span>}
+                                                                                                    else
+                                                                                                    {<span>Offtake</span>}
+                                                                                                }
+                                                                                            </label>
+                                                                                            <input type="number" id="Offtake" name="Offtake" class="form-control" />
+                                                                                        </div>
+
+                                                                                        <div class="form-group col-md-4 text-center">
+                                                                                            <label for="Outfall">
+                                                                                                @{if (language == "1")
+                                                                                                    { <span>পতিত মুখ</span>}
+                                                                                                    else
+                                                                                                    {<span>Outfall</span>}
+                                                                                                }
+                                                                                            </label>
+                                                                                            <input type="number" id="Outfall" name="Outfall" class="form-control" />
+                                                                                        </div>
+
+                                                                                        <div class="form-group col-xl-4 text-center">
+                                                                                            <label for="Connectivity">
+                                                                                                @{if (language == "1")
+                                                                                                    { <span>অন্যান্য নদ-নদী/ খাল বিলের সাথে সংযোগ</span>}
+                                                                                                    else
+                                                                                                    {<span>Connectivity with Other Waterbodies</span>}
+                                                                                                }
+                                                                                            </label>
+                                                                                            <input type="number" id="Connectivity" name="Connectivity" class="form-control" />
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
 
                                                                                 <div class="form-group">
                                                                                     <label for="UsDsParamCondition">
                                                                                         @{if (language == "1")
-                                                                                            { <span>x. প্রস্তাবিত প্রকল্পের আপস্ট্রিম এবং ডাউনস্ট্রিম এর বর্তমান অবস্থাব</span>}
+                                                                                            { <span>vii. প্রস্তাবিত প্রকল্পের আপস্ট্রিম এবং ডাউনস্ট্রিম এর বর্তমান অবস্থাব</span>}
                                                                                             else
-                                                                                            {<span>x. U/S and D/S Condition for Proposed Intervention</span>}
+                                                                                            {<span>vii. U/S and D/S Condition for Proposed Intervention</span>}
                                                                                         }
                                                                                     </label>
 
@@ -744,9 +747,9 @@
                                                                                 <div id="divAnnualRainfall">
                                                                                     <label for="AnnualRainfall" class="bold">
                                                                                         @{if (language == "1")
-                                                                                            { <span>xi. বার্ষিক বৃষ্টিপাত (বিগত পাঁচ বছর) (মি.মি.)</span>}
+                                                                                            { <span>viii. বার্ষিক বৃষ্টিপাত (বিগত পাঁচ বছর) (মি.মি.)</span>}
                                                                                             else
-                                                                                            {<span>xi. Annual Rainfall (last five years)</span>}
+                                                                                            {<span>viii. Annual Rainfall (last five years)</span>}
                                                                                         }
                                                                                     </label>
 
@@ -796,12 +799,102 @@
                                                                                     </div>
                                                                                 </div>
 
+                                                                                <div class="form-group">
+                                                                                    <label for="WaterLevelIntakePoint">
+                                                                                        @{if (language == "1")
+                                                                                            { <span>ix. ইনটেক পয়েন্টে পানির সমতল (ওয়াটার লেভেল)</span>}
+                                                                                            else
+                                                                                            {<span>ix. Water Level (m PWD) at Intake Point</span>}
+                                                                                        }
+                                                                                    </label>
+
+                                                                                    <div id="WaterLevelIntakePoint" class="row" style="margin-left: -7px;">
+                                                                                        <div class="table-responsive">
+                                                                                            <table class="table mb-0">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th class="text-center" colspan="2">Dry Season</th>
+                                                                                                        <th class="text-center" colspan="2">Wet Season</th>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <th class="text-center">Maximum</th>
+                                                                                                        <th class="text-center">Minimum</th>
+                                                                                                        <th class="text-center">Maximum</th>
+                                                                                                        <th class="text-center">Minimum</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    <tr>
+                                                                                                        <td class="text-center">
+                                                                                                            <input type="number" id="WaterLevelDryMax" name="WaterLevelDryMax" class="form-control" />
+                                                                                                        </td>
+                                                                                                        <td class="text-center">
+                                                                                                            <input type="number" id="WaterLevelDryMin" name="WaterLevelDryMin" class="form-control" />
+                                                                                                        </td>
+                                                                                                        <td class="text-center">
+                                                                                                            <input type="number" id="WaterLevelWetMax" name="WaterLevelWetMax" class="form-control" />
+                                                                                                        </td>
+                                                                                                        <td class="text-center">
+                                                                                                            <input type="number" id="WaterLevelWetMin" name="WaterLevelWetMin" class="form-control" />
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="form-group">
+                                                                                    <label for="DischargeIntakePoint">
+                                                                                        @{if (language == "1")
+                                                                                            { <span>x. ইনটেক পয়েন্টে পানির প্রবাহ (ডিসচার্জ); (কিউমেক)</span>}
+                                                                                            else
+                                                                                            {<span>x. Discharge (m<sup>3</sup>/s) at Intake Point</span>}
+                                                                                        }
+                                                                                    </label>
+
+                                                                                    <div id="DischargeIntakePoint" class="row" style="margin-left: -7px;">
+                                                                                        <div class="table-responsive">
+                                                                                            <table class="table mb-0">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th class="text-center" colspan="2">Dry Season</th>
+                                                                                                        <th class="text-center" colspan="2">Wet Season</th>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <th class="text-center">Maximum</th>
+                                                                                                        <th class="text-center">Minimum</th>
+                                                                                                        <th class="text-center">Maximum</th>
+                                                                                                        <th class="text-center">Minimum</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    <tr>
+                                                                                                        <td class="text-center">
+                                                                                                            <input type="number" id="DischargeDryMax" name="DischargeDryMax" class="form-control" />
+                                                                                                        </td>
+                                                                                                        <td class="text-center">
+                                                                                                            <input type="number" id="DischargeDryMin" name="DischargeDryMin" class="form-control" />
+                                                                                                        </td>
+                                                                                                        <td class="text-center">
+                                                                                                            <input type="number" id="DischargeWetMax" name="DischargeWetMax" class="form-control" />
+                                                                                                        </td>
+                                                                                                        <td class="text-center">
+                                                                                                            <input type="number" id="DischargeWetMin" name="DischargeWetMin" class="form-control" />
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
                                                                                 <div id="divCrossSectionIntakePoint">
                                                                                     <label for="CrossSectionIntakePoint" class="bold">
                                                                                         @{if (language == "1")
-                                                                                            { <span>xii. ইনটেক পয়েন্টে প্রস্থছেদ (ক্রস সেকশন) (মিটার)</span>}
+                                                                                            { <span>xi. ইনটেক পয়েন্টে প্রস্থছেদ (ক্রস সেকশন); (মিটার)</span>}
                                                                                             else
-                                                                                            {<span>xii. Cross Section at Intake Point (m)</span>}
+                                                                                            {<span>xi. Cross Section at Intake Point (m)</span>}
                                                                                         }
                                                                                     </label>
 
@@ -833,315 +926,11 @@
                                                                                 </div>
 
                                                                                 <div class="form-group">
-                                                                                    <label for="WaterLevelInterventionPoint">
-                                                                                        @{if (language == "1")
-                                                                                            { <span>xiii. ইন্টারভনেশন (হাইড্রোলিক অবকাঠামো) পয়েন্টে প্রস্থছেদ (ক্রস সেকশন) (মিটার)</span>}
-                                                                                            else
-                                                                                            {<span>xiii. Water Level (m PWD) at Intervention Point</span>}
-                                                                                        }
-                                                                                    </label>
-
-                                                                                    <div id="WaterLevelInterventionPoint" class="row" style="margin-left: -7px;">
-                                                                                        <div class="table-responsive">
-                                                                                            <table class="table mb-0">
-                                                                                                <thead>
-                                                                                                    <tr>
-                                                                                                        <th class="text-center">Maximum</th>
-                                                                                                        <th class="text-center">Minimum</th>
-                                                                                                    </tr>
-                                                                                                </thead>
-                                                                                                <tbody>
-                                                                                                    <tr>
-                                                                                                        <td class="text-center">
-                                                                                                            <input type="number" id="WaterLevelMax" name="WaterLevelMax" class="form-control" />
-                                                                                                        </td>
-                                                                                                        <td class="text-center">
-                                                                                                            <input type="number" id="WaterLevelMin" name="WaterLevelMin" class="form-control" />
-                                                                                                        </td>
-                                                                                                    </tr>
-                                                                                                </tbody>
-                                                                                            </table>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="form-group">
-                                                                                    <label for="DischargeInterventionPoint">
-                                                                                        @{if (language == "1")
-                                                                                            { <span>xiv. ইন্টারভনেশন পয়েন্টে পানির সমতল (ওয়াটার লেভেল); (কিউমেক)</span>}
-                                                                                            else
-                                                                                            {<span>xiv. Discharge (m<sup>3</sup>/s) at Intervention Point</span>}
-                                                                                        }
-                                                                                    </label>
-
-                                                                                    <div id="DischargeInterventionPoint" class="row" style="margin-left: -7px;">
-                                                                                        <div class="table-responsive">
-                                                                                            <table class="table mb-0">
-                                                                                                <thead>
-                                                                                                    <tr>
-                                                                                                        <th class="text-center">Maximum</th>
-                                                                                                        <th class="text-center">Minimum</th>
-                                                                                                    </tr>
-                                                                                                </thead>
-                                                                                                <tbody>
-                                                                                                    <tr>
-                                                                                                        <td class="text-center">
-                                                                                                            <input type="number" id="DischargeMax" name="DischargeMax" class="form-control" />
-                                                                                                        </td>
-                                                                                                        <td class="text-center">
-                                                                                                            <input type="number" id="DischargeMin" name="DischargeMin" class="form-control" />
-                                                                                                        </td>
-                                                                                                    </tr>
-                                                                                                </tbody>
-                                                                                            </table>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="form-group">
-                                                                                    <label for="FloodFrequencyAnalysis">
-                                                                                        @{if (language == "1")
-                                                                                            { <span>xv. ফ্লাড ফ্রিকোয়েন্সি এনালাইসিস (মিটার, পিডব্লিউডি)</span>}
-                                                                                            else
-                                                                                            {<span>xv. Flood Frequency Analysis (Maximum water level in m, PWD)</span>}
-                                                                                        }
-                                                                                    </label>
-
-                                                                                    <div id="FloodFrequencyAnalysis" class="row" style="margin-left: -7px;">
-                                                                                        <div class="table-responsive">
-                                                                                            <table class="table mb-0">
-                                                                                                <thead>
-                                                                                                    <tr>
-                                                                                                        <th class="text-center">#</th>
-                                                                                                        <th class="text-center">
-                                                                                                            @{if (language == "1")
-                                                                                                                { <span>ফ্লাড ফ্রিকোয়েন্সি</span>}
-                                                                                                                else
-                                                                                                                {<span> Flood Frequency</span>}
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            @{if (language == "1")
-                                                                                                                { <span>ফ্রিকোয়েন্সি</span>}
-                                                                                                                else
-                                                                                                                {<span>Frequency</span>}
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                        <th class="text-center"></th>
-                                                                                                    </tr>
-                                                                                                    <tr>
-                                                                                                        <th colspan="2" class="text-center">
-                                                                                                            <input id="FloodFrequencyDetailId" type="hidden" />
-                                                                                                            <select id="FloodFrequencyId" name="FloodFrequencyId" class="form-control">
-                                                                                                                <option value="">
-                                                                                                                    @{if (language == "1")
-                                                                                                                        { <span>বাছাই করুন...</span>}
-                                                                                                                        else
-                                                                                                                        {<span>Choose...</span>}
-                                                                                                                    }
-                                                                                                                </option>
-                                                                                                                @{
-                                                                                                                    List<LookUpCcModFloodFrequency> _floodfrequency = ViewBag.LookUpCcModFloodFrequency;
-
-                                                                                                                    if (_floodfrequency.Count > 0)
-                                                                                                                    {
-                                                                                                                        foreach (LookUpCcModFloodFrequency flood in _floodfrequency)
-                                                                                                                        {
-                                                                                                                            if (language == "1")
-                                                                                                                            {
-                                                                                                                                <option value="@flood.FloodFrequencyId">@flood.FloodFrequencyBn</option>
-                                                                                                                            }
-                                                                                                                            else
-                                                                                                                            {
-                                                                                                                                <option value="@flood.FloodFrequencyId">@flood.FloodFrequency</option>
-                                                                                                                            }
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                }
-                                                                                                            </select>
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            <input type="text" id="FloodFrequencyLevel" name="FloodFrequencyLevel" class="form-control" />
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            <button id="btnSaveFloodFrequency" type="button" class="btn btn-success waves-effect waves-light" value="Save">
-                                                                                                                <i class="mdi mdi-content-save"></i>
-                                                                                                            </button>
-
-                                                                                                            <button id="btnClearFloodFrequency" type="button" class="btn btn-warning waves-effect waves-light" value="Save">
-                                                                                                                <i class="mdi mdi-refresh"></i>
-                                                                                                            </button>
-                                                                                                        </th>
-                                                                                                    </tr>
-                                                                                                </thead>
-                                                                                                <tbody id="tbodyFloodFrequency"></tbody>
-                                                                                            </table>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="form-group">
-                                                                                    <label for="BankLineShifting">
-                                                                                        @{if (language == "1")
-                                                                                            {<span>xvi. পাড় স্থানান্তর</span>}
-                                                                                            else
-                                                                                            {<span>xvi. Bank Line Shifting</span>}
-                                                                                        }
-                                                                                    </label>
-                                                                                    <div id="BankLineShifting" class="row" style="margin-left: 5px;">
-                                                                                        @{
-                                                                                            List<LookUpCcModBankLineShifting> _bnkl = ViewBag.LookUpCcModBankLineShifting;
-
-                                                                                            if (_bnkl.Count > 0)
-                                                                                            {
-                                                                                                foreach (LookUpCcModBankLineShifting bl in _bnkl)
-                                                                                                {
-                                                                                                    var id = "radBankLineShifting" + bl.BankLineShiftingId;
-
-                                                                                                    if (language == "1")
-                                                                                                    {
-                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                            <input type="radio" name="BankLineShiftingId" id="@id" value="@bl.BankLineShiftingId" data-parsley-multiple="BankLineShiftingId">
-                                                                                                            <label for="@id"> @bl.BankLineTitleBn </label>
-                                                                                                        </div>
-                                                                                                    }
-                                                                                                    else
-                                                                                                    {
-                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                            <input type="radio" name="BankLineShiftingId" id="@id" value="@bl.BankLineShiftingId" data-parsley-multiple="BankLineShiftingId">
-                                                                                                            <label for="@id"> @bl.BankLineTitle </label>
-                                                                                                        </div>
-                                                                                                    }
-                                                                                                }
-                                                                                            }
-                                                                                        }
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="form-group">
-                                                                                    <label for="BankStability">
-                                                                                        @{if (language == "1")
-                                                                                            {<span>xvii. পাড় স্থিতিশীলতা</span>}
-                                                                                            else
-                                                                                            {<span>xvii. Bank Stability</span>}
-                                                                                        }
-                                                                                    </label>
-                                                                                    <div id="BankStability" class="row" style="margin-left: 5px;">
-                                                                                        @{
-                                                                                            List<LookUpCcModBankStability> _bnst = ViewBag.LookUpCcModBankStability;
-
-                                                                                            if (_bnst.Count > 0)
-                                                                                            {
-                                                                                                foreach (LookUpCcModBankStability bs in _bnst)
-                                                                                                {
-                                                                                                    var id = "radBankStability" + bs.BankStabilityTypeId;
-
-                                                                                                    if (language == "1")
-                                                                                                    {
-                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                            <input type="radio" name="BankStabilityTypeId" id="@id" value="@bs.BankStabilityTypeId" data-parsley-multiple="BankStabilityTypeId">
-                                                                                                            <label for="@id"> @bs.BankStabilityTypeBn </label>
-                                                                                                        </div>
-                                                                                                    }
-                                                                                                    else
-                                                                                                    {
-                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                            <input type="radio" name="BankStabilityTypeId" id="@id" value="@bs.BankStabilityTypeId" data-parsley-multiple="BankStabilityTypeId">
-                                                                                                            <label for="@id"> @bs.BankStabilityType </label>
-                                                                                                        </div>
-                                                                                                    }
-                                                                                                }
-                                                                                            }
-                                                                                        }
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="form-group">
-                                                                                    <label for="CommandArea">
-                                                                                        @{if (language == "1")
-                                                                                            { <span>xviii. তীরবর্তী মাটির অবস্থা</span>}
-                                                                                            else
-                                                                                            {<span>xviii. Bank Soil Condition</span>}
-                                                                                        }
-                                                                                    </label>
-                                                                                    <input type="text" id="BankSoilCondition" name="BankSoilCondition" class="form-control" />
-                                                                                </div>
-
-                                                                                <div id="divBankErosion">
-                                                                                    <label for="BankErosion" class="bold">
-                                                                                        @{if (language == "1")
-                                                                                            { <span>xix. নদী ভাঙ্গন</span>}
-                                                                                            else
-                                                                                            {<span>xix. Bank Erosion</span>}
-                                                                                        }
-                                                                                    </label>
-
-                                                                                    <hr style="margin-top: 0 !important;" />
-
-                                                                                    <div class="row">
-                                                                                        <div class="form-group col-xl-4 text-center">
-                                                                                            <label for="BankErosionLength">
-                                                                                                @{if (language == "1")
-                                                                                                    { <span>দৈঘ্য (মিটার)</span>}
-                                                                                                    else
-                                                                                                    {<span>Length (m)</span>}
-                                                                                                }
-                                                                                            </label>
-                                                                                            <input type="number" id="BankErosionLength" name="BankErosionLength" class="form-control" />
-                                                                                        </div>
-
-                                                                                        <div class="form-group col-md-4 text-center">
-                                                                                            <label for="BankErosionArea">
-                                                                                                @{if (language == "1")
-                                                                                                    { <span>এরিয়া (মিটার)</span>}
-                                                                                                    else
-                                                                                                    {<span>Area (ha)</span>}
-                                                                                                }
-                                                                                            </label>
-                                                                                            <input type="number" id="BankErosionArea" name="BankErosionArea" class="form-control" />
-                                                                                        </div>
-
-                                                                                        <div class="form-group col-md-4 text-center">
-                                                                                            <label for="BankErosionLocation">
-                                                                                                @{if (language == "1")
-                                                                                                    { <span>স্থান</span>}
-                                                                                                    else
-                                                                                                    {<span>Location</span>}
-                                                                                                }
-                                                                                            </label>
-                                                                                            <input type="number" id="BankErosionLocation" name="BankErosionLocation" class="form-control" />
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="form-group">
-                                                                                    <label for="BankErosionRate">
-                                                                                        @{if (language == "1")
-                                                                                            { <span>xx. ভাঙ্গনের হার (মি./বছর)</span>}
-                                                                                            else
-                                                                                            {<span>xx. Erosion rate (m/year)</span>}
-                                                                                        }
-                                                                                    </label>
-                                                                                    <input type="text" id="BankErosionRate" name="BankErosionRate" class="form-control" />
-                                                                                </div>
-
-                                                                                <div class="form-group">
-                                                                                    <label for="RiverBedErosion">
-                                                                                        @{if (language == "1")
-                                                                                            { <span>xxi. নদীর তলদেশ ক্ষয়</span>}
-                                                                                            else
-                                                                                            {<span>xxi. River Bed Erosion</span>}
-                                                                                        }
-                                                                                    </label>
-                                                                                    <input type="text" id="RiverBedErosion" name="RiverBedErosion" class="form-control" />
-                                                                                </div>
-
-                                                                                <div class="form-group">
                                                                                     <label for="SedimentationRiverKhal">
                                                                                         @{if (language == "1")
-                                                                                            {<span>xxii. নদী/ খালে পলি জমার (সেডিমেন্টেশন) পরিমান</span>}
+                                                                                            {<span>xii. নদী/ খালে পলি জমার (সেডিমেন্টেশন) পরিমান</span>}
                                                                                             else
-                                                                                            {<span>xxii. Sedimentation of River/ Khal</span>}
+                                                                                            {<span>xii. Sedimentation of River/ Khal</span>}
                                                                                         }
                                                                                     </label>
                                                                                     <div id="SedimentationRiverKhal" class="row" style="margin-left: 5px;">
@@ -1177,70 +966,245 @@
                                                                                 <div class="form-group">
                                                                                     <label for="SedimentationRate">
                                                                                         @{if (language == "1")
-                                                                                            { <span>xxiii. নদী/ খালে পলি প্রবাহের হার (সেডিমেন্টেশন রেট); (সে.মি./ বছর) </span>}
+                                                                                            { <span>xiii. নদী/ খালে পলি প্রবাহের হার (সেডিমেন্টেশন রেট); (সে.মি./ বছর) </span>}
                                                                                             else
-                                                                                            {<span>xxiii. Sedimentation Rate of River/ Khal (cm/ year)</span>}
+                                                                                            {<span>xiii. Sedimentation Rate of River/ Khal (cm/ year)</span>}
                                                                                         }
                                                                                     </label>
                                                                                     <input type="number" min="0" id="SedimentationRate" name="SedimentationRate" class="form-control" />
                                                                                 </div>
 
-                                                                                <div id="divCharAccretion">
-                                                                                    <label for="BankErosion" class="bold">
+                                                                                <div class="form-group">
+                                                                                    <label for="DrainageCondition">
                                                                                         @{if (language == "1")
-                                                                                            { <span>xxiv. বিদ্যমান চর</span>}
+                                                                                            { <span>xiv. নিষ্কাশন (ড্রেইনেজ) ব্যবস্থা</span>}
                                                                                             else
-                                                                                            {<span>xxiv. Char Accretion</span>}
+                                                                                            {<span>xiv. Drainage Condition</span>}
+                                                                                        }
+                                                                                    </label>
+                                                                                    <div id="DrainageCondition" class="row" style="margin-left: 5px;">
+                                                                                        @{
+                                                                                            List<LookUpCcModDrainageCondition> _dcs = ViewBag.LookUpCcModDrainageCondition;
+
+                                                                                            if (_dcs.Count > 0)
+                                                                                            {
+                                                                                                foreach (LookUpCcModDrainageCondition dc in _dcs)
+                                                                                                {
+                                                                                                    var id = "chkDrainageCondition" + dc.DrainageConditionId;
+
+                                                                                                    if (language == "1")
+                                                                                                    {
+                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                                                                                                            <input type="radio" name="DrainageConditionId" id="@id" value="@dc.DrainageConditionId" data-parsley-multiple="DrainageConditionId">
+                                                                                                            <label for="@id"> @dc.DrainageConditionBn </label>
+                                                                                                        </div>
+                                                                                                    }
+                                                                                                    else
+                                                                                                    {
+                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                                                                                                            <input type="radio" name="DrainageConditionId" id="@id" value="@dc.DrainageConditionId" data-parsley-multiple="DrainageConditionId">
+                                                                                                            <label for="@id"> @dc.DrainageCondition </label>
+                                                                                                        </div>
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div id="divSurfaceWaterQuality">
+                                                                                    <label for="LandType" class="bold">
+                                                                                        @{if (language == "1")
+                                                                                            { <span>xv. ভূমির ধরন (শতকরা)</span>}
+                                                                                            else
+                                                                                            {<span>xv. Land Type (Percent)</span>}
                                                                                         }
                                                                                     </label>
 
                                                                                     <hr style="margin-top: 0 !important;" />
 
                                                                                     <div class="row">
-                                                                                        <div class="form-group col-xl-4 text-center">
-                                                                                            <label for="CharAccretionLength">
+                                                                                        <div class="form-group col-xl-3 text-center">
+                                                                                            <label for="HighLandPercent">
                                                                                                 @{if (language == "1")
-                                                                                                    { <span>দৈঘ্য (মিটার)</span>}
+                                                                                                    { <span>উচুঁ ভূমি <br />F<sub>0</sub> (০-৩০ সে.মি.)</span>}
                                                                                                     else
-                                                                                                    {<span>Length (m)</span>}
+                                                                                                    {<span> High Land <br />F<sub>0</sub> (0-30 cm)</span>}
                                                                                                 }
                                                                                             </label>
-                                                                                            <input type="number" id="CharAccretionLength" name="CharAccretionLength" class="form-control" />
+                                                                                            <input type="number" id="HighLandPercent" name="HighLandPercent" class="form-control" />
                                                                                         </div>
 
-                                                                                        <div class="form-group col-md-4 text-center">
-                                                                                            <label for="CharAccretionArea">
+                                                                                        <div class="form-group col-md-2 text-center">
+                                                                                            <label for="MediumHighLandPercent">
                                                                                                 @{if (language == "1")
-                                                                                                    { <span>এরিয়া (মিটার)</span>}
+                                                                                                    { <span>মধ্যম উচুঁ ভূমি <br />F<sub>1</sub> (৩০-৯০ সে.মি.)</span>}
                                                                                                     else
-                                                                                                    {<span>Area (ha)</span>}
+                                                                                                    {<span>Medium High Land <br />F<sub>1</sub> (30-90 cm)</span>}
                                                                                                 }
                                                                                             </label>
-                                                                                            <input type="number" id="CharAccretionArea" name="CharAccretionArea" class="form-control" />
+                                                                                            <input type="number" id="MediumHighLandPercent" name="MediumHighLandPercent" class="form-control" />
                                                                                         </div>
 
-                                                                                        <div class="form-group col-md-4 text-center">
-                                                                                            <label for="CharAccretionLocation">
+                                                                                        <div class="form-group col-xl-2 text-center">
+                                                                                            <label for="MediumLowLandPercent">
                                                                                                 @{if (language == "1")
-                                                                                                    { <span>স্থান</span>}
+                                                                                                    { <span>মধ্যম নিচু ভূমি <br />F<sub>2</sub> (৯০-১৮০ সে.মি)</span>}
                                                                                                     else
-                                                                                                    {<span>Location</span>}
+                                                                                                    {<span>Medium Low Land <br />F<sub>2</sub> (90-180 cm)</span>}
                                                                                                 }
                                                                                             </label>
-                                                                                            <input type="number" id="CharAccretionLocation" name="CharAccretionLocation" class="form-control" />
+                                                                                            <input type="number" id="MediumLowLandPercent" name="MediumLowLandPercent" class="form-control" />
+                                                                                        </div>
+
+                                                                                        <div class="form-group col-md-2 text-center">
+                                                                                            <label for="LowLandPercent">
+                                                                                                @{if (language == "1")
+                                                                                                    { <span>নিচু ভূমি <br />F<sub>3</sub> (>১৮০-৩৬০ সে.মি.)</span>}
+                                                                                                    else
+                                                                                                    {<span>Low Land <br />F<sub>3</sub> (>180-360 cm)</span>}
+                                                                                                }
+                                                                                            </label>
+                                                                                            <input type="number" id="LowLandPercent" name="LowLandPercent" class="form-control" />
+                                                                                        </div>
+
+                                                                                        <div class="form-group col-md-3 text-center">
+                                                                                            <label for="VeryLowLandPercent">
+                                                                                                @{if (language == "1")
+                                                                                                    { <span>অত্যন্ত নিচু জমি <br />F<sub>4</sub> (>৩৬০ সে.মি)</span>}
+                                                                                                    else
+                                                                                                    {<span>Very Low Land <br />F<sub>4</sub> (>360 cm)</span>}
+                                                                                                }
+                                                                                            </label>
+                                                                                            <input type="number" id="VeryLowLandPercent" name="VeryLowLandPercent" class="form-control" />
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
 
                                                                                 <div class="form-group">
-                                                                                    <label for="RiverTrainingWorks">
+                                                                                    <label for="IrrigatedCropArea">
                                                                                         @{if (language == "1")
-                                                                                            { <span>xxv. নদী শাসন (রিভার ট্রেইনিং ওয়ার্কস)</span>}
+                                                                                            { <span>xvi. চাষাবাদকৃত খাদ্যশস্য এলাকা (হেক্টর)</span>}
                                                                                             else
-                                                                                            {<span>xxv. River Training Works</span>}
+                                                                                            {<span>xvi. Irrigated Crop Area (ha)</span>}
                                                                                         }
                                                                                     </label>
-                                                                                    <input type="text" id="RiverTrainingWorks" name="RiverTrainingWorks" class="form-control" />
+
+                                                                                    <div id="IrrigatedCropArea" class="row" style="margin-left: -7px;">
+                                                                                        <div class="table-responsive">
+                                                                                            <table class="table mb-0">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th class="text-center">#</th>
+                                                                                                        <th class="text-center">
+                                                                                                            @{if (language == "1")
+                                                                                                                { <span>ফসলের নাম</span>}
+                                                                                                                else
+                                                                                                                {<span>Crops Name</span>}
+                                                                                                            }
+                                                                                                        </th>
+                                                                                                        <th class="text-center">
+                                                                                                            @{if (language == "1")
+                                                                                                                { <span>এলাকা (হেক্টর)</span>}
+                                                                                                                else
+                                                                                                                {<span>Area</span>}
+                                                                                                            }
+                                                                                                        </th>
+                                                                                                        <th class="text-center"></th>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <th colspan="2" class="text-center">
+                                                                                                            <input id="IrrigatedCropId" type="hidden" />
+                                                                                                            <input type="text" id="CropName" name="CropName" class="form-control" />
+                                                                                                        </th>
+                                                                                                        <th class="text-center">
+                                                                                                            <input type="number" id="Area" name="Area" class="form-control" />
+                                                                                                        </th>
+                                                                                                        <th class="text-center">
+                                                                                                            <button id="btnSaveIrrigatedCropArea" type="button" class="btn btn-success waves-effect waves-light" value="Save">
+                                                                                                                <i class="mdi mdi-content-save"></i>
+                                                                                                            </button>
+
+                                                                                                            <button id="btnClearIrrigatedCropArea" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
+                                                                                                                <i class="mdi mdi-refresh"></i>
+                                                                                                            </button>
+                                                                                                        </th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody id="tbodyIrrigatedCropArea"></tbody>
+                                                                                            </table>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="form-group">
+                                                                                    <label for="CropProduction">
+                                                                                        @{if (language == "1")
+                                                                                            { <span>xvii. ফসল/ খাদ্যশস্য উৎপাদনের পরিমান (টন)</span>}
+                                                                                            else
+                                                                                            {<span>xvii. Crop Production (ton)</span>}
+                                                                                        }
+                                                                                    </label>
+                                                                                    <input type="text" id="CropProduction" name="CropProduction" class="form-control" />
+                                                                                </div>
+
+                                                                                <fieldset>
+                                                                                    <legend>
+                                                                                        @if (language == "1")
+                                                                                        {
+                                                                                            <span>xviii. মাছ উৎপাদন এবং বৈচিত্র্য</span>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <span>xviii. Fish Production and Diversity</span>
+                                                                                        }
+                                                                                    </legend>
+
+                                                                                    <div class="row">
+                                                                                        <div class="form-group col-md-4">
+                                                                                            <label for="FishProduction">
+                                                                                                @{if (language == "1")
+                                                                                                    { <span>মৎস উৎপাদন</span>}
+                                                                                                    else
+                                                                                                    {<span> Fish Production</span>}
+                                                                                                }
+                                                                                            </label>
+                                                                                            <input type="number" min="0" id="FishProduction" name="FishProduction" class="form-control" />
+                                                                                        </div>
+
+                                                                                        <div class="form-group col-md-4">
+                                                                                            <label for="FishDiversity">
+                                                                                                @{if (language == "1")
+                                                                                                    { <span>মৎস বৈচিত্র্য</span>}
+                                                                                                    else
+                                                                                                    {<span>Fish Diversity</span>}
+                                                                                                }
+                                                                                            </label>
+                                                                                            <input type="text" id="FishDiversity" name="FishDiversity" class="form-control" />
+                                                                                        </div>
+
+                                                                                        <div class="form-group col-md-4">
+                                                                                            <label for="FishMigration">
+                                                                                                @{if (language == "1")
+                                                                                                    { <span>ফিশ মাইগ্রেশন</span>}
+                                                                                                    else
+                                                                                                    {<span> Fish Migration</span>}
+                                                                                                }
+                                                                                            </label>
+                                                                                            <input type="text" id="FishMigration" name="FishMigration" class="form-control" />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </fieldset>
+
+                                                                                <div class="form-group">
+                                                                                    <label for="FloraAndFauna">
+                                                                                        @{if (language == "1")
+                                                                                            { <span>xix. প্রকল্প এলাকায় বিদ্যমান গাছপালা ও পশুপাখি</span>}
+                                                                                            else
+                                                                                            {<span>xix. Flora and Fauna</span>}
+                                                                                        }
+                                                                                    </label>
+                                                                                    <input type="text" id="FloraAndFauna" name="FloraAndFauna" class="form-control" />
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -1274,91 +1238,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-
-                                                                    <div class="card">
-                                                                        <div class="card-header bg-info py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase343">
-                                                                            <div class="card-widgets">
-                                                                                <a data-toggle="collapse" href="#cardCollpase343" role="button" aria-expanded="false" aria-controls="cardCollpase343"><i class="mdi mdi-minus"></i></a>
-                                                                            </div>
-                                                                            <h5 class="card-title mb-0 text-white">
-                                                                                @if (language == "1")
-                                                                                {
-                                                                                <span>৩. হাইড্রাউলিক অবকাঠামোর ডিজাইন প্যারামিটার সমূহ</span>}
-                                                                                else
-                                                                                {
-                                                                                    <span>3. Design parameters of hydraulic infrastructure</span>}
-                                                                            </h5>
-                                                                        </div>
-                                                                        <div id="cardCollpase343" class="collapse show">
-                                                                            <div class="card-body">
-                                                                                <div class="form-group">                                                                                    
-                                                                                    <div id="HydraInfraParamDetail" class="row" style="margin-left: -7px;">
-                                                                                        <div class="table-responsive">
-                                                                                            <table class="table mb-0">
-                                                                                                <thead>
-                                                                                                    <tr>                                                                                                        
-                                                                                                        <th class="text-center">
-                                                                                                            Parameters
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            Description
-                                                                                                        </th>
-                                                                                                        <th class="text-center"></th>
-                                                                                                    </tr>
-                                                                                                    <tr>
-                                                                                                        <th class="text-center">
-                                                                                                            <input id="HydraInfraParamDetailId" type="hidden" />
-                                                                                                            <select id="HydraInfraParamId" name="HydraInfraParamId" class="form-control">
-                                                                                                                <option value="">
-                                                                                                                    @{if (language == "1")
-                                                                                                                        { <span>বাছাই করুন...</span>}
-                                                                                                                        else
-                                                                                                                        {<span>Choose...</span>}
-                                                                                                                    }
-                                                                                                                </option>
-                                                                                                                @{
-                                                                                                                    List<LookUpCcModHydraInfraParam> _hydrainfraparam = ViewBag.LookUpCcModHydraInfraParam;
-
-                                                                                                                    if (_hydrainfraparam.Count > 0)
-                                                                                                                    {
-                                                                                                                        foreach (LookUpCcModHydraInfraParam hip in _hydrainfraparam)
-                                                                                                                        {
-                                                                                                                            if (language == "1")
-                                                                                                                            {
-                                                                                                                                <option value="@hip.HydraInfraParamId">@hip.ParameterNameBn</option>
-                                                                                                                            }
-                                                                                                                            else
-                                                                                                                            {
-                                                                                                                                <option value="@hip.HydraInfraParamId">@hip.ParameterName</option>
-                                                                                                                            }
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                }
-                                                                                                            </select>
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            <input type="text" min="0" id="Description" name="Description" class="form-control" />
-                                                                                                        </th>                                                                                                       
-                                                                                                        <th class="text-center">
-                                                                                                            <button id="btnSaveHIP" type="button" class="btn btn-success waves-effect waves-light" value="Save">
-                                                                                                                <i class="mdi mdi-content-save"></i>
-                                                                                                            </button>
-
-                                                                                                            <button id="btnClearHIP" type="button" class="btn btn-warning waves-effect waves-light" value="Clear">
-                                                                                                                <i class="mdi mdi-refresh"></i>
-                                                                                                            </button>
-                                                                                                        </th>
-                                                                                                    </tr>
-                                                                                                </thead>
-                                                                                                <tbody id="tbdHydraInfraParamDetail"></tbody>
-                                                                                            </table>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>                                                                              
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                    </div>                                                                    
 
                                                                     <div class="card">
                                                                         <div class="card-header bg-warning py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase344">
@@ -1367,9 +1247,9 @@
                                                                             </div>
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == "1")
-                                                                                {<span>৪. প্রকল্প প্রণয়ন পর্যায়ে স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
+                                                                                {<span>৩. প্রকল্প প্রণয়ন পর্যায়ে স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
                                                                                 else
-                                                                                {<span>4. Discussion with stakeholders during starting of the project</span>}
+                                                                                {<span>3. Discussion with stakeholders during starting of the project</span>}
                                                                             </h5>
                                                                         </div>
                                                                         <div id="cardCollpase344" class="collapse show">
@@ -1520,10 +1400,10 @@
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == "1")
                                                                                 {
-                                                                                <span>৫. উদ্দেশ্য পূরনের অপশনসমূহ বিশ্লেষণ</span>}
+                                                                                    <span>৪. উদ্দেশ্য পূরনের অপশনসমূহ বিশ্লেষণ</span>}
                                                                                 else
                                                                                 {
-                                                                                    <span>5. Analyze options to fulfill objective</span>}
+                                                                                    <span>4. Analyze options to fulfill objective</span>}
                                                                             </h5>
                                                                         </div>
                                                                         <div id="cardCollpase345" class="collapse show">
@@ -1654,11 +1534,11 @@
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == "1")
                                                                                 {
-                                                                                    <span>৬. প্রকল্প নথির সাথে ডিজাইন জমা দেওয়া</span>
+                                                                                    <span>৫. প্রকল্প নথির সাথে ডিজাইন জমা দেওয়া</span>
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    <span>6. Design submitted with project document</span>
+                                                                                    <span>5. Design submitted with project document</span>
                                                                                 }
                                                                             </h5>
                                                                         </div>
@@ -1786,10 +1666,10 @@
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == "1")
                                                                                 {
-                                                                                    <span>৭. পরিবেশগত ও সামাজিক প্রভাব</span>}
+                                                                                    <span>৬. পরিবেশগত ও সামাজিক প্রভাব</span>}
                                                                                 else
                                                                                 {
-                                                                                    <span>7. Environmental and Social Impact Assessment</span>}
+                                                                                    <span>6. Environmental and Social Impact Assessment</span>}
                                                                             </h5>
                                                                         </div>
                                                                         <div id="cardCollpase346" class="collapse show">
@@ -2103,10 +1983,10 @@
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == "1")
                                                                                 {
-                                                                                    <span>৮. প্রকল্পটি তৈরিতে উপযুক্ত ও পরীক্ষিত বিশ্লেষণি প্রক্রিয়া, মুল্যায়ন পদ্ধতি, কৌশল ও টুলস্ ব্যবহার করা হয়েছে কিনা</span>}
+                                                                                    <span>৭. প্রকল্পটি তৈরিতে উপযুক্ত ও পরীক্ষিত বিশ্লেষণি প্রক্রিয়া, মুল্যায়ন পদ্ধতি, কৌশল ও টুলস্ ব্যবহার করা হয়েছে কিনা</span>}
                                                                                 else
                                                                                 {
-                                                                                    <span>8. Use of Appropriate tools, technics, analytical procedures etc.</span>}
+                                                                                    <span>7. Use of Appropriate tools, technics, analytical procedures etc.</span>}
                                                                             </h5>
                                                                         </div>
                                                                         <div id="cardCollpase347" class="collapse show">
@@ -2170,10 +2050,10 @@
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == "1")
                                                                                 {
-                                                                                    <span>৯. অর্থনৈতিক ও আর্থিক বিশ্লেষণ</span>}
+                                                                                    <span>৮. অর্থনৈতিক ও আর্থিক বিশ্লেষণ</span>}
                                                                                 else
                                                                                 {
-                                                                                    <span>9. Economical & Financial Analysis</span>}
+                                                                                    <span>8. Economical & Financial Analysis</span>}
                                                                             </h5>
                                                                         </div>
                                                                         <div id="cardCollpase348" class="collapse show">
@@ -4043,7 +3923,7 @@
                 GoBack();
             });
 
-            var input_lang = '@language';           
+            var input_lang = '@language';
             if (input_lang == 1) {
                 $('textarea, input[type=text]').avro({ 'bn': true });
             }
@@ -4061,11 +3941,11 @@
             //BindData();
 
             GetProjLocationsData();
-            GetHydroSystemData();
-            GetFloodFrequencyData();
+            //GetHydroSystemData();
+            //GetFloodFrequencyData();
             GetUsDsParamsData();
-            GetHIPData();
-            GetGWDNOWData();
+            //GetHIPData();
+            //GetGWDNOWData();
             GetIrrigatedCropAreaData();
             GetAoFOData();
             GetDswpdData();
@@ -4399,215 +4279,6 @@
             });
         }
 
-        //start :: Hydrological System JS
-        jQuery("#HydroSystemCategoryId").change(function () {
-            var name = jQuery("#HydroSystemCategoryId option:selected").text();
-            var unit = jQuery("#HydroSystemCategoryId option:selected").attr('title');
-
-            if (unit != '' && unit != undefined) {
-                jQuery("#HydroSystemName").text(name);
-                jQuery("#HydroSysCategoryUnit").parent('div').removeClass('d-none');
-                jQuery("#HydroSysCategoryUnit").text(unit);
-            } else {
-                jQuery("#HydroSystemName").text('');
-                jQuery("#HydroSysCategoryUnit").parent('div').addClass('d-none');
-                jQuery("#HydroSysCategoryUnit").text('');
-            }
-        });
-
-        jQuery("#btnSaveHydroSystem").click(function () {
-            var HydroSysDetailId = jQuery("#HydroSysDetailId").val();
-            HydroSysDetailId = (HydroSysDetailId == '') ? 0 : HydroSysDetailId;
-            var HydroSystemId = jQuery("#HydroSystemCategoryId").val();
-            var HydroSystemName = jQuery("#NameOfHydroSystem").val();
-            var LengthArea = jQuery("#HydroSystemLengthArea").val();
-            var unit = jQuery("#HydroSystemCategoryId option:selected").attr('title');
-
-            if (HydroSystemId != '') {
-                if (HydroSystemName != '') {
-                    if (LengthArea != '') {
-                        var ProjectId = GetHiddenValue('ProjectId');
-
-                        var hydroSystemDetail = {
-                            "HydroSysDetailId": HydroSysDetailId,
-                            "ProjectId": ProjectId,
-                            "HydroSystemCategoryId": HydroSystemId,
-                            "NameOfHydroSystem": HydroSystemName,
-                            "HydroSystemLengthArea": LengthArea,
-                            "HydroSystemUnit": unit
-                        };
-
-                        var url = '@Url.Action("hsds", "form")';
-                        jQuery.ajax({
-                            type: "POST",
-                            url: url,
-                            data: { _hsd: hydroSystemDetail },
-                            dataType: "json",
-                            success: function (data, status, jqXHR) {
-                                if (data.status == 'success') {
-                                    Notification('success', 'Success', data.message);
-                                    GetHydroSystemData();
-                                    ClearHydroSystem();
-                                } else {
-                                    Notification('error', 'Saving Error', data.message);
-                                }
-                            }, error: function (jqXHR, exception) {
-                                var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                                Notification('error', 'Error Occured', errorMsg);
-                            }
-                        });
-                    } else {
-                        Notification('warning', 'Required Field', 'Please enter length area!');
-                        jQuery("#HydroSystemLengthArea").focus();
-                    }
-                } else {
-                    Notification('warning', 'Required Field', 'Please enter name!');
-                    jQuery("#NameOfHydroSystem").focus();
-                }
-            } else {
-                Notification('warning', 'Required Field', 'Please select a hydrological system!');
-                jQuery("#HydroSystemCategoryId").focus();
-            }
-        });
-
-        jQuery("#btnClearHydroSystem").click(function () {
-            ClearHydroSystem();
-        });
-
-        function ClearHydroSystem() {
-            jQuery("#HydroSysDetailId").val('');
-            jQuery("#HydroSystemCategoryId").val('');
-            jQuery("#NameOfHydroSystem").val('');
-            jQuery("#HydroSystemLengthArea").val('');
-            jQuery("#HydroSystemName").text('');
-            jQuery("#HydroSysCategoryUnit").text('');
-            jQuery("#HydroSysCategoryUnit").parent('div').addClass('d-none');
-        }
-
-        function GetHydroSystemData() {
-            var ProjectId = GetHiddenValue('ProjectId');
-            var url = '@Url.Action("get_hsd", "form")';
-
-            jQuery.ajax({
-                type: "GET",
-                url: url,
-                data: { project_id: ProjectId },
-                dataType: "json",
-                success: function (data, status, jqXHR) {
-                    if (data.length > 0) {
-                        //console.log(data);
-                        var rows = '';
-
-                        var count = 0;
-                        jQuery.each(data, function (i, item) {
-                            ++count;
-                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.hydroSystemCategory + '</td><td>' + item.nameOfHydroSystem + '</td><td>' + item.hydroSystemLengthArea + ' ' + item.hydroSystemUnit + '</td><td class="text-center"><button title="' + item.hydroSysDetailId + '" onclick="javascript:EditHydroSys(' + item.hydroSysDetailId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.hydroSysDetailId + ', ' + item.projectId + ', \'CcModHydroSystemDetail\'); GetHydroSystemData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
-                        });
-
-                        jQuery("#tbodyHydrologicalSystem").html(rows);
-                    } else {
-                        jQuery("#tbodyHydrologicalSystem").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
-                    }
-                }, error: function (jqXHR, exception) {
-                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                    jQuery("#tbodyHydrologicalSystem").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
-                }
-            });
-        }
-        //end
-
-        //start :: Flood Frequency JS
-        jQuery("#FloodFrequencyId").change(function () {
-            var name = jQuery("#FloodFrequencyId option:selected").text();
-            //var unit = jQuery("#FloodFrequencyId option:selected").attr('title');
-        });
-
-        jQuery("#btnSaveFloodFrequency").click(function () {
-            var FloodFrequencyDetailId = GetHiddenValue('FloodFrequencyDetailId');
-            FloodFrequencyDetailId = (FloodFrequencyDetailId == '') ? 0 : FloodFrequencyDetailId;
-            var FloodFrequencyId = jQuery("#FloodFrequencyId option:selected").val();
-            var FloodFrequencyLevel = jQuery("#FloodFrequencyLevel").val();
-
-            if (FloodFrequencyId != '') {
-                if (FloodFrequencyLevel != '') {
-                    var ProjectId = GetHiddenValue('ProjectId');
-                    var floodFrequencyDetail = {
-                        "FloodFrequencyDetailId": FloodFrequencyDetailId,
-                        "ProjectId": ProjectId,
-                        "FloodFrequencyId": FloodFrequencyId,
-                        "FloodFrequencyLevel": FloodFrequencyLevel
-                    };
-
-                    var url = '@Url.Action("ffds", "form")';
-                    jQuery.ajax({
-                        type: "POST",
-                        url: url,
-                        data: { _ffd: floodFrequencyDetail },
-                        dataType: "json",
-                        success: function (data, status, jqXHR) {
-                            if (data.status == 'success') {
-                                Notification('success', 'Success', data.message);
-                                GetFloodFrequencyData();
-                                ClearFloodFrequency();
-                            } else {
-                                Notification('error', 'Saving Error', data.message);
-                            }
-                        }, error: function (jqXHR, exception) {
-                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                            Notification('error', 'Error Occured', errorMsg);
-                        }
-                    });
-                } else {
-                    Notification('warning', 'Required Field', 'Please enter frequency level!');
-                    jQuery("#FloodFrequencyLevel").focus();
-                }
-            } else {
-                Notification('warning', 'Required Field', 'Please select a flood frequency!');
-                jQuery("#FloodFrequencyId").focus();
-            }
-        });
-
-        jQuery("#btnClearFloodFrequency").click(function () {
-            ClearFloodFrequency();
-        });
-
-        function ClearFloodFrequency() {
-            jQuery("#FloodFrequencyDetailId").val('');
-            jQuery("#FloodFrequencyId").val('');
-            jQuery("#FloodFrequencyLevel").val('');
-        }
-
-        function GetFloodFrequencyData() {
-            var ProjectId = GetHiddenValue('ProjectId');
-            var url = '@Url.Action("get_ffd", "form")';
-
-            jQuery.ajax({
-                type: "GET",
-                url: url,
-                data: { project_id: ProjectId },
-                dataType: "json",
-                success: function (data, status, jqXHR) {
-                    if (data.length > 0) {
-                        //console.log(data);
-                        var rows = '';
-
-                        var count = 0;
-                        jQuery.each(data, function (i, item) {
-                            ++count;
-                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.floodFrequency + '</td><td>' + item.floodFrequencyLevel + '</td><td class="text-center"><button onclick="javascript:EditFloodFreq(' + item.floodFrequencyDetailId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.floodFrequencyDetailId + ', ' + item.projectId + ', \'CcModFloodFrequencyDetail\'); GetFloodFrequencyData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
-                        });
-
-                        jQuery("#tbodyFloodFrequency").html(rows);
-                    } else {
-                        jQuery("#tbodyFloodFrequency").html('<tr><td colspan="4" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
-                    }
-                }, error: function (jqXHR, exception) {
-                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                    jQuery("#tbodyFloodFrequency").html('<tr><td colspan="4" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
-                }
-            });
-        }
-        //end
 
         //start :: Us Ds Condition JS
         jQuery("#UsDsConditionId").change(function () {
@@ -4712,217 +4383,6 @@
 				        jQuery("#UsDsConditionId").val(data.UsDsConditionId);
 				        SetTextValue('UsParameterValue', data.usParameterValue);
 				        SetTextValue('DsParameterValue', data.dsParameterValue);
-			        }
-		        }, error: function (jqXHR, exception) {
-			        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-			        Notification('error', 'Error Occured', errorMsg);
-		        }
-	        });
-        }
-        //end
-
-        //start :: Design parameters of hydraulic infrastructure
-        jQuery("#btnSaveHIP").click(function () {
-	        var HydraInfraParamDetailId = GetHiddenValue('HydraInfraParamDetailId');
-			HydraInfraParamDetailId = (HydraInfraParamDetailId == '') ? 0 : HydraInfraParamDetailId;
-	        var ProjectId = GetHiddenValue('ProjectId');
-	        var HydraInfraParamId = jQuery("#HydraInfraParamId option:selected").val();
-	        var Description = jQuery("#Description").val();
-
-	        if (HydraInfraParamId != '') {
-		        var hipDetail = {
-			        "HydraInfraParamDetailId": HydraInfraParamDetailId,
-			        "ProjectId": ProjectId,
-			        "HydraInfraParamId": HydraInfraParamId,
-			        "Description": Description
-		        };
-
-		        var url = '@Url.Action("sdphi", "form")';
-		        jQuery.ajax({
-			        type: "POST",
-			        url: url,
-                    data: { _dphi: hipDetail },
-			        dataType: "json",
-			        success: function (data, status, jqXHR) {
-				        if (data.status == 'success') {
-					        Notification('success', 'Success', data.message);
-					        GetHIPData();
-					        ClearHIP();
-				        } else {
-					        Notification('error', 'Saving Error', data.message);
-				        }
-			        }, error: function (jqXHR, exception) {
-				        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-				        Notification('error', 'Error Occured', errorMsg);
-			        }
-		        });
-	        } else {
-		        Notification('warning', 'Required Field', 'Please select a parameter!');
-		        jQuery("#HydraInfraParamId").focus();
-	        }
-        });
-
-        jQuery("#btnClearHIP").click(function () {
-	        ClearHIP();
-        });
-
-        function ClearHIP() {
-	        jQuery("#HydraInfraParamDetailId").val('');
-	        jQuery("#HydraInfraParamId").val('');
-	        jQuery("#Description").val('');
-        }
-
-        function GetHIPData() {
-	        var ProjectId = GetHiddenValue('ProjectId');
-	        var url = '@Url.Action("get_dphi", "form")';
-
-	        jQuery.ajax({
-		        type: "GET",
-		        url: url,
-		        data: { project_id: ProjectId },
-		        dataType: "json",
-		        success: function (data, status, jqXHR) {
-			        if (data.length > 0) {
-				        console.log(data);
-				        var rows = '';
-
-				        var count = 0;
-				        jQuery.each(data, function (i, item) {
-					        ++count;
-					        rows += '<tr><td>' + item.parameterName + '</td><td>' + item.description + '</td><td class="text-center"><button title="' + item.hydraInfraParamDetailId + '" onclick="javascript:EditHIP(' + item.hydraInfraParamDetailId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.hydraInfraParamDetailId + ', ' + item.projectId + ', \'CcModHydraInfraParamDetail\'); GetHIPData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
-				        });
-
-				        jQuery("#tbdHydraInfraParamDetail").html(rows);
-			        } else {
-				        jQuery("#tbdHydraInfraParamDetail").html('<tr><td colspan="4" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
-			        }
-		        }, error: function (jqXHR, exception) {
-			        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-			        jQuery("#tbdHydraInfraParamDetail").html('<tr><td colspan="4" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
-		        }
-	        });
-        }
-
-        function EditHIP(id, projectId) {
-	        var url = '@Url.Action("gdphi", "form")';
-	        jQuery.ajax({
-		        type: "GET",
-		        url: url,
-		        data: { id: id, projectId: projectId },
-		        dataType: "json",
-		        success: function (data, status, jqXHR) {
-			        if (data.hydroSysDetailId != '') {
-				        //console.log(data);
-
-				        SetHiddenValue('HydraInfraParamDetailId', data.hydraInfraParamDetailId);
-				        jQuery("#HydraInfraParamId").val(data.hydraInfraParamId);
-				        SetTextValue('Description', data.description);
-			        }
-		        }, error: function (jqXHR, exception) {
-			        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-			        Notification('error', 'Error Occured', errorMsg);
-		        }
-	        });
-        }
-        //end
-
-        //start :: Ground Water Depth
-        jQuery("#btnSaveGWDNOW").click(function () {
-	        var GrndWtrDepthDetailId = GetHiddenValue('GrndWtrDepthDetailId');
-	        var ProjectId = GetHiddenValue('ProjectId');
-	        var GWDMonth = jQuery("#ddlGWDMonth option:selected").val();
-	        var WaterDepth = jQuery("#txtGWDepth").val();
-
-	        if (GWDMonth != '') {
-		        var ProjectId = GetHiddenValue('ProjectId');
-
-		        var gwdDetail = {
-			        "GrndWtrDepthDetailId": GrndWtrDepthDetailId,
-			        "ProjectId": ProjectId,
-			        "MonthId": GWDMonth,
-			        "WaterDepth": WaterDepth
-		        };
-
-		        var url = '@Url.Action("gwdds", "form")';
-		        jQuery.ajax({
-			        type: "POST",
-			        url: url,
-			        data: { _gedd: gwdDetail },
-			        dataType: "json",
-			        success: function (data, status, jqXHR) {
-				        if (data.status == 'success') {
-					        Notification('success', 'Success', data.message);
-					        GetGWDNOWData();
-					        ClearGWDNOW();
-				        } else {
-					        Notification('error', 'Saving Error', data.message);
-				        }
-			        }, error: function (jqXHR, exception) {
-				        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-				        Notification('error', 'Error Occured', errorMsg);
-			        }
-		        });
-	        } else {
-		        Notification('warning', 'Required Field', 'Please select a month!');
-                jQuery("#ddlGWDMonth").focus();
-	        }
-        });
-
-        jQuery("#btnClearGWDNOW").click(function () {
-	        ClearGWDNOW();
-        });
-
-        function ClearGWDNOW() {
-	        jQuery("#GrndWtrDepthDetailId").val('');
-	        jQuery("#ddlGWDMonth").val('');
-	        jQuery("#txtGWDepth").val('');
-        }
-
-        function GetGWDNOWData() {
-	        var ProjectId = GetHiddenValue('ProjectId');
-	        var url = '@Url.Action("get_gwdd", "form")';
-
-	        jQuery.ajax({
-		        type: "GET",
-		        url: url,
-		        data: { project_id: ProjectId },
-		        dataType: "json",
-		        success: function (data, status, jqXHR) {
-			        if (data.length > 0) {
-				        //console.log(data);
-				        var rows = '';
-
-				        var count = 0;
-				        jQuery.each(data, function (i, item) {
-					        ++count;
-					        rows += '<tr><td>' + item.month + '</td><td>' + item.waterDepth + '</td><td class="text-center"><button title="' + item.grndWtrDepthDetailId + '" onclick="javascript:EditGWDNOW(' + item.grndWtrDepthDetailId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.grndWtrDepthDetailId + ', ' + item.projectId + ', \'CcModPrjGrndWtrDepthDetail\'); GetGWDNOWData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
-				        });
-
-				        jQuery("#tbdGWDNOW").html(rows);
-			        } else {
-				        jQuery("#tbdGWDNOW").html('<tr><td colspan="3" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
-			        }
-		        }, error: function (jqXHR, exception) {
-			        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-			        jQuery("#tbdGWDNOW").html('<tr><td colspan="3" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
-		        }
-	        });
-        }
-
-        function EditGWDNOW(id, projectId) {
-	        var url = '@Url.Action("ggwdd", "form")';
-	        jQuery.ajax({
-		        type: "GET",
-		        url: url,
-		        data: { id: id, projectId: projectId },
-		        dataType: "json",
-		        success: function (data, status, jqXHR) {
-			        if (data.hydroSysDetailId != '') {
-				        //console.log(data);
-
-				        SetHiddenValue('GrndWtrDepthDetailId', data.grndWtrDepthDetailId);
-				        jQuery("#ddlGWDMonth").val(data.monthId);
-				        SetTextValue('txtGWDepth', data.waterDepth);
 			        }
 		        }, error: function (jqXHR, exception) {
 			        var errorMsg = AjaxErrorHandle(jqXHR, exception);
@@ -5489,8 +4949,8 @@
             var FinalObj = [];
             var hydroRegions = [],
                 bdp2100HotSpot = [],
-                navigationClass = [],
-                riverType = [];
+                structTypeConserv = [],
+                conservLocation = [];
 
             var ProjectId = GetHiddenValue('ProjectId');
 
@@ -5514,24 +4974,24 @@
                 bdp2100HotSpot.push(_hsp);
             });
 
-            jQuery.each(jQuery("input[name='NavigationClassId']:checked"), function () {
-                var _nvc = {
-                    "NavigationClassDetailId": 0,
+            jQuery.each(jQuery("input[name='TypeOfStructureId']:checked"), function () {
+                var _stc = {
+                    "StructTypeConservDetailId": 0,
                     "ProjectId": ProjectId,
-                    "NavigationClassId": jQuery(this).val()
+                    "TypeOfStructureId": jQuery(this).val()
                 };
 
-                navigationClass.push(_nvc);
+                structTypeConserv.push(_stc);
             });
 
-            jQuery.each(jQuery("input[name='RiverTypeId']:checked"), function () {
-                var _rty = {
-                    "RiverTypeDetailId": 0,
+            jQuery.each(jQuery("input[name='ConservLocationId']:checked"), function () {
+                var _cli = {
+                    "ConservLocationDetailId": 0,
                     "ProjectId": ProjectId,
-                    "RiverTypeId": jQuery(this).val()
+                    "ConservLocationId": jQuery(this).val()
                 };
 
-                riverType.push(_rty);
+                conservLocation.push(_cli);
             });
 
             //start :: technical info submission validation
@@ -5569,52 +5029,57 @@
                 "EnvAndSocialAuthorityCmt": GetTextValue('EnvAndSocialAuthorityCmt')
             };
 
-            var Project34IndvDetail = {
-                "Project34IndvId": 0,
+            var Project35IndvDetail = {
+                "Project35IndvId": 0,
                 "ProjectId": ProjectId,
-                "NameOfHydraulicStructure": GetTextValue('NameOfHydraulicStructure'),
-                "TypeOfStructure": GetTextValue('TypeOfStructure'),
-                "TypeOfTrafficNavigation": GetTextValue('TypeOfTrafficNavigation'),
-                "RiverNatureId": GetRadioValue('RiverNatureId'),
-                "CommandArea": GetTextValue('CommandArea'),
+                "WaterBodyTypeId": GetRadioValue('WaterBodyTypeId'),
+                "Offtake": GetTextValue('Offtake'),
+                "Outfall": GetTextValue('Outfall'),
+                "Connectivity": GetTextValue('Connectivity'),
+                "WaterLevelDryMax": GetTextValue('WaterLevelDryMax'),
+                "WaterLevelDryMin": GetTextValue('WaterLevelDryMin'),
+                "WaterLevelWetMax": GetTextValue('WaterLevelWetMax'),
+                "WaterLevelWetMin": GetTextValue('WaterLevelWetMin'),
+                "DischargeDryMax": GetTextValue('DischargeDryMax'),
+                "DischargeDryMin": GetTextValue('DischargeDryMin'),
+                "DischargeWetMax": GetTextValue('DischargeWetMax'),
+                "DischargeWetMin": GetTextValue('DischargeWetMin'),
                 "CrossSectionDepth": GetTextValue('CrossSectionDepth'),
                 "CrossSectionWidth": GetTextValue('CrossSectionWidth'),
-                "WaterLevelMax": GetTextValue('WaterLevelMax'),
-                "WaterLevelMin": GetTextValue('WaterLevelMin'),
-                "DischargeMax": GetTextValue('DischargeMax'),
-                "DischargeMin": GetTextValue('DischargeMin'),
-                "BankLineShiftingId": GetRadioValue('BankLineShiftingId'),
-                "BankStabilityTypeId": GetRadioValue('BankStabilityTypeId'),
-                "BankSoilCondition": GetTextValue('BankSoilCondition'),
-                "BankErosionLength": GetTextValue('BankErosionLength'),
-                "BankErosionArea": GetTextValue('BankErosionArea'),
-                "BankErosionLocation": GetTextValue('BankErosionLocation'),
-                "BankErosionRate": GetTextValue('BankErosionRate'),
-                "RiverBedErosion": GetTextValue('RiverBedErosion'),
                 "SedimentationId": GetRadioValue('SedimentationId'),
                 "SedimentationRate": GetTextValue('SedimentationRate'),
-                "CharAccretionLength": GetTextValue('CharAccretionLength'),
-                "CharAccretionArea": GetTextValue('CharAccretionArea'),
-                "CharAccretionLocation": GetTextValue('CharAccretionLocation'),
-                "RiverTrainingWorks": GetTextValue('RiverTrainingWorks')
+                "DrainageConditionId": GetRadioValue('DrainageConditionId'),
+                "HighLandPercent": GetTextValue('HighLandPercent'),
+                "MediumHighLandPercent": GetTextValue('MediumHighLandPercent'),
+                "MediumLowLandPercent": GetTextValue('MediumLowLandPercent'),
+                "LowLandPercent": GetTextValue('LowLandPercent'),
+                "VeryLowLandPercent": GetTextValue('VeryLowLandPercent'),
+                "CropProduction": GetTextValue('CropProduction'),
+                "FishProduction": GetTextValue('FishProduction'),
+                "FishDiversity": GetTextValue('FishDiversity'),
+                "FishMigration": GetTextValue('FishMigration'),
+                "FloraAndFauna": GetTextValue('FloraAndFauna'),
+                "DuplicatYesNoId": GetRadioValue('DuplicatYesNoId'),
+                "DuplicationApplicantComments": GetTextValue('DuplicationApplicantComments'),
+                "DuplicationAuthorityComments": GetTextValue('DuplicationAuthorityComments')
             };
 
-            var _Form34FinalObj = {
+            var _Form35FinalObj = {
                 "CommonDetail": ProjectCommonDetail,
-                "Project34Indv": Project34IndvDetail,
+                "Project35Indv": Project35IndvDetail,
                 "HydroRegion": hydroRegions,
                 "BDP2100HotSpot": bdp2100HotSpot,
-                "NavigationClassDetail": navigationClass,
-                "RiverTypeDetail": riverType
+                "StructTypeConservDetail": structTypeConserv,
+                "ConservLocationDetail": conservLocation
             }
 
-            console.log(_Form34FinalObj);
+            console.log(_Form35FinalObj);
 
-            var url = '@Url.Action("f34tiotos", "form")';
+            var url = '@Url.Action("f35tiotos", "form")';
             jQuery.ajax({
                 type: "POST",
                 url: url,
-                data: { _form34TechInfo: _Form34FinalObj },
+                data: { _form35TechInfo: _Form35FinalObj },
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.status == 'success') {
@@ -5623,7 +5088,7 @@
                         Notification('error', 'Saving Error', data.message);
                     }
 
-                    SetHiddenValue('Project34IndvId', data.id);
+                    SetHiddenValue('Project35IndvId', data.id);
                 }, error: function (jqXHR, exception) {
                     var errorMsg = AjaxErrorHandle(jqXHR, exception);
                     Notification('error', 'Error Occured', errorMsg);
@@ -5657,7 +5122,7 @@
                 sdgIndicators = [], dp2100Goals = [], gpwmGroupType = [];
 
             var ProjectId = GetHiddenValue('ProjectId');
-            var Project34IndvId = GetHiddenValue('Project34IndvId');
+            var Project35IndvId = GetHiddenValue('Project35IndvId');
 
             jQuery.each(jQuery("input[name='NationalWaterPolicyArticleId']:checked"), function () {
                 var _nwpa = {
@@ -5766,8 +5231,8 @@
                 "SocialIssuesAuthorityCmt": GetTextValue('SocialIssuesAuthorityCmt')
             };
 
-            var Project34IndvDetail = {
-                "Project34IndvId": Project34IndvId,
+            var Project35IndvDetail = {
+                "Project35IndvId": Project35IndvId,
                 "ProjectId": ProjectId,
                 "DuplicatYesNoId": GetRadioValue('DuplicatYesNoId'),
                 "DuplicationApplicantComments": GetTextValue('DuplicationApplicantComments'),
@@ -5776,7 +5241,7 @@
 
             var _finalDeedObj = {
                 "CommonDetail": ProjectCommonDetail,
-                "Project34Indv": Project34IndvDetail,
+                "Project35Indv": Project35IndvDetail,
                 "CompatNWPDetail": nwpArticles,
                 "CompatNWMPDetail": prjCompatNWMP,
                 "CompatSDGDetail": sdgGoals,
@@ -5787,11 +5252,11 @@
 
             console.log(_finalDeedObj); //jQuery('#ProjectId').val()
 
-            var url = '@Url.Action("f34dootos", "form")';
+            var url = '@Url.Action("f35dootos", "form")';
             jQuery.ajax({
                 type: "POST",
                 url: url,
-                data: { _form34DeedObli: _finalDeedObj },
+                data: { _form35DeedObli: _finalDeedObj },
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.status == 'success') {
@@ -6329,11 +5794,11 @@
             var projectId = '@ViewBag.ProjectCommonDetail.ProjectId';
 
             if (projectId != '' && projectId != 0) {
-                console.log('Form 34 ViewBag.ProjectCommonDetail.ProjectId: ' + projectId);
+                console.log('Form 35 ViewBag.ProjectCommonDetail.ProjectId: ' + projectId);
 
                 //General Info
                 SetHiddenValue('ProjectId', projectId);
-                SetHiddenValue('Project34IndvId', '@ViewBag.ProjectIndvDetail34.Project34IndvId');
+                SetHiddenValue('Project35IndvId', '@ViewBag.ProjectIndvDetail35.Project35IndvId');
                 SetHiddenValue('UserId', '@ViewBag.ProjectCommonDetail.UserId');
 
                 if('@ViewBag.ProjectCommonDetail.ProjectTypeId' != '' && '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectTypeId)' != 0)
@@ -6360,221 +5825,221 @@
                     $(":checkbox[name='bdp2100_hot_spot'][value='" + item.deltaPlanHotSpotId + "']").attr('checked', true);
                 });
 
-                SetTextValue('NameOfHydraulicStructure', '@Html.Raw(ViewBag.ProjectIndvDetail34.NameOfHydraulicStructure)');
-				SetTextValue('TypeOfStructure', '@Html.Raw(ViewBag.ProjectIndvDetail34.TypeOfStructure)');
-				SetTextValue('TypeOfTrafficNavigation', '@Html.Raw(ViewBag.ProjectIndvDetail34.TypeOfTrafficNavigation)');
+                			var stc = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.StructTypeConservDetail))');
+			jQuery.each(stc, function (i, item) {
+				$(":checkbox[name='TypeOfStructureId'][value='" + item.typeOfStructureId + "']").attr('checked', true);
+			});
 
-                var nvcl = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.NavigationClassDetail))');
-                jQuery.each(nvcl, function (i, item) {
-                    $(":checkbox[name='NavigationClassId'][value='" + item.navigationClassId + "']").attr('checked', true);
-                });
+			var cls = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.ConservLocationDetail))');
+			jQuery.each(cls, function (i, item) {
+				$(":checkbox[name='ConservLocationId'][value='" + item.conservLocationId + "']").attr('checked', true);
+			});
 
-                var rivt = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.RiverTypeDetail))');
-                jQuery.each(rivt, function (i, item) {
-                    $(":checkbox[name='RiverTypeId'][value='" + item.riverTypeId + "']").attr('checked', true);
-                });
+			var WaterBodyTypeId = '@Html.Raw(ViewBag.ProjectIndvDetail35.WaterBodyTypeId)';
+			if(WaterBodyTypeId != '')
+				$(":radio[name='WaterBodyTypeId'][value='" + WaterBodyTypeId + "']").attr('checked', true);
 
-				var RiverNatureId = '@Html.Raw(ViewBag.ProjectIndvDetail34.RiverNatureId)';
-                if(RiverNatureId != '')
-	                $(":radio[name='RiverNatureId'][value='" + RiverNatureId + "']").attr('checked', true);
+			SetTextValue('Offtake', '@Html.Raw(ViewBag.ProjectIndvDetail35.Offtake)');
+			SetTextValue('Outfall', '@Html.Raw(ViewBag.ProjectIndvDetail35.Outfall)');
+			SetTextValue('Connectivity', '@Html.Raw(ViewBag.ProjectIndvDetail35.Connectivity)');
+			SetTextValue('AnnualRainFallLast1Year', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast1Year)');
+			SetTextValue('AnnualRainFallLast2Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast2Years)');
+			SetTextValue('AnnualRainFallLast3Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast3Years)');
+			SetTextValue('AnnualRainFallLast4Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast4Years)');
+			SetTextValue('AnnualRainFallLast5Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast5Years)');
 
-				SetTextValue('CommandArea', '@Html.Raw(ViewBag.ProjectIndvDetail34.CommandArea)');
-				SetTextValue('AnnualRainFallLast1Year', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast1Year)');
-                SetTextValue('AnnualRainFallLast2Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast2Years)');
-                SetTextValue('AnnualRainFallLast3Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast3Years)');
-                SetTextValue('AnnualRainFallLast4Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast4Years)');
-                SetTextValue('AnnualRainFallLast5Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast5Years)');
-				SetTextValue('CrossSectionDepth', '@Html.Raw(ViewBag.ProjectIndvDetail34.CrossSectionDepth)');
-				SetTextValue('CrossSectionWidth', '@Html.Raw(ViewBag.ProjectIndvDetail34.CrossSectionWidth)');
-				SetTextValue('WaterLevelMax', '@Html.Raw(ViewBag.ProjectIndvDetail34.WaterLevelMax)');
-				SetTextValue('WaterLevelMin', '@Html.Raw(ViewBag.ProjectIndvDetail34.WaterLevelMin)');
-				SetTextValue('DischargeMax', '@Html.Raw(ViewBag.ProjectIndvDetail34.DischargeMax)');
-				SetTextValue('DischargeMin', '@Html.Raw(ViewBag.ProjectIndvDetail34.DischargeMin)');
+			SetTextValue('WaterLevelDryMax', '@Html.Raw(ViewBag.ProjectIndvDetail35.WaterLevelDryMax)');
+			SetTextValue('WaterLevelDryMin', '@Html.Raw(ViewBag.ProjectIndvDetail35.WaterLevelDryMin)');
+			SetTextValue('WaterLevelWetMax', '@Html.Raw(ViewBag.ProjectIndvDetail35.WaterLevelWetMax)');
+			SetTextValue('WaterLevelWetMin', '@Html.Raw(ViewBag.ProjectIndvDetail35.WaterLevelWetMin)');
 
-				var BankLineShiftingId = '@Html.Raw(ViewBag.ProjectIndvDetail34.BankLineShiftingId)';
-                if(BankLineShiftingId != '')
-	                $(":radio[name='BankLineShiftingId'][value='" + BankLineShiftingId + "']").attr('checked', true);
+			SetTextValue('DischargeDryMax', '@Html.Raw(ViewBag.ProjectIndvDetail35.DischargeDryMax)');
+			SetTextValue('DischargeDryMin', '@Html.Raw(ViewBag.ProjectIndvDetail35.DischargeDryMin)');
+			SetTextValue('DischargeWetMax', '@Html.Raw(ViewBag.ProjectIndvDetail35.DischargeWetMax)');
+			SetTextValue('DischargeWetMin', '@Html.Raw(ViewBag.ProjectIndvDetail35.DischargeWetMin)');
 
-				var BankStabilityTypeId = '@Html.Raw(ViewBag.ProjectIndvDetail34.BankStabilityTypeId)';
-                if(BankStabilityTypeId != '')
-	                $(":radio[name='BankStabilityTypeId'][value='" + BankStabilityTypeId + "']").attr('checked', true);
+			SetTextValue('CrossSectionDepth', '@Html.Raw(ViewBag.ProjectIndvDetail35.CrossSectionDepth)');
+			SetTextValue('CrossSectionWidth', '@Html.Raw(ViewBag.ProjectIndvDetail35.CrossSectionWidth)');
 
-				SetTextValue('BankSoilCondition', '@Html.Raw(ViewBag.ProjectIndvDetail34.BankSoilCondition)');
-                SetTextValue('BankErosionLength', '@Html.Raw(ViewBag.ProjectIndvDetail34.BankErosionLength)');
-                SetTextValue('BankErosionArea', '@Html.Raw(ViewBag.ProjectIndvDetail34.BankErosionArea)');
-                SetTextValue('BankErosionLocation', '@Html.Raw(ViewBag.ProjectIndvDetail34.BankErosionLocation)');
-				SetTextValue('BankErosionRate', '@Html.Raw(ViewBag.ProjectIndvDetail34.BankErosionRate)');
-				SetTextValue('RiverBedErosion', '@Html.Raw(ViewBag.ProjectIndvDetail34.RiverBedErosion)');
+			var SedimentationId = '@Html.Raw(ViewBag.ProjectIndvDetail35.SedimentationId)';
+			if(SedimentationId != '')
+				$(":radio[name='SedimentationId'][value='" + SedimentationId + "']").attr('checked', true);
 
-                var SedimentationId = '@Html.Raw(ViewBag.ProjectIndvDetail34.SedimentationId)';
-                if(SedimentationId != '')
-	                $(":radio[name='SedimentationId'][value='" + SedimentationId + "']").attr('checked', true);
+			SetTextValue('SedimentationRate', '@Html.Raw(ViewBag.ProjectIndvDetail35.SedimentationRate)');
 
-                SetTextValue('SedimentationRate', '@Html.Raw(ViewBag.ProjectIndvDetail34.SedimentationRate)');
+			var DrainageConditionId = '@Html.Raw(ViewBag.ProjectIndvDetail35.DrainageConditionId)';
+			if(DrainageConditionId != '')
+				$(":radio[name='DrainageConditionId'][value='" + DrainageConditionId + "']").attr('checked', true);
 
-				SetTextValue('CharAccretionLength', '@Html.Raw(ViewBag.ProjectIndvDetail34.CharAccretionLength)');
-				SetTextValue('CharAccretionArea', '@Html.Raw(ViewBag.ProjectIndvDetail34.CharAccretionArea)');
-				SetTextValue('CharAccretionLocation', '@Html.Raw(ViewBag.ProjectIndvDetail34.CharAccretionLocation)');
-				SetTextValue('RiverTrainingWorks', '@Html.Raw(ViewBag.ProjectIndvDetail34.RiverTrainingWorks)');
+			SetTextValue('HighLandPercent', '@Html.Raw(ViewBag.ProjectIndvDetail35.HighLandPercent)');
+			SetTextValue('MediumHighLandPercent', '@Html.Raw(ViewBag.ProjectIndvDetail35.MediumHighLandPercent)');
+			SetTextValue('MediumLowLandPercent', '@Html.Raw(ViewBag.ProjectIndvDetail35.MediumLowLandPercent)');
+			SetTextValue('LowLandPercent', '@Html.Raw(ViewBag.ProjectIndvDetail35.LowLandPercent)');
+			SetTextValue('VeryLowLandPercent', '@Html.Raw(ViewBag.ProjectIndvDetail35.VeryLowLandPercent)');
+			SetTextValue('CropProduction', '@Html.Raw(ViewBag.ProjectIndvDetail35.CropProduction)');
+			SetTextValue('FishProduction', '@Html.Raw(ViewBag.ProjectIndvDetail35.FishProduction)');
+			SetTextValue('FishDiversity', '@Html.Raw(ViewBag.ProjectIndvDetail35.FishDiversity)');
+			SetTextValue('FishMigration', '@Html.Raw(ViewBag.ProjectIndvDetail35.FishMigration)');
+			SetTextValue('FloraAndFauna', '@Html.Raw(ViewBag.ProjectIndvDetail35.FloraAndFauna)');
 
-                SetTextValue('IssueChallageProblem', '@Html.Raw(ViewBag.ProjectCommonDetail.IssueChallageProblem)');
+			SetTextValue('IssueChallageProblem', '@Html.Raw(ViewBag.ProjectCommonDetail.IssueChallageProblem)');
 
-                var YesNoStakeId = '@Html.Raw(ViewBag.ProjectCommonDetail.YesNoStakeId)';
-                if (YesNoStakeId != '') {
-                    $(":radio[name='YesNoStakeId'][value='" + YesNoStakeId + "']").attr('checked', true);
+			var YesNoStakeId = '@Html.Raw(ViewBag.ProjectCommonDetail.YesNoStakeId)';
+			if (YesNoStakeId != '') {
+				$(":radio[name='YesNoStakeId'][value='" + YesNoStakeId + "']").attr('checked', true);
 
-                    if (YesNoStakeId == 1) {
-                        jQuery("#divDSDSPYesControls").removeClass('d-none fadeOut');
-                        jQuery("#divDSDSPYesControls").addClass('d-block fadeIn');
-                    } else {
-                        jQuery("#divDSDSPYesControls").removeClass('d-block fadeIn');
-                        jQuery("#divDSDSPYesControls").addClass('d-none fadeOut');
-                    }
-                }
+				if (YesNoStakeId == 1) {
+					jQuery("#divDSDSPYesControls").removeClass('d-none fadeOut');
+					jQuery("#divDSDSPYesControls").addClass('d-block fadeIn');
+				} else {
+					jQuery("#divDSDSPYesControls").removeClass('d-block fadeIn');
+					jQuery("#divDSDSPYesControls").addClass('d-none fadeOut');
+				}
+			}
 
-                SetTextValue('DiscussWithStakeApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeApplicantCmt)');
-                SetTextValue('DiscussWithStakeAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeAuthorityCmt)');
-                SetTextValue('DiscussWithStakePosFeedback', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakePosFeedback)');
-                SetTextValue('DiscussWithStakeNegFeedback', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeNegFeedback)');
+			SetTextValue('DiscussWithStakeApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeApplicantCmt)');
+			SetTextValue('DiscussWithStakeAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeAuthorityCmt)');
+			SetTextValue('DiscussWithStakePosFeedback', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakePosFeedback)');
+			SetTextValue('DiscussWithStakeNegFeedback', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeNegFeedback)');
 
-                var AnalyzeOptYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptYesNoId)';
-                if(AnalyzeOptYesNoId != '')
-	                $(":radio[name='AnalyzeOptYesNoId'][value='" + AnalyzeOptYesNoId + "']").attr('checked', true);
+			var AnalyzeOptYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptYesNoId)';
+			if(AnalyzeOptYesNoId != '')
+				$(":radio[name='AnalyzeOptYesNoId'][value='" + AnalyzeOptYesNoId + "']").attr('checked', true);
 
-                SetTextValue('AnalyzeOptionsApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptionsApplicantCmt)');
-                SetTextValue('AnalyzeOptionsAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptionsAuthorityCmt)');
+			SetTextValue('AnalyzeOptionsApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptionsApplicantCmt)');
+			SetTextValue('AnalyzeOptionsAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptionsAuthorityCmt)');
 
-                var EnvAndSocialYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialYesNoId)';
-                if(EnvAndSocialYesNoId != '')
-	                $(":radio[name='EnvAndSocialYesNoId'][value='" + EnvAndSocialYesNoId + "']").attr('checked', true);
+			var EnvAndSocialYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialYesNoId)';
+			if(EnvAndSocialYesNoId != '')
+				$(":radio[name='EnvAndSocialYesNoId'][value='" + EnvAndSocialYesNoId + "']").attr('checked', true);
 
-                SetTextValue('EnvAndSocialApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialApplicantCmt)');
-                SetTextValue('EnvAndSocialAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialAuthorityCmt)');
-                
-                //deed start
-                var CompatNWPYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.CompatNWPYesNoId)';
-                if(CompatNWPYesNoId != '')
-	                $(":radio[name='CompatNWPYesNoId'][value='" + CompatNWPYesNoId + "']").attr('checked', true);
+			SetTextValue('EnvAndSocialApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialApplicantCmt)');
+			SetTextValue('EnvAndSocialAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialAuthorityCmt)');
 
-                SetTextValue('CompatibilityNWPApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CompatibilityNWPApplicantCmt)');
-                SetTextValue('CompatibilityNWPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CompatibilityNWPAuthorityCmt)');
+			//deed start
+			var CompatNWPYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.CompatNWPYesNoId)';
+			if(CompatNWPYesNoId != '')
+				$(":radio[name='CompatNWPYesNoId'][value='" + CompatNWPYesNoId + "']").attr('checked', true);
 
-                var nwp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWPDetail))');
-                jQuery.each(nwp, function (i, item) {
-	                $(":checkbox[name='NationalWaterPolicyArticleId'][value='" + item.nationalWaterPolicyArticleId + "']").attr('checked', true);
-                });
+			SetTextValue('CompatibilityNWPApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CompatibilityNWPApplicantCmt)');
+			SetTextValue('CompatibilityNWPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CompatibilityNWPAuthorityCmt)');
 
-                var NWMPCompatYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.NWMPCompatYesNoId)';
-                if(NWMPCompatYesNoId != '')
-	                $(":radio[name='NWMPCompatYesNoId'][value='" + NWMPCompatYesNoId + "']").attr('checked', true);
+			var nwp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWPDetail))');
+			jQuery.each(nwp, function (i, item) {
+				$(":checkbox[name='NationalWaterPolicyArticleId'][value='" + item.nationalWaterPolicyArticleId + "']").attr('checked', true);
+			});
 
-                SetTextValue('NWMPApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.NWMPApplicantCmt)');
-                SetTextValue('NWMPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.NWMPAuthorityCmt)');
+			var NWMPCompatYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.NWMPCompatYesNoId)';
+			if(NWMPCompatYesNoId != '')
+				$(":radio[name='NWMPCompatYesNoId'][value='" + NWMPCompatYesNoId + "']").attr('checked', true);
 
-                var nwmp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWMPDetail))');
-                jQuery.each(nwmp, function (i, item) {
-	                $(":checkbox[name='PrjCompatNWMPId'][value='" + item.nwmpProgrammeId + "']").attr('checked', true);
-                });
+			SetTextValue('NWMPApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.NWMPApplicantCmt)');
+			SetTextValue('NWMPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.NWMPAuthorityCmt)');
 
-                var FYPYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.FYPYesNoId)';
-                if(FYPYesNoId != '')
-	                $(":radio[name='FYPYesNoId'][value='" + FYPYesNoId + "']").attr('checked', true);
+			var nwmp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWMPDetail))');
+			jQuery.each(nwmp, function (i, item) {
+				$(":checkbox[name='PrjCompatNWMPId'][value='" + item.nwmpProgrammeId + "']").attr('checked', true);
+			});
 
-                SetTextValue('FYPApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FYPApplicantCmt)');
-                SetTextValue('FYPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FYPAuthorityCmt)');
+			var FYPYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.FYPYesNoId)';
+			if(FYPYesNoId != '')
+				$(":radio[name='FYPYesNoId'][value='" + FYPYesNoId + "']").attr('checked', true);
 
-                var SDGYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.SDGYesNoId)';
-                if(SDGYesNoId != '')
-	                $(":radio[name='SDGYesNoId'][value='" + SDGYesNoId + "']").attr('checked', true);
+			SetTextValue('FYPApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FYPApplicantCmt)');
+			SetTextValue('FYPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FYPAuthorityCmt)');
 
-                SetTextValue('SDGApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SDGApplicantCmt)');
-                SetTextValue('SDGAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SDGAuthorityCmt)');
+			var SDGYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.SDGYesNoId)';
+			if(SDGYesNoId != '')
+				$(":radio[name='SDGYesNoId'][value='" + SDGYesNoId + "']").attr('checked', true);
 
-                var sdgdetail = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatSDGDetail))');
-                jQuery.each(sdgdetail, function (i, item) {
-	                $(":checkbox[name='SDGGoalId'][value='" + item.sdgGoalId + "']").attr('checked', true);
-                });
+			SetTextValue('SDGApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SDGApplicantCmt)');
+			SetTextValue('SDGAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SDGAuthorityCmt)');
 
-                var sdgindi = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatSDGIndiDetail))');
-                jQuery.each(sdgindi, function (i, item) {
-	                $(":checkbox[name='SDGIndicatorId'][value='" + item.sdgIndicatorId + "']").attr('checked', true);
-                });
+			var sdgdetail = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatSDGDetail))');
+			jQuery.each(sdgdetail, function (i, item) {
+				$(":checkbox[name='SDGGoalId'][value='" + item.sdgGoalId + "']").attr('checked', true);
+			});
 
-                var DeltaPlanYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.DeltaPlanYesNoId)';
-                if(DeltaPlanYesNoId != '')
-	                $(":radio[name='DeltaPlanYesNoId'][value='" + DeltaPlanYesNoId + "']").attr('checked', true);
+			var sdgindi = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatSDGIndiDetail))');
+			jQuery.each(sdgindi, function (i, item) {
+				$(":checkbox[name='SDGIndicatorId'][value='" + item.sdgIndicatorId + "']").attr('checked', true);
+			});
 
-                SetTextValue('DeltaPlan2100ApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DeltaPlan2100ApplicantCmt)');
-                SetTextValue('DeltaPlan2100AuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DeltaPlan2100AuthorityCmt)');
+			var DeltaPlanYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.DeltaPlanYesNoId)';
+			if(DeltaPlanYesNoId != '')
+				$(":radio[name='DeltaPlanYesNoId'][value='" + DeltaPlanYesNoId + "']").attr('checked', true);
 
-                var bdp2100goal = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.BDP2100GoalDetail))');
-                jQuery.each(bdp2100goal, function (i, item) {
-	                $(":checkbox[name='DeltPlan2100GoalId'][value='" + item.deltPlan2100GoalId + "']").attr('checked', true);
-                });
+			SetTextValue('DeltaPlan2100ApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DeltaPlan2100ApplicantCmt)');
+			SetTextValue('DeltaPlan2100AuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DeltaPlan2100AuthorityCmt)');
 
-                var CostalZoneYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.CostalZoneYesNoId)';
-                if(CostalZoneYesNoId != '')
-	                $(":radio[name='CostalZoneYesNoId'][value='" + CostalZoneYesNoId + "']").attr('checked', true);
+			var bdp2100goal = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.BDP2100GoalDetail))');
+			jQuery.each(bdp2100goal, function (i, item) {
+				$(":checkbox[name='DeltPlan2100GoalId'][value='" + item.deltPlan2100GoalId + "']").attr('checked', true);
+			});
 
-                SetTextValue('CostalZoneApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CostalZoneApplicantCmt)');
-                SetTextValue('CostalZoneAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CostalZoneAuthorityCmt)');
+			var CostalZoneYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.CostalZoneYesNoId)';
+			if(CostalZoneYesNoId != '')
+				$(":radio[name='CostalZoneYesNoId'][value='" + CostalZoneYesNoId + "']").attr('checked', true);
 
-                var AgriculturalYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.AgriculturalYesNoId)';
-                if(AgriculturalYesNoId != '')
-	                $(":radio[name='AgriculturalYesNoId'][value='" + AgriculturalYesNoId + "']").attr('checked', true);
+			SetTextValue('CostalZoneApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CostalZoneApplicantCmt)');
+			SetTextValue('CostalZoneAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CostalZoneAuthorityCmt)');
 
-                SetTextValue('AgriApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AgriApplicantCmt)');
-                SetTextValue('AgriAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AgriAuthorityCmt)');
+			var AgriculturalYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.AgriculturalYesNoId)';
+			if(AgriculturalYesNoId != '')
+				$(":radio[name='AgriculturalYesNoId'][value='" + AgriculturalYesNoId + "']").attr('checked', true);
 
-                var FisheriesYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.FisheriesYesNoId)';
-                if(FisheriesYesNoId != '')
-	                $(":radio[name='FisheriesYesNoId'][value='" + FisheriesYesNoId + "']").attr('checked', true);
+			SetTextValue('AgriApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AgriApplicantCmt)');
+			SetTextValue('AgriAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AgriAuthorityCmt)');
 
-                SetTextValue('FisheriesApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FisheriesApplicantCmt)');
-                SetTextValue('FisheriesAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FisheriesAuthorityCmt)');
+			var FisheriesYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.FisheriesYesNoId)';
+			if(FisheriesYesNoId != '')
+				$(":radio[name='FisheriesYesNoId'][value='" + FisheriesYesNoId + "']").attr('checked', true);
 
-                var IWRMYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.IWRMYesNoId)';
-                if(IWRMYesNoId != '')
-	                $(":radio[name='IWRMYesNoId'][value='" + IWRMYesNoId + "']").attr('checked', true);
+			SetTextValue('FisheriesApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FisheriesApplicantCmt)');
+			SetTextValue('FisheriesAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FisheriesAuthorityCmt)');
 
-                SetTextValue('IWRMApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.IWRMApplicantCmt)');
-                SetTextValue('IWRMAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.IWRMAuthorityCmt)');
+			var IWRMYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.IWRMYesNoId)';
+			if(IWRMYesNoId != '')
+				$(":radio[name='IWRMYesNoId'][value='" + IWRMYesNoId + "']").attr('checked', true);
 
-                var GPWMYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.GPWMYesNoId)';
-                if(GPWMYesNoId != '')
-	                $(":radio[name='GPWMYesNoId'][value='" + GPWMYesNoId + "']").attr('checked', true);
+			SetTextValue('IWRMApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.IWRMApplicantCmt)');
+			SetTextValue('IWRMAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.IWRMAuthorityCmt)');
 
-                SetTextValue('GPWMApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.GPWMApplicantCmt)');
-                SetTextValue('GPWMAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.GPWMAuthorityCmt)');
+			var GPWMYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.GPWMYesNoId)';
+			if(GPWMYesNoId != '')
+				$(":radio[name='GPWMYesNoId'][value='" + GPWMYesNoId + "']").attr('checked', true);
 
-                var gpwmgroup = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.GPWMGroupType))');
-                jQuery.each(gpwmgroup, function (i, item) {
-	                $(":checkbox[name='GPWMGroupTypeId'][value='" + item.gpwmGroupTypeId + "']").attr('checked', true);
-                });
+			SetTextValue('GPWMApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.GPWMApplicantCmt)');
+			SetTextValue('GPWMAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.GPWMAuthorityCmt)');
 
-                var FeasibilityYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.FeasibilityYesNoId)';
-                if(FeasibilityYesNoId != '')
-	                $(":radio[name='FeasibilityYesNoId'][value='" + FeasibilityYesNoId + "']").attr('checked', true);
+			var gpwmgroup = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.GPWMGroupType))');
+			jQuery.each(gpwmgroup, function (i, item) {
+				$(":checkbox[name='GPWMGroupTypeId'][value='" + item.gpwmGroupTypeId + "']").attr('checked', true);
+			});
 
-                SetTextValue('FeasibilityApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FeasibilityApplicantCmt)');
-                SetTextValue('FeasibilityAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FeasibilityAuthorityCmt)');
+			var FeasibilityYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.FeasibilityYesNoId)';
+			if(FeasibilityYesNoId != '')
+				$(":radio[name='FeasibilityYesNoId'][value='" + FeasibilityYesNoId + "']").attr('checked', true);
 
-                var DuplicatYesNoId = '@Html.Raw(ViewBag.ProjectIndvDetail34.DuplicatYesNoId)';
-                if(DuplicatYesNoId != '')
-	                $(":radio[name='DuplicatYesNoId'][value='" + DuplicatYesNoId + "']").attr('checked', true);
+			SetTextValue('FeasibilityApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FeasibilityApplicantCmt)');
+			SetTextValue('FeasibilityAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FeasibilityAuthorityCmt)');
 
-                SetTextValue('DuplicationApplicantComments', '@Html.Raw(ViewBag.ProjectIndvDetail34.DuplicationApplicantComments)');
-                SetTextValue('DuplicationAuthorityComments', '@Html.Raw(ViewBag.ProjectIndvDetail34.DuplicationAuthorityComments)');
+			var DuplicatYesNoId = '@Html.Raw(ViewBag.ProjectIndvDetail35.DuplicatYesNoId)';
+			if(DuplicatYesNoId != '')
+				$(":radio[name='DuplicatYesNoId'][value='" + DuplicatYesNoId + "']").attr('checked', true);
 
-                var SocialIssuesYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.SocialIssuesYesNoId)';
-                if(SocialIssuesYesNoId != '')
-	                $(":radio[name='SocialIssuesYesNoId'][value='" + SocialIssuesYesNoId + "']").attr('checked', true);
+			SetTextValue('DuplicationApplicantComments', '@Html.Raw(ViewBag.ProjectIndvDetail35.DuplicationApplicantComments)');
+			SetTextValue('DuplicationAuthorityComments', '@Html.Raw(ViewBag.ProjectIndvDetail35.DuplicationAuthorityComments)');
 
-                SetTextValue('SocialIssuesApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SocialIssuesApplicantCmt)');
-                SetTextValue('SocialIssuesAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SocialIssuesAuthorityCmt)');
+			var SocialIssuesYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.SocialIssuesYesNoId)';
+			if(SocialIssuesYesNoId != '')
+				$(":radio[name='SocialIssuesYesNoId'][value='" + SocialIssuesYesNoId + "']").attr('checked', true);
 
-                SetDropdownValue('RecommendationId', '@Html.Raw(ViewBag.ProjectCommonDetail.RecommendationId)');
-                SetTextValue('RecommendationComment', '@Html.Raw(ViewBag.ProjectCommonDetail.RecommendationComment)');
+			SetTextValue('SocialIssuesApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SocialIssuesApplicantCmt)');
+			SetTextValue('SocialIssuesAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SocialIssuesAuthorityCmt)');
+
+			SetDropdownValue('RecommendationId', '@Html.Raw(ViewBag.ProjectCommonDetail.RecommendationId)');
+			SetTextValue('RecommendationComment', '@Html.Raw(ViewBag.ProjectCommonDetail.RecommendationComment)');
             }
         }
 

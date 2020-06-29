@@ -32,6 +32,30 @@ namespace WrpCcNocWeb.Models
         public string Error { get; set; }
     }
 
+    public class NavigationClassDetailTemp
+    {
+        public int NavigationClassId { get; set; }
+        public string NavigationClassName { get; set; }
+        public string NavigationClassNameBn { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class ConservLocationDetailTemp
+    {
+        public int ConservLocationId { get; set; }
+        public string ConservLocation { get; set; }
+        public string ConservLocationBn { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class StructTypeConDetailTemp
+    {
+        public int TypeOfStructureId { get; set; }
+        public string StructureName { get; set; }
+        public string StructureNameBn { get; set; }
+        public string Error { get; set; }
+    }
+
     public class RiverTypeDetailTemp
     {
         public int RiverTypeId { get; set; }
