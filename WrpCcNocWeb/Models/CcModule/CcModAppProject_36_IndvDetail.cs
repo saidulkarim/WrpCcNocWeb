@@ -111,15 +111,15 @@ namespace WrpCcNocWeb.Models
         [ForeignKey("ImpactFloodPlainAreaYesNoId")]
         public virtual LookUpCcModYesNo LookUpYesNoImpctFldPlnAra_36 { get; set; }
 
-        [Column("ImpctFldPlnAraApplicantComments", Order = 21)]
+        [Column("ImpctFldPlnAraApplicntComments", Order = 21)]
         [Display(Name = "Applicant Comments")]
         [MaxLength(150)]
-        public string ImpctFldPlnAraApplicantComments { get; set; }
+        public string ImpctFldPlnAraApplicntComments { get; set; }
 
-        [Column("ImpctFldPlnAraAuthorityComments", Order = 22)]
+        [Column("ImpctFldPlnAraAuthortyComments", Order = 22)]
         [Display(Name = "Authority Comments")]
         [MaxLength(150)]
-        public string ImpctFldPlnAraAuthorityComments { get; set; }			
+        public string ImpctFldPlnAraAuthortyComments { get; set; }			
 
         [Column("DuplicatYesNoId", Order = 23)]
         [Display(Name = "Was there any Duplication")]

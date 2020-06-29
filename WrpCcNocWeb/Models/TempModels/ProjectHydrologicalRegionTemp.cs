@@ -124,6 +124,14 @@ namespace WrpCcNocWeb.Models
         public string Error { get; set; }
     }
 
+    public class DrainageConditionlTemp
+    {
+        public int DrainageConditionId { get; set; }
+        public string DrainageCondition { get; set; }
+        public string DrainageConditionBn { get; set; }
+        public string Error { get; set; }
+    }
+
     public class HydroSystemDetailTemp
     {
         public long HydroSysDetailId { get; set; }
