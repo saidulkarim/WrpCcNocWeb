@@ -95,6 +95,18 @@ namespace WrpCcNocWeb.Models
         public virtual List<CcModAppProject_33_IndvDetail> LookUpYesNoUseOfTool_33 { get; set; }
 
 
+        [InverseProperty("LookUpYesNoUseOfTool_38")]
+        public virtual List<CcModAppProject_38_IndvDetail> LookUpYesNoUseOfTool_38 { get; set; }
+
+
+        [InverseProperty("LookUpYesNoUseOfTool_39")]
+        public virtual List<CcModAppProject_39_IndvDetail> LookUpYesNoUseOfTool_39 { get; set; }
+
+
+        [InverseProperty("LookUpYesNoUseOfTool_310")]
+        public virtual List<CcModAppProject_310_IndvDetail> LookUpYesNoUseOfTool_310 { get; set; }
+
+
         [InverseProperty("LookUpYesNoDuplication_31")]
         public virtual List<CcModAppProject_31_IndvDetail> LookUpYesNoDuplication_31 { get; set; }
 
@@ -119,6 +131,10 @@ namespace WrpCcNocWeb.Models
         public virtual List<CcModAppProject_36_IndvDetail> LookUpYesNoDuplication_36 { get; set; }
 
 
+        [InverseProperty("LookUpYesNoDuplication_310")]
+        public virtual List<CcModAppProject_310_IndvDetail> LookUpYesNoDuplication_310 { get; set; }
+
+
         [InverseProperty("LookUpCcModYesNoUseOfFlowMeter_32")]
         public virtual List<CcModAppProject_32_IndvDetail> LookUpCcModYesNoUseOfFlowMeter_32 { get; set; }
 
@@ -127,12 +143,20 @@ namespace WrpCcNocWeb.Models
         public virtual List<CcModAppProject_33_IndvDetail> LookUpCcModYesNoUseOfFlowMeter_33 { get; set; }
 
 
+        [InverseProperty("LookUpCcModYesNoUseOfFlowMeter_37")]
+        public virtual List<CcModAppProject_37_IndvDetail> LookUpCcModYesNoUseOfFlowMeter_37 { get; set; }
+
+
         [InverseProperty("LookUpCcModYesNoDivertWtrRtnSrc_32")]
         public virtual List<CcModAppProject_32_IndvDetail> LookUpCcModYesNoDivertWtrRtnSrc_32 { get; set; }
 
 
         [InverseProperty("LookUpCcModYesNoDivertWtrRtnSrc_33")]
         public virtual List<CcModAppProject_33_IndvDetail> LookUpCcModYesNoDivertWtrRtnSrc_33 { get; set; }
+
+
+        [InverseProperty("LookUpCcModYesNoDivertWtrRtnSrc_37")]
+        public virtual List<CcModAppProject_37_IndvDetail> LookUpCcModYesNoDivertWtrRtnSrc_37 { get; set; }
 
 
         [InverseProperty("LookUpYesNoLandUseMap_36")]
@@ -146,6 +170,22 @@ namespace WrpCcNocWeb.Models
         [InverseProperty("LookUpYesNoImpctFldPlnAra_36")]
         public virtual List<CcModAppProject_36_IndvDetail> LookUpYesNoImpctFldPlnAra_36 { get; set; }
 
+
+        [InverseProperty("LookUpYesNoDABYN_37")]
+        public virtual List<CcModAppProject_37_IndvDetail> LookUpYesNoDABYN_37 { get; set; }
+                
+
+        [InverseProperty("LookUpYesNoCPLDL_37")]
+        public virtual List<CcModAppProject_37_IndvDetail> LookUpYesNoCPLDL_37 { get; set; }               
+                
+
+        [InverseProperty("LookUpYesNoADEAC_37")]
+        public virtual List<CcModAppProject_37_IndvDetail> LookUpYesNoADEAC_37 { get; set; }
+                 
+
+        [InverseProperty("LookUpYesNoDSEOS_37")]
+        public virtual List<CcModAppProject_37_IndvDetail> LookUpYesNoDSEOS_37 { get; set; }
+           
 
 
     }
