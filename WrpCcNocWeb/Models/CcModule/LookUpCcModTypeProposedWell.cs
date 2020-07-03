@@ -18,7 +18,8 @@ namespace WrpCcNocWeb.Models
         [MaxLength(100)]
         [Display(Name = "Proposed Well Name")]
         public string ProposedWellName { get; set; }
-                
+
+        [Required]
         [Column("ProposedWellNameBn", Order = 2)]
         [MaxLength(100)]
         [Display(Name = "Proposed Well Name")]

@@ -78,7 +78,7 @@ namespace WrpCcNocWeb.Models
         public double? SedimentationRate { get; set; }
 		
 		[Column("LengthExcavationWork", Order = 15)]
-        [Display(Name = "Length of Excavation Work")]
+        [Display(Name = "Length of Excavation Work (km)")]
         public double? LengthExcavationWork { get; set; }
 		
 		[Column("FishHabitatArea", Order = 16)]

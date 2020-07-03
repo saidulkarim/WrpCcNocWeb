@@ -74,7 +74,7 @@ namespace WrpCcNocWeb.Models
 		
 		[Column("RechargeTime", Order = 13)]
         [Display(Name = "Recharge Time")]
-        [MaxLength(250)]
+        [MaxLength(150)]
         public string RechargeTime { get; set; }
 				
 		[Column("WaterUseConsumptionId", Order = 14)]
@@ -99,7 +99,7 @@ namespace WrpCcNocWeb.Models
 		
 		[Column("WellType", Order = 18)]
         [Display(Name = "Well Type")]
-        [MaxLength(250)]
+        [MaxLength(150)]
         public string WellType { get; set; }
 		
 		[Column("Capacity", Order = 19)]
@@ -124,7 +124,7 @@ namespace WrpCcNocWeb.Models
         [MaxLength(250)]
         public string RiverKhalName { get; set; }
 		
-		[Column("NearestSurfWaterAvailDsitance", Order = 24)]
+		[Column("NearestSurfWaterAvailDistance", Order = 24)]
         [Display(Name = "Distance (m) from Proposed Extraction Well")]       
         public double? NearestSurfWaterAvailDsitance { get; set; }
 		

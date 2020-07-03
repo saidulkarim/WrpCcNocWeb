@@ -18,7 +18,8 @@ namespace WrpCcNocWeb.Models
         [MaxLength(100)]
         [Display(Name = "Consumption Name")]
         public string ConsumptionName { get; set; }
-                
+
+        [Required]
         [Column("ConsumptionNameBn", Order = 2)]
         [MaxLength(100)]
         [Display(Name = "Consumption Name")]

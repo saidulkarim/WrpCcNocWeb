@@ -15,12 +15,13 @@ namespace WrpCcNocWeb.Models
         
         [Required]
         [Column("AreaName", Order = 1)]
-        [MaxLength(100)]
+        [MaxLength(150)]
         [Display(Name = "Name")]
         public string AreaName { get; set; }
-                
+
+        [Required]
         [Column("AreaNameBn", Order = 2)]
-        [MaxLength(100)]
+        [MaxLength(150)]
         [Display(Name = "Name")]
         public string AreaNameBn { get; set; }
     }

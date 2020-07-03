@@ -10,8 +10,8 @@ namespace WrpCcNocWeb.Models
     public class LookUpCcModPurposeOfWaterUse
     {
         [Key]
-        [Column("PurposeWaterUseId", Order = 0)]
-        public int PurposeWaterUseId { get; set; }
+        [Column("PurposeOfWaterUseId", Order = 0)]
+        public int PurposeOfWaterUseId { get; set; }
 
 
         [Required]

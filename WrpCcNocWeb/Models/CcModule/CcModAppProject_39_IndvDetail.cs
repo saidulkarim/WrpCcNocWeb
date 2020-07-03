@@ -47,9 +47,8 @@ namespace WrpCcNocWeb.Models
         public virtual LookUpCcModDrainageCondition LookUpCcModDrainageCond_39 { get; set; }
 		
 		[Column("LengthDredgingWork", Order = 7)]
-        [Display(Name = "Length of Dredging Work")]
-        [MaxLength(250)]
-        public string LengthDredgingWork { get; set; }
+        [Display(Name = "Length of Dredging Work (km)")]        
+        public double? LengthDredgingWork { get; set; }
 		
 		[Column("FishHabitatArea", Order = 8)]
         [Display(Name = "Area (ha)")]        
