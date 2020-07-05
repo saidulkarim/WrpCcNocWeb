@@ -119,11 +119,11 @@ namespace WrpCcNocWeb.Models
                 
         [Column("CropProduction", Order = 24)]
         [Display(Name = "Crop Production")]
-        public int? CropProduction { get; set; }
+        public double? CropProduction { get; set; }
 
         [Column("FishProduction", Order = 25)]
         [Display(Name = "Fish Production")]
-        public int? FishProduction { get; set; }
+        public double? FishProduction { get; set; }
 
         [Column("FishDiversity", Order = 26)]
         [Display(Name = "Fish Diversity")]

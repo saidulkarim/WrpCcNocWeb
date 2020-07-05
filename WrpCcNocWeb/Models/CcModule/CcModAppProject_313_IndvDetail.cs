@@ -80,15 +80,15 @@ namespace WrpCcNocWeb.Models
 		[ForeignKey("BankStabilityTypeId")]
 		public virtual LookUpCcModBankStability LookUpCcModBankStability { get; set; }
 
-		[Column("AccretionLength", Order = 16)]
+		[Column("CharAccretionLength", Order = 16)]
 		[Display(Name = "Length (m)")]        
 		public double? AccretionLength { get; set; }
 
-		[Column("AccretionArea", Order = 17)]
+		[Column("CharAccretionArea", Order = 17)]
 		[Display(Name = "Area (ha)")]        
 		public double? AccretionArea { get; set; }
 
-		[Column("AccretionLocation", Order = 18)]
+		[Column("CharAccretionLocation", Order = 18)]
 		[Display(Name = "Location")]
 		[MaxLength(150)]
 		public string AccretionLocation { get; set; }
@@ -137,16 +137,16 @@ namespace WrpCcNocWeb.Models
 
 		[Column("CultivableCrops", Order = 28)]
 		[Display(Name = "Cultivable Crops")]
-		[MaxLength(50)]
+		[MaxLength(250)]
 		public string CultivableCrops { get; set; }
 
 		[Column("CropProduction", Order = 29)]
 		[Display(Name = "Crop Production")]
-		public int? CropProduction { get; set; }
+		public double? CropProduction { get; set; }
 
 		[Column("FishProduction", Order = 30)]
 		[Display(Name = "Fish Production")]
-		public int? FishProduction { get; set; }
+		public double? FishProduction { get; set; }
 
 		[Column("FishDiversity", Order = 31)]
 		[Display(Name = "Fish Diversity")]

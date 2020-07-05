@@ -133,6 +133,10 @@ namespace WrpCcNocWeb.Models
 
         [InverseProperty("LookUpYesNoDuplication_310")]
         public virtual List<CcModAppProject_310_IndvDetail> LookUpYesNoDuplication_310 { get; set; }
+        
+
+        [InverseProperty("LookUpYesNoDuplication_313")]
+        public virtual List<CcModAppProject_313_IndvDetail> LookUpYesNoDuplication_313 { get; set; }
 
 
         [InverseProperty("LookUpCcModYesNoUseOfFlowMeter_32")]

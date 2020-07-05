@@ -18,7 +18,8 @@ namespace WrpCcNocWeb.Models
         [MaxLength(100)]
         [Display(Name = "Soil Type Name")]
         public string SoilTypeName { get; set; }
-                
+
+        [Required]
         [Column("SoilTypeNameBn", Order = 2)]
         [MaxLength(100)]
         [Display(Name = "Soil Type Name")]

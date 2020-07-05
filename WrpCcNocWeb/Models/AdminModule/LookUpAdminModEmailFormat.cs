@@ -30,7 +30,7 @@ namespace WrpCcNocWeb.Models.AdminModule
         [Display(Name = "Authority Level")]
         public int? AuthorityLevelId { get; set; }
         [ForeignKey("AuthorityLevelId")]
-        public virtual LookUpAdminModAuthorityLevel LookUpAdminAuthorityLevel { get; set; }
+        public virtual LookUpAdminModAuthorityLevel LookUpAdminModAuthorityLevel { get; set; }
 
         [Column("ApplicationStateId", Order = 4)]
         public int? ApplicationStateId { get; set; }

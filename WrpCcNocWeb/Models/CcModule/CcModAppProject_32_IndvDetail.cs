@@ -103,7 +103,7 @@ namespace WrpCcNocWeb.Models
 
         [Column("FishProduction", Order = 20)]
         [Display(Name = "Fish Production")]
-        public int? FishProduction { get; set; }
+        public double? FishProduction { get; set; }
 
         [Column("FishDiversity", Order = 21)]
         [Display(Name = "Fish Diversity")]

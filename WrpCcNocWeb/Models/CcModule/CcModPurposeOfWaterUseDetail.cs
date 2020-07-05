@@ -21,10 +21,10 @@ namespace WrpCcNocWeb.Models
         public virtual CcModAppProjectCommonDetail CcModAppProjectCommonDetail { get; set; }
 
         [Required]
-        [Column("PurposeWaterUseId", Order = 2)]
+        [Column("PurposeOfWaterUseId", Order = 2)]
         [Display(Name = "Purpose Water Use")]
-        public int PurposeWaterUseId { get; set; }
-        [ForeignKey("PurposeWaterUseId")]
+        public int PurposeOfWaterUseId { get; set; }
+        [ForeignKey("PurposeOfWaterUseId")]
         public virtual LookUpCcModPurposeOfWaterUse LookUpCcModPurposeOfWaterUse { get; set; }		
     }
 }

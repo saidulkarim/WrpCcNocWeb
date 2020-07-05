@@ -18,7 +18,8 @@ namespace WrpCcNocWeb.Models
         [MaxLength(100)]
         [Display(Name = "Aquifer Name")]
         public string AquiferName { get; set; }
-                
+
+        [Required]
         [Column("AquiferNameBn", Order = 2)]
         [MaxLength(100)]
         [Display(Name = "Aquifer Name")]
