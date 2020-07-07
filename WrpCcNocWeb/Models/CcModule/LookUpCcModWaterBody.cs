@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WrpCcNocWeb.Models.CcModule
+namespace WrpCcNocWeb.Models
 {
     public class LookUpCcModWaterBody
     {
@@ -17,12 +17,12 @@ namespace WrpCcNocWeb.Models.CcModule
         [Column("NameOfWaterBody", Order = 1)]
         [Display(Name = "Name Of The Water Body")]
         [MaxLength(100)]
-        public string NameOfTheWaterBody { get; set; }
+        public string NameOfWaterBody { get; set; }
 
         [Required]
         [Column("NameOfWaterBodyBn", Order = 2)]
         [MaxLength(100)]
         [Display(Name = "Name Of The Water Body")]
-        public string NameOfTheWaterBodyBn { get; set; }
+        public string NameOfWaterBodyBn { get; set; }
     }
 }

@@ -80,14 +80,17 @@ namespace WrpCcNocWeb.Models
         public string Error { get; set; }
     }
 
+    //Surface Water Availability at Intake Point
     public class SWATemp
     {
         public long SWAId { get; set; }
         public long ProjectId { get; set; }
         public int MonthId { get; set; }
         public string Month { get; set; }
+        public string MonthBn { get; set; }
         public double? MinWaterFlow { get; set; }
         public double? WaterDemandMonth { get; set; }
+        public string Error { get; set; }
     }
 
     public class WtrDiversionSourceDetailTemp
@@ -106,12 +109,14 @@ namespace WrpCcNocWeb.Models
         public string Error { get; set; }
     }
 
+    //Ground Water Depth (m) from Nearest Observation Well
     public class GrndWtrDepthDetailTemp
     {
         public long GrndWtrDepthDetailId { get; set; }
         public long ProjectId { get; set; }
         public int MonthId { get; set; }
         public string Month { get; set; }
+        public string MonthBn { get; set; }
         public double? WaterDepth { get; set; }
         public string Error { get; set; }
     }
@@ -348,5 +353,58 @@ namespace WrpCcNocWeb.Models
         public int SecurityQuestionId { get; set; }
         public string SecurityQuestionAnswer { get; set; }
         public int? IsProfileSubmitted { get; set; }
+    }
+
+    //Detail Water Use
+    public class WaterUseDetailTemp
+    {
+        public long WaterUseDetailId { get; set; }
+        public long ProjectId { get; set; }
+        public int WaterUseId { get; set; }
+        public string WaterUseName { get; set; }
+        public string WaterUseNameBn { get; set; }
+        public double? ExistingDemand { get; set; }
+        public double? ProposedDemand { get; set; }
+        public double? TotalDemand { get; set; }
+        public double? YearConductingPeriod { get; set; }
+        public double? AnnualDemand { get; set; }
+        public string Error { get; set; }
+    }
+
+    //Ground Water Withdrawal
+    public class GroundWaterWithdrawalDetailTemp
+    {
+        public long GroundWaterWithdrawDetailId { get; set; }
+        public long ProjectId { get; set; }
+        public int GrndWtrWithdrawalParamId { get; set; }
+        public string ParameterName { get; set; }
+        public string ParameterNameBn { get; set; }
+        public string ExistingInfrastructure { get; set; }
+        public string ProposedInfrastructure { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class WaterBodyDetailTemp
+    {
+        public int WaterBodyId { get; set; }
+        public string NameOfWaterBody { get; set; }
+        public string NameOfWaterBodyBn { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class TypeOfWaterUseDetailTemp
+    {
+        public int TypeOfWaterUseId { get; set; }
+        public string WaterUseName { get; set; }
+        public string WaterUseNameBn { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class WaterUseSectorDetailTemp
+    {
+        public int WaterUseSectorId { get; set; }
+        public string WaterUseSectorName { get; set; }
+        public string WaterUseSectorNameBn { get; set; }
+        public string Error { get; set; }
     }
 }
