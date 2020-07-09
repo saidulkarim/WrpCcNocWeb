@@ -1,0 +1,152 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var language = HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString();
+}
+
+<div id="proj-loc-form">
+    <div id="divProjectLocation">
+        <div id="ProjectLocation" class="row" style="margin-left: -7px;">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center" for="DistrictGeoCode">
+                                @{if (language == "1")
+                                    {
+                                        <span>জেলা</span>}
+                                    else
+                                    {
+                                        <span>District</span>}
+                                }
+                            </th>
+                            <th class="text-center" for="UpazilaGeoCode">
+                                @{if (language == "1")
+                                    {
+                                        <span>উপজেলা</span>}
+                                    else
+                                    {
+                                        <span>Upazila</span>}
+                                }
+                            </th>
+                            <th class="text-center" for="UnionGeoCode">
+                                @{if (language == "1")
+                                    {
+                                        <span>ইউনিয়ন</span>}
+                                    else
+                                    {
+                                        <span>Union</span>}
+                                }
+                            </th>
+                            <th class="text-center" for="Latitude">
+                                @{if (language == "1")
+                                    {
+                                        <span>অক্ষাংশ</span>}
+                                    else
+                                    {
+                                        <span>Latitude</span>}
+                                }
+                            </th>
+                            <th class="text-center" for="Longitude">
+                                @{if (language == "1")
+                                    {
+                                        <span>দ্রাঘিমাংশ</span>}
+                                    else
+                                    {
+                                        <span>Longitude</span>}
+                                }
+                            </th>
+                            <th class="text-center" for="ImageFileName">
+                                @{if (language == "1")
+                                    {
+                                        <span>প্রস্তাবিত জায়গার ছবি</span>}
+                                    else
+                                    {
+                                        <span>Project Location Photo</span>}
+                                }
+                            </th>
+                            <th class="text-center" style="width: 150px;"></th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-center">
+                                <input id="LocationId" type="hidden" />
+
+                                <select id="DistrictGeoCode" name="DistrictGeoCode" class="form-control" required="">
+                                    <option value="">
+                                        @if (language == "1")
+                                        {<span>বাছাই করুন...</span>}
+                                        else
+                                        {<span>Choose...</span>}
+                                    </option>
+
+                                    @{
+                                        List<LookUpAdminBndDistrict> _districts = ViewBag.LookUpAdminBndDistrict;
+
+                                        if (_districts.Count > 0)
+                                        {
+                                            foreach (LookUpAdminBndDistrict dist in _districts)
+                                            {
+                                                if (language == "1")
+                                                {
+                                                    <option value="@dist.DistrictGeoCode">@dist.DistrictNameBn</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@dist.DistrictGeoCode">@dist.DistrictName</option>
+                                                }
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </th>
+                            <th class="text-center">
+                                <select id="UpazilaGeoCode" name="UpazilaGeoCode" class="form-control">
+                                    <option value="">
+                                        @{if (language == "1")
+                                            { <span>বাছাই করুন...</span>}
+                                            else
+                                            {<span>Choose...</span>}
+                                        }
+                                    </option>
+                                </select>
+                            </th>
+                            <th class="text-center">
+                                <select id="UnionGeoCode" name="UnionGeoCode" class="form-control">
+                                    <option value="">
+                                        @{if (language == "1")
+                                            { <span>বাছাই করুন...</span>}
+                                            else
+                                            {<span>Choose...</span>}
+                                        }
+                                    </option>
+                                </select>
+                            </th>
+                            <th class="text-center">
+                                <input type="number" id="Latitude" name="Latitude" class="form-control text-right" />
+                            </th>
+                            <th class="text-center">
+                                <input type="number" id="Longitude" name="Longitude" class="form-control text-right" />
+                            </th>
+                            <th class="text-center" style="vertical-align: central;">
+                                <input type="file" id="ImageFileName" name="ImageFileName" class="form-control-file">
+                                <!--<input id="files" name="files" type="file" multiple onchange="uploadFiles('files');" />-->
+                            </th>
+                            <th class="text-center">
+                                <button id="btnSaveProjLocation" type="button" class="btn btn-success waves-effect waves-light" value="Save">
+                                    <i class="mdi mdi-content-save"></i>
+                                </button>
+
+                                <button id="btnClearProjLocation" type="button" class="btn btn-warning waves-effect waves-light" value="Clear">
+                                    <i class="mdi mdi-refresh"></i>
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyProjectLocation"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

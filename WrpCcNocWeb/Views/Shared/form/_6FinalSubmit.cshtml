@@ -1,0 +1,37 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var language = HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString();
+}
+
+<div id="gen-info-form">
+    <div class="form-group col-md-12">
+        <center>
+            <p>
+                <h1 style="line-height: 40px;">
+                    @if (language == "1")
+                    {
+                        <span>জমা দেওয়ার আগে দয়া করে নিশ্চিত হয়ে নিন যে আপনি সমস্ত বৈধ তথ্য এবং প্রাসঙ্গিক নথি সংযুক্ত করেছেন।</span>
+                    }
+                    else
+                    {
+                        <span>Before you submit, please make sure you have entered all valid information and attached relevant documents.</span>
+                    }
+                </h1>
+            </p>
+
+            <button id="btnFinalSubmit" type="button" class="btn btn-lg btn-info waves-effect waves-light justify-content-md-center">
+                <i class="mdi mdi-bookmark-check"></i>
+                @if (language == "1")
+                {
+                    <span>চূড়ান্তভাবে জমা</span>
+                }
+                else
+                {
+                    <span>Final Submission</span>
+                }
+            </button>
+        </center>
+    </div>
+</div>

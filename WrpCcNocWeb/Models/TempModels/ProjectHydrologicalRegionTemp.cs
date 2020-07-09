@@ -407,4 +407,20 @@ namespace WrpCcNocWeb.Models
         public string WaterUseSectorNameBn { get; set; }
         public string Error { get; set; }
     }
+
+    public class BankLineShiftingDetailTemp
+    {
+        public int BankLineShiftingId { get; set; }
+        public string BankLineTitle { get; set; }
+        public string BankLineTitleBn { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class BankStabilityDetailTemp
+    {
+        public int BankStabilityTypeId { get; set; }
+        public string BankStabilityType { get; set; }
+        public string BankStabilityTypeBn { get; set; }
+        public string Error { get; set; }
+    }
 }

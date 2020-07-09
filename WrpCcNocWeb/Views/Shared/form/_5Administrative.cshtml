@@ -1,0 +1,272 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var language = HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString();
+}
+
+<fieldset>
+    <legend>
+        @if (language == "1")
+        {<span>অনাপত্তি পত্র</span>}
+        else
+        {<span>No Objection Certificate</span>}
+    </legend>
+
+    <div class="form-group">
+        <label>
+            @if (language == "1")
+            {<span>এনওসি টাইপ</span>}
+            else
+            {<span>NOC Type</span>}
+        </label>
+        <div class="input-group">
+            <select id="NocTypeId" name="NocTypeId" class="custom-select">
+                @if (language == "1")
+                {
+                    <option value="">পছন্দ করুন...</option>
+                    <option value="1">জেলা আইডব্লিউআরএম কমিটি থেকে এনওসি</option>
+                    <option value="2">উপজেলা আইডব্লিউআরএম কমিটি</option>
+                    <option value="3">ইউনিয়ন আইডব্লিউআরএম কমিটি</option>
+                }
+                else
+                {
+                    <option value="">Choose...</option>
+                    <option value="1">NOC from District IWRM Committee</option>
+                    <option value="2">Upazila IWRM Committee</option>
+                    <option value="3">Union IWRM Committee</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="NocFileName">
+            @if (language == "1")
+            {
+                <span>এনওসি ডকুমেন্টস আপলোড করুন</span>
+            }
+            else
+            {
+                <span>Upload NOC Documents</span>
+            }
+        </label>
+        <div class="input-group">
+            <div class="custom-file">
+                <input id="NocFileName" name="NocFileName" type="file" class="custom-file-input"
+                       onchange="UploadCommonFiles('NocFileName');">
+                <label class="custom-file-label" for="NocFileName">
+                    @if (language == "1")
+                    {
+                        <span>ফাইল পছন্দ করুন</span>
+                    }
+                    else
+                    {
+                        <span>Choose file</span>
+                    }
+                </label>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<hr />
+
+<fieldset>
+    <legend>
+        @if (language == "1")
+        {
+            <span>টাকা প্রদান</span>
+        }
+        else
+        {
+            <span>Payments</span>
+        }
+    </legend>
+
+    <div class="form-group">
+        <label>
+            @if (language == "1")
+            {
+                <span>পেমেন্টের ধরন</span>
+            }
+            else
+            {
+                <span>Payment Type</span>
+            }
+        </label>
+        <div class="input-group">
+            <select id="PaymentMethodId" name="PaymentMethodId" class="custom-select">
+                @if (language == "1")
+                {
+                    <option>নির্বাচন করুন...</option>
+                    <option value="1">চালান নম্বর</option>
+                    <option value="2">ব্যাঙ্ক ড্রাফট</option>
+                    <option value="3">পে অর্ডার নং</option>
+                }
+                else
+                {
+                    <option>Choose...</option>
+                    <option value="1">Chalan Number</option>
+                    <option value="2">Bank Draft</option>
+                    <option value="3">Pay Order No</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="PaymentDocNumber">
+            @if (language == "1")
+            {
+                <span>পেমেন্ট ডকুমেন্ট নম্বর</span>
+            }
+            else
+            {
+                <span>Payment Document Number</span>
+            }
+        </label>
+        <div class="input-group">
+            <div class="custom-file">
+                <input id="PaymentDocNumber" name="PaymentDocNumber" type="text" class="form-control">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="PaidAmount">
+            @if (language == "1")
+            {
+                <span>পরিশোধের পরিমান</span>
+            }
+            else
+            {
+                <span>Paid Amount</span>
+            }
+        </label>
+        <div class="input-group">
+            <div class="custom-file">
+                <input id="PaidAmount" name="PaidAmount" type="text" class="form-control">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="PaymentDocFileName">
+            @if (language == "1")
+            {
+                <span>পেমেন্ট ডকুমেন্ট ফাইল আপলোড করুন</span>
+            }
+            else
+            {
+                <span>Payment Document File</span>
+            }
+        </label>
+        <div class="input-group">
+            <div class="custom-file">
+                <input id="PaymentDocFileName" name="PaymentDocFileName" type="file" class="custom-file-input"
+                       onchange="UploadCommonFiles('PaymentDocFileName');">
+                <label class="custom-file-label" for="PaymentDocFileName">
+                    @if (language == "1")
+                    {
+                        <span>ফাইল পছন্দ করুন</span>
+                    }
+                    else
+                    {
+                        <span>Choose file</span>
+                    }
+                </label>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>
+        @if (language == "1")
+        {
+            <span>সুপারিশ</span>
+        }
+        else
+        {
+            <span>Recommendation</span>
+        }
+    </legend>
+
+    <div class="form-group">
+        <label for="RecommendationId">
+            @if (language == "1")
+            {<span>সুপারিশ</span>}
+            else
+            {<span>Recommendation</span>}
+        </label>
+        <select id="RecommendationId" name="RecommendationId" class="form-control" required="">
+            <option value="">
+                @{if (language == "1")
+                    { <span>বাছাই করুন...</span>}
+                    else
+                    {<span>Choose...</span>}
+                }
+            </option>
+
+            @{
+                List<LookUpCcModRecommendation> _rec = ViewBag.RecommendationId;
+
+                if (_rec.Count > 0)
+                {
+                    foreach (LookUpCcModRecommendation rec in _rec)
+                    {
+                        if (language == "1")
+                        {
+                            <option value="@rec.RecommendationId">@rec.RecommendationTitleBn</option>
+                        }
+                        else
+                        {
+                            <option value="@rec.RecommendationId">@rec.RecommendationTitle</option>
+                        }
+                    }
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="RecommendationComment">
+            @{if (language == "1")
+                { <span>শর্তাধীন</span>}
+                else
+                {<span>Conditional</span>}
+            }
+        </label>
+        <input type="text" id="RecommendationComment" name="RecommendationComment" class="form-control" />
+    </div>
+
+    <div class="form-group mb-0">
+        <button id="btnSaveAdministrative" type="button" class="btn btn-info waves-effect waves-light">
+            <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
+            @if (language == "1")
+            {
+                <span>সংরক্ষণ করুন</span>
+            }
+            else
+            {
+                <span>Save</span>
+            }
+            <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
+        </button>
+
+        <button id="btnClearAdministrative" type="button" class="btn btn-danger waves-effect waves-light">
+            <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
+            @if (language == "1")
+            {
+                <span>পরিষ্কার করুন</span>
+            }
+            else
+            {
+                <span>Clear</span>
+            }
+        </button>
+    </div>
+
+    <br />
+</fieldset>

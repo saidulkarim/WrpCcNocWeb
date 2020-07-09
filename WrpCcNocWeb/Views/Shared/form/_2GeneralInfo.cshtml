@@ -1,0 +1,141 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var language = HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString();
+}
+
+<div id="gen-info-form">
+    <div class="form-group">
+        <label for="ProjectName">
+            @{if (language == "1")
+                { <span>প্রকল্প শিরোনাম</span>}
+                else
+                {<span>Project Name</span>}
+            }
+            <span class="text-danger bold">*</span>
+        </label>
+        <input type="text" id="ProjectName" name="ProjectName" class="form-control" required="" />
+    </div>
+
+    <div class="form-group">
+        <label for="BackgroundAndRationale">
+            @{if (language == "1")
+                { <span>প্রকল্পের পূর্ব ইতিহাস ও যৌক্তিকতা</span>}
+                else
+                {<span>Project Background and Rationale</span>}
+            }<span class="text-danger bold">*</span>
+        </label>
+        <textarea id="BackgroundAndRationale" name="BackgroundAndRationale" class="form-control" rows="2" required=""></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="ProjectTarget">
+            @{if (language == "1")
+                { <span>প্রকল্পের লক্ষ্য</span>}
+                else
+                {<span>Project Target</span>}
+            }<span class="text-danger bold">*</span>
+        </label>
+        <textarea id="ProjectTarget" name="ProjectTarget" class="form-control" rows="2" required=""></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="ProjectObjective">
+            @{if (language == "1")
+                { <span>প্রকল্পের উদ্দেশ্য</span>}
+                else
+                {<span>Project Objective</span>}
+            }<span class="text-danger bold">*</span>
+        </label>
+        <textarea id="ProjectObjective" name="ProjectObjective" class="form-control" rows="2" required=""></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="ProjectActivity">
+            @{if (language == "1")
+                { <span>প্রকল্পের ক্রিয়াকলাপ/ উপাদানসমূহ</span>}
+                else
+                {<span>Project Activities/ Components</span>}
+            }
+        </label>
+        <textarea id="ProjectActivity" name="ProjectActivity" class="form-control" rows="2" required=""></textarea>
+    </div>
+
+    <div class="divProjectPeriod">
+        <fieldset>
+            <legend>
+                <label for="ProjectPeriod" class="bold">
+                    @{if (language == "1")
+                        { <span>প্রকল্প সময়কাল</span>}
+                        else
+                        {<span>Project Period</span>}
+                    }
+                </label>
+            </legend>
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="ProjectStartDate">
+                        @{if (language == "1")
+                            { <span>প্রাম্ভিক কাল</span>}
+                            else
+                            {<span>Starting Time</span>}
+                        }
+                    </label>
+                    <input type="text" id="ProjectStartDate" name="ProjectStartDate" class="form-control datetimepicker" />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="ProjectCompletionDate">
+                        @{if (language == "1")
+                            { <span>সমাপ্তি কাল</span>}
+                            else
+                            {<span>Completion Time</span>}
+                        }
+                    </label>
+                    <input type="text" id="ProjectCompletionDate" name="ProjectCompletionDate" class="form-control datetimepicker" />
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="form-group">
+        <label for="ProjectEstimatedCost">
+            @{
+                if (language == "1")
+                { <span>প্রকল্প ব্যয়</span>}
+                else
+                {<span>Estimated Project Cost</span>}
+            }
+        </label>
+        <input type="number" maxlength="20" min="0" id="ProjectEstimatedCost" name="ProjectEstimatedCost" class="form-control" required="" />
+    </div>
+
+    <div class="form-group mb-0">
+        <button id="btnSaveGeneral" type="button" class="btn btn-info waves-effect waves-light">
+            <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
+            @if (language == "1")
+            {
+                <span>সংরক্ষণ করুন</span>
+            }
+            else
+            {
+                <span>Save</span>
+            }
+            <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
+        </button>
+
+        <button id="btnClearGeneral" type="button" class="btn btn-secondary waves-effect waves-light">
+            <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
+            @if (language == "1")
+            {
+                <span>পরিষ্কার করুন</span>
+            }
+            else
+            {
+                <span>Clear</span>
+            }
+        </button>
+    </div>
+</div>

@@ -1,0 +1,1377 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var language = HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString();
+}
+
+<div class="deed-obligatory-form">
+    <div class="card">
+        <div class="card-header bg-primary py-3 text-white">
+            <div class="card-widgets">
+                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+            </div>
+            <h5 class="card-title mb-0 text-white">
+                @if (language == "1")
+                {
+                    <span>৯. প্রকল্পটি জাতীয় পানি নীতির সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                else
+                {
+                    <span>9. Compatibility with National Water Policy</span>}
+            </h5>
+        </div>
+        <div id="cardCollpase35" class="collapse show">
+            <div class="card-body">
+                <div class="form-group">
+                    <div id="CWNWP" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="CompatNWPYesNoId" id="cwnwpYes" value="1" data-parsley-multiple="CompatNWPYesNoId">
+                            <label for="cwnwpYes">
+                                @{if (language == "1")
+                                    { <span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>}
+                                }
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="CompatNWPYesNoId" id="cwnwpNo" value="0" checked data-parsley-multiple="CompatNWPYesNoId">
+                            <label for="cwnwpNo">
+                                @{if (language == "1")
+                                    { <span>না</span>}
+                                    else
+                                    {<span>No</span>}
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="CompatibilityNWPApplicantCmt">
+                        @{if (language == "1")
+                            { <span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="CompatibilityNWPApplicantCmt" name="CompatibilityNWPApplicantCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="CompatibilityNWPAuthorityCmt">
+                        @{if (language == "1")
+                            { <span>কর্তৃপক্ষের মন্তব্য</span>}
+                            else
+                            {<span>Authority Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="CompatibilityNWPAuthorityCmt" name="CompatibilityNWPAuthorityCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="CompatibilityNWPDocLink">
+                        @if (language == "1")
+                        {
+                            <span>নথি লিঙ্ক</span>
+                        }
+                        else
+                        {
+                            <span>Document Link</span>
+                        }
+                    </label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input id="CompatibilityNWPDocLink" name="CompatibilityNWPDocLink" type="file"
+                                   class="custom-file-input" onchange="UploadCommonFiles('CompatibilityNWPDocLink');" />
+                            <label class="custom-file-label" for="CompatibilityNWPDocLink">
+                                @if (language == "1")
+                                {
+                                    <span>ফাইল পছন্দ করুন</span>
+                                }
+                                else
+                                {
+                                    <span>Choose file</span>
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divCwnwpPolicy" class="form-group d-none">
+                    <h4>
+                        @{if (language == "1")
+                            {
+                                <span>নিবন্ধটি চয়ন করুন</span>}
+                            else
+                            {
+                                <span>Please choose article</span>}
+                        }
+                    </h4>
+                    <div id="chkCwnwpPolicy" class="row" style="margin-left: 5px;">
+                        @{
+                            List<LookUpCcModNWPArticle> _articles = ViewBag.LookUpCcModNWPArticle;
+
+                            if (_articles.Count > 0)
+                            {
+                                foreach (LookUpCcModNWPArticle article in _articles)
+                                {
+                                    var id = "chkCwnwpArticle" + article.NationalWaterPolicyArticleId;
+
+                                    if (language == "1")
+                                    {
+                                        <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@article.NWPArticleTitleBn">
+                                            <input type="checkbox" name="NationalWaterPolicyArticleId" id="@id" value="@article.NationalWaterPolicyArticleId" data-parsley-multiple="NationalWaterPolicyArticleId">
+                                            <label for="@id"> @article.NWPArticleShortTitleBn </label>
+                                            <a href="@article.NWPArticleLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@article.NationalWtrPolicyArticleTitle">
+                                            <input type="checkbox" name="NationalWaterPolicyArticleId" id="@id" value="@article.NationalWaterPolicyArticleId" data-parsley-multiple="NationalWaterPolicyArticleId">
+                                            <label for="@id"> @article.NationalWtrPolicyShortTitle </label>
+                                            <a href="@article.NWPArticleLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                        </div>
+                                    }
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-info py-3 text-white">
+            <div class="card-widgets">
+                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+            </div>
+            <h5 class="card-title mb-0 text-white">
+                @if (language == "1")
+                {
+                    <span>১০. প্রকল্পটি জাতীয় পানি ব্যবস্থাপনা পরিকল্পনা (এনডবিøউএমপি) এর সহিত সামঞ্জস্যপূর্ণ কিনা</span>}
+                else
+                {
+                    <span>10. Compatibility with National Water Management Plan (NWMP)</span>}
+            </h5>
+        </div>
+        <div id="cardCollpase35" class="collapse show">
+            <div class="card-body">
+                <div class="form-group">
+                    <div id="CNWMP" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="NWMPCompatYesNoId" id="cnwmpYes" value="1" data-parsley-multiple="NWMPCompatYesNoId">
+                            <label for="cnwmpYes">
+                                @{if (language == "1")
+                                    { <span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>}
+                                }
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="NWMPCompatYesNoId" id="cnwmpNo" value="0" checked data-parsley-multiple="NWMPCompatYesNoId">
+                            <label for="cnwmpNo">
+                                @{if (language == "1")
+                                    { <span>না</span>}
+                                    else
+                                    {<span>No</span>}
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="NWMPApplicantCmt">
+                        @{if (language == "1")
+                            { <span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="NWMPApplicantCmt" name="NWMPApplicantCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="NWMPAuthorityCmt">
+                        @{if (language == "1")
+                            { <span>কর্তৃপক্ষের মন্তব্য</span>}
+                            else
+                            {<span> Authority Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="NWMPAuthorityCmt" name="NWMPAuthorityCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="NWMPDocLink">
+                        @if (language == "1")
+                        {
+                            <span>নথি লিঙ্ক</span>
+                        }
+                        else
+                        {
+                            <span>Document Link</span>
+                        }
+                    </label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input id="NWMPDocLink" name="NWMPDocLink" type="file"
+                                   class="custom-file-input" onchange="UploadCommonFiles('NWMPDocLink');" />
+                            <label class="custom-file-label" for="NWMPDocLink">
+                                @if (language == "1")
+                                {
+                                    <span>ফাইল পছন্দ করুন</span>
+                                }
+                                else
+                                {
+                                    <span>Choose file</span>
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divCNWMP" class="form-group d-none">
+                    <h4>
+                        @if (language == "1")
+                        {
+                            <span>যদি হ্যাঁ হয় (প্রোগ্রাম জড়িত)</span>
+                        }
+                        else
+                        {
+                            <span>If Yes (programme involved)</span>
+                        }
+                    </h4>
+                    <div id="chkCNWMP" class="row" style="margin-left: 5px;">
+                        @{
+                            List<LookUpCcModNWMPProgramme> _progs = ViewBag.LookUpCcModNWMPProgramme;
+
+                            if (_progs.Count > 0)
+                            {
+                                var new_name = "";
+
+                                foreach (LookUpCcModNWMPProgramme prog in _progs)
+                                {
+                                    var id = "chkCNWMP" + prog.NWMPProgrammeId;
+                                    var name = prog.NWMPProgrammeTitle.Split(" ")[0].ToString();
+
+                                    if (language == "1")
+                                    {
+                                        <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@prog.NWMPProgrammeTitle">
+                                            <input type="checkbox" name="PrjCompatNWMPId" id="@id" value="@prog.NWMPProgrammeId" data-parsley-multiple="PrjCompatNWMPId">
+                                            <label for="@id"> @prog.NWMPProgrammeTitle </label>
+                                            <a href="@prog.NWMPLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@prog.NWMPProgrammeTitle">
+                                            <input type="checkbox" name="PrjCompatNWMPId" id="@id" value="@prog.NWMPProgrammeId" data-parsley-multiple="PrjCompatNWMPId">
+                                            <label for="@id"> @prog.NWMPProgrammeTitle </label>
+                                            <a href="@prog.NWMPLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                        </div>
+                                    }
+
+
+                                    if (new_name != name && !string.IsNullOrEmpty(new_name))
+                                    {
+                                        <br />
+                                        <div class="clearfix"></div>
+                                    }
+
+                                    new_name = name;
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-success py-3 text-white">
+            <div class="card-widgets">
+                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+            </div>
+            <h5 class="card-title mb-0 text-white">
+                @if (language == "1")
+                {
+                    <span>১১. প্রকল্পটি পানি সম্পদ ব্যবস্থাপনায় চলমান পঞ্চবার্ষিকী পরিকল্পনা এর সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                else
+                {
+                    <span>11. Compatibility with Current Fifth Year Plan (FYP)</span>}
+            </h5>
+        </div>
+        <div id="cardCollpase35" class="collapse show">
+            <div class="card-body">
+                <div class="form-group">
+                    <div id="CWCFYP" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="FYPYesNoId" id="cwcfypYes" value="1" data-parsley-multiple="FYPYesNoId">
+                            <label for="cwcfypYes">
+                                @if (language == "1")
+                                {<span>হ্যাঁ</span>}
+                                else
+                                {<span>Yes</span>}
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="FYPYesNoId" id="cwcfypNo" value="0" checked data-parsley-multiple="FYPYesNoId">
+                            <label for="cwcfypNo">
+                                @if (language == "1")
+                                {<span>না</span>}
+                                else
+                                {<span>No</span>}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="FYPApplicantCmt">
+                        @if (language == "1")
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </label>
+                    <input type="text" id="FYPApplicantCmt" name="FYPApplicantCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="FYPAuthorityCmt">
+                        @if (language == "1")
+                        {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                        else
+                        {<span>Authority Comments</span>}
+                    </label>
+                    <input type="text" id="FYPAuthorityCmt" name="FYPAuthorityCmt" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-blue py-3 text-white">
+            <div class="card-widgets">
+                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+            </div>
+            <h5 class="card-title mb-0 text-white">
+                @if (language == "1")
+                {
+                    <span>১২. প্রকল্পটি টেকসই উন্নয়ন লক্ষ্যমাত্রা (এসডিজি) এর সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                else
+                {
+                    <span>12. Compatibility with Sustainable Development Goal (SDG)</span>}
+            </h5>
+        </div>
+        <div id="cardCollpase35" class="collapse show">
+            <div class="card-body">
+                <div class="form-group">
+                    <div id="CWSDG" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="SDGYesNoId" id="cwsdgYes" value="1" data-parsley-multiple="SDGYesNoId">
+                            <label for="cwsdgYes">
+                                @if (language == "1")
+                                {<span>হ্যাঁ</span>}
+                                else
+                                {<span>Yes</span>}
+
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="SDGYesNoId" id="cwsdgNo" value="0" checked data-parsley-multiple="SDGYesNoId">
+                            <label for="cwsdgNo">
+                                @if (language == "1")
+                                {<span>না</span>}
+                                else
+                                {<span>No</span>}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="SDGApplicantCmt">
+                        @if (language == "1")
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </label>
+                    <input type="text" id="SDGApplicantCmt" name="SDGApplicantCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="SDGAuthorityCmt">
+                        @if (language == "1")
+                        {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                        else
+                        {<span> Authority Comments</span>}
+                    </label>
+                    <input type="text" id="SDGAuthorityCmt" name="SDGAuthorityCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="SDGDocLink">
+                        @if (language == "1")
+                        {
+                            <span>নথি লিঙ্ক</span>
+                        }
+                        else
+                        {
+                            <span>Document Link</span>
+                        }
+                    </label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input id="SDGDocLink" name="SDGDocLink" type="file"
+                                   class="custom-file-input" onchange="UploadCommonFiles('SDGDocLink');" />
+                            <label class="custom-file-label" for="SDGDocLink">
+                                @if (language == "1")
+                                {
+                                    <span>ফাইল পছন্দ করুন</span>
+                                }
+                                else
+                                {
+                                    <span>Choose file</span>
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divCwsdg" class="form-group d-none">
+                    <h4>
+                        @if (language == "1")
+                        {
+                            <span>যদি হ্যাঁ</span>
+                        }
+                        else
+                        {
+                            <span>If Yes</span>
+                        }
+                    </h4>
+                    <div id="chkSDG" class="row" style="margin-left: 5px;">
+                        @{
+                            List<LookUpCcModSDGGoal> _goals = ViewBag.LookUpCcModSDGGoal;
+
+                            if (_goals.Count > 0)
+                            {
+                                int i = 1;
+
+                                foreach (LookUpCcModSDGGoal goal in _goals)
+                                {
+                                    var id = "chkCWSDG" + goal.SDGGoalId;
+
+                                    if (language == "1")
+                                    {
+                                        <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@goal.SDGGoalNumberBn">
+                                            <input type="checkbox" name="SDGGoalId" id="@id" value="@goal.SDGGoalId" data-parsley-multiple="SDGGoalId">
+                                            <label for="@id"> @goal.SDGGoalNumberBn </label>
+                                            <a href="@goal.SDGDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@goal.SDGGoalNumber">
+                                            <input type="checkbox" name="SDGGoalId" id="@id" value="@goal.SDGGoalId" data-parsley-multiple="SDGGoalId">
+                                            <label for="@id"> @goal.SDGGoalNumber </label>
+                                            <a href="@goal.SDGDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                        </div>
+                                    }
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div id="divSDG6Indicators" class="form-group">
+                    <h4>
+                        @{if (language == "1")
+                            {
+                                <span>এসডিজি ৬.০ এর কোন সূচকের সহিত সামঞ্জস্যপূর্ণ</span>}
+                            else
+                            {
+                                <span>SDG 6.0 Indicators</span>}
+                        }
+                    </h4>
+                    <div id="chkSDG6Indicators" class="row" style="margin-left: 5px;">
+                        @{
+                            List<LookUpCcModSDGIndicator> _indicators = ViewBag.LookUpCcModSDGIndicator;
+
+                            if (_indicators.Count > 0)
+                            {
+                                int i = 1;
+
+                                foreach (LookUpCcModSDGIndicator indicator in _indicators)
+                                {
+                                    var id = "chkSdgIndicator" + indicator.SDGIndicatorId;
+
+                                    if (language == "1")
+                                    {
+                                        <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@indicator.SDGIndicatorNameBn">
+                                            <input type="checkbox" name="SDGIndicatorId" id="@id" value="@indicator.SDGIndicatorId" data-parsley-multiple="SDGIndicatorId">
+                                            <label for="@id"> @indicator.SDGIndicatorNameBn </label>
+                                            <a href="@indicator.SDGIndicatorDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@indicator.SDGIndicatorName">
+                                            <input type="checkbox" name="SDGIndicatorId" id="@id" value="@indicator.SDGIndicatorId" data-parsley-multiple="SDGIndicatorId">
+                                            <label for="@id"> @indicator.SDGIndicatorName </label>
+                                            <a href="@indicator.SDGIndicatorDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                        </div>
+                                    }
+
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-danger py-3 text-white">
+            <div class="card-widgets">
+                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+            </div>
+            <h5 class="card-title mb-0 text-white">
+                @if (language == "1")
+                {
+                    <span>১৩. প্রকল্পটি বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০ এর সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                else
+                {
+                    <span>13. Compatibility with Bangladesh Delta Plan 2100</span>}
+            </h5>
+        </div>
+        <div id="cardCollpase35" class="collapse show">
+            <div class="card-body">
+                <div class="form-group">
+                    <div id="CWBDP2100" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="DeltaPlanYesNoId" id="cwbdp2100Yes" value="1" data-parsley-multiple="DeltaPlanYesNoId">
+                            <label for="cwbdp2100Yes">
+                                @{if (language == "1")
+                                    { <span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>}
+                                }
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="DeltaPlanYesNoId" id="cwbdp2100No" value="0" checked data-parsley-multiple="DeltaPlanYesNoId">
+                            <label for="cwbdp2100No">
+                                @{if (language == "1")
+                                    { <span>না</span>}
+                                    else
+                                    {<span>No</span>}
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="DeltaPlan2100ApplicantCmt">
+                        @{if (language == "1")
+                            { <span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="DeltaPlan2100ApplicantCmt" name="DeltaPlan2100ApplicantCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="DeltaPlan2100AuthorityCmt">
+                        @{if (language == "1")
+                            { <span>কর্তৃপক্ষের মন্তব্য</span>}
+                            else
+                            {<span> Authority Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="DeltaPlan2100AuthorityCmt" name="DeltaPlan2100AuthorityCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="DeltaPlan2100DocLink">
+                        @if (language == "1")
+                        {
+                            <span>নথি লিঙ্ক</span>
+                        }
+                        else
+                        {
+                            <span>Document Link</span>
+                        }
+                    </label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input id="DeltaPlan2100DocLink" name="DeltaPlan2100DocLink" type="file"
+                                   class="custom-file-input" onchange="UploadCommonFiles('DeltaPlan2100DocLink');" />
+                            <label class="custom-file-label" for="DeltaPlan2100DocLink">
+                                @if (language == "1")
+                                {
+                                    <span>ফাইল পছন্দ করুন</span>
+                                }
+                                else
+                                {
+                                    <span>Choose file</span>
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divCwbdp2100" class="form-group d-none">
+                    <h4>
+                        @if (language == "1")
+                        {
+                            <span>যদি হ্যাঁ হয়</span>
+                        }
+                        else
+                        {
+                            <span>If yes</span>
+                        }
+                    </h4>
+                    <div id="chkCwbdp2100" class="row" style="margin-left: 5px;">
+                        @{
+                            List<LookUpCcModDeltPlan2100Goal> _bdp_goals = ViewBag.LookUpCcModDeltPlan2100Goal;
+
+                            if (_bdp_goals.Count > 0)
+                            {
+                                foreach (LookUpCcModDeltPlan2100Goal bdp_goal in _bdp_goals)
+                                {
+                                    var id = "chkCwbdp2100" + bdp_goal.DeltPlan2100GoalId;
+
+                                    if (language == "1")
+                                    {
+                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 8%;" data-placement="top" title="" data-original-title="@bdp_goal.DeltPlan2100GoalBn">
+                                            <input type="checkbox" name="DeltPlan2100GoalId" id="@id" value="@bdp_goal.DeltPlan2100GoalId" data-parsley-multiple="DeltPlan2100GoalId">
+                                            <label for="@id"> @bdp_goal.DeltPlan2100GoalBn </label>
+                                            <a href="@bdp_goal.DeltPlan2100GoaDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 8%;" data-placement="top" title="" data-original-title="@bdp_goal.DeltPlan2100Goal">
+                                            <input type="checkbox" name="DeltPlan2100GoalId" id="@id" value="@bdp_goal.DeltPlan2100GoalId" data-parsley-multiple="DeltPlan2100GoalId">
+                                            <label for="@id"> @bdp_goal.DeltPlan2100Goal </label>
+                                            <a href="@bdp_goal.DeltPlan2100GoaDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                        </div>
+                                    }
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-dark py-3 text-white">
+            <div class="card-widgets">
+                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+            </div>
+            <h5 class="card-title mb-0 text-white">
+                @if (language == "1")
+                {
+                    <span>১৪. প্রকল্পটি উপকূলীয় অঞ্চল নীতির সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                else
+                {
+                    <span>14. Compatibility with Coastal Zone Policy</span>}
+            </h5>
+        </div>
+        <div id="cardCollpase35" class="collapse show">
+            <div class="card-body">
+                <div class="form-group">
+                    <div id="CWCZP" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="CostalZoneYesNoId" id="cwczpYes" value="1" data-parsley-multiple="CostalZoneYesNoId">
+                            <label for="cwczpYes">
+                                @{if (language == "1")
+                                    { <span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>}
+                                }
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="CostalZoneYesNoId" id="cwczpNo" value="0" checked data-parsley-multiple="CostalZoneYesNoId">
+                            <label for="cwczpNo">
+                                @{if (language == "1")
+                                    { <span>না</span>}
+                                    else
+                                    {<span>No</span>}
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="CostalZoneApplicantCmt">
+                        @{if (language == "1")
+                            { <span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="CostalZoneApplicantCmt" name="CostalZoneApplicantCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="CostalZoneAuthorityCmt">
+                        @{if (language == "1")
+                            { <span>কর্তৃপক্ষের মন্তব্য</span>}
+                            else
+                            {<span> Authority Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="CostalZoneAuthorityCmt" name="CostalZoneAuthorityCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        @if (language == "1")
+                        {
+                            <span>নথি লিঙ্ক</span>
+                        }
+                        else
+                        {
+                            <span>Document Link</span>
+                        }
+                    </label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input id="CostalZoneDocLink" name="CostalZoneDocLink" type="file"
+                                   class="custom-file-input" onchange="UploadCommonFiles('CostalZoneDocLink');" />
+                            <label class="custom-file-label" for="CostalZoneDocLink">
+                                @if (language == "1")
+                                {
+                                    <span>ফাইল পছন্দ করুন</span>
+                                }
+                                else
+                                {
+                                    <span>Choose file</span>
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-pink py-3 text-white">
+            <div class="card-widgets">
+                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+            </div>
+            <h5 class="card-title mb-0 text-white">
+                @if (language == "1")
+                {
+                    <span>১৫. প্রকল্পটি কৃষি নীতির সাথে সামঞ্জস্যপূণর্  কিনা</span>}
+                else
+                {
+                    <span>15. Compatibility with Agricultural Policy</span>}
+            </h5>
+        </div>
+        <div id="cardCollpase35" class="collapse show">
+            <div class="card-body">
+                <div class="form-group">
+                    <div id="CWAP" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="AgriculturalYesNoId" id="cwapYes" value="1" data-parsley-multiple="AgriculturalYesNoId">
+                            <label for="cwapYes">
+                                @{if (language == "1")
+                                    { <span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>}
+                                }
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="AgriculturalYesNoId" id="cwapNo" value="0" checked data-parsley-multiple="AgriculturalYesNoId">
+                            <label for="cwapNo">
+                                @{if (language == "1")
+                                    { <span>না</span>}
+                                    else
+                                    {<span>No</span>}
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="AgriApplicantCmt">
+                        @{if (language == "1")
+                            { <span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="AgriApplicantCmt" name="AgriApplicantCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="AgriAuthorityCmt">
+                        @{if (language == "1")
+                            { <span>কর্তৃপক্ষের মন্তব্য</span>}
+                            else
+                            {<span> Authority Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="AgriAuthorityCmt" name="AgriAuthorityCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="AgriDocLink">
+                        @if (language == "1")
+                        {
+                            <span>নথি লিঙ্ক</span>
+                        }
+                        else
+                        {
+                            <span>Document Link</span>
+                        }
+                    </label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input id="AgriDocLink" name="AgriDocLink" type="file"
+                                   class="custom-file-input" onchange="UploadCommonFiles('AgriDocLink');" />
+                            <label class="custom-file-label" for="AgriDocLink">
+                                @if (language == "1")
+                                {
+                                    <span>ফাইল পছন্দ করুন</span>
+                                }
+                                else
+                                {
+                                    <span>Choose file</span>
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-primary py-3 text-white">
+            <div class="card-widgets">
+                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+            </div>
+            <h5 class="card-title mb-0 text-white">
+                @if (language == "1")
+                {
+                    <span>১৬. প্রকল্পটি মৎস্য নীতির সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                else
+                {
+                    <span>16. Compatibility with Fisheries Policy</span>}
+            </h5>
+        </div>
+        <div id="cardCollpase35" class="collapse show">
+            <div class="card-body">
+                <div class="form-group">
+                    <div id="CWFP" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="FisheriesYesNoId" id="cwfpYes" value="1" data-parsley-multiple="FisheriesYesNoId">
+                            <label for="cwfpYes">
+                                @{if (language == "1")
+                                    { <span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>}
+                                }
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="FisheriesYesNoId" id="cwfpNo" value="0" checked data-parsley-multiple="FisheriesYesNoId">
+                            <label for="cwfpNo">
+                                @{if (language == "1")
+                                    { <span>না</span>}
+                                    else
+                                    {<span>No</span>}
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="FisheriesApplicantCmt">
+                        @{if (language == "1")
+                            { <span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="FisheriesApplicantCmt" name="FisheriesApplicantCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="FisheriesAuthorityCmt">
+                        @{if (language == "1")
+                            { <span>কর্তৃপক্ষের মন্তব্য</span>}
+                            else
+                            {<span> Authority Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="FisheriesAuthorityCmt" name="FisheriesAuthorityCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="FisheriesDocLink">
+                        @if (language == "1")
+                        {
+                            <span>নথি লিঙ্ক</span>
+                        }
+                        else
+                        {
+                            <span>Document Link</span>
+                        }
+                    </label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input id="FisheriesDocLink" name="FisheriesDocLink" type="file"
+                                   class="custom-file-input" onchange="UploadCommonFiles('FisheriesDocLink');" />
+                            <label class="custom-file-label" for="FisheriesDocLink">
+                                @if (language == "1")
+                                {
+                                    <span>ফাইল পছন্দ করুন</span>
+                                }
+                                else
+                                {
+                                    <span>Choose file</span>
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-blue py-3 text-white">
+            <div class="card-widgets">
+                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+            </div>
+            <h5 class="card-title mb-0 text-white">
+                @if (language == "1")
+                {
+                    <span>১৭. প্রকল্পটি সমন্বিত পানি সম্পদ ব্যবস্থাপনা (আইডবিøউআরএম) ধারণার সাথে সংগতিপূর্ণ কিনা</span>}
+                else
+                {
+                    <span>17. Compatibility with Integrated Water Resource Management</span>}
+            </h5>
+        </div>
+        <div id="cardCollpase35" class="collapse show">
+            <div class="card-body">
+                <div class="form-group">
+                    <div id="CWIWRM" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="IWRMYesNoId" id="cwiwrmYes" value="1" data-parsley-multiple="IWRMYesNoId">
+                            <label for="cwiwrmYes">
+                                @{if (language == "1")
+                                    { <span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>}
+                                }
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="IWRMYesNoId" id="cwiwrmNo" value="0" checked data-parsley-multiple="IWRMYesNoId">
+                            <label for="cwiwrmNo">
+                                @{if (language == "1")
+                                    { <span>না</span>}
+                                    else
+                                    {<span>No</span>}
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="IWRMApplicantCmt">
+                        @{if (language == "1")
+                            { <span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="IWRMApplicantCmt" name="IWRMApplicantCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="IWRMAuthorityCmt">
+                        @{if (language == "1")
+                            { <span>কর্তৃপক্ষের মন্তব্য</span>}
+                            else
+                            {<span> Authority Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="IWRMAuthorityCmt" name="IWRMAuthorityCmt" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-dark py-3 text-white">
+            <div class="card-widgets">
+                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+            </div>
+            <h5 class="card-title mb-0 text-white">
+                @if (language == "1")
+                {
+                    <span>১৮. জিপিডব্লিউএম এর সাথে সামঞ্জস্যতা</span>}
+                else
+                {
+                    <span>18. Compatibility with GPWM</span>}
+            </h5>
+        </div>
+        <div id="cardCollpase35" class="collapse show">
+            <div class="card-body">
+                <div class="form-group">
+                    <div id="CWGPWM" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="GPWMYesNoId" id="cwgpwmYes" value="1" data-parsley-multiple="GPWMYesNoId">
+                            <label for="cwgpwmYes">
+                                @{if (language == "1")
+                                    { <span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>}
+                                }
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="GPWMYesNoId" id="cwgpwmNo" value="0" checked data-parsley-multiple="GPWMYesNoId">
+                            <label for="cwgpwmNo">
+                                @{if (language == "1")
+                                    { <span>না</span>}
+                                    else
+                                    {<span>No</span>}
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="GPWMApplicantCmt">
+                        @{if (language == "1")
+                            { <span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="GPWMApplicantCmt" name="GPWMApplicantCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="GPWMAuthorityCmt">
+                        @{if (language == "1")
+                            { <span>কর্তৃপক্ষের মন্তব্য</span>}
+                            else
+                            {<span> Authority Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="GPWMAuthorityCmt" name="GPWMAuthorityCmt" class="form-control" />
+                </div>
+
+                <div id="divCwgpwm" class="form-group d-none">
+                    <h4>
+                        @if (language == "1")
+                        {
+                            <span>যদি হ্যাঁ (গ্রুপ গঠনের ধরণ)</span>
+                        }
+                        else
+                        {
+                            <span>If Yes (type of group formation)</span>
+                        }
+                    </h4>
+                    <div id="chkCwgpwm" class="row" style="margin-left: 5px;">
+                        @{
+                            List<LookUpCcModGPWMGroupType> _gpwm_groups = ViewBag.LookUpCcModGPWMGroupType;
+
+                            if (_gpwm_groups.Count > 0)
+                            {
+                                int i = 1;
+
+                                foreach (LookUpCcModGPWMGroupType gpwm_group in _gpwm_groups)
+                                {
+                                    var id = "chkCwgpwm" + gpwm_group.GPWMGroupTypeId;
+
+                                    if (language == "1")
+                                    {
+                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 8%;" data-placement="top" title="" data-original-title="@gpwm_group.GPWMGroupTypeNameBn">
+                                            <input type="checkbox" name="GPWMGroupTypeId" id="@id" value="@gpwm_group.GPWMGroupTypeId" data-parsley-multiple="GPWMGroupTypeId">
+                                            <label for="@id"> @gpwm_group.GPWMGroupTypeNameBn </label>
+                                            <a href="@gpwm_group.GPWMGroupTypeName" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 8%;" data-placement="top" title="" data-original-title="@gpwm_group.GPWMGroupTypeName">
+                                            <input type="checkbox" name="GPWMGroupTypeId" id="@id" value="@gpwm_group.GPWMGroupTypeId" data-parsley-multiple="GPWMGroupTypeId">
+                                            <label for="@id"> @gpwm_group.GPWMGroupTypeName </label>
+                                            <a href="@gpwm_group.GPWMGroupTypeName" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
+                                        </div>
+                                    }
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-info py-3 text-white">
+            <div class="card-widgets">
+                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+            </div>
+            <h5 class="card-title mb-0 text-white">
+                @if (language == "1")
+                {
+                    <span>১৯. প্রকল্পটির সম্ভাব্যতা অধ্যয়ন</span>}
+                else
+                {
+                    <span>19. Feasibility Study</span>}
+            </h5>
+        </div>
+        <div id="cardCollpase35" class="collapse show">
+            <div class="card-body">
+                <div class="form-group">
+                    <div id="feasibilitystudy" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="FeasibilityYesNoId" id="feasibilitystudyYes" value="1" data-parsley-multiple="FeasibilityYesNoId">
+                            <label for="feasibilitystudyYes">
+                                @{if (language == "1")
+                                    { <span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>}
+                                }
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="FeasibilityYesNoId" id="feasibilitystudyNo" value="0" checked data-parsley-multiple="FeasibilityYesNoId">
+                            <label for="feasibilitystudyNo">
+                                @{if (language == "1")
+                                    { <span>না</span>}
+                                    else
+                                    {<span>No</span>}
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="FeasibilityApplicantCmt">
+                        @{if (language == "1")
+                            { <span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="FeasibilityApplicantCmt" name="FeasibilityApplicantCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="FeasibilityAuthorityCmt">
+                        @{if (language == "1")
+                            { <span>কর্তৃপক্ষের মন্তব্য</span>}
+                            else
+                            {<span> Authority Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="FeasibilityAuthorityCmt" name="FeasibilityAuthorityCmt" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-pink py-3 text-white">
+            <div class="card-widgets">
+                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+            </div>
+            <h5 class="card-title mb-0 text-white">
+                @if (language == "1")
+                {<span>২০. প্রকল্পটির সদৃশ</span>}
+                else
+                {<span> 20.	Duplication of the Project</span>}
+            </h5>
+        </div>
+        <div id="cardCollpase35" class="collapse show">
+            <div class="card-body">
+                <div class="form-group">
+                    <div id="duplicationproject" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="DuplicatYesNoId" id="duplicationprojectYes" value="1" data-parsley-multiple="DuplicatYesNoId">
+                            <label for="duplicationprojectYes">
+                                @{if (language == "1")
+                                    { <span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>}
+                                }
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="DuplicatYesNoId" id="duplicationprojectNo" value="0" checked data-parsley-multiple="DuplicatYesNoId">
+                            <label for="duplicationprojectNo">
+                                @{if (language == "1")
+                                    { <span>না</span>}
+                                    else
+                                    {<span>No</span>}
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="DuplicationApplicantComments">
+                        @{if (language == "1")
+                            { <span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="DuplicationApplicantComments" name="DuplicationApplicantComments" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="DuplicationAuthorityComments">
+                        @{if (language == "1")
+                            { <span>কর্তৃপক্ষের মন্তব্য</span>}
+                            else
+                            {<span>Authority Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="DuplicationAuthorityComments" name="DuplicationAuthorityComments" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-warning py-3 text-white">
+            <div class="card-widgets">
+                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+            </div>
+            <h5 class="card-title mb-0 text-white">
+                @if (language == "1")
+                {
+                    <span>২১. প্রকল্পটি গুরুত্বপূর্ণ সামাজিক বিষয়াদি এবং নারী, শিশু, দরিদ্র ও অনগ্রসর  জনগোষ্ঠীর প্রতি বিশেষ গুরুত্ব দিয়ে প্রস্তুত করা হয়েছে কিনা</span>}
+                else
+                {
+                    <span>21. Project development by emphasizing on underprivileged people, child, women and important social issues</span>}
+            </h5>
+        </div>
+        <div id="cardCollpase35" class="collapse show">
+            <div class="card-body">
+                <div class="form-group">
+                    <div id="pdeu" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="SocialIssuesYesNoId" id="pdeuYes" value="1" data-parsley-multiple="SocialIssuesYesNoId">
+                            <label for="pdeuYes">
+                                @{if (language == "1")
+                                    { <span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>}
+                                }
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="SocialIssuesYesNoId" id="pdeuNo" value="0" checked data-parsley-multiple="SocialIssuesYesNoId">
+                            <label for="pdeuNo">
+                                @{if (language == "1")
+                                    { <span>না</span>}
+                                    else
+                                    {<span>No</span>}
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="SocialIssuesApplicantCmt">
+                        @{if (language == "1")
+                            { <span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="SocialIssuesApplicantCmt" name="SocialIssuesApplicantCmt" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="SocialIssuesAuthorityCmt">
+                        @{if (language == "1")
+                            { <span>কর্তৃপক্ষের মন্তব্য</span>}
+                            else
+                            {<span>Authority Comments</span>}
+                        }
+                    </label>
+                    <input type="text" id="SocialIssuesAuthorityCmt" name="SocialIssuesAuthorityCmt" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="form-group mb-0">
+    <button id="btnSaveDeed" type="button" class="btn btn-info waves-effect waves-light">
+        <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
+        @if (language == "1")
+        {
+            <span>সংরক্ষণ করুন</span>
+        }
+        else
+        {
+            <span>Save</span>
+        }
+        <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
+    </button>
+
+    <button id="btnClearDeed" type="button" class="btn btn-danger waves-effect waves-light">
+        <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
+        @if (language == "1")
+        {
+            <span>পরিষ্কার করুন</span>
+        }
+        else
+        {
+            <span>Clear</span>
+        }
+    </button>
+</div>
