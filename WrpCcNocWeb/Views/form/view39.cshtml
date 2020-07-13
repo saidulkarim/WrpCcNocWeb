@@ -2,11 +2,11 @@
 @using WrpCcNocWeb.Helpers
 
 @{    
-    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
     WrpCcNocDbContext _db = new WrpCcNocDbContext();
     CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["ProjectCommonDetail"];
-    CcModAppProject_34_IndvDetail projectindi = (CcModAppProject_34_IndvDetail)ViewData["ProjectIndvDetail34"];
+    CcModAppProject_39_IndvDetail projectindi = (CcModAppProject_39_IndvDetail)ViewData["ProjectIndvDetail39"];
 
     var prev_lang = ViewData["LanguageId"].ToString();
     var app_state_id = pcd.ApplicationStateId;
@@ -21,10 +21,11 @@
     var ncd = ViewData["NavigationClassDetail"];
     var rtd = ViewData["RiverTypeDetail"];
     var rni = ViewData["RiverNatureID"];
-
+    var dcd = ViewData["DrainageConditionDetail"];
+    var bsd = ViewData["BankStabilityDetail"];
     var sdi = ViewData["SediOfRiverOrKhalDetail"];
 
-    var aodt = ViewData["AnalyzeOptionsDetail"];
+    //var aodt = ViewData["AnalyzeOptionsDetail"];
     var dsd = ViewData["DesignSubmitDetail"];
     var efad = ViewData["EcoFinAnalysisDetail"];
     var eiad = ViewData["EiaDetailTemp"];
@@ -37,12 +38,13 @@
     var bdp2100gd = ViewData["BDP2100GoalDetail"];
     var gpwmgtd = ViewData["GPWMGroupType"];
 
-    List<DataAnalysisControlComments> fdac = (List<DataAnalysisControlComments>)ViewData["FormCommentsListTemp"];
+    //List<DataAnalysisControlComments> fdac = (List<DataAnalysisControlComments>)ViewData["FormCommentsListTemp"];
 
     long ProjectId = (long)ViewData["ProjectId"];
-    long ProjectIndvId = (long)ViewData["Project34IndvId"];
+    long ProjectIndvId = (long)ViewData["Project39IndvId"];
     long UserId = (long)ViewData["UserId"];
     int ProjectTypeId = (int)ViewData["ProjectTypeId"];
+    var user_group_id = ViewData["UserLevel"].ToString();
 }
 
 <div class="row">
@@ -158,7 +160,7 @@
 
                     <br />
 
-                    <table style="border: 1px solid #808080; table-layout: fixed; width: 1500px;" border="1" cellpadding="1" cellspacing="0">
+                    <table style="border: 1px solid #808080; table-layout: fixed; width: 1200px;" border="1" cellpadding="1" cellspacing="0">
                         <tr style="background: #9d9b9b; font-weight: bold;">
                             <td colspan="3">
                                 <h4>
@@ -181,7 +183,12 @@
                             </td>
                             <td style="width: 900px; max-width: 700px; word-break: break-all;">@pcd.ProjectName</td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectName").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Name', 'ProjectName');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -196,7 +203,12 @@
                             </td>
                             <td style="word-break: break-all;">@pcd.BackgroundAndRationale</td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "BackgroundAndRationale").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Background and Rationale', 'BackgroundAndRationale');" class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
+                                <!--Html.Raw(fdac.Where(w => w.ControlTitle == "BackgroundAndRationale").Select(s => s.Comments).FirstOrDefault())-->
                             </td>
                         </tr>
                         <tr style="vertical-align: top; text-align: left;">
@@ -210,7 +222,11 @@
                             </td>
                             <td>@pcd.ProjectTarget</td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectTarget").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Target', 'ProjectTarget');" class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -225,7 +241,12 @@
                             </td>
                             <td>@pcd.ProjectObjective</td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectObjective").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Objective', 'ProjectObjective');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -240,7 +261,12 @@
                             </td>
                             <td>@pcd.ProjectActivity</td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectActivity").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Activities', 'ProjectActivity');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -260,7 +286,12 @@
                             { <span>@pcd.ProjectEstimatedCost</span>}
                             </td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectEstimatedCost").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Estimated Project Cost', 'ProjectEstimatedCost');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
                         <tr style="vertical-align: top; text-align: left;">
@@ -294,7 +325,12 @@
                                 }
                             </td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectPeriod").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Period', 'ProjectPeriod');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
                         <tr style="vertical-align: top; text-align: left;">
@@ -304,18 +340,18 @@
                                     {<span>viii. প্রকল্পের অবস্থান</span>}
                                     else
                                     {<span>viii. Project Location</span>}
-                                </b>
-                                &nbsp;&nbsp;
+                                </b> &nbsp;&nbsp;
                                 <a id="btnMapView" href="javascript:void(0);" target="_blank" class="btn btn-sm btn-info waves-effect"
                                    data-toggle="tooltip" data-placement="top" title="" data-original-title="View Map"
                                    style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                                     <i class="mdi mdi-map"></i>
+                                </a> &nbsp;&nbsp;
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Location', 'ProjectLocation');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
                                 </a>
-                            </td>
-                        </tr>
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td colspan="3">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectPeriod").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
                         <tr>
@@ -433,7 +469,12 @@
                                 </table>
                             </td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "HydrologicalRegion").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Hydrological Region', 'HydrologicalRegion');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
                         <tr style="vertical-align: top; text-align: left;">
@@ -461,7 +502,12 @@
                                 </ol>
                             </td>
                             <td style="word-break: break-all;">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "BDP2100HotSpot").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Bangladesh Delta Plan 2100 Hot Spot', 'BDP2100HotSpot');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -469,14 +515,19 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>iii. হাইড্র্রাউলিক স্ট্রাকচারের নাম</span>}
+                                    {<span>iii. ড্রেজিংকৃতব্য নদীর নাম</span>}
                                     else
-                                    {<span>iii. Name of Hydraulic Structure</span>}
+                                    {<span>iii. Name of the dredged River</span>}
                                 </b>
                             </td>
-                            <td>@projectindi.NameOfHydraulicStructure</td>
+                            <td>@projectindi.NameOfDredgedRiver</td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "NameOfHydraulicStructure").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup(' Name of the dredged River', 'NameOfDredgedRiver');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -484,58 +535,33 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>iv. হাইড্র্রাউলিক স্ট্রাকচারের ধরন</span>}
+                                    {<span>iv. জোয়ার ভাটার প্রভাব</span>}
                                     else
-                                    {<span>iv. Type of Hydraulic Structure</span>}
-                                </b>
-                            </td>
-                            <td>@projectindi.TypeOfStructure</td>
-                            <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "TypeOfStructure").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>v. যানবাহন ও নৌচলাচলের ধরন</span>}
-                                    else
-                                    {<span>v. Type of Traffic and Navigation</span>}
-                                </b>
-                            </td>
-                            <td>@projectindi.TypeOfTrafficNavigation</td>
-                            <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "TypeOfTrafficNavigation").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>vi. নৌপথের শ্রেণী</span>}
-                                    else
-                                    {<span>vi. Navigation Class</span>}
+                                    {<span>iv. River Nature</span>}
                                 </b>
                             </td>
                             <td>
                                 <ul>
-                                    @foreach (var nc in (List<NavigationClassDetailTemp>)ncd)
+                                    @foreach (var rn in (List<RiverNatureDetailTemp>)rni)
                                     {
                                         if (prev_lang == "1")
                                         {
-                                            <li>@nc.NavigationClassNameBn</li>
+                                            <li>@rn.RiverNatureTitleBn</li>
                                         }
                                         else
                                         {
-                                            <li>@nc.NavigationClassName</li>
+                                            <li>@rn.RiverNatureTitle</li>
                                         }
                                     }
                                 </ul>
                             </td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "NavigationClass").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('River Nature', 'RiverNatureId');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -543,28 +569,19 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>vii. নদীর ধরণ</span>}
+                                    {<span>v. নদীর নিয়ম বদ্ধ রীতি (খননকৃত নদীর সাথে নদীটির আন্তঃ সংযোগ স্থাপন)</span>}
                                     else
-                                    {<span>vii. River Type</span>}
+                                    {<span>v. River system (inter linked river with dredged river)</span>}
                                 </b>
                             </td>
+                            <td>@projectindi.RiverSystem</td>
                             <td>
-                                <ul>
-                                    @foreach (var rt in (List<RiverTypeDetailTemp>)rtd)
-                                    {
-                                        if (prev_lang == "1")
-                                        {
-                                            <li>@rt.RiverTypeNameBn</li>
-                                        }
-                                        else
-                                        {
-                                            <li>@rt.RiverTypeName</li>
-                                        }
-                                    }
-                                </ul>
-                            </td>
-                            <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "RiverType").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('River System', 'RiverSystem');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -572,14 +589,19 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>viii. জোয়ার ভাটার প্রভাব</span>}
+                                    {<span>vi. প্রস্তাবিত প্রকল্পের আপস্ট্রিম এবং ডাউনস্ট্রিম এর বর্তমান অবস্থাব</span>}
                                     else
-                                    {<span>viii. River Nature</span>}
+                                    {<span>vi. U/S and D/S Condition for Proposed Intervention</span>}
                                 </b>
                             </td>
-                            <td>@projectindi.RiverNatureId</td>
+                            <td>U/S and D/S Condition</td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "RiverNatureId").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('U/S and D/S Condition for Proposed Intervention', 'USDSCondition');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -587,14 +609,19 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>ix. কমান্ড এরিয়া (হেক্টর)</span>}
+                                    {<span>vii. অববাহিকা (ক্যাচমেন্ট) এলাকা (হেক্টর)</span>}
                                     else
-                                    {<span>ix. Command Area (ha)</span>}
+                                    {<span>vii. Catchment Area (ha)</span>}
                                 </b>
                             </td>
-                            <td>@projectindi.CommandArea</td>
+                            <td>@projectindi.CatchmentArea</td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CommandArea").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Catchment Area', 'CatchmentArea');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -602,24 +629,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>x. প্রস্তাবিত প্রকল্পের আপস্ট্রিম এবং ডাউনস্ট্রিম এর বর্তমান অবস্থাব</span>}
+                                    {<span>viii. বার্ষিক বৃষ্টিপাত (বিগত পাঁচ বছর) (মি.মি.)</span>}
                                     else
-                                    {<span>x. U/S and D/S Condition for Proposed Intervention</span>}
-                                </b>
-                            </td>
-                            <td>@projectindi.CommandArea</td>
-                            <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "USDSConditionProposedIntervention").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>xi. বার্ষিক বৃষ্টিপাত (বিগত পাঁচ বছর) (মি.মি.)</span>}
-                                    else
-                                    {<span>xi. Annual Rainfall (last five years)</span>}
+                                    {<span>viii. Annual Rainfall (last five years)</span>}
                                 </b>
                             </td>
                             <td>
@@ -666,7 +678,12 @@
                                 </table>
                             </td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "AnnualRainfallLastFiveYears").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Annual Rainfall (last five years)', 'AnnualRainfallLastFiveYears');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -674,25 +691,31 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>xii. ইনটেক পয়েন্টে প্রস্থছেদ (ক্রস সেকশন) (মিটার)</span>}
+                                    {<span>ix. নিষ্কাশন (ড্রেইনেজ) ব্যবস্থা</span>}
                                     else
-                                    {<span>xii. Cross Section at Intake Point (m)</span>}
+                                    {<span>ix. Drainage Condition</span>}
                                 </b>
                             </td>
                             <td>
-                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                                    <tr>
-                                        <th class="text-center">Depth (m)</th>
-                                        <th class="text-center">Width (m)</th>
-                                    </tr>
-                                    <tr>
-                                        <td>@projectindi.CrossSectionDepth</td>
-                                        <td>@projectindi.CrossSectionWidth</td>
-                                    </tr>
-                                </table>
+                                @foreach (DrainageConditionlTemp dc in (List<DrainageConditionlTemp>)dcd)
+                                {
+                                    if (prev_lang == "1")
+                                    {
+                                        @dc.DrainageConditionBn
+                                    }
+                                    else
+                                    {
+                                        @dc.DrainageCondition
+                                    }
+                                }
                             </td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CrossSectionIntakePoint").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Drainage Condition', 'DrainageCondition');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -700,25 +723,53 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>xiii. ইন্টারভনেশন (হাইড্রোলিক অবকাঠামো) পয়েন্টে প্রস্থছেদ (ক্রস সেকশন) (মিটার)</span>}
+                                    {<span>x. ড্রেজিংকৃত্যব কাজের দৈর্ঘ্য/চেইনেজসহ ড্রেজিং</span>}
                                     else
-                                    {<span>xiii. Water Level (m PWD) at Intervention Point</span>}
+                                    {<span>x. Length of Dredging Work/ Dredging Segment with Chainage (KM)</span>}
+                                </b>
+                            </td>
+                            <td>@projectindi.LengthDredgingWork</td>
+                            <td>
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Length of Dredging Work/ Dredging Segment with Chainage', 'LengthDredgingWork');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xi. নৌপথের শ্রেণী</span>}
+                                    else
+                                    {<span>xi. Navigation Class</span>}
                                 </b>
                             </td>
                             <td>
-                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                                    <tr>
-                                        <th class="text-center">Maximum (m)</th>
-                                        <th class="text-center">Minimum (m)</th>
-                                    </tr>
-                                    <tr>
-                                        <td>@projectindi.WaterLevelMax</td>
-                                        <td>@projectindi.WaterLevelMin</td>
-                                    </tr>
-                                </table>
+                                <ul>
+                                    @foreach (var nc in (List<NavigationClassDetailTemp>)ncd)
+                                    {
+                                        if (prev_lang == "1")
+                                        {
+                                            <li>@nc.NavigationClassNameBn</li>
+                                        }
+                                        else
+                                        {
+                                            <li>@nc.NavigationClassName</li>
+                                        }
+                                    }
+                                </ul>
                             </td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "WaterLevelInterventionPoint").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Navigation Class', 'NavigationClass');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -726,131 +777,51 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>xiv. ইন্টারভনেশন পয়েন্টে পানির সমতল (ওয়াটার লেভেল); (কিউমেক)</span>}
+                                    {<span>xii. মৎস প্রতিপালন</span>}
                                     else
-                                    {<span>xiv. Discharge (m<sup>3</sup>/s) at Intervention Point</span>}
-                                </b>
-                            </td>
-                            <td>
-                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                                    <tr>
-                                        <th class="text-center">Maximum (m)</th>
-                                        <th class="text-center">Minimum (m)</th>
-                                    </tr>
-                                    <tr>
-                                        <td>@projectindi.DischargeMax</td>
-                                        <td>@projectindi.DischargeMin</td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DischargeInterventionPoint").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>xv. ফ্লাড ফ্রিকোয়েন্সি এনালাইসিস (মিটার, পিডব্লিউডি)</span>}
-                                    else
-                                    {<span>xv. Flood Frequency Analysis (Maximum water level in m, PWD)</span>}
-                                </b>
-                            </td>
-                            <td>@projectindi.CommandArea</td>
-                            <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "FloodFrequencyAnalysis").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>xvi. পাড় স্থানান্তর</span>}
-                                    else
-                                    {<span>xvi. Bank Line Shifting</span>}
-                                </b>
-                            </td>
-                            <td>@projectindi.BankLineShiftingId</td>
-                            <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "BankLineShifting").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>xvii. পাড় স্থিতিশীলতা</span>}
-                                    else
-                                    {<span>xvii. Bank Stability</span>}
-                                </b>
-                            </td>
-                            <td>@projectindi.BankStabilityTypeId</td>
-                            <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "BankStabilityType").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>xviii. তীরবর্তী মাটির অবস্থা</span>}
-                                    else
-                                    {<span>xviii. Bank Soil Condition</span>}
-                                </b>
-                            </td>
-                            <td>@projectindi.BankSoilCondition</td>
-                            <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "BankSoilCondition").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>xix. নদী ভাঙ্গন</span>}
-                                    else
-                                    {<span>xix. Bank Erosion</span>}
+                                    {<span>xii. Fish Habitat</span>}
                                 </b>
                             </td>
                             <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th class="text-center">
-                                            @{if (prev_lang == "1")
-                                                { <span>দৈঘ্য (মিটার)</span>}
-                                                else
-                                                {<span>Length (m)</span>}
-                                            }
+                                            @if (prev_lang == "1")
+                                            {<span>এরিয়া (হেক্টর)</span> }
+                                            else
+                                            { <span>Area (ha)</span>}
                                         </th>
                                         <th class="text-center">
-                                            @{if (prev_lang == "1")
-                                                { <span>এরিয়া (মিটার)</span>}
-                                                else
-                                                {<span>Area (ha)</span>}
-                                            }
-                                        </th>
-                                        <th class="text-center">
-                                            @{if (prev_lang == "1")
-                                                { <span>স্থান</span>}
-                                                else
-                                                {<span>Location</span>}
-                                            }
+                                            @if (prev_lang == "1")
+                                            {<span>উৎপাদন (টন)</span> }
+                                            else
+                                            { <span>Production (Ton)</span>}
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td>@projectindi.BankErosionLength</td>
-                                        <td>@projectindi.BankErosionArea</td>
-                                        <td>@projectindi.BankErosionLocation</td>
+                                        <td>@projectindi.FishHabitatArea</td>
+                                        <td>@projectindi.FishHabitatProduction</td>
                                     </tr>
                                 </table>
                             </td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "BankErosion").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Fish Habitat', 'FishHabitat');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h5>
+                                    @if (prev_lang == "1")
+                                    {<span>২. রিভার মর্ফোলজি ও রিভার হাইড্রোলজি</span> }
+                                    else
+                                    { <span>2. Status of River Morphology and River Hydrology</span>}
+                                </h5>
                             </td>
                         </tr>
 
@@ -858,14 +829,33 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>xx. ভাঙ্গনের হার (মি./বছর)</span>}
+                                    {<span>i. নদীর ধরণ</span>}
                                     else
-                                    {<span>xx. Erosion rate (m/year)</span>}
+                                    {<span>i. River Type</span>}
                                 </b>
                             </td>
-                            <td>@projectindi.BankErosionRate</td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "BankErosionRate").Select(s => s.Comments).FirstOrDefault())
+                                <ul>
+                                    @foreach (var rt in (List<RiverTypeDetailTemp>)rtd)
+                                    {
+                                        if (prev_lang == "1")
+                                        {
+                                            <li>@rt.RiverTypeNameBn</li>
+                                        }
+                                        else
+                                        {
+                                            <li>@rt.RiverTypeName</li>
+                                        }
+                                    }
+                                </ul>
+                            </td>
+                            <td>
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('River Type', 'RiverType');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -873,23 +863,50 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>xxi. নদীর তলদেশ ক্ষয়</span>}
+                                    {<span>ii. নদীর দৈর্ঘ্য এবং প্রস্থ (মি.)</span>}
                                     else
-                                    {<span>xxi. River Bed Erosion</span>}
+                                    {<span>ii. River Depth and Width (m)</span>}
                                 </b>
                             </td>
-                            <td>@projectindi.RiverBedErosion</td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "RiverBedErosion").Select(s => s.Comments).FirstOrDefault())
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>দৈর্ঘ্য</span> }
+                                            else
+                                            { <span>Depth</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>প্রস্থ</span> }
+                                            else
+                                            { <span>Width</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td>@projectindi.RiverDepth</td>
+                                        <td>@projectindi.RiverWidth</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('River Depth and Width', 'RiverDepthWidth');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
+
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>xxii. নদী/ খালে পলি জমার (সেডিমেন্টেশন) পরিমান</span>}
+                                    {<span>iii. নদী/ খালে পলি জমার (সেডিমেন্টেশন) পরিমান</span>}
                                     else
-                                    {<span>xxii. Sedimentation of River/ Khal</span>}
+                                    {<span>iii. Sedimentation of River/ Khal</span>}
                                 </b>
                             </td>
                             <td>
@@ -908,7 +925,12 @@
                                 </ul>
                             </td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "SedimentationOfRiverKhal").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Sedimentation of River/ Khal', 'SedimentationOfRiverKhal');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -916,14 +938,19 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>xxiii. নদী/ খালে পলি প্রবাহের হার (সেডিমেন্টেশন রেট); (সে.মি./ বছর) </span>}
+                                    {<span>iv. নদী/ খালে পলি প্রবাহের হার (সেডিমেন্টেশন রেট); (সে.মি./ বছর) </span>}
                                     else
-                                    {<span>xxiii. Sedimentation Rate of River/ Khal (cm/ year)</span>}
+                                    {<span>iv. Sedimentation Rate of River/ Khal (cm/ year)</span>}
                                 </b>
                             </td>
                             <td>@projectindi.SedimentationRate</td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "SedimentationRate").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Sedimentation Rate of River/ Khal (cm/ year)', 'SedimentationRate');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -931,45 +958,81 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>xxiv. বিদ্যমান চর</span>}
+                                    {<span>v. পাড় স্থিতিশীলতা</span>}
                                     else
-                                    {<span>xxiv. Char Accretion</span>}
+                                    {<span>v. Bank Stability</span>}
+                                </b>
+                            </td>
+                            <td>
+                                <ul>
+                                    @foreach (var _bsd in (List<BankStabilityDetailTemp>)bsd)
+                                    {
+                                        if (prev_lang == "1")
+                                        {
+                                            <li>@_bsd.BankStabilityTypeBn</li>
+                                        }
+                                        else
+                                        {
+                                            <li>@_bsd.BankStabilityType</li>
+                                        }
+                                    }
+                                </ul>
+                            </td>
+                            <td>
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Bank Stability', 'BankStabilityType');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>vi. নদী ভাঙ্গন</span>}
+                                    else
+                                    {<span>vi. Bank Erosion</span>}
                                 </b>
                             </td>
                             <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th class="text-center">
-                                            @{if (prev_lang == "1")
-                                                { <span>দৈঘ্য (মিটার)</span>}
-                                                else
-                                                {<span>Length (m)</span>}
-                                            }
+                                            @if (prev_lang == "1")
+                                            {<span>দৈঘ্য (মিটার)</span> }
+                                            else
+                                            {<span>Length (m)</span>}
                                         </th>
                                         <th class="text-center">
-                                            @{if (prev_lang == "1")
-                                                { <span>এরিয়া (মিটার)</span>}
-                                                else
-                                                {<span>Area (ha)</span>}
-                                            }
+                                            @if (prev_lang == "1")
+                                            {<span>এরিয়া (বঃ মিঃ)</span> }
+                                            else
+                                            { <span>Area (ha)</span>}
                                         </th>
                                         <th class="text-center">
-                                            @{if (prev_lang == "1")
-                                                { <span>স্থান</span>}
-                                                else
-                                                {<span>Location</span>}
-                                            }
+                                            @if (prev_lang == "1")
+                                            {<span>স্থান</span> }
+                                            else
+                                            { <span>Location</span>}
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td>@projectindi.CharAccretionLength</td>
-                                        <td>@projectindi.CharAccretionArea</td>
-                                        <td>@projectindi.CharAccretionLocation</td>
+                                        <td>@projectindi.BankErosionLength</td>
+                                        <td>@projectindi.BankErosionArea</td>
+                                        <td>@projectindi.BankErosionLocation</td>
                                     </tr>
                                 </table>
                             </td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CharAccretion").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Bank Erosion', 'BankErosion');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -977,25 +1040,47 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>xxv. নদী শাসন (রিভার ট্রেইনিং ওয়ার্কস)</span>}
+                                    {<span>vii. বিদ্যমান চর</span>}
                                     else
-                                    {<span>xxv. River Training Works</span>}
+                                    {<span>vii. Accretion</span>}
                                 </b>
                             </td>
-                            <td>@projectindi.RiverTrainingWorks</td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "RiverTrainingWorks").Select(s => s.Comments).FirstOrDefault())
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>দৈঘ্য (মিটার)</span> }
+                                            else
+                                            {<span>Length (m)</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>এরিয়া (বঃ মিঃ)</span> }
+                                            else
+                                            { <span>Area (ha)</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>স্থান</span> }
+                                            else
+                                            { <span>Location</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td>@projectindi.AccretionLength</td>
+                                        <td>@projectindi.AccretionArea</td>
+                                        <td>@projectindi.AccretionLocation</td>
+                                    </tr>
+                                </table>
                             </td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="3">
-                                <h5>
-                                    @if (prev_lang == "1")
-                                    {<span>২.২ ইস্যু, চ্যালেঞ্জ সমূহ বা সমস্যা</span>}
-                                    else
-                                    {<span>2.2 Issue, Challenge or Problem</span>}
-                                </h5>
+                            <td>
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Accretion', 'Accretion');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -1003,28 +1088,80 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>i. ইস্যু, চ্যালেঞ্জ বা সমস্যার বিবরণ</span>}
+                                    {<span>ix. ইনটেক পয়েন্টে পানির সমতল (ওয়াটার লেভেল)</span>}
                                     else
-                                    {<span>i. Issue, Challenge or Problem Details</span>}
+                                    {<span>ix. Water Level (m PWD) at Intake Point</span>}
                                 </b>
                             </td>
-                            <td>@pcd.IssueChallageProblem</td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "IssueChallageProblem").Select(s => s.Comments).FirstOrDefault())
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th class="text-center" colspan="2">Dry Season</th>
+                                        <th class="text-center" colspan="2">Wet Season</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">Maximum</th>
+                                        <th class="text-center">Minimum</th>
+                                        <th class="text-center">Maximum</th>
+                                        <th class="text-center">Minimum</th>
+                                    </tr>
+                                    <tr>
+                                        <td>@projectindi.WaterLevelDryMax</td>
+                                        <td>@projectindi.WaterLevelDryMin</td>
+                                        <td>@projectindi.WaterLevelWetMax</td>
+                                        <td>@projectindi.WaterLevelWetMin</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Water Level (m PWD) at Intake Point', 'WaterLevelIntakePoint');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
-                        <tr>
-                            <td colspan="3">
-                                <h5>
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
                                     @if (prev_lang == "1")
-                                    {<span>৩. এস.ডব্লিউ এবং জি.ডব্লিউ এর ব্যবহার/ বিশ্লেষণ</span>}
+                                    {<span>x. ইনটেক পয়েন্টে পানির প্রবাহ (ডিসচার্জ); (কিউমেক)</span>}
                                     else
-                                    {<span>3. Analysis/ Use of SW and GW</span>}
-                                </h5>
+                                    {<span>x. Discharge (m3/s) at Intake Point</span>}
+                                </b>
+                            </td>
+                            <td>
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th class="text-center" colspan="2">Dry Season</th>
+                                        <th class="text-center" colspan="2">Wet Season</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">Maximum</th>
+                                        <th class="text-center">Minimum</th>
+                                        <th class="text-center">Maximum</th>
+                                        <th class="text-center">Minimum</th>
+                                    </tr>
+                                    <tr>
+                                        <td>@projectindi.DischargeDryMax</td>
+                                        <td>@projectindi.DischargeDryMin</td>
+                                        <td>@projectindi.DischargeWetMax</td>
+                                        <td>@projectindi.DischargeWetMin</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Discharge (m3/s) at Intake Point', 'DischargeIntakePoint');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
-                        
+
                         <tr>
                             <td colspan="3">
                                 <h5>
@@ -1138,132 +1275,39 @@
                                 }
                             </td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DiscussionWithstakeholders").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Discussion with Stakeholders During Starting of the Project', 'DiscussionWithstakeholders');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
+
+
 
                         <tr>
                             <td colspan="3">
                                 <h5>
                                     @if (prev_lang == "1")
-                                    {<span>৪. উদ্দেশ্য পূরনের অপশনসমূহ বিশ্লেষণ</span>}
+                                    {<span>৪. ড্রেজিং পরিকল্পনা</span> }
                                     else
-                                    {<span>4. Analyze Options to fulfill objective</span>}
+                                    { <span>4. Planning of Dredging</span>}
                                 </h5>
                             </td>
                         </tr>
 
                         <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>i. বিকল্পগুলি বিশ্লেষণ করুন</span>}
-                                    else
-                                    {<span>i. Analyze Options</span>}
-                                </b>
+                            <td colspan="2">
+                                Planning of Dredging
                             </td>
                             <td>
-                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                                    <tr>
-                                        <th width="10%">
-                                            @if (prev_lang == "1")
-                                            {<span>হ্যাঁ</span>}
-                                            else
-                                            {<span>Yes</span>}
-                                        </th>
-                                        <th width="10%">
-                                            @if (prev_lang == "1")
-                                            {<span>না</span>}
-                                            else
-                                            {<span>No</span>}
-                                        </th>
-                                        <th width="40%">
-                                            @if (prev_lang == "1")
-                                            {<span>আবেদনকারীর মন্তব্য</span>}
-                                            else
-                                            {<span>Applicant Comments</span>}
-                                        </th>
-                                        <th width="40%">
-                                            @if (prev_lang == "1")
-                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
-                                            else
-                                            {<span>Authority Comments</span>}
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        @{
-                                            yesTickMark = string.Empty;
-                                            noTickMark = string.Empty;
-
-                                            if (pcd.AnalyzeOptYesNoId == 1)
-                                            {
-                                                yesTickMark = "<span class='fe-check'></span>";
-                                                noTickMark = "";
-                                            }
-                                            else
-                                            {
-                                                yesTickMark = "";
-                                                noTickMark = "<span class='fe-check'></span>";
-                                            }
-
-                                            <td class="text-center">@Html.Raw(yesTickMark)</td>
-                                            <td class="text-center">@Html.Raw(noTickMark)</td>
-                                            <td>@pcd.AnalyzeOptionsApplicantCmt</td>
-                                            <td>@pcd.AnalyzeOptionsAuthorityCmt</td>
-                                        }
-                                    </tr>
-                                </table>
-                                @if (pcd.AnalyzeOptYesNoId == 1)
-                                {
-                                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    @if (prev_lang == "1")
-                                                    {<span>বিকল্প</span>}
-                                                    else
-                                                    {<span>Options</span>}
-                                                </th>
-                                                <th>
-                                                    @if (prev_lang == "1")
-                                                    {<span>বিবরণ</span>}
-                                                    else
-                                                    {<span>Description</span>}
-                                                </th>
-                                                <th>
-                                                    @if (prev_lang == "1")
-                                                    {<span>মন্তব্য</span>}
-                                                    else
-                                                    {<span>Remarks</span>}
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbodyAnalyzeOptFulfillObjPreview">
-                                            @{
-                                                foreach (AnalyzeOptionsDetailTemp aod in (List<AnalyzeOptionsDetailTemp>)aodt)
-                                                {
-                                                    if (string.IsNullOrEmpty(aod.Error))
-                                                    {
-                                                        <tr>
-                                                            <td>@aod.OptionNumber</td>
-                                                            <td>@aod.AnalyzeDescription</td>
-                                                            <td>@aod.AnalyzeRemarks</td>
-                                                        </tr>
-                                                    }
-                                                    else
-                                                    {
-                                                        <tr>
-                                                            <td colspan="3">@aod.Error</td>
-                                                        </tr>
-                                                    }
-                                                }
-                                            }
-                                        </tbody>
-                                    </table>
-                                }
-                            </td>
-                            <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "AnalyzeOptionsFulfillObjective").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Planning of Dredging', 'PlanningDredging');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -1271,118 +1315,9 @@
                             <td colspan="3">
                                 <h5>
                                     @if (prev_lang == "1")
-                                    {<span>৫. প্রকল্প নথির সাথে ডিজাইন জমা দেওয়া</span>}
+                                    {<span>৫. পরিবেশগত  ও সামাজিক প্রভাব</span>}
                                     else
-                                    {<span>5. Design submitted with project document</span>}
-                                </h5>
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>i. নথি জমা দেওয়া</span>}
-                                    else
-                                    {<span>i. Design Submition</span>}
-                                </b>
-                            </td>
-                            <td>
-                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">
-                                                @if (prev_lang == "1")
-                                                {<span>প্যারামিটার</span>}
-                                                else
-                                                {<span>Parameters</span>}
-                                            </th>
-                                            <th>
-                                                @if (prev_lang == "1")
-                                                {<span>হ্যাঁ</span>}
-                                                else
-                                                {<span>Yes</span>}
-                                            </th>
-                                            <th>
-                                                @if (prev_lang == "1")
-                                                {<span>না</span>}
-                                                else
-                                                {<span>No</span>}
-                                            </th>
-                                            <th>
-                                                @if (prev_lang == "1")
-                                                {<span>আবেদনকারীর মন্তব্য</span>}
-                                                else
-                                                {<span>Applicant Comments</span>}
-                                            </th>
-                                            <th>
-                                                @if (prev_lang == "1")
-                                                {<span>কর্তৃপক্ষের মন্তব্য</span>}
-                                                else
-                                                {<span>Authority Comments</span>}
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tbodyDesignSubProjDocPreview">
-                                        @{
-                                            foreach (DesignSubmitDetailTemp dsdt in (List<DesignSubmitDetailTemp>)dsd)
-                                            {
-                                                yesTickMark = string.Empty;
-                                                noTickMark = string.Empty;
-
-                                                if (dsdt.dswpdYN == 1)
-                                                {
-                                                    yesTickMark = "<span class='fe-check'></span>";
-                                                    noTickMark = "";
-                                                }
-                                                else
-                                                {
-                                                    yesTickMark = "";
-                                                    noTickMark = "<span class='fe-check'></span>";
-                                                }
-
-                                                if (string.IsNullOrEmpty(dsdt.Error))
-                                                {
-                                                    <tr>
-                                                        <td>
-                                                            @if (prev_lang == "1")
-                                                            {
-                                                                <span>@dsdt.ParameterNameBn</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span>@dsdt.ParameterNameBn</span>
-                                                            }
-                                                        </td>
-                                                        <td class="text-center">@Html.Raw(yesTickMark)</td>
-                                                        <td class="text-center">@Html.Raw(noTickMark)</td>
-                                                        <td>@dsdt.DesignSubmitApplicantCmt</td>
-                                                        <td>@dsdt.DesignSubmitAuthorityCmt</td>
-                                                    </tr>
-                                                }
-                                                else
-                                                {
-                                                    <tr>
-                                                        <td colspan="5">@dsdt.Error</td>
-                                                    </tr>
-                                                }
-                                            }
-                                        }
-                                    </tbody>
-                                </table>
-                            </td>
-                            <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DesignSubmittedWithProjectDocument").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="3">
-                                <h5>
-                                    @if (prev_lang == "1")
-                                    {<span>৬. পরিবেশগত  ও সামাজিক প্রভাব</span>}
-                                    else
-                                    {<span>6. Environmental and Social Impact Assessment</span>}
+                                    {<span>5. Environmental and Social Impact Assessment</span>}
                                 </h5>
                             </td>
                         </tr>
@@ -1449,7 +1384,12 @@
                                 </table>
                             </td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "EnvironmentalAndSocialImpactAssessment").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Environmental and Social Impact Assessment', 'EnvironmentalAndSocialImpactAssessment');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -1537,7 +1477,12 @@
                                         <tfoot>
                                             <tr>
                                                 <td colspan="5">
-                                                    @Html.Raw(fdac.Where(w => w.ControlTitle == "EnvironmentalImpactAssessment").Select(s => s.Comments).FirstOrDefault())
+                                                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Environmental Impact Assessment', 'EnvironmentalImpactAssessment');"
+                                                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                                        <i class="mdi mdi-comment-text-multiple"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </tfoot>
@@ -1627,7 +1572,12 @@
                                         <tfoot>
                                             <tr>
                                                 <td colspan="5">
-                                                    @Html.Raw(fdac.Where(w => w.ControlTitle == "SocialImpactAssessment").Select(s => s.Comments).FirstOrDefault())
+                                                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Social Impact Assessment', 'SocialImpactAssessment');"
+                                                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                                        <i class="mdi mdi-comment-text-multiple"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </tfoot>
@@ -1640,10 +1590,81 @@
                             <td colspan="3">
                                 <h4>
                                     @if (prev_lang == "1")
-                                    {<span>৭. প্রকল্পটি তৈরিতে উপযুক্ত ও পরীক্ষিত  বিশ্লেষণি প্রক্রিয়া, মুল্যায়ন পদ্ধতি, কৌশল ও টুলস্ ব্যবহার করা হয়েছে কিনা</span>}
+                                    {<span>৬. প্রকল্পটি তৈরিতে উপযুক্ত ও পরীক্ষিত  বিশ্লেষণি প্রক্রিয়া, মুল্যায়ন পদ্ধতি, কৌশল ও টুলস্ ব্যবহার করা হয়েছে কিনা</span>}
                                     else
-                                    {<span>7. Use of Appropriate tools, technics, analytical procedures etc</span>}
+                                    {<span>6. Use of Appropriate tools, technics, analytical procedures etc</span>}
                                 </h4>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. প্রকল্পটি তৈরিতে উপযুক্ত ও পরীক্ষিত  বিশ্লেষণি প্রক্রিয়া</span>}
+                                    else
+                                    {<span>i. Use of Appropriate tools</span>}
+                                </b>
+                            </td>
+                            <td>
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>আবেদনকারীর মন্তব্য</span>}
+                                            else
+                                            {<span>Applicant Comments</span>}
+                                        </th>
+                                        <th>
+                                            @if (prev_lang == "1")
+                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                            else
+                                            {<span>Authority Comments</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            yesTickMark = string.Empty;
+                                            noTickMark = string.Empty;
+
+                                            if (projectindi.UseOfToolsYesNoId == 1)
+                                            {
+                                                yesTickMark = "<span class='fe-check'></span>";
+                                                noTickMark = "";
+                                            }
+                                            else
+                                            {
+                                                yesTickMark = "";
+                                                noTickMark = "<span class='fe-check'></span>";
+                                            }
+
+                                            <td>@Html.Raw(yesTickMark)</td>
+                                            <td>@Html.Raw(noTickMark)</td>
+                                            <td>@projectindi.ToolsApplicantComments</td>
+                                            <td>@projectindi.ToolsAuthorityComments</td>
+                                        }
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Use of Appropriate tools', 'UseAppropriateTools');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -1651,9 +1672,9 @@
                             <td colspan="3">
                                 <h4>
                                     @if (prev_lang == "1")
-                                    {<span>৮. অর্থনৈতিক এবং আর্থিক বিশ্লেষণ</span>}
+                                    {<span>৭. অর্থনৈতিক এবং আর্থিক বিশ্লেষণ</span>}
                                     else
-                                    {<span>8. Economical & Financial Analysis</span>}
+                                    {<span>7. Economical & Financial Analysis</span>}
                                 </h4>
                             </td>
                         </tr>
@@ -1726,7 +1747,12 @@
 
                         <tr>
                             <td style="word-break: break-all;" colspan="3">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "EconomicalFinancialAnalysis").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Economical and Financial Analysis', 'EconomicalFinancialAnalysis');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -1817,7 +1843,12 @@
                                 }
                             </td>
                             <td style="word-wrap: break-word;">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityNationalWaterPolicy").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility with National Water Policy', 'CompatibilityNationalWaterPolicy');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -1897,7 +1928,12 @@
                                 }
                             </td>
                             <td style="word-wrap: break-word;">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityNationalWaterManagementPlan").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility National Water Management Plan', 'CompatibilityNationalWaterManagementPlan');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -1963,7 +1999,12 @@
                                 </table>
                             </td>
                             <td style="word-wrap: break-word;">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityCurrentFifthYearPlan").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility Current Fifth Year Plan', 'CompatibilityCurrentFifthYearPlan');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -2045,7 +2086,12 @@
                                 }
                             </td>
                             <td style="word-wrap: break-word;">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilitySustainableDevelopmentGoal").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility Sustainable Development Goal', 'CompatibilitySustainableDevelopmentGoal');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -2124,7 +2170,12 @@
                                 }
                             </td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityBangladeshDeltaPlan2100").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility Bangladesh Delta Plan 2100', 'CompatibilityBangladeshDeltaPlan2100');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -2197,7 +2248,12 @@
                                 </table>
                             </td>
                             <td style="word-wrap: break-word;">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityCoastalZonePolicy").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility Coastal Zone Policy', 'CompatibilityCoastalZonePolicy');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -2270,7 +2326,12 @@
                                 </table>
                             </td>
                             <td style="word-wrap: break-word;">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityAgriculturalPolicy").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility Agricultural Policy', 'CompatibilityAgriculturalPolicy');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -2343,7 +2404,12 @@
                                 </table>
                             </td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityFisheriesPolicy").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility Fisheries Policy', 'CompatibilityFisheriesPolicy');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -2409,7 +2475,12 @@
                                 </table>
                             </td>
                             <td style="word-wrap: break-word;">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityIntegratedWaterResourceManagement").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility Integrated Water Resource Management', 'CompatibilityIntegratedWaterResourceManagement');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -2481,7 +2552,12 @@
                                 }
                             </td>
                             <td style="word-wrap: break-word;">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CompatibilityGPWM").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility GPWM', 'CompatibilityGPWM');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -2547,73 +2623,12 @@
                                 </table>
                             </td>
                             <td style="word-wrap: break-word;">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "FeasibilityStudy").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>xii. প্রকল্পটির সদৃশ</span>}
-                                    else
-                                    {<span>xii. Duplication of the Project</span>}
-                                </b>
-                            </td>
-                            <td>
-                                <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
-                                    <tr>
-                                        <th>
-                                            @if (prev_lang == "1")
-                                            {<span>হ্যাঁ</span>}
-                                            else
-                                            {<span>Yes</span>}
-                                        </th>
-                                        <th>
-                                            @if (prev_lang == "1")
-                                            {<span>না</span>}
-                                            else
-                                            {<span>No</span>}
-                                        </th>
-                                        <th>
-                                            @if (prev_lang == "1")
-                                            {<span>আবেদনকারীর মন্তব্য</span>}
-                                            else
-                                            {<span>Applicant Comments</span>}
-                                        </th>
-                                        <th>
-                                            @if (prev_lang == "1")
-                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
-                                            else
-                                            {<span>Authority Comments</span>}
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        @{
-                                            yesTickMark = string.Empty;
-                                            noTickMark = string.Empty;
-
-                                            if (projectindi.DuplicatYesNoId == 1)
-                                            {
-                                                yesTickMark = "<span class='fe-check'></span>";
-                                                noTickMark = "";
-                                            }
-                                            else
-                                            {
-                                                yesTickMark = "";
-                                                noTickMark = "<span class='fe-check'></span>";
-                                            }
-
-                                            <td>@Html.Raw(yesTickMark)</td>
-                                            <td>@Html.Raw(noTickMark)</td>
-                                            <td style="word-break: break-all;">@projectindi.DuplicationApplicantComments</td>
-                                            <td style="word-break: break-all;">@projectindi.DuplicationAuthorityComments</td>
-                                        }
-                                    </tr>
-                                </table>
-                            </td>
-                            <td style="word-wrap: break-word;">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DuplicationOfTheProject").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Feasibility Study', 'FeasibilityStudy');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -2682,7 +2697,12 @@
                                 </table>
                             </td>
                             <td style="word-wrap: break-word;">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectDevelopmentEmphasizingPeople").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Development Emphasizing People', 'ProjectDevelopmentEmphasizingPeople');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -2743,7 +2763,12 @@
                                 </table>
                             </td>
                             <td style="word-wrap: break-word;">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "Administrative").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Administrative', 'Administrative');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -2825,7 +2850,12 @@
                                 </table>
                             </td>
                             <td style="word-wrap: break-word;">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "Administrative").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Administrative', 'Administrative');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
 
@@ -2875,7 +2905,12 @@
                                 </table>
                             </td>
                             <td style="word-wrap: break-word;">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "Recommendation").Select(s => s.Comments).FirstOrDefault())
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Recommendation', 'Recommendation');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
                             </td>
                         </tr>
                     </table>
@@ -2920,8 +2955,535 @@
                             }
                         </div>
                     </div>
+
+                    <hr />
+
+                    <div class="row justify-content-md-center">
+                        @if (is_complete_id == 6 && (app_state_id == 13 || app_state_id == 23 || app_state_id == 33 || app_state_id == 43))
+                        {
+                            <div class="form-group">
+                                <button id="btnSubmitToApprove" class="btn btn-lg btn-success" type="button" style="width: 250px;">
+                                    Approve
+                                </button>
+                            </div>
+
+                            <span>&nbsp;&nbsp;&nbsp;</span>
+
+                            <div class="form-group">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-lg btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        Re-evaluate
+                                        <i class="mdi mdi-chevron-down"></i>
+                                    </button>
+                                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                                        <!--<a id="btnSubmitToApplicant" class="dropdown-item" href="javascript:void(0);">Back to Applicant for Correction</a>-->
+                                        <a id="btnSubmitToTechnicalCommittee" class="dropdown-item" href="javascript:void(0);">Back to Technical Committee for Re-evaluation</a>
+                                        <a id="btnSubmitToWRMC" class="dropdown-item" href="javascript:void(0);">Back to WRMC for Rechecking</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <span>&nbsp;&nbsp;&nbsp;</span>
+
+                            <div class="form-group">
+                                <button id="btnSubmitToReject" class="btn btn-lg btn-danger" type="button" style="width: 250px;">
+                                    Reject
+                                </button>
+                            </div>
+                        }
+                        else
+                        {
+                            if (app_state_id != 1 && user_group_id != "1000000001")
+                            {
+                                <div class="form-group">
+                                    <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
+                                        Forward
+                                    </button>
+                                </div>
+                            }
+                        }
+
+                        <!--
+                        <div class="form-group">
+                            <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
+                                Forward
+                            </button>
+                        </div>
+                        -->
+                        <span>&nbsp;&nbsp;&nbsp;</span>
+
+                        <div class="form-group">
+                            <a href="@Url.Action("printform39", "form", new { id = ViewBag.ProjectId })" class="btn btn-lg btn-primary"
+                               style="width: 250px;" target="_blank">
+                                Print
+                            </a>
+                        </div>
+                    </div>
+
+                    <div id="control-popup-comments" class="modal-demo" style="width: 800px;">
+                        <div class="modal-dialog" style="">
+                            <div class="modal-content">
+                                <div class="modal-header" style="padding: 0px !important;">
+                                    <h4 id="control-name-for-title" class="modal-title text-center">Project Name</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body p-0" style="padding-left: 0px !important; padding-right: 0px !important;
+                                max-height: 400px; overflow-x: hidden; overflow-y: auto;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table class="table mb-0 p-0" style="width: 100%; border-color: none;">
+                                                <thead>
+                                                    <tr style="border-top: none;">
+                                                        <th class="p-1">Comments</th>
+                                                        <th class="p-1">User</th>
+                                                        <th class="p-1">Date of Analysis</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tbodyCommentList"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer" style="padding-left: 0px !important; padding-right: 0px !important;">
+                                    <input id="LabelNameOfControl" type="hidden" />
+                                    <textarea id="Comments" name="Comments" class="form-control" rows="3" placeholder="Write your comments here"></textarea>
+                                    <button id="btnPopupCommentsSave" type="button" class="btn btn-info waves-effect waves-light">
+                                        <i class="mdi mdi-content-save"></i>
+                                    </button>
+                                    <button id="btnPopupClear" type="button" class="btn btn-danger waves-effect" data-dismiss="modal" onclick="Custombox.modal.close();">
+                                        <i class="mdi mdi-close-outline"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal Popup for Comments -->
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var app_state_id = '@app_state_id';
+        var is_complete_id = '@is_complete_id';
+        var group_id = '@ViewData["UserLevel"].ToString()';
+
+        if (group_id != '' && group_id != undefined && group_id != null) {
+            if (group_id == 1000000001) {
+                $('.comment').addClass('d-none');
+            }
+            //else {
+            //    $('.comment').removeClass('d-none');
+            //}
+        } else {
+            $('.comment').addClass('d-none');
+        }
+
+        console.log(app_state_id);
+
+        if (app_state_id == 13 || app_state_id == 23 || app_state_id == 33 || app_state_id == 43) {
+            if (is_complete_id < 3) {
+                $('.comment').addClass('d-none');
+            } else {
+                $('.comment').removeClass('d-none');
+            }
+        }
+
+        //var projectId = 'ViewBag.ProjectCommonDetail.ProjectId';
+
+        //if (projectId != '') {
+        //    pBindData();
+
+        //    pGetProjLocationsData();
+        //    pGetHydroSystemData();
+        //    pGetFloodFrequencyData();
+        //    pGetIrrigatedCropAreaData();
+        //    pGetAoFOData();
+        //    pGetDswpdData();
+        //    pGetEiaData();
+        //    pGetSiaData();
+        //    pGetEconFinAnaData();
+        //}
+
+        jQuery('#btnPopupCommentsSave').click(function () {
+            SaveProjComments();
+        });
+
+        jQuery('#btnPopupClear').click(function () {
+            jQuery('#control-name-for-title').text('');
+            jQuery('#LabelNameOfControl').val('');
+            jQuery('#Comments').val('');
+        });
+
+        jQuery('#btnMapView').click(function () {
+            var prevProjId = GetHiddenValue('pProjectId');
+            var url = '@Url.Action("viewLocation", "map", new { projectId = "__id__" })';
+            window.open(url.replace('__id__', prevProjId), '_blank');
+        });
+
+        jQuery("#btnSubmitToForward").click(function () {
+            var app_state = '@app_state';
+            var popup_msg = '';
+            popup_msg = 'Application will be forwarded to ' + app_state;
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: popup_msg,
+                type: "warning",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                showCancelButton: !0,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Forward"
+            }).then(function (t) {
+                if (t.value == true) {
+                    var projectId = GetHiddenValue('pProjectId');
+
+                    var url = '@Url.Action("fwapp", "form")';
+                    jQuery.ajax({
+                        type: "POST",
+                        url: url,
+                        data: { pid: projectId },
+                        dataType: "json",
+                        success: function (data, status, jqXHR) {
+                            if (data.message != '') {
+                                Notification(data.status, data.title, data.message);
+                                Swal.fire(data.title, data.message, data.status);
+                            }
+
+                            if (data.status == 'success') {
+                                jQuery("#btnSubmitToForward").prop("disabled", true);
+                            } else {
+                                jQuery("#btnSubmitToForward").prop("disabled", false);
+                            }
+                        }, error: function (jqXHR, exception) {
+                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                            Notification('error', 'Error Occured', errorMsg);
+                            Swal.fire('Error Occured', errorMsg, 'error');
+                        }
+                    });
+                }
+            });
+        });
+
+        jQuery("#btnSubmitToApprove").click(function () {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Application will be approved. \nYou will not be able to comment or analyze anything.",
+                type: "warning",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                showCancelButton: !0,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Approve"
+            }).then(function (t) {
+                if (t.value == true) {
+                    var projectId = GetHiddenValue('pProjectId');
+
+                    var url = '@Url.Action("appaprv", "form")';
+                    jQuery.ajax({
+                        type: "POST",
+                        url: url,
+                        data: { pid: projectId },
+                        dataType: "json",
+                        success: function (data, status, jqXHR) {
+                            if (data.message != '') {
+                                Notification(data.status, data.title, data.message);
+                                Swal.fire(data.title, data.message, data.status);
+
+                                if (data.status == 'success') {
+                                    RedirectToHome();
+                                }
+                            }
+                        }, error: function (jqXHR, exception) {
+                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                            Notification('error', 'Error Occured', errorMsg);
+                            Swal.fire('Error Occured', errorMsg, 'error');
+                        }
+                    });
+                }
+            });
+        });
+
+        jQuery("#btnSubmitToReject").click(function () {
+            Swal.fire({
+                title: "Are you sure?",
+                html: 'Application will be rejected. Do you wish to continue? <br /> <div class="form-group"><label for="txtRejectReason"><span class="badge badge-info">Please Specify Reject Reason</span> <span class="text-danger bold">*</span></label><input type="text" id="txtRejectReason" name="txtRejectReason" class="form-control"></div>',
+                type: "warning",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Reject"
+            }).then(function (t) {
+                var projectId = GetHiddenValue('pProjectId');
+                var reason = jQuery("#txtRejectReason").val();
+
+                if (t.value == true) {
+                    if (reason != '') {
+                        var url = '@Url.Action("apprejt", "form")';
+
+                        jQuery.ajax({
+                            type: "POST",
+                            url: url,
+                            data: { pid: projectId, reason: reason },
+                            dataType: "json",
+                            success: function (data, status, jqXHR) {
+                                console.log(data);
+                                if (data.message != '') {
+                                    Notification(data.status, data.title, data.message);
+                                    Swal.fire(data.title, data.message, data.status);
+
+                                    if (data.status == 'success') {
+                                        RedirectToHome();
+                                    }
+                                }
+                            }, error: function (jqXHR, exception) {
+                                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                                Notification('error', 'Error Occured', errorMsg);
+                                Swal.fire('Error Occured', errorMsg, 'error');
+                            }
+                        });
+                    } else {
+                        Swal.fire('Required', 'Reject reason is required!', 'error');
+                        //Notification('error', 'Required', 'Reject reason is required!');
+                        jQuery("#txtRejectReason").focus();
+                    }
+                }
+            });
+        });
+
+        jQuery("#btnSubmitToApplicant").click(function () {
+            Swal.fire({
+                title: "Are you sure?",
+                html: 'This application will be sent to applicant for correction purpose. <br /> <div class="form-group"><label for="txtRejectReason"><span class="badge badge-info">Please Specify Reason</span> <span class="text-danger bold">*</span></label><input type="text" id="txtRejectReason" name="txtRejectReason" class="form-control"></div>',
+                type: "warning",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                showCancelButton: !0,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Send"
+            }).then(function (t) {
+                var projectId = GetHiddenValue('pProjectId');
+                var reason = jQuery("#txtRejectReason").val();
+
+                if (t.value == true) {
+                    if (reason != '') {
+                        var url = '@Url.Action("appreeva", "form")';
+                        jQuery.ajax({
+                            type: "POST",
+                            url: url,
+                            data: { pid: projectId, level: 'applicant', reason: reason },
+                            dataType: "json",
+                            success: function (data, status, jqXHR) {
+                                if (data.message != '') {
+                                    Notification(data.status, data.title, data.message);
+                                    Swal.fire(data.title, data.message, data.status);
+
+                                    if (data.status == 'success') {
+                                        RedirectToHome();
+                                    }
+                                }
+                            }, error: function (jqXHR, exception) {
+                                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                                Notification('error', 'Error Occured', errorMsg);
+                                Swal.fire('Error Occured', errorMsg, 'error');
+                            }
+                        });
+                    } else {
+                        Swal.fire('Required', 'Reason is required!', 'error');
+                        //Notification('error', 'Required', 'Reject reason is required!');
+                        jQuery("#txtRejectReason").focus();
+                    }
+                }
+            });
+        });
+
+        jQuery("#btnSubmitToWRMC").click(function () {
+	        Swal.fire({
+		        title: "Are you sure?",
+		        html: 'This application will be sent to Integrated Water Resource Management Committee for re-checking purpose.',
+		        type: "warning",
+		        allowEscapeKey: false,
+		        allowOutsideClick: false,
+		        showCancelButton: !0,
+		        confirmButtonColor: "#3085d6",
+		        cancelButtonColor: "#d33",
+		        confirmButtonText: "Yes, Send"
+	        }).then(function (t) {
+		        var projectId = GetHiddenValue('pProjectId');
+
+		        if (t.value == true) {
+				    var url = '@Url.Action("appreevatoiwrmc", "form")';
+				    jQuery.ajax({
+					    type: "POST",
+					    url: url,
+                        data: { pid: projectId },
+					    dataType: "json",
+					    success: function (data, status, jqXHR) {
+						    if (data.message != '') {
+							    Notification(data.status, data.title, data.message);
+                                Swal.fire(data.title, data.message, data.status);
+
+                                if (data.status == 'success') {
+                                    RedirectToHome();
+                                }
+						    }
+					    }, error: function (jqXHR, exception) {
+						    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+						    Notification('error', 'Error Occured', errorMsg);
+						    Swal.fire('Error Occured', errorMsg, 'error');
+					    }
+				    });
+		        }
+	        });
+        });
+
+        jQuery("#btnSubmitToTechnicalCommittee").click(function () {
+	        Swal.fire({
+		        title: "Are you sure?",
+		        html: 'This application will be sent to Technical Committee for re-evaluation purpose.',
+		        type: "warning",
+		        allowEscapeKey: false,
+		        allowOutsideClick: false,
+		        showCancelButton: !0,
+		        confirmButtonColor: "#3085d6",
+		        cancelButtonColor: "#d33",
+		        confirmButtonText: "Yes, Send"
+	        }).then(function (t) {
+		        var projectId = GetHiddenValue('pProjectId');
+
+		        if (t.value == true) {
+				    var url = '@Url.Action("appreevatotc", "form")';
+				    jQuery.ajax({
+					    type: "POST",
+					    url: url,
+                        data: { pid: projectId },
+					    dataType: "json",
+					    success: function (data, status, jqXHR) {
+                            if (data.message != '') {
+							    Notification(data.status, data.title, data.message);
+                                Swal.fire(data.title, data.message, data.status);
+
+                                if (data.status == 'success') {
+                                    RedirectToHome();
+                                }
+						    }
+					    }, error: function (jqXHR, exception) {
+						    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+						    Notification('error', 'Error Occured', errorMsg);
+						    Swal.fire('Error Occured', errorMsg, 'error');
+					    }
+				    });
+		        }
+	        });
+        });
+    });
+
+    function GetHiddenValue(control) {
+        return jQuery('#' + control).val();
+    }
+
+    function CommentsClear() {
+        jQuery('#Comments').val('');
+    }
+
+    function setInfoInPopup(title, label) {
+        jQuery('#control-name-for-title').text(title);
+        jQuery('#LabelNameOfControl').val(label);
+
+        GetProjComments();
+    }
+
+    function SaveProjComments() {
+        var prevUserId = GetHiddenValue('pUserId');
+        var prevProjTypeId = GetHiddenValue('pProjectTypeId');
+        var prevProjId = GetHiddenValue('pProjectId');
+        var prevControlName = jQuery('#LabelNameOfControl').val();
+        var prevComments = jQuery('#Comments').val();
+
+        var pda = {
+            UserId: prevUserId,
+            ProjectTypeId: prevProjTypeId,
+            ProjectId: prevProjId,
+            LabelNameOfControl: prevControlName,
+            Comments: prevComments
+        };
+
+        console.log(pda);
+
+        var url = '@Url.Action("sfc", "form")';
+        jQuery.ajax({
+            type: "POST",
+            url: url,
+            data: { pda: pda },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                console.log('Preview Comments Loading...');
+                console.log(data);
+
+                if (data.status == 'success') {
+                    Notification('success', 'Success', data.message);
+                    GetProjComments();
+                    CommentsClear();
+                } else {
+                    Notification('error', 'Saving Error', data.message);
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                Notification('error', 'Saving Error', errorMsg);
+            }
+        });
+    }
+
+    function GetProjComments() {
+        var prevUserId = GetHiddenValue('pUserId');
+        var prevProjTypeId = GetHiddenValue('pProjectTypeId');
+        var prevProjId = GetHiddenValue('pProjectId');
+        var prevControlName = jQuery('#LabelNameOfControl').val();
+
+        var url = '@Url.Action("gfc", "form")';
+
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { userid: prevUserId, projtypeid: prevProjTypeId, projid: prevProjId, controlname: prevControlName},
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                console.log('Preview Comments Loading...');
+                console.log(data);
+
+                if (data.length > 0) {
+                    var rows = '';
+
+                    jQuery.each(data, function (i, item) {
+                        rows += '<tr><td class="p-1" data-id="' + item.appProjDataAnalysisId + '">' + item.userComments + '</td><td class="p-1">' + item.userName + '</td><td class="p-1">' + item.dateOfAnalysis + '</td></tr>';
+
+                        if (item.userId == prevUserId) {
+                            jQuery('#Comments').val(item.userComments);
+                        }
+                    });
+
+                    jQuery("#tbodyCommentList").html(rows);
+                } else {
+                    jQuery("#tbodyCommentList").html('<tr><td colspan="3" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no comments found </div></td></tr>');
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tbodyCommentList").html('<tr><td colspan="3" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+            }
+        });
+    }
+
+    function RedirectToHome() {
+        var url = '@Url.Action("list", "form")';
+        window.location.href = url;
+    }
+</script>
+<!-- end -->

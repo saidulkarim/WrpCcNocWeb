@@ -29,7 +29,7 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "River Nature")]
         public int? RiverNatureId { get; set; }
         [ForeignKey("RiverNatureId")]
-        public virtual LookUpCcModRiverNature LookUpCcModRiverNature_39 { get; set; }
+        public virtual LookUpCcModRiverNature LookUpCcModRiverNature { get; set; }
 		
 		[Column("RiverSystem", Order = 4)]
         [Display(Name = "River System (inter linked river with dredged river)")]
@@ -44,7 +44,7 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Drainage Condition")]
         public int? DrainageConditionId { get; set; }
         [ForeignKey("DrainageConditionId")]
-        public virtual LookUpCcModDrainageCondition LookUpCcModDrainageCond_39 { get; set; }
+        public virtual LookUpCcModDrainageCondition LookUpCcModDrainageCondition { get; set; }
 		
 		[Column("LengthDredgingWork", Order = 7)]
         [Display(Name = "Length of Dredging Work (km)")]        
@@ -70,7 +70,7 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Sedimentation")]
         public int? SedimentationId { get; set; }
         [ForeignKey("SedimentationId")]
-        public virtual LookUpCcModSediOfRiverOrKhal LookUpCcModSediOfRiverOrKhal_39 { get; set; }
+        public virtual LookUpCcModSediOfRiverOrKhal LookUpCcModSediOfRiverOrKhal { get; set; }
 		
 		[Column("SedimentationRate", Order = 13)]
         [Display(Name = "Sedimentation Rate")]
@@ -80,7 +80,7 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Bank Stability")]
         public int? BankStabilityTypeId { get; set; }
         [ForeignKey("BankStabilityTypeId")]
-        public virtual LookUpCcModBankStability LookUpCcModBankStability_39 { get; set; }
+        public virtual LookUpCcModBankStability LookUpCcModBankStability { get; set; }
 		
 		[Column("BankErosionLength", Order = 15)]
         [Display(Name = "Length (m)")]        

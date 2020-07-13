@@ -94,6 +94,9 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<CcModUsDsConditionDetail> CcModUsDsConditionDetail { get; set; }
         public DbSet<CcModWaterDiversSourceDetail> CcModWaterDiversSourceDetail { get; set; }
         public DbSet<CcModWaterUseDetail> CcModWaterUseDetail { get; set; }
+
+        //added by rony
+        public DbSet<CcModTypeOfDredgingPlanDetail> CcModTypeOfDredgingPlanDetail { get; set; }
         #endregion
 
         #region LookUp --- CC Module     
@@ -157,6 +160,9 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<LookUpCcModWaterUseSector> LookUpCcModWaterUseSector { get; set; }
         public DbSet<LookUpCcModWtrDiversionSource> LookUpCcModWtrDiversionSource { get; set; }
         public DbSet<LookUpCcModYesNo> LookUpCcModYesNo { get; set; }
+
+        //added by rony
+        public DbSet<LookUpCcModDredgingPlanParam> LookUpCcModDredgingPlanParam { get; set; }
         #endregion
     }
 }
