@@ -1,12 +1,12 @@
-@using WrpCcNocWeb.DatabaseContext
+﻿@using WrpCcNocWeb.DatabaseContext
 @using WrpCcNocWeb.Helpers
 
-@{    
+@{
     Layout = "~/Views/Shared/_ReportLayout.cshtml";
 
     WrpCcNocDbContext _db = new WrpCcNocDbContext();
     CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["ProjectCommonDetail"];
-    CcModAppProject_38_IndvDetail projectindi = (CcModAppProject_38_IndvDetail)ViewData["ProjectIndvDetail38"];
+    CcModAppProject_310_IndvDetail projectindi = (CcModAppProject_310_IndvDetail)ViewData["ProjectIndvDetail310"];
 
     var prev_lang = ViewData["LanguageId"].ToString();
     var app_state_id = pcd.ApplicationStateId;
@@ -18,11 +18,13 @@
     var hrd = ViewData["HydroRegionDetail"];
     var hsd = ViewData["BDP2100HotSpotDetail"];
 
-    var rtd = ViewData["RiverTypeDetail"];
+    //var ncd = ViewData["NavigationClassDetail"];
+    //var rtd = ViewData["RiverTypeDetail"];
     var rni = ViewData["RiverNatureID"];
+    var dcd = ViewData["DrainageConditionDetail"];
+    //var bsd = ViewData["BankStabilityDetail"];
     var sdi = ViewData["SediOfRiverOrKhalDetail"];
-    var bls = ViewData["BankLineShiftingDetail"];
-    var bsd = ViewData["BankStabilityDetail"];
+    var swa = ViewData["SurfaceWaterAvailDetail"];
 
     var aodt = ViewData["AnalyzeOptionsDetail"];
     var dsd = ViewData["DesignSubmitDetail"];
@@ -40,7 +42,7 @@
     List<DataAnalysisControlComments> fdac = (List<DataAnalysisControlComments>)ViewData["FormCommentsListTemp"];
 
     long ProjectId = (long)ViewData["ProjectId"];
-    long ProjectIndvId = (long)ViewData["Project38IndvId"];
+    long ProjectIndvId = (long)ViewData["Project310IndvId"];
     long UserId = (long)ViewData["UserId"];
     int ProjectTypeId = (int)ViewData["ProjectTypeId"];
     var user_group_id = ViewData["UserLevel"].ToString();
@@ -470,14 +472,14 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>iii. নদীর/প্রবাহিত পানির নাম</span>}
+                                    {<span>iii. ড্রেজিংকৃতব্য নদীর নাম</span>}
                                     else
-                                    {<span>iii. Name of River/ Water Course</span>}
+                                    {<span>iii. Name of the Dredged River</span>}
                                 </b>
                             </td>
-                            <td>@projectindi.NameOfRiverWaterCourse</td>
+                            <td>@projectindi.NameExcavatedKhal</td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "NameOfRiverWaterCourse").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "NameExcavatedKhal").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -485,9 +487,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>iv. জোয়ার ভাটার প্রভাব</span>}
+                                    {<span>iv. খালের ধরণ</span> }
                                     else
-                                    {<span>iv. River Nature</span>}
+                                    { <span>iv. Khal Type</span>}
                                 </b>
                             </td>
                             <td>
@@ -506,7 +508,7 @@
                                 </ul>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "RiverNatureId").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "RiverNatureId").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -514,42 +516,71 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>v. নদী ভাঙ্গন</span>}
+                                    {<span>v. অববাহিকা (ক্যাচমেন্ট) এলাকা (হেক্টর)</span>}
                                     else
-                                    {<span>v. Bank Erosion</span>}
+                                    {<span>v. Catchment Area (ha)</span>}
+                                </b>
+                            </td>
+                            <td>@projectindi.CatchmentArea</td>
+                            <td>
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CatchmentArea").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>vi. বার্ষিক বৃষ্টিপাত (বিগত পাঁচ বছর) (মি.মি.)</span>}
+                                    else
+                                    {<span>vi. Annual Rainfall (last five years)</span>}
                                 </b>
                             </td>
                             <td>
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th class="text-center">
-                                            @if (prev_lang == "1")
-                                            {<span>দৈঘ্য (মিটার)</span> }
-                                            else
-                                            { <span>Length (m)</span>}
+                                            @{
+                                                int year1 = DateTime.Now.Year - 1;
+                                                <span>@year1</span>
+                                            }
                                         </th>
                                         <th class="text-center">
-                                            @if (prev_lang == "1")
-                                            {<span>এরিয়া (বঃ মিঃ)</span> }
-                                            else
-                                            { <span>Area (ha)</span>}
+                                            @{
+                                                int year2 = DateTime.Now.Year - 2;
+                                                <span>@year2</span>
+                                            }
                                         </th>
                                         <th class="text-center">
-                                            @if (prev_lang == "1")
-                                            {<span>স্থান</span> }
-                                            else
-                                            { <span>Location</span>}
+                                            @{
+                                                int year3 = DateTime.Now.Year - 3;
+                                                <span>@year3</span>
+                                            }
+                                        </th>
+                                        <th class="text-center">
+                                            @{
+                                                int year4 = DateTime.Now.Year - 4;
+                                                <span>@year4</span>
+                                            }
+                                        </th>
+                                        <th class="text-center">
+                                            @{
+                                                int year5 = DateTime.Now.Year - 5;
+                                                <span>@year5</span>
+                                            }
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td>@projectindi.BankErosionLength</td>
-                                        <td>@projectindi.BankErosionArea</td>
-                                        <td>@projectindi.BankErosionLocation</td>
+                                        <td id="pAnnualRainFallLast1Year">@pcd.AnnualRainFallLast1Year</td>
+                                        <td id="pAnnualRainFallLast2Years">@pcd.AnnualRainFallLast2Years</td>
+                                        <td id="pAnnualRainFallLast3Years">@pcd.AnnualRainFallLast3Years</td>
+                                        <td id="pAnnualRainFallLast4Years">@pcd.AnnualRainFallLast4Years</td>
+                                        <td id="pAnnualRainFallLast5Years">@pcd.AnnualRainFallLast5Years</td>
                                     </tr>
                                 </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "BankErosion").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "AnnualRainfallLastFiveYears").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -557,298 +588,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>vi. ভাঙ্গনের হার (মি./বছর)</span> }
+                                    {<span>vii. ইনটেক পয়েন্টে পানির সমতল (ওয়াটার লেভেল)</span>}
                                     else
-                                    { <span>vi. Erosion rate (m/year)</span>}
-                                </b>
-                            </td>
-                            <td>@projectindi.BankErosionRate</td>
-                            <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "BankErosionRate").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>vii. গুরুত্বপূর্ণ অবকাঠামো / রাস্তা / ভবন হতে নদীর তীরের দূরত্ব</span> }
-                                    else
-                                    { <span>vii. Set Back Distance from Important Structure/ Road/ Building/ Local Habitation</span>}
-                                </b>
-                            </td>
-                            <td>@projectindi.SetBackDistanceImpStruct</td>
-                            <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "SetBackDistanceImpStruct").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>viii. নদীর তীরের মাটির প্রকৃতি</span> }
-                                    else
-                                    { <span>viii. Soil Type of River Bank</span>}
-                                </b>
-                            </td>
-                            <td>@projectindi.SoilTypeRiverBank</td>
-                            <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "SoilTypeRiverBank").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>ix. নদীাতে পলি জমার (সেডিমেন্টেশন) পরিমাণ</span>}
-                                    else
-                                    {<span>ix. Sedimentation of Rivers</span>}
-                                </b>
-                            </td>
-                            <td>
-                                <ul>
-                                    @foreach (var sd in (List<SediOfRiverOrKhalDetailTemp>)sdi)
-                                    {
-                                        if (prev_lang == "1")
-                                        {
-                                            <li>@sd.SedimentationNameBn</li>
-                                        }
-                                        else
-                                        {
-                                            <li>@sd.SedimentationName</li>
-                                        }
-                                    }
-                                </ul>
-                            </td>
-                            <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "SedimentationOfRiverKhal").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>x. চর সমূহের বিকাশতা</span> }
-                                    else
-                                    { <span>x. Development of Chars</span>}
-                                </b>
-                            </td>
-                            <td>
-                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                                    <tr>
-                                        <th class="text-center">
-                                            @if (prev_lang == "1")
-                                            {<span>এরিয়া (হেক্টর)</span> }
-                                            else
-                                            { <span>Area (ha)</span>}
-                                        </th>
-                                        <th class="text-center">
-                                            @if (prev_lang == "1")
-                                            {<span>অবস্থান</span> }
-                                            else
-                                            { <span>Location</span>}
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td>@projectindi.CharArea</td>
-                                        <td>@projectindi.CharLocation</td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "DevelopmentOfChars").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>xi. খাদ্যশস্য চাষাবাদকৃত এলাকা (হেক্টর)</span> }
-                                    else
-                                    { <span>xi. Irrigated Crop Area (ha)</span>}
-                                </b>
-                            </td>
-                            <td>@projectindi.IrrigatedCropArea</td>
-                            <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "IrrigatedCropArea").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>xii. ফসল/ খাদ্যশস্য উৎপাদনের পরিমাণ (টন)</span> }
-                                    else
-                                    { <span>xii. Crop Production (ton)</span>}
-                                </b>
-                            </td>
-                            <td>@projectindi.CropProduction</td>
-                            <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "CropProduction").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>xiii. প্রকল্প এলাকায় বিদ্যমান গাছপালা ও পশুপাখি</span> }
-                                    else
-                                    { <span>xiii. Flora and Fauna</span>}
-                                </b>
-                            </td>
-                            <td>@projectindi.FloraAndFauna</td>
-                            <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "FloraAndFauna").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>xiv. আর্থ সামাজিক অবস্থা</span> }
-                                    else
-                                    { <span>xiv. Socio Economic Condition</span>}
-                                </b>
-                            </td>
-                            <td>
-                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                                    <tr>
-                                        <th class="text-center">
-                                            @if (prev_lang == "1")
-                                            {<span>ভূমি হীন জনগোষ্ঠী (শতকরা)</span> }
-                                            else
-                                            { <span>% of Land Less People</span>}
-                                        </th>
-                                        <th class="text-center">
-                                            @if (prev_lang == "1")
-                                            {<span>ছোট / প্রান্তিক কৃষক (শতকরা)</span> }
-                                            else
-                                            { <span>% of Small Farmer</span>}
-                                        </th>
-                                        <th class="text-center">
-                                            @if (prev_lang == "1")
-                                            {<span>মাসিক গড় আয়</span> }
-                                            else
-                                            { <span>Average Monthly Income</span>}
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td>@projectindi.SecLandLessPeople</td>
-                                        <td>@projectindi.SecSmallFarmer</td>
-                                        <td>@projectindi.SecAvgMonthlyIncome</td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "SocioEconomicCondition").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="3">
-                                <h5>
-                                    @if (prev_lang == "1")
-                                    {<span>২. রিভার মর্ফোলজি ও রিভার হাইড্রোলজি অবস্থা</span> }
-                                    else
-                                    { <span>2. Status of River Morphology and River Hydrology</span>}
-                                </h5>
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>i. নদীর ধরণ</span> }
-                                    else
-                                    { <span>i. River Type</span>}
-                                </b>
-                            </td>
-                            <td>
-                                <ul>
-                                    @foreach (var rt in (List<RiverTypeDetailTemp>)rtd)
-                                    {
-                                        if (prev_lang == "1")
-                                        {
-                                            <li>@rt.RiverTypeNameBn</li>
-                                        }
-                                        else
-                                        {
-                                            <li>@rt.RiverTypeName</li>
-                                        }
-                                    }
-                                </ul>
-                            </td>
-                            <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "RiverTypeName").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>ii. নদীর দৈর্ঘ্য এবং প্রস্থ (মি.)</span>}
-                                    else
-                                    {<span>ii. River Depth and Width (m)</span>}
-                                </b>
-                            </td>
-                            <td>
-                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                                    <tr>
-                                        <th class="text-center">
-                                            @if (prev_lang == "1")
-                                            {<span>দৈর্ঘ্য</span> }
-                                            else
-                                            { <span>Depth</span>}
-                                        </th>
-                                        <th class="text-center">
-                                            @if (prev_lang == "1")
-                                            {<span>প্রস্থ</span> }
-                                            else
-                                            { <span>Width</span>}
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td>@projectindi.RiverDepth</td>
-                                        <td>@projectindi.RiverWidth</td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "RiverDepthWidth").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>iii. নদী/ খালে পলি প্রবাহের হার (সেডিমেন্টেশন রেট); (সে.মি./ বছর) </span> }
-                                    else
-                                    { <span>iii. Sedimentation Rate of River/ Khal (cm/ year)</span>}
-                                </b>
-                            </td>
-                            <td>@projectindi.SedimentationRate</td>
-                            <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "SedimentationRate").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>iv. পানির সমতল (ওয়াটার লেভেল)</span> }
-                                    else
-                                    { <span>iv. Water Level (m PWD)</span>}
+                                    {<span>vii. Water Level (m PWD) at Intake Point</span>}
                                 </b>
                             </td>
                             <td>
@@ -872,7 +614,7 @@
                                 </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "WaterLevelIntakePoint").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "WaterLevelIntakePoint").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -880,9 +622,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>v. পানির প্রবাহ (ডিসচার্জ); (কিউমেক)</span> }
+                                    {<span>viii. ইনটেক পয়েন্টে পানির প্রবাহ (ডিসচার্জ); (কিউমেক)</span>}
                                     else
-                                    { <span>v. Discharge (m<sup>3</sup>/s)</span>}
+                                    {<span>viii. Discharge (m3/s) at Intake Point</span>}
                                 </b>
                             </td>
                             <td>
@@ -906,7 +648,7 @@
                                 </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "DischargeIntakePoint").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DischargeIntakePoint").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -914,28 +656,28 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>vi. পাড় স্থানান্তর</span> }
+                                    {<span>ix. নদী/ খালে পলি জমার (সেডিমেন্টেশন) পরিমান</span>}
                                     else
-                                    { <span>vi. Bank Line Shifting</span>}
+                                    {<span>ix. Sedimentation of River/ Khal</span>}
                                 </b>
                             </td>
                             <td>
                                 <ul>
-                                    @foreach (var bs in (List<BankLineShiftingDetailTemp>)bls)
+                                    @foreach (var sd in (List<SediOfRiverOrKhalDetailTemp>)sdi)
                                     {
                                         if (prev_lang == "1")
                                         {
-                                            <li>@bs.BankLineTitleBn</li>
+                                            <li>@sd.SedimentationNameBn</li>
                                         }
                                         else
                                         {
-                                            <li>@bs.BankLineTitle</li>
+                                            <li>@sd.SedimentationName</li>
                                         }
                                     }
                                 </ul>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "BankLineShifting").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "SedimentationOfRiverKhal").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -943,31 +685,223 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == "1")
-                                    {<span>vii. পাড় স্থিতিশীলতা</span> }
+                                    {<span>x. নদী/ খালে পলি প্রবাহের হার (সেডিমেন্টেশন রেট); (সে.মি./ বছর) </span>}
                                     else
-                                    { <span>vii. Bank Stability</span>}
+                                    {<span>x. Sedimentation Rate of River/ Khal (cm/ year)</span>}
+                                </b>
+                            </td>
+                            <td>@projectindi.SedimentationRate</td>
+                            <td>
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "SedimentationRate").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xi. খননকৃত খালের দৈর্ঘ্য/চেইনেজ </span>}
+                                    else
+                                    { <span>xi. Length of Excavation Work/ Chainage with Location (KM)</span>}
+                                </b>
+                            </td>
+                            <td>@projectindi.LengthExcavationWork</td>
+                            <td>
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "LengthExcavationWork").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xii. মৎস প্রতিপালন</span>}
+                                    else
+                                    {<span>xii. Fish Habitat</span>}
                                 </b>
                             </td>
                             <td>
-                                <ul>
-                                    @foreach (var _bsd in (List<BankStabilityDetailTemp>)bsd)
-                                    {
-                                        if (prev_lang == "1")
-                                        {
-                                            <li>@_bsd.BankStabilityTypeBn</li>
-                                        }
-                                        else
-                                        {
-                                            <li>@_bsd.BankStabilityType</li>
-                                        }
-                                    }
-                                </ul>
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <tr>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>এরিয়া (হেক্টর)</span> }
+                                            else
+                                            { <span>Area (ha)</span>}
+                                        </th>
+                                        <th class="text-center">
+                                            @if (prev_lang == "1")
+                                            {<span>উৎপাদন (টন)</span> }
+                                            else
+                                            { <span>Production (Ton)</span>}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td>@projectindi.FishHabitatArea</td>
+                                        <td>@projectindi.FishHabitatProduction</td>
+                                    </tr>
+                                </table>
                             </td>
                             <td>
-								@Html.Raw(fdac.Where(w => w.ControlTitle == "BankStability").Select(s => s.Comments).FirstOrDefault())
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "FishHabitat").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
-                        
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xiii. খননকৃত মাটির গুণগতমান </span>}
+                                    else
+                                    {<span>xiii. Excavated material quality</span>}
+                                </b>
+                            </td>
+                            <td>@projectindi.ExcavatedMaterialQuality</td>
+                            <td>
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ExcavatedMaterialQuality").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>xiv. খননকৃত মাটি ব্যবস্থাপনা </span>}
+                                    else
+                                    {<span>xiv. Spoil Management Plan</span>}
+                                </b>
+                            </td>
+                            <td>@projectindi.SpoilManagementPlan</td>
+                            <td>
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "SpoilManagementPlan").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h5>
+                                    @if (prev_lang == "1")
+                                    {<span>২. ইস্যু ও চ্যালেঞ্জ বা সমস্যা সমূহ</span>}
+                                    else
+                                    { <span>2. Issue, Challenge or Problem</span>}
+                                </h5>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. ইস্যু ও চ্যালেঞ্জ বা সমস্যা সমূহ</span> }
+                                    else
+                                    { <span>i. Issue, Challenge or Problem</span>}
+                                </b>
+                            </td>
+                            <td>@pcd.IssueChallageProblem</td>
+                            <td>
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "IssueChallageProblem").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h5>
+                                    @if (prev_lang == "1")
+                                    {<span>৩. পানির প্রাপ্যতা বা ড্রেইনেজ বিশ্লেষণ</span> }
+                                    else
+                                    { <span>3. Analysis of water availability/ Drainage</span>}
+                                </h5>
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>i. ভূপরিস্থ পানির প্রাপ্যতা</span>}
+                                    else
+                                    {<span>i. Surface Water Availability</span>}
+                                </b>
+                            </td>
+                            <td>
+                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>Month</span>}
+                                                else
+                                                {<span>Month</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>Minimum Water Flow (m<sup>3</sup>/s)</span>}
+                                                else
+                                                {<span>Minimum Water Flow (m<sup>3</sup>/s)</span>}
+                                            </th>
+                                            <th>
+                                                @if (prev_lang == "1")
+                                                {<span>Water Demand per Month (m<sup>3</sup>)</span>}
+                                                else
+                                                {<span>Water Demand per Month (m<sup>3</sup>)</span>}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyHydrologicalSystemPreview">
+                                        @foreach (SWATemp hsdt in (List<SWATemp>)swa)
+                                        {
+                                            if (prev_lang == "1")
+                                            {
+                                                <tr>
+                                                    <td>@hsdt.Month</td>
+                                                    <td>@hsdt.MinWaterFlow</td>
+                                                    <td>@hsdt.WaterDemandMonth</td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td>@hsdt.Month</td>
+                                                    <td>@hsdt.MinWaterFlow</td>
+                                                    <td>@hsdt.WaterDemandMonth</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "SurfaceWaterAvailability").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td style="width: 250px;">
+                                <b>
+                                    @if (prev_lang == "1")
+                                    {<span>ii. নিষ্কাশন (ড্রেইনেজ) ব্যবস্থা</span> }
+                                    else
+                                    { <span>ii. Drainage Condition</span>}
+                                </b>
+                            </td>
+                            <td>
+                                @foreach (DrainageConditionlTemp dc in (List<DrainageConditionlTemp>)dcd)
+                                {
+                                    if (prev_lang == "1")
+                                    {
+                                        @dc.DrainageConditionBn
+                                    }
+                                    else
+                                    {
+                                        @dc.DrainageCondition
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DrainageCondition").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
                         <tr>
                             <td colspan="3">
                                 <h5>
@@ -985,7 +919,7 @@
                                     @if (prev_lang == "1")
                                     {<span>i. স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
                                     else
-                                    {<span>i. Discussion with stakeholders</span>}
+                                    {<span>i. Discussion with Stakeholders</span>}
                                 </b>
                             </td>
                             <td>
@@ -1089,134 +1023,9 @@
                             <td colspan="3">
                                 <h5>
                                     @if (prev_lang == "1")
-                                    {<span>৪. উদ্দেশ্য পূরনের অপশনসমূহ বিশ্লেষণ</span>}
+                                    {<span>৪. প্রকল্প নথির সাথে ডিজাইন জমা দেওয়া</span>}
                                     else
-                                    {<span>4. Analyze Options to fulfill objective</span>}
-                                </h5>
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>i. বিকল্পগুলি বিশ্লেষণ করুন</span>}
-                                    else
-                                    {<span>i. Analyze Options</span>}
-                                </b>
-                            </td>
-                            <td>
-                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                                    <tr>
-                                        <th width="10%">
-                                            @if (prev_lang == "1")
-                                            {<span>হ্যাঁ</span>}
-                                            else
-                                            {<span>Yes</span>}
-                                        </th>
-                                        <th width="10%">
-                                            @if (prev_lang == "1")
-                                            {<span>না</span>}
-                                            else
-                                            {<span>No</span>}
-                                        </th>
-                                        <th width="40%">
-                                            @if (prev_lang == "1")
-                                            {<span>আবেদনকারীর মন্তব্য</span>}
-                                            else
-                                            {<span>Applicant Comments</span>}
-                                        </th>
-                                        <th width="40%">
-                                            @if (prev_lang == "1")
-                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
-                                            else
-                                            {<span>Authority Comments</span>}
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        @{
-                                            yesTickMark = string.Empty;
-                                            noTickMark = string.Empty;
-
-                                            if (pcd.AnalyzeOptYesNoId == 1)
-                                            {
-                                                yesTickMark = "<span class='fe-check'></span>";
-                                                noTickMark = "";
-                                            }
-                                            else
-                                            {
-                                                yesTickMark = "";
-                                                noTickMark = "<span class='fe-check'></span>";
-                                            }
-
-                                            <td class="text-center">@Html.Raw(yesTickMark)</td>
-                                            <td class="text-center">@Html.Raw(noTickMark)</td>
-                                            <td>@pcd.AnalyzeOptionsApplicantCmt</td>
-                                            <td>@pcd.AnalyzeOptionsAuthorityCmt</td>
-                                        }
-                                    </tr>
-                                </table>
-                                @if (pcd.AnalyzeOptYesNoId == 1)
-                                {
-                                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    @if (prev_lang == "1")
-                                                    {<span>বিকল্প</span>}
-                                                    else
-                                                    {<span>Options</span>}
-                                                </th>
-                                                <th>
-                                                    @if (prev_lang == "1")
-                                                    {<span>বিবরণ</span>}
-                                                    else
-                                                    {<span>Description</span>}
-                                                </th>
-                                                <th>
-                                                    @if (prev_lang == "1")
-                                                    {<span>মন্তব্য</span>}
-                                                    else
-                                                    {<span>Remarks</span>}
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbodyAnalyzeOptFulfillObjPreview">
-                                            @{
-                                                foreach (AnalyzeOptionsDetailTemp aod in (List<AnalyzeOptionsDetailTemp>)aodt)
-                                                {
-                                                    if (string.IsNullOrEmpty(aod.Error))
-                                                    {
-                                                        <tr>
-                                                            <td>@aod.OptionNumber</td>
-                                                            <td>@aod.AnalyzeDescription</td>
-                                                            <td>@aod.AnalyzeRemarks</td>
-                                                        </tr>
-                                                    }
-                                                    else
-                                                    {
-                                                        <tr>
-                                                            <td colspan="3">@aod.Error</td>
-                                                        </tr>
-                                                    }
-                                                }
-                                            }
-                                        </tbody>
-                                    </table>
-                                }
-                            </td>
-                            <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "AnalyzeOptionsFulfillObjective").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="3">
-                                <h5>
-                                    @if (prev_lang == "1")
-                                    {<span>৫. প্রকল্প নথির সাথে ডিজাইন জমা দেওয়া</span>}
-                                    else
-                                    {<span>5. Design submitted with project document</span>}
+                                    {<span>4. Design submitted with project document</span>}
                                 </h5>
                             </td>
                         </tr>
@@ -1323,9 +1132,9 @@
                             <td colspan="3">
                                 <h5>
                                     @if (prev_lang == "1")
-                                    {<span>৬. পরিবেশগত  ও সামাজিক প্রভাব</span>}
+                                    {<span>৫. পরিবেশগত  ও সামাজিক প্রভাব</span>}
                                     else
-                                    {<span>6. Environmental and Social Impact Assessment</span>}
+                                    {<span>5. Environmental and Social Impact Assessment</span>}
                                 </h5>
                             </td>
                         </tr>
@@ -1583,9 +1392,9 @@
                             <td colspan="3">
                                 <h4>
                                     @if (prev_lang == "1")
-                                    {<span>৭. প্রকল্পটি তৈরিতে উপযুক্ত ও পরীক্ষিত  বিশ্লেষণি প্রক্রিয়া, মুল্যায়ন পদ্ধতি, কৌশল ও টুলস্ ব্যবহার করা হয়েছে কিনা</span>}
+                                    {<span>৬. প্রকল্পটি তৈরিতে উপযুক্ত ও পরীক্ষিত  বিশ্লেষণি প্রক্রিয়া, মুল্যায়ন পদ্ধতি, কৌশল ও টুলস্ ব্যবহার করা হয়েছে কিনা</span>}
                                     else
-                                    {<span>7. Use of Appropriate tools, technics, analytical procedures etc</span>}
+                                    {<span>6. Use of Appropriate tools, technics, analytical procedures etc</span>}
                                 </h4>
                             </td>
                         </tr>
@@ -1594,9 +1403,9 @@
                             <td colspan="3">
                                 <h4>
                                     @if (prev_lang == "1")
-                                    {<span>৮. অর্থনৈতিক এবং আর্থিক বিশ্লেষণ</span>}
+                                    {<span>৭. অর্থনৈতিক এবং আর্থিক বিশ্লেষণ</span>}
                                     else
-                                    {<span>8. Economical & Financial Analysis</span>}
+                                    {<span>7. Economical & Financial Analysis</span>}
                                 </h4>
                             </td>
                         </tr>
@@ -2491,72 +2300,6 @@
                             </td>
                             <td style="word-wrap: break-word;">
                                 @Html.Raw(fdac.Where(w => w.ControlTitle == "FeasibilityStudy").Select(s => s.Comments).FirstOrDefault())
-                            </td>
-                        </tr>
-
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td style="width: 250px;">
-                                <b>
-                                    @if (prev_lang == "1")
-                                    {<span>xii. প্রকল্পটির সদৃশ</span>}
-                                    else
-                                    {<span>xii. Duplication of the Project</span>}
-                                </b>
-                            </td>
-                            <td>
-                                <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
-                                    <tr>
-                                        <th>
-                                            @if (prev_lang == "1")
-                                            {<span>হ্যাঁ</span>}
-                                            else
-                                            {<span>Yes</span>}
-                                        </th>
-                                        <th>
-                                            @if (prev_lang == "1")
-                                            {<span>না</span>}
-                                            else
-                                            {<span>No</span>}
-                                        </th>
-                                        <th>
-                                            @if (prev_lang == "1")
-                                            {<span>আবেদনকারীর মন্তব্য</span>}
-                                            else
-                                            {<span>Applicant Comments</span>}
-                                        </th>
-                                        <th>
-                                            @if (prev_lang == "1")
-                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
-                                            else
-                                            {<span>Authority Comments</span>}
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        @{
-                                            yesTickMark = string.Empty;
-                                            noTickMark = string.Empty;
-
-                                            if (projectindi.DuplicatYesNoId == 1)
-                                            {
-                                                yesTickMark = "<span class='fe-check'></span>";
-                                                noTickMark = "";
-                                            }
-                                            else
-                                            {
-                                                yesTickMark = "";
-                                                noTickMark = "<span class='fe-check'></span>";
-                                            }
-
-                                            <td>@Html.Raw(yesTickMark)</td>
-                                            <td>@Html.Raw(noTickMark)</td>
-                                            <td style="word-break: break-all;">@projectindi.DuplicationApplicantComments</td>
-                                            <td style="word-break: break-all;">@projectindi.DuplicationAuthorityComments</td>
-                                        }
-                                    </tr>
-                                </table>
-                            </td>
-                            <td style="word-wrap: break-word;">
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DuplicationOfTheProject").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
