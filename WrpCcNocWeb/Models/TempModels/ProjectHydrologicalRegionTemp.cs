@@ -137,6 +137,14 @@ namespace WrpCcNocWeb.Models
         public string Error { get; set; }
     }
 
+    public class FishWaterAreaTemp
+    {
+        public int FishWaterAreaId { get; set; }
+        public string AreaName { get; set; }
+        public string AreaNameBn { get; set; }
+        public string Error { get; set; }
+    }
+
     public class HydroSystemDetailTemp
     {
         public long HydroSysDetailId { get; set; }
