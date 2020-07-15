@@ -431,4 +431,52 @@ namespace WrpCcNocWeb.Models
         public string BankStabilityTypeBn { get; set; }
         public string Error { get; set; }
     }
+
+    public class PurposeOfWaterUseDetailTemp
+    {
+        public int PurposeOfWaterUseId { get; set; }
+        public string WaterUsePurpose { get; set; }
+        public string WaterUsePurposeBn { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class TypeProposedWellDetailTemp
+    {
+        public int TypeProposedWellId { get; set; }
+        public string ProposedWellName { get; set; }
+        public string ProposedWellNameBn { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class CategoryOfAquiferDetailTemp
+    {
+        public int CategoryOfAquiferId { get; set; }
+        public string AquiferName { get; set; }
+        public string AquiferNameBn { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class PotentialGroundWaterRechargeDetailTemp
+    {
+        public int PotGrndWtrRechargeId { get; set; }
+        public string IndicatorName { get; set; }
+        public string IndicatorNameBn { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class SoilTypeDetailTemp
+    {
+        public int SoilTypeId { get; set; }
+        public string SoilTypeName { get; set; }
+        public string SoilTypeNameBn { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class WaterUseConsumptionDetailTemp
+    {
+        public int WaterUseConsumptionId { get; set; }
+        public string ConsumptionName { get; set; }
+        public string ConsumptionNameBn { get; set; }
+        public string Error { get; set; }
+    }
 }

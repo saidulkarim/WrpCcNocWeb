@@ -169,6 +169,15 @@ namespace WrpCcNocWeb.Controllers
 
                     return RedirectToAction("fpsw", "form"); //Excavation-Excavation of Khal Project
                 }
+                else if (_selectedForm.ProjectTypeId.Equals("12"))
+                {
+                    HttpContext.Response.Cookies.Append("FormLanguage", _selectedForm.LanguageTypeId, new CookieOptions()
+                    {
+                        Expires = DateTime.Now.AddDays(1)
+                    });
+
+                    return RedirectToAction("gwwu", "form"); //Project for Ground Water Withdrawal, Distribution or Use
+                }
                 else
                 {
                     TempData["Message"] = ch.ShowMessage(Sign.Warning, "Under Development", "Sorry, select project is under development.");
@@ -1868,6 +1877,174 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
+        //Form 3.12 Project for Ground Water Withdrawal, Distribution or Use
+        public IActionResult view312(long id)
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            System.Globalization.DateTimeFormatInfo mfi = new System.Globalization.DateTimeFormatInfo();
+
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
+            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+            ViewData["UserLevel"] = uli.UserGroupId;
+            ViewData["UserAuthLevelID"] = uli.AuthorityLevelId;
+            ViewData["HigherAuthLevelID"] = GetHighestLevelAuthority();
+
+            CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(id);
+            if (pcd != null)
+                ViewData["ProjectCommonDetail"] = pcd;
+            else
+                ViewData["ProjectCommonDetail"] = new CcModAppProjectCommonDetail();
+
+            List<ProjectLocationTemp> _locationdetail = GetProjectLocation(pcd.ProjectId);
+            if (_locationdetail.Count > 0)
+                ViewData["ProjectLocationDetail"] = _locationdetail;
+            else
+                ViewData["ProjectLocationDetail"] = new List<CcModPrjLocationDetail>();
+
+            CcModAppProject_312_IndvDetail _indvdetail = _db.CcModAppProject_312_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).FirstOrDefault();
+            if (_indvdetail != null)
+                ViewData["ProjectIndvDetail312"] = _indvdetail;
+            else
+                ViewData["ProjectIndvDetail312"] = new CcModAppProject_312_IndvDetail { Project312IndvId = 0, ProjectId = 0 };
+
+            var _hydroregiondetail = GetHydrologicalRegion(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["HydroRegionDetail"] = _hydroregiondetail;
+
+            var _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new BDP2100HotSpotDetailTemp
+                                    {
+                                        DeltaPlanHotSpotId = x.DeltaPlanHotSpotId,
+                                        PlanName = x.LookUpCcModDeltPlan2100HotSpot.PlanName,
+                                        PlanNameBn = x.LookUpCcModDeltPlan2100HotSpot.PlanNameBn
+                                    }).ToList();
+            ViewData["BDP2100HotSpotDetail"] = _hotspotdetail;
+
+            var _powudetail = _db.CcModPurposeOfWaterUseDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new PurposeOfWaterUseDetailTemp
+                                    {
+                                        PurposeOfWaterUseId = x.PurposeOfWaterUseId,
+                                        WaterUsePurpose = x.LookUpCcModPurposeOfWaterUse.WaterUsePurpose,
+                                        WaterUsePurposeBn = x.LookUpCcModPurposeOfWaterUse.WaterUsePurposeBn
+                                    }).ToList();
+            ViewData["PurposeOfWaterUseDetail"] = _powudetail;
+
+            var _topwdetail = _db.CcModAppProject_312_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new TypeProposedWellDetailTemp
+                                    {
+                                        TypeProposedWellId = x.TypeProposedWellId.Value,
+                                        ProposedWellName = x.LookUpCcModTypeProposedWell.ProposedWellName,
+                                        ProposedWellNameBn = x.LookUpCcModTypeProposedWell.ProposedWellNameBn
+                                    }).ToList();
+            ViewData["TypeProposedWellDetail"] = _topwdetail;
+
+            var _gwddetail = (from d in _db.CcModPrjGrndWtrDepthDetail
+                              where d.ProjectId == pcd.ProjectId
+                              select new GrndWtrDepthDetailTemp
+                              {
+                                  GrndWtrDepthDetailId = d.GrndWtrDepthDetailId,
+                                  ProjectId = d.ProjectId,
+                                  MonthId = d.MonthId,
+                                  Month = mfi.GetMonthName(d.MonthId).ToString(),
+                                  WaterDepth = d.WaterDepth
+                              }).OrderBy(o => o.GrndWtrDepthDetailId).ToList(); ;
+            ViewData["GrndWtrDepthDetail"] = _gwddetail;
+
+            var _coadetail = _db.CcModCategoryOfAquiferDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new CategoryOfAquiferDetailTemp
+                                    {
+                                        CategoryOfAquiferId = x.CategoryOfAquiferId,
+                                        AquiferName = x.LookUpCcModCategoryOfAquifer.AquiferName,
+                                        AquiferNameBn = x.LookUpCcModCategoryOfAquifer.AquiferNameBn
+                                    }).ToList();
+            ViewData["CategoryOfAquiferDetail"] = _coadetail;
+
+            var gwa_detail = _db.CcModGroundWaterQualityDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                            .Select(x => new GroundWaterQualityDetailTemp
+                            {
+                                GroundWaterQualityId = x.GroundWaterQualityId,
+                                ParameterName = x.LookUpCcModGroundWaterQuality.ParameterName,
+                                ParameterNameBn = x.LookUpCcModGroundWaterQuality.ParameterNameBn
+                            }).ToList();
+            ViewData["GroundWaterQuality"] = gwa_detail;
+
+            var _pgwrdetail = _db.CcModAppProject_312_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new PotentialGroundWaterRechargeDetailTemp
+                                    {
+                                        PotGrndWtrRechargeId = x.PotGrndWtrRechargeId.Value,
+                                        IndicatorName = x.LookUpCcModPotGrndWtrRecharge.IndicatorName,
+                                        IndicatorNameBn = x.LookUpCcModPotGrndWtrRecharge.IndicatorNameBn
+                                    }).ToList();
+            ViewData["PotentialGroundWaterRechargeDetail"] = _pgwrdetail;
+
+            var _soiltypedetail = _db.CcModSoilTypeDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new SoilTypeDetailTemp
+                                    {
+                                        SoilTypeId = x.SoilTypeId,
+                                        SoilTypeName = x.LookUpCcModSoilType.SoilTypeName,
+                                        SoilTypeNameBn = x.LookUpCcModSoilType.SoilTypeNameBn
+                                    }).ToList();
+            ViewData["SoilTypeDetail"] = _soiltypedetail;
+
+            var _wucdetail = _db.CcModAppProject_312_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new WaterUseConsumptionDetailTemp
+                                    {
+                                        WaterUseConsumptionId = x.WaterUseConsumptionId.Value,
+                                        ConsumptionName = x.LookUpCcModWaterUseConsumption.ConsumptionName,
+                                        ConsumptionNameBn = x.LookUpCcModWaterUseConsumption.ConsumptionNameBn
+                                    }).ToList();
+            ViewData["WaterUseConsumptionDetail"] = _wucdetail;
+
+            var _icadetails = (from d in _db.CcModPrjIrrigCropAreaDetail
+                               where d.ProjectId == pcd.ProjectId
+                               select new IrrigCropAreaDetailTemp
+                               {
+                                   IrrigatedCropId = d.IrrigatedCropId,
+                                   ProjectId = d.ProjectId,
+                                   CropName = d.CropName,
+                                   Area = d.Area.ToString()
+                               }).ToList();
+            ViewData["IrrigCropAreaDetailTemp"] = _icadetails;
+
+            var _compatnwpdetail = GetCompatNWPDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["CompatNWPDetail"] = _compatnwpdetail;
+
+            var _compatnwmpdetail = GetCompatNWMPDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["CompatNWMPDetail"] = _compatnwmpdetail;
+
+            var _compatsdgdetail = GetCompatSDGDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["CompatSDGDetail"] = _compatsdgdetail;
+
+            var _compatsdgindidetail = GetCompatSDGIndicatorDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["CompatSDGIndiDetail"] = _compatsdgindidetail;
+
+            var _bdp2100goaldetail = GetBDP2100GoalDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["BDP2100GoalDetail"] = _bdp2100goaldetail;
+
+            var _gpwmgrouptype = GetGPWMGroupTypeDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["GPWMGroupType"] = _gpwmgrouptype;
+
+            //var _formcommentslisttemp = GetFormDataAnalysisComments(pcd.ProjectTypeId, pcd.ProjectId);
+            //ViewData["FormCommentsListTemp"] = _formcommentslisttemp;
+
+            ViewData["ProjectId"] = pcd.ProjectId;
+            ViewData["Project312IndvId"] = _db.CcModAppProject_312_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project312IndvId).FirstOrDefault();
+            ViewData["UserId"] = ui.UserID;
+            ViewData["ProjectTypeId"] = pcd.ProjectTypeId;
+            ViewData["Title"] = "Project for Ground Water Withdrawal, Distribution or Use | Print";
+            ViewData["ProjectTypeTitle"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectType).FirstOrDefault();
+            ViewData["ProjectTypeTitleBn"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectTypeBn).FirstOrDefault();
+            ViewData["LanguageId"] = pcd.LanguageId;
+            ViewData["SignatureFileName"] = _db.AdminModUsersDetail.Where(w => w.UserId == pcd.UserId).Select(s => s.SignatureFileName).FirstOrDefault();
+            ViewData["ApplicationState"] = GetAppState(pcd.ApplicationStateId, pcd.IsCompletedId.Value);
+            GetApplicantInfoViewData(pcd.UserId);
+
+            return View();
+        }
+
         public IActionResult printfcmp(long id, int status)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
@@ -3525,6 +3702,178 @@ namespace WrpCcNocWeb.Controllers
             GetApplicantInfoViewData(pcd.UserId);
 
             return new ViewAsPdf("~/Views/form/printform311.cshtml", viewData: ViewData)
+            {
+                PageSize = Size.A4,
+                PageOrientation = Orientation.Landscape,
+                PageMargins = new Margins(10, 10, 10, 10)
+            };
+        }
+
+        public IActionResult printform312(long id)
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            System.Globalization.DateTimeFormatInfo mfi = new System.Globalization.DateTimeFormatInfo();
+
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
+            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+            ViewData["UserLevel"] = uli.UserGroupId;
+            ViewData["UserAuthLevelID"] = uli.AuthorityLevelId;
+            ViewData["HigherAuthLevelID"] = GetHighestLevelAuthority();
+
+            CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(id);
+            if (pcd != null)
+                ViewData["ProjectCommonDetail"] = pcd;
+            else
+                ViewData["ProjectCommonDetail"] = new CcModAppProjectCommonDetail();
+
+            List<ProjectLocationTemp> _locationdetail = GetProjectLocation(pcd.ProjectId);
+            if (_locationdetail.Count > 0)
+                ViewData["ProjectLocationDetail"] = _locationdetail;
+            else
+                ViewData["ProjectLocationDetail"] = new List<CcModPrjLocationDetail>();
+
+            CcModAppProject_312_IndvDetail _indvdetail = _db.CcModAppProject_312_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).FirstOrDefault();
+            if (_indvdetail != null)
+                ViewData["ProjectIndvDetail312"] = _indvdetail;
+            else
+                ViewData["ProjectIndvDetail312"] = new CcModAppProject_312_IndvDetail { Project312IndvId = 0, ProjectId = 0 };
+
+            var _hydroregiondetail = GetHydrologicalRegion(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["HydroRegionDetail"] = _hydroregiondetail;
+
+            var _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new BDP2100HotSpotDetailTemp
+                                    {
+                                        DeltaPlanHotSpotId = x.DeltaPlanHotSpotId,
+                                        PlanName = x.LookUpCcModDeltPlan2100HotSpot.PlanName,
+                                        PlanNameBn = x.LookUpCcModDeltPlan2100HotSpot.PlanNameBn
+                                    }).ToList();
+            ViewData["BDP2100HotSpotDetail"] = _hotspotdetail;
+
+            var _powudetail = _db.CcModPurposeOfWaterUseDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new PurposeOfWaterUseDetailTemp
+                                    {
+                                        PurposeOfWaterUseId = x.PurposeOfWaterUseId,
+                                        WaterUsePurpose = x.LookUpCcModPurposeOfWaterUse.WaterUsePurpose,
+                                        WaterUsePurposeBn = x.LookUpCcModPurposeOfWaterUse.WaterUsePurposeBn
+                                    }).ToList();
+            ViewData["PurposeOfWaterUseDetail"] = _powudetail;
+
+            var _topwdetail = _db.CcModAppProject_312_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new TypeProposedWellDetailTemp
+                                    {
+                                        TypeProposedWellId = x.TypeProposedWellId.Value,
+                                        ProposedWellName = x.LookUpCcModTypeProposedWell.ProposedWellName,
+                                        ProposedWellNameBn = x.LookUpCcModTypeProposedWell.ProposedWellNameBn
+                                    }).ToList();
+            ViewData["TypeProposedWellDetail"] = _topwdetail;
+
+            var _gwddetail = (from d in _db.CcModPrjGrndWtrDepthDetail
+                              where d.ProjectId == pcd.ProjectId
+                              select new GrndWtrDepthDetailTemp
+                              {
+                                  GrndWtrDepthDetailId = d.GrndWtrDepthDetailId,
+                                  ProjectId = d.ProjectId,
+                                  MonthId = d.MonthId,
+                                  Month = mfi.GetMonthName(d.MonthId).ToString(),
+                                  WaterDepth = d.WaterDepth
+                              }).OrderBy(o => o.GrndWtrDepthDetailId).ToList(); ;
+            ViewData["GrndWtrDepthDetail"] = _gwddetail;
+
+            var _coadetail = _db.CcModCategoryOfAquiferDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new CategoryOfAquiferDetailTemp
+                                    {
+                                        CategoryOfAquiferId = x.CategoryOfAquiferId,
+                                        AquiferName = x.LookUpCcModCategoryOfAquifer.AquiferName,
+                                        AquiferNameBn = x.LookUpCcModCategoryOfAquifer.AquiferNameBn
+                                    }).ToList();
+            ViewData["CategoryOfAquiferDetail"] = _coadetail;
+
+            var gwa_detail = _db.CcModGroundWaterQualityDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                            .Select(x => new GroundWaterQualityDetailTemp
+                            {
+                                GroundWaterQualityId = x.GroundWaterQualityId,
+                                ParameterName = x.LookUpCcModGroundWaterQuality.ParameterName,
+                                ParameterNameBn = x.LookUpCcModGroundWaterQuality.ParameterNameBn
+                            }).ToList();
+            ViewData["GroundWaterQuality"] = gwa_detail;
+
+            var _pgwrdetail = _db.CcModAppProject_312_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new PotentialGroundWaterRechargeDetailTemp
+                                    {
+                                        PotGrndWtrRechargeId = x.PotGrndWtrRechargeId.Value,
+                                        IndicatorName = x.LookUpCcModPotGrndWtrRecharge.IndicatorName,
+                                        IndicatorNameBn = x.LookUpCcModPotGrndWtrRecharge.IndicatorNameBn
+                                    }).ToList();
+            ViewData["PotentialGroundWaterRechargeDetail"] = _pgwrdetail;
+
+            var _soiltypedetail = _db.CcModSoilTypeDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new SoilTypeDetailTemp
+                                    {
+                                        SoilTypeId = x.SoilTypeId,
+                                        SoilTypeName = x.LookUpCcModSoilType.SoilTypeName,
+                                        SoilTypeNameBn = x.LookUpCcModSoilType.SoilTypeNameBn
+                                    }).ToList();
+            ViewData["SoilTypeDetail"] = _soiltypedetail;
+
+            var _wucdetail = _db.CcModAppProject_312_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new WaterUseConsumptionDetailTemp
+                                    {
+                                        WaterUseConsumptionId = x.WaterUseConsumptionId.Value,
+                                        ConsumptionName = x.LookUpCcModWaterUseConsumption.ConsumptionName,
+                                        ConsumptionNameBn = x.LookUpCcModWaterUseConsumption.ConsumptionNameBn
+                                    }).ToList();
+            ViewData["WaterUseConsumptionDetail"] = _wucdetail;
+
+            var _icadetails = (from d in _db.CcModPrjIrrigCropAreaDetail
+                               where d.ProjectId == pcd.ProjectId
+                               select new IrrigCropAreaDetailTemp
+                               {
+                                   IrrigatedCropId = d.IrrigatedCropId,
+                                   ProjectId = d.ProjectId,
+                                   CropName = d.CropName,
+                                   Area = d.Area.ToString()
+                               }).ToList();
+            ViewData["IrrigCropAreaDetailTemp"] = _icadetails;
+
+            var _compatnwpdetail = GetCompatNWPDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["CompatNWPDetail"] = _compatnwpdetail;
+
+            var _compatnwmpdetail = GetCompatNWMPDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["CompatNWMPDetail"] = _compatnwmpdetail;
+
+            var _compatsdgdetail = GetCompatSDGDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["CompatSDGDetail"] = _compatsdgdetail;
+
+            var _compatsdgindidetail = GetCompatSDGIndicatorDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["CompatSDGIndiDetail"] = _compatsdgindidetail;
+
+            var _bdp2100goaldetail = GetBDP2100GoalDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["BDP2100GoalDetail"] = _bdp2100goaldetail;
+
+            var _gpwmgrouptype = GetGPWMGroupTypeDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["GPWMGroupType"] = _gpwmgrouptype;
+
+            var _formcommentslisttemp = GetFormDataAnalysisComments(pcd.ProjectTypeId, pcd.ProjectId);
+            ViewData["FormCommentsListTemp"] = _formcommentslisttemp;
+
+            ViewData["ProjectId"] = pcd.ProjectId;
+            ViewData["Project312IndvId"] = _db.CcModAppProject_312_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project312IndvId).FirstOrDefault();
+            ViewData["UserId"] = ui.UserID;
+            ViewData["ProjectTypeId"] = pcd.ProjectTypeId;
+            ViewData["Title"] = "Project for Ground Water Withdrawal, Distribution or Use | Print";
+            ViewData["ProjectTypeTitle"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectType).FirstOrDefault();
+            ViewData["ProjectTypeTitleBn"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectTypeBn).FirstOrDefault();
+            ViewData["LanguageId"] = pcd.LanguageId;
+            ViewData["SignatureFileName"] = _db.AdminModUsersDetail.Where(w => w.UserId == pcd.UserId).Select(s => s.SignatureFileName).FirstOrDefault();
+            ViewData["ApplicationState"] = GetAppState(pcd.ApplicationStateId, pcd.IsCompletedId.Value);
+            GetApplicantInfoViewData(pcd.UserId);
+
+            return new ViewAsPdf("~/Views/form/printform312.cshtml", viewData: ViewData)
             {
                 PageSize = Size.A4,
                 PageOrientation = Orientation.Landscape,
@@ -6587,6 +6936,288 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.ToList();
             ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.ToList();
             ViewBag.LookUpCcModEcoAndFinancial = _db.LookUpCcModEcoAndFinancial.ToList();
+
+            ViewBag.LookUpCcModNWPArticle = _db.LookUpCcModNWPArticle.ToList();
+            ViewBag.LookUpCcModNWMPProgramme = _db.LookUpCcModNWMPProgramme.ToList();
+            ViewBag.LookUpCcModSDGGoal = _db.LookUpCcModSDGGoal.ToList();
+            ViewBag.LookUpCcModSDGIndicator = _db.LookUpCcModSDGIndicator.ToList();
+            ViewBag.LookUpCcModDeltPlan2100Goal = _db.LookUpCcModDeltPlan2100Goal.ToList();
+            ViewBag.LookUpCcModGPWMGroupType = _db.LookUpCcModGPWMGroupType.ToList();
+            ViewBag.RecommendationId = _db.LookUpCcModRecommendation.ToList();
+        }
+        #endregion
+
+        #region Form 3.12 Project for Ground Water Withdrawal, Distribution or Use
+        //form/GroundWaterWithdrawalUse :: gwwu
+        public IActionResult gwwu()
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            System.Globalization.DateTimeFormatInfo mfi = new System.Globalization.DateTimeFormatInfo();
+
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
+            SelectedForm sf = HttpContext.Session.GetComplexData<SelectedForm>("SelectedForm");
+            if (sf == null)
+            {
+                return RedirectToAction("index", "form");
+            }
+
+            ViewData["Title"] = sf.LanguageTypeId == "1" ? "ভূপরিস্থ পানি প্রত্যাহার, বিতরণ বা ব্যবহারের জন্য প্রকল্প" : "Project for Ground Water Withdrawal, Distribution or Use";
+            ViewBag.ProjectTypeId = sf.ProjectTypeId;
+            ViewBag.ProjectTitle = sf.ProjectTitle;
+
+            ProjectStatusInfo _psi = GetProjectInfoByType(sf.ProjectTypeId.ToString(), ui.UserID);
+
+            if (_psi == null)
+            {
+                CcModAppProjectCommonDetail _pcd = new CcModAppProjectCommonDetail
+                {
+                    ProjectId = 0
+                };
+
+                ViewBag.ProjectCommonDetail = _pcd;
+                LoadDropdownDataForForm312();
+                GwwuNewEmptyForm();
+            }
+            else if (_psi.ProjectId != 0 && _psi.AppSubmissionId == null)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Warning, "Problem Occured", "Sorry, " + sf.ProjectTitle + " form submission status not found! Please contact with System Administrator.");
+                return RedirectToAction("index", "form");
+            }
+            else
+            {
+                LoadDropdownDataForForm312();
+
+                CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(_psi.ProjectId);
+                if (_pcd != null)
+                    ViewBag.ProjectCommonDetail = _pcd;
+                else
+                    ViewBag.ProjectCommonDetail = new CcModAppProjectCommonDetail();
+
+                CcModPrjLocationDetail _locationdetail = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == _psi.ProjectId).FirstOrDefault();
+                if (_locationdetail != null)
+                    ViewBag.ProjectLocationDetail = _locationdetail;
+                else
+                    ViewBag.ProjectLocationDetail = new CcModPrjLocationDetail();
+
+                CcModAppProject_312_IndvDetail _indvdetail = _db.CcModAppProject_312_IndvDetail.Where(w => w.ProjectId == _psi.ProjectId).FirstOrDefault();
+                if (_indvdetail != null)
+                    ViewBag.ProjectIndvDetail312 = _indvdetail;
+                else
+                    ViewBag.ProjectIndvDetail312 = new CcModAppProject_312_IndvDetail { Project312IndvId = 0, ProjectId = 0 };
+
+                var _hydroregiondetail = _db.CcModPrjHydroRegionDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                            .Select(x => new { x.PrjHydroRegionDetailId, x.ProjectId, x.HydroRegionId }).ToList();
+                ViewBag.HydroRegionDetail = _hydroregiondetail;
+
+                var _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                        .Select(x => new { x.HotSpotDetailId, x.ProjectId, x.DeltaPlanHotSpotId }).ToList();
+                ViewBag.BDP2100HotSpotDetail = _hotspotdetail;
+
+                //Deed start
+                var _compatnwpdetail = _db.CcModPrjCompatNWPDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new
+                                       {
+                                           x.PrjCompatNWPId,
+                                           x.ProjectId,
+                                           x.NationalWaterPolicyArticleId,
+                                           x.LookUpCcModNWPArticle.NationalWtrPolicyShortTitle,
+                                           x.LookUpCcModNWPArticle.NationalWtrPolicyArticleTitle
+                                       }).ToList();
+                ViewBag.CompatNWPDetail = _compatnwpdetail;
+
+                var _compatnwmpdetail = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.PrjCompatNWMPId, x.ProjectId, x.NWMPProgrammeId, x.LookUpCcModNWMPProgramme.NWMPProgrammeTitle }).ToList();
+                ViewBag.CompatNWMPDetail = _compatnwmpdetail;
+
+                var _compatsdgdetail = _db.CcModPrjCompatSDGDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.SDGCompabilityId, x.ProjectId, x.SDGGoalId }).ToList();
+                ViewBag.CompatSDGDetail = _compatsdgdetail;
+
+                var _compatsdgindidetail = _db.CcModPrjCompatSDGIndiDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.SDGIndicatorDetailId, x.ProjectId, x.SDGIndicatorId }).ToList();
+                ViewBag.CompatSDGIndiDetail = _compatsdgindidetail;
+
+                var _bdp2100goaldetail = _db.CcModBDP2100GoalDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.DeltaGoalDetailId, x.ProjectId, x.DeltPlan2100GoalId }).ToList();
+                ViewBag.BDP2100GoalDetail = _bdp2100goaldetail;
+
+                var _gpwmgrouptype = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == _psi.ProjectId)
+                                       .Select(x => new { x.GPWMGroupTypeDetailId, x.ProjectId, x.GPWMGroupTypeId }).ToList();
+                ViewBag.GPWMGroupType = _gpwmgrouptype;
+            }
+
+            GetApplicantInfo(ui.UserID);
+            return View();
+        }
+
+        //form/GroundWaterWithdrawalUse :: gwwu
+        [HttpPost]
+        public IActionResult gwwu(long id)
+        {
+            ProjectStatusInfo _pi = GetProjectInfoById(id);
+            int result = 0, appState = 0;
+
+            if (_pi.AppSubmissionId == 0)
+            {
+                appState = _pi.ApplicationStateId;
+
+                if (_pi.ApplicationStateId == 1)
+                {
+                    //Step 1: Project Estimated Cost Range
+                    #region Finding Application State from Cost Range
+                    appState = GetProjectCostRangeState(id);
+                    #endregion
+
+                    //Step 2: Project Multiple Location
+                    #region Multiple Location Checking
+                    appState = GetProjectMultipleLocation(id);
+                    #endregion
+
+                    //Step 3: Payment Method
+                    #region Payment Method Checking
+                    //payment method code will be incorporate here
+                    #endregion
+
+                    //Step 3: Mandatory File Attachment
+                    #region Mandatory File Attachment Checking
+                    //mandatory file attachment code will be incorporate here
+                    #endregion
+
+                    string projectTrackingCode = id.ToString().GenerateTrackingNumber(6);
+
+                    if (!string.IsNullOrEmpty(projectTrackingCode))
+                    {
+                        using var dbContextTransaction = _db.Database.BeginTransaction();
+                        try
+                        {
+                            CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(id);
+
+                            if (_pcd != null)
+                            {
+                                _pcd.AppSubmissionId = projectTrackingCode.ToLong();
+                                _pcd.ApplicationStateId = appState;
+                                _pcd.IsCompletedId = 2; // need to change after re-logic check
+                                _pcd.ReviewCycleNo = 0;
+
+                                _db.Entry(_pcd).State = EntityState.Modified;
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = id.ToString(),
+                                        status = "success",
+                                        title = "Success",
+                                        message = "Your application has been successfully submitted to higher authority. Application tracking code: " + projectTrackingCode
+                                    };
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = id.ToString(),
+                                        status = "error",
+                                        title = "Application Submission Error",
+                                        message = "Your application not submitted."
+                                    };
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            dbContextTransaction.Rollback();
+
+                            var message = ch.ExtractInnerException(ex);
+
+                            noti = new Notification
+                            {
+                                id = "0",
+                                status = "error",
+                                title = "An Exception Error Occured",
+                                message = message
+                            };
+                        }
+                    }
+                }
+                else
+                {
+                    noti = new Notification
+                    {
+                        id = id.ToString(),
+                        status = "warning",
+                        title = "Application Current State",
+                        message = "Your application already submitted. " +
+                                  "\n<br />Application current state: <b>" + _pi.ApplicationState + ".</b>" +
+                                  "\nApplication tracking number:" + _pi.AppSubmissionId
+                        //"\n<br />Approval status: " + _pi.ApprovalStatus
+                    };
+                }
+            }
+            else
+            {
+                noti = new Notification
+                {
+                    id = id.ToString(),
+                    status = "warning",
+                    title = "Already Submitted",
+                    message = "Your application already submitted. Application tracking number: " + _pi.AppSubmissionId
+                };
+            }
+
+            return Json(noti);
+        }
+
+        private void GwwuNewEmptyForm()
+        {
+            CcModAppProjectCommonDetail _pcd = new CcModAppProjectCommonDetail { ProjectId = 0 };
+            ViewBag.ProjectCommonDetail = _pcd;
+            CcModPrjLocationDetail _locationdetail = new CcModPrjLocationDetail();
+            ViewBag.ProjectLocationDetail = _locationdetail;
+
+            CcModAppProject_312_IndvDetail _indvdetail = new CcModAppProject_312_IndvDetail { Project312IndvId = 0, ProjectId = 0 };
+            ViewBag.ProjectIndvDetail312 = _indvdetail;
+
+            List<CcModPrjHydroRegionDetail> _hydroregiondetail = new List<CcModPrjHydroRegionDetail>();
+            ViewBag.HydroRegionDetail = _hydroregiondetail;
+            List<CcModBDP2100HotSpotDetail> _hotspotdetail = new List<CcModBDP2100HotSpotDetail>();
+            ViewBag.BDP2100HotSpotDetail = _hotspotdetail;
+
+            List<CcModPrjCompatNWPDetail> _compatnwpdetail = new List<CcModPrjCompatNWPDetail>();
+            ViewBag.CompatNWPDetail = _compatnwpdetail;
+            List<CcModPrjCompatNWMPDetail> _compatnwmpdetail = new List<CcModPrjCompatNWMPDetail>();
+            ViewBag.CompatNWMPDetail = _compatnwmpdetail;
+            List<CcModPrjCompatSDGDetail> _compatsdgdetail = new List<CcModPrjCompatSDGDetail>();
+            ViewBag.CompatSDGDetail = _compatsdgdetail;
+            List<CcModPrjCompatSDGIndiDetail> _compatsdgindidetail = new List<CcModPrjCompatSDGIndiDetail>();
+            ViewBag.CompatSDGIndiDetail = _compatsdgindidetail;
+            List<CcModBDP2100GoalDetail> _bdp2100goaldetail = new List<CcModBDP2100GoalDetail>();
+            ViewBag.BDP2100GoalDetail = _bdp2100goaldetail;
+            List<CcModGPWMGroupTypeDetail> _gpwmgrouptype = new List<CcModGPWMGroupTypeDetail>();
+            ViewBag.GPWMGroupType = _gpwmgrouptype;
+        }
+
+        private void LoadDropdownDataForForm312()
+        {
+            ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
+            ViewBag.LookUpCcModPurposeOfWaterUse = _db.LookUpCcModPurposeOfWaterUse.ToList(); //multi
+            ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList(); //multi
+            ViewBag.LookUpCcModDeltPlan2100HotSpot = _db.LookUpCcModDeltPlan2100HotSpot.ToList(); //multi
+
+            ViewBag.LookUpCcModTypeProposedWell = _db.LookUpCcModTypeProposedWell.ToList();
+            ViewBag.LookUpCcModCategoryOfAquifer = _db.LookUpCcModCategoryOfAquifer.ToList(); //multi
+            ViewBag.LookUpCcModGroundWaterQuality = _db.LookUpCcModGroundWaterQuality.ToList(); //multi
+            ViewBag.LookUpCcModPotGrndWtrRecharge = _db.LookUpCcModPotGrndWtrRecharge.ToList();
+            ViewBag.LookUpCcModSoilType = _db.LookUpCcModSoilType.ToList(); //multi
+            ViewBag.LookUpCcModWaterUseConsumption = _db.LookUpCcModWaterUseConsumption.ToList();
 
             ViewBag.LookUpCcModNWPArticle = _db.LookUpCcModNWPArticle.ToList();
             ViewBag.LookUpCcModNWMPProgramme = _db.LookUpCcModNWMPProgramme.ToList();
@@ -16268,6 +16899,566 @@ namespace WrpCcNocWeb.Controllers
                             noti = new Notification
                             {
                                 id = p311id.Project311IndvId.ToString(),
+                                status = "success",
+                                message = "Information has been saved successfully. "
+                            };
+
+                            goto Finish;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContextTransaction.Rollback();
+                        var message = ch.ExtractInnerException(ex);
+
+                        noti = new Notification
+                        {
+                            id = "",
+                            status = "error",
+                            message = "Saving data transaction has been rollbacked. " + message
+                        };
+
+                        goto Finish;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    message = message
+                };
+
+                goto Finish;
+            }
+
+        Rollback:
+            dbContextTransaction.Rollback();
+
+            noti = new Notification
+            {
+                id = "",
+                status = "error",
+                message = "Saving data transaction has been rollbacked."
+            };
+
+            goto Finish;
+
+        Finish:
+            return Json(noti);
+        }
+        #endregion
+
+        #region Form 3.12 > Project for Ground Water Withdrawal, Distribution or Use
+        //Tehnical Info
+        //form/Form312TechInfoOneToOneSave :: f312tiotos
+        [HttpPost]
+        public JsonResult f312tiotos(Form312TechInfo _form312TechInfo)
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            using var dbContextTransaction = _db.Database.BeginTransaction();
+            int result = 0;
+            Int64 ProjectId = _form312TechInfo.CommonDetail.ProjectId;
+
+            try
+            {
+                if (_form312TechInfo != null && ProjectId != 0)
+                {
+                    try
+                    {
+                        CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(ProjectId);
+
+                        if (pcd == null)
+                        {
+                            noti = new Notification
+                            {
+                                id = "",
+                                status = "error",
+                                message = "General information is missing. Please enter general information first."
+                            };
+
+                            goto Finish;
+                        }
+
+                        #region getting client end data
+                        CcModAppProjectCommonDetail CommonDetail = _form312TechInfo.CommonDetail;
+                        CcModAppProject_312_IndvDetail Project312Indv = _form312TechInfo.Project312Indv;
+
+                        List<CcModPrjHydroRegionDetail> HydroRegion = _form312TechInfo.HydroRegion;
+                        List<CcModBDP2100HotSpotDetail> BDP2100HotSpot = _form312TechInfo.BDP2100HotSpot;
+
+                        List<CcModPurposeOfWaterUseDetail> PurposeOfWaterUseDetail = _form312TechInfo.PurposeOfWaterUseDetail;
+                        List<CcModCategoryOfAquiferDetail> CategoryOfAquiferDetail = _form312TechInfo.CategoryOfAquiferDetail;
+                        List<CcModGroundWaterQualityDetail> GroundWaterQualityDetail = _form312TechInfo.GroundWaterQualityDetail;
+                        List<CcModSoilTypeDetail> SoilTypeDetail = _form312TechInfo.SoilTypeDetail;
+                        #endregion
+
+                        #region Common Detail Data Binding
+                        pcd.AnnualRainFallLast1Year = CommonDetail.AnnualRainFallLast1Year;
+                        pcd.AnnualRainFallLast2Years = CommonDetail.AnnualRainFallLast2Years;
+                        pcd.AnnualRainFallLast3Years = CommonDetail.AnnualRainFallLast3Years;
+                        pcd.AnnualRainFallLast4Years = CommonDetail.AnnualRainFallLast4Years;
+                        pcd.AnnualRainFallLast5Years = CommonDetail.AnnualRainFallLast5Years;
+                        #endregion
+
+                        _db.Entry(pcd).State = EntityState.Modified;
+                        result = _db.SaveChanges();
+
+                        if (result > 0)
+                        {
+                            CcModAppProject_312_IndvDetail p312i = _db.CcModAppProject_312_IndvDetail.Where(w => w.ProjectId == ProjectId).FirstOrDefault();
+
+                            if (p312i == null)
+                            {
+                                _db.CcModAppProject_312_IndvDetail.Add(Project312Indv);
+
+                                if (HydroRegion != null && HydroRegion.Count > 0)
+                                {
+                                    _db.CcModPrjHydroRegionDetail.AddRange(HydroRegion);
+                                }
+                                else
+                                {
+                                    noti = new Notification
+                                    {
+                                        id = "",
+                                        status = "error",
+                                        message = "Please select hydrological region!"
+                                    };
+
+                                    goto Finish;
+                                }
+
+                                if (BDP2100HotSpot != null && BDP2100HotSpot.Count > 0)
+                                {
+                                    _db.CcModBDP2100HotSpotDetail.AddRange(BDP2100HotSpot);
+                                }
+                                else
+                                {
+                                    noti = new Notification
+                                    {
+                                        id = "",
+                                        status = "error",
+                                        message = "Please select Bangladesh Delta Plan 2100 hot spot!"
+                                    };
+
+                                    goto Finish;
+                                }
+
+                                if (PurposeOfWaterUseDetail != null && PurposeOfWaterUseDetail.Count > 0)
+                                {
+                                    _db.CcModPurposeOfWaterUseDetail.AddRange(PurposeOfWaterUseDetail);
+                                }
+
+                                if (CategoryOfAquiferDetail != null && CategoryOfAquiferDetail.Count > 0)
+                                {
+                                    _db.CcModCategoryOfAquiferDetail.AddRange(CategoryOfAquiferDetail);
+                                }
+
+                                if (GroundWaterQualityDetail != null && GroundWaterQualityDetail.Count > 0)
+                                {
+                                    _db.CcModGroundWaterQualityDetail.AddRange(GroundWaterQualityDetail);
+                                }
+
+                                if (SoilTypeDetail != null && SoilTypeDetail.Count > 0)
+                                {
+                                    _db.CcModSoilTypeDetail.AddRange(SoilTypeDetail);
+                                }
+
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = Project312Indv.Project312IndvId.ToString(),
+                                        status = "success",
+                                        message = "Technical information has been save successfully."
+                                    };
+
+                                    goto Finish;
+                                }
+                                else
+                                {
+                                    goto Rollback;
+                                }
+                            }
+                            else
+                            {
+                                #region Deleting Before Data                                
+                                if (HydroRegion != null && HydroRegion.Count > 0)
+                                {
+                                    List<CcModPrjHydroRegionDetail> tempHrList = _db.CcModPrjHydroRegionDetail.Where(w => w.ProjectId == p312i.ProjectId).ToList();
+
+                                    if (tempHrList.Count > 0)
+                                    {
+                                        _db.CcModPrjHydroRegionDetail.RemoveRange(tempHrList);
+                                    }
+                                }
+
+                                if (BDP2100HotSpot != null && BDP2100HotSpot.Count > 0)
+                                {
+                                    List<CcModBDP2100HotSpotDetail> tempHsList = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == p312i.ProjectId).ToList();
+
+                                    if (tempHsList.Count > 0)
+                                    {
+                                        _db.CcModBDP2100HotSpotDetail.RemoveRange(tempHsList);
+                                    }
+                                }
+
+                                if (PurposeOfWaterUseDetail != null && PurposeOfWaterUseDetail.Count > 0)
+                                {
+                                    List<CcModPurposeOfWaterUseDetail> tempPWUList = _db.CcModPurposeOfWaterUseDetail.Where(w => w.ProjectId == p312i.ProjectId).ToList();
+
+                                    if (tempPWUList.Count > 0)
+                                    {
+                                        _db.CcModPurposeOfWaterUseDetail.RemoveRange(tempPWUList);
+                                    }
+                                }
+
+                                if (CategoryOfAquiferDetail != null && CategoryOfAquiferDetail.Count > 0)
+                                {
+                                    List<CcModCategoryOfAquiferDetail> tempCoAList = _db.CcModCategoryOfAquiferDetail.Where(w => w.ProjectId == p312i.ProjectId).ToList();
+
+                                    if (tempCoAList.Count > 0)
+                                    {
+                                        _db.CcModCategoryOfAquiferDetail.RemoveRange(tempCoAList);
+                                    }
+                                }
+
+                                if (GroundWaterQualityDetail != null && GroundWaterQualityDetail.Count > 0)
+                                {
+                                    List<CcModGroundWaterQualityDetail> tempGWQList = _db.CcModGroundWaterQualityDetail.Where(w => w.ProjectId == p312i.ProjectId).ToList();
+
+                                    if (tempGWQList.Count > 0)
+                                    {
+                                        _db.CcModGroundWaterQualityDetail.RemoveRange(tempGWQList);
+                                    }
+                                }
+
+                                if (SoilTypeDetail != null && SoilTypeDetail.Count > 0)
+                                {
+                                    List<CcModSoilTypeDetail> tempSTList = _db.CcModSoilTypeDetail.Where(w => w.ProjectId == p312i.ProjectId).ToList();
+
+                                    if (tempSTList.Count > 0)
+                                    {
+                                        _db.CcModSoilTypeDetail.RemoveRange(tempSTList);
+                                    }
+                                }
+
+                                _db.CcModPrjHydroRegionDetail.AddRange(HydroRegion);
+                                _db.CcModBDP2100HotSpotDetail.AddRange(BDP2100HotSpot);
+
+                                _db.CcModPurposeOfWaterUseDetail.AddRange(PurposeOfWaterUseDetail);
+                                _db.CcModCategoryOfAquiferDetail.AddRange(CategoryOfAquiferDetail);
+                                _db.CcModGroundWaterQualityDetail.AddRange(GroundWaterQualityDetail);
+                                _db.CcModSoilTypeDetail.AddRange(SoilTypeDetail);
+                                #endregion
+
+                                #region Project 312 Indvidual Data Binding
+                                p312i.WellDescription = Project312Indv.WellDescription;
+                                p312i.TypeProposedWellId = Project312Indv.TypeProposedWellId;
+                                p312i.StatusOfAquifer = Project312Indv.StatusOfAquifer;
+                                p312i.PotGrndWtrRechargeId = Project312Indv.PotGrndWtrRechargeId;
+                                p312i.WaterWithdrawalTarget = Project312Indv.WaterWithdrawalTarget;
+                                p312i.WaterWithdrawalProcedure = Project312Indv.WaterWithdrawalProcedure;
+                                p312i.UseOfMeterToMeasure = Project312Indv.UseOfMeterToMeasure;
+                                p312i.PumpCapacity = Project312Indv.PumpCapacity;
+                                p312i.WellDepth = Project312Indv.WellDepth;
+                                p312i.PipeDiameterOfWell = Project312Indv.PipeDiameterOfWell;
+                                p312i.WaterWithdrawalQtyDay = Project312Indv.WaterWithdrawalQtyDay;
+                                p312i.RechargeTime = Project312Indv.RechargeTime;
+                                p312i.WaterUseConsumptionId = Project312Indv.WaterUseConsumptionId;
+                                p312i.DischargePoint = Project312Indv.DischargePoint;
+                                p312i.DistanceProposedExtractWell = Project312Indv.DistanceProposedExtractWell;
+                                p312i.Place = Project312Indv.Place;
+                                p312i.WellType = Project312Indv.WellType;
+                                p312i.Capacity = Project312Indv.Capacity;
+                                p312i.DiameterOfWell = Project312Indv.DiameterOfWell;
+                                p312i.DepthOfWell = Project312Indv.DepthOfWell;
+                                p312i.RecuperationHours = Project312Indv.RecuperationHours;
+                                p312i.RiverKhalName = Project312Indv.RiverKhalName;
+                                p312i.NearestSurfWaterAvailDistance = Project312Indv.NearestSurfWaterAvailDistance;
+                                p312i.WaterLevel = Project312Indv.WaterLevel;
+                                p312i.Discharge = Project312Indv.Discharge;
+                                p312i.CommandAreaOfWell = Project312Indv.CommandAreaOfWell;
+                                p312i.OtherAvailableSource = Project312Indv.OtherAvailableSource;
+                                p312i.FutureAvailability = Project312Indv.FutureAvailability;
+                                p312i.CultivableCrops = Project312Indv.CultivableCrops;
+                                p312i.AnnualRequirementOfGW = Project312Indv.AnnualRequirementOfGW;
+                                p312i.CropProduction = Project312Indv.CropProduction;
+                                #endregion
+
+                                _db.Entry(p312i).State = EntityState.Modified;
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = Project312Indv.Project312IndvId.ToString(),
+                                        status = "success",
+                                        message = "Technical information has been updated successfully."
+                                    };
+
+                                    goto Finish;
+                                }
+                                else
+                                {
+                                    goto Rollback;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            goto Rollback;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContextTransaction.Rollback();
+                        var message = ch.ExtractInnerException(ex);
+
+                        noti = new Notification
+                        {
+                            id = "0",
+                            status = "error",
+                            message = "Saving data transaction has been rollbacked. " + message
+                        };
+
+                        goto Finish;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    message = message
+                };
+
+                goto Finish;
+            }
+
+        Rollback:
+            dbContextTransaction.Rollback();
+
+            noti = new Notification
+            {
+                id = "",
+                status = "error",
+                message = "Saving data transaction has been rollbacked."
+            };
+
+            goto Finish;
+
+        Finish:
+            return Json(noti);
+        }
+
+        //Deed Obligatory
+        //form/Form312DeedObligatoryOneToOneSave :: f312dootos        
+        [HttpPost]
+        public JsonResult f312dootos(Form312DeedObligatory _form312DeedObli)
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            using var dbContextTransaction = _db.Database.BeginTransaction();
+            int result = 0;
+            Int64 ProjectId = _form312DeedObli.CommonDetail.ProjectId;
+            //Int64 Project312IndvId = _form312DeedObli.Project312Indv.Project312IndvId;
+
+            try
+            {
+                if (_form312DeedObli != null && ProjectId != 0)
+                {
+                    try
+                    {
+                        CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(ProjectId);
+                        CcModAppProject_312_IndvDetail p312id = _db.CcModAppProject_312_IndvDetail.Where(w => w.ProjectId == ProjectId).FirstOrDefault(); //.Where(w => w.ProjectId == ProjectId).FirstOrDefault();
+
+                        if (pcd == null)
+                        {
+                            noti = new Notification
+                            {
+                                id = "",
+                                status = "error",
+                                message = "General information is missing. Please enter general information first."
+                            };
+
+                            goto Finish;
+                        }
+
+                        if (p312id == null)
+                        {
+                            noti = new Notification
+                            {
+                                id = "",
+                                status = "error",
+                                message = "Technical information is missing. Please enter Technical information first."
+                            };
+
+                            goto Finish;
+                        }
+
+                        #region getting client end data
+                        CcModAppProjectCommonDetail CommonDetail = _form312DeedObli.CommonDetail;
+                        //CcModAppProject_312_IndvDetail Project312Indv = _form312DeedObli.Project312Indv;
+                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _form312DeedObli.CompatNWPDetail;
+                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _form312DeedObli.CompatNWMPDetail;
+                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _form312DeedObli.CompatSDGDetail;
+                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _form312DeedObli.CompatSDGIndiDetail;
+                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _form312DeedObli.BDP2100GoalDetail;
+                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _form312DeedObli.GPWMGroupTypeDetail;
+                        #endregion
+
+                        #region Common Detail Data Binding
+                        pcd.CompatNWPYesNoId = CommonDetail.CompatNWPYesNoId;
+                        pcd.CompatibilityNWPApplicantCmt = CommonDetail.CompatibilityNWPApplicantCmt;
+                        pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
+                        //pcd.CompatibilityNWPDocLink //file
+                        pcd.NWMPCompatYesNoId = CommonDetail.NWMPCompatYesNoId;
+                        pcd.NWMPApplicantCmt = CommonDetail.NWMPApplicantCmt;
+                        pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
+                        //pcd.NWMPDocLink //file
+                        pcd.FYPYesNoId = CommonDetail.FYPYesNoId;
+                        pcd.FYPApplicantCmt = CommonDetail.FYPApplicantCmt;
+                        pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
+                        pcd.SDGYesNoId = CommonDetail.SDGYesNoId;
+                        pcd.SDGApplicantCmt = CommonDetail.SDGApplicantCmt;
+                        pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
+                        //pcd.SDGDocLink //file
+                        pcd.DeltaPlanYesNoId = CommonDetail.DeltaPlanYesNoId;
+                        pcd.DeltaPlan2100ApplicantCmt = CommonDetail.DeltaPlan2100ApplicantCmt;
+                        pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
+                        //pcd.DeltaPlan2100DocLink //file
+                        pcd.CostalZoneYesNoId = CommonDetail.CostalZoneYesNoId;
+                        pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
+                        pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
+                        //pcd.CostalZoneDocLink //file.
+                        pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
+                        pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
+                        pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
+                        //pcd.AgriDocLink //file
+                        pcd.FisheriesYesNoId = CommonDetail.FisheriesYesNoId;
+                        pcd.FisheriesApplicantCmt = CommonDetail.FisheriesApplicantCmt;
+                        pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
+                        //pcd.FisheriesDocLink //file
+                        pcd.IWRMYesNoId = CommonDetail.IWRMYesNoId;
+                        pcd.IWRMApplicantCmt = CommonDetail.IWRMApplicantCmt;
+                        pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
+                        pcd.GPWMYesNoId = CommonDetail.GPWMYesNoId;
+                        pcd.GPWMApplicantCmt = CommonDetail.GPWMApplicantCmt;
+                        pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
+                        pcd.FeasibilityYesNoId = CommonDetail.FeasibilityYesNoId;
+                        pcd.FeasibilityApplicantCmt = CommonDetail.FeasibilityApplicantCmt;
+                        pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
+                        pcd.SocialIssuesYesNoId = CommonDetail.SocialIssuesYesNoId;
+                        pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;
+                        pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        #endregion
+
+                        #region Project 312 Individual Data Binding
+                        //p312id.DuplicatYesNoId = Project312Indv.DuplicatYesNoId;
+                        //p312id.DuplicationApplicantComments = Project312Indv.DuplicationApplicantComments;
+                        //p312id.DuplicationAuthorityComments = Project312Indv.DuplicationAuthorityComments;
+                        #endregion
+
+                        _db.Entry(pcd).State = EntityState.Modified;
+                        //_db.Entry(p312id).State = EntityState.Modified;
+
+                        if (CompatNWPDetail != null && CompatNWPDetail.Count > 0)
+                        {
+                            List<CcModPrjCompatNWPDetail> _cnwp = _db.CcModPrjCompatNWPDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_cnwp.Count > 0)
+                            {
+                                _db.CcModPrjCompatNWPDetail.RemoveRange(_cnwp);
+                            }
+
+                            _db.CcModPrjCompatNWPDetail.AddRange(CompatNWPDetail);
+                        }
+
+                        if (CompatNWMPDetail != null && CompatNWMPDetail.Count > 0)
+                        {
+                            List<CcModPrjCompatNWMPDetail> _cnwmp = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_cnwmp.Count > 0)
+                            {
+                                _db.CcModPrjCompatNWMPDetail.RemoveRange(_cnwmp);
+                            }
+
+                            _db.CcModPrjCompatNWMPDetail.AddRange(CompatNWMPDetail);
+                        }
+
+                        if (CompatSDGDetail != null && CompatSDGDetail.Count > 0)
+                        {
+                            List<CcModPrjCompatSDGDetail> _csdg = _db.CcModPrjCompatSDGDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_csdg.Count > 0)
+                            {
+                                _db.CcModPrjCompatSDGDetail.RemoveRange(_csdg);
+                            }
+
+                            _db.CcModPrjCompatSDGDetail.AddRange(CompatSDGDetail);
+                        }
+
+                        if (CompatSDGIndiDetail != null && CompatSDGIndiDetail.Count > 0)
+                        {
+                            List<CcModPrjCompatSDGIndiDetail> _csdgi = _db.CcModPrjCompatSDGIndiDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_csdgi.Count > 0)
+                            {
+                                _db.CcModPrjCompatSDGIndiDetail.RemoveRange(_csdgi);
+                            }
+
+                            _db.CcModPrjCompatSDGIndiDetail.AddRange(CompatSDGIndiDetail);
+                        }
+
+                        if (BDP2100GoalDetail != null && BDP2100GoalDetail.Count > 0)
+                        {
+                            List<CcModBDP2100GoalDetail> _bdp2100goal = _db.CcModBDP2100GoalDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_bdp2100goal.Count > 0)
+                            {
+                                _db.CcModBDP2100GoalDetail.RemoveRange(_bdp2100goal);
+                            }
+
+                            _db.CcModBDP2100GoalDetail.AddRange(BDP2100GoalDetail);
+                        }
+
+                        if (GPWMGroupTypeDetail != null && GPWMGroupTypeDetail.Count > 0)
+                        {
+                            List<CcModGPWMGroupTypeDetail> _gpwm = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_gpwm.Count > 0)
+                            {
+                                _db.CcModGPWMGroupTypeDetail.RemoveRange(_gpwm);
+                            }
+
+                            _db.CcModGPWMGroupTypeDetail.AddRange(GPWMGroupTypeDetail);
+                        }
+
+                        result = _db.SaveChanges();
+
+                        if (result > 0)
+                        {
+                            dbContextTransaction.Commit();
+
+                            noti = new Notification
+                            {
+                                id = p312id.Project312IndvId.ToString(),
                                 status = "success",
                                 message = "Information has been saved successfully. "
                             };
