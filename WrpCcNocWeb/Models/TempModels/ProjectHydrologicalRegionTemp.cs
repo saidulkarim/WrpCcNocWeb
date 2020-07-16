@@ -479,4 +479,12 @@ namespace WrpCcNocWeb.Models
         public string ConsumptionNameBn { get; set; }
         public string Error { get; set; }
     }
+
+    public class KhalTypeDetailTemp
+    {
+        public int KhalTypeId { get; set; }
+        public string KhalTypeName { get; set; }
+        public string KhalTypeNameBn { get; set; }
+        public string Error { get; set; }
+    }
 }

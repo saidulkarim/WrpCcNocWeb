@@ -74,119 +74,123 @@ namespace WrpCcNocWeb.Models
 		[MaxLength(150)]
 		public string BankErosionLocation { get; set; }
 
-		[Column("BankStabilityTypeId", Order = 15)]
+		[Column("BankErosionRate", Order = 15)]
+		[Display(Name = "Bank Erosion Rate")]
+		public double? BankErosionRate { get; set; }
+
+		[Column("BankStabilityTypeId", Order = 16)]
 		[Display(Name = "Bank Stability")]
 		public int? BankStabilityTypeId { get; set; }
 		[ForeignKey("BankStabilityTypeId")]
 		public virtual LookUpCcModBankStability LookUpCcModBankStability { get; set; }
 
-		[Column("CharAccretionLength", Order = 16)]
+		[Column("CharAccretionLength", Order = 17)]
 		[Display(Name = "Length (m)")]        
-		public double? AccretionLength { get; set; }
+		public double? CharAccretionLength { get; set; }
 
-		[Column("CharAccretionArea", Order = 17)]
+		[Column("CharAccretionArea", Order = 18)]
 		[Display(Name = "Area (ha)")]        
-		public double? AccretionArea { get; set; }
+		public double? CharAccretionArea { get; set; }
 
-		[Column("CharAccretionLocation", Order = 18)]
+		[Column("CharAccretionLocation", Order = 19)]
 		[Display(Name = "Location")]
 		[MaxLength(150)]
-		public string AccretionLocation { get; set; }
+		public string CharAccretionLocation { get; set; }
 
-		[Column("SedimentationId", Order = 19)]
+		[Column("SedimentationId", Order = 20)]
 		[Display(Name = "Sedimentation")]
 		public int? SedimentationId { get; set; }
 		[ForeignKey("SedimentationId")]
 		public virtual LookUpCcModSediOfRiverOrKhal LookUpCcModSediOfRiverOrKhal { get; set; }
 
-		[Column("SedimentationRate", Order = 20)]
+		[Column("SedimentationRate", Order = 21)]
 		[Display(Name = "Sedimentation Rate")]
 		public double? SedimentationRate { get; set; }
 
-		[Column("KhalTypeId", Order = 21)]
+		[Column("KhalTypeId", Order = 22)]
 		[Display(Name = "Khal Type")]
 		public int? KhalTypeId { get; set; }
 		[ForeignKey("KhalTypeId")]
 		public virtual LookUpCcModKhalType LookUpCcModKhalType { get; set; }
 
-		[Column("DrainageConditionId", Order = 22)]
+		[Column("DrainageConditionId", Order = 23)]
 		[Display(Name = "Drainage Condition")]
 		public int? DrainageConditionId { get; set; }
 		[ForeignKey("DrainageConditionId")]
 		public virtual LookUpCcModDrainageCondition LookUpCcModDrainageCondition { get; set; }
 
-		[Column("HighLandPercent", Order = 23)]
+		[Column("HighLandPercent", Order = 24)]
 		[Display(Name = "High Land F0 (0 - 30 cm)")]
 		public double? HighLandPercent { get; set; }
 
-		[Column("MediumHighLandPercent", Order = 24)]
+		[Column("MediumHighLandPercent", Order = 25)]
 		[Display(Name = "Medium High Land F1 (30 - 90 cm)")]
 		public double? MediumHighLandPercent { get; set; }
 
-		[Column("MediumLowLandPercent", Order = 25)]
+		[Column("MediumLowLandPercent", Order = 26)]
 		[Display(Name = "Medium Low Land F2 (90 - 180 cm)")]
 		public double? MediumLowLandPercent { get; set; }
 
-		[Column("LowLandPercent", Order = 26)]
+		[Column("LowLandPercent", Order = 27)]
 		[Display(Name = "Low Land F3 (> 180 - 360 cm)")]
 		public double? LowLandPercent { get; set; }
 
-		[Column("VeryLowLandPercent", Order = 27)]
+		[Column("VeryLowLandPercent", Order = 28)]
 		[Display(Name = "Very Low Land F4 (> 360 cm)")]
 		public double? VeryLowLandPercent { get; set; }
 
-		[Column("CultivableCrops", Order = 28)]
+		[Column("CultivableCrops", Order = 29)]
 		[Display(Name = "Cultivable Crops")]
 		[MaxLength(250)]
 		public string CultivableCrops { get; set; }
 
-		[Column("CropProduction", Order = 29)]
+		[Column("CropProduction", Order = 30)]
 		[Display(Name = "Crop Production")]
 		public double? CropProduction { get; set; }
 
-		[Column("FishProduction", Order = 30)]
+		[Column("FishProduction", Order = 31)]
 		[Display(Name = "Fish Production")]
 		public double? FishProduction { get; set; }
 
-		[Column("FishDiversity", Order = 31)]
+		[Column("FishDiversity", Order = 32)]
 		[Display(Name = "Fish Diversity")]
 		[MaxLength(50)]
 		public string FishDiversity { get; set; }
 
-		[Column("FishMigration", Order = 32)]
+		[Column("FishMigration", Order = 33)]
 		[Display(Name = "Fish Migration")]
 		[MaxLength(50)]
 		public string FishMigration { get; set; }
 
-		[Column("FloraAndFauna", Order = 33)]
+		[Column("FloraAndFauna", Order = 34)]
 		[Display(Name = "Flora And Fauna")]
 		[MaxLength(50)]
 		public string FloraAndFauna { get; set; }
 
-		[Column("LandLessPeoplePercentage", Order = 34)]
-		[Display(Name = "Land Less People Percentage")]
-		public double? LandLessPeoplePercentage { get; set; }
+		//[Column("LandLessPeoplePercentage", Order = 34)]
+		//[Display(Name = "Land Less People Percentage")]
+		//public double? LandLessPeoplePercentage { get; set; }
 
-		[Column("SmallFarmerPercentage", Order = 35)]
-		[Display(Name = "Small Farmer Percentage")]
-		public double? SmallFarmerPercentage { get; set; }
+		//[Column("SmallFarmerPercentage", Order = 35)]
+		//[Display(Name = "Small Farmer Percentage")]
+		//public double? SmallFarmerPercentage { get; set; }
 
-		[Column("AvgMonthlyIncome", Order = 36)]
-		[Display(Name = "Avg Monthly Income")]
-		public int? AvgMonthlyIncome { get; set; }
+		//[Column("AvgMonthlyIncome", Order = 36)]
+		//[Display(Name = "Avg Monthly Income")]
+		//public int? AvgMonthlyIncome { get; set; }
 
-		[Column("DuplicatYesNoId", Order = 37)]
+		[Column("DuplicatYesNoId", Order = 38)]
 		[Display(Name = "Was there any Duplication")]
 		public int? DuplicatYesNoId { get; set; }
 		[ForeignKey("DuplicatYesNoId")]
 		public virtual LookUpCcModYesNo LookUpYesNoDuplication_313 { get; set; }
 
-		[Column("DuplicationApplicantComments", Order = 38)]
+		[Column("DuplicationApplicantComments", Order = 39)]
 		[Display(Name = "Duplication Applicant Comments")]
 		[MaxLength(150)]
 		public string DuplicationApplicantComments { get; set; }
 
-		[Column("DuplicationAuthorityComments", Order = 39)]
+		[Column("DuplicationAuthorityComments", Order = 40)]
 		[Display(Name = "Duplication Authority Comments")]
 		[MaxLength(150)]
 		public string DuplicationAuthorityComments { get; set; }	   	  
