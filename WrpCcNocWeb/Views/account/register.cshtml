@@ -50,11 +50,13 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.UserEmail, new { @class = "control-label" }) <span class="text-danger bold">*</span>
                                 @Html.EditorFor(m => m.UserEmail, new { htmlAttributes = new { @class = "form-control", @type = "email", @placeholder = "Enter your email", @required = "required", @autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.UserEmail, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="form-group">
                                 @Html.LabelFor(m => m.UserMobile, new { @class = "control-label" }) <span class="text-danger bold">*</span>
                                 @Html.EditorFor(m => m.UserMobile, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter your contact number", @required = "required", @autocomplete = "off", @maxlength = "11", onKeyPress = "return restrictChars(event, this)" } })
+                                @Html.ValidationMessageFor(model => model.UserMobile, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="form-group">
@@ -101,6 +103,26 @@
                 Notification('error', 'Invalid User Name', checkUser);
             }
         });
+
+        //jQuery("#UserEmail").on('blur changed', function () {
+        //    var uem = jQuery(this).val();
+
+        //    if (uem !== '') {
+        //        duec(uem);
+        //    } else {
+        //        Notification('error', 'Required Field', 'User email address required!');
+        //    }
+        //});
+
+        //jQuery("#UserMobile").on('blur changed', function () {
+        //    var umb = jQuery(this).val();
+
+        //    if (umb !== '') {
+        //        dumc(umb);
+        //    } else {
+        //        Notification('error', 'Required Field', 'User mobile number required!');
+        //    }
+        //});
 
         jQuery("#UserConfirmPassword").on('blur', function () {
             var pwd = jQuery("#UserPassword").val();
@@ -194,6 +216,80 @@
                 if (data.result == true) {
                     jQuery("#isValidUsr").val(false);
                     Notification('warning', 'Exist User', data.response);
+                } else {
+                    jQuery("#isValidUsr").val(true);
+                }
+            }, error: function (jqXHR, exception) {
+                jQuery("#spinner").removeClass('d-block');
+                jQuery("#spinner").addClass('d-none');
+
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                Notification('error', 'Exception', errorMsg);
+            }
+        });
+    }
+
+    //duplicate user email checking
+    function duec(ue) {
+        var url = '@Url.Action("duec", "account")';
+
+        jQuery("#spinner").removeClass('d-none');
+        jQuery("#spinner").addClass('d-block');
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: { ue: ue },
+            contentType: "application/json; charset=utf-8",
+            processData: true,
+            success: function (data) {
+                jQuery("#spinner").removeClass('d-block');
+                jQuery("#spinner").addClass('d-none');
+
+                console.log(data);
+                console.log(data.result);
+                console.log(data.response);
+
+                if (data.result == true) {
+                    jQuery("#isValidUsr").val(false);
+                    Notification('warning', 'Error Occured', data.response);
+                } else {
+                    jQuery("#isValidUsr").val(true);
+                }
+            }, error: function (jqXHR, exception) {
+                jQuery("#spinner").removeClass('d-block');
+                jQuery("#spinner").addClass('d-none');
+
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                Notification('error', 'Exception', errorMsg);
+            }
+        });
+    }
+
+    //duplicate user mobile checking
+    function dumc(ue) {
+        var url = '@Url.Action("dumc", "account")';
+
+        jQuery("#spinner").removeClass('d-none');
+        jQuery("#spinner").addClass('d-block');
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: { ue: ue },
+            contentType: "application/json; charset=utf-8",
+            processData: true,
+            success: function (data) {
+                jQuery("#spinner").removeClass('d-block');
+                jQuery("#spinner").addClass('d-none');
+
+                console.log(data);
+                console.log(data.result);
+                console.log(data.response);
+
+                if (data.result == true) {
+                    jQuery("#isValidUsr").val(false);
+                    Notification('warning', 'Error Occured', data.response);
                 } else {
                     jQuery("#isValidUsr").val(true);
                 }

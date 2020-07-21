@@ -22,6 +22,8 @@ namespace WrpCcNocWeb.Controllers
         #region Initialization        
         private readonly WrpCcNocDbContext _db = new WrpCcNocDbContext();
         private readonly CommonHelper ch = new CommonHelper();
+        private commonController cc = new commonController();
+        private EmailService es = new EmailService();
         private Notification noti = new Notification();
         private readonly string rootDirOfProjFile = "../images";
         private readonly string rootDirOfDocs = "../docs";
@@ -102,6 +104,122 @@ namespace WrpCcNocWeb.Controllers
                 TempData["Message"] = ch.ShowMessage(Sign.Danger, "Application Info", "Sorry, application information not found!");
                 return RedirectToAction("list", "form");
             }
+        }
+
+        public IActionResult verification()
+        {
+            return View();
+        }
+
+        // POST: certificate/verification
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> verification([Bind("AppSubmissionId,UserMobile,UserEmail")] CertificateVerify verify)
+        {
+            string result = string.Empty;
+            List<string> vars = new List<string>();
+
+            if (ModelState.IsValid)
+            {
+                CcModAppProjectCommonDetail commonDetail = _db.CcModAppProjectCommonDetail.Where(w => w.AppSubmissionId == verify.AppSubmissionId.ToLong()).FirstOrDefault();
+                if (commonDetail == null)
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Danger, "Tracking Number", "Sorry, you have entered wrong tracking number!");
+                    return View(verify);
+                }
+
+                AdminModUserRegistrationDetail registrationDetail = _db.AdminModUserRegistrationDetail.Where(w => w.UserMobile == verify.UserMobile).FirstOrDefault();
+                if (registrationDetail == null)
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Danger, "Wrong Mobile Number", "Sorry, you have entered wrong mobile number!");
+                    return View(verify);
+                }
+
+                registrationDetail = _db.AdminModUserRegistrationDetail.Where(w => w.UserEmail == verify.UserEmail).FirstOrDefault();
+                if (registrationDetail == null)
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Danger, "Wrong Mobile Number", "Sorry, you have entered wrong email address!");
+                    return View(verify);
+                }
+
+                #region Email Sending                
+                if (commonDetail != null)
+                {
+                    var applicationInfoDetails = (from pcd in _db.CcModAppProjectCommonDetail
+                                                  join pty in _db.LookUpCcModProjectType on pcd.ProjectTypeId equals pty.ProjectTypeId into type
+                                                  from projecttype in type.DefaultIfEmpty()
+                                                  join ast in _db.LookUpCcModApplicationState on pcd.ApplicationStateId equals ast.ApplicationStateId into state
+                                                  from applicationstate in state.DefaultIfEmpty()
+                                                  join aps in _db.LookUpCcModApprovalStatus on pcd.ApprovalStatusId equals aps.ApprovalStatusId into status
+                                                  from approvalstatus in status.DefaultIfEmpty()
+                                                  join ics in _db.LookUpCcModIsCompletedState on pcd.IsCompletedId equals ics.IsCompletedId into cs
+                                                  from completedstate in cs.DefaultIfEmpty()
+
+                                                  where pcd.AppSubmissionId == verify.AppSubmissionId.ToLong()
+
+                                                  select new CertificateVerificationInfo
+                                                  {
+                                                      UserMobile = verify.UserMobile,
+                                                      UserEmail = verify.UserEmail,
+
+                                                      AppliedDate = pcd.AppSubmissionDate.Value.ToString("dd MMM yyyy"),
+                                                      ProjectType = projecttype.ProjectType,
+                                                      ProjectTitle = pcd.ProjectName,
+                                                      TrackingNumber = verify.AppSubmissionId,
+                                                      ApplicationState = string.IsNullOrEmpty(applicationstate.ApplicationState) ? "Not Found" : applicationstate.ApplicationState.Substring(applicationstate.ApplicationState.IndexOf("for") + 3, applicationstate.ApplicationState.Length - (applicationstate.ApplicationState.IndexOf("for") + 3)).Trim(),
+                                                      ApprovalStatus = approvalstatus.ApprovalStatus,
+                                                      ApprovalStage = completedstate.IsCompletedState,
+                                                      RejectReason = pcd.ReasonOfRejection
+                                                  }).FirstOrDefault();
+
+                    if (applicationInfoDetails != null)
+                    {
+                        string callAt = cc.GetCallCenterInfo();
+
+                        vars.Add(applicationInfoDetails.AppliedDate);
+                        vars.Add(applicationInfoDetails.ProjectType);
+                        vars.Add(applicationInfoDetails.ProjectTitle);
+                        vars.Add(applicationInfoDetails.TrackingNumber);
+                        vars.Add(applicationInfoDetails.ApplicationState);
+                        vars.Add(applicationInfoDetails.ApprovalStatus);
+
+                        if (applicationInfoDetails.ApprovalStatus == "Approved")
+                        {
+                            vars.Add("<span style='color: green; font-weight: bold;'>Certificate is ready to download</span>");
+                        }
+                        else if (applicationInfoDetails.ApprovalStatus == "Not Approved")
+                        {
+                            vars.Add("Certificate is not available to download");
+                        }
+                        else if (applicationInfoDetails.ApprovalStatus == "Rejected")
+                        {
+                            vars.Add("<span style='color: red; font-weight: bold;'>" + applicationInfoDetails.RejectReason + "</span>");
+                        }
+                        else
+                        {
+                            vars.Add("Certificate is not yet ready to download");
+                        }
+
+                        //vars.Add(applicationInfoDetails.ApprovalStage);
+                        vars.Add(callAt);
+
+                        //2 => Certificate Verification in LookUpAdminModEmailFormat table
+                        result = es.SendEmail(applicationInfoDetails.UserEmail, 2, vars);
+
+                        if (result == "success")
+                        {
+                            TempData["Message"] = ch.ShowMessage(Sign.Success, "Success", "An email has been sent to your email address.");
+                        }
+                        else
+                        {
+                            TempData["Message"] = ch.ShowMessage(Sign.Error, "An Error Occured", "Email not sent to your email address." + result);
+                        }
+                    }
+                }
+                #endregion                
+            }
+
+            return View(verify);
         }
 
         public ApplicantInfo GetApplicantInfo(long userID)

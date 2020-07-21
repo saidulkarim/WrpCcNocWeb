@@ -163,6 +163,7 @@ namespace WrpCcNocWeb.DatabaseContext
 
         //added by rony
         public DbSet<LookUpCcModDredgingPlanParam> LookUpCcModDredgingPlanParam { get; set; }
+        public DbSet<LookUpCcModGeneralSetting> LookUpCcModGeneralSetting { get; set; }
         #endregion
     }
 }

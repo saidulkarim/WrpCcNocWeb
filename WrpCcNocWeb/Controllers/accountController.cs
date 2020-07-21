@@ -20,6 +20,9 @@ using WrpCcNocWeb.ViewModels;
 using WrpCcNocWeb.Models.AdminModule;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Hosting;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
+using WrpCcNocWeb.Models.TempModels;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -27,6 +30,7 @@ namespace WrpCcNocWeb.Controllers
     {
         private readonly WrpCcNocDbContext _db = new WrpCcNocDbContext();
         private readonly CommonHelper ch = new CommonHelper();
+        private commonController cc = new commonController();
         private EmailService es = new EmailService();
         private string msg = string.Empty;
         private Notification noti = new Notification();
@@ -212,6 +216,43 @@ namespace WrpCcNocWeb.Controllers
         {
             string result = string.Empty;
             using var dbContextTransaction = _db.Database.BeginTransaction();
+            int count = 0;
+
+            if (!string.IsNullOrEmpty(userReg.UserEmail))
+            {
+                if (!IsValidEmail(userReg.UserEmail.ToLower()))
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Error, "Invalid Email Address", "Invalid email address provided!");
+                    return View();
+                }
+
+                count = _db.AdminModUserRegistrationDetail.Where(w => w.UserEmail.ToLower() == userReg.UserEmail.ToLower()).Count();
+                if (count > 0)
+                {
+                    dbContextTransaction.Rollback();
+                    ViewBag.UserVerificationCode = string.Empty;
+                    TempData["Message"] = ch.ShowMessage(Sign.Error, "Duplicate Email", "Email addresss: " + userReg.UserEmail + " already used in this system. Please try another email address.");
+                    return View();
+                }
+            }
+
+            if (!string.IsNullOrEmpty(userReg.UserMobile))
+            {
+                if (!IsValidMobile(userReg.UserMobile.ToLower()))
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Error, "Invalid Mobile Number", "Invalid mobile number provided!");
+                    return View();
+                }
+
+                count = _db.AdminModUserRegistrationDetail.Where(w => w.UserMobile.ToLower() == userReg.UserMobile.ToLower()).Count();
+                if (count > 0)
+                {
+                    dbContextTransaction.Rollback();
+                    ViewBag.UserVerificationCode = string.Empty;
+                    TempData["Message"] = ch.ShowMessage(Sign.Error, "Duplicate Mobile Number", "Mobile number: " + userReg.UserMobile + " already used in this system. Please try another mobile number.");
+                    return View();
+                }
+            }
 
             try
             {
@@ -272,12 +313,32 @@ namespace WrpCcNocWeb.Controllers
 
             if (userReg != null)
             {
+                string callAt = string.Empty;
+                LookUpCcModGeneralSetting generalSetting = _db.LookUpCcModGeneralSetting.Find(1);
+
+                if (!string.IsNullOrEmpty(generalSetting.CallCenterNumber))
+                {
+                    callAt = generalSetting.CallCenterNumber;
+                }
+
+                if (!string.IsNullOrEmpty(generalSetting.TnTNumber))
+                {
+                    callAt += (string.IsNullOrEmpty(callAt)) ? generalSetting.TnTNumber : " or " + generalSetting.TnTNumber;
+                }
+
+                if (!string.IsNullOrEmpty(generalSetting.MobileNumber))
+                {
+                    callAt += (string.IsNullOrEmpty(callAt)) ? generalSetting.MobileNumber : " or " + generalSetting.MobileNumber;
+                }
+
                 verifyUrl = verifyUrl + "/account/verify/" + ViewBag.UserVerificationCode;
                 vars.Add(userReg.UserName);
                 vars.Add(userReg.UserPassword);
                 vars.Add(verifyUrl);
+                vars.Add(callAt);
 
-                result = es.SendEmail(userReg.UserEmail, "new_req_reg", vars);
+                //1 => New Requester Registration in LookUpAdminModEmailFormat table
+                result = es.SendEmail(userReg.UserEmail, 1, vars);
             }
 
             return result;
@@ -837,6 +898,69 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
+        //POST: /account/recover
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult recover([Bind("RecoverType,UserEmail")] RecoverUserIdPassword recover)
+        {
+            string UserName = string.Empty, UserPassword = string.Empty, recoverMessage = string.Empty, result = string.Empty;
+            List<string> vars = new List<string>();
+
+            if (ModelState.IsValid)
+            {
+                AdminModUserRegistrationDetail registrationDetail = _db.AdminModUserRegistrationDetail.Where(w => w.UserEmail == recover.UserEmail).FirstOrDefault();
+
+                if (registrationDetail == null)
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Danger, "Wrong Information", "Sorry, you have entered a wrong email address!");
+                    return View(recover);
+                }
+
+                if (recover.RecoverType == "RecoverUserID")
+                {
+                    UserName = registrationDetail.UserName;
+                    recoverMessage = @"user name. <br /><h2>User Name: <b>" + UserName + "<b></h2>";
+                }
+                else if (recover.RecoverType == "RecoverPassword")
+                {
+                    UserPassword = registrationDetail.UserPassword;
+                    recoverMessage = @"password. <br /><h2>User Password: " + UserPassword + "<b></h2>";
+                }
+                else
+                {
+                    UserName = registrationDetail.UserName;
+                    UserPassword = registrationDetail.UserPassword;
+
+                    recoverMessage = @"user name and password. <br /><br /><h2>User Name: <b>" + UserName + "<b></h2>";
+                    recoverMessage += @"<br /><h2>Password: " + UserPassword + "<b></h2>";
+                }
+
+                string callAt = cc.GetCallCenterInfo();
+
+                vars.Add(recoverMessage);
+                vars.Add(callAt);
+
+                //3 => User ID Password Recovery in LookUpAdminModEmailFormat table
+                result = es.SendEmail(recover.UserEmail, 3, vars);
+
+                if (result == "success")
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Success, "Success", "An email has been sent to your email address.");
+                }
+                else
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Error, "An Error Occured", "Email not sent to your email address." + result);
+                }
+            }
+            else
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Required Fields", "Please select a recovery option and enter your registered email address!");
+                return View(recover);
+            }
+
+            return View(recover);
+        }
+
         //account/logout
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -899,6 +1023,102 @@ namespace WrpCcNocWeb.Controllers
                     result = false;
                     return Json(new { result = result, response = "User name is okay!" });
                 }
+            }
+        }
+
+        //account/duec :: duplicate user email check
+        [HttpGet]
+        public ActionResult duec(string ue)
+        {
+            bool result = false;
+
+            if (string.IsNullOrEmpty(ue))
+            {
+                result = true;
+                return Json(new { success = result, responseText = "Empty email provided!" });
+            }
+            if (IsValidEmail(ue))
+            {
+                result = true;
+                return Json(new { success = result, responseText = "Invalid email address provided!" });
+            }
+
+            int count = _db.AdminModUserRegistrationDetail.Where(w => w.UserEmail.ToLower() == ue.ToLower()).Count();
+
+            if (count > 0)
+            {
+                result = true;
+                return Json(new { result = result, response = "User email already in used!" });
+            }
+            else
+            {
+                result = false;
+                return Json(new { result = result, response = "User email is okay!" });
+            }
+        }
+
+        //account/dumc :: duplicate user mobile check
+        [HttpGet]
+        public ActionResult dumc(string um)
+        {
+            bool result = false;
+
+            if (string.IsNullOrEmpty(um))
+            {
+                result = true;
+                return Json(new { success = result, responseText = "Empty mobile number provided!" });
+            }
+            if (IsValidMobile(um))
+            {
+                result = true;
+                return Json(new { success = result, responseText = "Invalid mobile number provided!" });
+            }
+
+            int count = _db.AdminModUserRegistrationDetail.Where(w => w.UserMobile.ToLower() == um.ToLower()).Count();
+
+            if (count > 0)
+            {
+                result = true;
+                return Json(new { result = result, response = "User mobile number already in used!" });
+            }
+            else
+            {
+                result = false;
+                return Json(new { result = result, response = "User mobile number is okay!" });
+            }
+        }
+
+        public bool IsValidEmail(string emailaddress)
+        {
+            try
+            {
+                Regex regex = new Regex(@"^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$");
+                Match match = regex.Match(emailaddress);
+                if (match.Success)
+                    return true;
+                else
+                    return false;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+        }
+
+        public bool IsValidMobile(string mobile)
+        {
+            try
+            {
+                Regex regex = new Regex(@"(^([+]{1}[8]{2}|0088)?(01){1}[3-9]{1}\d{8})$");
+                Match match = regex.Match(mobile);
+                if (match.Success)
+                    return true;
+                else
+                    return false;
+            }
+            catch (FormatException)
+            {
+                return false;
             }
         }
         #endregion       

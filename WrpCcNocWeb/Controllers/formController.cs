@@ -4378,6 +4378,7 @@ namespace WrpCcNocWeb.Controllers
                             if (_pcd != null)
                             {
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
+                                _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
                                 _pcd.IsCompletedId = 1;
                                 _pcd.ReviewCycleNo = 0;
@@ -4674,6 +4675,7 @@ namespace WrpCcNocWeb.Controllers
                             if (_pcd != null)
                             {
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
+                                _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
                                 _pcd.IsCompletedId = 2; // need to change after re-logic check
                                 _pcd.ReviewCycleNo = 0;
@@ -4969,6 +4971,7 @@ namespace WrpCcNocWeb.Controllers
                             if (_pcd != null)
                             {
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
+                                _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
                                 _pcd.IsCompletedId = 2; // need to change after re-logic check
                                 _pcd.ReviewCycleNo = 0;
@@ -5262,6 +5265,7 @@ namespace WrpCcNocWeb.Controllers
                             if (_pcd != null)
                             {
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
+                                _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
                                 _pcd.IsCompletedId = 2; // need to change after re-logic check
                                 _pcd.ReviewCycleNo = 0;
@@ -5537,6 +5541,7 @@ namespace WrpCcNocWeb.Controllers
                             if (_pcd != null)
                             {
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
+                                _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
                                 _pcd.IsCompletedId = 2; // need to change after re-logic check
                                 _pcd.ReviewCycleNo = 0;
@@ -5798,6 +5803,7 @@ namespace WrpCcNocWeb.Controllers
                             if (_pcd != null)
                             {
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
+                                _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
                                 _pcd.IsCompletedId = 2; // need to change after re-logic check
                                 _pcd.ReviewCycleNo = 0;
@@ -6077,6 +6083,7 @@ namespace WrpCcNocWeb.Controllers
                             if (_pcd != null)
                             {
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
+                                _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
                                 _pcd.IsCompletedId = 2; // need to change after re-logic check
                                 _pcd.ReviewCycleNo = 0;
@@ -6340,6 +6347,7 @@ namespace WrpCcNocWeb.Controllers
                             if (_pcd != null)
                             {
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
+                                _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
                                 _pcd.IsCompletedId = 2; // need to change after re-logic check
                                 _pcd.ReviewCycleNo = 0;
@@ -6618,6 +6626,7 @@ namespace WrpCcNocWeb.Controllers
                             if (_pcd != null)
                             {
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
+                                _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
                                 _pcd.IsCompletedId = 2; // need to change after re-logic check
                                 _pcd.ReviewCycleNo = 0;
@@ -6896,6 +6905,7 @@ namespace WrpCcNocWeb.Controllers
                             if (_pcd != null)
                             {
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
+                                _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
                                 _pcd.IsCompletedId = 2; // need to change after re-logic check
                                 _pcd.ReviewCycleNo = 0;
@@ -7155,6 +7165,7 @@ namespace WrpCcNocWeb.Controllers
                             if (_pcd != null)
                             {
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
+                                _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
                                 _pcd.IsCompletedId = 2; // need to change after re-logic check
                                 _pcd.ReviewCycleNo = 0;
@@ -7436,6 +7447,7 @@ namespace WrpCcNocWeb.Controllers
                             if (_pcd != null)
                             {
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
+                                _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
                                 _pcd.IsCompletedId = 2; // need to change after re-logic check
                                 _pcd.ReviewCycleNo = 0;
@@ -7726,6 +7738,7 @@ namespace WrpCcNocWeb.Controllers
                             if (_pcd != null)
                             {
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
+                                _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
                                 _pcd.IsCompletedId = 2; // need to change after re-logic check
                                 _pcd.ReviewCycleNo = 0;
@@ -12782,6 +12795,7 @@ namespace WrpCcNocWeb.Controllers
                         pcd.PaymentMethodId = _recDetail.PaymentMethodId;
                         pcd.PaymentDocNumber = _recDetail.PaymentDocNumber;
                         pcd.PaidAmount = _recDetail.PaidAmount;
+                        pcd.PaymentDate = _recDetail.PaymentDate;
                         pcd.RecommendationId = _recDetail.RecommendationId;
                         pcd.RecommendationComment = _recDetail.RecommendationComment;
                         #endregion

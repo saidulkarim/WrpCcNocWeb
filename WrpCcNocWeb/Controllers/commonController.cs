@@ -152,5 +152,28 @@ namespace WrpCcNocWeb.Controllers
                     return "list";
             }
         }
+
+        public string GetCallCenterInfo()
+        {
+            string callAt = string.Empty;
+            LookUpCcModGeneralSetting generalSetting = _db.LookUpCcModGeneralSetting.Find(1);
+
+            if (!string.IsNullOrEmpty(generalSetting.CallCenterNumber))
+            {
+                callAt = generalSetting.CallCenterNumber;
+            }
+
+            if (!string.IsNullOrEmpty(generalSetting.TnTNumber))
+            {
+                callAt += (string.IsNullOrEmpty(callAt)) ? generalSetting.TnTNumber : " or " + generalSetting.TnTNumber;
+            }
+
+            if (!string.IsNullOrEmpty(generalSetting.MobileNumber))
+            {
+                callAt += (string.IsNullOrEmpty(callAt)) ? generalSetting.MobileNumber : " or " + generalSetting.MobileNumber;
+            }
+
+            return callAt;
+        }
     }
 }

@@ -1,0 +1,88 @@
+﻿@model WrpCcNocWeb.Models.TempModels.CertificateVerify
+
+@{
+    ViewData["Title"] = "Certificate Verification";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="account-pages mt-5 mb-5">
+    <style type="text/css">
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5" style="margin-top: 50px;">
+                <div class="card bg-pattern">
+                    <div class="card-body p-4">
+                        <div class="text-center m-auto">
+                            <a href="javascript: void(0);">
+                                <span><img src="~/images/logo-dark.png" alt="WARPO" height="60"></span>
+                            </a>
+                            <p class="text-muted mb-4 mt-3">Certificate Verification</p>
+                        </div>
+
+                        @using (Html.BeginForm("verification", "certificate", FormMethod.Post, new { enctype = "multipart/form-data", id = "VerificationForm", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group mb-3">
+                                @Html.LabelFor(m => m.AppSubmissionId, new { @class = "control-label" })
+                                @Html.EditorFor(m => m.AppSubmissionId, new { htmlAttributes = new { @class = "form-control", @type = "number", @maxlength = "12", @min = "0", @placeholder = "Enter application tracking number", @autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.AppSubmissionId, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group mb-3">
+                                @Html.LabelFor(m => m.UserMobile, new { @class = "control-label" })
+                                @Html.EditorFor(m => m.UserMobile, new { htmlAttributes = new { @class = "form-control", @type = "number", @maxlength = "11", @min = "0", @placeholder = "Enter applicant mobile number", @autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.UserMobile, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group mb-3">
+                                @Html.LabelFor(m => m.UserEmail, new { @class = "control-label" })
+                                @Html.EditorFor(m => m.UserEmail, new { htmlAttributes = new { @class = "form-control", @type = "email", @placeholder = "Enter applicant email address", @autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.UserEmail, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group mb-0 text-center">
+                                <button class="btn btn-info btn-block" type="submit"> Verify </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery.noConflict();
+
+    jQuery(document).ready(function () {
+        jQuery("#refreshCaptcha").click(function () {
+            resetCaptchaImage();
+        });
+
+        //$('#CaptchaCode').val('RONY'); // must be removed after development
+        $('#CaptchaCode').keyup(function(){
+            this.value = this.value.toUpperCase();
+        });
+    });
+
+    function resetCaptchaImage() {
+        var date = new Date();
+        var url = '@Url.Action("GetCaptchaImage", "account")' + '?' + date.getTime();
+        jQuery("#captcha-img").attr("src", url);
+    }
+</script>

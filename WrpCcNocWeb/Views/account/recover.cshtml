@@ -1,4 +1,6 @@
-﻿@{
+﻿@model WrpCcNocWeb.Models.TempModels.RecoverUserIdPassword
+
+@{
     ViewData["Title"] = "Recover Password";
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
@@ -13,19 +15,36 @@
                             <a href="index.html">
                                 <span><img src="~/images/logo-dark.png" alt="" height="60"></span>
                             </a>
-                            <p class="text-muted mb-4 mt-3">Enter your email address and we'll send you an email with instructions to reset your password.</p>
+                            <p class="text-muted mb-4 mt-3">Enter your email address and we'll send you an email with instructions to recover your user id or password.</p>
                         </div>
 
-                        <form role="form" id="recover_form">
+                        @using (Html.BeginForm("recover", "account", FormMethod.Post, new { enctype = "multipart/form-data", id = "recover_form", role = "form" }))
+                        {
+                            <div class="mb-3">
+                                <div class="custom-control custom-radio" style="min-height: 2rem !important;">
+                                    <input type="radio" id="RecoverUserID" name="RecoverType" value="UserId" class="custom-control-input">
+                                    <label class="custom-control-label" for="RecoverUserID">Recover User ID</label>
+                                </div>
+                                <div class="custom-control custom-radio" style="min-height: 2rem !important;">
+                                    <input type="radio" id="RecoverPassword" name="RecoverType" value="Password" class="custom-control-input">
+                                    <label class="custom-control-label" for="RecoverPassword">Recover Password</label>
+                                </div>
+                                <div class="custom-control custom-radio" style="min-height: 2rem !important;">
+                                    <input type="radio" id="RecoverBoth" name="RecoverType" value="Both" class="custom-control-input">
+                                    <label class="custom-control-label" for="RecoverBoth">or Both Recover</label>
+                                </div>
+                            </div>
+
                             <div class="form-group mb-3">
-                                <label for="uemail">Email Address</label>
-                                <input class="form-control" type="email" id="uemail" parsley-trigger="change" placeholder="Enter your email" required>
+                                @Html.LabelFor(m => m.UserEmail, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                @Html.EditorFor(m => m.UserEmail, new { htmlAttributes = new { @class = "form-control", @type = "email", @placeholder = "Enter your email", @autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.UserEmail, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="form-group mb-0 text-center">
                                 <button class="btn btn-primary btn-block" type="submit"> Reset Password </button>
                             </div>
-                        </form>
+                        }
                     </div>
                 </div>
 

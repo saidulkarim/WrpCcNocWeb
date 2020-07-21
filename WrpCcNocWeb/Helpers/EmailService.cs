@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using WrpCcNocWeb.DatabaseContext;
 using WrpCcNocWeb.Helpers;
+using WrpCcNocWeb.Models;
 using WrpCcNocWeb.Models.AdminModule;
 using WrpCcNocWeb.Models.Utility;
 
@@ -31,15 +32,19 @@ namespace WrpCcNocWeb.Helpers
 
         #endregion
 
-        public string SendEmail(string toEmail, string type, List<string> vars)
+        /// <summary>
+        /// Send Email Feature
+        /// </summary>
+        /// <param name="toEmail">To email address.</param>
+        /// <param name="emailFormatId">Email format Id from LookUpAdminModEmailFormat table.</param>
+        /// <param name="vars">List array string parameters</param>
+        /// <returns></returns>
+        public string SendEmail(string toEmail, int emailFormatId, List<string> vars)
         {
             string result = string.Empty, mailSubject = string.Empty, mailBody = string.Empty;
             LookUpAdminModEmailFormat eFormat = new LookUpAdminModEmailFormat();
 
-            if (type == "new_req_reg")
-            {
-                eFormat = _db.LookUpAdminModEmailFormat.Where(w => w.EmailFormatId == 1).FirstOrDefault();
-            }
+            eFormat = _db.LookUpAdminModEmailFormat.Where(w => w.EmailFormatId == emailFormatId).FirstOrDefault();
 
             if (eFormat != null)
             {
@@ -74,7 +79,7 @@ namespace WrpCcNocWeb.Helpers
                         To = toEmail,
                         Subject = mailSubject,
                         Body = mailBody,
-                        Attachment = null
+                        Attachment = null                        
                     };
 
                     if (em != null)
@@ -87,13 +92,30 @@ namespace WrpCcNocWeb.Helpers
             return result;
         }
 
+        /// <summary>
+        /// Fianl Email Sending Method
+        /// </summary>
+        /// <param name="model">EmailModel parameter</param>
+        /// <returns></returns>
         public string Send(EmailModel model)
         {
             string result = string.Empty;
-
+            EmailConfiguration emailConfig = new EmailConfiguration();
             try
             {
-                var emailConfig = GetEmailConfiguration.GetConfig().GetSection("EmailConfiguration").Get<EmailConfiguration>();
+                LookUpCcModGeneralSetting generalSetting = _db.LookUpCcModGeneralSetting.Find(1);
+                if (generalSetting == null)
+                {
+                    throw new NullReferenceException("Email configuration object is null. Could not get configuration data from database.");
+                }
+
+                emailConfig.From = generalSetting.MailSendFrom;
+                emailConfig.SmtpServer = generalSetting.SmtpServer;
+                emailConfig.Port = generalSetting.SmtpOutGoingPort.ToInt();
+                emailConfig.UserName = generalSetting.MailSenderUserName;
+                emailConfig.Password = generalSetting.MailSenderPassword;
+
+                //var emailConfig = GetEmailConfiguration.GetConfig().GetSection("EmailConfiguration").Get<EmailConfiguration>();
                 //var connectionstring = setting["EmailConfiguration"];
                 //var emailConfig = Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
 

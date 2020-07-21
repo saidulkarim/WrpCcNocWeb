@@ -215,8 +215,8 @@
                                 if (data.status == 'success') {
                                     Notification(data.status, data.title, data.message);
                                     Swal.fire(data.title, data.message, data.status);
-                                    
-                                    setTimeout(function () { RedirectToHome(); }, 5000);
+
+                                    setTimeout(function () { RedirectToLogin(); }, 5000);
                                 } else {
                                     Notification(data.status, data.title, data.message);
                                     Swal.fire(data.title, data.message, data.status);
@@ -230,7 +230,7 @@
                     });
                 } else {
                     Swal.fire('Required', 'User registration ID is required!', 'warning');
-                    Notification('warning', 'Required', 'User registration ID is required!');                    
+                    Notification('warning', 'Required', 'User registration ID is required!');
                 }
             }
         });
@@ -238,6 +238,11 @@
 
     function RedirectToHome() {
         var url = '@Url.Action("index", "home")';
+        window.location.href = url;
+    }
+
+    function RedirectToLogin() {
+        var url = '@Url.Action("login", "account")';
         window.location.href = url;
     }
 

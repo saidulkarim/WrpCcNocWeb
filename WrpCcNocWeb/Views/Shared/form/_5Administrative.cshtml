@@ -152,6 +152,24 @@
     </div>
 
     <div class="form-group">
+        <label for="PaymentDate">
+            @if (language == "1")
+            {
+            <span>টাকা প্রদানের তারিখ</span>
+            }
+            else
+            {
+                <span>Payment Date</span>
+            }
+        </label>
+        <div class="input-group">
+            <div class="custom-file">
+                <input id="PaymentDate" name="PaymentDate" type="text" class="form-control datetimepicker" required>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
         <label for="PaymentDocFileName">
             @if (language == "1")
             {
@@ -267,6 +285,5 @@
             }
         </button>
     </div>
-
     <br />
 </fieldset>

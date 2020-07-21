@@ -202,7 +202,7 @@ body {
     }
 
         .navigation-menu > li.last-elements .submenu > li.has-submenu .submenu {
-            left: auto;
+            /*left: auto;*/
             right: 100%;
             margin-left: 0;
             margin-right: 10px

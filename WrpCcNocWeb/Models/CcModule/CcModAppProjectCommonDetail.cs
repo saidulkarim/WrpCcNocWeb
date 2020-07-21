@@ -472,6 +472,14 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Review Cycle No.")]
         public int? ReviewCycleNo { get; set; }
 
+        [Column("AppSubmissionDate", Order = 88)]
+        [Display(Name = "App Submission Date")]
+        public DateTime? AppSubmissionDate { get; set; }
+
+        [Column("PaymentDate", Order = 89)]
+        [Display(Name = "Payment Date")]
+        public DateTime? PaymentDate { get; set; }
+
         public virtual List<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetails { get; set; }
         public virtual List<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetails { get; set; }
         public virtual List<CcModBDP2100GoalDetail> CcModBDP2100GoalDetails { get; set; }
