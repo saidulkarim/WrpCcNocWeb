@@ -198,7 +198,7 @@
                                                                                             int year1 = DateTime.Now.Year - 1;
 
                                                                                             <label for="AnnualRainFallLast1Year">@year1</label>
-                                                                                            <input type="number" id="AnnualRainFallLast1Year" name="AnnualRainFallLast1Year" class="form-control" />
+                                                                                            <input type="number" min="0" id="AnnualRainFallLast1Year" name="AnnualRainFallLast1Year" class="form-control" />
                                                                                         }
                                                                                     </div>
 
@@ -206,7 +206,7 @@
                                                                                         @{
                                                                                             int year2 = DateTime.Now.Year - 2;
                                                                                             <label for="AnnualRainFallLast2Years">@year2</label>
-                                                                                            <input type="number" id="AnnualRainFallLast2Years" name="AnnualRainFallLast2Years" class="form-control" />
+                                                                                            <input type="number" min="0" id="AnnualRainFallLast2Years" name="AnnualRainFallLast2Years" class="form-control" />
                                                                                         }
                                                                                     </div>
 
@@ -214,7 +214,7 @@
                                                                                         @{
                                                                                             int year3 = DateTime.Now.Year - 3;
                                                                                             <label for="AnnualRainFallLast3Years">@year3</label>
-                                                                                            <input type="number" id="AnnualRainFallLast3Years" name="AnnualRainFallLast3Years" class="form-control" />
+                                                                                            <input type="number" min="0" id="AnnualRainFallLast3Years" name="AnnualRainFallLast3Years" class="form-control" />
                                                                                         }
                                                                                     </div>
 
@@ -222,7 +222,7 @@
                                                                                         @{
                                                                                             int year4 = DateTime.Now.Year - 4;
                                                                                             <label for="AnnualRainFallLast4Years">@year4</label>
-                                                                                            <input type="number" id="AnnualRainFallLast4Years" name="AnnualRainFallLast4Years" class="form-control" />
+                                                                                            <input type="number" min="0" id="AnnualRainFallLast4Years" name="AnnualRainFallLast4Years" class="form-control" />
                                                                                         }
                                                                                     </div>
 
@@ -230,7 +230,7 @@
                                                                                         @{
                                                                                             int year5 = DateTime.Now.Year - 5;
                                                                                             <label for="AnnualRainFallLast5Years">@year5</label>
-                                                                                            <input type="number" id="AnnualRainFallLast5Years" name="AnnualRainFallLast5Years" class="form-control" />
+                                                                                            <input type="number" min="0" id="AnnualRainFallLast5Years" name="AnnualRainFallLast5Years" class="form-control" />
                                                                                         }
                                                                                     </div>
                                                                                 </div>
@@ -268,10 +268,10 @@
                                                                                             <tbody>
                                                                                                 <tr>
                                                                                                     <td class="text-center">
-                                                                                                        <input type="number" id="WaterDepthDrySeason" name="WaterDepthDrySeason" class="form-control" />
+                                                                                                        <input type="number" min="0" id="WaterDepthDrySeason" name="WaterDepthDrySeason" class="form-control" />
                                                                                                     </td>
                                                                                                     <td class="text-center">
-                                                                                                        <input type="number" id="WaterDepthWetSeason" name="WaterDepthWetSeason" class="form-control" />
+                                                                                                        <input type="number" min="0" id="WaterDepthWetSeason" name="WaterDepthWetSeason" class="form-control" />
                                                                                                     </td>
                                                                                                 </tr>
                                                                                             </tbody>
@@ -338,7 +338,7 @@
                                                                                                 {<span>Salinity (ppm)</span>}
                                                                                             }
                                                                                         </label>
-                                                                                        <input type="number" id="WaterSalinity" name="WaterSalinity" class="form-control" />
+                                                                                        <input type="number" min="0" id="WaterSalinity" name="WaterSalinity" class="form-control" />
                                                                                     </div>
 
                                                                                     <div class="form-group col-md-3 text-center">
@@ -349,7 +349,7 @@
                                                                                                 {<span> DO (mg/l)</span>}
                                                                                             }
                                                                                         </label>
-                                                                                        <input type="number" id="WaterDO" name="WaterDO" class="form-control" />
+                                                                                        <input type="number" min="0" id="WaterDO" name="WaterDO" class="form-control" />
                                                                                     </div>
 
                                                                                     <div class="form-group col-xl-3 text-center">
@@ -360,7 +360,7 @@
                                                                                                 {<span>TDS</span>}
                                                                                             }
                                                                                         </label>
-                                                                                        <input type="number" id="WaterTDS" name="WaterTDS" class="form-control" />
+                                                                                        <input type="number" min="0" id="WaterTDS" name="WaterTDS" class="form-control" />
                                                                                     </div>
 
                                                                                     <div class="form-group col-md-3 text-center">
@@ -371,7 +371,7 @@
                                                                                                 {<span>pH</span>}
                                                                                             }
                                                                                         </label>
-                                                                                        <input type="number" id="WaterPhLevel" name="WaterPhLevel" class="form-control" />
+                                                                                        <input type="number" min="0" id="WaterPhLevel" name="WaterPhLevel" class="form-control" />
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -450,10 +450,10 @@
                                                                                             <tbody>
                                                                                                 <tr>
                                                                                                     <td class="text-center">
-                                                                                                        <input type="number" id="FishHabitatArea" name="FishHabitatArea" class="form-control" />
+                                                                                                        <input type="number" min="0" id="FishHabitatArea" name="FishHabitatArea" class="form-control" />
                                                                                                     </td>
                                                                                                     <td class="text-center">
-                                                                                                        <input type="number" id="FishHabitatProduction" name="FishHabitatProduction" class="form-control" />
+                                                                                                        <input type="number" min="0" id="FishHabitatProduction" name="FishHabitatProduction" class="form-control" />
                                                                                                     </td>
                                                                                                 </tr>
                                                                                             </tbody>
@@ -492,10 +492,10 @@
                                                                                             <tbody>
                                                                                                 <tr>
                                                                                                     <td class="text-center">
-                                                                                                        <input type="number" id="ExportFishQuantity" name="ExportFishQuantity" class="form-control" />
+                                                                                                        <input type="number" min="0" id="ExportFishQuantity" name="ExportFishQuantity" class="form-control" />
                                                                                                     </td>
                                                                                                     <td class="text-center">
-                                                                                                        <input type="number" id="ExportFishValue" name="ExportFishValue" class="form-control" />
+                                                                                                        <input type="number" min="0" id="ExportFishValue" name="ExportFishValue" class="form-control" />
                                                                                                     </td>
                                                                                                 </tr>
                                                                                             </tbody>
