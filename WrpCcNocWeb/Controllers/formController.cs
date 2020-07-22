@@ -367,6 +367,7 @@ namespace WrpCcNocWeb.Controllers
         public IActionResult view31(long id)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            System.Globalization.DateTimeFormatInfo mfi = new System.Globalization.DateTimeFormatInfo();
 
             if (ui == null)
             {
@@ -374,78 +375,114 @@ namespace WrpCcNocWeb.Controllers
             }
 
             UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
-            ViewBag.UserLevel = uli.UserGroupId;
-            ViewBag.UserAuthLevelID = uli.AuthorityLevelId;
-            ViewBag.HigherAuthLevelID = GetHighestLevelAuthority();
-            //ChangeStatus(id, status);
+            ViewData["UserLevel"] = uli.UserGroupId;
+            ViewData["UserAuthLevelID"] = uli.AuthorityLevelId;
+            ViewData["HigherAuthLevelID"] = GetHighestLevelAuthority();
 
             CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(id);
 
             if (pcd != null)
-                ViewBag.ProjectCommonDetail = pcd;
+                ViewData["ProjectCommonDetail"] = pcd;
             else
-                ViewBag.ProjectCommonDetail = new CcModAppProjectCommonDetail();
+                ViewData["ProjectCommonDetail"] = new CcModAppProjectCommonDetail();
 
-            CcModPrjLocationDetail _locationdetail = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == pcd.ProjectId).FirstOrDefault();
-
-            if (_locationdetail != null)
-                ViewBag.ProjectLocationDetail = _locationdetail;
+            List<ProjectLocationTemp> _locationdetail = GetProjectLocation(pcd.ProjectId);
+            if (_locationdetail.Count > 0)
+                ViewData["ProjectLocationDetail"] = _locationdetail;
             else
-                ViewBag.ProjectLocationDetail = new CcModPrjLocationDetail();
+                ViewData["ProjectLocationDetail"] = new List<CcModPrjLocationDetail>();
 
             CcModAppProject_31_IndvDetail _indvdetail = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).FirstOrDefault();
-
             if (_indvdetail != null)
-                ViewBag.ProjectIndvDetail31 = _indvdetail;
+                ViewData["ProjectIndvDetail31"] = _indvdetail;
             else
-                ViewBag.ProjectIndvDetail31 = new CcModAppProject_31_IndvDetail();
+                ViewData["ProjectIndvDetail31"] = new CcModAppProject_31_IndvDetail();
 
-            var _hydroregiondetail = _db.CcModPrjHydroRegionDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                        .Select(x => new { x.PrjHydroRegionDetailId, x.ProjectId, x.HydroRegionId }).ToList();
-            ViewBag.HydroRegionDetail = _hydroregiondetail;
+            var _hydroregiondetail = GetHydrologicalRegion(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["HydroRegionDetail"] = _hydroregiondetail;
 
-            var _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                    .Select(x => new { x.HotSpotDetailId, x.ProjectId, x.DeltaPlanHotSpotId }).ToList();
-            ViewBag.BDP2100HotSpotDetail = _hotspotdetail;
+            var _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModDeltPlan2100HotSpot)
+                                    .Select(x => new BDP2100HotSpotDetailTemp
+                                    {
+                                        DeltaPlanHotSpotId = x.DeltaPlanHotSpotId,
+                                        PlanName = x.LookUpCcModDeltPlan2100HotSpot.PlanName,
+                                        PlanNameBn = x.LookUpCcModDeltPlan2100HotSpot.PlanNameBn
+                                    }).ToList();
+            ViewData["BDP2100HotSpotDetail"] = _hotspotdetail;
+
+            var _hydrosystemdetail = GetHydroSystemDetail(pcd.ProjectId);
+            ViewData["HydroSystemDetail"] = _hydrosystemdetail;
 
             var _typesofflood = _db.CcModPrjTypesOfFloodDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                   .Select(x => new { x.FloodTypeDetailId, x.ProjectId, x.FloodTypeId }).ToList();
-            ViewBag.TypesOfFloodDetail = _typesofflood;
+                                   .Select(x => new TypesOfFloodTemp
+                                   {
+                                       FloodTypeDetailId = x.FloodTypeDetailId,
+                                       ProjectId = x.ProjectId,
+                                       FloodTypeId = x.FloodTypeId,
+                                       FloodTypeName = x.LookUpCcModTypeOfFlood.FloodTypeName,
+                                       FloodTypeNameBn = x.LookUpCcModTypeOfFlood.FloodTypeNameBn
+                                   }).ToList();
+            ViewData["TypesOfFloodDetail"] = _typesofflood;
 
-            var _compatnwpdetail = _db.CcModPrjCompatNWPDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                   .Select(x => new { x.PrjCompatNWPId, x.ProjectId, x.NationalWaterPolicyArticleId }).ToList();
-            ViewBag.CompatNWPDetail = _compatnwpdetail;
+            var _floodfrequencydetail = GetFloodFrequencyDetail(pcd.ProjectId);
+            ViewData["FloodFrequencyDetail"] = _floodfrequencydetail;
 
-            var _compatnwmpdetail = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                   .Select(x => new { x.PrjCompatNWMPId, x.ProjectId, x.NWMPProgrammeId }).ToList();
-            ViewBag.CompatNWMPDetail = _compatnwmpdetail;
+            var _drainagecondition = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new DrainageConditionlTemp
+                                    {
+                                        DrainageConditionId = x.DrainageConditionId.Value,
+                                        DrainageCondition = x.LookUpCcModDrainageCondition.DrainageCondition,
+                                        DrainageConditionBn = x.LookUpCcModDrainageCondition.DrainageConditionBn
+                                    }).ToList();
+            ViewData["DrainageConditionDetail"] = _drainagecondition;
 
-            var _compatsdgdetail = _db.CcModPrjCompatSDGDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                   .Select(x => new { x.SDGCompabilityId, x.ProjectId, x.SDGGoalId }).ToList();
-            ViewBag.CompatSDGDetail = _compatsdgdetail;
+            var _irrigcropareadetail = GetIrrigCropAreaDetail(pcd.ProjectId);
+            ViewData["IrrigCropAreaDetail"] = _irrigcropareadetail;
 
-            var _compatsdgindidetail = _db.CcModPrjCompatSDGIndiDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                   .Select(x => new { x.SDGIndicatorDetailId, x.ProjectId, x.SDGIndicatorId }).ToList();
-            ViewBag.CompatSDGIndiDetail = _compatsdgindidetail;
+            var _analyzeoptionsdetail = GetAnalyzeOptionsDetail(pcd.ProjectId);
+            ViewData["AnalyzeOptionsDetail"] = _analyzeoptionsdetail;
 
-            var _bdp2100goaldetail = _db.CcModBDP2100GoalDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                   .Select(x => new { x.DeltaGoalDetailId, x.ProjectId, x.DeltPlan2100GoalId }).ToList();
-            ViewBag.BDP2100GoalDetail = _bdp2100goaldetail;
+            var _designsubmitdetail = GetDesignSubmitDetail(pcd.ProjectId);
+            ViewData["DesignSubmitDetail"] = _designsubmitdetail;
 
-            var _gpwmgrouptype = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                   .Select(x => new { x.GPWMGroupTypeDetailId, x.ProjectId, x.GPWMGroupTypeId }).ToList();
-            ViewBag.GPWMGroupType = _gpwmgrouptype;
+            var _ecofinanalysisdetail = GetEcoFinAnalysisDetail(pcd.ProjectId);
+            ViewData["EcoFinAnalysisDetail"] = _ecofinanalysisdetail;
 
-            ViewBag.ProjectId = pcd.ProjectId;
-            ViewBag.Project31IndvId = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project31IndvId).FirstOrDefault();
-            ViewBag.UserId = ui.UserID;
-            ViewBag.ProjectTypeId = pcd.ProjectTypeId;
-            ViewBag.ProjectTypeTitle = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectType).FirstOrDefault();
-            ViewBag.ProjectTypeTitleBn = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectTypeBn).FirstOrDefault();
-            ViewBag.LanguageId = pcd.LanguageId;
+            var _eiadetail = GetEiaDetailTemp(pcd.ProjectId);
+            ViewData["EiaDetailTemp"] = _eiadetail;
 
-            ViewBag.ApplicationState = GetAppState(pcd.ApplicationStateId, pcd.IsCompletedId.Value);
-            GetApplicantInfo(pcd.UserId);
+            var _siadetail = GetSiaDetailTemp(pcd.ProjectId);
+            ViewData["SiaDetailTemp"] = _siadetail;
+
+            var _compatnwpdetail = GetCompatNWPDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["CompatNWPDetail"] = _compatnwpdetail;
+
+            var _compatnwmpdetail = GetCompatNWMPDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["CompatNWMPDetail"] = _compatnwmpdetail;
+
+            var _compatsdgdetail = GetCompatSDGDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["CompatSDGDetail"] = _compatsdgdetail;
+
+            var _compatsdgindidetail = GetCompatSDGIndicatorDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["CompatSDGIndiDetail"] = _compatsdgindidetail;
+
+            var _bdp2100goaldetail = GetBDP2100GoalDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["BDP2100GoalDetail"] = _bdp2100goaldetail;
+
+            var _gpwmgrouptype = GetGPWMGroupTypeDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["GPWMGroupType"] = _gpwmgrouptype;
+
+            ViewData["ProjectId"] = pcd.ProjectId;
+            ViewData["Project31IndvId"] = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project31IndvId).FirstOrDefault();
+            ViewData["UserId"] = ui.UserID;
+            ViewData["ProjectTypeId"] = pcd.ProjectTypeId;
+            ViewData["Title"] = "Flood Control Management Project | Print";
+            ViewData["ProjectTypeTitle"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectType).FirstOrDefault();
+            ViewData["ProjectTypeTitleBn"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectTypeBn).FirstOrDefault();
+            ViewData["LanguageId"] = pcd.LanguageId;
+            ViewData["SignatureFileName"] = _db.AdminModUsersDetail.Where(w => w.UserId == pcd.UserId).Select(s => s.SignatureFileName).FirstOrDefault();
+            ViewData["ApplicationState"] = GetAppState(pcd.ApplicationStateId, pcd.IsCompletedId.Value);
+            GetApplicantInfoViewData(pcd.UserId);
 
             return View();
         }
@@ -619,7 +656,7 @@ namespace WrpCcNocWeb.Controllers
             ViewData["Project32IndvId"] = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project32IndvId).FirstOrDefault();
             ViewData["UserId"] = ui.UserID;
             ViewData["ProjectTypeId"] = pcd.ProjectTypeId;
-            ViewData["Title"] = "Flood Control Management Project | Print";
+            ViewData["Title"] = "Surface Water Withdrawal, Distribution or Use | Print";
             ViewData["ProjectTypeTitle"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectType).FirstOrDefault();
             ViewData["ProjectTypeTitleBn"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectTypeBn).FirstOrDefault();
             ViewData["LanguageId"] = pcd.LanguageId;
@@ -2216,9 +2253,10 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
-        public IActionResult printfcmp(long id, int status)
+        public IActionResult printfcmp(long id)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            System.Globalization.DateTimeFormatInfo mfi = new System.Globalization.DateTimeFormatInfo();
 
             if (ui == null)
             {
@@ -2229,7 +2267,6 @@ namespace WrpCcNocWeb.Controllers
             ViewData["UserLevel"] = uli.UserGroupId;
             ViewData["UserAuthLevelID"] = uli.AuthorityLevelId;
             ViewData["HigherAuthLevelID"] = GetHighestLevelAuthority();
-            //ChangeStatus(id, status);
 
             CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(id);
 
@@ -2265,7 +2302,7 @@ namespace WrpCcNocWeb.Controllers
             var _hydrosystemdetail = GetHydroSystemDetail(pcd.ProjectId);
             ViewData["HydroSystemDetail"] = _hydrosystemdetail;
 
-            var _typesofflood = _db.CcModPrjTypesOfFloodDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModTypeOfFlood)
+            var _typesofflood = _db.CcModPrjTypesOfFloodDetail.Where(w => w.ProjectId == pcd.ProjectId)
                                    .Select(x => new TypesOfFloodTemp
                                    {
                                        FloodTypeDetailId = x.FloodTypeDetailId,
@@ -2278,6 +2315,15 @@ namespace WrpCcNocWeb.Controllers
 
             var _floodfrequencydetail = GetFloodFrequencyDetail(pcd.ProjectId);
             ViewData["FloodFrequencyDetail"] = _floodfrequencydetail;
+
+            var _drainagecondition = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId)
+                                    .Select(x => new DrainageConditionlTemp
+                                    {
+                                        DrainageConditionId = x.DrainageConditionId.Value,
+                                        DrainageCondition = x.LookUpCcModDrainageCondition.DrainageCondition,
+                                        DrainageConditionBn = x.LookUpCcModDrainageCondition.DrainageConditionBn
+                                    }).ToList();
+            ViewData["DrainageConditionDetail"] = _drainagecondition;
 
             var _irrigcropareadetail = GetIrrigCropAreaDetail(pcd.ProjectId);
             ViewData["IrrigCropAreaDetail"] = _irrigcropareadetail;
@@ -2323,9 +2369,11 @@ namespace WrpCcNocWeb.Controllers
             ViewData["UserId"] = ui.UserID;
             ViewData["ProjectTypeId"] = pcd.ProjectTypeId;
             ViewData["Title"] = "Flood Control Management Project | Print";
+            ViewData["ProjectTypeTitle"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectType).FirstOrDefault();
+            ViewData["ProjectTypeTitleBn"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectTypeBn).FirstOrDefault();
             ViewData["LanguageId"] = pcd.LanguageId;
             ViewData["SignatureFileName"] = _db.AdminModUsersDetail.Where(w => w.UserId == pcd.UserId).Select(s => s.SignatureFileName).FirstOrDefault();
-
+            ViewData["ApplicationState"] = GetAppState(pcd.ApplicationStateId, pcd.IsCompletedId.Value);
             GetApplicantInfoViewData(pcd.UserId);
 
             //return View();
@@ -2506,7 +2554,7 @@ namespace WrpCcNocWeb.Controllers
             ViewData["Project32IndvId"] = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project32IndvId).FirstOrDefault();
             ViewData["UserId"] = ui.UserID;
             ViewData["ProjectTypeId"] = pcd.ProjectTypeId;
-            ViewData["Title"] = "Flood Control Management Project | Print";
+            ViewData["Title"] = "Project for Surface Water Withdrawal, Distribution or Use | Print";
             ViewData["ProjectTypeTitle"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectType).FirstOrDefault();
             ViewData["ProjectTypeTitleBn"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectTypeBn).FirstOrDefault();
             ViewData["LanguageId"] = pcd.LanguageId;
@@ -4380,7 +4428,7 @@ namespace WrpCcNocWeb.Controllers
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
                                 _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
-                                _pcd.IsCompletedId = 1;
+                                _pcd.IsCompletedId = 2; // need to change after re-logic check
                                 _pcd.ReviewCycleNo = 0;
 
                                 _db.Entry(_pcd).State = EntityState.Modified;
@@ -4395,7 +4443,7 @@ namespace WrpCcNocWeb.Controllers
                                         id = id.ToString(),
                                         status = "success",
                                         title = "Success",
-                                        message = "Your application has been successfully submitted. Application tracking code: " + projectTrackingCode
+                                        message = "Your application has been successfully submitted to higher authority. Application tracking code: " + projectTrackingCode
                                     };
                                 }
                                 else

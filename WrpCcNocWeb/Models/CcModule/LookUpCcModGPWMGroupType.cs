@@ -25,5 +25,10 @@ namespace WrpCcNocWeb.Models
         [MaxLength(100)]
         [Display(Name = "GPWM Group Type Name")]
         public string GPWMGroupTypeNameBn { get; set; }
+
+        [Column("GPWMGroupTypeDocLink", Order = 3)]
+        [MaxLength(250)]
+        [Display(Name = "GPWM Group Type Doc Link")]
+        public string GPWMGroupTypeDocLink { get; set; }
     }
 }

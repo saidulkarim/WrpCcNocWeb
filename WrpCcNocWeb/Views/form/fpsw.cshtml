@@ -1430,6 +1430,77 @@
             GetEconFinAnaData();
 
             jQuery("#btnSaveGeneral").click(function () {
+				var ProjectName = GetTextValue('ProjectName');
+                var BackgroundAndRationale = GetTextValue('BackgroundAndRationale');
+                var ProjectTarget = GetTextValue('ProjectTarget');
+                var ProjectObjective = GetTextValue('ProjectObjective');                
+                var ProjectStartDate = GetTextValue('ProjectStartDate');
+                var ProjectCompletionDate = GetTextValue('ProjectCompletionDate');
+                var ProjectEstimatedCost = GetTextValue('ProjectEstimatedCost') == '' ? '0' : GetTextValue('ProjectEstimatedCost');
+
+                if (ProjectName == '') {
+                    Notification('warning', 'Required Field', 'Project name can not be left empty.');
+                    Swal.fire('Required Field', 'Project name can not be left empty.', 'warning');
+                    jQuery('#ProjectName').focus();
+                    return;
+                }
+
+                if (BackgroundAndRationale == '') {
+                    Notification('warning', 'Required Field', 'Project background and rationale can not be left empty.');
+                    Swal.fire('Required Field', 'Project background and rationale can not be left empty.', 'warning');
+                    jQuery('#BackgroundAndRationale').focus();
+                    return;
+                }
+
+                if (ProjectTarget == '') {
+                    Notification('warning', 'Required Field', 'Project target can not be left empty.');
+                    Swal.fire('Required Field', 'Project target can not be left empty.', 'warning');
+                    jQuery('#ProjectTarget').focus();
+                    return;
+                }
+
+                if (ProjectObjective == '') {
+                    Notification('warning', 'Required Field', 'Project objective can not be left empty.');
+                    Swal.fire('Required Field', 'Project objective can not be left empty.', 'warning');
+                    jQuery('#ProjectObjective').focus();
+                    return;
+                }
+
+                if (ProjectStartDate == '') {
+                    Notification('warning', 'Required Field', 'Please select a project start date and can not be left empty.');
+                    Swal.fire('Required Field', 'Please select a project start date and can not be left empty.', 'warning');
+                    jQuery('#ProjectStartDate').focus();
+                    return;
+                }
+
+                if (ProjectCompletionDate == '') {
+                    Notification('warning', 'Required Field', 'Please select a project completion date and can not be left empty.');
+                    Swal.fire('Required Field', 'Please select a project completion date and can not be left empty.', 'warning');
+                    jQuery('#ProjectCompletionDate').focus();
+                    return;
+                }
+
+                if (ProjectEstimatedCost == '') {
+                    Notification('warning', 'Required Field', 'Please enter project estimated cost amount.');
+                    Swal.fire('Required Field', 'Please enter project estimated cost amount.', 'warning');
+                    jQuery('#ProjectEstimatedCost').focus();
+                    return;
+                }
+				
+				if (!IsNumeric(ProjectEstimatedCost)) {
+                    Notification('warning', 'Required Field', 'Please enter valid project estimated cost amount.');
+                    Swal.fire('Required Field', 'Please enter valid project estimated cost amount.', 'warning');
+                    jQuery('#ProjectEstimatedCost').focus();
+                    return;
+                }
+				
+				if (parseFloat(ProjectEstimatedCost) == 0 || parseFloat(ProjectEstimatedCost) < 0) {
+                    Notification('warning', 'Required Field', 'Project estimated cost amount can not be equal to zero (0) or can not be negative.');
+                    Swal.fire('Required Field', 'Project estimated cost amount can not be equal to zero (0) or can not be negative.', 'warning');
+                    jQuery('#ProjectEstimatedCost').focus();
+                    return;
+                }
+				
                 GeneralInfoSave();
             });
 

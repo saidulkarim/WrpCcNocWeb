@@ -138,7 +138,7 @@ namespace WrpCcNocWeb.Controllers
                 registrationDetail = _db.AdminModUserRegistrationDetail.Where(w => w.UserEmail == verify.UserEmail).FirstOrDefault();
                 if (registrationDetail == null)
                 {
-                    TempData["Message"] = ch.ShowMessage(Sign.Danger, "Wrong Mobile Number", "Sorry, you have entered wrong email address!");
+                    TempData["Message"] = ch.ShowMessage(Sign.Danger, "Wrong Email Address", "Sorry, you have entered wrong email address!");
                     return View(verify);
                 }
 

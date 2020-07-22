@@ -48,6 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\docs\gpwm\" />
     <Folder Include="wwwroot\images\CommonDetails\" />
     <Folder Include="wwwroot\images\signature\" />
   </ItemGroup>
