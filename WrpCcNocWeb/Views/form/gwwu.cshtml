@@ -1248,11 +1248,11 @@
 
         jQuery("input[type='radio'][name='SDGYesNoId']").change(function () {
             if (jQuery(this).val() == 1) {
-                jQuery("#divCwsdg").removeClass('d-none fadeOut');
-                jQuery("#divCwsdg").addClass('d-block fadeIn');
+                jQuery("#divCwsdg, #divSDG6Indicators").removeClass('d-none fadeOut');
+                jQuery("#divCwsdg, #divSDG6Indicators").addClass('d-block fadeIn');
             } else {
-                jQuery("#divCwsdg").removeClass('d-block fadeIn');
-                jQuery("#divCwsdg").addClass('d-none fadeOut');
+                jQuery("#divCwsdg, #divSDG6Indicators").removeClass('d-block fadeIn');
+                jQuery("#divCwsdg, #divSDG6Indicators").addClass('d-none fadeOut');
             }
         });
 
@@ -2492,17 +2492,17 @@
                 SetTextValue('FYPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FYPAuthorityCmt)');
 
                 var SDGYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.SDGYesNoId)';
-                if(SDGYesNoId != '') {
-	                $(":radio[name='SDGYesNoId'][value='" + SDGYesNoId + "']").attr('checked', true);
+                if (SDGYesNoId != '') {
+                    $(":radio[name='SDGYesNoId'][value='" + SDGYesNoId + "']").attr('checked', true);
 
-					if (SDGYesNoId == 1) {
-		                jQuery("#divCwsdg").removeClass('d-none fadeOut');
-		                jQuery("#divCwsdg").addClass('d-block fadeIn');
-	                } else {
-		                jQuery("#divCwsdg").removeClass('d-block fadeIn');
-		                jQuery("#divCwsdg").addClass('d-none fadeOut');
-	                }
-				}
+                    if (SDGYesNoId == 1) {
+                        jQuery("#divCwsdg, #divSDG6Indicators").removeClass('d-none fadeOut');
+                        jQuery("#divCwsdg, #divSDG6Indicators").addClass('d-block fadeIn');
+                    } else {
+                        jQuery("#divCwsdg, #divSDG6Indicators").removeClass('d-block fadeIn');
+                        jQuery("#divCwsdg, #divSDG6Indicators").addClass('d-none fadeOut');
+                    }
+                }
 
                 SetTextValue('SDGApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SDGApplicantCmt)');
                 SetTextValue('SDGAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SDGAuthorityCmt)');

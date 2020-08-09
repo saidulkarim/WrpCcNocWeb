@@ -19268,6 +19268,10 @@ namespace WrpCcNocWeb.Controllers
                         case "PaymentDocFileName":
                             pcd.PaymentDocFileName = filename;
                             break;
+
+                        case "FYPDocLink":
+                            pcd.FYPDocLink = filename;
+                            break;
                     }
 
                     _db.Entry(pcd).State = EntityState.Modified;
@@ -19412,6 +19416,10 @@ namespace WrpCcNocWeb.Controllers
 
                 case "NWMPDocLink":
                     result = projectId + "_NWMPD_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "FYPDocLink":
+                    result = projectId + "_FYPD_" + DateTime.Now.ToString("yyMMddHHmmssfff");
                     break;
 
                 case "SDGDocLink":

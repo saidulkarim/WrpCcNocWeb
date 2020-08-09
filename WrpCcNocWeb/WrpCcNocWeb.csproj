@@ -49,6 +49,8 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\docs\gpwm\" />
+    <Folder Include="wwwroot\docs\tutorial\pdf\eng\" />
+    <Folder Include="wwwroot\docs\tutorial\video\" />
     <Folder Include="wwwroot\images\CommonDetails\" />
     <Folder Include="wwwroot\images\signature\" />
   </ItemGroup>

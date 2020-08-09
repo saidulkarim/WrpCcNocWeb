@@ -1,0 +1,35 @@
+﻿@using static WrpCcNocWeb.Helpers.Extention;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var UserLevel = ViewData["UserLevel"].ToString();
+    var UserAuthLevelID = ViewData["UserAuthLevelID"].ToString().ToInt();
+    var HigherAuthLevelID = ViewData["HigherAuthLevelID"].ToString().ToInt();
+}
+
+<div class="row">
+    <div class="page-title-box">
+        <h4 class="page-title">সফটওয়্যার ব্যবহার বিধি</h4>
+    </div>
+    <div class="col-md-12">
+        @{
+            if (UserLevel == "1000000001")
+            {
+                <embed src="~/docs/tutorial/pdf/ban/applicant.pdf" type="application/pdf" style="width: 100%; height: 500px;">
+            }
+            else if (UserLevel != "1000000001" && (UserAuthLevelID == 1 || UserAuthLevelID == 3 || UserAuthLevelID == 5))
+            {
+                <embed src="~/docs/tutorial/pdf/ban/higher_approval_authority.pdf" type="application/pdf" style="width: 100%; height: 500px;">
+            }
+            else if (UserLevel != "1000000001" && (UserAuthLevelID == 2 || UserAuthLevelID == 4 || UserAuthLevelID == 6))
+            {
+                <embed src="~/docs/tutorial/pdf/ban/tc.pdf" type="application/pdf" style="width: 100%; height: 500px;">
+            }
+            else if (UserLevel != "1000000001" && (UserAuthLevelID == 10 || UserAuthLevelID == 11 || UserAuthLevelID == 12))
+            {
+                <embed src="~/docs/tutorial/pdf/ban/iwrmc.pdf" type="application/pdf" style="width: 100%; height: 500px;">
+            }
+        }
+    </div>
+</div>

@@ -1551,9 +1551,9 @@
                                                                                         <div class="form-group col-xl-6 text-center">
                                                                                             <label for="TotalWasteWaterGeneration">
                                                                                                 @{if (language == "1")
-                                                                                                    { <span>নির্গমিত পানির পরিমাণ (কিউবিক মিটার/দিন)</span>}
+                                                                                                    { <span>viii. নির্গমিত পানির পরিমাণ (কিউবিক মিটার/দিন)</span>}
                                                                                                     else
-                                                                                                    {<span>Discharge Quantity (m<sup>3</sup>/s)</span>}
+                                                                                                    {<span>viii. Discharge Quantity (m<sup>3</sup>/s)</span>}
                                                                                                 }
                                                                                             </label>
                                                                                             <input type="text" id="TotalWasteWaterGeneration" name="TotalWasteWaterGeneration" class="form-control" />
@@ -1562,9 +1562,9 @@
                                                                                         <div class="form-group col-xl-6 text-center">
                                                                                             <label for="DischargePoint">
                                                                                                 @{if (language == "1")
-                                                                                                    { <span>নির্গমিত পানির স্থান</span>}
+                                                                                                    { <span>ix. নির্গমিত পানির স্থান</span>}
                                                                                                     else
-                                                                                                    {<span>Discharge Point</span>}
+                                                                                                    {<span>ix. Discharge Point</span>}
                                                                                                 }
                                                                                             </label>
                                                                                             <input type="text" id="DischargePoint" name="DischargePoint" class="form-control" />
@@ -1698,6 +1698,13 @@
                                                                         </div>
                                                                         <div id="cardCollpase376" class="collapse show">
                                                                             <div class="card-body">
+																				<label>
+																					@{if (language == "1")
+																						{ <span>i. পরিবেশগত ও সামাজিক প্রভাব</span>}
+																						else
+																						{<span>i. Environmental and Social Impact Assessment</span>}
+																					}
+																				</label>
                                                                                 <div class="form-group">
                                                                                     <div id="ESIA" class="row" style="margin-left: 5px;">
                                                                                         <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
@@ -1727,9 +1734,9 @@
                                                                                 <div class="form-group">
                                                                                     <label for="EnvAndSocialApplicantCmt">
                                                                                         @{if (language == "1")
-                                                                                            { <span>আবেদনকারীর মন্তব্য</span>}
+                                                                                            { <span>ii. আবেদনকারীর মন্তব্য</span>}
                                                                                             else
-                                                                                            {<span>Applicant Comments</span>}
+                                                                                            {<span>ii. Applicant Comments</span>}
                                                                                         }
                                                                                     </label>
                                                                                     <input type="text" id="EnvAndSocialApplicantCmt" name="EnvAndSocialApplicantCmt" class="form-control" />
@@ -1738,9 +1745,9 @@
                                                                                 <div class="form-group">
                                                                                     <label for="EnvAndSocialAuthorityCmt">
                                                                                         @{if (language == "1")
-                                                                                            { <span>কর্তৃপক্ষের মন্তব্য</span>}
+                                                                                            { <span>iii. কর্তৃপক্ষের মন্তব্য</span>}
                                                                                             else
-                                                                                            {<span> Authority Comments</span>}
+                                                                                            {<span>iii. Authority Comments</span>}
                                                                                         }
                                                                                     </label>
                                                                                     <input type="text" id="EnvAndSocialAuthorityCmt" name="EnvAndSocialAuthorityCmt" class="form-control" />
@@ -1755,11 +1762,11 @@
                                                                                                         <th colspan="7" class="text-center">
                                                                                                             @if (language == "1")
                                                                                                             {
-                                                                                                                <span>পরিবেশগত প্রভাব মূল্যায়ন</span>
+                                                                                                                <span>iv. পরিবেশগত প্রভাব মূল্যায়ন</span>
                                                                                                             }
                                                                                                             else
                                                                                                             {
-                                                                                                                <span>Environmental Impact Assessment</span>
+                                                                                                                <span>iv. Environmental Impact Assessment</span>
                                                                                                             }
                                                                                                         </th>
                                                                                                     </tr>
@@ -1881,10 +1888,10 @@
                                                                                                         <th colspan="7" class="text-center">
                                                                                                             @{if (language == "1")
                                                                                                                 {
-                                                                                                                    <span>সামাজিক প্রভাব মূল্যায়ন</span>}
+                                                                                                                    <span>v. সামাজিক প্রভাব মূল্যায়ন</span>}
                                                                                                                 else
                                                                                                                 {
-                                                                                                                    <span>Social Impact Assessment</span>}
+                                                                                                                    <span>v. Social Impact Assessment</span>}
                                                                                                             }
                                                                                                         </th>
                                                                                                     </tr>
@@ -2324,11 +2331,11 @@
 
         jQuery("input[type='radio'][name='SDGYesNoId']").change(function () {
             if (jQuery(this).val() == 1) {
-                jQuery("#divCwsdg").removeClass('d-none fadeOut');
-                jQuery("#divCwsdg").addClass('d-block fadeIn');
+                jQuery("#divCwsdg, #divSDG6Indicators").removeClass('d-none fadeOut');
+                jQuery("#divCwsdg, #divSDG6Indicators").addClass('d-block fadeIn');
             } else {
-                jQuery("#divCwsdg").removeClass('d-block fadeIn');
-                jQuery("#divCwsdg").addClass('d-none fadeOut');
+                jQuery("#divCwsdg, #divSDG6Indicators").removeClass('d-block fadeIn');
+                jQuery("#divCwsdg, #divSDG6Indicators").addClass('d-none fadeOut');
             }
         });
 
@@ -4214,8 +4221,17 @@
 			    SetTextValue('FYPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FYPAuthorityCmt)');
 
 			    var SDGYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.SDGYesNoId)';
-			    if(SDGYesNoId != '')
-				    $(":radio[name='SDGYesNoId'][value='" + SDGYesNoId + "']").attr('checked', true);
+                if (SDGYesNoId != '') {
+                    $(":radio[name='SDGYesNoId'][value='" + SDGYesNoId + "']").attr('checked', true);
+
+                    if (SDGYesNoId == 1) {
+                        jQuery("#divCwsdg, #divSDG6Indicators").removeClass('d-none fadeOut');
+                        jQuery("#divCwsdg, #divSDG6Indicators").addClass('d-block fadeIn');
+                    } else {
+                        jQuery("#divCwsdg, #divSDG6Indicators").removeClass('d-block fadeIn');
+                        jQuery("#divCwsdg, #divSDG6Indicators").addClass('d-none fadeOut');
+                    }
+                }
 
 			    SetTextValue('SDGApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SDGApplicantCmt)');
 			    SetTextValue('SDGAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SDGAuthorityCmt)');

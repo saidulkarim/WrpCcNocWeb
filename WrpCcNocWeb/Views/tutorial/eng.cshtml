@@ -1,0 +1,35 @@
+﻿@using static WrpCcNocWeb.Helpers.Extention;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var UserLevel = ViewData["UserLevel"].ToString();
+    var UserAuthLevelID = ViewData["UserAuthLevelID"].ToString().ToInt();
+    var HigherAuthLevelID = ViewData["HigherAuthLevelID"].ToString().ToInt();
+}
+
+<div class="row">
+    <div class="page-title-box">
+        <h4 class="page-title">User Manual of Clearance Certificate</h4>
+    </div>
+    <div class="col-md-12">
+        @{
+            if (UserLevel == "1000000001")
+            {
+                <embed src="~/docs/tutorial/pdf/eng/applicant.pdf" type="application/pdf" style="width: 100%; height: 500px;">
+            }
+            else if (UserLevel != "1000000001" && (UserAuthLevelID == 1 || UserAuthLevelID == 3 || UserAuthLevelID == 5))
+            {
+                <embed src="~/docs/tutorial/pdf/eng/higher_approval_authority.pdf" type="application/pdf" style="width: 100%; height: 500px;">
+            }
+            else if (UserLevel != "1000000001" && (UserAuthLevelID == 2 || UserAuthLevelID == 4 || UserAuthLevelID == 6))
+            {
+                <embed src="~/docs/tutorial/pdf/eng/tc.pdf" type="application/pdf" style="width: 100%; height: 500px;">
+            }
+            else if (UserLevel != "1000000001" && (UserAuthLevelID == 10 || UserAuthLevelID == 11 || UserAuthLevelID == 12))
+            {
+                <embed src="~/docs/tutorial/pdf/eng/iwrmc.pdf" type="application/pdf" style="width: 100%; height: 500px;">
+            }
+        }
+    </div>
+</div>

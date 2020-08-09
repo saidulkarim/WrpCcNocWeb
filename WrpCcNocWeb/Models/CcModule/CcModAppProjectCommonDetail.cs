@@ -480,6 +480,11 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Payment Date")]
         public DateTime? PaymentDate { get; set; }
 
+        [Column("FYPDocLink", Order = 90)]
+        [Display(Name = "FYP Doc Link")]
+        [MaxLength(250)]
+        public string FYPDocLink { get; set; }
+
         public virtual List<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetails { get; set; }
         public virtual List<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetails { get; set; }
         public virtual List<CcModBDP2100GoalDetail> CcModBDP2100GoalDetails { get; set; }

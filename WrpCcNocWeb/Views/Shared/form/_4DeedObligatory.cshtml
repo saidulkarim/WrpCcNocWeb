@@ -7,9 +7,9 @@
 
 <div class="deed-obligatory-form">
     <div class="card">
-        <div class="card-header bg-primary py-3 text-white">
+        <div class="card-header bg-primary py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed9">
             <div class="card-widgets">
-                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                <a data-toggle="collapse" href="#cardCollpaseDeed9" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed9"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
                 @if (language == "1")
@@ -20,7 +20,7 @@
                     <span>9. Compatibility with National Water Policy</span>}
             </h5>
         </div>
-        <div id="cardCollpase35" class="collapse show">
+        <div id="cardCollpaseDeed9" class="collapse show">
             <div class="card-body">
                 <div class="form-group">
                     <div id="CWNWP" class="row" style="margin-left: 5px;">
@@ -145,9 +145,9 @@
     </div>
 
     <div class="card">
-        <div class="card-header bg-info py-3 text-white">
+        <div class="card-header bg-info py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed10">
             <div class="card-widgets">
-                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                <a data-toggle="collapse" href="#cardCollpaseDeed10" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed10"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
                 @if (language == "1")
@@ -158,7 +158,7 @@
                     <span>10. Compatibility with National Water Management Plan (NWMP)</span>}
             </h5>
         </div>
-        <div id="cardCollpase35" class="collapse show">
+        <div id="cardCollpaseDeed10" class="collapse show">
             <div class="card-body">
                 <div class="form-group">
                     <div id="CNWMP" class="row" style="margin-left: 5px;">
@@ -296,9 +296,9 @@
     </div>
 
     <div class="card">
-        <div class="card-header bg-success py-3 text-white">
+        <div class="card-header bg-success py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed11">
             <div class="card-widgets">
-                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                <a data-toggle="collapse" href="#cardCollpaseDeed11" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed11"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
                 @if (language == "1")
@@ -309,7 +309,7 @@
                     <span>11. Compatibility with Current Fifth Year Plan (FYP)</span>}
             </h5>
         </div>
-        <div id="cardCollpase35" class="collapse show">
+        <div id="cardCollpaseDeed11" class="collapse show">
             <div class="card-body">
                 <div class="form-group">
                     <div id="CWCFYP" class="row" style="margin-left: 5px;">
@@ -354,14 +354,43 @@
                     </label>
                     <input type="text" id="FYPAuthorityCmt" name="FYPAuthorityCmt" class="form-control" />
                 </div>
+
+                <div class="form-group">
+                    <label for="FYPDocLink">
+                        @if (language == "1")
+                        {
+                            <span>নথি লিঙ্ক</span>
+                        }
+                        else
+                        {
+                            <span>Document Link</span>
+                        }
+                    </label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input id="FYPDocLink" name="FYPDocLink" type="file"
+                                   class="custom-file-input" onchange="UploadCommonFiles('FYPDocLink');" />
+                            <label class="custom-file-label" for="FYPDocLink">
+                                @if (language == "1")
+                                {
+                                    <span>ফাইল পছন্দ করুন</span>
+                                }
+                                else
+                                {
+                                    <span>Choose file</span>
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="card">
-        <div class="card-header bg-blue py-3 text-white">
+        <div class="card-header bg-blue py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed12">
             <div class="card-widgets">
-                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                <a data-toggle="collapse" href="#cardCollpaseDeed12" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed12"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
                 @if (language == "1")
@@ -372,7 +401,7 @@
                     <span>12. Compatibility with Sustainable Development Goal (SDG)</span>}
             </h5>
         </div>
-        <div id="cardCollpase35" class="collapse show">
+        <div id="cardCollpaseDeed12" class="collapse show">
             <div class="card-body">
                 <div class="form-group">
                     <div id="CWSDG" class="row" style="margin-left: 5px;">
@@ -493,7 +522,7 @@
                     </div>
                 </div>
 
-                <div id="divSDG6Indicators" class="form-group">
+                <div id="divSDG6Indicators" class="form-group d-none">
                     <h4>
                         @{if (language == "1")
                             {
@@ -542,9 +571,9 @@
     </div>
 
     <div class="card">
-        <div class="card-header bg-danger py-3 text-white">
+        <div class="card-header bg-danger py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed13">
             <div class="card-widgets">
-                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                <a data-toggle="collapse" href="#cardCollpaseDeed13" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed13"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
                 @if (language == "1")
@@ -555,7 +584,7 @@
                     <span>13. Compatibility with Bangladesh Delta Plan 2100</span>}
             </h5>
         </div>
-        <div id="cardCollpase35" class="collapse show">
+        <div id="cardCollpaseDeed13" class="collapse show">
             <div class="card-body">
                 <div class="form-group">
                     <div id="CWBDP2100" class="row" style="margin-left: 5px;">
@@ -681,9 +710,9 @@
     </div>
 
     <div class="card">
-        <div class="card-header bg-dark py-3 text-white">
+        <div class="card-header bg-dark py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed14">
             <div class="card-widgets">
-                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                <a data-toggle="collapse" href="#cardCollpaseDeed14" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed14"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
                 @if (language == "1")
@@ -694,7 +723,7 @@
                     <span>14. Compatibility with Coastal Zone Policy</span>}
             </h5>
         </div>
-        <div id="cardCollpase35" class="collapse show">
+        <div id="cardCollpaseDeed14" class="collapse show">
             <div class="card-body">
                 <div class="form-group">
                     <div id="CWCZP" class="row" style="margin-left: 5px;">
@@ -777,9 +806,9 @@
     </div>
 
     <div class="card">
-        <div class="card-header bg-pink py-3 text-white">
+        <div class="card-header bg-pink py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed15">
             <div class="card-widgets">
-                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                <a data-toggle="collapse" href="#cardCollpaseDeed15" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed15"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
                 @if (language == "1")
@@ -790,7 +819,7 @@
                     <span>15. Compatibility with Agricultural Policy</span>}
             </h5>
         </div>
-        <div id="cardCollpase35" class="collapse show">
+        <div id="cardCollpaseDeed15" class="collapse show">
             <div class="card-body">
                 <div class="form-group">
                     <div id="CWAP" class="row" style="margin-left: 5px;">
@@ -873,9 +902,9 @@
     </div>
 
     <div class="card">
-        <div class="card-header bg-primary py-3 text-white">
+        <div class="card-header bg-primary py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed16">
             <div class="card-widgets">
-                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                <a data-toggle="collapse" href="#cardCollpaseDeed16" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed16"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
                 @if (language == "1")
@@ -886,7 +915,7 @@
                     <span>16. Compatibility with Fisheries Policy</span>}
             </h5>
         </div>
-        <div id="cardCollpase35" class="collapse show">
+        <div id="cardCollpaseDeed16" class="collapse show">
             <div class="card-body">
                 <div class="form-group">
                     <div id="CWFP" class="row" style="margin-left: 5px;">
@@ -969,9 +998,9 @@
     </div>
 
     <div class="card">
-        <div class="card-header bg-blue py-3 text-white">
+        <div class="card-header bg-blue py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed17">
             <div class="card-widgets">
-                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                <a data-toggle="collapse" href="#cardCollpaseDeed17" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed17"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
                 @if (language == "1")
@@ -982,7 +1011,7 @@
                     <span>17. Compatibility with Integrated Water Resource Management</span>}
             </h5>
         </div>
-        <div id="cardCollpase35" class="collapse show">
+        <div id="cardCollpaseDeed17" class="collapse show">
             <div class="card-body">
                 <div class="form-group">
                     <div id="CWIWRM" class="row" style="margin-left: 5px;">
@@ -1036,9 +1065,9 @@
     </div>
 
     <div class="card">
-        <div class="card-header bg-dark py-3 text-white">
+        <div class="card-header bg-dark py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed18">
             <div class="card-widgets">
-                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                <a data-toggle="collapse" href="#cardCollpaseDeed18" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed18"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
                 @if (language == "1")
@@ -1049,7 +1078,7 @@
                     <span>18. Compatibility with GPWM</span>}
             </h5>
         </div>
-        <div id="cardCollpase35" class="collapse show">
+        <div id="cardCollpaseDeed18" class="collapse show">
             <div class="card-body">
                 <div class="form-group">
                     <div id="CWGPWM" class="row" style="margin-left: 5px;">
@@ -1148,9 +1177,9 @@
     </div>
 
     <div class="card">
-        <div class="card-header bg-info py-3 text-white">
+        <div class="card-header bg-info py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed19">
             <div class="card-widgets">
-                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                <a data-toggle="collapse" href="#cardCollpaseDeed19" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed19"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
                 @if (language == "1")
@@ -1161,7 +1190,7 @@
                     <span>19. Feasibility Study</span>}
             </h5>
         </div>
-        <div id="cardCollpase35" class="collapse show">
+        <div id="cardCollpaseDeed19" class="collapse show">
             <div class="card-body">
                 <div class="form-group">
                     <div id="feasibilitystudy" class="row" style="margin-left: 5px;">
@@ -1215,9 +1244,9 @@
     </div>
 
     <div class="card">
-        <div class="card-header bg-pink py-3 text-white">
+        <div class="card-header bg-pink py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed20">
             <div class="card-widgets">
-                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                <a data-toggle="collapse" href="#cardCollpaseDeed20" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed20"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
                 @if (language == "1")
@@ -1226,7 +1255,7 @@
                 {<span> 20.	Duplication of the Project</span>}
             </h5>
         </div>
-        <div id="cardCollpase35" class="collapse show">
+        <div id="cardCollpaseDeed20" class="collapse show">
             <div class="card-body">
                 <div class="form-group">
                     <div id="duplicationproject" class="row" style="margin-left: 5px;">
@@ -1280,9 +1309,9 @@
     </div>
 
     <div class="card">
-        <div class="card-header bg-warning py-3 text-white">
+        <div class="card-header bg-warning py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed21">
             <div class="card-widgets">
-                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                <a data-toggle="collapse" href="#cardCollpaseDeed21" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed21"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
                 @if (language == "1")
@@ -1293,7 +1322,7 @@
                     <span>21. Project development by emphasizing on underprivileged people, child, women and important social issues</span>}
             </h5>
         </div>
-        <div id="cardCollpase35" class="collapse show">
+        <div id="cardCollpaseDeed21" class="collapse show">
             <div class="card-body">
                 <div class="form-group">
                     <div id="pdeu" class="row" style="margin-left: 5px;">
