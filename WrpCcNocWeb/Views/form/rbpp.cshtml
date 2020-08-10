@@ -202,26 +202,26 @@
                                                                                 </label>
                                                                                 <div id="RiverNature" class="row" style="margin-left: 5px;">
                                                                                     @{
-                                                                                        List<LookUpCcModRiverNature> _rvnt = ViewBag.LookUpCcModRiverNature;
+                                                                                        List<LookUpCcModTypeOfWaterBody> _rvnt = ViewBag.LookUpCcModTypeOfWaterBody;
 
                                                                                         if (_rvnt.Count > 0)
                                                                                         {
-                                                                                            foreach (LookUpCcModRiverNature rn in _rvnt)
+                                                                                            foreach (LookUpCcModTypeOfWaterBody rn in _rvnt)
                                                                                             {
-                                                                                                var id = "radRiverNature" + rn.RiverNatureId;
+                                                                                                var id = "radRiverNature" + rn.WaterBodyTypeId;
 
                                                                                                 if (language == "1")
                                                                                                 {
                                                                                                     <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                        <input type="radio" name="RiverNatureId" id="@id" value="@rn.RiverNatureId" data-parsley-multiple="RiverNatureId">
-                                                                                                        <label for="@id"> @rn.RiverNatureTitleBn </label>
+                                                                                                        <input type="radio" name="RiverNatureId" id="@id" value="@rn.WaterBodyTypeId" data-parsley-multiple="RiverNatureId">
+                                                                                                        <label for="@id"> @rn.WaterBodyTypeBn </label>
                                                                                                     </div>
                                                                                                 }
                                                                                                 else
                                                                                                 {
                                                                                                     <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                        <input type="radio" name="RiverNatureId" id="@id" value="@rn.RiverNatureId" data-parsley-multiple="RiverNatureId">
-                                                                                                        <label for="@id"> @rn.RiverNatureTitle </label>
+                                                                                                        <input type="radio" name="RiverNatureId" id="@id" value="@rn.WaterBodyTypeId" data-parsley-multiple="RiverNatureId">
+                                                                                                        <label for="@id"> @rn.WaterBodyType </label>
                                                                                                     </div>
                                                                                                 }
                                                                                             }

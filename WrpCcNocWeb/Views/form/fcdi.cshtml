@@ -626,15 +626,26 @@
                                                                                 </div>
                                                                             </div>
 
-                                                                            <div class="form-group">
+                                                                            <div class="form-group col-md-6">
                                                                                 <label for="SedimentationRate">
                                                                                     @{if (language == "1")
-                                                                                        { <span>xiii. নদী/ খালে পলি প্রবাহের হার (সেডিমেন্টেশন রেট); (সে.মি./ বছর) </span>}
+                                                                                        { <span>xiii.a নদী/ খালে পলি প্রবাহের হার (সেডিমেন্টেশন রেট); (সে.মি./ বছর) </span>}
                                                                                         else
-                                                                                        {<span>xiii. Sedimentation Rate of River/ Khal (cm/ year)</span>}
+                                                                                        {<span>xiii.a Sedimentation Rate of River/ Khal (cm/ year)</span>}
                                                                                     }
                                                                                 </label>
                                                                                 <input type="number" min="0" id="SedimentationRate" name="SedimentationRate" class="form-control" />
+                                                                            </div>
+
+                                                                            <div class="form-group col-md-6">
+                                                                                <label for="SedimentationRate">
+                                                                                    @{if (language == "1")
+                                                                                        { <span>xiii.b নদী/ খালগুলির পলি জমার হার (সেমি/ বছর)</span>}
+                                                                                        else
+                                                                                        {<span>xiii.b Siltation Rate of River/ Khals (cm/year)</span>}
+                                                                                    }
+                                                                                </label>
+                                                                                <input type="number" min="0" id="SiltationRate" name="SiltationRate" class="form-control" />
                                                                             </div>
 
                                                                             <div class="form-group">

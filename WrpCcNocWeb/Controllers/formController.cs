@@ -197,7 +197,7 @@ namespace WrpCcNocWeb.Controllers
                 TempData["Message"] = ch.ShowMessage(Sign.Warning, "Required", "Please select a form to apply.");
             }
 
-            ViewData["Title"] = "Apply";
+            ViewData["Title"] = "Apply";            
             ViewBag.LookUpAdminModLanguage = _db.LookUpAdminModLanguage.ToList();
             return View();
         }
@@ -8464,6 +8464,7 @@ namespace WrpCcNocWeb.Controllers
 
             ViewBag.LookUpCcModRiverType = _db.LookUpCcModRiverType.ToList();
             ViewBag.LookUpCcModRiverNature = _db.LookUpCcModRiverNature.ToList();
+            ViewBag.LookUpCcModTypeOfWaterBody = _db.LookUpCcModTypeOfWaterBody.ToList();
 
             ViewBag.LookUpCcModBankLineShifting = _db.LookUpCcModBankLineShifting.ToList();
             ViewBag.LookUpCcModBankStability = _db.LookUpCcModBankStability.ToList();
@@ -8498,6 +8499,8 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.LookUpCcModDeltPlan2100HotSpot = _db.LookUpCcModDeltPlan2100HotSpot.ToList();
 
             ViewBag.LookUpCcModRiverNature = _db.LookUpCcModRiverNature.ToList();
+            ViewBag.LookUpCcModTypeOfWaterBody = _db.LookUpCcModTypeOfWaterBody.ToList();
+
             ViewBag.LookUpCcModUsDsCondition = _db.LookUpCcModUsDsCondition.ToList();
             ViewBag.LookUpCcModDrainageCondition = _db.LookUpCcModDrainageCondition.ToList();
             ViewBag.LookUpCcModNavigationClass = _db.LookUpCcModNavigationClass.ToList();
@@ -8535,6 +8538,7 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.LookUpCcModDeltPlan2100HotSpot = _db.LookUpCcModDeltPlan2100HotSpot.ToList();
 
             ViewBag.LookUpCcModRiverNature = _db.LookUpCcModRiverNature.ToList();
+            ViewBag.LookUpCcModTypeOfWaterBody = _db.LookUpCcModTypeOfWaterBody.ToList();
             //ViewBag.LookUpCcModUsDsCondition = _db.LookUpCcModUsDsCondition.ToList();
             ViewBag.LookUpCcModDrainageCondition = _db.LookUpCcModDrainageCondition.ToList();
             //ViewBag.LookUpCcModNavigationClass = _db.LookUpCcModNavigationClass.ToList();
@@ -14747,6 +14751,9 @@ namespace WrpCcNocWeb.Controllers
                                 #endregion
 
                                 #region Project 35 Indvidual Data Binding
+                                p35i.DiscussAboutBaselineYesNoId = Project35Indv.DiscussAboutBaselineYesNoId;
+                                p35i.DabApplicantComments = Project35Indv.DabApplicantComments;
+                                p35i.DabAuthorityComments = Project35Indv.DabAuthorityComments;
                                 p35i.WaterBodyTypeId = Project35Indv.WaterBodyTypeId;
                                 p35i.Offtake = Project35Indv.Offtake;
                                 p35i.Outfall = Project35Indv.Outfall;

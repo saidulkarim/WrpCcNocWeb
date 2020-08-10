@@ -104,6 +104,66 @@
                                                                         </div>
                                                                         <div id="cardCollpase31" class="collapse show">
                                                                             <div class="card-body">
+                                                                                <div id="divDSWPD" class="row" style="margin-left: -7px;">
+                                                                                    <div class="table-responsive">
+                                                                                        <table class="table mb-0">
+                                                                                            <thead>
+                                                                                                <tr>
+                                                                                                    <th class="text-center">
+                                                                                                        @if (language == "1")
+                                                                                                        {
+                                                                                                            <span>হ্যাঁ/ না</span>
+                                                                                                        }
+                                                                                                        else
+                                                                                                        {
+                                                                                                            <span>Yes/ No</span>
+                                                                                                        }
+                                                                                                    </th>
+                                                                                                    <th class="text-center">
+                                                                                                        @if (language == "1")
+                                                                                                        {
+                                                                                                            <span>আবেদনকারী মন্তব্য</span>
+                                                                                                        }
+                                                                                                        else
+                                                                                                        {
+                                                                                                            <span>Applicant Comments</span>
+                                                                                                        }
+                                                                                                    </th>
+                                                                                                    <th class="text-center">
+                                                                                                        @if (language == "1")
+                                                                                                        {
+                                                                                                            <span>কর্তৃপক্ষের মন্তব্য</span>
+                                                                                                        }
+                                                                                                        else
+                                                                                                        {
+                                                                                                            <span>Authority Comments</span>
+                                                                                                        }
+                                                                                                    </th>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <th class="text-center">
+                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                                                                                                            <input type="radio" name="DiscussAboutBaselineYesNoId" id="chkDABYes" value="1" data-parsley-multiple="DiscussAboutBaselineYesNoId">
+                                                                                                            <label for="chkDABYes"> Yes </label>
+                                                                                                        </div>
+
+                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                                                                                                            <input type="radio" name="DiscussAboutBaselineYesNoId" id="chkDABNo" value="0" data-parsley-multiple="DiscussAboutBaselineYesNoId">
+                                                                                                            <label for="chkDABNo"> No </label>
+                                                                                                        </div>
+                                                                                                    </th>
+                                                                                                    <th class="text-center">
+                                                                                                        <input type="text" id="DabApplicantComments" name="DabApplicantComments" class="form-control" />
+                                                                                                    </th>
+                                                                                                    <th class="text-center">
+                                                                                                        <input type="text" id="DabAuthorityComments" name="DabAuthorityComments" class="form-control" />
+                                                                                                    </th>
+                                                                                                </tr>
+                                                                                            </thead>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </div>
+
                                                                                 <div class="form-group">
                                                                                     <label for="HydrologicalRegion">
                                                                                         @if (language == "1")
@@ -1675,7 +1735,7 @@
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="card">
+                                                                    @*<div class="card">
                                                                         <div class="card-header bg-success py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase347">
                                                                             <div class="card-widgets">
                                                                                 <a data-toggle="collapse" href="#cardCollpase347" role="button" aria-expanded="false" aria-controls="cardCollpase347"><i class="mdi mdi-minus"></i></a>
@@ -1747,7 +1807,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
+                                                                    </div>*@
 
                                                                     <div class="card">
                                                                         <div class="card-header bg-danger py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase348">
@@ -1757,10 +1817,10 @@
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == "1")
                                                                                 {
-                                                                                    <span>৮. অর্থনৈতিক ও আর্থিক বিশ্লেষণ</span>}
+                                                                                    <span>৭. অর্থনৈতিক ও আর্থিক বিশ্লেষণ</span>}
                                                                                 else
                                                                                 {
-                                                                                    <span>8. Economical & Financial Analysis</span>}
+                                                                                    <span>7. Economical & Financial Analysis</span>}
                                                                             </h5>
                                                                         </div>
                                                                         <div id="cardCollpase348" class="collapse show">
@@ -3149,6 +3209,9 @@
             var Project35IndvDetail = {
                 "Project35IndvId": 0,
                 "ProjectId": ProjectId,
+                "DiscussAboutBaselineYesNoId": GetRadioValue('DiscussAboutBaselineYesNoId'),
+                "DabApplicantComments": GetTextValue('DabApplicantComments'),
+                "DabAuthorityComments": GetTextValue('DabAuthorityComments'),
                 "WaterBodyTypeId": GetRadioValue('WaterBodyTypeId'),
                 "Offtake": GetTextValue('Offtake'),
                 "Outfall": GetTextValue('Outfall'),
@@ -3933,6 +3996,13 @@
                 SetTextValue('ProjectEstimatedCost', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectEstimatedCost)');
 
                 //technology bind start
+                var dabynid = '@Html.Raw(ViewBag.ProjectIndvDetail37.DiscussAboutBaselineYesNoId)';
+				if(dabynid != '')
+				$(":radio[name='DiscussAboutBaselineYesNoId'][value='" + dabynid + "']").attr('checked', true);
+
+				SetTextValue('DabApplicantComments', '@Html.Raw(ViewBag.ProjectIndvDetail37.DabApplicantComments)');
+                SetTextValue('DabAuthorityComments', '@Html.Raw(ViewBag.ProjectIndvDetail37.DabAuthorityComments)');
+
                 var hrs = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.HydroRegionDetail))');
                 jQuery.each(hrs, function (i, item) {
                     $(":checkbox[name='hydrological_region'][value='" + item.hydroRegionId + "']").attr('checked', true);

@@ -156,5 +156,19 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Duplication Authority Comments")]
         [MaxLength(150)]
         public string DuplicationAuthorityComments { get; set; }
+
+        [Column("DiscussAboutBaselineYesNoId", Order = 32)]
+        [Display(Name = "Discussion about Baseline?")]
+        public int? DiscussAboutBaselineYesNoId { get; set; }     
+
+        [Column("DabApplicantComments", Order = 33)]
+        [Display(Name = "Applicant Comments")]
+        [MaxLength(150)]
+        public string DabApplicantComments { get; set; }
+
+        [Column("DabAuthorityComments", Order = 34)]
+        [Display(Name = "Authority Comments")]
+        [MaxLength(150)]
+        public string DabAuthorityComments { get; set; }
     }
 }

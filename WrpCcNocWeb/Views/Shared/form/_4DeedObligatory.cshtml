@@ -3,6 +3,7 @@
 
 @{
     var language = HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString();
+    var selectedform = ViewBag.ProjectTypeId.ToString();
 }
 
 <div class="deed-obligatory-form">
@@ -1243,70 +1244,75 @@
         </div>
     </div>
 
-    <div class="card">
-        <div class="card-header bg-pink py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed20">
-            <div class="card-widgets">
-                <a data-toggle="collapse" href="#cardCollpaseDeed20" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed20"><i class="mdi mdi-minus"></i></a>
-            </div>
-            <h5 class="card-title mb-0 text-white">
-                @if (language == "1")
-                {<span>২০. প্রকল্পটির সদৃশ</span>}
-                else
-                {<span> 20.	Duplication of the Project</span>}
-            </h5>
-        </div>
-        <div id="cardCollpaseDeed20" class="collapse show">
-            <div class="card-body">
-                <div class="form-group">
-                    <div id="duplicationproject" class="row" style="margin-left: 5px;">
-                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                            <input type="radio" name="DuplicatYesNoId" id="duplicationprojectYes" value="1" data-parsley-multiple="DuplicatYesNoId">
-                            <label for="duplicationprojectYes">
-                                @{if (language == "1")
-                                    { <span>হ্যাঁ</span>}
-                                    else
-                                    {<span>Yes</span>}
-                                }
-                            </label>
+    @{
+        if (selectedform == "1" || selectedform == "4" || selectedform == "10" || selectedform == "13")
+        {
+            <div class="card">
+                <div class="card-header bg-pink py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed20">
+                    <div class="card-widgets">
+                        <a data-toggle="collapse" href="#cardCollpaseDeed20" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed20"><i class="mdi mdi-minus"></i></a>
+                    </div>
+                    <h5 class="card-title mb-0 text-white">
+                        @if (language == "1")
+                        {<span>২০. প্রকল্পটির সদৃশ</span>}
+                        else
+                        {<span> 20.	Duplication of the Project</span>}
+                    </h5>
+                </div>
+                <div id="cardCollpaseDeed20" class="collapse show">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div id="duplicationproject" class="row" style="margin-left: 5px;">
+                                <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                                    <input type="radio" name="DuplicatYesNoId" id="duplicationprojectYes" value="1" data-parsley-multiple="DuplicatYesNoId">
+                                    <label for="duplicationprojectYes">
+                                        @{if (language == "1")
+                                            { <span>হ্যাঁ</span>}
+                                            else
+                                            {<span>Yes</span>}
+                                        }
+                                    </label>
+                                </div>
+
+                                <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                                    <input type="radio" name="DuplicatYesNoId" id="duplicationprojectNo" value="0" checked data-parsley-multiple="DuplicatYesNoId">
+                                    <label for="duplicationprojectNo">
+                                        @{if (language == "1")
+                                            { <span>না</span>}
+                                            else
+                                            {<span>No</span>}
+                                        }
+                                    </label>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                            <input type="radio" name="DuplicatYesNoId" id="duplicationprojectNo" value="0" checked data-parsley-multiple="DuplicatYesNoId">
-                            <label for="duplicationprojectNo">
+                        <div class="form-group">
+                            <label for="DuplicationApplicantComments">
                                 @{if (language == "1")
-                                    { <span>না</span>}
+                                    { <span>আবেদনকারীর মন্তব্য</span>}
                                     else
-                                    {<span>No</span>}
+                                    {<span>Applicant Comments</span>}
                                 }
                             </label>
+                            <input type="text" id="DuplicationApplicantComments" name="DuplicationApplicantComments" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="DuplicationAuthorityComments">
+                                @{if (language == "1")
+                                    { <span>কর্তৃপক্ষের মন্তব্য</span>}
+                                    else
+                                    {<span>Authority Comments</span>}
+                                }
+                            </label>
+                            <input type="text" id="DuplicationAuthorityComments" name="DuplicationAuthorityComments" class="form-control" />
                         </div>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="DuplicationApplicantComments">
-                        @{if (language == "1")
-                            { <span>আবেদনকারীর মন্তব্য</span>}
-                            else
-                            {<span>Applicant Comments</span>}
-                        }
-                    </label>
-                    <input type="text" id="DuplicationApplicantComments" name="DuplicationApplicantComments" class="form-control" />
-                </div>
-
-                <div class="form-group">
-                    <label for="DuplicationAuthorityComments">
-                        @{if (language == "1")
-                            { <span>কর্তৃপক্ষের মন্তব্য</span>}
-                            else
-                            {<span>Authority Comments</span>}
-                        }
-                    </label>
-                    <input type="text" id="DuplicationAuthorityComments" name="DuplicationAuthorityComments" class="form-control" />
-                </div>
             </div>
-        </div>
-    </div>
+        }
+    }
 
     <div class="card">
         <div class="card-header bg-warning py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed21">
@@ -1314,12 +1320,40 @@
                 <a data-toggle="collapse" href="#cardCollpaseDeed21" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed21"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
-                @if (language == "1")
-                {
-                    <span>২১. প্রকল্পটি গুরুত্বপূর্ণ সামাজিক বিষয়াদি এবং নারী, শিশু, দরিদ্র ও অনগ্রসর  জনগোষ্ঠীর প্রতি বিশেষ গুরুত্ব দিয়ে প্রস্তুত করা হয়েছে কিনা</span>}
-                else
-                {
-                    <span>21. Project development by emphasizing on underprivileged people, child, women and important social issues</span>}
+                @{
+                    string numbering = "";
+                    if (selectedform == "1" || selectedform == "4" || selectedform == "10" || selectedform == "13")
+                    {
+                        if (language == "1")
+                        {
+                            numbering = "২১";
+                        }
+                        else
+                        {
+                            numbering = "21";
+                        }
+                    }
+                    else
+                    {
+                        if (language == "1")
+                        {
+                            numbering = "২০";
+                        }
+                        else
+                        {
+                            numbering = "20";
+                        }
+                    }
+
+                    if (language == "1")
+                    {
+                        <span>@numbering. প্রকল্পটি গুরুত্বপূর্ণ সামাজিক বিষয়াদি এবং নারী, শিশু, দরিদ্র ও অনগ্রসর  জনগোষ্ঠীর প্রতি বিশেষ গুরুত্ব দিয়ে প্রস্তুত করা হয়েছে কিনা</span>
+                    }
+                    else
+                    {
+                        <span>@numbering. Project development by emphasizing on underprivileged people, child, women and important social issues</span>
+                    }
+                }
             </h5>
         </div>
         <div id="cardCollpaseDeed21" class="collapse show">
