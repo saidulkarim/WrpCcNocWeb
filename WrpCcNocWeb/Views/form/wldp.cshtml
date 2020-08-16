@@ -686,7 +686,7 @@
                                                                                 @if (language == "1")
                                                                                 {<span>৪. বন্যার পানি বাহিত এলাকার উপর প্রভাব</span> }
                                                                                 else
-                                                                                { <span>4. Impact on Floodplain Area</span>}
+                                                                                { <span>4. Impact on Flood Plain Area</span>}
                                                                             </h5>
                                                                         </div>
                                                                         <div id="cardCollpase345" class="collapse show">
@@ -695,7 +695,7 @@
 																					@{if (language == "1")
 																						{ <span>i. বন্যার পানি বাহিত এলাকার উপর প্রভাব</span>}
 																						else
-																						{<span>i. Impact on Floodplain Area</span>}
+																						{<span>i. Impact on Flood Plain Area</span>}
 																					}
 																				</label>
                                                                                 <div class="form-group">
@@ -747,9 +747,31 @@
                                                                                 </div>
 
                                                                                 <div id="divImpctFldPlnAraes" class="form-group d-none">
-                                                                                    <div id="ImpctFldPlnAraes" class="row" style="margin-left: -7px;">
-                                                                                        <div class="table-responsive">
-                                                                                            dropdown list will come here
+                                                                                    <div class="form-group">
+                                                                                        <label for="IfpaYes">
+                                                                                            @{if (language == "1")
+                                                                                                {<span>হাঁ হলে</span>}
+                                                                                                else
+                                                                                                {<span>If Yes</span>}
+                                                                                            }
+                                                                                        </label>
+                                                                                        <div id="IfpaYes" class="row" style="margin-left: 5px;">
+                                                                                            <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Reduction of Flood Flow Zone">
+                                                                                                <input type="checkbox" name="IfpaId" id="chkIfpa1" value="1" data-parsley-multiple="IfpaId">
+                                                                                                <label for="chkIfpa1"> Reduction of Flood Flow Zone </label>
+                                                                                            </div>
+                                                                                            <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Flooding">
+                                                                                                <input type="checkbox" name="IfpaId" id="chkIfpa2" value="2" data-parsley-multiple="IfpaId">
+                                                                                                <label for="chkIfpa2"> Flooding </label>
+                                                                                            </div>
+                                                                                            <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Drainage">
+                                                                                                <input type="checkbox" name="IfpaId" id="chkIfpa3" value="3" data-parsley-multiple="IfpaId">
+                                                                                                <label for="chkIfpa3"> Drainage </label>
+                                                                                            </div>
+                                                                                            <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Others">
+                                                                                                <input type="checkbox" name="IfpaId" id="chkIfpa4" value="4" data-parsley-multiple="IfpaId">
+                                                                                                <label for="chkIfpa4"> Others </label>
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -775,9 +797,9 @@
                                                                             <div class="card-body">
 																				<label>
 																					@{if (language == "1")
-																						{ <span>i. বন্যার পানি বাহিত এলাকার উপর প্রভাব</span>}
+																						{ <span>i. পরিবেশগত ও সামাজিক প্রভাব</span>}
 																						else
-																						{<span>i. Impact on Floodplain Area</span>}
+																						{<span>i. Environmental and Social Impact Assessment</span>}
 																					}
 																				</label>
                                                                                 <div class="form-group">
@@ -2065,6 +2087,10 @@
                 "CostalZoneApplicantCmt": GetTextValue('CostalZoneApplicantCmt'),
                 "CostalZoneAuthorityCmt": GetTextValue('CostalZoneAuthorityCmt'),
                 //CostalZoneDocLink //file.
+                "CiwupYesNoId": GetRadioValue('CiwupYesNoId'),
+                "CiwupApplicantCmt": GetTextValue('CiwupApplicantCmt'),
+                "CiwupAuthorityCmt": GetTextValue('CiwupAuthorityCmt'),
+                //CiwupDocLink //file.
                 "AgriculturalYesNoId": GetRadioValue('AgriculturalYesNoId'),
                 "AgriApplicantCmt": GetTextValue('AgriApplicantCmt'),
                 "AgriAuthorityCmt": GetTextValue('AgriAuthorityCmt'),

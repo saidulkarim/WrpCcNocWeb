@@ -197,7 +197,7 @@ namespace WrpCcNocWeb.Controllers
                 TempData["Message"] = ch.ShowMessage(Sign.Warning, "Required", "Please select a form to apply.");
             }
 
-            ViewData["Title"] = "Apply";            
+            ViewData["Title"] = "Apply";
             ViewBag.LookUpAdminModLanguage = _db.LookUpAdminModLanguage.ToList();
             return View();
         }
@@ -12645,6 +12645,12 @@ namespace WrpCcNocWeb.Controllers
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
                         pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
+
+                        pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
+                        pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
+                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupDocLink //file.
+
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
                         pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
@@ -13324,6 +13330,10 @@ namespace WrpCcNocWeb.Controllers
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
                         pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
+                        pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
+                        pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
+                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
                         pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
@@ -13870,6 +13880,10 @@ namespace WrpCcNocWeb.Controllers
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
                         pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
+                        pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
+                        pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
+                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
                         pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
@@ -14400,6 +14414,10 @@ namespace WrpCcNocWeb.Controllers
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
                         pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
+                        pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
+                        pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
+                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
                         pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
@@ -14936,6 +14954,10 @@ namespace WrpCcNocWeb.Controllers
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
                         pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
+                        pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
+                        pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
+                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
                         pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
@@ -15419,6 +15441,10 @@ namespace WrpCcNocWeb.Controllers
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
                         pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
+                        pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
+                        pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
+                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
                         pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
@@ -16003,6 +16029,10 @@ namespace WrpCcNocWeb.Controllers
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
                         pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
+                        pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
+                        pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
+                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
                         pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
@@ -16524,6 +16554,10 @@ namespace WrpCcNocWeb.Controllers
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
                         pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
+                        pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
+                        pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
+                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
                         pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
@@ -16636,6 +16670,546 @@ namespace WrpCcNocWeb.Controllers
                             noti = new Notification
                             {
                                 id = p38id.Project38IndvId.ToString(),
+                                status = "success",
+                                message = "Information has been saved successfully. "
+                            };
+
+                            goto Finish;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContextTransaction.Rollback();
+                        var message = ch.ExtractInnerException(ex);
+
+                        noti = new Notification
+                        {
+                            id = "",
+                            status = "error",
+                            message = "Saving data transaction has been rollbacked. " + message
+                        };
+
+                        goto Finish;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    message = message
+                };
+
+                goto Finish;
+            }
+
+        Rollback:
+            dbContextTransaction.Rollback();
+
+            noti = new Notification
+            {
+                id = "",
+                status = "error",
+                message = "Saving data transaction has been rollbacked."
+            };
+
+            goto Finish;
+
+        Finish:
+            return Json(noti);
+        }
+        #endregion
+
+        #region Form 3.9 > River Excavation or Dredging Project
+        //Tehnical Info
+        //form/Form39TechInfoOneToOneSave :: f39tiotos
+        [HttpPost]
+        public JsonResult f39tiotos(Form39TechInfo _form39TechInfo)
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            using var dbContextTransaction = _db.Database.BeginTransaction();
+            int result = 0;
+            Int64 ProjectId = _form39TechInfo.CommonDetail.ProjectId;
+
+            try
+            {
+                if (_form39TechInfo != null && ProjectId != 0)
+                {
+                    try
+                    {
+                        CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(ProjectId);
+
+                        if (pcd == null)
+                        {
+                            noti = new Notification
+                            {
+                                id = "",
+                                status = "error",
+                                message = "General information is missing. Please enter general information first."
+                            };
+
+                            goto Finish;
+                        }
+
+                        #region getting client end data
+                        CcModAppProjectCommonDetail CommonDetail = _form39TechInfo.CommonDetail;
+                        CcModAppProject_39_IndvDetail Project39Indv = _form39TechInfo.Project39Indv;
+
+                        List<CcModPrjHydroRegionDetail> HydroRegion = _form39TechInfo.HydroRegion;
+                        List<CcModBDP2100HotSpotDetail> BDP2100HotSpot = _form39TechInfo.BDP2100HotSpot;
+                        List<CcModNavigationClassDetail> NavigationClassDetail = _form39TechInfo.NavigationClassDetail;
+                        List<CcModRiverTypeDetail> RiverTypeDetail = _form39TechInfo.RiverTypeDetail;
+                        #endregion
+
+                        #region Common Detail Data Binding
+                        pcd.AnnualRainFallLast1Year = CommonDetail.AnnualRainFallLast1Year;
+                        pcd.AnnualRainFallLast2Years = CommonDetail.AnnualRainFallLast2Years;
+                        pcd.AnnualRainFallLast3Years = CommonDetail.AnnualRainFallLast3Years;
+                        pcd.AnnualRainFallLast4Years = CommonDetail.AnnualRainFallLast4Years;
+                        pcd.AnnualRainFallLast5Years = CommonDetail.AnnualRainFallLast5Years;
+                        pcd.IssueChallageProblem = CommonDetail.IssueChallageProblem;
+                        pcd.YesNoStakeId = CommonDetail.YesNoStakeId;
+                        pcd.DiscussWithStakeApplicantCmt = CommonDetail.DiscussWithStakeApplicantCmt;
+                        pcd.DiscussWithStakeAuthorityCmt = CommonDetail.DiscussWithStakeAuthorityCmt;
+                        pcd.DiscussWithStakePosFeedback = CommonDetail.DiscussWithStakePosFeedback;
+                        pcd.DiscussWithStakeNegFeedback = CommonDetail.DiscussWithStakeNegFeedback;
+                        pcd.AnalyzeOptYesNoId = CommonDetail.AnalyzeOptYesNoId;
+                        pcd.AnalyzeOptionsApplicantCmt = CommonDetail.AnalyzeOptionsApplicantCmt;
+                        pcd.AnalyzeOptionsAuthorityCmt = CommonDetail.AnalyzeOptionsAuthorityCmt;
+                        pcd.EnvAndSocialYesNoId = CommonDetail.EnvAndSocialYesNoId;
+                        pcd.EnvAndSocialApplicantCmt = CommonDetail.EnvAndSocialApplicantCmt;
+                        pcd.EnvAndSocialAuthorityCmt = CommonDetail.EnvAndSocialAuthorityCmt;
+                        #endregion
+
+                        _db.Entry(pcd).State = EntityState.Modified;
+                        result = _db.SaveChanges();
+
+                        if (result > 0)
+                        {
+                            CcModAppProject_39_IndvDetail p39i = _db.CcModAppProject_39_IndvDetail.Where(w => w.ProjectId == ProjectId).FirstOrDefault();
+
+                            if (p39i == null)
+                            {
+                                _db.CcModAppProject_39_IndvDetail.Add(Project39Indv);
+
+                                if (HydroRegion != null && HydroRegion.Count > 0)
+                                {
+                                    _db.CcModPrjHydroRegionDetail.AddRange(HydroRegion);
+                                }
+                                else
+                                {
+                                    noti = new Notification
+                                    {
+                                        id = "",
+                                        status = "error",
+                                        message = "Please select hydrological region!"
+                                    };
+
+                                    goto Finish;
+                                }
+
+                                if (BDP2100HotSpot != null && BDP2100HotSpot.Count > 0)
+                                {
+                                    _db.CcModBDP2100HotSpotDetail.AddRange(BDP2100HotSpot);
+                                }
+                                else
+                                {
+                                    noti = new Notification
+                                    {
+                                        id = "",
+                                        status = "error",
+                                        message = "Please select Bangladesh Delta Plan 2100 hot spot!"
+                                    };
+
+                                    goto Finish;
+                                }
+
+                                if (NavigationClassDetail != null && NavigationClassDetail.Count > 0)
+                                {
+                                    _db.CcModNavigationClassDetail.AddRange(NavigationClassDetail);
+                                }
+
+                                if (RiverTypeDetail != null && RiverTypeDetail.Count > 0)
+                                {
+                                    _db.CcModRiverTypeDetail.AddRange(RiverTypeDetail);
+                                }
+
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = Project39Indv.Project39IndvId.ToString(),
+                                        status = "success",
+                                        message = "Technical information has been save successfully."
+                                    };
+
+                                    goto Finish;
+                                }
+                                else
+                                {
+                                    goto Rollback;
+                                }
+                            }
+                            else
+                            {
+                                #region Deleting Before Data                                
+                                if (HydroRegion != null && HydroRegion.Count > 0)
+                                {
+                                    List<CcModPrjHydroRegionDetail> tempHrList = _db.CcModPrjHydroRegionDetail.Where(w => w.ProjectId == p39i.ProjectId).ToList();
+
+                                    if (tempHrList.Count > 0)
+                                    {
+                                        _db.CcModPrjHydroRegionDetail.RemoveRange(tempHrList);
+                                    }
+                                }
+
+                                if (BDP2100HotSpot != null && BDP2100HotSpot.Count > 0)
+                                {
+                                    List<CcModBDP2100HotSpotDetail> tempHsList = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == p39i.ProjectId).ToList();
+
+                                    if (tempHsList.Count > 0)
+                                    {
+                                        _db.CcModBDP2100HotSpotDetail.RemoveRange(tempHsList);
+                                    }
+                                }
+
+                                if (NavigationClassDetail != null && NavigationClassDetail.Count > 0)
+                                {
+                                    List<CcModNavigationClassDetail> rtNCList = _db.CcModNavigationClassDetail.Where(w => w.ProjectId == p39i.ProjectId).ToList();
+
+                                    if (rtNCList.Count > 0)
+                                    {
+                                        _db.CcModNavigationClassDetail.RemoveRange(rtNCList);
+                                    }
+                                }
+
+                                if (RiverTypeDetail != null && RiverTypeDetail.Count > 0)
+                                {
+                                    List<CcModRiverTypeDetail> rtList = _db.CcModRiverTypeDetail.Where(w => w.ProjectId == p39i.ProjectId).ToList();
+
+                                    if (rtList.Count > 0)
+                                    {
+                                        _db.CcModRiverTypeDetail.RemoveRange(rtList);
+                                    }
+                                }
+
+                                _db.CcModPrjHydroRegionDetail.AddRange(HydroRegion);
+                                _db.CcModBDP2100HotSpotDetail.AddRange(BDP2100HotSpot);
+                                _db.CcModNavigationClassDetail.AddRange(NavigationClassDetail);
+                                _db.CcModRiverTypeDetail.AddRange(RiverTypeDetail);
+                                #endregion
+
+                                #region Project 39 Indvidual Data Binding
+                                p39i.ProjectBenefit = Project39Indv.ProjectBenefit;
+                                p39i.NameOfDredgedRiver = Project39Indv.NameOfDredgedRiver;
+                                p39i.RiverNatureId = Project39Indv.RiverNatureId;
+                                p39i.RiverSystem = Project39Indv.RiverSystem;
+                                p39i.CatchmentArea = Project39Indv.CatchmentArea;
+                                p39i.DrainageConditionId = Project39Indv.DrainageConditionId;
+                                p39i.LengthDredgingWork = Project39Indv.LengthDredgingWork;
+                                p39i.FishHabitatArea = Project39Indv.FishHabitatArea;
+                                p39i.FishHabitatProduction = Project39Indv.FishHabitatProduction;
+                                p39i.RiverDepth = Project39Indv.RiverDepth;
+                                p39i.RiverWidth = Project39Indv.RiverWidth;
+                                p39i.SedimentationId = Project39Indv.SedimentationId;
+                                p39i.SedimentationRate = Project39Indv.SedimentationRate;
+                                p39i.BankStabilityTypeId = Project39Indv.BankStabilityTypeId;
+                                p39i.BankErosionLength = Project39Indv.BankErosionLength;
+                                p39i.BankErosionArea = Project39Indv.BankErosionArea;
+                                p39i.BankErosionLocation = Project39Indv.BankErosionLocation;
+                                p39i.AccretionLength = Project39Indv.AccretionLength;
+                                p39i.AccretionArea = Project39Indv.AccretionArea;
+                                p39i.AccretionLocation = Project39Indv.AccretionLocation;
+                                p39i.WaterLevelDryMax = Project39Indv.WaterLevelDryMax;
+                                p39i.WaterLevelDryMin = Project39Indv.WaterLevelDryMin;
+                                p39i.WaterLevelWetMax = Project39Indv.WaterLevelWetMax;
+                                p39i.WaterLevelWetMin = Project39Indv.WaterLevelWetMin;
+                                p39i.DischargeDryMax = Project39Indv.DischargeDryMax;
+                                p39i.DischargeDryMin = Project39Indv.DischargeDryMin;
+                                p39i.DischargeWetMax = Project39Indv.DischargeWetMax;
+                                p39i.DischargeWetMin = Project39Indv.DischargeWetMin;
+                                p39i.UseOfToolsYesNoId = Project39Indv.UseOfToolsYesNoId;
+                                p39i.ToolsApplicantComments = Project39Indv.ToolsApplicantComments;
+                                p39i.ToolsAuthorityComments = Project39Indv.ToolsAuthorityComments;
+                                #endregion
+
+                                _db.Entry(p39i).State = EntityState.Modified;
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = Project39Indv.Project39IndvId.ToString(),
+                                        status = "success",
+                                        message = "Technical information has been updated successfully."
+                                    };
+
+                                    goto Finish;
+                                }
+                                else
+                                {
+                                    goto Rollback;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            goto Rollback;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContextTransaction.Rollback();
+                        var message = ch.ExtractInnerException(ex);
+
+                        noti = new Notification
+                        {
+                            id = "0",
+                            status = "error",
+                            message = "Saving data transaction has been rollbacked. " + message
+                        };
+
+                        goto Finish;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    message = message
+                };
+
+                goto Finish;
+            }
+
+        Rollback:
+            dbContextTransaction.Rollback();
+
+            noti = new Notification
+            {
+                id = "",
+                status = "error",
+                message = "Saving data transaction has been rollbacked."
+            };
+
+            goto Finish;
+
+        Finish:
+            return Json(noti);
+        }
+
+        //Deed Obligatory
+        //form/Form39DeedObligatoryOneToOneSave :: f39dootos        
+        [HttpPost]
+        public JsonResult f39dootos(Form39DeedObligatory _form39DeedObli)
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            using var dbContextTransaction = _db.Database.BeginTransaction();
+            int result = 0;
+            Int64 ProjectId = _form39DeedObli.CommonDetail.ProjectId;
+            //Int64 Project39IndvId = _form39DeedObli.Project39Indv.Project39IndvId;
+
+            try
+            {
+                if (_form39DeedObli != null && ProjectId != 0)
+                {
+                    try
+                    {
+                        CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(ProjectId);
+                        CcModAppProject_39_IndvDetail p39id = _db.CcModAppProject_39_IndvDetail.Where(w => w.ProjectId == ProjectId).FirstOrDefault(); //.Where(w => w.ProjectId == ProjectId).FirstOrDefault();
+
+                        if (pcd == null)
+                        {
+                            noti = new Notification
+                            {
+                                id = "",
+                                status = "error",
+                                message = "General information is missing. Please enter general information first."
+                            };
+
+                            goto Finish;
+                        }
+
+                        if (p39id == null)
+                        {
+                            noti = new Notification
+                            {
+                                id = "",
+                                status = "error",
+                                message = "Technical information is missing. Please enter Technical information first."
+                            };
+
+                            goto Finish;
+                        }
+
+                        #region getting client end data
+                        CcModAppProjectCommonDetail CommonDetail = _form39DeedObli.CommonDetail;
+                        //CcModAppProject_39_IndvDetail Project39Indv = _form39DeedObli.Project39Indv;
+                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _form39DeedObli.CompatNWPDetail;
+                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _form39DeedObli.CompatNWMPDetail;
+                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _form39DeedObli.CompatSDGDetail;
+                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _form39DeedObli.CompatSDGIndiDetail;
+                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _form39DeedObli.BDP2100GoalDetail;
+                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _form39DeedObli.GPWMGroupTypeDetail;
+                        #endregion
+
+                        #region Common Detail Data Binding
+                        pcd.CompatNWPYesNoId = CommonDetail.CompatNWPYesNoId;
+                        pcd.CompatibilityNWPApplicantCmt = CommonDetail.CompatibilityNWPApplicantCmt;
+                        pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
+                        //pcd.CompatibilityNWPDocLink //file
+                        pcd.NWMPCompatYesNoId = CommonDetail.NWMPCompatYesNoId;
+                        pcd.NWMPApplicantCmt = CommonDetail.NWMPApplicantCmt;
+                        pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
+                        //pcd.NWMPDocLink //file
+                        pcd.FYPYesNoId = CommonDetail.FYPYesNoId;
+                        pcd.FYPApplicantCmt = CommonDetail.FYPApplicantCmt;
+                        pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
+                        pcd.SDGYesNoId = CommonDetail.SDGYesNoId;
+                        pcd.SDGApplicantCmt = CommonDetail.SDGApplicantCmt;
+                        pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
+                        //pcd.SDGDocLink //file
+                        pcd.DeltaPlanYesNoId = CommonDetail.DeltaPlanYesNoId;
+                        pcd.DeltaPlan2100ApplicantCmt = CommonDetail.DeltaPlan2100ApplicantCmt;
+                        pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
+                        //pcd.DeltaPlan2100DocLink //file
+                        pcd.CostalZoneYesNoId = CommonDetail.CostalZoneYesNoId;
+                        pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
+                        pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
+                        //pcd.CostalZoneDocLink //file.
+                        pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
+                        pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
+                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupDocLink //file.
+                        pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
+                        pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
+                        pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
+                        //pcd.AgriDocLink //file
+                        pcd.FisheriesYesNoId = CommonDetail.FisheriesYesNoId;
+                        pcd.FisheriesApplicantCmt = CommonDetail.FisheriesApplicantCmt;
+                        pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
+                        //pcd.FisheriesDocLink //file
+                        pcd.IWRMYesNoId = CommonDetail.IWRMYesNoId;
+                        pcd.IWRMApplicantCmt = CommonDetail.IWRMApplicantCmt;
+                        pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
+                        pcd.GPWMYesNoId = CommonDetail.GPWMYesNoId;
+                        pcd.GPWMApplicantCmt = CommonDetail.GPWMApplicantCmt;
+                        pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
+                        pcd.FeasibilityYesNoId = CommonDetail.FeasibilityYesNoId;
+                        pcd.FeasibilityApplicantCmt = CommonDetail.FeasibilityApplicantCmt;
+                        pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
+                        pcd.SocialIssuesYesNoId = CommonDetail.SocialIssuesYesNoId;
+                        pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;
+                        pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        #endregion
+
+                        #region Project 38 Individual Data Binding
+                        //p39id.DuplicatYesNoId = Project39Indv.DuplicatYesNoId;
+                        //p39id.DuplicationApplicantComments = Project39Indv.DuplicationApplicantComments;
+                        //p39id.DuplicationAuthorityComments = Project39Indv.DuplicationAuthorityComments;
+                        #endregion
+
+                        _db.Entry(pcd).State = EntityState.Modified;
+                        //_db.Entry(p39id).State = EntityState.Modified;
+
+                        if (CompatNWPDetail != null && CompatNWPDetail.Count > 0)
+                        {
+                            List<CcModPrjCompatNWPDetail> _cnwp = _db.CcModPrjCompatNWPDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_cnwp.Count > 0)
+                            {
+                                _db.CcModPrjCompatNWPDetail.RemoveRange(_cnwp);
+                            }
+
+                            _db.CcModPrjCompatNWPDetail.AddRange(CompatNWPDetail);
+                        }
+
+                        if (CompatNWMPDetail != null && CompatNWMPDetail.Count > 0)
+                        {
+                            List<CcModPrjCompatNWMPDetail> _cnwmp = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_cnwmp.Count > 0)
+                            {
+                                _db.CcModPrjCompatNWMPDetail.RemoveRange(_cnwmp);
+                            }
+
+                            _db.CcModPrjCompatNWMPDetail.AddRange(CompatNWMPDetail);
+                        }
+
+                        if (CompatSDGDetail != null && CompatSDGDetail.Count > 0)
+                        {
+                            List<CcModPrjCompatSDGDetail> _csdg = _db.CcModPrjCompatSDGDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_csdg.Count > 0)
+                            {
+                                _db.CcModPrjCompatSDGDetail.RemoveRange(_csdg);
+                            }
+
+                            _db.CcModPrjCompatSDGDetail.AddRange(CompatSDGDetail);
+                        }
+
+                        if (CompatSDGIndiDetail != null && CompatSDGIndiDetail.Count > 0)
+                        {
+                            List<CcModPrjCompatSDGIndiDetail> _csdgi = _db.CcModPrjCompatSDGIndiDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_csdgi.Count > 0)
+                            {
+                                _db.CcModPrjCompatSDGIndiDetail.RemoveRange(_csdgi);
+                            }
+
+                            _db.CcModPrjCompatSDGIndiDetail.AddRange(CompatSDGIndiDetail);
+                        }
+
+                        if (BDP2100GoalDetail != null && BDP2100GoalDetail.Count > 0)
+                        {
+                            List<CcModBDP2100GoalDetail> _bdp2100goal = _db.CcModBDP2100GoalDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_bdp2100goal.Count > 0)
+                            {
+                                _db.CcModBDP2100GoalDetail.RemoveRange(_bdp2100goal);
+                            }
+
+                            _db.CcModBDP2100GoalDetail.AddRange(BDP2100GoalDetail);
+                        }
+
+                        if (GPWMGroupTypeDetail != null && GPWMGroupTypeDetail.Count > 0)
+                        {
+                            List<CcModGPWMGroupTypeDetail> _gpwm = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == ProjectId).ToList();
+
+                            if (_gpwm.Count > 0)
+                            {
+                                _db.CcModGPWMGroupTypeDetail.RemoveRange(_gpwm);
+                            }
+
+                            _db.CcModGPWMGroupTypeDetail.AddRange(GPWMGroupTypeDetail);
+                        }
+
+                        result = _db.SaveChanges();
+
+                        if (result > 0)
+                        {
+                            dbContextTransaction.Commit();
+
+                            noti = new Notification
+                            {
+                                id = p39id.Project39IndvId.ToString(),
                                 status = "success",
                                 message = "Information has been saved successfully. "
                             };
@@ -16841,6 +17415,7 @@ namespace WrpCcNocWeb.Controllers
                                 #endregion
 
                                 #region Project 310 Indvidual Data Binding
+                                p310i.ProjectBenefit = Project310Indv.ProjectBenefit;
                                 p310i.NameExcavatedKhal = Project310Indv.NameExcavatedKhal;
                                 p310i.RiverNatureId = Project310Indv.RiverNatureId;
                                 p310i.CatchmentArea = Project310Indv.CatchmentArea;
@@ -17017,6 +17592,10 @@ namespace WrpCcNocWeb.Controllers
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
                         pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
+                        pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
+                        pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
+                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
                         pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
@@ -17504,6 +18083,10 @@ namespace WrpCcNocWeb.Controllers
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
                         pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
+                        pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
+                        pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
+                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
                         pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
@@ -18064,6 +18647,10 @@ namespace WrpCcNocWeb.Controllers
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
                         pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
+                        pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
+                        pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
+                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
                         pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
@@ -18607,6 +19194,10 @@ namespace WrpCcNocWeb.Controllers
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
                         pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
+                        pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
+                        pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
+                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
                         pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;

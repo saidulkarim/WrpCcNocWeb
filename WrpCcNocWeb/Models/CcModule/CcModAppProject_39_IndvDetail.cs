@@ -154,6 +154,11 @@ namespace WrpCcNocWeb.Models
         [Column("ToolsAuthorityComments", Order = 31)]
         [Display(Name = "Tools Authority Comments")]
         [MaxLength(150)]
-        public string ToolsAuthorityComments { get; set; }				
+        public string ToolsAuthorityComments { get; set; }
+
+        [Column("ProjectBenefit", Order = 32)]
+        [Display(Name = "Project Benefit")]
+        [MaxLength(450)]
+        public string ProjectBenefit { get; set; }
     }
 }

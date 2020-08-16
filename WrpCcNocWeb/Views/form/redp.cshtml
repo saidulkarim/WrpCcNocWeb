@@ -107,11 +107,22 @@
                                                                     <div id="cardCollpase31" class="collapse show">
                                                                         <div class="card-body">
                                                                             <div class="form-group">
+                                                                                <label for="ProjectBenefit">
+                                                                                    @{if (language == "1")
+                                                                                        { <span>i. প্রকল্পের সুবিধা</span>}
+                                                                                        else
+                                                                                        {<span>i. Project Benefit</span>}
+                                                                                    }
+                                                                                </label>
+                                                                                <input type="text" id="ProjectBenefit" name="ProjectBenefit" class="form-control" />
+                                                                            </div>
+
+                                                                            <div class="form-group">
                                                                                 <label for="HydrologicalRegion">
                                                                                     @if (language == "1")
-                                                                                    {<span>i. হাইড্রোলজিক্যাল অঞ্চল</span>}
+                                                                                    {<span>ii. হাইড্রোলজিক্যাল অঞ্চল</span>}
                                                                                     else
-                                                                                    {<span>i. Hydrological Region</span>}
+                                                                                    {<span>ii. Hydrological Region</span>}
                                                                                 </label>
                                                                                 <div id="chkHydrologicalRegions" style="margin-left: 5px;">
                                                                                     @{
@@ -146,9 +157,9 @@
                                                                             <div class="form-group">
                                                                                 <label for="BDP2100HotSpot">
                                                                                     @{if (language == "1")
-                                                                                        { <span>ii. বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০  হট স্পট</span>}
+                                                                                        { <span>iii. বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০  হট স্পট</span>}
                                                                                         else
-                                                                                        {<span>ii. Bangladesh Delta Plan 2100 Hot Spot </span>}
+                                                                                        {<span>iii. Bangladesh Delta Plan 2100 Hot Spot </span>}
                                                                                     }
                                                                                 </label>
                                                                                 <div id="chkBDP2100HotSpot" class="row" style="margin-left: 5px;">
@@ -184,9 +195,9 @@
                                                                             <div class="form-group">
                                                                                 <label for="NameOfDredgedRiver">
                                                                                     @{if (language == "1")
-                                                                                        { <span>iii. ড্রেজিংকৃতব্য নদীর নাম</span>}
+                                                                                        { <span>iv. ড্রেজিংকৃতব্য নদীর নাম</span>}
                                                                                         else
-                                                                                        {<span>iii. Name of the dredged River</span>}
+                                                                                        {<span>iv. Name of the dredged River</span>}
                                                                                     }
                                                                                 </label>
                                                                                 <input type="text" id="NameOfDredgedRiver" name="NameOfDredgedRiver" class="form-control" />
@@ -195,9 +206,9 @@
                                                                             <div class="form-group">
                                                                                 <label for="RiverNature">
                                                                                     @{if (language == "1")
-                                                                                        { <span>iv. নদীর ধরণ</span> }
+                                                                                        { <span>v. নদীর ধরণ</span> }
                                                                                         else
-                                                                                        { <span>iv. River Nature</span> }
+                                                                                        { <span>v. River Nature</span> }
                                                                                     }
                                                                                 </label>
                                                                                 <div id="RiverNature" class="row" style="margin-left: 5px;">
@@ -233,9 +244,9 @@
                                                                             <div class="form-group">
                                                                                 <label for="RiverSystem">
                                                                                     @{if (language == "1")
-                                                                                        { <span>v. নদীর নিয়ম বদ্ধ রীতি (খননকৃত নদীর সাথে নদীটির আন্তঃ সংযোগ স্থাপন)</span>}
+                                                                                        { <span>vi. নদীর নিয়ম বদ্ধ রীতি (খননকৃত নদীর সাথে নদীটির আন্তঃ সংযোগ স্থাপন)</span>}
                                                                                         else
-                                                                                        {<span>v. River system (inter linked river with dredged river)</span>}
+                                                                                        {<span>vi. River system (inter linked river with dredged river)</span>}
                                                                                     }
                                                                                 </label>
                                                                                 <input type="text" id="RiverSystem" name="RiverSystem" class="form-control" />
@@ -244,9 +255,9 @@
                                                                             <div class="form-group">
                                                                                 <label for="UsDsParamCondition">
                                                                                     @{if (language == "1")
-                                                                                        { <span>vi. প্রস্তাবিত প্রকল্পের আপস্ট্রিম এবং ডাউনস্ট্রিম এর বর্তমান অবস্থাব</span>}
+                                                                                        { <span>vii. প্রস্তাবিত প্রকল্পের আপস্ট্রিম এবং ডাউনস্ট্রিম এর বর্তমান অবস্থাব</span>}
                                                                                         else
-                                                                                        {<span>vi. U/S and D/S Condition for Proposed Intervention</span>}
+                                                                                        {<span>vii. U/S and D/S Condition for Proposed Intervention</span>}
                                                                                     }
                                                                                 </label>
 
@@ -334,9 +345,9 @@
                                                                             <div class="form-group">
                                                                                 <label for="CatchmentArea">
                                                                                     @{if (language == "1")
-                                                                                        { <span>vii. অববাহিকা (ক্যাচমেন্ট) এলাকা (হেক্টর)</span>}
+                                                                                        { <span>viii. অববাহিকা (ক্যাচমেন্ট) এলাকা (হেক্টর)</span>}
                                                                                         else
-                                                                                        {<span>vii. Catchment Area (ha)</span>}
+                                                                                        {<span>viii. Catchment Area (ha)</span>}
                                                                                     }
                                                                                 </label>
                                                                                 <input type="number" min="0" id="CatchmentArea" name="CatchmentArea" class="form-control" />
@@ -345,9 +356,9 @@
                                                                             <div id="divAnnualRainfall">
                                                                                 <label for="AnnualRainfall" class="bold">
                                                                                     @{if (language == "1")
-                                                                                        { <span>viii. বার্ষিক বৃষ্টিপাত (বিগত পাঁচ বছর) (মি.মি.)</span>}
+                                                                                        { <span>ix. বার্ষিক বৃষ্টিপাত (বিগত পাঁচ বছর) (মি.মি.)</span>}
                                                                                         else
-                                                                                        {<span>viii. Annual Rainfall (last five years)</span>}
+                                                                                        {<span>ix. Annual Rainfall (last five years)</span>}
                                                                                     }
                                                                                 </label>
 
@@ -400,9 +411,9 @@
                                                                             <div class="form-group">
                                                                                 <label for="DrainageCondition">
                                                                                     @{if (language == "1")
-                                                                                        { <span>ix. নিষ্কাশন (ড্রেইনেজ) ব্যবস্থা</span>}
+                                                                                        { <span>x. নিষ্কাশন (ড্রেইনেজ) ব্যবস্থা</span>}
                                                                                         else
-                                                                                        {<span>ix. Drainage Condition</span>}
+                                                                                        {<span>x. Drainage Condition</span>}
                                                                                     }
                                                                                 </label>
                                                                                 <div id="DrainageCondition" class="row" style="margin-left: 5px;">
@@ -438,9 +449,9 @@
                                                                             <div class="form-group">
                                                                                 <label for="LengthDredgingWork">
                                                                                     @{if (language == "1")
-                                                                                        { <span>x. ড্রেজিংকৃত্যব কাজের দৈর্ঘ্য/চেইনেজসহ ড্রেজিং</span>}
+                                                                                        { <span>xi. ড্রেজিংকৃত্যব কাজের দৈর্ঘ্য/চেইনেজসহ ড্রেজিং</span>}
                                                                                         else
-                                                                                        {<span>x. Length of Dredging Work/ Dredging Segment with Chainage (KM)</span>}
+                                                                                        {<span>xi. Length of Dredging Work/ Dredging Segment with Chainage (KM)</span>}
                                                                                     }
                                                                                 </label>
                                                                                 <input type="number" min="0" id="LengthDredgingWork" name="LengthDredgingWork" class="form-control" />
@@ -449,9 +460,9 @@
                                                                             <div class="form-group">
                                                                                 <label for="NavigationClass">
                                                                                     @{if (language == "1")
-                                                                                        {<span>xi. নৌপথের শ্রেণী</span>}
+                                                                                        {<span>xii. নৌপথের শ্রেণী</span>}
                                                                                         else
-                                                                                        {<span>xi. Navigation Class</span>}
+                                                                                        {<span>xii. Navigation Class</span>}
                                                                                     }
                                                                                 </label>
                                                                                 <div id="NavigationClass" class="row" style="margin-left: 5px;">
@@ -487,9 +498,9 @@
                                                                             <div id="divFishHabitat">
                                                                                 <label for="FishHabitat" class="bold">
                                                                                     @{if (language == "1")
-                                                                                        { <span>xii. মৎস প্রতিপালন</span>}
+                                                                                        { <span>xiii. মৎস প্রতিপালন</span>}
                                                                                         else
-                                                                                        {<span>xii. Fish Habitat</span>}
+                                                                                        {<span>xiii. Fish Habitat</span>}
                                                                                     }
                                                                                 </label>
 
@@ -877,9 +888,9 @@
                                                                     </div>
 
                                                                     <div class="card">
-                                                                        <div class="card-header bg-warning py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase394">
+                                                                        <div class="card-header bg-warning py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase393">
                                                                             <div class="card-widgets">
-                                                                                <a data-toggle="collapse" href="#cardCollpase394" role="button" aria-expanded="false" aria-controls="cardCollpase394"><i class="mdi mdi-minus"></i></a>
+                                                                                <a data-toggle="collapse" href="#cardCollpase393" role="button" aria-expanded="false" aria-controls="cardCollpase393"><i class="mdi mdi-minus"></i></a>
                                                                             </div>
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == "1")
@@ -888,7 +899,7 @@
                                                                                 {<span>3. Discussion with stakeholders during starting of the project</span>}
                                                                             </h5>
                                                                         </div>
-                                                                        <div id="cardCollpase394" class="collapse show">
+                                                                        <div id="cardCollpase393" class="collapse show">
                                                                             <div class="card-body">
 																				<label>
 																					@{if (language == "1")
@@ -1030,7 +1041,7 @@
                                                                     <div class="card">
                                                                         <div class="card-header bg-dark py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase394">
                                                                             <div class="card-widgets">
-                                                                                <a data-toggle="collapse" href="#cardCollpase395" role="button" aria-expanded="false" aria-controls="cardCollpase394"><i class="mdi mdi-minus"></i></a>
+                                                                                <a data-toggle="collapse" href="#cardCollpase394" role="button" aria-expanded="false" aria-controls="cardCollpase394"><i class="mdi mdi-minus"></i></a>
                                                                             </div>
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == "1")
@@ -3341,6 +3352,7 @@
             var Project39IndvDetail = {
                 "Project39IndvId": 0,
                 "ProjectId": ProjectId,
+                "ProjectBenefit": GetTextValue('ProjectBenefit'),
                 "NameOfDredgedRiver": GetTextValue('NameOfDredgedRiver'),
                 "RiverNatureId": GetRadioValue('RiverNatureId'),
                 "RiverSystem": GetTextValue('RiverSystem'),
@@ -3518,6 +3530,10 @@
                 "CostalZoneApplicantCmt": GetTextValue('CostalZoneApplicantCmt'),
                 "CostalZoneAuthorityCmt": GetTextValue('CostalZoneAuthorityCmt'),
                 //CostalZoneDocLink //file.
+                "CiwupYesNoId": GetRadioValue('CiwupYesNoId'),
+                "CiwupApplicantCmt": GetTextValue('CiwupApplicantCmt'),
+                "CiwupAuthorityCmt": GetTextValue('CiwupAuthorityCmt'),
+                //CiwupDocLink //file.
                 "AgriculturalYesNoId": GetRadioValue('AgriculturalYesNoId'),
                 "AgriApplicantCmt": GetTextValue('AgriApplicantCmt'),
                 "AgriAuthorityCmt": GetTextValue('AgriAuthorityCmt'),
@@ -4125,6 +4141,8 @@
                 SetTextValue('ProjectEstimatedCost', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectEstimatedCost)');
 
                 //technology bind start
+                SetTextValue('ProjectBenefit', '@Html.Raw(ViewBag.ProjectIndvDetail39.ProjectBenefit)');
+
                 var hrs = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.HydroRegionDetail))');
                 jQuery.each(hrs, function (i, item) {
                     $(":checkbox[name='hydrological_region'][value='" + item.hydroRegionId + "']").attr('checked', true);

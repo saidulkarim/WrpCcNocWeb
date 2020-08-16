@@ -456,7 +456,7 @@ namespace WrpCcNocWeb.Models
         public int? IsCompletedId { get; set; }
         //[ForeignKey("IsCompletedId")]
         //public virtual LookUpCcModIsCompletedState LookUpCcModIsCompletedState { get; set; }
-		
+
         [Column("LanguageId", Order = 85)]
         [Display(Name = "Language")]
         public int? LanguageId { get; set; }
@@ -484,6 +484,27 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "FYP Doc Link")]
         [MaxLength(250)]
         public string FYPDocLink { get; set; }
+
+        [Column("CostalZoneYesNoId", Order = 91)]
+        [Display(Name = "Was it Compabile with Costal Zone policy?")]
+        public int? CiwupYesNoId { get; set; }
+        [ForeignKey("CiwupYesNoId")]
+        public virtual LookUpCcModYesNo LookUpYesNoCiwup { get; set; }
+
+        [Column("CiwupApplicantCmt", Order = 92)]
+        [Display(Name = "Applicant Comments")]
+        [MaxLength(150)]
+        public string CiwupApplicantCmt { get; set; }
+
+        [Column("CiwupAuthorityCmt", Order = 93)]
+        [Display(Name = "Authority Comments")]
+        [MaxLength(150)]
+        public string CiwupAuthorityCmt { get; set; }
+
+        [Column("CiwupDocLink", Order = 94)]
+        [Display(Name = "Document Link")]
+        [MaxLength(250)]
+        public string CiwupDocLink { get; set; }
 
         public virtual List<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetails { get; set; }
         public virtual List<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetails { get; set; }

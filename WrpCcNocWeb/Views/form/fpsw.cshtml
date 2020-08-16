@@ -1644,6 +1644,16 @@
             }
         });
 
+        jQuery("input[type='radio'][name='AnalyzeOptYesNoId']").change(function () {
+            if (jQuery(this).val() == 1) {
+                jQuery("#divAoFOYes").removeClass('d-none fadeOut');
+                jQuery("#divAoFOYes").addClass('d-block fadeIn');
+            } else {
+                jQuery("#divAoFOYes").removeClass('d-block fadeIn');
+                jQuery("#divAoFOYes").addClass('d-none fadeOut');
+            }
+        });
+
         jQuery("input[type='radio'][name='EnvAndSocialYesNoId']").change(function () {
             if (jQuery(this).val() == 1) {
                 jQuery("#divEIAYes, #divSIAYes").removeClass('d-none fadeOut');
@@ -2534,6 +2544,10 @@
                 "CostalZoneApplicantCmt": GetTextValue('CostalZoneApplicantCmt'),
                 "CostalZoneAuthorityCmt": GetTextValue('CostalZoneAuthorityCmt'),
                 //CostalZoneDocLink //file.
+                "CiwupYesNoId": GetRadioValue('CiwupYesNoId'),
+                "CiwupApplicantCmt": GetTextValue('CiwupApplicantCmt'),
+                "CiwupAuthorityCmt": GetTextValue('CiwupAuthorityCmt'),
+                //CiwupDocLink //file.
                 "AgriculturalYesNoId": GetRadioValue('AgriculturalYesNoId'),
                 "AgriApplicantCmt": GetTextValue('AgriApplicantCmt'),
                 "AgriAuthorityCmt": GetTextValue('AgriAuthorityCmt'),

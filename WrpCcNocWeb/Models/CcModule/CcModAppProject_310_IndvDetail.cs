@@ -135,6 +135,11 @@ namespace WrpCcNocWeb.Models
         [Column("DuplicationAuthorityComments", Order = 26)]
         [Display(Name = "Duplication Authority Comments")]
         [MaxLength(150)]
-        public string DuplicationAuthorityComments { get; set; }		
+        public string DuplicationAuthorityComments { get; set; }
+
+        [Column("ProjectBenefit", Order = 27)]
+        [Display(Name = "Project Benefit")]
+        [MaxLength(450)]
+        public string ProjectBenefit { get; set; }
     }
 }

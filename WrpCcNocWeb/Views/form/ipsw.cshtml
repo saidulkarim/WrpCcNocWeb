@@ -66,21 +66,21 @@
                                             <input id="ProjectTypeId" type="hidden" value="@ViewBag.ProjectTypeId" />
 
                                             <div class="col-sm-3">
-												@{ Html.RenderPartial("form/_1TabPanel"); }
+                                                @{ Html.RenderPartial("form/_1TabPanel"); }
                                             </div> <!-- end col-->
                                             <div class="col-sm-9">
                                                 <div class="tab-content pt-0">
                                                     <div class="tab-pane fade active show" id="v-gen-info" role="tabpanel" aria-labelledby="v-gen-info-tab">
                                                         <form id="frmGeneralInfo">
                                                             <div class="card-box">
-																@{ Html.RenderPartial("form/_2GeneralInfo"); }
+                                                                @{ Html.RenderPartial("form/_2GeneralInfo"); }
                                                             </div>
                                                         </form>
                                                     </div>
 
                                                     <div class="tab-pane fade" id="v-project-location" role="tabpanel" aria-labelledby="v-project-location-tab">
                                                         <div class="card-box">
-															@{ Html.RenderPartial("form/_3Location"); }
+                                                            @{ Html.RenderPartial("form/_3Location"); }
                                                         </div>
                                                     </div>
 
@@ -1072,15 +1072,15 @@
                                                                                         </div>
 
                                                                                         @*<div class="form-group col-md-3 text-center">
-																							<label for="WaterDO">
-																								@{if (language == "1")
-																									{ <span>ডিও (মি.গ্রা/লিটার )</span>}
-																									else
-																									{<span> DO (mg/l)</span>}
-																								}
-																							</label>
-																							<input type="number" min="0" id="WaterDO" name="WaterDO" class="form-control" />
-																						</div>*@
+                                                                                                <label for="WaterDO">
+                                                                                                    @{if (language == "1")
+                                                                                                        { <span>ডিও (মি.গ্রা/লিটার )</span>}
+                                                                                                        else
+                                                                                                        {<span> DO (mg/l)</span>}
+                                                                                                    }
+                                                                                                </label>
+                                                                                                <input type="number" min="0" id="WaterDO" name="WaterDO" class="form-control" />
+                                                                                            </div>*@
 
                                                                                         <div class="form-group col-xl-4 text-center">
                                                                                             <label for="WaterTDS">
@@ -1364,7 +1364,7 @@
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == "1")
                                                                                 {
-                                                                                <span>৫. উদ্দেশ্য পূরনের অপশনসমূহ বিশ্লেষণ</span>}
+                                                                                    <span>৫. উদ্দেশ্য পূরনের অপশনসমূহ বিশ্লেষণ</span>}
                                                                                 else
                                                                                 {
                                                                                     <span>5. Analyze options to fulfill objective</span>}
@@ -1372,13 +1372,13 @@
                                                                         </div>
                                                                         <div id="cardCollpase34" class="collapse show">
                                                                             <div class="card-body">
-																				<label for="AnalyzeOptFulfillObj">
-																					@{if (language == "1")
-																						{ <span>i. উদ্দেশ্য পূরনের অপশনসমূহ বিশ্লেষণ</span>}
-																						else
-																						{<span>i. Analyze options to fulfill objective</span>}
-																					}
-																				</label>
+                                                                                <label for="AnalyzeOptFulfillObj">
+                                                                                    @{if (language == "1")
+                                                                                        { <span>i. উদ্দেশ্য পূরনের অপশনসমূহ বিশ্লেষণ</span>}
+                                                                                        else
+                                                                                        {<span>i. Analyze options to fulfill objective</span>}
+                                                                                    }
+                                                                                </label>
                                                                                 <div class="form-group">
                                                                                     <div id="AnalyzeOptFulfillObj" class="row" style="margin-left: 5px;">
                                                                                         <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
@@ -1645,13 +1645,13 @@
                                                                         </div>
                                                                         <div id="cardCollpase36" class="collapse show">
                                                                             <div class="card-body">
-																				<label for="AnalyzeOptFulfillObj">
-																					@{if (language == "1")
-																						{ <span>i. পরিবেশগত ও সামাজিক প্রভাব</span>}
-																						else
-																						{<span>i. Environmental and Social Impact Assessment</span>}
-																					}
-																				</label>
+                                                                                <label for="AnalyzeOptFulfillObj">
+                                                                                    @{if (language == "1")
+                                                                                        { <span>i. পরিবেশগত ও সামাজিক প্রভাব</span>}
+                                                                                        else
+                                                                                        {<span>i. Environmental and Social Impact Assessment</span>}
+                                                                                    }
+                                                                                </label>
                                                                                 <div class="form-group">
                                                                                     <div id="ESIA" class="row" style="margin-left: 5px;">
                                                                                         <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
@@ -1969,13 +1969,13 @@
                                                                         </div>
                                                                         <div id="cardCollpase37" class="collapse show">
                                                                             <div class="card-body">
-																				<label for="AppropriateTTAP">
-																					@{if (language == "1")
-																						{ <span>i. টুলস্ ব্যবহার করা হয়েছে কিনা</span>}
-																						else
-																						{<span>i. Use of Appropriate tools</span>}
-																					}
-																				</label>
+                                                                                <label for="AppropriateTTAP">
+                                                                                    @{if (language == "1")
+                                                                                        { <span>i. টুলস্ ব্যবহার করা হয়েছে কিনা</span>}
+                                                                                        else
+                                                                                        {<span>i. Use of Appropriate tools</span>}
+                                                                                    }
+                                                                                </label>
                                                                                 <div class="form-group">
                                                                                     <div id="AppropriateTTAP" class="row" style="margin-left: 5px;">
                                                                                         <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
@@ -2166,6 +2166,112 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+
+                                                                    <div class="card">
+                                                                        <div class="card-header bg-success py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase310">
+                                                                            <div class="card-widgets">
+                                                                                <a data-toggle="collapse" href="#cardCollpase310" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                                                                            </div>
+                                                                            <h5 class="card-title mb-0 text-white">
+                                                                                @if (language == "1")
+                                                                                {
+                                                                                    <span>10. সুবিধাভোগী গ্রপ কর্তৃক পর্যবেক্ষণ ও রক্ষণাবেক্ষন ব্যয় বহন</span>}
+                                                                                else
+                                                                                {
+                                                                                    <span>10. O&M Cost Beared by Beneficiary Group</span>}
+                                                                            </h5>
+                                                                        </div>
+                                                                        <div id="cardCollpase310" class="collapse show">
+                                                                            <div class="card-body">
+                                                                                <label for="divOMCB">
+                                                                                    @{if (language == "1")
+                                                                                        { <span>i. সুবিধাভোগী গ্রপ কর্তৃক পর্যবেক্ষণ ও রক্ষণাবেক্ষন ব্যয় বহন</span>}
+                                                                                        else
+                                                                                        {<span>i. O&M Cost Beared by Beneficiary Group</span>}
+                                                                                    }
+                                                                                </label>
+                                                                                <div class="form-group">
+                                                                                    <div id="divOMCB" class="row" style="margin-left: 5px;">
+                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                                                                                            <input type="radio" name="OmcbYesNoId" id="chkOmcbYes" value="1" data-parsley-multiple="OmcbYesNoId">
+                                                                                            <label for="chkOmcbYes">
+                                                                                                @{if (language == "1")
+                                                                                                    { <span>হ্যাঁ</span>}
+                                                                                                    else
+                                                                                                    {<span>Yes</span>}
+                                                                                                }
+                                                                                            </label>
+                                                                                        </div>
+
+                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                                                                                            <input type="radio" name="OmcbYesNoId" id="chkOmcbNo" value="0" checked data-parsley-multiple="OmcbYesNoId">
+                                                                                            <label for="chkOmcbNo">
+                                                                                                @{if (language == "1")
+                                                                                                    { <span>না</span>}
+                                                                                                    else
+                                                                                                    {<span>No</span>}
+                                                                                                }
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="form-group">
+                                                                                    <label for="OmcbApplicantComments">
+                                                                                        @{if (language == "1")
+                                                                                            { <span>ii. আবেদনকারীর মন্তব্য</span>}
+                                                                                            else
+                                                                                            {<span>ii. Applicant Comments</span>}
+                                                                                        }
+                                                                                    </label>
+                                                                                    <input type="text" id="OmcbApplicantComments" name="OmcbApplicantComments" class="form-control" />
+                                                                                </div>
+
+                                                                                <div class="form-group">
+                                                                                    <label for="OmcbAuthorityComments">
+                                                                                        @{if (language == "1")
+                                                                                            { <span>iii. কর্তৃপক্ষের মন্তব্য</span>}
+                                                                                            else
+                                                                                            {<span>iii. Authority Comments</span>}
+                                                                                        }
+                                                                                    </label>
+                                                                                    <input type="text" id="OmcbAuthorityComments" name="OmcbAuthorityComments" class="form-control" />
+                                                                                </div>
+
+                                                                                <div id="divOmcbYes" class="form-group d-none">
+                                                                                    <div class="form-group">
+                                                                                        <div class="form-group">
+                                                                                            <label for="OmcbOption">
+                                                                                                @{if (language == "1")
+                                                                                                    {<span>হাঁ হলে</span>}
+                                                                                                    else
+                                                                                                    {<span>If Yes</span>}
+                                                                                                }
+                                                                                            </label>
+                                                                                            <div id="OmcbOption" class="row" style="margin-left: 5px;">
+                                                                                                <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Arsenic">
+                                                                                                    <input type="checkbox" name="OmcbId" id="chkGroundWaterQuality1" value="1" data-parsley-multiple="OmcbId">
+                                                                                                    <label for="chkOmcb1"> Electricity Bill </label>
+                                                                                                </div>
+                                                                                                <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Iron">
+                                                                                                    <input type="checkbox" name="OmcbId" id="chkGroundWaterQuality2" value="2" data-parsley-multiple="OmcbId">
+                                                                                                    <label for="chkOmcb2"> Pump Operation Cost </label>
+                                                                                                </div>
+                                                                                                <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Salinity">
+                                                                                                    <input type="checkbox" name="OmcbId" id="chkGroundWaterQuality3" value="3" data-parsley-multiple="OmcbId">
+                                                                                                    <label for="chkOmcb3"> Canal Repair & Maintenance </label>
+                                                                                                </div>
+                                                                                                <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Others">
+                                                                                                    <input type="checkbox" name="OmcbId" id="chkGroundWaterQuality4" value="4" data-parsley-multiple="OmcbId">
+                                                                                                    <label for="chkOmcb4"> Others </label>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
 
                                                                 <hr />
@@ -2207,14 +2313,14 @@
                                                     </div>
 
                                                     <div class="tab-pane fade" id="v-administrative" role="tabpanel" aria-labelledby="v-administrative-tab">
-														<div class="card-box">
-															@{ Html.RenderPartial("form/_5Administrative"); }
-														</div>
+                                                        <div class="card-box">
+                                                            @{ Html.RenderPartial("form/_5Administrative"); }
+                                                        </div>
                                                     </div>
 
                                                     <div class="tab-pane fade" id="v-final-submit" role="tabpanel" aria-labelledby="v-final-submit-tab">
                                                         <div class="card-box">
-															@{ Html.RenderPartial("form/_6FinalSubmit"); }
+                                                            @{ Html.RenderPartial("form/_6FinalSubmit"); }
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2226,10 +2332,10 @@
                         </div>
 
                         @*<div class="tab-pane" id="basictab2">
-                                <div class="row">
-                                   @Html.Partial("_PreviewForm32")
-                                </div>
-                        </div>*@
+                                    <div class="row">
+                                       @Html.Partial("_PreviewForm32")
+                                    </div>
+                            </div>*@
                     </div>
                 </div>
             </div>
@@ -2247,7 +2353,7 @@
                 GoBack();
             });
 
-            var input_lang = '@language';           
+            var input_lang = '@language';
             if (input_lang == 1) {
                 $('textarea, input[type=text]').avro({ 'bn': true });
             }
@@ -2279,7 +2385,7 @@
 				var ProjectName = GetTextValue('ProjectName');
                 var BackgroundAndRationale = GetTextValue('BackgroundAndRationale');
                 var ProjectTarget = GetTextValue('ProjectTarget');
-                var ProjectObjective = GetTextValue('ProjectObjective');                
+                var ProjectObjective = GetTextValue('ProjectObjective');
                 var ProjectStartDate = GetTextValue('ProjectStartDate');
                 var ProjectCompletionDate = GetTextValue('ProjectCompletionDate');
                 var ProjectEstimatedCost = GetTextValue('ProjectEstimatedCost') == '' ? '0' : GetTextValue('ProjectEstimatedCost');
@@ -2332,21 +2438,21 @@
                     jQuery('#ProjectEstimatedCost').focus();
                     return;
                 }
-				
+
 				if (!IsNumeric(ProjectEstimatedCost)) {
                     Notification('warning', 'Required Field', 'Please enter valid project estimated cost amount.');
                     Swal.fire('Required Field', 'Please enter valid project estimated cost amount.', 'warning');
                     jQuery('#ProjectEstimatedCost').focus();
                     return;
                 }
-				
+
 				if (parseFloat(ProjectEstimatedCost) == 0 || parseFloat(ProjectEstimatedCost) < 0) {
                     Notification('warning', 'Required Field', 'Project estimated cost amount can not be equal to zero (0) or can not be negative.');
                     Swal.fire('Required Field', 'Project estimated cost amount can not be equal to zero (0) or can not be negative.', 'warning');
                     jQuery('#ProjectEstimatedCost').focus();
                     return;
                 }
-				
+
                 GeneralInfoSave();
             });
 
@@ -2479,6 +2585,16 @@
             } else {
                 jQuery("#divEIAYes, #divSIAYes").removeClass('d-block fadeIn');
                 jQuery("#divEIAYes, #divSIAYes").addClass('d-none fadeOut');
+            }
+        });
+
+        jQuery("input[type='radio'][name='OmcbYesNoId']").change(function () {
+            if (jQuery(this).val() == 1) {
+                jQuery("#divOmcbYes").removeClass('d-none fadeOut');
+                jQuery("#divOmcbYes").addClass('d-block fadeIn');
+            } else {
+                jQuery("#divOmcbYes").removeClass('d-block fadeIn');
+                jQuery("#divOmcbYes").addClass('d-none fadeOut');
             }
         });
 
@@ -3842,6 +3958,10 @@
                 "CostalZoneApplicantCmt": GetTextValue('CostalZoneApplicantCmt'),
                 "CostalZoneAuthorityCmt": GetTextValue('CostalZoneAuthorityCmt'),
                 //CostalZoneDocLink //file.
+                "CiwupYesNoId": GetRadioValue('CiwupYesNoId'),
+                "CiwupApplicantCmt": GetTextValue('CiwupApplicantCmt'),
+                "CiwupAuthorityCmt": GetTextValue('CiwupAuthorityCmt'),
+                //CiwupDocLink //file.
                 "AgriculturalYesNoId": GetRadioValue('AgriculturalYesNoId'),
                 "AgriApplicantCmt": GetTextValue('AgriApplicantCmt'),
                 "AgriAuthorityCmt": GetTextValue('AgriAuthorityCmt'),
@@ -4546,7 +4666,7 @@
                 if (YesNoStakeId != '') {
                     $(":radio[name='YesNoStakeId'][value='" + YesNoStakeId + "']").attr('checked', true);
 
-                    if (YesNoStakeId == 1) {                        
+                    if (YesNoStakeId == 1) {
                         jQuery("#divDSDSPYesControls").removeClass('d-none fadeOut');
                         jQuery("#divDSDSPYesControls").addClass('d-block fadeIn');
                     } else {
