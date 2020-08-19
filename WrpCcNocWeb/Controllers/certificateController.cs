@@ -33,10 +33,9 @@ namespace WrpCcNocWeb.Controllers
         {
             return View();
         }
-
-        //Flood Control Management Project
-        //certificate/fcmp/59
-        public IActionResult fcmp(long? id)
+        
+        //certificate/view/59
+        public IActionResult view(long? id)
         {
             if (id == null || id == 0)
             {
@@ -92,7 +91,7 @@ namespace WrpCcNocWeb.Controllers
 
                 ViewData["WrpCcNocWebCertificate"] = crt;
 
-                return new ViewAsPdf("~/Views/certificate/fcmp.cshtml", viewData: ViewData)
+                return new ViewAsPdf("~/Views/certificate/view.cshtml", viewData: ViewData)
                 {
                     PageSize = Size.A4,
                     PageOrientation = Orientation.Portrait,

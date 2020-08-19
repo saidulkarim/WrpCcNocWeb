@@ -485,8 +485,8 @@ namespace WrpCcNocWeb.Models
         [MaxLength(250)]
         public string FYPDocLink { get; set; }
 
-        [Column("CostalZoneYesNoId", Order = 91)]
-        [Display(Name = "Was it Compabile with Costal Zone policy?")]
+        [Column("CiwupYesNoId", Order = 91)]
+        [Display(Name = "Compatibility with Industrial Water Use Policy")]
         public int? CiwupYesNoId { get; set; }
         [ForeignKey("CiwupYesNoId")]
         public virtual LookUpCcModYesNo LookUpYesNoCiwup { get; set; }

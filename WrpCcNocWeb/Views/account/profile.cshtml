@@ -32,7 +32,7 @@
                                     @Html.EditorFor(m => m.UserFullName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter full name in english", @required = "required", @autocomplete = ac } })
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group" data-toggle="tooltip" title="Press Control + B to change language.">
                                     @Html.LabelFor(m => m.UserFullNameBn, new { @class = "control-label" }) <span class="text-danger bold">*</span>
                                     @Html.EditorFor(m => m.UserFullNameBn, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter full name in bengali", @required = "required", @autocomplete = ac } })
                                 </div>
@@ -74,7 +74,7 @@
                                     <textarea id="UserAddress" name="UserAddress" class="form-control" rows="1" required="" placeholder="Address in english"></textarea>
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group" data-toggle="tooltip" title="Press Control + B to change language.">
                                     <label for="UserAddressBn">Address In Bengali <span class="text-danger bold">*</span></label>
                                     <textarea id="UserAddressBn" name="UserAddressBn" class="form-control" rows="1" required="" placeholder="Address in bengali"></textarea>
                                 </div>
@@ -104,13 +104,18 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="SignatureFileName">Upload Signature <span class="text-danger bold">*</span></label>
-                                    <div class="input-group">
+                                    <label for="SignatureFileName" data-toggle="tooltip"
+                                           title="Signature must be 300 X 80 pixel (width X height) [.jpg/.png/.bmp format] and file size not more than 80 KB (Min. 3 KB)">
+                                        Upload Signature <span class="text-danger bold">*</span>
+                                    </label>
+                                    <div class="input-group" style="width: 200px;">
                                         <div class="custom-file">
-                                            <input id="SignatureFileName" name="SignatureFileName" type="file" class="custom-file-input" />
-                                            <label class="custom-file-label" for="SignatureFileName">
+                                            <input id="SignatureFileName" name="SignatureFileName" type="file" class="custom-file-input"
+                                                   onchange="return ValidateFileUpload()" />
+                                            <label id="ViewSignatureFileName" for="SignatureFileName" class="custom-file-label">
                                                 Choose file
                                             </label>
+                                            <img id="PrevSignatureFile" src="~/images/sample_signature.jpg" style="width: 200px; height: 36px; margin-left: 225px;" />
                                         </div>
                                     </div>
                                 </div>
@@ -279,5 +284,74 @@
 			    Swal.fire('Error Occured', errorMsg, 'error');
 		    }
 	    });
+    }
+
+    function ValidateFileUpload() {
+        var fuData = document.getElementById('SignatureFileName');
+        var FileUploadPath = fuData.value;
+
+        if (FileUploadPath == '') {
+            Notification('info', 'Select Signature Image', 'Please select an image of signature.');
+            Swal.fire('Select Signature Image', 'Please select an image of signature.', 'info');
+        } else {
+            var FileName = fuData.files[0].name;
+            var Extension = FileName.replace(/^.*\./, '');
+
+            if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
+                if (fuData.files && fuData.files[0]) {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(fuData.files[0]);
+                    reader.onload = function (e) {
+                        var image = new Image();
+                        image.src = e.target.result;
+                        image.onload = function () {
+                            var height = this.height;
+                            var width = this.width;
+
+                            if (height > 85) {
+                                Notification('warning', 'Exceeding Image Height', 'Height must not exceed 80px.');
+                                Swal.fire('Exceeding Image Height', 'Height must not exceed 80px.', 'warning');
+
+                                return false;
+                            }
+
+                            if (width > 315) {
+                                Notification('warning', 'Exceeding Image Width', 'Width must not exceed 300px');
+                                Swal.fire('Exceeding Image Width', 'Width must not exceed 300px', 'warning');
+                                return false;
+                            }
+                        };
+
+                        $('#PrevSignatureFile').attr('src', e.target.result);
+                        $('#PrevSignatureFile').show();
+                        $('#ViewSignatureFileName').text(FileName);
+                    }
+                } else {
+                    $('#PrevSignatureFile').attr('src', '../images/sample_signature.jpg');
+                    $('#PrevSignatureFile').show();
+                    $('#ViewSignatureFileName').text('Choose file');
+                }
+            }
+            else {
+                Notification('warning', 'Invalid File Format', 'Photo only allows file types of JPG/ JPEG/ PNG/ GIF/ BMP.');
+                Swal.fire('Invalid File Format', 'Photo only allows file types of JPG/ JPEG/ PNG/ GIF/ BMP.', 'warning');
+
+                $('#PrevSignatureFile').attr('src', '../images/sample_signature.jpg');
+                $('#PrevSignatureFile').show();
+                $('#ViewSignatureFileName').text('Choose file');
+            }
+        }
+    }
+
+    function toLower(str) {
+        var result = '';
+        for (var i = 0, len = str.length; i < len; i++) {
+            var charAtLocation = str.charCodeAt(i);
+            if (charAtLocation > 64 && charAtLocation < 91) //ASCII for upper-case
+                result += String.fromCharCode(charAtLocation + 32);
+            else
+                result += str[i];
+        }
+        return result;
     }
 </script>

@@ -1,4 +1,8 @@
-﻿<div class="navbar-custom">
+﻿@{
+    string baseUrl = $"{this.Context.Request.Scheme}://{this.Context.Request.Host}{this.Context.Request.PathBase}";
+}
+
+<div class="navbar-custom">
     <div class="container-fluid">
         <ul class="list-unstyled topnav-menu float-right mb-0">
             <li>
@@ -8,12 +12,12 @@
                         <span class="btn-label"><i class="mdi mdi-help"></i></span>Help
                     </button>
                     <button id="btnHowToApply" type="button" class="btn btn-info waves-effect waves-light"
-                            onclick="window.open('../warpo_cct/docs/how_to_apply.pdf')">
+                            onclick="window.open('@baseUrl/docs/how_to_apply.pdf', '_blank')">
                         <span class="btn-label"><i class="mdi mdi-comment-question"></i></span>How to Apply
                     </button>
                     @*<button id="btnSearch" type="button" class="btn btn-warning waves-effect waves-light d-none d-lg-inline">
-                        <span class="btn-label"><i class="mdi mdi-folder-search-outline"></i></span>Search
-                    </button>*@
+                            <span class="btn-label"><i class="mdi mdi-folder-search-outline"></i></span>Search
+                        </button>*@
                     <button id="btnCertificateVerification" type="button" class="btn btn-primary waves-effect waves-light d-none d-lg-inline"
                             onclick="window.location.href='@Url.Action("verification", "certificate")'">
                         <span class="btn-label"><i class="mdi mdi-certificate"></i></span>Certificate Verification
