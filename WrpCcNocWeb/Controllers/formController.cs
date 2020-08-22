@@ -8609,115 +8609,193 @@ namespace WrpCcNocWeb.Controllers
 
         //form/GeneralInfoSave :: gis
         [HttpPost]
-        public JsonResult gis(CcModAppProjectCommonDetail _pcd)
+        public JsonResult gis(CcModAppProjectCommonDetail _pcd, List<ProjectLocationsTemp> _locs)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             SelectedForm sf = HttpContext.Session.GetComplexData<SelectedForm>("SelectedForm");
             long ProjectID = 0;
             int result = 0;
-
+            using var dbContextTransaction = _db.Database.BeginTransaction();
+            
             try
             {
                 if (_pcd != null && _pcd.ProjectTypeId != 0)
-                {
-                    using (var dbContextTransaction = _db.Database.BeginTransaction())
+                {                    
+                    #region General Info
+                    if (_pcd.ProjectId != 0)
                     {
-                        if (_pcd.ProjectId != 0)
+                        CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(_pcd.ProjectId);
+
+                        if (pcd != null)
                         {
-                            CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(_pcd.ProjectId);
+                            pcd.ProjectName = _pcd.ProjectName;
+                            pcd.BackgroundAndRationale = _pcd.BackgroundAndRationale;
+                            pcd.ProjectTarget = _pcd.ProjectTarget;
+                            pcd.ProjectObjective = _pcd.ProjectObjective;
+                            pcd.ProjectActivity = _pcd.ProjectActivity;
+                            pcd.ProjectStartDate = _pcd.ProjectStartDate;
+                            pcd.ProjectCompletionDate = _pcd.ProjectCompletionDate;
+                            pcd.ProjectEstimatedCost = _pcd.ProjectEstimatedCost;
+                            pcd.LanguageId = sf.LanguageTypeId.ToInt();
+                            pcd.IsCompletedId = 0;
 
-                            if (pcd != null)
+                            _db.Entry(pcd).State = EntityState.Modified;
+                            result = _db.SaveChanges();
+
+                            if (result > 0)
                             {
-                                pcd.ProjectName = _pcd.ProjectName;
-                                pcd.BackgroundAndRationale = _pcd.BackgroundAndRationale;
-                                pcd.ProjectTarget = _pcd.ProjectTarget;
-                                pcd.ProjectObjective = _pcd.ProjectObjective;
-                                pcd.ProjectActivity = _pcd.ProjectActivity;
-                                pcd.ProjectStartDate = _pcd.ProjectStartDate;
-                                pcd.ProjectCompletionDate = _pcd.ProjectCompletionDate;
-                                pcd.ProjectEstimatedCost = _pcd.ProjectEstimatedCost;
-                                pcd.LanguageId = sf.LanguageTypeId.ToInt();
-                                pcd.IsCompletedId = 0;
+                                ProjectID = pcd.ProjectId;                                
 
-                                _db.Entry(pcd).State = EntityState.Modified;
-                                result = _db.SaveChanges();
-
-                                if (result > 0)
+                                noti = new Notification
                                 {
-                                    ProjectID = pcd.ProjectId;
-                                    dbContextTransaction.Commit();
-
-                                    noti = new Notification
-                                    {
-                                        id = _pcd.ProjectId.ToString(),
-                                        status = "success",
-                                        message = "General information has been updated successfully."
-                                    };
-                                }
-                                else
-                                {
-                                    dbContextTransaction.Rollback();
-
-                                    noti = new Notification
-                                    {
-                                        id = _pcd.ProjectId.ToString(),
-                                        status = "error",
-                                        message = "General information not updated."
-                                    };
-                                }
+                                    id = _pcd.ProjectId.ToString(),
+                                    status = "success",
+                                    message = "General information has been updated successfully."
+                                };
                             }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                _pcd.UserId = ui.UserID;
-                                _pcd.AppSubmissionId = 0;
-                                _pcd.IsCompletedId = 0;
-                                _pcd.ApplicationStateId = 1; //should come from database
-                                _pcd.LanguageId = sf.LanguageTypeId.ToInt();
-
-                                _db.CcModAppProjectCommonDetail.Add(_pcd);
-                                result = _db.SaveChanges();
-
-                                if (result > 0)
-                                {
-                                    ProjectID = _pcd.ProjectId;
-                                    dbContextTransaction.Commit();
-
-                                    noti = new Notification
-                                    {
-                                        id = _pcd.ProjectId.ToString(),
-                                        status = "success",
-                                        message = "General information has been saved successfully."
-                                    };
-                                }
-                                else
-                                {
-                                    dbContextTransaction.Rollback();
-
-                                    noti = new Notification
-                                    {
-                                        id = _pcd.ProjectId.ToString(),
-                                        status = "error",
-                                        message = "General information not saved."
-                                    };
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                dbContextTransaction.Rollback();
-                                var message = ch.ExtractInnerException(ex);
+                            else
+                            {                                
+                                //dbContextTransaction.Rollback();
 
                                 noti = new Notification
                                 {
                                     id = _pcd.ProjectId.ToString(),
                                     status = "error",
-                                    message = "Transaction has been rollbacked. " + message
+                                    message = "General information not updated."
                                 };
+                                
+                                goto Failed;
                             }
                         }
                     }
+                    else
+                    {
+                        try
+                        {
+                            _pcd.UserId = ui.UserID;
+                            _pcd.AppSubmissionId = 0;
+                            _pcd.IsCompletedId = 0;
+                            _pcd.ApplicationStateId = 1; //should come from database
+                            _pcd.LanguageId = sf.LanguageTypeId.ToInt();
+
+                            _db.CcModAppProjectCommonDetail.Add(_pcd);
+                            result = _db.SaveChanges();
+
+                            if (result > 0)
+                            {
+                                ProjectID = _pcd.ProjectId;
+                                //dbContextTransaction.Commit();
+
+                                noti = new Notification
+                                {
+                                    id = _pcd.ProjectId.ToString(),
+                                    status = "success",
+                                    message = "General information has been saved successfully."
+                                };
+                            }
+                            else
+                            {                                
+                                //dbContextTransaction.Rollback();
+
+                                noti = new Notification
+                                {
+                                    id = _pcd.ProjectId.ToString(),
+                                    status = "error",
+                                    message = "General information not saved."
+                                };
+
+                                goto Failed;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            //dbContextTransaction.Rollback();
+                            var message = ch.ExtractInnerException(ex);
+
+                            noti = new Notification
+                            {
+                                id = _pcd.ProjectId.ToString(),
+                                status = "error",
+                                message = "Transaction has been rollbacked from general information section. " + message
+                            };
+
+                            goto Failed;
+                        }
+                    }
+                    #endregion
+
+                    #region Project Location
+                    if (_locs.Count > 0)
+                    {
+                        bool isSuccess = false;
+
+                        try
+                        {
+                            foreach (ProjectLocationsTemp loc in _locs)
+                            {
+                                if (loc.LocationId != 0) //old
+                                {
+                                    CcModPrjLocationDetail plds = _db.CcModPrjLocationDetail.Find(loc.LocationId);
+
+                                    if (plds == null)
+                                    {
+                                        noti = new Notification
+                                        {
+                                            id = _pcd.ProjectId.ToString(),
+                                            status = "error",
+                                            message = "Sorry, invalid location ID found."
+                                        };
+                                    }
+                                    else
+                                    {
+                                        plds.DistrictGeoCode = loc.DistrictGeoCode;
+                                        plds.UpazilaGeoCode = loc.UpazilaGeoCode;
+                                        plds.UnionGeoCode = loc.UnionGeoCode;
+                                        plds.Latitude = loc.Latitude;
+                                        plds.Longitude = loc.Longitude;
+
+                                        _db.Entry(plds).State = EntityState.Modified;
+                                        result = _db.SaveChanges();
+                                    }
+                                }
+                                else //new
+                                {
+                                    CcModPrjLocationDetail nplds = new CcModPrjLocationDetail
+                                    {
+                                        ProjectId = _pcd.ProjectId,
+                                        DistrictGeoCode = loc.DistrictGeoCode,
+                                        UpazilaGeoCode = loc.UpazilaGeoCode,
+                                        UnionGeoCode = loc.UnionGeoCode,
+                                        Latitude = loc.Latitude,
+                                        Longitude = loc.Longitude
+                                    };
+
+                                    _db.CcModPrjLocationDetail.Add(nplds);
+                                    result = _db.SaveChanges();
+
+                                    if (result > 0)
+                                    {
+                                        isSuccess = uplif(nplds.LocationId, nplds.ProjectId, loc.ImageFile);
+                                    }
+
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            var message = ch.ExtractInnerException(ex);
+
+                            noti = new Notification
+                            {
+                                id = "0",
+                                status = "error",
+                                message = message
+                            };
+
+                            goto Failed;
+                        }
+                    }
+                    #endregion
                 }
             }
             catch (Exception ex)
@@ -8730,7 +8808,22 @@ namespace WrpCcNocWeb.Controllers
                     status = "error",
                     message = message
                 };
+
+                goto Failed;
             }
+
+        Success:
+            dbContextTransaction.Commit();
+            noti = new Notification
+            {
+                id = _pcd.ProjectId.ToString(),
+                status = "success",
+                message = "Information has been saved successfully."
+            };
+
+        Failed:
+            dbContextTransaction.Rollback();
+            noti = noti;
 
             return Json(noti);
         }
@@ -19796,6 +19889,89 @@ namespace WrpCcNocWeb.Controllers
             }
 
             return Json(noti);
+        }
+
+        public bool uplif(long locationid, long projectid, IFormFile file)
+        {
+            bool isSuccess = false;
+            int result = 0;
+            string filename = "", extension = "", foldername = "images/ProjectLocationPhotos";
+            CcModPrjLocationDetail location = new CcModPrjLocationDetail();
+
+            if (locationid != 0)
+            {
+                location = _db.CcModPrjLocationDetail.Find(locationid);
+            }
+
+            try
+            {
+                if (location != null && file != null)
+                {
+                    filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    extension = filename.Substring(filename.IndexOf('.'));
+                    filename = EnsureCorrectFilename(filename);
+                    filename = GetGenProjLocFilename(location) + extension;
+
+                    location.ImageFileName = filename;
+
+                    _db.Entry(location).State = EntityState.Modified;
+                    result = _db.SaveChanges();
+
+                    if (result > 0)
+                    {
+                        using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
+                        file.CopyTo(output);
+
+                        isSuccess = true;
+                        //noti = new Notification
+                        //{
+                        //    id = location.LocationId.ToString(),
+                        //    status = "success",
+                        //    title = "Success",
+                        //    message = "File has been successfully uploaded."
+                        //};
+                    }
+                    else
+                    {
+                        isSuccess = false;
+                        //noti = new Notification
+                        //{
+                        //    id = location.LocationId.ToString(),
+                        //    status = "error",
+                        //    title = "File Submission Error",
+                        //    message = "Your selected file has not submitted."
+                        //};
+                    }
+                }
+                else
+                {
+                    isSuccess = false;
+
+                    //noti = new Notification
+                    //{
+                    //    id = "0",
+                    //    status = "warning",
+                    //    title = "Select File",
+                    //    message = "No file(s) selected!"
+                    //};
+                }
+            }
+            catch (Exception ex)
+            {
+                isSuccess = false;
+
+                //var message = ch.ExtractInnerException(ex);
+                //noti = new Notification
+                //{
+                //    id = "0",
+                //    status = "error",
+                //    title = "An Exception Error Occured",
+                //    message = message
+                //};
+            }
+
+            //return Json(noti);
+            return isSuccess;
         }
 
         //form/UploadCommonDetailFile :: ucdf

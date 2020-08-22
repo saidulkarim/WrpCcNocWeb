@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,6 +25,18 @@ namespace WrpCcNocWeb.Models
         public string LongitudeBn { get; set; }
         public string ImageFileName { get; set; }
         public string OnlyImageFileName { get; set; }
+        public string Error { get; set; }
+    }
+
+    public class ProjectLocationsTemp
+    {
+        public long LocationId { get; set; }       
+        public string DistrictGeoCode { get; set; }       
+        public string UpazilaGeoCode { get; set; }       
+        public string UnionGeoCode { get; set; }       
+        public string Latitude { get; set; }      
+        public string Longitude { get; set; }    
+        public IFormFile ImageFile { get; set; }      
         public string Error { get; set; }
     }
 }

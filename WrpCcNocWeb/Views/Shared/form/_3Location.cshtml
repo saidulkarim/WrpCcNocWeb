@@ -12,7 +12,6 @@
                 <table class="table mb-0">
                     <thead>
                         <tr>
-                            <th class="text-center">#</th>
                             <th class="text-center" for="DistrictGeoCode">
                                 @{if (language == "1")
                                     {
@@ -70,7 +69,7 @@
                             <th class="text-center" style="width: 150px;"></th>
                         </tr>
                         <tr>
-                            <th colspan="2" class="text-center">
+                            <th class="text-center">
                                 <input id="LocationId" type="hidden" />
 
                                 <select id="DistrictGeoCode" name="DistrictGeoCode" class="form-control" required="">
@@ -130,7 +129,7 @@
                                 <input type="number" min="0" id="Longitude" name="Longitude" class="form-control text-right" />
                             </th>
                             <th class="text-center" style="vertical-align: central;">
-                                <input type="file" id="ImageFileName" name="ImageFileName" class="form-control-file">
+                                <input type="file" id="ImageFileName" name="ImageFileName" class="form-control-file" onchange="return ValidateFileUpload()">
                                 <!--<input id="files" name="files" type="file" multiple onchange="uploadFiles('files');" />-->
                             </th>
                             <th class="text-center">
@@ -141,6 +140,12 @@
                                 <button id="btnClearProjLocation" type="button" class="btn btn-warning waves-effect waves-light" value="Clear">
                                     <i class="mdi mdi-refresh"></i>
                                 </button>
+
+                                |
+
+                                <button id="btnSaveProjLocationData" type="button" class="btn btn-info waves-effect waves-light" value="Save">
+                                    <i class="mdi mdi-content-save"></i>
+                                </button>
                             </th>
                         </tr>
                     </thead>
@@ -150,3 +155,519 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+
+    jQuery("#DistrictGeoCode").change(function () {
+        var code = jQuery(this).val();
+        var type = 'upz';
+
+        if (code != '') {
+            jQuery("#UpazilaGeoCode, #UnionGeoCode").html('<option value="">Choose...</option>');
+            GetAdminData(code, type);
+        }
+    });
+
+    jQuery("#UpazilaGeoCode").change(function () {
+        var code = jQuery(this).val();
+        var type = 'uni';
+
+        if (code != '') {
+            jQuery("#UnionGeoCode").html('<option value="">Choose...</option>');
+            GetAdminData(code, type);
+        }
+    });
+
+    jQuery("#btnSaveProjLocation").click(function () {
+        var LocationId = jQuery("#LocationId").val();
+        LocationId = (LocationId == '') ? 0 : LocationId;
+        var DistrictGeoCode = jQuery("#DistrictGeoCode option:selected").val();
+        var DistrictName = jQuery("#DistrictGeoCode option:selected").text();
+        var UpazilaGeoCode = jQuery("#UpazilaGeoCode option:selected").val();
+        var UpazilaName = jQuery("#UpazilaGeoCode option:selected").text();
+        var UnionGeoCode = jQuery("#UnionGeoCode option:selected").val();
+        var UnionName = jQuery("#UnionGeoCode option:selected").text();
+        var Latitude = jQuery("#Latitude").val();
+        var Longitude = jQuery("#Longitude").val();
+        var row = '';
+
+        if (DistrictGeoCode != '') {
+            var lfuData = document.getElementById('ImageFileName');
+            var FileUploadPath = lfuData.value;
+
+            try {
+                if (lfuData.files && lfuData.files[0]) {
+                    var FileName = lfuData.files[0].name;
+                    var Extension = FileName.replace(/^.*\./, '');
+
+                    if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
+                        var reader = new FileReader();
+                        reader.readAsDataURL(lfuData.files[0]);
+                        reader.onload = function (e) {
+                            var img = new Image();
+                            img.src = e.target.result;
+                            img.height = "50";
+
+                            row = '<tr><td>' + DistrictName + ' <input id="hdDistrictGeoCode" type="hidden" value="' + DistrictGeoCode + '" /></td><td>' + UpazilaName + ' <input id="hdUpazilaGeoCode" type="hidden" value="' + UpazilaGeoCode + '" /></td><td>' + UnionName + ' <input id="hdUnionGeoCode" type="hidden" value="' + UnionGeoCode + '" /></td><td>' + Latitude + '</td><td>' + Longitude + '</td><td>' + img.outerHTML + ' <input id="hdProjectLocationFile" type="hidden" value="' + e.target.result + '" /></td><td class="text-center"><button onclick="javascript:DeleteNewLocation(this);" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" type="hidden" /></td></tr>';
+                            jQuery("#tbodyProjectLocation").append(row);
+                        }
+                    }
+                } else {
+                    console.log('no image');
+                    row = '<tr><td>' + DistrictName + ' <input id="hdDistrictGeoCode" type="hidden" value="' + DistrictGeoCode + '" /></td><td>' + UpazilaName + ' <input id="hdUpazilaGeoCode" type="hidden" value="' + UpazilaGeoCode + '" /></td><td>' + UnionName + ' <input id="hdUnionGeoCode" type="hidden" value="' + UnionGeoCode + '" /></td><td>' + Latitude + '</td><td>' + Longitude + '</td><td><input id="hdProjectLocationFile" type="hidden" value="" /></td><td class="text-center"><button onclick="javascript:DeleteNewLocation(this);" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" type="hidden" /></td></tr>';
+                    jQuery("#tbodyProjectLocation").append(row);
+                }
+            } catch (ex) {
+                console.log(ex.message);
+            }
+
+            row = '';
+            ClearProjLocation();
+            Notification('success', 'Success', 'New location data added.');
+
+            //#region old code for location save
+            /*
+            var ProjectId = GetHiddenValue('ProjectId');
+
+            var plds = {
+                "LocationId": LocationId,
+                "ProjectId": ProjectId,
+                "DistrictGeoCode": DistrictGeoCode,
+                "UpazilaGeoCode": UpazilaGeoCode,
+                "UnionGeoCode": UnionGeoCode,
+                "Latitude": Latitude,
+                "Longitude": Longitude
+            };
+
+            var url = 'Url.Action("plds", "form")';
+            jQuery.ajax({
+                type: "POST",
+                url: url,
+                data: { _plds: plds },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    if (data.status == 'success') {
+                        var id = data.id;
+                        SaveProjLocFile(id, ProjectId);
+
+                        Notification('success', 'Success', data.message);
+                        GetProjLocationsData();
+                        ClearProjLocation();
+                    } else {
+                        Notification('error', 'Saving Error', data.message);
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
+            */
+            //#endregion
+        } else {
+            Notification('warning', 'Required Field', 'Please select your project district!');
+            jQuery("#DistrictGeoCode").focus();
+        }
+    });
+
+    jQuery("#btnClearProjLocation").click(function () {
+        ClearProjLocation();
+    });
+
+    jQuery("#btnSaveProjLocationData").click(function () {
+        var rowCount = $('#tbodyProjectLocation tr').length;
+        var LocationArray = [];
+
+        var table = $("#tbodyProjectLocation");
+        table.find('tr').each(function (i) {
+            var $tds = $(this).find('td');
+
+            var LocationId = $tds.eq(6).find('input[type=hidden]').val();
+            LocationId = (LocationId == '') ? 0 : LocationId;
+            var DistrictGeoCode = $tds.eq(0).find('input[type=hidden]').val();
+            var UpazilaGeoCode = $tds.eq(1).find('input[type=hidden]').val();
+            var UnionGeoCode = $tds.eq(2).find('input[type=hidden]').val();
+            var Latitude = $tds.eq(3).text();
+            var Longitude = $tds.eq(4).text();
+            var Image = $tds.eq(5).find('input[type=hidden]').val();
+
+            var location = {
+                'LocationId': LocationId,
+                'DistrictGeoCode': DistrictGeoCode,
+                'UpazilaGeoCode': UpazilaGeoCode,
+                'UnionGeoCode': UnionGeoCode,
+                'Latitude': Latitude,
+                'Longitude': Longitude,
+                'ImageFile': Image,
+                'Error':''
+            };
+
+            LocationArray.push(location);
+        });
+
+        console.log(LocationArray);
+    });
+
+    function SaveProjLocFile(locationid, projectid) {
+        var locfile = jQuery('#ImageFileName').prop('files')[0];
+
+        var formData = new FormData();
+        formData.append("locationid", locationid);
+        formData.append("projectid", projectid);
+        formData.append("file", locfile);
+
+        var url = '@Url.Action("uplf", "form")';
+        $.ajax({
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false,
+            type: "POST",
+            success: function (data) {
+                if (data.message != '')
+                    Swal.fire(data.title, data.message, data.status);
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                Swal.fire('Error Occured', errorMsg, 'error');
+            }
+        });
+    }
+
+    function ClearProjLocation() {
+        jQuery("#LocationId").val('');
+        jQuery("#DistrictGeoCode").val('');
+        jQuery("#UpazilaGeoCode").html('<option val=""></option>');
+        jQuery("#UnionGeoCode").html('<option val=""></option>');
+        jQuery("#Latitude, #Longitude").val('');
+        jQuery('#ImageFileName').val('');
+    }
+
+    function GetProjLocationsData() {
+            var lang = '@language';
+            var ProjectId = GetHiddenValue('ProjectId');
+            var url = '@Url.Action("get_pld", "form")';
+
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                data: { project_id: ProjectId },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    console.log('Project Location Data Loaded...');
+                    console.log(data);
+
+                    if (data.length > 0) {
+                        var rows = '';
+
+                        var count = 0;
+
+                        if (lang == '1') {
+                            jQuery.each(data, function (i, item) {
+                                //++count;
+                                var fileName = item.onlyImageFileName != '' ? item.imageFileName : '../images/no_image.png';
+                                //rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.districtNameBn + '</td><td>' + item.upazilaNameBn + '</td><td>' + item.unionNameBn + '</td><td>' + item.latitude + '</td><td>' + item.longitude + '</td><td><a href="' + fileName + '" target="_blank"><img src="' + fileName + '" height="50px" /></a></td><td class="text-center"><button onclick="javascript:EditLoc(' + item.locationId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.locationId + ', ' + item.projectId + ', \'CcModPrjLocationDetail\'); GetProjLocationsData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" value="' + locationId + '" /></td></tr>';
+                                rows += '<tr><td>' + item.districtNameBn + ' <input id="hdDistrictGeoCode" type="hidden" value="' + item.districtGeoCode + '" /></td><td>' + item.upazilaNameBn + ' <input id="hdUpazilaGeoCode" type="hidden" value="' + item.upazilaGeoCode + '" /></td><td>' + item.unionNameBn + ' <input id="hdUnionGeoCode" type="hidden" value="' + item.unionGeoCode + '" /></td><td>' + item.latitude + '</td><td>' + item.longitude + '</td><td><a href="' + fileName + '" target="_blank"><img src="' + fileName + '" height="50px" /></a></td><td class="text-center"><button onclick="javascript:DeleteLocation(this, ' + item.locationId + ', ' + item.projectId + ', \'CcModPrjLocationDetail\');" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" type="hidden" value="' + item.locationId + '" /></td></tr>';
+                            });
+                        } else {
+                            jQuery.each(data, function (i, item) {
+                                //++count;
+                                var fileName = item.onlyImageFileName != '' ? item.imageFileName : '../images/no_image.png';
+
+                                //below line comment out on 19 Aug, 2020. project location tab to general tab
+                                //rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.districtName + '</td><td>' + item.upazilaName + '</td><td>' + item.unionName + '</td><td>' + item.latitude + '</td><td>' + item.longitude + '</td><td><a href="' + fileName + '" target="_blank"><img src="' + fileName + '" height="50px" /></a></td><td class="text-center"><button onclick="javascript:EditLoc(' + item.locationId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.locationId + ', ' + item.projectId + ', \'CcModPrjLocationDetail\'); GetProjLocationsData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" value="' + locationId + '" /></td></tr>';
+                                rows += '<tr><td>' + item.districtName + ' <input id="hdDistrictGeoCode" type="hidden" value="' + item.districtGeoCode + '" /></td><td>' + item.upazilaName + ' <input id="hdUpazilaGeoCode" type="hidden" value="' + item.upazilaGeoCode + '" /></td><td>' + item.unionName + ' <input id="hdUnionGeoCode" type="hidden" value="' + item.unionGeoCode + '" /></td><td>' + item.latitude + '</td><td>' + item.longitude + '</td><td><a href="' + fileName + '" target="_blank"><img src="' + fileName + '" height="50px" /></a></td><td class="text-center"><button onclick="javascript:DeleteLocation(this, ' + item.locationId + ', ' + item.projectId + ', \'CcModPrjLocationDetail\');" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" type="hidden" value="' + item.locationId + '" /></td></tr>';
+                            });
+                        }
+
+                        jQuery("#tbodyProjectLocation").html(rows);
+                    } else {
+                        jQuery("#tbodyProjectLocation").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    jQuery("#tbodyProjectLocation").html('<tr><td colspan="8" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
+        }
+
+    function GetAdminData(code, type) {
+            var lang = '@language';
+            var url = '@Url.Action("gab", "common")';
+
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                data: { code: code, type: type },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    //console.log(data);
+
+                    if (lang == '1') {
+                        jQuery("#UpazilaGeoCode").html('<option value="">বাছাই করুন...</option>');
+                        jQuery("#UnionGeoCode").html('<option value="">বাছাই করুন...</option>');
+                    } else {
+                        jQuery("#UpazilaGeoCode").html('<option value="">Choose...</option>');
+                        jQuery("#UnionGeoCode").html('<option value="">Choose...</option>');
+                    }
+
+                    if (type == 'upz') {
+                        //jQuery("#UpazilaGeoCode").html('<option value="">Choose...</option>');
+
+                        if (lang == '1') {
+                            jQuery.each(data, function (i, item) {
+                                var content = '<option value="' + item.code + '">' + item.ab_name_bn + '</option>';
+                                jQuery("#UpazilaGeoCode").append(content);
+                            });
+                        } else {
+                            jQuery.each(data, function (i, item) {
+                                var content = '<option value="' + item.code + '">' + item.ab_name + '</option>';
+                                jQuery("#UpazilaGeoCode").append(content);
+                            });
+                        }
+                    } else if (type == 'uni') {
+                        //jQuery("#UnionGeoCode").html('<option value="">Choose...</option>');
+
+                        if (lang == '1') {
+                            jQuery.each(data, function (i, item) {
+                                var content = '<option value="' + item.code + '">' + item.ab_name_bn + '</option>';
+                                jQuery("#UnionGeoCode").append(content);
+                            });
+                        } else {
+                            jQuery.each(data, function (i, item) {
+                                var content = '<option value="' + item.code + '">' + item.ab_name + '</option>';
+                                jQuery("#UnionGeoCode").append(content);
+                            });
+                        }
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
+        }
+
+    function GetAdminData(code, type, val) {
+        var lang = '@language';
+        var url = '@Url.Action("gab", "common")';
+
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { code: code, type: type },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                var content = '';
+
+                if (type == 'upz') {
+                    if (lang == '1') {
+                        jQuery("#UpazilaGeoCode").html('<option value="">বাছাই করুন...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            if (val == item.code)
+                                content = '<option value="' + item.code + '" selected>' + item.ab_name_bn + '</option>';
+                            else
+                                content = '<option value="' + item.code + '">' + item.ab_name_bn + '</option>';
+
+                            jQuery("#UpazilaGeoCode").append(content);
+                        });
+                    } else {
+                        jQuery("#UpazilaGeoCode").html('<option value="">Choose...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            if (val == item.code)
+                                content = '<option value="' + item.code + '" selected>' + item.ab_name + '</option>';
+                            else
+                                content = '<option value="' + item.code + '">' + item.ab_name + '</option>';
+
+                            jQuery("#UpazilaGeoCode").append(content);
+                        });
+
+                        //jQuery("#UpazilaGeoCode").val(val);
+                    }
+                } else if (type == 'uni') {
+                    if (lang == '1') {
+                        jQuery("#UnionGeoCode").html('<option value="">বাছাই করুন...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            if (val == item.code)
+                                content = '<option value="' + item.code + '" selected>' + item.ab_name_bn + '</option>';
+                            else
+                                content = '<option value="' + item.code + '">' + item.ab_name_bn + '</option>';
+
+                            jQuery("#UnionGeoCode").append(content);
+                        });
+                    } else {
+                        jQuery("#UnionGeoCode").html('<option value="">Choose...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            if (val == item.code)
+                                content = '<option value="' + item.code + '" selected>' + item.ab_name + '</option>';
+                            else
+                                content = '<option value="' + item.code + '">' + item.ab_name + '</option>';
+
+                            jQuery("#UnionGeoCode").append(content);
+                        });
+                    }
+
+                    //jQuery("#UnionGeoCode").val(val);
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                Notification('error', 'Error Occured', errorMsg);
+            }
+        });
+    }
+
+    function EditLoc(id, projectId) {
+            var url = '@Url.Action("gsl", "form")';
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                data: { id: id, projectId: projectId },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    if (data.locationId != '') {
+                        //console.log(data);
+
+                        SetHiddenValue('LocationId', data.locationId);
+                        jQuery("#DistrictGeoCode option[value=" + data.districtGeoCode + "]").prop('selected', true);
+                        GetAdminData(data.districtGeoCode, 'upz', data.upazilaGeoCode);
+                        GetAdminData(data.upazilaGeoCode, 'uni', data.unionGeoCode);
+                        //jQuery("#DistrictGeoCode").val(data.districtGeoCode).attr('selected', 'selected');
+                        SetTextValue('Latitude', data.latitude);
+                        SetTextValue('Longitude', data.longitude);
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
+        }
+
+    function DeleteNewLocation(index) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this",
+            type: "warning",
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            showCancelButton: !0,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sure"
+        }).then(function (t) {
+            if (t.value == true) {
+                var row = index.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+            }
+        });
+    }
+
+    function DeleteLocation(index, id, projectId, modelName) {
+        var row = index.parentNode.parentNode;
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this",
+            type: "warning",
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            showCancelButton: !0,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sure"
+        }).then(function (t) {
+            if (t.value == true) {
+                var url = '@Url.Action("cdm", "form")';
+                jQuery.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { id: id, projectId: projectId, modelName: modelName },
+                    dataType: "json",
+                    success: function (data, status, jqXHR) {
+                        if (data.status == 'success') {
+                            row.parentNode.removeChild(row);
+                            Notification('success', 'Success', data.message);
+                            Swal.fire("Success", data.message, "success");
+                        } else {
+                            Notification('error', 'Deletion Error', data.message);
+                            Swal.fire("Deletion Error", data.message, "error");
+                        }
+                    }, error: function (jqXHR, exception) {
+                        var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                        Notification('error', 'Error Occured', errorMsg);
+                    }
+                });
+            }
+        });
+    }
+
+    function ValidateFileUpload() {
+        var lfuData = document.getElementById('ImageFileName');
+        var FileUploadPath = lfuData.value;
+
+        if (FileUploadPath == '') {
+            Notification('info', 'Select Project Location Image', 'Please select an image of project location.');
+            Swal.fire('Select Project Location Image', 'Please select an image of project location.', 'info');
+        } else {
+            var FileName = lfuData.files[0].name;
+            var Extension = FileName.replace(/^.*\./, '');
+
+            if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
+                if (lfuData.files && lfuData.files[0]) {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(lfuData.files[0]);
+                    reader.onload = function (e) {
+                        //var image = new Image();
+                        //image.src = e.target.result;
+                        //image.onload = function () {
+                        //    var height = this.height;
+                        //    var width = this.width;
+
+                        //    if (height > 85) {
+                        //        Notification('warning', 'Exceeding Image Height', 'Height must not exceed 80px.');
+                        //        Swal.fire('Exceeding Image Height', 'Height must not exceed 80px.', 'warning');
+
+                        //        return false;
+                        //    }
+
+                        //    if (width > 315) {
+                        //        Notification('warning', 'Exceeding Image Width', 'Width must not exceed 300px');
+                        //        Swal.fire('Exceeding Image Width', 'Width must not exceed 300px', 'warning');
+                        //        return false;
+                        //    }
+                        //};
+
+                        //$('#PrevSignatureFile').attr('src', e.target.result);
+                        //$('#PrevSignatureFile').show();
+                        //$('#ViewSignatureFileName').text(FileName);
+                    }
+                }
+                //else {
+                //    $('#PrevSignatureFile').attr('src', '../images/sample_signature.jpg');
+                //    $('#PrevSignatureFile').show();
+                //    $('#ViewSignatureFileName').text('Choose file');
+                //}
+            }
+            else {
+                Notification('warning', 'Invalid File Format', 'Photo only allows file types of JPG/ JPEG/ PNG/ GIF/ BMP.');
+                Swal.fire('Invalid File Format', 'Photo only allows file types of JPG/ JPEG/ PNG/ GIF/ BMP.', 'warning');
+
+                //$('#PrevSignatureFile').attr('src', '../images/sample_signature.jpg');
+                //$('#PrevSignatureFile').show();
+                //$('#ViewSignatureFileName').text('Choose file');
+            }
+        }
+    }
+
+    function toLower(str) {
+        var result = '';
+        for (var i = 0, len = str.length; i < len; i++) {
+            var charAtLocation = str.charCodeAt(i);
+            if (charAtLocation > 64 && charAtLocation < 91) //ASCII for upper-case
+                result += String.fromCharCode(charAtLocation + 32);
+            else
+                result += str[i];
+        }
+        return result;
+    }
+</script>

@@ -112,6 +112,21 @@
         <input type="number" maxlength="10" min="0" id="ProjectEstimatedCost" name="ProjectEstimatedCost" class="form-control" />
     </div>
 
+    <div class="clearfix"></div>
+    <br />
+
+    <fieldset>
+        <legend>
+            @if (language == "1")
+            {<span>প্রকল্পের অবস্থান</span>}
+            else
+            {<span>Project Location</span>}
+        </legend>
+        <div class="card-box">
+            @{ Html.RenderPartial("form/_3Location"); }
+        </div>
+    </fieldset>
+
     <div class="form-group mb-0">
         <button id="btnSaveGeneral" type="button" class="btn btn-info waves-effect waves-light">
             <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
@@ -139,3 +154,160 @@
         </button>
     </div>
 </div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery("#btnSaveGeneral").click(function () {
+            var ProjectName = GetTextValue('ProjectName');
+            var BackgroundAndRationale = GetTextValue('BackgroundAndRationale');
+            var ProjectTarget = GetTextValue('ProjectTarget');
+            var ProjectObjective = GetTextValue('ProjectObjective');
+            var ProjectStartDate = GetTextValue('ProjectStartDate');
+            var ProjectCompletionDate = GetTextValue('ProjectCompletionDate');
+            var ProjectEstimatedCost = GetTextValue('ProjectEstimatedCost') == '' ? '0' : GetTextValue('ProjectEstimatedCost');
+
+            if (ProjectName == '') {
+                Notification('warning', 'Required Field', 'Project name can not be left empty.');
+                Swal.fire('Required Field', 'Project name can not be left empty.', 'warning');
+                jQuery('#ProjectName').focus();
+                return;
+            }
+
+            if (BackgroundAndRationale == '') {
+                Notification('warning', 'Required Field', 'Project background and rationale can not be left empty.');
+                Swal.fire('Required Field', 'Project background and rationale can not be left empty.', 'warning');
+                jQuery('#BackgroundAndRationale').focus();
+                return;
+            }
+
+            if (ProjectTarget == '') {
+                Notification('warning', 'Required Field', 'Project target can not be left empty.');
+                Swal.fire('Required Field', 'Project target can not be left empty.', 'warning');
+                jQuery('#ProjectTarget').focus();
+                return;
+            }
+
+            if (ProjectObjective == '') {
+                Notification('warning', 'Required Field', 'Project objective can not be left empty.');
+                Swal.fire('Required Field', 'Project objective can not be left empty.', 'warning');
+                jQuery('#ProjectObjective').focus();
+                return;
+            }
+
+            if (ProjectStartDate == '') {
+                Notification('warning', 'Required Field', 'Please select a project start date and can not be left empty.');
+                Swal.fire('Required Field', 'Please select a project start date and can not be left empty.', 'warning');
+                jQuery('#ProjectStartDate').focus();
+                return;
+            }
+
+            if (ProjectCompletionDate == '') {
+                Notification('warning', 'Required Field', 'Please select a project completion date and can not be left empty.');
+                Swal.fire('Required Field', 'Please select a project completion date and can not be left empty.', 'warning');
+                jQuery('#ProjectCompletionDate').focus();
+                return;
+            }
+
+            if (ProjectEstimatedCost == '') {
+                Notification('warning', 'Required Field', 'Please enter project estimated cost amount.');
+                Swal.fire('Required Field', 'Please enter project estimated cost amount.', 'warning');
+                jQuery('#ProjectEstimatedCost').focus();
+                return;
+            }
+
+            if (!IsNumeric(ProjectEstimatedCost)) {
+                Notification('warning', 'Required Field', 'Please enter valid project estimated cost amount.');
+                Swal.fire('Required Field', 'Please enter valid project estimated cost amount.', 'warning');
+                jQuery('#ProjectEstimatedCost').focus();
+                return;
+            }
+
+            if (parseFloat(ProjectEstimatedCost) == 0 || parseFloat(ProjectEstimatedCost) < 0) {
+                Notification('warning', 'Required Field', 'Project estimated cost amount can not be equal to zero (0) or can not be negative.');
+                Swal.fire('Required Field', 'Project estimated cost amount can not be equal to zero (0) or can not be negative.', 'warning');
+                jQuery('#ProjectEstimatedCost').focus();
+                return;
+            }
+
+            GeneralInfoSave();
+        });
+    });
+
+    function GeneralInfoSave() {
+        var pcd = {
+            "ProjectId": GetHiddenValue('ProjectId'),
+            "UserId": 0,
+            "AppSubmissionId": GetHiddenValue('AppSubmissionId'),
+            "ApplicationStateId": GetHiddenValue('ApplicationStateId'),
+            "ApprovalStatusId": GetHiddenValue('ApprovalStatusId'),
+            "ProjectTypeId": jQuery('#ProjectTypeId').val(),
+            "ProjectName": jQuery('#ProjectName').val(),
+            "BackgroundAndRationale": jQuery('#BackgroundAndRationale').val(),
+            "ProjectTarget": jQuery('#ProjectTarget').val(),
+            "ProjectObjective": jQuery('#ProjectObjective').val(),
+            "ProjectActivity": jQuery('#ProjectActivity').val(),
+            "ProjectStartDate": jQuery('#ProjectStartDate').val(),
+            "ProjectCompletionDate": jQuery('#ProjectCompletionDate').val(),
+            "ProjectEstimatedCost": jQuery('#ProjectEstimatedCost').val()
+        };
+        //console.log(pcd);
+
+        //#region project location script
+        var rowCount = $('#tbodyProjectLocation tr').length;
+        var LocationArray = [];
+
+        var table = $("#tbodyProjectLocation");
+        table.find('tr').each(function (i) {
+            var $tds = $(this).find('td');
+
+            var LocationId = $tds.eq(6).find('input[type=hidden]').val();
+            LocationId = (LocationId == '') ? 0 : LocationId;
+            var DistrictGeoCode = $tds.eq(0).find('input[type=hidden]').val();
+            var UpazilaGeoCode = $tds.eq(1).find('input[type=hidden]').val();
+            var UnionGeoCode = $tds.eq(2).find('input[type=hidden]').val();
+            var Latitude = $tds.eq(3).text();
+            var Longitude = $tds.eq(4).text();
+            var Image = $tds.eq(5).find('input[type=hidden]').val();
+
+            var location = {
+                'LocationId': LocationId,
+                'DistrictGeoCode': DistrictGeoCode,
+                'UpazilaGeoCode': UpazilaGeoCode,
+                'UnionGeoCode': UnionGeoCode,
+                'Latitude': Latitude,
+                'Longitude': Longitude,
+                'ImageFile': Image,
+                'Error': ''
+            };
+
+            LocationArray.push(location);
+        });
+
+        console.log(LocationArray);
+        //#endregion
+
+        var url = '@Url.Action("gis", "form")';
+        jQuery.ajax({
+            type: "POST",
+            url: url,
+            data: { _pcd: pcd, _locs: LocationArray },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.status == 'success') {
+                    SetHiddenValue('ProjectId', data.id);
+
+                    //SetHiddenValue('AppSubmissionId', data.id);
+                    //SetHiddenValue('ApplicationStateId', data.id);
+                    //SetHiddenValue('ApprovalStatusId', data.id);
+
+                    Notification('success', 'Success', data.message);
+                } else {
+                    Notification('error', 'Saving Error', data.message);
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                Notification('error', 'Error Occured', errorMsg);
+            }
+        });
+    }
+</script>
