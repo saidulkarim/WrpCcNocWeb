@@ -140,12 +140,6 @@
                                 <button id="btnClearProjLocation" type="button" class="btn btn-warning waves-effect waves-light" value="Clear">
                                     <i class="mdi mdi-refresh"></i>
                                 </button>
-
-                                |
-
-                                <button id="btnSaveProjLocationData" type="button" class="btn btn-info waves-effect waves-light" value="Save">
-                                    <i class="mdi mdi-content-save"></i>
-                                </button>
                             </th>
                         </tr>
                     </thead>
@@ -190,7 +184,7 @@
         var Longitude = jQuery("#Longitude").val();
         var row = '';
 
-        if (DistrictGeoCode != '') {
+        if (DistrictGeoCode != '' && DistrictGeoCode != undefined) {
             var lfuData = document.getElementById('ImageFileName');
             var FileUploadPath = lfuData.value;
 
@@ -270,41 +264,7 @@
 
     jQuery("#btnClearProjLocation").click(function () {
         ClearProjLocation();
-    });
-
-    jQuery("#btnSaveProjLocationData").click(function () {
-        var rowCount = $('#tbodyProjectLocation tr').length;
-        var LocationArray = [];
-
-        var table = $("#tbodyProjectLocation");
-        table.find('tr').each(function (i) {
-            var $tds = $(this).find('td');
-
-            var LocationId = $tds.eq(6).find('input[type=hidden]').val();
-            LocationId = (LocationId == '') ? 0 : LocationId;
-            var DistrictGeoCode = $tds.eq(0).find('input[type=hidden]').val();
-            var UpazilaGeoCode = $tds.eq(1).find('input[type=hidden]').val();
-            var UnionGeoCode = $tds.eq(2).find('input[type=hidden]').val();
-            var Latitude = $tds.eq(3).text();
-            var Longitude = $tds.eq(4).text();
-            var Image = $tds.eq(5).find('input[type=hidden]').val();
-
-            var location = {
-                'LocationId': LocationId,
-                'DistrictGeoCode': DistrictGeoCode,
-                'UpazilaGeoCode': UpazilaGeoCode,
-                'UnionGeoCode': UnionGeoCode,
-                'Latitude': Latitude,
-                'Longitude': Longitude,
-                'ImageFile': Image,
-                'Error':''
-            };
-
-            LocationArray.push(location);
-        });
-
-        console.log(LocationArray);
-    });
+    });    
 
     function SaveProjLocFile(locationid, projectid) {
         var locfile = jQuery('#ImageFileName').prop('files')[0];

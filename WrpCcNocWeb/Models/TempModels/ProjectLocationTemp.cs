@@ -36,7 +36,7 @@ namespace WrpCcNocWeb.Models
         public string UnionGeoCode { get; set; }       
         public string Latitude { get; set; }      
         public string Longitude { get; set; }    
-        public IFormFile ImageFile { get; set; }      
+        public string ImageFile { get; set; }      
         public string Error { get; set; }
     }
 }

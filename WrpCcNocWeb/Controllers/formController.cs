@@ -20,6 +20,7 @@ using Rotativa.AspNetCore;
 using Rotativa.AspNetCore.Options;
 using Microsoft.CodeAnalysis;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Drawing;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -33,6 +34,15 @@ namespace WrpCcNocWeb.Controllers
         private readonly string rootDirOfProjFile = "../images";
         private readonly string rootDirOfDocs = "../docs";
         #endregion
+
+        //[Obsolete]
+        //private IHostingEnvironment _env;
+
+        //[Obsolete]
+        //public formController(IHostingEnvironment env)
+        //{
+        //    _env = env;
+        //}
 
         private readonly IWebHostEnvironment hostingEnvironment;
 
@@ -2379,7 +2389,7 @@ namespace WrpCcNocWeb.Controllers
             //return View();
             return new ViewAsPdf("~/Views/form/printfcmp.cshtml", viewData: ViewData)
             {
-                PageSize = Size.A4,
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
                 PageOrientation = Orientation.Landscape,
                 PageMargins = new Margins(10, 10, 10, 10)
             };
@@ -2565,7 +2575,7 @@ namespace WrpCcNocWeb.Controllers
             //return View();
             return new ViewAsPdf("~/Views/form/printform32.cshtml", viewData: ViewData)
             {
-                PageSize = Size.A4,
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
                 PageOrientation = Orientation.Landscape,
                 PageMargins = new Margins(10, 10, 10, 10)
             };
@@ -2741,7 +2751,7 @@ namespace WrpCcNocWeb.Controllers
 
             return new ViewAsPdf("~/Views/form/printform33.cshtml", viewData: ViewData)
             {
-                PageSize = Size.A4,
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
                 PageOrientation = Orientation.Landscape,
                 PageMargins = new Margins(10, 10, 10, 10)
             };
@@ -2944,7 +2954,7 @@ namespace WrpCcNocWeb.Controllers
 
             return new ViewAsPdf("~/Views/form/printform34.cshtml", viewData: ViewData)
             {
-                PageSize = Size.A4,
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
                 PageOrientation = Orientation.Landscape,
                 PageMargins = new Margins(10, 10, 10, 10)
             };
@@ -3092,7 +3102,7 @@ namespace WrpCcNocWeb.Controllers
 
             return new ViewAsPdf("~/Views/form/printform35.cshtml", viewData: ViewData)
             {
-                PageSize = Size.A4,
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
                 PageOrientation = Orientation.Landscape,
                 PageMargins = new Margins(10, 10, 10, 10)
             };
@@ -3196,7 +3206,7 @@ namespace WrpCcNocWeb.Controllers
 
             return new ViewAsPdf("~/Views/form/printform36.cshtml", viewData: ViewData)
             {
-                PageSize = Size.A4,
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
                 PageOrientation = Orientation.Landscape,
                 PageMargins = new Margins(10, 10, 10, 10)
             };
@@ -3368,7 +3378,7 @@ namespace WrpCcNocWeb.Controllers
 
             return new ViewAsPdf("~/Views/form/printform37.cshtml", viewData: ViewData)
             {
-                PageSize = Size.A4,
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
                 PageOrientation = Orientation.Landscape,
                 PageMargins = new Margins(10, 10, 10, 10)
             };
@@ -3514,7 +3524,7 @@ namespace WrpCcNocWeb.Controllers
 
             return new ViewAsPdf("~/Views/form/printform38.cshtml", viewData: ViewData)
             {
-                PageSize = Size.A4,
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
                 PageOrientation = Orientation.Landscape,
                 PageMargins = new Margins(10, 10, 10, 10)
             };
@@ -3669,7 +3679,7 @@ namespace WrpCcNocWeb.Controllers
 
             return new ViewAsPdf("~/Views/form/printform39.cshtml", viewData: ViewData)
             {
-                PageSize = Size.A4,
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
                 PageOrientation = Orientation.Landscape,
                 PageMargins = new Margins(10, 10, 10, 10)
             };
@@ -3811,7 +3821,7 @@ namespace WrpCcNocWeb.Controllers
 
             return new ViewAsPdf("~/Views/form/printform310.cshtml", viewData: ViewData)
             {
-                PageSize = Size.A4,
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
                 PageOrientation = Orientation.Landscape,
                 PageMargins = new Margins(10, 10, 10, 10)
             };
@@ -3922,7 +3932,7 @@ namespace WrpCcNocWeb.Controllers
 
             return new ViewAsPdf("~/Views/form/printform311.cshtml", viewData: ViewData)
             {
-                PageSize = Size.A4,
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
                 PageOrientation = Orientation.Landscape,
                 PageMargins = new Margins(10, 10, 10, 10)
             };
@@ -4094,7 +4104,7 @@ namespace WrpCcNocWeb.Controllers
 
             return new ViewAsPdf("~/Views/form/printform312.cshtml", viewData: ViewData)
             {
-                PageSize = Size.A4,
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
                 PageOrientation = Orientation.Landscape,
                 PageMargins = new Margins(10, 10, 10, 10)
             };
@@ -4260,7 +4270,7 @@ namespace WrpCcNocWeb.Controllers
 
             return new ViewAsPdf("~/Views/form/printform313.cshtml", viewData: ViewData)
             {
-                PageSize = Size.A4,
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
                 PageOrientation = Orientation.Landscape,
                 PageMargins = new Margins(10, 10, 10, 10)
             };
@@ -8616,11 +8626,11 @@ namespace WrpCcNocWeb.Controllers
             long ProjectID = 0;
             int result = 0;
             using var dbContextTransaction = _db.Database.BeginTransaction();
-            
+
             try
             {
                 if (_pcd != null && _pcd.ProjectTypeId != 0)
-                {                    
+                {
                     #region General Info
                     if (_pcd.ProjectId != 0)
                     {
@@ -8644,7 +8654,7 @@ namespace WrpCcNocWeb.Controllers
 
                             if (result > 0)
                             {
-                                ProjectID = pcd.ProjectId;                                
+                                ProjectID = pcd.ProjectId;
 
                                 noti = new Notification
                                 {
@@ -8654,7 +8664,7 @@ namespace WrpCcNocWeb.Controllers
                                 };
                             }
                             else
-                            {                                
+                            {
                                 //dbContextTransaction.Rollback();
 
                                 noti = new Notification
@@ -8663,7 +8673,7 @@ namespace WrpCcNocWeb.Controllers
                                     status = "error",
                                     message = "General information not updated."
                                 };
-                                
+
                                 goto Failed;
                             }
                         }
@@ -8694,7 +8704,7 @@ namespace WrpCcNocWeb.Controllers
                                 };
                             }
                             else
-                            {                                
+                            {
                                 //dbContextTransaction.Rollback();
 
                                 noti = new Notification
@@ -8775,6 +8785,7 @@ namespace WrpCcNocWeb.Controllers
 
                                     if (result > 0)
                                     {
+                                        //rony rony rony
                                         isSuccess = uplif(nplds.LocationId, nplds.ProjectId, loc.ImageFile);
                                     }
 
@@ -8820,11 +8831,13 @@ namespace WrpCcNocWeb.Controllers
                 status = "success",
                 message = "Information has been saved successfully."
             };
+            goto EndOfMethod;
 
         Failed:
             dbContextTransaction.Rollback();
             noti = noti;
 
+        EndOfMethod:
             return Json(noti);
         }
         #endregion
@@ -19891,7 +19904,7 @@ namespace WrpCcNocWeb.Controllers
             return Json(noti);
         }
 
-        public bool uplif(long locationid, long projectid, IFormFile file)
+        public bool uplif(long locationid, long projectid, string file)
         {
             bool isSuccess = false;
             int result = 0;
@@ -19907,11 +19920,24 @@ namespace WrpCcNocWeb.Controllers
             {
                 if (location != null && file != null)
                 {
-                    filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    extension = filename.Substring(filename.IndexOf('.'));
-                    filename = EnsureCorrectFilename(filename);
-                    filename = GetGenProjLocFilename(location) + extension;
+                    string base64 = file.Substring(file.IndexOf(',') + 1);
 
+                    base64 = base64.Trim('\0');
+                    byte[] img = Convert.FromBase64String(base64);
+                    var stream = new MemoryStream(img);
+                    IFormFile iFile = new FormFile(stream, 0, img.Length, "name", "fileName");
+
+                    Image image;
+                    Bitmap newBitmap;
+                    using (MemoryStream ms = new MemoryStream(img))
+                    {                        
+                        image = Image.FromStream(ms);
+                        newBitmap = new Bitmap(ms);
+                        extension = GetFileExtension(image.RawFormat.ToString().ToLower());
+
+                    }
+
+                    filename = GetGenProjLocFilename(location) + extension;
                     location.ImageFileName = filename;
 
                     _db.Entry(location).State = EntityState.Modified;
@@ -19920,7 +19946,35 @@ namespace WrpCcNocWeb.Controllers
                     if (result > 0)
                     {
                         using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
-                        file.CopyTo(output);
+                        iFile.CopyTo(output);
+
+                        //var webRoot = hostingEnvironment.WebRootPath;
+                        //var PathWithFolderName = Path.Combine(webRoot, foldername);
+
+                        //newBitmap.Save("c:\\temp\\test.jpg", newBitmap.RawFormat);
+                        //newBitmap.Save("~/image/ProjectLocationPhotos/" + filename, newBitmap.RawFormat);
+
+                        //string folderName = @"YourFolderPath";
+                        //string path = Path.Combine(hostingEnvironment.ContentRootPath, foldername, filename);
+                        //bool exists = Directory.Exists(path);
+
+                        //if (!exists)
+                        //    Directory.CreateDirectory(path);
+
+                        //var pathToSave = Path.Combine(foldername, filename);
+                        //var path = hostingEnvironment.ContentRootPath + pathToSave;
+                        //image.Save(path);
+
+                        //image.Save(path, image.RawFormat);
+                        //image.Dispose();
+
+                        //using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
+                        //image.Save(output, image.RawFormat);
+                        //image.Save(Path.GetTempPath() + "\\myImage.Jpeg");
+
+                        //string DefaultImagePath = PathWithFolderName;
+                        //DirectoryInfo dir = new DirectoryInfo(PathWithFolderName + "\\"+ filename);
+                        //image.Save(dir, image.RawFormat);
 
                         isSuccess = true;
                         //noti = new Notification
@@ -19972,6 +20026,37 @@ namespace WrpCcNocWeb.Controllers
 
             //return Json(noti);
             return isSuccess;
+        }
+
+        private string GetFileExtension(string rawExtension)
+        {
+            string extension = string.Empty;
+
+            switch (rawExtension)
+            {
+                case "jpeg":
+                case "jpg":
+                    extension = ".jpg";
+                    break;
+
+                case "png":
+                    extension = ".png";
+                    break;
+
+                case "bmp":
+                    extension = ".bmp";
+                    break;
+
+                case "gif":
+                    extension = ".gif";
+                    break;
+
+                default:
+                    extension = ".jpg";
+                    break;
+            }
+
+            return extension;
         }
 
         //form/UploadCommonDetailFile :: ucdf

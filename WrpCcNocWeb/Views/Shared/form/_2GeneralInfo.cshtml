@@ -267,20 +267,22 @@
             var UnionGeoCode = $tds.eq(2).find('input[type=hidden]').val();
             var Latitude = $tds.eq(3).text();
             var Longitude = $tds.eq(4).text();
-            var Image = $tds.eq(5).find('input[type=hidden]').val();
+            var ImageFile = $tds.eq(5).find('input[type=hidden]').val();
 
-            var location = {
-                'LocationId': LocationId,
-                'DistrictGeoCode': DistrictGeoCode,
-                'UpazilaGeoCode': UpazilaGeoCode,
-                'UnionGeoCode': UnionGeoCode,
-                'Latitude': Latitude,
-                'Longitude': Longitude,
-                'ImageFile': Image,
-                'Error': ''
-            };
+            if (DistrictGeoCode != '' && DistrictGeoCode != undefined) {
+                var location = {
+                    'LocationId': LocationId,
+                    'DistrictGeoCode': DistrictGeoCode,
+                    'UpazilaGeoCode': UpazilaGeoCode,
+                    'UnionGeoCode': UnionGeoCode,
+                    'Latitude': Latitude,
+                    'Longitude': Longitude,
+                    'ImageFile': ImageFile,
+                    'Error': ''
+                };
 
-            LocationArray.push(location);
+                LocationArray.push(location);
+            }
         });
 
         console.log(LocationArray);
