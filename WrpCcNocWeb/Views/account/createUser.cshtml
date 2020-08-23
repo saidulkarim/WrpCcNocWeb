@@ -18,15 +18,27 @@
                         <br />
                     </div>
                     <div class="col-md-9">
-                        <h4 class="header-title mb-3"> <b>New User Group Creation</b></h4>
+                        <h4 class="header-title mb-3"> <b>New User </b></h4>
                         @using (Html.BeginForm("createuser", "account", FormMethod.Post, new { enctype = "multipart/form-data", id = "SignUpForm", role = "form" }))
                         {
                             <div class="form-group">
                                 <label for="UserType">User Type</label>
                                 <select id="UserType" name="UserType" class="form-control">
                                     <option value="">Choose...</option>
-                                    <option value="WARPO">WARPO</option>
-                                    <option value="Non-WARPO">Non-WARPO</option>
+                                    @if (ViewBag.IsWarpoUser == "warpo")
+                                    {
+                                        <option value="WARPO" selected>WARPO</option>
+                                        <option value="Non-WARPO" selected>Non-WARPO</option>
+                                    }
+                                    else if (ViewBag.IsWarpoUser == "non-warpo")
+                                    {
+                                        <option value="Non-WARPO" selected>Non-WARPO</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="WARPO">WARPO</option>
+                                        <option value="Non-WARPO">Non-WARPO</option>
+                                    }
                                 </select>
                             </div>
 

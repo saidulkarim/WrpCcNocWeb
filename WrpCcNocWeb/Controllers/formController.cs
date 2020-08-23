@@ -212,6 +212,11 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
+        public IActionResult assessment()
+        {
+            return View();
+        }
+
         public IActionResult list()
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
@@ -19930,7 +19935,7 @@ namespace WrpCcNocWeb.Controllers
                     Image image;
                     Bitmap newBitmap;
                     using (MemoryStream ms = new MemoryStream(img))
-                    {                        
+                    {
                         image = Image.FromStream(ms);
                         newBitmap = new Bitmap(ms);
                         extension = GetFileExtension(image.RawFormat.ToString().ToLower());

@@ -63,7 +63,7 @@ namespace WrpCcNocWeb.Controllers
                 string UserPass = _loginTemp.UserPass.ToString().Trim();
 
                 var userRegInfo = _db.AdminModUserRegistrationDetail
-                                     .Where(r => r.UserName.ToString().Equals(UserName) && r.UserPassword.ToString().Equals(UserPass))
+                                     .Where(r => r.UserName.ToString().Equals(UserName) && r.UserPassword.ToString().Equals(UserPass.EncryptString()))
                                      .FirstOrDefault();
 
                 if (!Captcha.ValidateCaptchaCode(_loginTemp.CaptchaCode, HttpContext))
@@ -79,7 +79,7 @@ namespace WrpCcNocWeb.Controllers
                         {
                             if (userRegInfo.UserActivationStatus == 1)
                             {
-                                if (userRegInfo.UserPassword.Equals(UserPass))
+                                if (userRegInfo.UserPassword.Equals(UserPass.EncryptString()))
                                 {
                                     var user_id_temp = _db.AdminModUsersDetail
                                                         .Where(p => p.UserRegistrationId != null && p.UserRegistrationId == userRegInfo.UserRegistrationId)
@@ -256,10 +256,12 @@ namespace WrpCcNocWeb.Controllers
 
             try
             {
+                userReg.UserPassword = userReg.UserPassword.EncryptString();
                 userReg.UserActivationStatus = 0;
                 userReg.DateOfCreation = DateTime.Now;
                 userReg.EmailVerificationCode = Guid.NewGuid().ToString();
                 userReg.IsEmailVerified = 0;
+                userReg.IsDeleted = 0;
 
                 _db.AdminModUserRegistrationDetail.Add(userReg);
                 int x = _db.SaveChanges();
@@ -333,7 +335,7 @@ namespace WrpCcNocWeb.Controllers
 
                 verifyUrl = verifyUrl + "/account/verify/" + ViewBag.UserVerificationCode;
                 vars.Add(userReg.UserName);
-                vars.Add(userReg.UserPassword);
+                vars.Add(userReg.UserPassword.DecryptString());
                 vars.Add(verifyUrl);
                 vars.Add(callAt);
 
@@ -365,6 +367,7 @@ namespace WrpCcNocWeb.Controllers
                         userRegVerify.UserActivationStatus = 1;
                         userRegVerify.LastModifiedDate = DateTime.Now;
                         userRegVerify.IsEmailVerified = 1;
+                        userRegVerify.IsDeleted = 0;
 
                         _db.Entry(userRegVerify).State = EntityState.Modified;
                         int x = _db.SaveChanges();
@@ -655,7 +658,7 @@ namespace WrpCcNocWeb.Controllers
 
                     try
                     {
-                        _userRegDetail.UserPassword = ucpw;
+                        _userRegDetail.UserPassword = ucpw.EncryptString();
 
                         _db.Entry(_userRegDetail).State = EntityState.Modified;
                         result = _db.SaveChanges();
@@ -923,13 +926,13 @@ namespace WrpCcNocWeb.Controllers
                 }
                 else if (recover.RecoverType == "RecoverPassword")
                 {
-                    UserPassword = registrationDetail.UserPassword;
+                    UserPassword = registrationDetail.UserPassword.DecryptString();
                     recoverMessage = @"password. <br /><h2>User Password: " + UserPassword + "<b></h2>";
                 }
                 else
                 {
                     UserName = registrationDetail.UserName;
-                    UserPassword = registrationDetail.UserPassword;
+                    UserPassword = registrationDetail.UserPassword.DecryptString();
 
                     recoverMessage = @"user name and password. <br /><br /><h2>User Name: <b>" + UserName + "<b></h2>";
                     recoverMessage += @"<br /><h2>Password: " + UserPassword + "<b></h2>";
@@ -1156,70 +1159,138 @@ namespace WrpCcNocWeb.Controllers
 
             if (!string.IsNullOrEmpty(uli.UnionGeoCode))
             {
-                userDetails = (from ud in userDetails.ToList()
-                               join ugdd in _db.AdminModUserGrpDistDetail on ud.UserID equals ugdd.UserId into userGrpDistDetailGroup
-                               from ugd in userGrpDistDetailGroup.DefaultIfEmpty()
-                               join uGroup in _db.LookUpAdminModUserGroup on ugd.UserGroupId equals uGroup.UserGroupId into userGroup
-                               from ug in userGroup.DefaultIfEmpty()
+                //userDetails = (from ud in userDetails.ToList()
+                //               join ugdd in _db.AdminModUserGrpDistDetail on ud.UserID equals ugdd.UserId into userGrpDistDetailGroup
+                //               from ugd in userGrpDistDetailGroup.DefaultIfEmpty()
+                //               join uGroup in _db.LookUpAdminModUserGroup on ugd.UserGroupId equals uGroup.UserGroupId into userGroup
+                //               from ug in userGroup.DefaultIfEmpty()
 
-                               where ug.UnionGeoCode == uli.UnionGeoCode
+                //               where ug.UnionGeoCode == uli.UnionGeoCode
+
+                //               select new UserInfo
+                //               {
+                //                   UserID = ud.UserID,
+                //                   UserName = ud.UserName,
+                //                   UserFullName = ud.UserFullName,
+                //                   UserDesignation = ud.UserDesignation,
+                //                   UserEmail = ud.UserEmail,
+                //                   UserMobile = ud.UserMobile,
+                //                   UserActivationStatus = ud.UserActivationStatus,
+                //                   IsDeleted = ud.IsDeleted
+                //               }).ToList();
+                userDetails = (from ugdd in _db.AdminModUserGrpDistDetail.ToList()
+                               join udtl in _db.AdminModUsersDetail on ugdd.UserId equals udtl.UserId into userDetailGroup
+                               from ud in userDetailGroup.DefaultIfEmpty()
+                               join uGroup in _db.LookUpAdminModUserGroup on ugdd.UserGroupId equals uGroup.UserGroupId into userGroup
+                               from ug in userGroup.DefaultIfEmpty()
+                               join uReg in _db.AdminModUserRegistrationDetail on ud.UserRegistrationId equals uReg.UserRegistrationId into userReg
+                               from ur in userReg.DefaultIfEmpty()
+
+                               where ug.UnionGeoCode == uli.UnionGeoCode &&
+                               (ug.AuthorityLevelId == 5 || ug.AuthorityLevelId == 6 || ug.AuthorityLevelId == 9 || ug.AuthorityLevelId == 10)
 
                                select new UserInfo
                                {
-                                   UserID = ud.UserID,
-                                   UserName = ud.UserName,
+                                   UserID = ud.UserId,
+                                   UserName = ur.UserName,
                                    UserFullName = ud.UserFullName,
                                    UserDesignation = ud.UserDesignation,
-                                   UserEmail = ud.UserEmail,
-                                   UserMobile = ud.UserMobile,
-                                   UserActivationStatus = ud.UserActivationStatus,
-                                   IsDeleted = ud.IsDeleted
+                                   UserEmail = ur.UserEmail,
+                                   UserMobile = ur.UserMobile,
+                                   UserActivationStatus = ur.UserActivationStatus,
+                                   IsDeleted = ur.IsDeleted
                                }).ToList();
             }
 
             if (!string.IsNullOrEmpty(uli.UpazilaGeoCode) && string.IsNullOrEmpty(uli.UnionGeoCode))
             {
-                userDetails = (from ud in userDetails.ToList()
-                               join ugdd in _db.AdminModUserGrpDistDetail on ud.UserID equals ugdd.UserId into userGrpDistDetailGroup
-                               from ugd in userGrpDistDetailGroup.DefaultIfEmpty()
-                               join uGroup in _db.LookUpAdminModUserGroup on ugd.UserGroupId equals uGroup.UserGroupId into userGroup
-                               from ug in userGroup.DefaultIfEmpty()
+                //userDetails = (from ud in userDetails.ToList()
+                //               join ugdd in _db.AdminModUserGrpDistDetail on ud.UserID equals ugdd.UserId into userGrpDistDetailGroup
+                //               from ugd in userGrpDistDetailGroup.DefaultIfEmpty()
+                //               join uGroup in _db.LookUpAdminModUserGroup on ugd.UserGroupId equals uGroup.UserGroupId into userGroup
+                //               from ug in userGroup.DefaultIfEmpty()
 
-                               where ug.UpazilaGeoCode == uli.UpazilaGeoCode
+                //               where ug.UpazilaGeoCode == uli.UpazilaGeoCode && ug.UnionGeoCode == string.Empty
+
+                //               select new UserInfo
+                //               {
+                //                   UserID = ud.UserID,
+                //                   UserName = ud.UserName,
+                //                   UserFullName = ud.UserFullName,
+                //                   UserDesignation = ud.UserDesignation,
+                //                   UserEmail = ud.UserEmail,
+                //                   UserMobile = ud.UserMobile,
+                //                   UserActivationStatus = ud.UserActivationStatus,
+                //                   IsDeleted = ud.IsDeleted
+                //               }).ToList();
+                userDetails = (from ugdd in _db.AdminModUserGrpDistDetail.ToList()
+                               join udtl in _db.AdminModUsersDetail on ugdd.UserId equals udtl.UserId into userDetailGroup
+                               from ud in userDetailGroup.DefaultIfEmpty()
+                               join uGroup in _db.LookUpAdminModUserGroup on ugdd.UserGroupId equals uGroup.UserGroupId into userGroup
+                               from ug in userGroup.DefaultIfEmpty()
+                               join uReg in _db.AdminModUserRegistrationDetail on ud.UserRegistrationId equals uReg.UserRegistrationId into userReg
+                               from ur in userReg.DefaultIfEmpty()
+
+                               where ug.UpazilaGeoCode == uli.UpazilaGeoCode &&
+                               (ug.AuthorityLevelId == 3 || ug.AuthorityLevelId == 4 || ug.AuthorityLevelId == 8 || ug.AuthorityLevelId == 11)
 
                                select new UserInfo
                                {
-                                   UserID = ud.UserID,
-                                   UserName = ud.UserName,
+                                   UserID = ud.UserId,
+                                   UserName = ur.UserName,
                                    UserFullName = ud.UserFullName,
                                    UserDesignation = ud.UserDesignation,
-                                   UserEmail = ud.UserEmail,
-                                   UserMobile = ud.UserMobile,
-                                   UserActivationStatus = ud.UserActivationStatus,
-                                   IsDeleted = ud.IsDeleted
+                                   UserEmail = ur.UserEmail,
+                                   UserMobile = ur.UserMobile,
+                                   UserActivationStatus = ur.UserActivationStatus,
+                                   IsDeleted = ur.IsDeleted
                                }).ToList();
             }
 
             if (!string.IsNullOrEmpty(uli.DistrictGeoCode) && string.IsNullOrEmpty(uli.UpazilaGeoCode) && string.IsNullOrEmpty(uli.UnionGeoCode))
             {
-                userDetails = (from ud in userDetails.ToList()
-                               join ugdd in _db.AdminModUserGrpDistDetail on ud.UserID equals ugdd.UserId into userGrpDistDetailGroup
-                               from ugd in userGrpDistDetailGroup.DefaultIfEmpty()
-                               join uGroup in _db.LookUpAdminModUserGroup on ugd.UserGroupId equals uGroup.UserGroupId into userGroup
-                               from ug in userGroup.DefaultIfEmpty()
+                //userDetails = (from ud in userDetails.ToList()
+                //               join ugdd in _db.AdminModUserGrpDistDetail on ud.UserID equals ugdd.UserId into userGrpDistDetailGroup
+                //               from ugd in userGrpDistDetailGroup.DefaultIfEmpty()
+                //               join uGroup in _db.LookUpAdminModUserGroup on ugd.UserGroupId equals uGroup.UserGroupId into userGroup
+                //               from ug in userGroup.DefaultIfEmpty()
 
-                               where ug.DistrictGeoCode == uli.DistrictGeoCode
+                //               where ug.DistrictGeoCode == uli.DistrictGeoCode &&
+                //               (ug.AuthorityLevelId <= uli.AuthorityLevelId || ug.AuthorityLevelId == 12)
+
+                //               select new UserInfo
+                //               {
+                //                   UserID = ud.UserID,
+                //                   UserName = ud.UserName,
+                //                   UserFullName = ud.UserFullName,
+                //                   UserDesignation = ud.UserDesignation,
+                //                   UserEmail = ud.UserEmail,
+                //                   UserMobile = ud.UserMobile,
+                //                   UserActivationStatus = ud.UserActivationStatus,
+                //                   IsDeleted = ud.IsDeleted
+                //               }).ToList();
+
+                userDetails = (from ugdd in _db.AdminModUserGrpDistDetail.ToList()
+                               join udtl in _db.AdminModUsersDetail on ugdd.UserId equals udtl.UserId into userDetailGroup
+                               from ud in userDetailGroup.DefaultIfEmpty()
+                               join uGroup in _db.LookUpAdminModUserGroup on ugdd.UserGroupId equals uGroup.UserGroupId into userGroup
+                               from ug in userGroup.DefaultIfEmpty()
+                               join uReg in _db.AdminModUserRegistrationDetail on ud.UserRegistrationId equals uReg.UserRegistrationId into userReg
+                               from ur in userReg.DefaultIfEmpty()
+
+                               where ug.DistrictGeoCode == uli.DistrictGeoCode &&
+                               (ug.AuthorityLevelId == 1 || ug.AuthorityLevelId == 2 || ug.AuthorityLevelId == 7 || ug.AuthorityLevelId == 12)
 
                                select new UserInfo
                                {
-                                   UserID = ud.UserID,
-                                   UserName = ud.UserName,
+                                   UserID = ud.UserId,
+                                   UserName = ur.UserName,
                                    UserFullName = ud.UserFullName,
                                    UserDesignation = ud.UserDesignation,
-                                   UserEmail = ud.UserEmail,
-                                   UserMobile = ud.UserMobile,
-                                   UserActivationStatus = ud.UserActivationStatus,
-                                   IsDeleted = ud.IsDeleted
+                                   UserEmail = ur.UserEmail,
+                                   UserMobile = ur.UserMobile,
+                                   UserActivationStatus = ur.UserActivationStatus,
+                                   IsDeleted = ur.IsDeleted
                                }).ToList();
             }
 
@@ -1229,7 +1300,42 @@ namespace WrpCcNocWeb.Controllers
 
         public IActionResult createuser()
         {
-            ViewBag.LookUpAdminModUserGroup = _db.LookUpAdminModUserGroup.OrderBy(o => o.UserGroupId).ToList();
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+
+            ViewBag.IsWarpoUser = uli.UserGroupName.Contains("WARPO") ? "warpo" : "non-warpo";
+
+            //where ug.DistrictGeoCode == uli.DistrictGeoCode &&  (ug.AuthorityLevelId <= uli.AuthorityLevelId || ug.AuthorityLevelId == 12)
+            if (!string.IsNullOrEmpty(uli.UnionGeoCode))
+            {
+                ViewBag.LookUpAdminModUserGroup = _db.LookUpAdminModUserGroup
+                                                    .Where(w => w.UnionGeoCode == uli.UnionGeoCode &&
+                                                     ((w.AuthorityLevelId == 5 || w.AuthorityLevelId == 6 || w.AuthorityLevelId == 9 || w.AuthorityLevelId == 10)))
+                                                    .OrderBy(o => o.UserGroupId).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(uli.UpazilaGeoCode) && string.IsNullOrEmpty(uli.UnionGeoCode))
+            {
+                ViewBag.LookUpAdminModUserGroup = _db.LookUpAdminModUserGroup
+                                                    .Where(w => w.UpazilaGeoCode == uli.UpazilaGeoCode &&
+                                                     ((w.AuthorityLevelId == 3 || w.AuthorityLevelId == 4 || w.AuthorityLevelId == 8 || w.AuthorityLevelId == 11)))
+                                                    .OrderBy(o => o.UserGroupId).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(uli.DistrictGeoCode) && string.IsNullOrEmpty(uli.UpazilaGeoCode) && string.IsNullOrEmpty(uli.UnionGeoCode))
+            {
+                ViewBag.LookUpAdminModUserGroup = _db.LookUpAdminModUserGroup
+                                                    .Where(w => w.DistrictGeoCode == uli.DistrictGeoCode &&
+                                                     ((w.AuthorityLevelId == 1 || w.AuthorityLevelId == 2 || w.AuthorityLevelId == 7 || w.AuthorityLevelId == 12)))
+                                                    .OrderBy(o => o.UserGroupId).ToList();
+            }
+
+            if (uli.UserGroupId == 1000000002 || uli.UserGroupId == 1000000003 || uli.UserGroupId == 1000000004 || uli.UserGroupId == 1000000005 || uli.UserGroupId == 1000000006)
+            {
+                ViewBag.LookUpAdminModUserGroup = _db.LookUpAdminModUserGroup
+                                                     .OrderBy(o => o.UserGroupId).ToList();
+            }
+
             ViewBag.SecurityQuestionId = new SelectList(_db.LookUpAdminModSecurityQuestion.ToList(), "SecurityQuestionId", "SecurityQuestion");
             return View();
         }
@@ -1238,19 +1344,23 @@ namespace WrpCcNocWeb.Controllers
         [HttpPost]
         public IActionResult createuser(AdminNewUserCreation anuc)
         {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+
             using var dbContextTransaction = _db.Database.BeginTransaction();
             try
             {
                 AdminModUserRegistrationDetail userReg = new AdminModUserRegistrationDetail
                 {
                     UserName = anuc.UserName,
-                    UserPassword = anuc.UserPassword,
+                    UserPassword = anuc.UserPassword.EncryptString(),
                     UserActivationStatus = 1,
                     UserEmail = anuc.UserEmail,
                     UserMobile = anuc.UserMobile,
                     DateOfCreation = DateTime.Now,
                     EmailVerificationCode = Guid.NewGuid().ToString(),
-                    IsEmailVerified = 1
+                    IsEmailVerified = 1,
+                    IsDeleted = 0
                 };
 
                 _db.AdminModUserRegistrationDetail.Add(userReg);
@@ -1320,6 +1430,7 @@ namespace WrpCcNocWeb.Controllers
                 TempData["Message"] = ch.ShowMessage(Sign.Danger, Sign.Danger.ToString(), message);
             }
 
+            ViewBag.IsWarpoUser = uli.UserGroupName.Contains("WARPO") ? "warpo" : "non-warpo";
             ViewBag.LookUpAdminModUserGroup = _db.LookUpAdminModUserGroup.OrderBy(o => o.UserGroupId).ToList();
             ViewBag.SecurityQuestionId = new SelectList(_db.LookUpAdminModSecurityQuestion.ToList(), "SecurityQuestionId", "SecurityQuestion", anuc.SecurityQuestionId);
             return View();
