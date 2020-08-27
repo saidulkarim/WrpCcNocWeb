@@ -89,9 +89,9 @@
                             </span><br />
                             <span>
                                 @if (prev_lang == "1")
-                                {<span>ন্যাশনাল ওয়াটার রিসোর্সেস প্রজেক্ট কমিটি।</span>}
+                                {<span>জাতীয় পানি সম্পদ কাউন্সিল।</span>}
                                 else
-                                {<span>National Water Resources Project Committee.</span>}
+                                {<span>National Water Resources Council.</span>}
                             </span>
                         </div>
                     </div>
@@ -1366,7 +1366,7 @@
                                     </tr>
                                     <tr>
                                         @{
-                                            yesTickMark = string.Empty; 
+                                            yesTickMark = string.Empty;
                                             noTickMark = string.Empty;
 
                                             if (pcd.AnalyzeOptYesNoId == 1)
@@ -2003,6 +2003,22 @@
                                    style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                                     <i class="mdi mdi-comment-text-multiple"></i>
                                 </a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <fieldset>
+                                    <legend>
+                                        @if (prev_lang == "1")
+                                        {<span>অতিরিক্ত মন্তব্য এবং সংযুক্তি</span> }
+                                        else
+                                        { <span>Additional Comments and Attachments</span>}
+                                    </legend>
+                                    <div class="card-box">
+                                        @{ Html.RenderPartial("form/_AdditionalAttachment"); }
+                                    </div>
+                                </fieldset>
                             </td>
                         </tr>
 
@@ -3799,6 +3815,42 @@
                 jQuery("#tbodyCommentList").html('<tr><td colspan="3" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
             }
         });
+    }
+
+    function Delete(id, projectId, modelName) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this",
+                type: "warning",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                showCancelButton: !0,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sure"
+            }).then(function (t) {
+                if (t.value == true) {
+                    var url = '@Url.Action("cdm", "form")';
+                    jQuery.ajax({
+                        type: "POST",
+                        url: url,
+                        data: { id: id, projectId: projectId, modelName: modelName },
+                        dataType: "json",
+                        success: function (data, status, jqXHR) {
+                            if (data.status == 'success') {
+                                Notification('success', 'Success', data.message);
+                                Swal.fire("Success", data.message, "success");
+                            } else {
+                                Notification('error', 'Deletion Error', data.message);
+                                Swal.fire("Deletion Error", data.message, "error");
+                            }
+                        }, error: function (jqXHR, exception) {
+                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                            Notification('error', 'Error Occured', errorMsg);
+                        }
+                    });
+                }
+            });
     }
 
     function RedirectToHome() {

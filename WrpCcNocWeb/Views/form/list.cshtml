@@ -47,7 +47,22 @@
 
                                             @if (@pcd.ApprovalStatusId == 1)
                                             {
-                                                <td class="align-middle"><a href="@Url.Action("view", "certificate", new { id = pcd.ProjectId })" target="_blank" class="btn btn-info">Download</a></td>
+                                                <td class="align-middle">
+                                                    @*<a href="@Url.Action("view", "certificate", new { id = pcd.ProjectId })" target="_blank" class="btn btn-info">
+                                                            Download
+                                                        </a>*@
+
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                            Download
+                                                            <i class="mdi mdi-chevron-down"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                                                            <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId })">বাংলা</a>
+                                                            <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId })">English</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             }
                                             else if (@pcd.ApprovalStatusId == 2 || @pcd.ApprovalStatusId == 3)
                                             {
@@ -70,7 +85,22 @@
 
                                             @if (@pcd.ApprovalStatusId == 1)
                                             {
-                                                <td class="align-middle"><a href="@Url.Action("view", "certificate", new { id = pcd.ProjectId })" target="_blank" class="btn btn-info">Download</a></td>
+                                                <td class="align-middle">
+                                                    @*<a href="@Url.Action("view", "certificate", new { id = pcd.ProjectId })" target="_blank" class="btn btn-info">
+                                                            Download
+                                                        </a>*@
+
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                            Download
+                                                            <i class="mdi mdi-chevron-down"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                                                            <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId })">বাংলা</a>
+                                                            <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId })">English</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             }
                                             else if (@pcd.ApprovalStatusId == 2 || @pcd.ApprovalStatusId == 3)
                                             {
@@ -93,7 +123,22 @@
 
                                             @if (@pcd.ApprovalStatusId == 1)
                                             {
-                                                <td class="align-middle"><a href="@Url.Action("view", "certificate", new { id = pcd.ProjectId })" target="_blank" class="btn btn-info">Download</a></td>
+                                                <td class="align-middle">
+                                                    @*<a href="@Url.Action("view", "certificate", new { id = pcd.ProjectId })" target="_blank" class="btn btn-info">
+                                                        Download
+                                                    </a>*@
+
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                            Download
+                                                            <i class="mdi mdi-chevron-down"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                                                            <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId })">বাংলা</a>
+                                                            <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId })">English</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             }
                                             else if (@pcd.ApprovalStatusId == 2 || @pcd.ApprovalStatusId == 3)
                                             {

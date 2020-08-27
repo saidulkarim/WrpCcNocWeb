@@ -49,9 +49,13 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\docs\gpwm\" />
+    <Folder Include="wwwroot\docs\additional_attachment\" />
     <Folder Include="wwwroot\docs\tutorial\pdf\eng\" />
     <Folder Include="wwwroot\docs\tutorial\video\" />
     <Folder Include="wwwroot\images\CommonDetails\" />
+    <Folder Include="wwwroot\images\file-icon\" />
+    <Folder Include="wwwroot\images\higher_auth_signature\" />
+    <Folder Include="wwwroot\images\higher_auth_seal\" />
     <Folder Include="wwwroot\images\signature\" />
   </ItemGroup>
 

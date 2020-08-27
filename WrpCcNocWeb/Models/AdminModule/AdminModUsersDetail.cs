@@ -37,7 +37,7 @@ namespace WrpCcNocWeb.Models
         [Column("UserDateOfBirth", Order = 4)]
         [Display(Name = "Date Of Birth")]
         public DateTime UserDateOfBirth { get; set; }
-       
+
         [Column("UserNID", Order = 5)]
         [Display(Name = "National ID No")]
         [MaxLength(20)]
@@ -103,6 +103,14 @@ namespace WrpCcNocWeb.Models
 
         [Column("SignatureFileName", Order = 17)]
         [MaxLength(50)]
-        public string SignatureFileName { get; set; }        
+        public string SignatureFileName { get; set; }
+
+        [Column("HigherAuthSignature", Order = 18)]
+        [MaxLength(50)]
+        public string HigherAuthSignature { get; set; }
+
+        [Column("HigherAuthSeal", Order = 19)]
+        [MaxLength(50)]
+        public string HigherAuthSeal { get; set; }
     }
 }

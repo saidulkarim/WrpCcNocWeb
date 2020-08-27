@@ -54,7 +54,7 @@
                                         {
                                             foreach (LookUpAdminModUserGroup ug in _ugs)
                                             {
-                                                <option value="@ug.UserGroupId">@ug.UserGroupName</option>
+                                                <option value="@ug.UserGroupId" title="@ug.AuthorityLevelId">@ug.UserGroupName</option>
                                             }
                                         }
                                     }
@@ -111,6 +111,45 @@
                                 @Html.EditorFor(m => m.Address, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter user address", @autocomplete = "off" } })
                             </div>
 
+                            <div id="divSigSeal" class="d-none">
+                                <hr />
+                                <div class="form-group">
+                                    <label for="SignatureFileName" data-toggle="tooltip"
+                                           title="Signature must be 300 X 80 pixel (width X height) [.jpg/.png/.bmp format] and file size not more than 80 KB (Min. 3 KB)">
+                                        Upload Signature <span class="text-danger bold">*</span>
+                                    </label>
+                                    <div class="input-group" style="width: 300px;">
+                                        <div class="custom-file">
+                                            <input id="SignatureFileName" name="SignatureFileName" type="file" class="custom-file-input"
+                                                   onchange="return ValidateFileUpload()" />
+                                            <label id="ViewSignatureFileName" for="SignatureFileName" class="custom-file-label">
+                                                Choose file
+                                            </label>
+                                            <img id="PrevSignatureFile" src="~/images/sample_signature.jpg" style="width: 200px; height: 36px; margin-left: 350px;" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="SealFileName" data-toggle="tooltip"
+                                           title="Seal must be 100 X 100 pixel (width X height) [.jpg/.png/.bmp format] and file size not more than 80 KB (Min. 3 KB)">
+                                        Upload Seal <span class="text-danger bold">*</span>
+                                    </label>
+                                    <div class="input-group" style="width: 300px;">
+                                        <div class="custom-file">
+                                            <input id="SealFileName" name="SealFileName" type="file" class="custom-file-input"
+                                                   onchange="return ValidateSealFileUpload()" />
+                                            <label id="ViewSealFileName" for="SealFileName" class="custom-file-label">
+                                                Choose file
+                                            </label>
+                                            <img id="PrevSealFile" src="~/images/100x100.png" style="width: 100px; height: 100px; margin-left: 350px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <hr />
+                            </div>
+
                             <div class="form-group">
                                 @Html.LabelFor(m => m.SecurityQuestionId, new { @class = "control-label" }) <span class="text-danger bold">*</span>
                                 @Html.DropDownList("SecurityQuestionId", null, string.Empty, new { @id = "SecurityQuestionId", @class = "form-control", @style = "width: 100%;" })
@@ -147,3 +186,159 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery("#UserGroup").change(function () {
+            var groupId = jQuery(this).val(); //1000000003
+            var authLevel = $(this).find("option:selected").attr("title"); //1, 3, 5
+            
+            if (groupId == '1000000003' || authLevel == 1 || authLevel == 3 || authLevel == 5) {
+                jQuery("#divSigSeal").removeClass('d-none');
+            } else {
+                jQuery("#divSigSeal").addClass('d-none');
+            }
+        });
+    });
+
+    function UploadSignatureFile(inputid) {
+        var urid = GetHiddenValue('UserRegistrationId');
+	    var input = document.getElementById(inputid);
+	    var files = input.files;
+
+	    var formData = new FormData();
+        formData.append("urid", urid);
+	    formData.append("controltitle", inputid);
+	    formData.append("file", files[0]);
+
+        var url = '@Url.Action("uusf", "account")';
+	    $.ajax({
+		    url: url,
+		    data: formData,
+		    processData: false,
+		    contentType: false,
+		    type: "POST",
+		    success: function (data) {
+			    if (data.message != '')
+				    Swal.fire(data.title, data.message, data.status);
+		    }, error: function (jqXHR, exception) {
+			    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			    Swal.fire('Error Occured', errorMsg, 'error');
+		    }
+	    });
+    }
+
+    function ValidateFileUpload() {
+        var fuData = document.getElementById('SignatureFileName');
+        var FileUploadPath = fuData.value;
+
+        if (FileUploadPath == '') {
+            Notification('info', 'Select Signature Image', 'Please select an image of signature.');
+            Swal.fire('Select Signature Image', 'Please select an image of signature.', 'info');
+        } else {
+            var FileName = fuData.files[0].name;
+            var Extension = FileName.replace(/^.*\./, '');
+
+            if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
+                if (fuData.files && fuData.files[0]) {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(fuData.files[0]);
+                    reader.onload = function (e) {
+                        var image = new Image();
+                        image.src = e.target.result;
+                        image.onload = function () {
+                            var height = this.height;
+                            var width = this.width;
+
+                            if (height > 85) {
+                                Notification('warning', 'Exceeding Image Height', 'Height must not exceed 80px.');
+                                Swal.fire('Exceeding Image Height', 'Height must not exceed 80px.', 'warning');
+
+                                return false;
+                            }
+
+                            if (width > 315) {
+                                Notification('warning', 'Exceeding Image Width', 'Width must not exceed 300px');
+                                Swal.fire('Exceeding Image Width', 'Width must not exceed 300px', 'warning');
+                                return false;
+                            }
+                        };
+
+                        $('#PrevSignatureFile').attr('src', e.target.result);
+                        $('#PrevSignatureFile').show();
+                        $('#ViewSignatureFileName').text(FileName);
+                    }
+                } else {
+                    $('#PrevSignatureFile').attr('src', '../images/sample_signature.jpg');
+                    $('#PrevSignatureFile').show();
+                    $('#ViewSignatureFileName').text('Choose file');
+                }
+            }
+            else {
+                Notification('warning', 'Invalid File Format', 'Photo only allows file types of JPG/ JPEG/ PNG/ GIF/ BMP.');
+                Swal.fire('Invalid File Format', 'Photo only allows file types of JPG/ JPEG/ PNG/ GIF/ BMP.', 'warning');
+
+                $('#PrevSignatureFile').attr('src', '../images/sample_signature.jpg');
+                $('#PrevSignatureFile').show();
+                $('#ViewSignatureFileName').text('Choose file');
+            }
+        }
+    }
+
+    function ValidateSealFileUpload() {
+        var fuData = document.getElementById('SealFileName');
+        var FileUploadPath = fuData.value;
+
+        if (FileUploadPath == '') {
+            Notification('info', 'Select Seal Image', 'Please select an image of seal.');
+            Swal.fire('Select Seal Image', 'Please select an image of seal.', 'info');
+        } else {
+            var FileName = fuData.files[0].name;
+            var Extension = FileName.replace(/^.*\./, '');
+
+            if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
+                if (fuData.files && fuData.files[0]) {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(fuData.files[0]);
+                    reader.onload = function (e) {
+                        var image = new Image();
+                        image.src = e.target.result;
+                        image.onload = function () {
+                            var height = this.height;
+                            var width = this.width;
+
+                            if (height > 100) {
+                                Notification('warning', 'Exceeding Image Height', 'Height must not exceed 100px.');
+                                Swal.fire('Exceeding Image Height', 'Height must not exceed 100px.', 'warning');
+
+                                return false;
+                            }
+
+                            if (width > 100) {
+                                Notification('warning', 'Exceeding Image Width', 'Width must not exceed 100px');
+                                Swal.fire('Exceeding Image Width', 'Width must not exceed 100px', 'warning');
+                                return false;
+                            }
+                        };
+
+                        $('#PrevSealFile').attr('src', e.target.result);
+                        $('#PrevSealFile').show();
+                        $('#ViewSealFileName').text(FileName);
+                    }
+                } else {
+                    $('#PrevSealFile').attr('src', '../images/100x100.png');
+                    $('#PrevSealFile').show();
+                    $('#ViewSealFileName').text('Choose file');
+                }
+            }
+            else {
+                Notification('warning', 'Invalid File Format', 'Photo only allows file types of JPG/ JPEG/ PNG/ GIF/ BMP.');
+                Swal.fire('Invalid File Format', 'Photo only allows file types of JPG/ JPEG/ PNG/ GIF/ BMP.', 'warning');
+
+                $('#PrevSealFile').attr('src', '../images/100x100.png');
+                $('#PrevSealFile').show();
+                $('#ViewSealFileName').text('Choose file');
+            }
+        }
+    }
+</script>

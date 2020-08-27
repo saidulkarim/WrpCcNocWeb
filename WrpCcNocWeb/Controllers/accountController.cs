@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using WrpCcNocWeb.Models.TempModels;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -467,6 +468,10 @@ namespace WrpCcNocWeb.Controllers
                                 if (noti.status == "success")
                                 {
                                     dbContextTransaction.Commit();
+
+                                    AdminModUserRegistrationDetail urd = _db.AdminModUserRegistrationDetail.Find(UserRegistrationId);
+                                    UserInfoToSession(urd.UserName, _user.UserId);
+
                                     //UserInfo _ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
                                     //_ui.UserID = _user.UserId;
                                     //HttpContext.Session.SetComplexData("LoggerUserInfo", _ui);
@@ -887,6 +892,24 @@ namespace WrpCcNocWeb.Controllers
                 filename = filename.Substring(filename.LastIndexOf("\\") + 1);
 
             return filename;
+        }
+
+        private string GetCommonDetailFileName(string userId, string control_title)
+        {
+            string result = string.Empty;
+
+            switch (control_title)
+            {                
+                case "Higher_Auth_Signature":
+                    result = userId + "_SIG_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "Higher_Auth_Seal":
+                    result = userId + "_SEL_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+            }
+
+            return result;
         }
 
         private string GetPathAndFilename(string fileName, string folderName)
@@ -1347,6 +1370,9 @@ namespace WrpCcNocWeb.Controllers
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
 
+            var files = Request.Form.Files;
+            string filename = "", extension = "", signaturefoldername = "images/higher_auth_signature", sealfoldername = "images/higher_auth_seal";
+
             using var dbContextTransaction = _db.Database.BeginTransaction();
             try
             {
@@ -1398,9 +1424,50 @@ namespace WrpCcNocWeb.Controllers
 
                         if (x > 0)
                         {
+                            if (files.Count > 0)
+                            {
+                                foreach (var file in files)
+                                {
+                                    filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                                    extension = filename.Substring(filename.IndexOf('.'));
+                                    filename = EnsureCorrectFilename(filename);
+
+                                    if (file.Name == "SignatureFileName")
+                                    {
+                                        filename = GetCommonDetailFileName(amud.UserId.ToString(), "Higher_Auth_Signature") + extension;
+                                        amud.HigherAuthSignature = filename;
+                                    }
+
+                                    if (file.Name == "SealFileName")
+                                    {
+                                        filename = GetCommonDetailFileName(amud.UserId.ToString(), "Higher_Auth_Seal") + extension;
+                                        amud.HigherAuthSeal = filename;
+                                    }
+                                    //size += file.Length;
+
+                                    _db.Entry(amud).State = EntityState.Modified;
+                                    x = _db.SaveChanges();
+                                    
+                                    if (x > 0)
+                                    {
+                                        if (file.Name == "SignatureFileName")
+                                        {
+                                            using FileStream outputSignature = System.IO.File.Create(GetPathAndFilename(filename, signaturefoldername));
+                                            file.CopyTo(outputSignature);
+                                        }
+
+                                        if (file.Name == "SealFileName")
+                                        {
+                                            using FileStream outputSeal = System.IO.File.Create(GetPathAndFilename(filename, sealfoldername));
+                                            file.CopyTo(outputSeal);
+                                        }
+                                    }
+                                }
+                            }
+
                             dbContextTransaction.Commit();
 
-                            string successMsg = "User Name: " + anuc.UserName + ".<br />User Registration ID: " + userReg.UserRegistrationId + ".<br />User Group ID: " + amugdd.UserGroupId;
+                            string successMsg = "User Name: " + anuc.UserName + ". User Registration ID: " + userReg.UserRegistrationId + ". User Group ID: " + amugdd.UserGroupId;
                             TempData["Message"] = ch.ShowMessage(Sign.Success, Sign.Success.ToString(), "Successfully created new user and user information is given below.<br />" + successMsg);
                             return RedirectToAction("viewusers", "account");
                         }
@@ -1779,6 +1846,83 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
+        //POST: /account/changepassword
+        public IActionResult changepassword()
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            ViewBag.UserName = ui.UserName;
+            ViewBag.UserRegistrationID = ui.UserRegistrationID;
+            //ViewBag.SecurityQuestionId = new SelectList(_db.LookUpAdminModSecurityQuestion.ToList(), "SecurityQuestionId", "SecurityQuestion");
+
+            return View();
+        }
+
+        //account/login
+        [HttpPost]
+        public IActionResult changepassword(ChangePassword _cp)
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            if (ui == null)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Error, "Unauthorized User", "Unauthorized user found!");
+                return RedirectToAction("login");
+            }
+
+            AdminModUserRegistrationDetail urd = _db.AdminModUserRegistrationDetail.Find(ui.UserRegistrationID);
+            if (urd == null)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Error, "Unauthorized User", "Unauthorized user found!");
+                return RedirectToAction("login");
+            }
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    string currentUserDbPassword = _cp.CurrentPassword.EncryptString();
+
+                    if (currentUserDbPassword != urd.UserPassword)
+                    {
+                        TempData["Message"] = ch.ShowMessage(Sign.Error, "Mismatched Password", "Current password not matched!");
+                        goto EndMethod;
+                    }
+
+                    if (_cp.NewPassword != _cp.ConfirmNewPassword)
+                    {
+                        TempData["Message"] = ch.ShowMessage(Sign.Error, "Mismatched Password", "New password and confirm password not matched!");
+                        goto EndMethod;
+                    }
+
+                    urd.UserPassword = _cp.ConfirmNewPassword.EncryptString();
+
+                    _db.Entry(urd).State = EntityState.Modified;
+                    int x = _db.SaveChanges();
+
+                    if (x > 0)
+                    {
+                        TempData["Message"] = ch.ShowMessage(Sign.Success, "Password Changed", "Password has been changed successfully.");
+                    }
+                    else
+                    {
+                        TempData["Message"] = ch.ShowMessage(Sign.Error, "Password Not Changed", "Password not changed!");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.UserVerificationCode = string.Empty;
+
+                var message = ch.ExtractInnerException(ex);
+                TempData["Message"] = ch.ShowMessage(Sign.Danger, message);
+            }
+
+        EndMethod:
+            ViewBag.UserName = ui.UserName;
+            ViewBag.UserRegistrationID = ui.UserRegistrationID;
+            //ViewBag.SecurityQuestionId = new SelectList(_db.LookUpAdminModSecurityQuestion.ToList(), "SecurityQuestionId", "SecurityQuestion");
+
+            return View();
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

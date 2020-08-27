@@ -128,7 +128,7 @@
             var pwd = jQuery("#UserPassword").val();
             var ucp = jQuery(this).val();
 
-            if(pwd!=ucp) {
+            if (pwd != ucp) {
                     Notification('error', 'Password Not Match', 'Password and confirm password does not match!');
                     jQuery("#UserPassword, #UserConfirmPassword").val('');
                     jQuery("#UserPassword").focus();

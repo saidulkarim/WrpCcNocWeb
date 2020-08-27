@@ -506,6 +506,15 @@ namespace WrpCcNocWeb.Models
         [MaxLength(250)]
         public string CiwupDocLink { get; set; }
 
+        [Column("AdditionalTextComment", Order = 95)]
+        [Display(Name = "Additional Text Comment")]
+        [MaxLength(500)]
+        public string AdditionalTextComment { get; set; }
+
+        [Column("AppApprovalDate", Order = 96)]
+        [Display(Name = "App Approval Date")]
+        public DateTime? AppApprovalDate { get; set; }
+
         public virtual List<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetails { get; set; }
         public virtual List<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetails { get; set; }
         public virtual List<CcModBDP2100GoalDetail> CcModBDP2100GoalDetails { get; set; }

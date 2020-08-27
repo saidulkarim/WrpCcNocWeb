@@ -1820,6 +1820,22 @@
                             </td>
                         </tr>
 
+                        <tr>
+                            <td colspan="3">
+                                <fieldset>
+                                    <legend>
+                                        @if (prev_lang == "1")
+                                        {<span>অতিরিক্ত মন্তব্য এবং সংযুক্তি</span> }
+                                        else
+                                        { <span>Additional Comments and Attachments</span>}
+                                    </legend>
+                                    <div class="card-box">
+                                        @{ Html.RenderPartial("form/_AdditionalAttachmentPrint"); }
+                                    </div>
+                                </fieldset>
+                            </td>
+                        </tr>
+
                         <tr style="background: #9d9b9b; font-weight: bold;">
                             <td colspan="3">
                                 <h4>

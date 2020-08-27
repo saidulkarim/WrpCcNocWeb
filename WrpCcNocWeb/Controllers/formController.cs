@@ -2379,6 +2379,9 @@ namespace WrpCcNocWeb.Controllers
             var _formcommentslisttemp = GetFormDataAnalysisComments(pcd.ProjectTypeId, pcd.ProjectId);
             ViewData["FormCommentsListTemp"] = _formcommentslisttemp;
 
+            var _additionalcomatt = GetAdditionalAttachment(pcd.ProjectId);
+            ViewData["AdditionalCommentAttachment"] = _additionalcomatt;
+
             ViewData["ProjectId"] = pcd.ProjectId;
             ViewData["Project31IndvId"] = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project31IndvId).FirstOrDefault();
             ViewData["UserId"] = ui.UserID;
@@ -20313,6 +20316,10 @@ namespace WrpCcNocWeb.Controllers
                 case "PaymentDocFileName":
                     result = projectId + "_PAYDF_" + DateTime.Now.ToString("yyMMddHHmmssfff");
                     break;
+
+                case "TechnicalEvaluation":
+                    result = projectId + "_TE_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
             }
 
             return result;
@@ -20474,6 +20481,7 @@ namespace WrpCcNocWeb.Controllers
                 if (_pcd != null)
                 {
                     _pcd.ApprovalStatusId = 1;
+                    _pcd.AppApprovalDate = DateTime.Now;
 
                     _db.Entry(_pcd).State = EntityState.Modified;
                     result = _db.SaveChanges();
@@ -20760,6 +20768,165 @@ namespace WrpCcNocWeb.Controllers
 
             return result;
         }
-        #endregion        
+        #endregion
+
+        #region Additional Comments and Attachments
+        // /form/uaca :: UploadAdditionalCommentsAttachments
+        [HttpPost]
+        public IActionResult uaca()
+        {
+            int result = 0;
+            long size = 0;
+            long pid = Request.Form["ProjectId"].ToString().ToLong();
+            string comment = Request.Form["AdditionalTextComment"].ToString();
+            string title = Request.Form["AttachmentTitle"].ToString();
+            var files = Request.Form.Files;
+            string filename = "", extension = "", foldername = "docs/additional_attachment";
+
+            using var dbContextTransaction = _db.Database.BeginTransaction();
+
+            try
+            {
+                CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(pid);
+
+                if (pcd != null)
+                {
+                    pcd.AdditionalTextComment = comment;
+                    _db.Entry(pcd).State = EntityState.Modified;
+                    result = _db.SaveChanges();
+
+                    if (result > 0)
+                    {
+                        if (files.Count > 0)
+                        {
+                            foreach (var file in files)
+                            {
+                                filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                                extension = filename.Substring(filename.IndexOf('.'));
+                                filename = EnsureCorrectFilename(filename);
+                                filename = GetCommonDetailFileName(pid.ToString(), "TechnicalEvaluation") + extension;
+                                //size += file.Length;
+
+                                CcModAppAdditionalAttachment aa = new CcModAppAdditionalAttachment
+                                {
+                                    ProjectId = pid,
+                                    AditionalAttachmentFile = filename,
+                                    AttachmentTitle = title
+                                };
+
+                                _db.CcModAppAdditionalAttachment.Add(aa);
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
+                                    file.CopyTo(output);
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = "0",
+                                        status = "error",
+                                        title = "Error Occured",
+                                        message = "Data submission error occured."
+                                    };
+
+                                    break;
+                                }
+                            }
+                        }
+
+                        dbContextTransaction.Commit();
+
+                        noti = new Notification
+                        {
+                            id = "0",
+                            status = "success",
+                            title = "Success",
+                            message = "Data has been successfully submitted."
+                        };
+                    }
+                    else
+                    {
+                        dbContextTransaction.Rollback();
+
+                        noti = new Notification
+                        {
+                            id = "0",
+                            status = "error",
+                            title = "Error Occured",
+                            message = "Data submission error occured."
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                dbContextTransaction.Rollback();
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    title = "An Exception Error Occured",
+                    message = message
+                };
+            }
+
+            return Json(noti);
+        }
+
+        // /form/uacal :: UploadAdditionalCommentsAttachmentsList
+        [HttpGet]
+        public JsonResult uacal(long pid)
+        {
+            List<CcModAppAdditionalAttachment> aaList = new List<CcModAppAdditionalAttachment>();
+
+            try
+            {
+                CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(pid);
+
+                if (pcd == null)
+                {
+                    aaList = new List<CcModAppAdditionalAttachment>();
+                }
+
+                aaList = _db.CcModAppAdditionalAttachment.Where(w => w.ProjectId == pid).ToList();                
+            }
+            catch (Exception)
+            {
+                aaList = new List<CcModAppAdditionalAttachment>();
+            }
+            
+            return Json(aaList);
+        }
+
+        public List<CcModAppAdditionalAttachment> GetAdditionalAttachment(long pid)
+        {
+            List<CcModAppAdditionalAttachment> aaList = new List<CcModAppAdditionalAttachment>();
+
+            try
+            {
+                CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(pid);
+
+                if (pcd == null)
+                {
+                    aaList = new List<CcModAppAdditionalAttachment>();
+                }
+
+                aaList = _db.CcModAppAdditionalAttachment.Where(w => w.ProjectId == pid).ToList();
+            }
+            catch (Exception)
+            {
+                aaList = new List<CcModAppAdditionalAttachment>();
+            }
+
+            return aaList;
+        }
+        #endregion
     }
 }
