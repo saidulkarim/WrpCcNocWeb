@@ -375,7 +375,26 @@ namespace WrpCcNocWeb.Controllers
 
                         if (x > 0)
                         {
-                            return RedirectToAction("login");
+                            var user_id_temp = _db.AdminModUsersDetail
+                                                .Where(p => p.UserRegistrationId == userRegVerify.UserRegistrationId)
+                                                .Select(x => new
+                                                {
+                                                    UserId = x.UserId,
+                                                }).FirstOrDefault();
+
+                            long UserId = (user_id_temp == null) ? 0 : user_id_temp.UserId.ToString().ToLong();
+                            UserInfoToSession(userRegVerify.UserName, UserId);
+
+                            if (UserId != 0)
+                            {
+                                return RedirectToActionPermanent("index", "home");
+                            }
+                            else
+                            {
+                                return RedirectToActionPermanent("profile", "account");
+                            }
+                            //return RedirectToAction("login");
+                            //return RedirectToAction("profile"); //rony
                         }
                         else
                         {
@@ -899,7 +918,7 @@ namespace WrpCcNocWeb.Controllers
             string result = string.Empty;
 
             switch (control_title)
-            {                
+            {
                 case "Higher_Auth_Signature":
                     result = userId + "_SIG_" + DateTime.Now.ToString("yyMMddHHmmssfff");
                     break;
@@ -1447,7 +1466,7 @@ namespace WrpCcNocWeb.Controllers
 
                                     _db.Entry(amud).State = EntityState.Modified;
                                     x = _db.SaveChanges();
-                                    
+
                                     if (x > 0)
                                     {
                                         if (file.Name == "SignatureFileName")

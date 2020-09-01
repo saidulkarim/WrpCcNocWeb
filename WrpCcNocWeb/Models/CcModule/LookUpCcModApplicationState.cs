@@ -36,7 +36,7 @@ namespace WrpCcNocWeb.Models.CcModule
                 
         [Column("UserGroupId", Order = 4)]
         [Display(Name = "User Group")]
-        public long UserGroupId { get; set; }
+        public long? UserGroupId { get; set; }
         [ForeignKey("UserGroupId")]
         public virtual LookUpAdminModUserGroup LookUpAdminModUserGroup { get; set; }
     }

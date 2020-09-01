@@ -24,5 +24,8 @@ namespace WrpCcNocWeb.Models.TempModels
         public string FormNo { get; set; }
         public string FormNoBn { get; set; }
         public LookUpCcModCertificateFormat CertificateFormat { get; set; }
+
+        public string HigherAuthSignature { get; set; }
+        public string HigherAuthSeal { get; set; }
     }
 }

@@ -69,8 +69,13 @@
                         </p>
                         <br />
                         <br />
-                        <br />
+
                         <span style="text-align: center; float: right">
+                            @if (!string.IsNullOrEmpty(crt.HigherAuthSignature))
+                            {
+                                <img src="../../images/higher_auth_signature/@crt.HigherAuthSignature" style="float: right; height: 60px;">
+                                <br /><br />
+                            }
                             দায়িত্বপ্রাপ্ত কর্মকর্তার স্বাক্ষর<br />
                             ও<br />
                             সীলমোহর

@@ -29,6 +29,8 @@ namespace WrpCcNocWeb.Controllers
         #region Initialization
         private readonly LoggedUserInfo iLoggedUser;
         private readonly WrpCcNocDbContext _db = new WrpCcNocDbContext();
+        private commonController cc = new commonController();
+        private EmailService es = new EmailService();
         private readonly CommonHelper ch = new CommonHelper();
         private Notification noti = new Notification();
         private readonly string rootDirOfProjFile = "../images";
@@ -4406,6 +4408,12 @@ namespace WrpCcNocWeb.Controllers
             ProjectStatusInfo _pi = GetProjectInfoById(id);
             int result = 0, appState = 0;
 
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
             if (_pi.AppSubmissionId == 0)
             {
                 appState = _pi.ApplicationStateId;
@@ -4455,6 +4463,20 @@ namespace WrpCcNocWeb.Controllers
                                 if (result > 0)
                                 {
                                     dbContextTransaction.Commit();
+
+                                    try
+                                    {
+                                        List<string> vars = new List<string>();
+                                        string callAt = cc.GetCallCenterInfo();
+
+                                        vars.Add(projectTrackingCode);
+                                        vars.Add(callAt);
+                                        es.SendEmail(ui.UserEmail, 4, vars);
+                                    }
+                                    catch (Exception ex)
+                                    {
+
+                                    }
 
                                     noti = new Notification
                                     {
@@ -20490,6 +20512,23 @@ namespace WrpCcNocWeb.Controllers
                     {
                         dbContextTransaction.Commit();
 
+                        try
+                        {
+                            AdminModUsersDetail ud = _db.AdminModUsersDetail.Find(_pcd.UserId);
+                            AdminModUserRegistrationDetail rd = _db.AdminModUserRegistrationDetail.Find(ud.UserRegistrationId);
+
+                            List<string> vars = new List<string>();
+                            string callAt = cc.GetCallCenterInfo();
+
+                            vars.Add(_pcd.AppSubmissionId.ToString());
+                            vars.Add(callAt);
+                            es.SendEmail(rd.UserEmail, 5, vars);
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+
                         noti = new Notification
                         {
                             id = pid.ToString(),
@@ -20895,13 +20934,13 @@ namespace WrpCcNocWeb.Controllers
                     aaList = new List<CcModAppAdditionalAttachment>();
                 }
 
-                aaList = _db.CcModAppAdditionalAttachment.Where(w => w.ProjectId == pid).ToList();                
+                aaList = _db.CcModAppAdditionalAttachment.Where(w => w.ProjectId == pid).ToList();
             }
             catch (Exception)
             {
                 aaList = new List<CcModAppAdditionalAttachment>();
             }
-            
+
             return Json(aaList);
         }
 

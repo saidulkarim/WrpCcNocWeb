@@ -14,6 +14,7 @@ using WrpCcNocWeb.ViewModels;
 using static WrpCcNocWeb.Helpers.CommonHelper;
 using Rotativa.AspNetCore;
 using Rotativa.AspNetCore.Options;
+using WrpCcNocWeb.Models.CcModule;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -33,9 +34,9 @@ namespace WrpCcNocWeb.Controllers
         {
             return View();
         }
-        
+
         //certificate/view/59
-        public IActionResult view(long? id)
+        public IActionResult view(long? id, int? lang)
         {
             if (id == null || id == 0)
             {
@@ -65,6 +66,7 @@ namespace WrpCcNocWeb.Controllers
             }
 
             ApplicantInfo ai = GetApplicantInfo(pcd.UserId);
+            AdminModUsersDetail ahai = GetAppHigherAuthInfo(id.Value);
 
             if (ai != null)
             {
@@ -78,7 +80,7 @@ namespace WrpCcNocWeb.Controllers
                     ApplicantMobileBn = ai.ApplicantMobileBn.NumberEnglishToBengali(),
                     ApplicantEmail = ai.ApplicantEmail,
                     ApplicantGroupName = ai.ApplicantGroupName,
-                    LanguageId = pcd.LanguageId ?? 0,
+                    LanguageId = lang ?? 0,// pcd.LanguageId ?? 0,
                     ClearanceNo = pcd.AppSubmissionId,
                     ClearanceNoBn = pcd.AppSubmissionId.ToString().NumberEnglishToBengali(),
                     //ClearanceDate = DateTime.Now.ToString("dd MMMM, yyyy"),
@@ -88,7 +90,9 @@ namespace WrpCcNocWeb.Controllers
                     ProjectType = pt,
                     FormNo = pt.ProjectTypeId.ToString().PadLeft(2, '0'),
                     FormNoBn = pt.ProjectTypeId.ToString().PadLeft(2, '0').NumberEnglishToBengali(),
-                    CertificateFormat = cf
+                    CertificateFormat = cf,
+                    HigherAuthSignature = ahai.HigherAuthSignature,
+                    HigherAuthSeal = ahai.HigherAuthSeal
                 };
 
                 ViewData["WrpCcNocWebCertificate"] = crt;
@@ -99,6 +103,7 @@ namespace WrpCcNocWeb.Controllers
                     PageOrientation = Orientation.Portrait,
                     PageMargins = new Margins(10, 10, 10, 10)
                 };
+                //return View();
             }
             else
             {
@@ -107,6 +112,7 @@ namespace WrpCcNocWeb.Controllers
             }
         }
 
+        #region Certificate Verification
         public IActionResult verification()
         {
             return View();
@@ -222,8 +228,9 @@ namespace WrpCcNocWeb.Controllers
 
             return View(verify);
         }
+        #endregion
 
-        public ApplicantInfo GetApplicantInfo(long userID)
+        private ApplicantInfo GetApplicantInfo(long userID)
         {
             var applicant_info = (from u in _db.AdminModUsersDetail
                                   join r in _db.AdminModUserRegistrationDetail on u.UserRegistrationId equals r.UserRegistrationId into rList
@@ -249,6 +256,26 @@ namespace WrpCcNocWeb.Controllers
                                   }).FirstOrDefault();
 
             return applicant_info;
+        }
+
+        private AdminModUsersDetail GetAppHigherAuthInfo(long projectId)
+        {
+            AdminModUsersDetail haud = new AdminModUsersDetail();
+
+            try
+            {
+                CcModAppProjectCommonDetail pCommonDetail = _db.CcModAppProjectCommonDetail.Find(projectId);
+                LookUpCcModApplicationState pApplicationState = _db.LookUpCcModApplicationState.Find(pCommonDetail.ApplicationStateId);
+                LookUpAdminModUserGroup pUserGroup = _db.LookUpAdminModUserGroup.Where(w => w.AuthorityLevelId == pApplicationState.AuthorityLevelId || w.UserGroupId == pApplicationState.UserGroupId).FirstOrDefault();
+                AdminModUserGrpDistDetail pUserGrpDistDetail = _db.AdminModUserGrpDistDetail.Where(w => w.UserGroupId == pUserGroup.UserGroupId).FirstOrDefault();
+                haud = _db.AdminModUsersDetail.Find(pUserGrpDistDetail.UserId);
+            }
+            catch (Exception ex)
+            {
+                haud = new AdminModUsersDetail();
+            }
+
+            return haud;
         }
     }
 }
