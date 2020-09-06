@@ -17,7 +17,7 @@
                     if (_pcds.Count > 0)
                     {
                         int count = 1;
-                        <table class="table table-hover table-striped" style="width: 100%;">
+                        <table id="tblAppList" class="table table-hover table-striped" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th class="text-center">Sl.</th>
@@ -125,8 +125,8 @@
                                             {
                                                 <td class="align-middle">
                                                     @*<a href="@Url.Action("view", "certificate", new { id = pcd.ProjectId })" target="_blank" class="btn btn-info">
-                                                        Download
-                                                    </a>*@
+                                                            Download
+                                                        </a>*@
 
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -161,3 +161,9 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery('#tblAppList').DataTable();
+    });
+</script>

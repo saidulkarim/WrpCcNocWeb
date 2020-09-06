@@ -1942,6 +1942,47 @@ namespace WrpCcNocWeb.Controllers
 
             return View();
         }
+
+        //POST: /account/userlog
+        public IActionResult userlog()
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            ViewBag.UserName = ui.UserName;
+            ViewBag.UserRegistrationID = ui.UserRegistrationID;
+
+            List<UserLoginInfo> uli = new List<UserLoginInfo>();
+
+            try
+            {
+                uli = (from ulhd in _db.AdminModUserLogHistoryDetail
+                       join uDetail in _db.AdminModUsersDetail on ulhd.UserId equals uDetail.UserId into userDetail
+                       from ud in userDetail.DefaultIfEmpty()
+                       join urDetail in _db.AdminModUserRegistrationDetail on ud.UserRegistrationId equals urDetail.UserRegistrationId into userRegDetail
+                       from ur in userRegDetail.DefaultIfEmpty()
+
+                       select new UserLoginInfo
+                       {
+                           UserID = ud.UserId,
+                           UserRegistrationID = ud.UserRegistrationId,
+                           UserName = ur.UserName,
+                           UserFullName = ud.UserFullName,
+                           UserDesignation = ud.UserDesignation,
+                           UserMobile = ur.UserMobile,
+                           UserEmail = ur.UserEmail,
+                           UserAddress = ud.UserAddress,
+                           LoginDateTime = ulhd.LoginDateTime.ToString("dd MMM, yyyy HH:mm:ss"),
+                           MachineIpOrUrl = ulhd.MachineIPOrUrl
+                       }).ToList();
+            }
+            catch (Exception ex)
+            {
+                uli = new List<UserLoginInfo>();
+            }
+
+            ViewBag.UserLoginInfo = uli;
+            return View();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

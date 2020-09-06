@@ -38,10 +38,10 @@ namespace WrpCcNocWeb.Models.UserManagement
         public string UserAddress { get; set; }
         public string UserAddressBn { get; set; }
         //public string UserEmail { get; set; }
-        public string UserAlternateEmail { get; set; }        
+        public string UserAlternateEmail { get; set; }
         //public string UserMobile { get; set; }
         public string UserAlternateMobile { get; set; }
-                
+
         //public int SecurityQuestionId { get; set; }
         //public string SecurityQuestionAnswer { get; set; }
     }
@@ -57,5 +57,20 @@ namespace WrpCcNocWeb.Models.UserManagement
         public string DistrictGeoCode { get; set; }
         public string UpazilaGeoCode { get; set; }
         public string UnionGeoCode { get; set; }
+    }
+
+    [Serializable]
+    public class UserLoginInfo
+    {
+        public long UserID { get; set; }
+        public long UserRegistrationID { get; set; }
+        public string UserName { get; set; }
+        public string UserFullName { get; set; }
+        public string UserDesignation { get; set; }
+        public string UserMobile { get; set; }
+        public string UserEmail { get; set; }
+        public string UserAddress { get; set; }
+        public string LoginDateTime { get; set; }
+        public string MachineIpOrUrl { get; set; }
     }
 }

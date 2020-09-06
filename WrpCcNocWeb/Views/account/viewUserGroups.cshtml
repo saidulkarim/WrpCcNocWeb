@@ -15,7 +15,7 @@
 
         @if (userGroupDetails.Count<UserGroupInfo>() > 0)
         {
-            <table class="table table-hover table-responsive-md mb-0">
+            <table id="tblUserGroupList" class="table table-hover table-responsive-md mb-0">
                 <thead>
                     <tr>
                         <th>User Group Name</th>
@@ -28,18 +28,18 @@
                 </thead>
                 @foreach (var item in userGroupDetails)
                 {
-            <tr>
-                <td>@item.UserGroupName</td>
-                <td>@item.AuthorityLevel</td>                
-                <td>@item.DistrictName</td>
-                <td>@item.UpazilaName</td>
-                <td>@item.UnionName</td>                
-                <td>
-                    @Html.ActionLink("Details", "userGroupDetails", new { UserGroupId = @item.UserGroupId })&nbsp;&nbsp;|&nbsp;&nbsp;
-                    @Html.ActionLink("Edit", "edituserGroup", new { UserGroupId = @item.UserGroupId })&nbsp;&nbsp;|&nbsp;&nbsp;
-                    @Html.ActionLink("Delete", "deleteuserGroup", new { UserGroupId = @item.UserGroupId })
-                </td>
-            </tr>
+                    <tr>
+                        <td>@item.UserGroupName</td>
+                        <td>@item.AuthorityLevel</td>
+                        <td>@item.DistrictName</td>
+                        <td>@item.UpazilaName</td>
+                        <td>@item.UnionName</td>
+                        <td>
+                            @Html.ActionLink("Details", "userGroupDetails", new { UserGroupId = @item.UserGroupId })&nbsp;&nbsp;|&nbsp;&nbsp;
+                            @Html.ActionLink("Edit", "edituserGroup", new { UserGroupId = @item.UserGroupId })&nbsp;&nbsp;|&nbsp;&nbsp;
+                            @Html.ActionLink("Delete", "deleteuserGroup", new { UserGroupId = @item.UserGroupId })
+                        </td>
+                    </tr>
                 }
             </table>
         }
@@ -50,3 +50,8 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery('#tblUserGroupList').DataTable();
+    });
+</script>

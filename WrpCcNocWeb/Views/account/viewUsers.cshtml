@@ -16,7 +16,7 @@
          
         @if (userDetails.Count<UserInfo>() > 0)
         {
-        <table class="table table-hover table-responsive-md mb-0">
+        <table id="tblUserList" class="table table-hover table-responsive-md mb-0">
             <thead>
                 <tr>
                     <th>User</th>
@@ -52,3 +52,9 @@
         }
     </div>
 </div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery('#tblUserList').DataTable();
+    });
+</script>

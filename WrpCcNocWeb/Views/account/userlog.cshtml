@@ -1,0 +1,61 @@
+﻿@using WrpCcNocWeb.Models.UserManagement;
+
+@{
+    ViewData["Title"] = "User Login History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> User Login History</h4>
+                @{
+                    WrpCcNocWeb.Controllers.commonController cc = new WrpCcNocWeb.Controllers.commonController();
+                    List<UserLoginInfo> _ulis = ViewBag.UserLoginInfo;
+
+                    if (_ulis.Count > 0)
+                    {
+                        int count = 1;
+
+                        <table id="tblUserLoginHistList" class="table table-hover table-striped" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Sl.</th>
+                                    <th>User ID</th>
+                                    <th>User Name</th>
+                                    <th>Mobile</th>
+                                    <th>Email</th>
+                                    <th>Login Time</th>
+                                    <th>Machine Info</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (UserLoginInfo uli in _ulis)
+                                {
+                                    <tr>
+                                        <td class="text-center">@count</td>
+                                        <td class="align-middle">@uli.UserName</td>
+                                        <td class="align-middle">@uli.UserFullName</td>
+                                        <td class="align-middle">@uli.UserMobile</td>
+                                        <td class="align-middle">@uli.UserEmail</td>
+                                        <td class="align-middle">@uli.LoginDateTime</td>
+                                        <td class="align-middle">@uli.MachineIpOrUrl</td>
+                                    </tr>
+
+                                    count++;
+                                }
+                            </tbody>
+                        </table>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery('#tblUserLoginHistList').DataTable();
+    });
+</script>
