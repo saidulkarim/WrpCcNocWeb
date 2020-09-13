@@ -248,12 +248,15 @@ namespace WrpCcNocWeb.Controllers
                            ProjectType = pt.ProjectType,
                            ProjectName = p.ProjectName,
                            ProjectEstimatedCost = p.ProjectEstimatedCost,
+                           AppSubmissionDate = p.AppSubmissionDate.Value.ToString("dd MMM, yyyy"),
                            ApplicationStateId = p.ApplicationStateId,
                            ApplicationState = st.ApplicationState,
                            ApprovalStatusId = p.ApprovalStatusId ?? 0,
                            ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
-                           IsCompletedId = p.IsCompletedId
-                       }).ToList();
+                           IsCompletedId = p.IsCompletedId,
+                           ReasonOfRejection = p.ReasonOfRejection,
+                           AppApprovalDate = p.AppApprovalDate
+                       }).OrderByDescending(o => o.ProjectId).ToList();
             }
             else if (uli.UserGroupId != 1000000001 && uli.AuthorityLevelId == 0)
             {
@@ -272,12 +275,15 @@ namespace WrpCcNocWeb.Controllers
                            ProjectType = pt.ProjectType,
                            ProjectName = p.ProjectName,
                            ProjectEstimatedCost = p.ProjectEstimatedCost,
+                           AppSubmissionDate = p.AppSubmissionDate.Value.ToString("dd MMM, yyyy"),
                            ApplicationStateId = p.ApplicationStateId,
                            ApplicationState = st.ApplicationState,
                            ApprovalStatusId = p.ApprovalStatusId ?? 0,
                            ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
-                           IsCompletedId = p.IsCompletedId
-                       }).ToList();
+                           IsCompletedId = p.IsCompletedId,
+                           ReasonOfRejection = p.ReasonOfRejection,
+                           AppApprovalDate = p.AppApprovalDate
+                       }).OrderByDescending(o => o.ProjectId).ToList();
             }
             else
             {
@@ -302,12 +308,15 @@ namespace WrpCcNocWeb.Controllers
                                ProjectType = pt.ProjectType,
                                ProjectName = p.ProjectName,
                                ProjectEstimatedCost = p.ProjectEstimatedCost,
+                               AppSubmissionDate = p.AppSubmissionDate.Value.ToString("dd MMM, yyyy"),
                                ApplicationStateId = p.ApplicationStateId,
                                ApplicationState = st.ApplicationState,
                                ApprovalStatusId = p.ApprovalStatusId ?? 0,
                                ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
-                               IsCompletedId = p.IsCompletedId
-                           }).ToList();
+                               IsCompletedId = p.IsCompletedId,
+                               ReasonOfRejection = p.ReasonOfRejection,
+                               AppApprovalDate = p.AppApprovalDate
+                           }).OrderByDescending(o => o.ProjectId).ToList();
                 }
 
                 if (!string.IsNullOrEmpty(uli.UpazilaGeoCode) && string.IsNullOrEmpty(uli.UnionGeoCode))
@@ -329,12 +338,15 @@ namespace WrpCcNocWeb.Controllers
                                ProjectType = pt.ProjectType,
                                ProjectName = p.ProjectName,
                                ProjectEstimatedCost = p.ProjectEstimatedCost,
+                               AppSubmissionDate = p.AppSubmissionDate.Value.ToString("dd MMM, yyyy"),
                                ApplicationStateId = p.ApplicationStateId,
                                ApplicationState = st.ApplicationState,
                                ApprovalStatusId = p.ApprovalStatusId ?? 0,
                                ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
-                               IsCompletedId = p.IsCompletedId
-                           }).ToList();
+                               IsCompletedId = p.IsCompletedId,
+                               ReasonOfRejection = p.ReasonOfRejection,
+                               AppApprovalDate = p.AppApprovalDate
+                           }).OrderByDescending(o => o.ProjectId).ToList();
                 }
 
                 if (!string.IsNullOrEmpty(uli.DistrictGeoCode) && string.IsNullOrEmpty(uli.UpazilaGeoCode) && string.IsNullOrEmpty(uli.UnionGeoCode))
@@ -356,12 +368,15 @@ namespace WrpCcNocWeb.Controllers
                                ProjectType = pt.ProjectType,
                                ProjectName = p.ProjectName,
                                ProjectEstimatedCost = p.ProjectEstimatedCost,
+                               AppSubmissionDate = p.AppSubmissionDate.Value.ToString("dd MMM, yyyy"),
                                ApplicationStateId = p.ApplicationStateId,
                                ApplicationState = st.ApplicationState,
                                ApprovalStatusId = p.ApprovalStatusId ?? 0,
                                ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
-                               IsCompletedId = p.IsCompletedId
-                           }).ToList();
+                               IsCompletedId = p.IsCompletedId,
+                               ReasonOfRejection = p.ReasonOfRejection,
+                               AppApprovalDate = p.AppApprovalDate
+                           }).OrderByDescending(o => o.ProjectId).ToList();
                 }
             }
 

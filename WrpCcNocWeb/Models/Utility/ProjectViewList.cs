@@ -12,10 +12,13 @@ namespace WrpCcNocWeb.Models.Utility
         public string ProjectType { get; set; }
         public string ProjectName { get; set; }
         public double ProjectEstimatedCost { get; set; }
+        public string AppSubmissionDate { get; set; }
         public int? ApplicationStateId { get; set; }
         public string ApplicationState { get; set; }
         public int? ApprovalStatusId { get; set; }
         public string ApprovalStatus { get; set; }
         public int? IsCompletedId { get; set; }
+        public string ReasonOfRejection { get; set; }
+        public DateTime? AppApprovalDate { get; set; }
     }
 }

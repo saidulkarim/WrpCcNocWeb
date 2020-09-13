@@ -24,6 +24,7 @@
                                     <th>Application Type</th>
                                     <th>Project Name</th>
                                     <th>Estimated Cost</th>
+                                    <th>Submit On</th>
                                     <th>Staus</th>
                                     <th style="width: 150px;"></th>
                                 </tr>
@@ -31,10 +32,27 @@
                             <tbody>
                                 @foreach (ProjectViewList pcd in _pcds)
                                 {
+                                    bool is_expired = false;
                                     var ProjectTypeId = pcd.ProjectTypeId;
                                     var Redirectpage = cc.RedirectPage(ProjectTypeId);
 
                                     var css_class = (pcd.ApprovalStatusId == 1) ? "bg-success" : (pcd.ApprovalStatusId == 2 || pcd.ApprovalStatusId == 3) ? "bg-secondary" : "bg-warning";
+
+                                    if (pcd.AppApprovalDate != null)
+                                    {
+                                        var expired_date = pcd.AppApprovalDate.Value.AddYears(2);
+                                        var current_date = DateTime.Now;
+                                        is_expired = (current_date >= pcd.AppApprovalDate.Value && expired_date >= current_date) ? false : true;
+
+                                        if(pcd.ApprovalStatusId != 1)
+                                        {
+                                            is_expired = false;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        is_expired = false;
+                                    }
 
                                     if (pcd.IsCompletedId == null || pcd.IsCompletedId == 0)
                                     {
@@ -43,17 +61,19 @@
                                             <td class="align-middle">@pcd.ProjectType</td>
                                             <td class="align-middle">@pcd.ProjectName</td>
                                             <td class="align-middle">@pcd.ProjectEstimatedCost</td>
-                                            <td class="align-middle">@pcd.ApprovalStatus</td>
+                                            <td class="align-middle">@pcd.AppSubmissionDate</td>
+                                            <td class="align-middle">
+                                                @if (is_expired)
+                                                {<span class="badge badge-danger">Expired</span> }
+                                                else
+                                                {<span>@pcd.ApprovalStatus.ToString()</span>}
+                                            </td>
 
                                             @if (@pcd.ApprovalStatusId == 1)
                                             {
                                                 <td class="align-middle">
-                                                    @*<a href="@Url.Action("view", "certificate", new { id = pcd.ProjectId })" target="_blank" class="btn btn-info">
-                                                            Download
-                                                        </a>*@
-
                                                     <div class="btn-group">
-                                                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                        <button type="button" class="btn btn-warning dropdown-toggle width-lg" data-toggle="dropdown" aria-expanded="false">
                                                             Download
                                                             <i class="mdi mdi-chevron-down"></i>
                                                         </button>
@@ -66,11 +86,25 @@
                                             }
                                             else if (@pcd.ApprovalStatusId == 2 || @pcd.ApprovalStatusId == 3)
                                             {
-                                                <td><span>&nbsp;</span></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger waves-effect waves-light width-lg"
+                                                            data-container="body" title="" data-toggle="popover" data-placement="top"
+                                                            data-content="@pcd.ReasonOfRejection"
+                                                            data-original-title="Reject Reason">
+                                                        Rejected
+                                                        <span class="btn-label-right" style="margin-right: -1.5rem !important;"><i class="mdi mdi-close-circle-outline"></i></span>
+                                                    </button>
+                                                </td>
                                             }
                                             else
                                             {
-                                                <td class="align-middle"><a href="@Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" target="_blank" class="btn btn-info">View</a></td>
+                                                <td class="align-middle">
+                                                    <a href="@Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" target="_blank"
+                                                       class="btn btn-info waves-effect waves-light width-lg">
+                                                        View
+                                                        <span class="btn-label-right" style="margin-right: -2.9rem !important;"><i class="mdi mdi-eye"></i></span>
+                                                    </a>
+                                                </td>
                                             }
                                         </tr>
                                     }
@@ -81,17 +115,19 @@
                                             <td class="align-middle">@pcd.ProjectType</td>
                                             <td class="align-middle">@pcd.ProjectName</td>
                                             <td class="align-middle">@pcd.ProjectEstimatedCost</td>
-                                            <td class="align-middle">@pcd.ApprovalStatus</td>
+                                            <td class="align-middle">@pcd.AppSubmissionDate</td>
+                                            <td class="align-middle">
+                                                @if (is_expired)
+                                                {<span class="badge badge-danger">Expired</span> }
+                                                else
+                                                {<span>@pcd.ApprovalStatus.ToString()</span>}
+                                            </td>
 
                                             @if (@pcd.ApprovalStatusId == 1)
                                             {
                                                 <td class="align-middle">
-                                                    @*<a href="@Url.Action("view", "certificate", new { id = pcd.ProjectId })" target="_blank" class="btn btn-info">
-                                                            Download
-                                                        </a>*@
-
                                                     <div class="btn-group">
-                                                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                        <button type="button" class="btn btn-warning dropdown-toggle width-lg" data-toggle="dropdown" aria-expanded="false">
                                                             Download
                                                             <i class="mdi mdi-chevron-down"></i>
                                                         </button>
@@ -104,11 +140,25 @@
                                             }
                                             else if (@pcd.ApprovalStatusId == 2 || @pcd.ApprovalStatusId == 3)
                                             {
-                                                <td><span>&nbsp;</span></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger waves-effect waves-light width-lg"
+                                                            data-container="body" title="" data-toggle="popover" data-placement="top"
+                                                            data-content="@pcd.ReasonOfRejection"
+                                                            data-original-title="Reject Reason">
+                                                        Rejected
+                                                        <span class="btn-label-right" style="margin-right: -1.5rem !important;"><i class="mdi mdi-close-circle-outline"></i></span>
+                                                    </button>
+                                                </td>
                                             }
                                             else
                                             {
-                                                <td class="align-middle"><a href="@Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" target="_blank" class="btn btn-info">View</a></td>
+                                                <td class="align-middle">
+                                                    <a href="@Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" target="_blank"
+                                                       class="btn btn-info waves-effect waves-light width-lg">
+                                                        View
+                                                        <span class="btn-label-right" style="margin-right: -2.9rem !important;"><i class="mdi mdi-eye"></i></span>
+                                                    </a>
+                                                </td>
                                             }
                                         </tr>
                                     }
@@ -119,17 +169,19 @@
                                             <td class="align-middle">@pcd.ProjectType</td>
                                             <td class="align-middle">@pcd.ProjectName</td>
                                             <td class="align-middle">@pcd.ProjectEstimatedCost</td>
-                                            <td class="align-middle">@pcd.ApprovalStatus</td>
+                                            <td class="align-middle">@pcd.AppSubmissionDate</td>
+                                            <td class="align-middle">
+                                                @if (is_expired)
+                                                {<span class="badge badge-danger">Expired</span> }
+                                                else
+                                                {<span>@pcd.ApprovalStatus.ToString()</span>}
+                                            </td>
 
                                             @if (@pcd.ApprovalStatusId == 1)
                                             {
                                                 <td class="align-middle">
-                                                    @*<a href="@Url.Action("view", "certificate", new { id = pcd.ProjectId })" target="_blank" class="btn btn-info">
-                                                            Download
-                                                        </a>*@
-
                                                     <div class="btn-group">
-                                                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                        <button type="button" class="btn btn-warning dropdown-toggle waves-effect waves-light width-lg" data-toggle="dropdown" aria-expanded="false">
                                                             Download
                                                             <i class="mdi mdi-chevron-down"></i>
                                                         </button>
@@ -142,11 +194,25 @@
                                             }
                                             else if (@pcd.ApprovalStatusId == 2 || @pcd.ApprovalStatusId == 3)
                                             {
-                                                <td><span>&nbsp;</span></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger waves-effect waves-light width-lg"
+                                                            data-container="body" title="" data-toggle="popover" data-placement="top"
+                                                            data-content="@pcd.ReasonOfRejection"
+                                                            data-original-title="Reject Reason">
+                                                        Rejected
+                                                        <span class="btn-label-right" style="margin-right: -1.5rem !important;"><i class="mdi mdi-close-circle-outline"></i></span>
+                                                    </button>
+                                                </td>
                                             }
                                             else
                                             {
-                                                <td class="align-middle"><a href="@Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" target="_blank" class="btn btn-info">View</a></td>
+                                                <td class="align-middle">
+                                                    <a href="@Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" target="_blank"
+                                                       class="btn btn-info width-lg waves-effect waves-light">
+                                                        View
+                                                        <span class="btn-label-right" style="margin-right: -2.9rem !important;"><i class="mdi mdi-eye"></i></span>
+                                                    </a>
+                                                </td>
                                             }
                                         </tr>
                                     }
