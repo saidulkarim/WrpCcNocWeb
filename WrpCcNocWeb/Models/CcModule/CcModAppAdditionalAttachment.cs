@@ -21,8 +21,7 @@ namespace WrpCcNocWeb.Models
         [MaxLength(150)]
         [Display(Name = "Aditional Attachment File")]
         public string AditionalAttachmentFile { get; set; }
-        //AttachmentTitle
-
+        
         [Required]
         [Column("AttachmentTitle", Order = 3)]
         [MaxLength(100)]

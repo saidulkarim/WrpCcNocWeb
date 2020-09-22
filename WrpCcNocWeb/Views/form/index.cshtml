@@ -125,7 +125,8 @@
                         jQuery("#ProjectTypeId").html('<option value="">নির্বাচন করুন...</option>');
 
                         jQuery.each(data, function (i, item) {
-                            var content = '<option value="' + item.projectTypeId + '">' + (i + 1) + '. ' + item.projectTypeBn + '</option>';
+                            var sl = i + 1;
+                            var content = '<option value="' + item.projectTypeId + '">' + sl.toLocaleString("bn-BD") + '. ' + item.projectTypeBn + '</option>';
                             jQuery("#ProjectTypeId").append(content);
                         });
                     } else {
@@ -133,7 +134,8 @@
                         jQuery("#ProjectTypeId").html('<option value="">Choose...</option>');
 
                         jQuery.each(data, function (i, item) {
-                            var content = '<option value="' + item.projectTypeId + '">' + (i + 1) + '. ' + item.projectType + '</option>';
+                            var sl = i + 1;
+                            var content = '<option value="' + item.projectTypeId + '">' + sl + '. ' + item.projectType + '</option>';
                             jQuery("#ProjectTypeId").append(content);
                         });
                     }

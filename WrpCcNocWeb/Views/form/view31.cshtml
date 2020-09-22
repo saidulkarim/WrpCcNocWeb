@@ -2008,17 +2008,7 @@
 
                         <tr>
                             <td colspan="3">
-                                <fieldset>
-                                    <legend>
-                                        @if (prev_lang == "1")
-                                        {<span>অতিরিক্ত মন্তব্য এবং সংযুক্তি</span> }
-                                        else
-                                        { <span>Additional Comments and Attachments</span>}
-                                    </legend>
-                                    <div class="card-box">
-                                        @{ Html.RenderPartial("form/_AdditionalAttachment"); }
-                                    </div>
-                                </fieldset>
+                                @{ Html.RenderPartial("form/_AdditionalAttachment"); }
                             </td>
                         </tr>
 

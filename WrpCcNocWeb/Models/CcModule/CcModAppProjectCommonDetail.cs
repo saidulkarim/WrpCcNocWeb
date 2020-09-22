@@ -515,6 +515,29 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "App Approval Date")]
         public DateTime? AppApprovalDate { get; set; }
 
+
+        [Column("AnyHearingOccured", Order = 97)]
+        [Display(Name = "Any Hearing Occured?")]
+        public int? AnyHearingOccured { get; set; }
+        //[ForeignKey("AnyHearingOccured")]
+        //public virtual LookUpCcModYesNo LookUpYesNoAHO { get; set; }
+
+        [Column("HearingDescription", Order = 98)]
+        [Display(Name = "Hearing Details")]
+        [MaxLength(500)]
+        public string HearingDescription { get; set; }
+
+        [Column("RecommendedByIwrmc", Order = 99)]
+        [Display(Name = "Recommendation By IWRMC?")]
+        public int? RecommendedByIwrmc { get; set; }
+        //[ForeignKey("AnyHearingOccured")]
+        //public virtual LookUpCcModYesNo LookUpYesNoRBI { get; set; }
+
+        [Column("RecommendedByIwrmcNote", Order = 100)]
+        [Display(Name = "Recommendation Details")]
+        [MaxLength(500)]
+        public string RecommendedByIwrmcNote { get; set; }
+
         public virtual List<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetails { get; set; }
         public virtual List<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetails { get; set; }
         public virtual List<CcModBDP2100GoalDetail> CcModBDP2100GoalDetails { get; set; }

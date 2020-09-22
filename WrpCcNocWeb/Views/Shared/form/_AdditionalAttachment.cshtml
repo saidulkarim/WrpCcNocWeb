@@ -6,201 +6,313 @@
     CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["ProjectCommonDetail"];
 }
 
-<div class="form-group">
-    <div class="form-group">
-        <label for="AdditionalTextComment">
-            @{if (prev_lang == "1")
-                { <span>মন্তব্য</span>}
-                else
-                {<span>Comments</span>}
-            }
-        </label>
-        <textarea id="AdditionalTextComment" name="AdditionalTextComment" class="form-control" rows="3"></textarea>
-    </div>
+<fieldset>
+    <legend>
+        @if (prev_lang == "1")
+        {<span>শুনানি</span> }
+        else
+        { <span>Hearing</span>}
+    </legend>
+    <div class="card-box">
+        <div class="form-group">
+            <div id="AnyHearingOccured" class="row" style="margin-left: 5px;">
+                <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                    <input type="radio" name="AnyHearingOccured" id="chkAHOYes" value="1" data-parsley-multiple="AnyHearingOccured">
+                    <label for="chkAHOYes">
+                        @{if (prev_lang == "1")
+                            { <span>হ্যাঁ</span>}
+                            else
+                            {<span>Yes</span>}
+                        }
+                    </label>
+                </div>
 
-    <div class="form-group">
-        <label for="fileAdditionalAttachments">
-            @{if (prev_lang == "1")
-                { <span>সংযুক্তি</span>}
-                else
-                {<span>Attachments</span>}
-            }
-        </label>
-        <div class="file-field">
-            <div class="btn btn-info btn-sm float-left">
-                <input id="fileAdditionalAttachments" type="file">
+                <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                    <input type="radio" name="AnyHearingOccured" id="chkAHONo" value="0" checked data-parsley-multiple="AnyHearingOccured">
+                    <label for="chkAHONo">
+                        @{if (prev_lang == "1")
+                            { <span>না</span>}
+                            else
+                            {<span>No</span>}
+                        }
+                    </label>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label for="AdditionalTextComment">
-            @{if (prev_lang == "1")
-                { <span>সংযুক্তি শিরোনাম</span>}
-                else
-                {<span>Attachment Title</span>}
-            }
-        </label>
-        <textarea id="AttachmentTitle" name="AttachmentTitle" class="form-control" rows="3"></textarea>
-    </div>
-
-    <div class="clearfix"></div><br />
-
-    <div class="form-group mb-0">
-        <button id="btnSaveAdditionalInfo" type="button" class="btn btn-success waves-effect waves-light">
-            <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
-            @if (prev_lang == "1")
-            {<span>সংরক্ষণ করুন</span>}
-            else
-            {<span>Submit</span>}
-        </button>
-
-        <button id="btnClearAdditionalInfo" type="button" class="btn btn-secondary waves-effect waves-light">
-            <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
-            @if (prev_lang == "1")
-            {<span>বাতিল করুন</span>}
-            else
-            {<span>Cancel</span>}
-        </button>
-    </div>
-
-    <div class="clearfix"></div><br />
-
-    <div class="form-group mb-0">
-        <table class="table table-bordered" style="width: 100%;">
-            <thead>
-                <tr>
-                    <th>
-                        @if (prev_lang == "1")
-                        {<span>মন্তব্য</span>}
-                        else
-                        {<span>Comments</span>}
-                    </th>
-                </tr>
-                <tr>
-                    <th style="text-align: justify;">
-                        @pcd.AdditionalTextComment
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <ul id="tbdAdditionalInfo">
-
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <script type="text/javascript">
-        jQuery(document).ready(function () {
-            GetAdditionalInfo();
-
-            jQuery("#btnSaveAdditionalInfo").click(function () {
-                var fileUpload = jQuery("#fileAdditionalAttachments").get(0);
-                var files = fileUpload.files;
-                var data = new FormData();
-                data.append("ProjectId", jQuery('#pProjectId').val());
-                data.append("AdditionalTextComment", jQuery('#AdditionalTextComment').val());
-                data.append("AttachmentTitle", jQuery('#AttachmentTitle').val());
-
-                var lfuData = document.getElementById('fileAdditionalAttachments');
-                var FileName = lfuData.files[0].name;
-                var Extension = FileName.replace(/^.*\./, '');
-                console.log(FileName);
-                console.log(Extension);
-
-                if (Extension.toLowerCase() != "pdf") {
-                    Notification('warning', 'Invalid File Format', 'Please select a PDF formatted file to upload.');
-                    Swal.fire('Invalid File Format', 'Please select a PDF formatted file to upload.', 'warning');
-                    return;
+        <div class="form-group">
+            <label for="HearingDescription">
+                @{if (prev_lang == "1")
+                    { <span>বর্ণনা</span> }
+                    else
+                    { <span>Description</span> }
                 }
+            </label>
+            <textarea id="HearingDescription" name="HearingDescription" class="form-control" rows="3"></textarea>
+        </div>
+    </div>
+</fieldset>
 
-                const fsize = lfuData.files[0].size;
-                const fileSize = Math.round((fsize / 1024));
-
-                if (fileSize >= 1536) {
-                    Notification('warning', 'Big File Size', 'Please select a PDF file less than 1MB.');
-                    Swal.fire('Big File Size', 'Please select a PDF file less than 1MB.', 'warning');
-                    return;
-                }
-
-                for (var i = 0; i < files.length; i++) {
-                    data.append(files[i].name, files[i]);
-                }
-
-                var url = '@Url.Action("uaca", "form")';
-                jQuery.ajax({
-                    type: "POST",
-                    url: url,
-                    //dataType: "json",
-                    contentType: false, // Not to set any content header
-                    processData: false, // Not to process data
-                    data: data,
-                    success: function (data, status, jqXHR) {
-                        if (data.status == 'success') {
-                            var id = data.id;
-                            Notification(data.status, data.title, data.message);
-                            GetAdditionalInfo();
-                        } else {
-                            Notification(data.status, data.title, data.message);
+<fieldset>
+    <legend>
+        @if (prev_lang == "1")
+        {<span>IWRMC দ্বারা প্রস্তাবিত</span> }
+        else
+        { <span>Recommended by IWRMC</span>}
+    </legend>
+    <div class="card-box">
+        <div class="form-group">
+            <div id="RecommendedByIwrmc" class="row" style="margin-left: 5px;">
+                <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                    <input type="radio" name="RecommendedByIwrmc" id="chkRBIYes" value="1" data-parsley-multiple="RecommendedByIwrmc">
+                    <label for="chkRBIYes">
+                        @{if (prev_lang == "1")
+                            { <span>হ্যাঁ</span>}
+                            else
+                            {<span>Yes</span>}
                         }
-                    }, error: function (xhr, status, error) {
-                        //var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                        //Notification('error', 'Error Occured', errorMsg);
-                        alert(status);
+                    </label>
+                </div>
+
+                <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                    <input type="radio" name="RecommendedByIwrmc" id="chkRBINo" value="0" checked data-parsley-multiple="RecommendedByIwrmc">
+                    <label for="chkRBINo">
+                        @{if (prev_lang == "1")
+                            { <span>না</span>}
+                            else
+                            {<span>No</span>}
+                        }
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="RecommendedByIwrmcNote">
+                @{if (prev_lang == "1")
+                    { <span>টীকা</span> }
+                    else
+                    { <span>Note</span> }
+                }
+            </label>
+            <textarea id="RecommendedByIwrmcNote" name="RecommendedByIwrmcNote" class="form-control" rows="3"></textarea>
+        </div>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>
+        @if (prev_lang == "1")
+        {<span>কারিগরি কমিটির সামগ্রিক মন্তব্য</span> }
+        else
+        { <span>Overall Comments of Technical Committee</span>}
+    </legend>
+    <div class="card-box">
+        <div class="form-group">
+            <label for="AdditionalTextComment">
+                @{if (prev_lang == "1")
+                    { <span>মন্তব্য</span> }
+                    else
+                    { <span>Comments</span> }
+                }
+            </label>
+            <textarea id="AdditionalTextComment" name="AdditionalTextComment" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="fileAdditionalAttachments">
+                @{if (prev_lang == "1")
+                    { <span>সংযুক্তি</span>}
+                    else
+                    {<span>Attachments</span>}
+                }
+            </label>
+            <div class="file-field">
+                <div class="btn btn-info btn-sm float-left">
+                    <input id="fileAdditionalAttachments" type="file">
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <br />
+        <div class="clearfix"></div>
+
+        <div class="form-group">
+            <label for="AdditionalTextComment">
+                @{if (prev_lang == "1")
+                    { <span>সংযুক্তি শিরোনাম</span>}
+                    else
+                    {<span>Attachment Title</span>}
+                }
+            </label>
+            <textarea id="AttachmentTitle" name="AttachmentTitle" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="clearfix"></div><br />
+
+        <div class="form-group mb-0">
+            <button id="btnSaveAdditionalInfo" type="button" class="btn btn-success waves-effect waves-light">
+                <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
+                @if (prev_lang == "1")
+                {<span>সংরক্ষণ করুন</span>}
+                else
+                {<span>Submit</span>}
+            </button>
+
+            <button id="btnClearAdditionalInfo" type="button" class="btn btn-secondary waves-effect waves-light">
+                <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
+                @if (prev_lang == "1")
+                {<span>বাতিল করুন</span>}
+                else
+                {<span>Cancel</span>}
+            </button>
+        </div>
+
+        <div class="clearfix"></div><br />
+
+        <div class="form-group mb-0">
+            <table class="table table-bordered" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>
+                            @if (prev_lang == "1")
+                            {<span>মন্তব্য</span>}
+                            else
+                            {<span>Comments</span>}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="text-align: justify;">
+                            @pcd.AdditionalTextComment
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <ul id="tbdAdditionalInfo">
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                GetAdditionalInfo();
+
+                jQuery("#btnSaveAdditionalInfo").click(function () {
+                    var atc = jQuery('#AdditionalTextComment').val();
+                    if (atc == '') {
+                        Notification('warning', 'Comments Required', 'Technical Committee comments is required.');
+                        Swal.fire('Comments Required', 'Technical Committee comments is required.', 'warning');
+                        return;
                     }
+
+                    var fileUpload = jQuery("#fileAdditionalAttachments").get(0);
+                    var files = fileUpload.files;
+                    var data = new FormData();
+                    data.append("ProjectId", jQuery('#pProjectId').val());
+                    data.append("AdditionalTextComment", atc);
+                    data.append("AttachmentTitle", jQuery('#AttachmentTitle').val());
+
+                    var lfuData = document.getElementById('fileAdditionalAttachments');
+                    var FileName = lfuData.files[0].name;
+                    var Extension = FileName.replace(/^.*\./, '');
+                    console.log(FileName);
+                    console.log(Extension);
+
+                    if (Extension.toLowerCase() != "pdf") {
+                        Notification('warning', 'Invalid File Format', 'Please select a PDF formatted file to upload.');
+                        Swal.fire('Invalid File Format', 'Please select a PDF formatted file to upload.', 'warning');
+                        return;
+                    }
+
+                    const fsize = lfuData.files[0].size;
+                    const fileSize = Math.round((fsize / 1024));
+
+                    if (fileSize >= 1536) {
+                        Notification('warning', 'Big File Size', 'Please select a PDF file less than 1MB.');
+                        Swal.fire('Big File Size', 'Please select a PDF file less than 1MB.', 'warning');
+                        return;
+                    }
+
+                    for (var i = 0; i < files.length; i++) {
+                        data.append(files[i].name, files[i]);
+                    }
+
+                    var url = '@Url.Action("uaca", "form")';
+                    jQuery.ajax({
+                        type: "POST",
+                        url: url,
+                        //dataType: "json",
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data
+                        data: data,
+                        success: function (data, status, jqXHR) {
+                            if (data.status == 'success') {
+                                var id = data.id;
+                                Notification(data.status, data.title, data.message);
+                                GetAdditionalInfo();
+                            } else {
+                                Notification(data.status, data.title, data.message);
+                            }
+                        }, error: function (xhr, status, error) {
+                            //var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                            //Notification('error', 'Error Occured', errorMsg);
+                            alert(status);
+                        }
+                    });
                 });
             });
-        });
 
-        function GetAdditionalInfo() {
-            var lang = '@prev_lang';
-            var pid = jQuery('#pProjectId').val();
+            function GetAdditionalInfo() {
+                var lang = '@prev_lang';
+                var pid = jQuery('#pProjectId').val();
 
-            var url = '@Url.Action("uacal", "form")';
-            jQuery.ajax({
-                type: "GET",
-                url: url,
-                data: { pid: pid },
-                dataType: "json",
-                success: function (data, status, jqXHR) {
-                    console.log('Project Additional Data Loaded...');
-                    console.log(data);
+                var url = '@Url.Action("uacal", "form")';
+                jQuery.ajax({
+                    type: "GET",
+                    url: url,
+                    data: { pid: pid },
+                    dataType: "json",
+                    success: function (data, status, jqXHR) {
+                        console.log('Project Additional Data Loaded...');
+                        console.log(data);
 
-                    if (data.length > 0) {
-                        var rows = '';
-                        var count = 0;
+                        if (data.length > 0) {
+                            var rows = '';
+                            var count = 0;
 
-                        if (lang == '1') {
-                            jQuery.each(data, function (i, item) {
-                                ++count;
-                                var fileName = item.aditionalAttachmentFile != '' ? '../../docs/additional_attachment/' + item.aditionalAttachmentFile : '';
-                                //rows += '<tr><td scope="row" class="bold">' + count + '</td><td><a href="' + fileName + '">' + item.attachmentTitle + '</a> <a href="' + fileName + '"><i class="mdi mdi-file-pdf-box"></i></a></td><td><button onclick="javascript:Delete(this, ' + item.attachmentId + ', ' + item.projectId + ', \'CcModAppAdditionalAttachment\');" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
-                                rows += '<li><a href="' + fileName + '" target="_blank">' + item.attachmentTitle + '</a> <a href="' + fileName + '"><i class="mdi mdi-file-pdf-box"></i></a> <i class="mdi mdi-delete" onclick="javascript:Delete(this, ' + item.attachmentId + ', ' + item.projectId + ', \'CcModAppAdditionalAttachment\');" title="Delete"></i></li>';
-                            });
+                            if (lang == '1') {
+                                jQuery.each(data, function (i, item) {
+                                    ++count;
+                                    var fileName = item.aditionalAttachmentFile != '' ? '../../docs/additional_attachment/' + item.aditionalAttachmentFile : '';
+                                    //rows += '<tr><td scope="row" class="bold">' + count + '</td><td><a href="' + fileName + '">' + item.attachmentTitle + '</a> <a href="' + fileName + '"><i class="mdi mdi-file-pdf-box"></i></a></td><td><button onclick="javascript:Delete(this, ' + item.attachmentId + ', ' + item.projectId + ', \'CcModAppAdditionalAttachment\');" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                                    rows += '<li><a href="' + fileName + '" target="_blank">' + item.attachmentTitle + '</a> <a href="' + fileName + '"><i class="mdi mdi-file-pdf-box"></i></a> <i class="mdi mdi-delete" onclick="javascript:Delete(this, ' + item.attachmentId + ', ' + item.projectId + ', \'CcModAppAdditionalAttachment\');" title="Delete"></i></li>';
+                                });
+                            } else {
+                                jQuery.each(data, function (i, item) {
+                                    ++count;
+                                    var fileName = item.aditionalAttachmentFile != '' ? '../../docs/additional_attachment/' + item.aditionalAttachmentFile : '';
+                                    //rows += '<tr><td scope="row" class="bold">' + count + '</td><td><a href="' + fileName + '">' + item.attachmentTitle + '</a> <a href="' + fileName + '"><i class="mdi mdi-file-pdf-box"></i><a/></td><td><button onclick="javascript:Delete(this, ' + item.attachmentId + ', ' + item.projectId + ', \'CcModAppAdditionalAttachment\');" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                                    rows += '<li><a href="' + fileName + '" target="_blank">' + item.attachmentTitle + '</a> <a href="' + fileName + '"><i class="mdi mdi-file-pdf-box"></i></a> <i class="mdi mdi-delete" onclick="javascript:Delete(this, ' + item.attachmentId + ', ' + item.projectId + ', \'CcModAppAdditionalAttachment\');" title="Delete"></i></li>';
+                                });
+                            }
+
+                            jQuery("#tbdAdditionalInfo").html(rows);
                         } else {
-                            jQuery.each(data, function (i, item) {
-                                ++count;
-                                var fileName = item.aditionalAttachmentFile != '' ? '../../docs/additional_attachment/' + item.aditionalAttachmentFile : '';
-                                //rows += '<tr><td scope="row" class="bold">' + count + '</td><td><a href="' + fileName + '">' + item.attachmentTitle + '</a> <a href="' + fileName + '"><i class="mdi mdi-file-pdf-box"></i><a/></td><td><button onclick="javascript:Delete(this, ' + item.attachmentId + ', ' + item.projectId + ', \'CcModAppAdditionalAttachment\');" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
-                                rows += '<li><a href="' + fileName + '" target="_blank">' + item.attachmentTitle + '</a> <a href="' + fileName + '"><i class="mdi mdi-file-pdf-box"></i></a> <i class="mdi mdi-delete" onclick="javascript:Delete(this, ' + item.attachmentId + ', ' + item.projectId + ', \'CcModAppAdditionalAttachment\');" title="Delete"></i></li>';
-                            });
+                            jQuery("#tbdAdditionalInfo").html('<tr><td colspan="2" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
                         }
-
-                        jQuery("#tbdAdditionalInfo").html(rows);
-                    } else {
-                        jQuery("#tbdAdditionalInfo").html('<tr><td colspan="2" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                    }, error: function (jqXHR, exception) {
+                        var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                        jQuery("#tbdAdditionalInfo").html('<tr><td colspan="2" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+                        Notification('error', 'Error Occured', errorMsg);
                     }
-                }, error: function (jqXHR, exception) {
-                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                    jQuery("#tbdAdditionalInfo").html('<tr><td colspan="2" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
-                    Notification('error', 'Error Occured', errorMsg);
-                }
-            });
-        }
-    </script>
-</div>
+                });
+            }
+        </script>
+    </div>
+</fieldset>
