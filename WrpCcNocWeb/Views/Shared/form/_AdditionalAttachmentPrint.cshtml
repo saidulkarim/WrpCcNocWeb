@@ -5,9 +5,122 @@
     var prev_lang = ViewData["LanguageId"].ToString();
     CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["ProjectCommonDetail"];
     var acalist = (List<CcModAppAdditionalAttachment>)ViewData["AdditionalCommentAttachment"];
+    var halist = (List<CcModAppHearingAttachment>)ViewData["HearingAttachment"];
 }
 
 <div class="form-group">
+    <div class="form-group mb-0">
+        <table style="width: 100%;">
+            <tr>
+                <td colspan="2">
+                    @if (prev_lang == "1")
+                    {<span>শুনানি</span> }
+                    else
+                    { <span>Hearing</span>}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @if (prev_lang == "1")
+                    {<span>শুনানি কি ঘটেছে?</span>}
+                    else
+                    {<span>Is Hearing Occured?</span>}
+                </td>
+                <td>
+                    @if (pcd.AnyHearingOccured == 1)
+                    {
+                        if (prev_lang == "1")
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    }
+                    else
+                    {
+                        if (prev_lang == "1")
+                        { <span>না</span>}
+                        else
+                        {<span>No</span>}
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @if (prev_lang == "1")
+                    {<span>বর্ণনা</span> }
+                    else
+                    { <span>Description</span>}
+                </td>
+                <td style="text-align: justify;">
+                    @pcd.HearingDescription
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @if (prev_lang == "1")
+                    {<span>সংযুক্তি</span>}
+                    else
+                    {<span>Attachments</span>}
+                </td>
+                <td>
+                    <ul id="tbdAdditionalInfo">
+                        @foreach (CcModAppHearingAttachment ha in halist)
+                        {
+                            <li>Title: @ha.AttachmentTitle&nbsp;&nbsp;&nbsp;Attachment File: @ha.AdditionalAttachmentFile</li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="form-group mb-0">
+        <table style="width: 100%;">
+            <tr>
+                <td colspan="2">
+                    @if (prev_lang == "1")
+                    {<span>IWRMC দ্বারা প্রস্তাবিত</span> }
+                    else
+                    { <span>Recommended by IWRMC</span>}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @if (prev_lang == "1")
+                    {<span>প্রস্তাবিত</span>}
+                    else
+                    {<span>Recommended</span>}
+                </td>
+                <td>
+                    @if (pcd.RecommendedByIwrmc == 1)
+                    {
+                        if (prev_lang == "1")
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    }
+                    else
+                    {
+                        if (prev_lang == "1")
+                        { <span>না</span>}
+                        else
+                        {<span>No</span>}
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @if (prev_lang == "1")
+                    {<span>টীকা</span> }
+                    else
+                    { <span>Note</span>}
+                </td>
+                <td style="text-align: justify;">
+                    @pcd.RecommendedByIwrmcNote
+                </td>
+            </tr>
+        </table>
+    </div>
+
     <div class="form-group mb-0">
         <table style="width: 100%;">
             <tr>
@@ -17,8 +130,6 @@
                     else
                     {<span>Comments</span>}
                 </td>
-            </tr>
-            <tr>
                 <td style="text-align: justify;">
                     @pcd.AdditionalTextComment
                 </td>
@@ -29,7 +140,8 @@
                     {<span>সংযুক্তি</span>}
                     else
                     {<span>Attachments</span>}
-                    <br />
+                </td>
+                <td>
                     <ul id="tbdAdditionalInfo">
                         @foreach (CcModAppAdditionalAttachment aca in acalist)
                         {
@@ -41,5 +153,3 @@
         </table>
     </div>
 </div>
-
-<br />

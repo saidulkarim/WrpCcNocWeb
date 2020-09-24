@@ -98,6 +98,8 @@ namespace WrpCcNocWeb.DatabaseContext
         //added by rony
         public DbSet<CcModTypeOfDredgingPlanDetail> CcModTypeOfDredgingPlanDetail { get; set; }
         public DbSet<CcModAppAdditionalAttachment> CcModAppAdditionalAttachment { get; set; }
+        public DbSet<CcModAppHearingAttachment> CcModAppHearingAttachment { get; set; }
+        public DbSet<CcModAppPrjLocationFiles> CcModAppPrjLocationFiles { get; set; }
         #endregion
 
         #region LookUp --- CC Module     

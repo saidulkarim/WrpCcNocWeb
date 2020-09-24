@@ -107,7 +107,7 @@
                                 {<strong>Through:</strong>}
 
                                 @if (prev_lang == "1")
-                                {<span>মহাপরিচালক, জল সম্পদ পরিকল্পনা সংস্থা।</span>}
+                                {<span>মহাপরিচালক, পানি সম্পদ পরিকল্পনা সংস্থা।</span>}
                                 else
                                 {<span>Director General, Water Resources Planning Organization.</span>}
                             </p>
@@ -3711,6 +3711,19 @@
 	        });
         });
     });
+
+    function GetTextValue(control) {
+            return jQuery('#' + control).val();
+    }
+
+    function SetTextValue(control, val) {
+        return jQuery('#' + control).val(val);
+    }
+
+    function GetRadioValue(control) {
+            var value = $("input[name='" + control + "']:checked").val();
+            return (value == undefined || value == '') ? 0 : value;
+    }
 
     function GetHiddenValue(control) {
         return jQuery('#' + control).val();

@@ -2399,6 +2399,9 @@ namespace WrpCcNocWeb.Controllers
             var _additionalcomatt = GetAdditionalAttachment(pcd.ProjectId);
             ViewData["AdditionalCommentAttachment"] = _additionalcomatt;
 
+            var _hearingattachment = GetHearingAttachment(pcd.ProjectId);
+            ViewData["HearingAttachment"] = _hearingattachment;
+
             ViewData["ProjectId"] = pcd.ProjectId;
             ViewData["Project31IndvId"] = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project31IndvId).FirstOrDefault();
             ViewData["UserId"] = ui.UserID;
@@ -9023,24 +9026,29 @@ namespace WrpCcNocWeb.Controllers
                                 from up in upaz.DefaultIfEmpty()
                                 join union in _db.LookUpAdminBndUnion on d.UnionGeoCode equals union.UnionGeoCode into unio
                                 from un in unio.DefaultIfEmpty()
+
+                                    //join prjlocfiles in _db.CcModAppPrjLocationFiles on d.LocationId equals prjlocfiles.LocationId into plfsGroup
+                                    //from plfs in plfsGroup.ToList()
+
                                 where d.ProjectId == project_id
-                                select new
+                                select new PrjLocationDetailList()
                                 {
-                                    d.LocationId,
-                                    d.ProjectId,
-                                    d.DistrictGeoCode,
-                                    ds.DistrictName,
-                                    ds.DistrictNameBn,
-                                    d.UpazilaGeoCode,
-                                    up.UpazilaName,
-                                    up.UpazilaNameBn,
-                                    d.UnionGeoCode,
-                                    un.UnionName,
-                                    un.UnionNameBn,
+                                    LocationId = d.LocationId,
+                                    ProjectId = d.ProjectId,
+                                    DistrictGeoCode = d.DistrictGeoCode,
+                                    DistrictName = ds.DistrictName,
+                                    DistrictNameBn = ds.DistrictNameBn,
+                                    UpazilaGeoCode = d.UpazilaGeoCode,
+                                    UpazilaName = up.UpazilaName,
+                                    UpazilaNameBn = up.UpazilaNameBn,
+                                    UnionGeoCode = d.UnionGeoCode,
+                                    UnionName = un.UnionName,
+                                    UnionNameBn = un.UnionNameBn,
                                     Latitude = string.IsNullOrEmpty(d.Latitude) ? string.Empty : d.Latitude,
                                     Longitude = string.IsNullOrEmpty(d.Longitude) ? string.Empty : d.Longitude,
-                                    ImageFileName = (!string.IsNullOrEmpty(d.ImageFileName)) ? String.Format("{0}/{1}/{2}", rootDirOfProjFile, "ProjectLocationPhotos", d.ImageFileName) : "",
-                                    OnlyImageFileName = d.ImageFileName
+                                    ImageFileName = _db.CcModAppPrjLocationFiles.Where(w => w.LocationId == d.LocationId).Select(s => s.AdditionalAttachmentFile).ToList()
+                                    //ImageFileName = (!string.IsNullOrEmpty(d.ImageFileName)) ? String.Format("{0}/{1}/{2}", rootDirOfProjFile, "ProjectLocationPhotos", d.ImageFileName) : "",
+                                    //OnlyImageFileName = d.ImageFileName
                                 }).OrderBy(o => o.LocationId).ToList();
 
                 if (_details.Count > 0)
@@ -19570,6 +19578,18 @@ namespace WrpCcNocWeb.Controllers
                                 CcModPrjEcoFinAnalysisDetail _efa = _db.CcModPrjEcoFinAnalysisDetail.Where(w => w.ProjectId == projectId && w.EconomicalAndFinancialId == id).FirstOrDefault();
                                 _db.CcModPrjEcoFinAnalysisDetail.Remove(_efa);
                                 break;
+
+                            //CcModAppHearingAttachment
+                            case "CcModAppHearingAttachment":
+                                CcModAppHearingAttachment _hfa = _db.CcModAppHearingAttachment.Where(w => w.ProjectId == projectId && w.HearingAttachmentId == id).FirstOrDefault();
+                                _db.CcModAppHearingAttachment.Remove(_hfa);
+                                break;
+
+                            //CcModAppAdditionalAttachment
+                            case "CcModAppAdditionalAttachment":
+                                CcModAppAdditionalAttachment _afa = _db.CcModAppAdditionalAttachment.Where(w => w.ProjectId == projectId && w.AttachmentId == id).FirstOrDefault();
+                                _db.CcModAppAdditionalAttachment.Remove(_afa);
+                                break;
                         }
 
                         _db.SaveChanges();
@@ -19949,7 +19969,7 @@ namespace WrpCcNocWeb.Controllers
             return Json(noti);
         }
 
-        public bool uplif(long locationid, long projectid, string file)
+        public bool uplif(long locationid, long projectid, List<string> files)
         {
             bool isSuccess = false;
             int result = 0;
@@ -19963,113 +19983,107 @@ namespace WrpCcNocWeb.Controllers
 
             try
             {
-                if (location != null && file != null)
+                if (files.Count > 0)
                 {
-                    string base64 = file.Substring(file.IndexOf(',') + 1);
-
-                    base64 = base64.Trim('\0');
-                    byte[] img = Convert.FromBase64String(base64);
-                    var stream = new MemoryStream(img);
-                    IFormFile iFile = new FormFile(stream, 0, img.Length, "name", "fileName");
-
-                    Image image;
-                    Bitmap newBitmap;
-                    using (MemoryStream ms = new MemoryStream(img))
+                    foreach (string file in files)
                     {
-                        image = Image.FromStream(ms);
-                        newBitmap = new Bitmap(ms);
-                        extension = GetFileExtension(image.RawFormat.ToString().ToLower());
+                        if (location != null && file != null)
+                        {
+                            string base64 = file.Substring(file.IndexOf(',') + 1);
 
+                            base64 = base64.Trim('\0');
+                            byte[] img = Convert.FromBase64String(base64);
+                            var stream = new MemoryStream(img);
+                            IFormFile iFile = new FormFile(stream, 0, img.Length, "name", "fileName");
+
+                            Image image;
+                            Bitmap newBitmap;
+                            using (MemoryStream ms = new MemoryStream(img))
+                            {
+                                image = Image.FromStream(ms);
+                                newBitmap = new Bitmap(ms);
+                                extension = GetFileExtension(image.RawFormat.ToString().ToLower());
+                            }
+
+                            filename = GetGenProjLocFilename(location) + extension;
+
+                            CcModAppPrjLocationFiles plfs = new CcModAppPrjLocationFiles()
+                            {
+                                ProjectId = location.ProjectId,
+                                LocationId = location.LocationId,
+                                AdditionalAttachmentFile = filename,
+                                AttachmentTitle = filename
+                            };
+
+                            _db.CcModAppPrjLocationFiles.Add(plfs);
+                            result = _db.SaveChanges();
+
+                            if (result > 0)
+                            {
+                                using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
+                                iFile.CopyTo(output);
+
+                                //var webRoot = hostingEnvironment.WebRootPath;
+                                //var PathWithFolderName = Path.Combine(webRoot, foldername);
+
+                                //newBitmap.Save("c:\\temp\\test.jpg", newBitmap.RawFormat);
+                                //newBitmap.Save("~/image/ProjectLocationPhotos/" + filename, newBitmap.RawFormat);
+
+                                //string folderName = @"YourFolderPath";
+                                //string path = Path.Combine(hostingEnvironment.ContentRootPath, foldername, filename);
+                                //bool exists = Directory.Exists(path);
+
+                                //if (!exists)
+                                //    Directory.CreateDirectory(path);
+
+                                //var pathToSave = Path.Combine(foldername, filename);
+                                //var path = hostingEnvironment.ContentRootPath + pathToSave;
+                                //image.Save(path);
+
+                                //image.Save(path, image.RawFormat);
+                                //image.Dispose();
+
+                                //using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
+                                //image.Save(output, image.RawFormat);
+                                //image.Save(Path.GetTempPath() + "\\myImage.Jpeg");
+
+                                //string DefaultImagePath = PathWithFolderName;
+                                //DirectoryInfo dir = new DirectoryInfo(PathWithFolderName + "\\"+ filename);
+                                //image.Save(dir, image.RawFormat);
+
+                                isSuccess = true;
+                                //noti = new Notification
+                                //{
+                                //    id = location.LocationId.ToString(),
+                                //    status = "success",
+                                //    title = "Success",
+                                //    message = "File has been successfully uploaded."
+                                //};
+                            }
+                            else
+                            {
+                                isSuccess = false;
+                                //noti = new Notification
+                                //{
+                                //    id = location.LocationId.ToString(),
+                                //    status = "error",
+                                //    title = "File Submission Error",
+                                //    message = "Your selected file has not submitted."
+                                //};
+                            }
+                        }
+                        else
+                        {
+                            isSuccess = false;
+                        }
                     }
-
-                    filename = GetGenProjLocFilename(location) + extension;
-                    location.ImageFileName = filename;
-
-                    _db.Entry(location).State = EntityState.Modified;
-                    result = _db.SaveChanges();
-
-                    if (result > 0)
-                    {
-                        using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
-                        iFile.CopyTo(output);
-
-                        //var webRoot = hostingEnvironment.WebRootPath;
-                        //var PathWithFolderName = Path.Combine(webRoot, foldername);
-
-                        //newBitmap.Save("c:\\temp\\test.jpg", newBitmap.RawFormat);
-                        //newBitmap.Save("~/image/ProjectLocationPhotos/" + filename, newBitmap.RawFormat);
-
-                        //string folderName = @"YourFolderPath";
-                        //string path = Path.Combine(hostingEnvironment.ContentRootPath, foldername, filename);
-                        //bool exists = Directory.Exists(path);
-
-                        //if (!exists)
-                        //    Directory.CreateDirectory(path);
-
-                        //var pathToSave = Path.Combine(foldername, filename);
-                        //var path = hostingEnvironment.ContentRootPath + pathToSave;
-                        //image.Save(path);
-
-                        //image.Save(path, image.RawFormat);
-                        //image.Dispose();
-
-                        //using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
-                        //image.Save(output, image.RawFormat);
-                        //image.Save(Path.GetTempPath() + "\\myImage.Jpeg");
-
-                        //string DefaultImagePath = PathWithFolderName;
-                        //DirectoryInfo dir = new DirectoryInfo(PathWithFolderName + "\\"+ filename);
-                        //image.Save(dir, image.RawFormat);
-
-                        isSuccess = true;
-                        //noti = new Notification
-                        //{
-                        //    id = location.LocationId.ToString(),
-                        //    status = "success",
-                        //    title = "Success",
-                        //    message = "File has been successfully uploaded."
-                        //};
-                    }
-                    else
-                    {
-                        isSuccess = false;
-                        //noti = new Notification
-                        //{
-                        //    id = location.LocationId.ToString(),
-                        //    status = "error",
-                        //    title = "File Submission Error",
-                        //    message = "Your selected file has not submitted."
-                        //};
-                    }
-                }
-                else
-                {
-                    isSuccess = false;
-
-                    //noti = new Notification
-                    //{
-                    //    id = "0",
-                    //    status = "warning",
-                    //    title = "Select File",
-                    //    message = "No file(s) selected!"
-                    //};
                 }
             }
             catch (Exception ex)
             {
                 isSuccess = false;
-
-                //var message = ch.ExtractInnerException(ex);
-                //noti = new Notification
-                //{
-                //    id = "0",
-                //    status = "error",
-                //    title = "An Exception Error Occured",
-                //    message = message
-                //};
             }
 
-            //return Json(noti);
             return isSuccess;
         }
 
@@ -20293,8 +20307,8 @@ namespace WrpCcNocWeb.Controllers
 
             if (location.LocationId != 0)
             {
-                int fileCount = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == location.ProjectId).Count();
-                result = location.ProjectId.ToString() + "_" + fileCount.ToString() + "_" + adminboundary;
+                int fileCount = _db.CcModAppPrjLocationFiles.Where(w => w.ProjectId == location.ProjectId && w.LocationId == location.LocationId).Count();
+                result = location.ProjectId.ToString() + "_" + location.LocationId.ToString() + "_" + fileCount.ToString() + "_" + adminboundary;
             }
 
             return result;
@@ -20356,6 +20370,10 @@ namespace WrpCcNocWeb.Controllers
 
                 case "TechnicalEvaluation":
                     result = projectId + "_TE_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "Hearing":
+                    result = projectId + "_HRG_" + DateTime.Now.ToString("yyMMddHHmmssfff");
                     break;
             }
 
@@ -20825,15 +20843,155 @@ namespace WrpCcNocWeb.Controllers
         #endregion
 
         #region Additional Comments and Attachments
-        // /form/uaca :: UploadAdditionalCommentsAttachments
+        // /form/hdswa :: HearingDetailSaveWithAttachments
+        [HttpPost]
+        public IActionResult hdswa()
+        {
+            int result = 0;
+            long size = 0;
+            long pid = Request.Form["ProjectId"].ToString().ToLong();
+
+            string anyHearingOccured = Request.Form["AnyHearingOccured"].ToString();
+            string hearingDescription = Request.Form["HearingDescription"].ToString();
+            string attachmentTitle = Request.Form["HearingAttachmentTitle"].ToString();
+
+            var files = Request.Form.Files;
+            string filename = "", extension = "", foldername = "docs/hearing_attachment";
+
+            using var dbContextTransaction = _db.Database.BeginTransaction();
+
+            try
+            {
+                CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(pid);
+
+                if (pcd != null)
+                {
+                    pcd.AnyHearingOccured = anyHearingOccured.ToInt();
+                    pcd.HearingDescription = hearingDescription;
+                    _db.Entry(pcd).State = EntityState.Modified;
+                    result = _db.SaveChanges();
+
+                    if (result > 0)
+                    {
+                        if (files.Count > 0)
+                        {
+                            foreach (var file in files)
+                            {
+                                filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                                extension = filename.Substring(filename.IndexOf('.'));
+                                filename = EnsureCorrectFilename(filename);
+                                filename = GetCommonDetailFileName(pid.ToString(), "Hearing") + extension;
+                                //size += file.Length;
+
+                                CcModAppHearingAttachment ha = new CcModAppHearingAttachment
+                                {
+                                    ProjectId = pid,
+                                    AdditionalAttachmentFile = filename,
+                                    AttachmentTitle = attachmentTitle
+                                };
+
+                                _db.CcModAppHearingAttachment.Add(ha);
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
+                                    file.CopyTo(output);
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = "0",
+                                        status = "error",
+                                        title = "Error Occured",
+                                        message = "Data submission error occured."
+                                    };
+
+                                    break;
+                                }
+                            }
+                        }
+
+                        dbContextTransaction.Commit();
+
+                        noti = new Notification
+                        {
+                            id = "0",
+                            status = "success",
+                            title = "Success",
+                            message = "Data has been successfully submitted."
+                        };
+                    }
+                    else
+                    {
+                        dbContextTransaction.Rollback();
+
+                        noti = new Notification
+                        {
+                            id = "0",
+                            status = "error",
+                            title = "Error Occured",
+                            message = "Data submission error occured."
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                dbContextTransaction.Rollback();
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    title = "An Exception Error Occured",
+                    message = message
+                };
+            }
+
+            return Json(noti);
+        }
+
+        // /form/getha :: GetHearingAttachments
+        [HttpGet]
+        public JsonResult getha(long pid)
+        {
+            List<CcModAppHearingAttachment> haList = new List<CcModAppHearingAttachment>();
+
+            try
+            {
+                CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(pid);
+
+                if (pcd == null)
+                {
+                    haList = new List<CcModAppHearingAttachment>();
+                }
+
+                haList = _db.CcModAppHearingAttachment.Where(w => w.ProjectId == pid).ToList();
+            }
+            catch (Exception)
+            {
+                haList = new List<CcModAppHearingAttachment>();
+            }
+
+            return Json(haList);
+        }
+
         [HttpPost]
         public IActionResult uaca()
         {
             int result = 0;
             long size = 0;
             long pid = Request.Form["ProjectId"].ToString().ToLong();
-            string comment = Request.Form["AdditionalTextComment"].ToString();
-            string title = Request.Form["AttachmentTitle"].ToString();
+            string recommendedByIwrmc = Request.Form["RecommendedByIwrmc"].ToString();
+            string recommendedByIwrmcNote = Request.Form["RecommendedByIwrmcNote"].ToString();
+
+            string additionalTextComment = Request.Form["AdditionalTextComment"].ToString();
+            string attachmentTitle = Request.Form["AttachmentTitle"].ToString();
             var files = Request.Form.Files;
             string filename = "", extension = "", foldername = "docs/additional_attachment";
 
@@ -20845,7 +21003,9 @@ namespace WrpCcNocWeb.Controllers
 
                 if (pcd != null)
                 {
-                    pcd.AdditionalTextComment = comment;
+                    pcd.RecommendedByIwrmc = recommendedByIwrmc.ToInt();
+                    pcd.RecommendedByIwrmcNote = recommendedByIwrmcNote;
+                    pcd.AdditionalTextComment = additionalTextComment;
                     _db.Entry(pcd).State = EntityState.Modified;
                     result = _db.SaveChanges();
 
@@ -20865,7 +21025,7 @@ namespace WrpCcNocWeb.Controllers
                                 {
                                     ProjectId = pid,
                                     AditionalAttachmentFile = filename,
-                                    AttachmentTitle = title
+                                    AttachmentTitle = attachmentTitle
                                 };
 
                                 _db.CcModAppAdditionalAttachment.Add(aa);
@@ -20934,9 +21094,9 @@ namespace WrpCcNocWeb.Controllers
             return Json(noti);
         }
 
-        // /form/uacal :: UploadAdditionalCommentsAttachmentsList
+        // /form/getai :: GetAdditionalInfo
         [HttpGet]
-        public JsonResult uacal(long pid)
+        public JsonResult getai(long pid)
         {
             List<CcModAppAdditionalAttachment> aaList = new List<CcModAppAdditionalAttachment>();
 
@@ -20977,6 +21137,29 @@ namespace WrpCcNocWeb.Controllers
             catch (Exception)
             {
                 aaList = new List<CcModAppAdditionalAttachment>();
+            }
+
+            return aaList;
+        }
+
+        public List<CcModAppHearingAttachment> GetHearingAttachment(long pid)
+        {
+            List<CcModAppHearingAttachment> aaList = new List<CcModAppHearingAttachment>();
+
+            try
+            {
+                CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(pid);
+
+                if (pcd == null)
+                {
+                    aaList = new List<CcModAppHearingAttachment>();
+                }
+
+                aaList = _db.CcModAppHearingAttachment.Where(w => w.ProjectId == pid).ToList();
+            }
+            catch (Exception)
+            {
+                aaList = new List<CcModAppHearingAttachment>();
             }
 
             return aaList;

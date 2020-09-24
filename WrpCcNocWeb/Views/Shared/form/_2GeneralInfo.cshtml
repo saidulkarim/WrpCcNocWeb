@@ -254,7 +254,7 @@
 
         //#region project location script
         var rowCount = $('#tbodyProjectLocation tr').length;
-        var LocationArray = [];
+        var LocationArray = [], ImageFiles =[];
 
         var table = $("#tbodyProjectLocation");
         table.find('tr').each(function (i) {
@@ -269,6 +269,14 @@
             var Longitude = $tds.eq(4).text();
             var ImageFile = $tds.eq(5).find('input[type=hidden]').val();
 
+            if (LocationId == 0) {
+                $tds.eq(5).find('img').each(function (i) {
+                    var src = $(this).attr('src');
+                    //console.log(src);
+                    ImageFiles.push(src);
+                });
+            }
+
             if (DistrictGeoCode != '' && DistrictGeoCode != undefined) {
                 var location = {
                     'LocationId': LocationId,
@@ -277,7 +285,7 @@
                     'UnionGeoCode': UnionGeoCode,
                     'Latitude': Latitude,
                     'Longitude': Longitude,
-                    'ImageFile': ImageFile,
+                    'ImageFile': ImageFiles,
                     'Error': ''
                 };
 
