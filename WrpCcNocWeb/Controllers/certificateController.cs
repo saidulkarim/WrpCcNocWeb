@@ -112,6 +112,83 @@ namespace WrpCcNocWeb.Controllers
             }
         }
 
+        //certificate/view/59
+        public IActionResult undertaking(long? id, int? lang)
+        {
+            if (id == null || id == 0)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Ivalid ID", "Sorry, invalid project ID provided!");
+                return RedirectToAction("list", "form");
+            }
+
+            CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(id);
+            if (pcd == null)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Project Info Error", "Sorry, project information not found!");
+                return RedirectToAction("list", "form");
+            }
+
+            LookUpCcModProjectType pt = _db.LookUpCcModProjectType.Find(pcd.ProjectTypeId);
+            if (pt == null)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Project Info Error", "Sorry, project type information not found!");
+                return RedirectToAction("list", "form");
+            }
+
+            LookUpCcModCertificateFormat cf = _db.LookUpCcModCertificateFormat.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).FirstOrDefault();
+            if (cf == null)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Certificate Format Error", "Sorry, certificate template not found!");
+                return RedirectToAction("list", "form");
+            }
+
+            ApplicantInfo ai = GetApplicantInfo(pcd.UserId);
+            AdminModUsersDetail ahai = GetAppHigherAuthInfo(id.Value);
+
+            if (ai != null)
+            {
+                WrpCcNocWebCertificate crt = new WrpCcNocWebCertificate
+                {
+                    ApplicantName = ai.ApplicantName,
+                    ApplicantNameBn = ai.ApplicantNameBn,
+                    ApplicantAddress = ai.ApplicantAddress,
+                    ApplicantAddressBn = ai.ApplicantAddressBn,
+                    ApplicantMobile = ai.ApplicantMobile,
+                    ApplicantMobileBn = ai.ApplicantMobileBn.NumberEnglishToBengali(),
+                    ApplicantEmail = ai.ApplicantEmail,
+                    ApplicantGroupName = ai.ApplicantGroupName,
+                    LanguageId = lang ?? 0,// pcd.LanguageId ?? 0,
+                    ClearanceNo = pcd.AppSubmissionId,
+                    ClearanceNoBn = pcd.AppSubmissionId.ToString().NumberEnglishToBengali(),
+                    //ClearanceDate = DateTime.Now.ToString("dd MMMM, yyyy"),
+                    //ClearanceDateBn = DateTime.Now.ToString("dd MMMM, yyyy").NumberEnglishToBengali().MonthEnglishToBengali(),
+                    ClearanceDate = pcd.AppApprovalDate.Value.ToString("dd MMMM, yyyy"),
+                    ClearanceDateBn = pcd.AppApprovalDate.Value.ToString("dd MMMM, yyyy").NumberEnglishToBengali().MonthEnglishToBengali(),
+                    ProjectType = pt,
+                    FormNo = pt.ProjectTypeId.ToString().PadLeft(2, '0'),
+                    FormNoBn = pt.ProjectTypeId.ToString().PadLeft(2, '0').NumberEnglishToBengali(),
+                    CertificateFormat = cf,
+                    HigherAuthSignature = ahai.HigherAuthSignature,
+                    HigherAuthSeal = ahai.HigherAuthSeal
+                };
+
+                ViewData["WrpCcNocWebCertificate"] = crt;
+
+                return new ViewAsPdf("~/Views/certificate/view.cshtml", viewData: ViewData)
+                {
+                    PageSize = Size.A4,
+                    PageOrientation = Orientation.Portrait,
+                    PageMargins = new Margins(10, 10, 10, 10)
+                };
+                //return View();
+            }
+            else
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Application Info", "Sorry, application information not found!");
+                return RedirectToAction("list", "form");
+            }
+        }
+
         #region Certificate Verification
         public IActionResult verification()
         {
