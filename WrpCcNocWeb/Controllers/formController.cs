@@ -4472,7 +4472,7 @@ namespace WrpCcNocWeb.Controllers
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
                                 _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
-                                _pcd.IsCompletedId = 2; // need to change after re-logic check
+                                _pcd.IsCompletedId = 2;
                                 _pcd.ReviewCycleNo = 0;
 
                                 _db.Entry(_pcd).State = EntityState.Modified;
@@ -4783,7 +4783,7 @@ namespace WrpCcNocWeb.Controllers
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
                                 _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
-                                _pcd.IsCompletedId = 2; // need to change after re-logic check
+                                _pcd.IsCompletedId = 2;
                                 _pcd.ReviewCycleNo = 0;
 
                                 _db.Entry(_pcd).State = EntityState.Modified;
@@ -5079,7 +5079,7 @@ namespace WrpCcNocWeb.Controllers
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
                                 _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
-                                _pcd.IsCompletedId = 2; // need to change after re-logic check
+                                _pcd.IsCompletedId = 2;
                                 _pcd.ReviewCycleNo = 0;
 
                                 _db.Entry(_pcd).State = EntityState.Modified;
@@ -5373,7 +5373,7 @@ namespace WrpCcNocWeb.Controllers
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
                                 _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
-                                _pcd.IsCompletedId = 2; // need to change after re-logic check
+                                _pcd.IsCompletedId = 2;
                                 _pcd.ReviewCycleNo = 0;
 
                                 _db.Entry(_pcd).State = EntityState.Modified;
@@ -5649,7 +5649,7 @@ namespace WrpCcNocWeb.Controllers
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
                                 _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
-                                _pcd.IsCompletedId = 2; // need to change after re-logic check
+                                _pcd.IsCompletedId = 2;
                                 _pcd.ReviewCycleNo = 0;
 
                                 _db.Entry(_pcd).State = EntityState.Modified;
@@ -5911,7 +5911,7 @@ namespace WrpCcNocWeb.Controllers
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
                                 _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
-                                _pcd.IsCompletedId = 2; // need to change after re-logic check
+                                _pcd.IsCompletedId = 2;
                                 _pcd.ReviewCycleNo = 0;
 
                                 _db.Entry(_pcd).State = EntityState.Modified;
@@ -6191,7 +6191,7 @@ namespace WrpCcNocWeb.Controllers
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
                                 _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
-                                _pcd.IsCompletedId = 2; // need to change after re-logic check
+                                _pcd.IsCompletedId = 2;
                                 _pcd.ReviewCycleNo = 0;
 
                                 _db.Entry(_pcd).State = EntityState.Modified;
@@ -6455,7 +6455,7 @@ namespace WrpCcNocWeb.Controllers
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
                                 _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
-                                _pcd.IsCompletedId = 2; // need to change after re-logic check
+                                _pcd.IsCompletedId = 2;
                                 _pcd.ReviewCycleNo = 0;
 
                                 _db.Entry(_pcd).State = EntityState.Modified;
@@ -6734,7 +6734,7 @@ namespace WrpCcNocWeb.Controllers
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
                                 _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
-                                _pcd.IsCompletedId = 2; // need to change after re-logic check
+                                _pcd.IsCompletedId = 2;
                                 _pcd.ReviewCycleNo = 0;
 
                                 _db.Entry(_pcd).State = EntityState.Modified;
@@ -7013,7 +7013,7 @@ namespace WrpCcNocWeb.Controllers
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
                                 _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
-                                _pcd.IsCompletedId = 2; // need to change after re-logic check
+                                _pcd.IsCompletedId = 2;
                                 _pcd.ReviewCycleNo = 0;
 
                                 _db.Entry(_pcd).State = EntityState.Modified;
@@ -7273,7 +7273,7 @@ namespace WrpCcNocWeb.Controllers
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
                                 _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
-                                _pcd.IsCompletedId = 2; // need to change after re-logic check
+                                _pcd.IsCompletedId = 2;
                                 _pcd.ReviewCycleNo = 0;
 
                                 _db.Entry(_pcd).State = EntityState.Modified;
@@ -7555,7 +7555,7 @@ namespace WrpCcNocWeb.Controllers
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
                                 _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
-                                _pcd.IsCompletedId = 2; // need to change after re-logic check
+                                _pcd.IsCompletedId = 2;
                                 _pcd.ReviewCycleNo = 0;
 
                                 _db.Entry(_pcd).State = EntityState.Modified;
@@ -7846,7 +7846,7 @@ namespace WrpCcNocWeb.Controllers
                                 _pcd.AppSubmissionId = projectTrackingCode.ToLong();
                                 _pcd.AppSubmissionDate = DateTime.Now;
                                 _pcd.ApplicationStateId = appState;
-                                _pcd.IsCompletedId = 2; // need to change after re-logic check
+                                _pcd.IsCompletedId = 2;
                                 _pcd.ReviewCycleNo = 0;
 
                                 _db.Entry(_pcd).State = EntityState.Modified;
