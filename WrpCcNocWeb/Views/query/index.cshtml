@@ -1,0 +1,87 @@
+﻿@using WrpCcNocWeb.Models.Utility;
+
+@{
+    ViewData["Title"] = "Query List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .paginate_button {
+        padding: 0px;
+        margin-left: 0px;
+        display: inline;
+        border: 0px;
+    }
+
+        .paginate_button:hover {
+            border: 0px;
+        }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> Application List</h4>
+                @{
+                    List<ProjectQueryViewList> _pqvl = ViewBag.PQVL;
+
+                    if (_pqvl.Count > 0)
+                    {
+                        int count = 1;
+                        <table id="tblQueryList" class="table table-hover table-striped" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Sl.</th>
+                                    <th>Sender</th>
+                                    <th>Subject</th>
+                                    @*<th>Message</th>*@
+                                    <th>Sent On</th>
+                                    <th>Staus</th>
+                                    <th style="width: 150px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (ProjectQueryViewList pqv in _pqvl)
+                                {
+                                    var css_class = (pqv.QueryStateId == 2) ? "bg-warning text-white font-italic font-weight-bold" : "bg-white";
+                                    var project_id = pqv.ProjectId ?? 0;
+
+                                    <tr class="@css_class">
+                                        <td class="text-center align-middle">@count</td>
+                                        <td class="align-middle">
+                                            @pqv.SenderFullName,&nbsp;
+                                            <br />
+                                            @pqv.SenderDesignation
+                                        </td>
+                                        <td class="align-middle">@Html.Raw(pqv.QuerySubject)</td>
+                                        @*<td class="align-middle">@Html.Raw(pqv.QueryBody)</td>*@
+                                        <td class="align-middle">@pqv.SentOn</td>
+                                        <td class="text-center align-middle">@pqv.QueryState</td>
+                                        <td class="align-middle">
+                                            <a href="@Url.Action("query", "query", new { id = project_id, qid = pqv.ProjectQueryId })"
+                                               class="btn btn-info waves-effect waves-light width-lg">
+                                                View
+                                                <span class="btn-label-right" style="margin-right: -2.9rem !important;"><i class="mdi mdi-eye"></i></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    count++;
+                                }
+                            </tbody>
+                        </table>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery('#tblQueryList').DataTable({
+            "sPaginationType": "full_numbers"
+        });
+    });
+</script>

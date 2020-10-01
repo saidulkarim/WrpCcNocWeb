@@ -28,4 +28,23 @@ namespace WrpCcNocWeb.Models.TempModels
         public string HigherAuthSignature { get; set; }
         public string HigherAuthSeal { get; set; }
     }
+
+    public class WrpCcNocUndertaking
+    {
+        public long ProjectId { get; set; }
+        public int ProjectTypeId { get; set; }
+        public int LanguageId { get; set; }
+        public string ApplicantName { get; set; }
+        public string ApplicantNameBn { get; set; }
+        public string ApplicantAddress { get; set; }
+        public string ApplicantAddressBn { get; set; }
+        public string LocationName { get; set; }
+        public string LocationNameBn { get; set; }
+        public string UndertakingDate { get; set; } //dd MMM, yyyy
+        public string UndertakingDateBn { get; set; } //dd MMM, yyyy
+        public string UndertakingTime { get; set; } // HH:mm:ss
+        public string UndertakingTimeBn { get; set; } // HH:mm:ss
+        public LookUpCcModUndertakingFormat UndertakingFormat { get; set; }        
+        public string ApplicantSignatureFile { get; set; }
+    }
 }

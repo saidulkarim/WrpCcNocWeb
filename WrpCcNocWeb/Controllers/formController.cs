@@ -255,7 +255,8 @@ namespace WrpCcNocWeb.Controllers
                            ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
                            IsCompletedId = p.IsCompletedId,
                            ReasonOfRejection = p.ReasonOfRejection,
-                           AppApprovalDate = p.AppApprovalDate
+                           AppApprovalDate = p.AppApprovalDate,
+                           UndertakingSubmitYesNoId = p.UndertakingSubmitYesNoId
                        }).OrderByDescending(o => o.ProjectId).ToList();
             }
             else if (uli.UserGroupId != 1000000001 && uli.AuthorityLevelId == 0)
@@ -282,7 +283,8 @@ namespace WrpCcNocWeb.Controllers
                            ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
                            IsCompletedId = p.IsCompletedId,
                            ReasonOfRejection = p.ReasonOfRejection,
-                           AppApprovalDate = p.AppApprovalDate
+                           AppApprovalDate = p.AppApprovalDate,
+                           UndertakingSubmitYesNoId = p.UndertakingSubmitYesNoId
                        }).OrderByDescending(o => o.ProjectId).ToList();
             }
             else
@@ -315,7 +317,8 @@ namespace WrpCcNocWeb.Controllers
                                ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
                                IsCompletedId = p.IsCompletedId,
                                ReasonOfRejection = p.ReasonOfRejection,
-                               AppApprovalDate = p.AppApprovalDate
+                               AppApprovalDate = p.AppApprovalDate,
+                               UndertakingSubmitYesNoId = p.UndertakingSubmitYesNoId
                            }).OrderByDescending(o => o.ProjectId).ToList();
                 }
 
@@ -345,7 +348,8 @@ namespace WrpCcNocWeb.Controllers
                                ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
                                IsCompletedId = p.IsCompletedId,
                                ReasonOfRejection = p.ReasonOfRejection,
-                               AppApprovalDate = p.AppApprovalDate
+                               AppApprovalDate = p.AppApprovalDate,
+                               UndertakingSubmitYesNoId = p.UndertakingSubmitYesNoId
                            }).OrderByDescending(o => o.ProjectId).ToList();
                 }
 
@@ -375,7 +379,8 @@ namespace WrpCcNocWeb.Controllers
                                ApprovalStatus = !string.IsNullOrEmpty(ap.ApprovalStatus) ? ap.ApprovalStatus : "Pending",
                                IsCompletedId = p.IsCompletedId,
                                ReasonOfRejection = p.ReasonOfRejection,
-                               AppApprovalDate = p.AppApprovalDate
+                               AppApprovalDate = p.AppApprovalDate,
+                               UndertakingSubmitYesNoId = p.UndertakingSubmitYesNoId
                            }).OrderByDescending(o => o.ProjectId).ToList();
                 }
             }
@@ -393,6 +398,208 @@ namespace WrpCcNocWeb.Controllers
         {
             return View();
         }
+
+        #region Query and Notification
+        public UserInfo GetHigherAuthorityByProjectId(CcModAppProjectCommonDetail pcd)
+        {
+            UserInfo _ui = new UserInfo();
+            int ApplicationStateId = 0;
+            string UnionGeoCode = string.Empty, UpazilaGeoCode = string.Empty, DistrictGeoCode = string.Empty;
+
+            try
+            {
+                if (pcd != null)
+                {
+                    #region Getting Application State Id
+                    //Step 1: App State checking based on Project Estimated Cost Range
+                    #region Finding Application State from Cost Range
+                    ApplicationStateId = GetProjectCostRangeState(pcd.ProjectId);
+                    #endregion
+
+                    //Step 2: App State checking based on Project Multiple Location
+                    #region Multiple Location Checking
+                    ApplicationStateId = GetProjectMultipleLocation(pcd.ProjectId);
+                    #endregion
+
+                    //Step 3: App State checking based on Payment Method
+                    #region Payment Method Checking
+                    //payment method code will be incorporate here
+                    #endregion
+
+                    //Step 4: App State checking based on Mandatory File Attachment
+                    #region Mandatory File Attachment Checking
+                    //mandatory file attachment code will be incorporate here
+                    #endregion
+                    #endregion
+
+                    if (ApplicationStateId > 0)
+                    {
+                        LookUpCcModApplicationState appstate = _db.LookUpCcModApplicationState.Find(ApplicationStateId);
+                        List<CcModPrjLocationDetail> lcations = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == pcd.ProjectId).ToList();
+
+                        int? AuthorityLevelId = appstate.AuthorityLevelId;
+                        long? UserGroupId = appstate.UserGroupId;
+
+                        int UnionGeoCodeUniqueCount = lcations.DistinctBy(d => d.UnionGeoCode).Count();
+                        int UpazilaGeoCodeUniqueCount = lcations.DistinctBy(d => d.UpazilaGeoCode).Count();
+                        int DistrictGeoCodeUniqueCount = lcations.DistinctBy(d => d.DistrictGeoCode).Count();
+
+                        LookUpAdminModUserGroup ug = new LookUpAdminModUserGroup();
+
+                        #region Union Checking
+                        if (UnionGeoCodeUniqueCount == 1)
+                        {
+                            UnionGeoCode = lcations.DistinctBy(d => d.UnionGeoCode).Select(s => s.UnionGeoCode).FirstOrDefault();
+                            UpazilaGeoCode = lcations.DistinctBy(d => d.UpazilaGeoCode).Select(s => s.UpazilaGeoCode).FirstOrDefault();
+                            DistrictGeoCode = lcations.DistinctBy(d => d.DistrictGeoCode).Select(s => s.DistrictGeoCode).FirstOrDefault();
+
+                            ug = _db.LookUpAdminModUserGroup
+                                    .Where(w => w.AuthorityLevelId == AuthorityLevelId &&
+                                                w.UnionGeoCode == UnionGeoCode &&
+                                                w.UpazilaGeoCode == UpazilaGeoCode &&
+                                                w.DistrictGeoCode == DistrictGeoCode).FirstOrDefault();
+                        }
+                        else
+                        {
+                            UpazilaGeoCode = lcations.DistinctBy(d => d.UpazilaGeoCode).Select(s => s.UpazilaGeoCode).FirstOrDefault();
+                            DistrictGeoCode = lcations.DistinctBy(d => d.DistrictGeoCode).Select(s => s.DistrictGeoCode).FirstOrDefault();
+
+                            ug = _db.LookUpAdminModUserGroup
+                                    .Where(w => w.AuthorityLevelId == AuthorityLevelId &&
+                                                w.UnionGeoCode == "" &&
+                                                w.UpazilaGeoCode == UpazilaGeoCode &&
+                                                w.DistrictGeoCode == DistrictGeoCode).FirstOrDefault();
+                        }
+                        #endregion
+
+                        #region Upazila Checking
+                        if (UpazilaGeoCodeUniqueCount == 1 && ug == null)
+                        {
+                            UpazilaGeoCode = lcations.DistinctBy(d => d.UpazilaGeoCode).Select(s => s.UpazilaGeoCode).FirstOrDefault();
+                            DistrictGeoCode = lcations.DistinctBy(d => d.DistrictGeoCode).Select(s => s.DistrictGeoCode).FirstOrDefault();
+
+                            ug = _db.LookUpAdminModUserGroup
+                                    .Where(w => w.AuthorityLevelId == AuthorityLevelId &&
+                                                w.UnionGeoCode == "" &&
+                                                w.UpazilaGeoCode == UpazilaGeoCode &&
+                                                w.DistrictGeoCode == DistrictGeoCode).FirstOrDefault();
+                        }
+                        else
+                        {
+                            DistrictGeoCode = lcations.DistinctBy(d => d.DistrictGeoCode).Select(s => s.DistrictGeoCode).FirstOrDefault();
+
+                            if (ug == null)
+                            {
+                                ug = _db.LookUpAdminModUserGroup
+                                        .Where(w => w.AuthorityLevelId == AuthorityLevelId &&
+                                                    w.UnionGeoCode == "" &&
+                                                    w.UpazilaGeoCode == "" &&
+                                                    w.DistrictGeoCode == DistrictGeoCode).FirstOrDefault();
+                            }
+                        }
+                        #endregion
+
+                        #region District Checking
+                        if (UpazilaGeoCodeUniqueCount == 1 && ug == null)
+                        {
+                            DistrictGeoCode = lcations.DistinctBy(d => d.DistrictGeoCode).Select(s => s.DistrictGeoCode).FirstOrDefault();
+
+                            ug = _db.LookUpAdminModUserGroup
+                                    .Where(w => w.AuthorityLevelId == AuthorityLevelId &&
+                                                w.UnionGeoCode == "" &&
+                                                w.UpazilaGeoCode == "" &&
+                                                w.DistrictGeoCode == DistrictGeoCode).FirstOrDefault();
+                        }
+                        else
+                        {
+                            DistrictGeoCode = lcations.DistinctBy(d => d.DistrictGeoCode).Select(s => s.DistrictGeoCode).FirstOrDefault();
+
+                            if (ug == null)
+                            {
+                                ug = _db.LookUpAdminModUserGroup
+                                    .Where(w => w.AuthorityLevelId == AuthorityLevelId &&
+                                                w.UnionGeoCode == "" &&
+                                                w.UpazilaGeoCode == "" &&
+                                                w.DistrictGeoCode == "" &&
+                                                w.UserGroupId == UserGroupId).FirstOrDefault();
+                            }
+                        }
+                        #endregion
+
+                        if (ug != null)
+                        {
+                            _ui = (from gdd in _db.AdminModUserGrpDistDetail
+
+                                   join ud in _db.AdminModUsersDetail on gdd.UserId equals ud.UserId into udGroup
+                                   from ui in udGroup.DefaultIfEmpty()
+
+                                   join rd in _db.AdminModUserRegistrationDetail on ui.UserRegistrationId equals rd.UserRegistrationId into rdGroup
+                                   from ri in rdGroup.DefaultIfEmpty()
+
+                                   where gdd.UserGroupId.Equals(ug.UserGroupId)
+
+                                   select new UserInfo
+                                   {
+                                       UserID = ui.UserId,
+                                       UserRegistrationID = ri.UserRegistrationId,
+                                       UserName = ri.UserName.ToString(),
+                                       UserFullName = ui.UserFullName,
+                                       UserDesignation = ui.UserDesignation,
+                                       UserMobile = ri.UserMobile.ToString(),
+                                       UserEmail = ri.UserEmail.ToString(),
+                                       UserAddress = ui.UserAddress,
+                                       UserActivationStatus = ri.UserActivationStatus,
+                                       DateOfCreation = ri.DateOfCreation,
+                                       LastModifiedDate = ri.LastModifiedDate,
+                                       IsDeleted = ri.IsDeleted
+                                   }).FirstOrDefault();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _ui = new UserInfo();
+            }
+
+            return _ui;
+        }
+
+        public UserInfo GetUserInfoById(int uid)
+        {
+            UserInfo _ui = new UserInfo();
+
+            try
+            {
+                _ui = (from ui in _db.AdminModUsersDetail
+                       join rd in _db.AdminModUserRegistrationDetail on ui.UserRegistrationId equals rd.UserRegistrationId into rdGroup
+                       from ri in rdGroup.DefaultIfEmpty()
+                       where ui.UserId.Equals(uid)
+
+                       select new UserInfo
+                       {
+                           UserID = ui.UserId,
+                           UserRegistrationID = ri.UserRegistrationId,
+                           UserName = ri.UserName.ToString(),
+                           UserFullName = ui.UserFullName,
+                           UserDesignation = ui.UserDesignation,
+                           UserMobile = ri.UserMobile.ToString(),
+                           UserEmail = ri.UserEmail.ToString(),
+                           UserAddress = ui.UserAddress,
+                           UserActivationStatus = ri.UserActivationStatus,
+                           DateOfCreation = ri.DateOfCreation,
+                           LastModifiedDate = ri.LastModifiedDate,
+                           IsDeleted = ri.IsDeleted
+                       }).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                _ui = new UserInfo();
+            }
+
+            return _ui;
+        }
+        #endregion
 
         #region  Print View
         //Form 3.1: Flood Control Management Project Print View
@@ -4453,7 +4660,7 @@ namespace WrpCcNocWeb.Controllers
                     //payment method code will be incorporate here
                     #endregion
 
-                    //Step 3: Mandatory File Attachment
+                    //Step 4: Mandatory File Attachment
                     #region Mandatory File Attachment Checking
                     //mandatory file attachment code will be incorporate here
                     #endregion
@@ -8121,7 +8328,7 @@ namespace WrpCcNocWeb.Controllers
             return result;
         }
 
-        private int GetProjectCostRangeState(long projectId)
+        public int GetProjectCostRangeState(long projectId)
         {
             double ProjectEstimatedCost = _db.CcModAppProjectCommonDetail
                                              .Where(w => w.ProjectId == projectId)
@@ -8204,7 +8411,7 @@ namespace WrpCcNocWeb.Controllers
         }
         */
 
-        private int GetProjectMultipleLocation(long projectId)
+        public int GetProjectMultipleLocation(long projectId)
         {
             int appState = 0;
             int tUnion = 0, tUpazila = 0, tDistrict = 0;
@@ -21164,6 +21371,6 @@ namespace WrpCcNocWeb.Controllers
 
             return aaList;
         }
-        #endregion
+        #endregion        
     }
 }

@@ -152,16 +152,23 @@ namespace WrpCcNocWeb.Controllers
             else
             {
                 _ui = (from ri in _db.AdminModUserRegistrationDetail
+                       join ud in _db.AdminModUsersDetail on ri.UserRegistrationId equals ud.UserRegistrationId into udGroup
+                       from ui in udGroup.DefaultIfEmpty()
                        where ri.UserName.Equals(logged_user)
                        select new UserInfo
                        {
                            UserID = user_id,
                            UserRegistrationID = ri.UserRegistrationId,
                            UserName = ri.UserName.ToString(),
-                           UserEmail = ri.UserEmail.ToString(),
+                           UserFullName = ui.UserFullName,
+                           UserDesignation = ui.UserDesignation,
                            UserMobile = ri.UserMobile.ToString(),
+                           UserEmail = ri.UserEmail.ToString(),
+                           UserAddress = ui.UserAddress,
                            UserActivationStatus = ri.UserActivationStatus,
-                           DateOfCreation = ri.DateOfCreation
+                           DateOfCreation = ri.DateOfCreation,
+                           LastModifiedDate = ri.LastModifiedDate,
+                           IsDeleted = ri.IsDeleted
                        }).FirstOrDefault();
             }
 

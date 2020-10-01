@@ -8,6 +8,7 @@ using WrpCcNocWeb.DatabaseContext;
 using WrpCcNocWeb.Helpers;
 using WrpCcNocWeb.Models;
 using WrpCcNocWeb.Models.TempModels;
+using WrpCcNocWeb.Models.UserManagement;
 using WrpCcNocWeb.Models.Utility;
 
 namespace WrpCcNocWeb.Controllers
@@ -174,6 +175,75 @@ namespace WrpCcNocWeb.Controllers
             }
 
             return callAt;
+        }
+
+        //common/gunl :: GetUserNotificationList
+        [HttpGet]
+        public JsonResult gunl()
+        {
+            try
+            {
+                UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+
+                var _details = (from qd in _db.CcModProjectQueryDetail
+
+                                join sdi in _db.AdminModUsersDetail on qd.SenderUserId equals sdi.UserId //sender user info
+                                join sri in _db.AdminModUserRegistrationDetail on sdi.UserRegistrationId equals sri.UserRegistrationId //sender reg info
+
+                                join rei in _db.AdminModUsersDetail on qd.ReceiverUserId equals rei.UserId //receiver user info
+                                join rri in _db.AdminModUserRegistrationDetail on rei.UserRegistrationId equals rri.UserRegistrationId //receiver reg info
+
+                                where qd.ReceiverUserId == ui.UserID && qd.QueryStateId == 2
+
+                                select new
+                                {
+                                    qd.ProjectQueryId,
+                                    qd.ProjectId,
+                                    qd.SenderUserId,
+                                    SenderUserName = sri.UserName,
+                                    SenderFullName = sdi.UserFullName,
+                                    SenderDesignation = sdi.UserDesignation,
+                                    QuerySubject = qd.QuerySubject.Substring(0, 35),
+                                    QueryBody = qd.QueryBody.Substring(0, 35),
+                                    qd.ReceiverUserId,
+                                    ReceiverUserName = rri.UserName,
+                                    ReceiverFullName = rei.UserFullName,
+                                    ReceiverDesignation = rei.UserDesignation,
+                                    qd.QueryStateId,
+                                    SentOn = qd.QuerySentOn.ToString("dd MMM, yyyy HH:mm")
+                                }).OrderByDescending(o => o.ProjectQueryId).Take(10).ToList();
+
+                if (_details.Count > 0)
+                {
+                    return Json(_details);
+                }
+                else
+                {
+                    _details = null;
+
+                    noti = new Notification
+                    {
+                        id = string.Empty,
+                        status = "error",
+                        message = "Sorry, no data found."
+                    };
+
+                    return Json(noti);
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = string.Empty,
+                    status = "error",
+                    message = message
+                };
+
+                return Json(noti);
+            }
         }
     }
 }

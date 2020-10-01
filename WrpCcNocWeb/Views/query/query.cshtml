@@ -1,0 +1,103 @@
+﻿@using static WrpCcNocWeb.Models.CcModProjectQueryDetail
+
+@{
+    ViewData["Title"] = "Query";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    hr.double {
+        border-top: 4px double black;
+    }
+
+    /*hr.double:after {
+            content: 'Query';
+            display: inline-block;
+            position: relative;
+            top: -15px;
+            left: 40px;
+            padding: 0 10px;
+            background: #f0f0f0;
+            color: #8c8b8b;
+            font-size: 18px;
+        }*/
+</style>
+<div class="row justify-content-md-center">
+    <div class="col-6">
+        <div class="card-box widget-inline">
+            <div class="row justify-content-md-center">
+                <div class="col col-lg-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="header-title mb-3">
+                                        <b>Query</b>
+                                    </h4>
+                                    @using (Html.BeginForm("query", "query", FormMethod.Post, new { enctype = "multipart/form-data", id = "QueryForm", role = "form" }))
+                                    {
+                                        <input type="hidden" id="ProjectQueryId" name="ProjectQueryId" value="@ViewBag.ProjectQueryId" />
+                                        <input type="hidden" id="ProjectId" name="ProjectId" value="@ViewBag.ProjectId" />
+
+                                        <div id="basicwizard">
+                                            <div id="gen-info-form">
+                                                <div class="form-group">
+                                                    <label for="SenderName">Sender</label>
+                                                    <input type="text" id="SenderName" name="SenderName" value="@ViewBag.SenderName" class="form-control" readonly />
+                                                    <input type="hidden" id="SenderUserId" name="SenderUserId" value="@ViewBag.SenderUserId" />
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="ReceiverName">Receiver</label>
+                                                    <input type="text" id="ReceiverName" name="ReceiverName" value="@ViewBag.ReceiverName" class="form-control" readonly />
+                                                    <input type="hidden" id="ReceiverUserId" name="ReceiverUserId" value="@ViewBag.ReceiverUserId" />
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="QuerySubject">Subject</label>
+                                                    <input type="text" id="QuerySubject" name="QuerySubject" value="@ViewBag.QuerySubject" class="form-control" />
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="QueryBody">Message</label>
+                                                    <div id="divOldMeassge" style="max-height: 150px; overflow-x: hidden; overflow-y: auto;
+                                                        border: 1px solid #808080; font-size: 80%; padding: 5px; margin-bottom: 10px;">
+                                                        @Html.Raw(ViewBag.OldQueryBody)
+                                                    </div>
+                                                    <textarea id="QueryBody" name="QueryBody" placeholder="Write here..." class="form-control" rows="4">@ViewBag.QueryBody</textarea>
+                                                </div>
+
+                                                <div class="form-group mb-0">
+                                                    <button id="btnSubmitQuery" type="submit" class="btn btn-info waves-effect waves-light">
+                                                        <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
+                                                        Submit
+                                                        <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
+                                                    </button>
+
+                                                    <a id="btnClearQuery" href="@Url.Action("index", "query")" class="btn btn-secondary waves-effect waves-light">
+                                                        <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
+                                                        Cancel
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PageScripts {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery("#btnSubmitQuery").click(function () {
+
+            });            
+        });
+    </script>
+}

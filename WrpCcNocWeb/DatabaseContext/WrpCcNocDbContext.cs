@@ -100,6 +100,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<CcModAppAdditionalAttachment> CcModAppAdditionalAttachment { get; set; }
         public DbSet<CcModAppHearingAttachment> CcModAppHearingAttachment { get; set; }
         public DbSet<CcModAppPrjLocationFiles> CcModAppPrjLocationFiles { get; set; }
+        public DbSet<CcModProjectQueryDetail> CcModProjectQueryDetail { get; set; }
         #endregion
 
         #region LookUp --- CC Module     
@@ -167,6 +168,8 @@ namespace WrpCcNocWeb.DatabaseContext
         //added by rony
         public DbSet<LookUpCcModDredgingPlanParam> LookUpCcModDredgingPlanParam { get; set; }
         public DbSet<LookUpCcModGeneralSetting> LookUpCcModGeneralSetting { get; set; }
+        public DbSet<LookUpCcModQueryState> LookUpCcModQueryState { get; set; }
+        public DbSet<LookUpCcModUndertakingFormat> LookUpCcModUndertakingFormat { get; set; }
         #endregion
     }
 }

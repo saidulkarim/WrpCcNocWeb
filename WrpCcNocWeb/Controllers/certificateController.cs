@@ -15,6 +15,8 @@ using static WrpCcNocWeb.Helpers.CommonHelper;
 using Rotativa.AspNetCore;
 using Rotativa.AspNetCore.Options;
 using WrpCcNocWeb.Models.CcModule;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Routing.Matching;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -112,7 +114,7 @@ namespace WrpCcNocWeb.Controllers
             }
         }
 
-        //certificate/view/59
+        //certificate/undertaking
         public IActionResult undertaking(long? id, int? lang)
         {
             if (id == null || id == 0)
@@ -128,17 +130,10 @@ namespace WrpCcNocWeb.Controllers
                 return RedirectToAction("list", "form");
             }
 
-            LookUpCcModProjectType pt = _db.LookUpCcModProjectType.Find(pcd.ProjectTypeId);
-            if (pt == null)
+            LookUpCcModUndertakingFormat uf = _db.LookUpCcModUndertakingFormat.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).FirstOrDefault();
+            if (uf == null)
             {
-                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Project Info Error", "Sorry, project type information not found!");
-                return RedirectToAction("list", "form");
-            }
-
-            LookUpCcModCertificateFormat cf = _db.LookUpCcModCertificateFormat.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).FirstOrDefault();
-            if (cf == null)
-            {
-                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Certificate Format Error", "Sorry, certificate template not found!");
+                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Undertaking Format Error", "Sorry, undertaking template not found!");
                 return RedirectToAction("list", "form");
             }
 
@@ -147,46 +142,88 @@ namespace WrpCcNocWeb.Controllers
 
             if (ai != null)
             {
-                WrpCcNocWebCertificate crt = new WrpCcNocWebCertificate
+                var now_date_time = DateTime.Now;
+                WrpCcNocUndertaking undertaking_info = new WrpCcNocUndertaking
                 {
+                    ProjectId = pcd.ProjectId,
+                    ProjectTypeId = pcd.ProjectTypeId,
+                    LanguageId = lang ?? 0,// pcd.LanguageId ?? 0,
                     ApplicantName = ai.ApplicantName,
                     ApplicantNameBn = ai.ApplicantNameBn,
                     ApplicantAddress = ai.ApplicantAddress,
                     ApplicantAddressBn = ai.ApplicantAddressBn,
-                    ApplicantMobile = ai.ApplicantMobile,
-                    ApplicantMobileBn = ai.ApplicantMobileBn.NumberEnglishToBengali(),
-                    ApplicantEmail = ai.ApplicantEmail,
-                    ApplicantGroupName = ai.ApplicantGroupName,
-                    LanguageId = lang ?? 0,// pcd.LanguageId ?? 0,
-                    ClearanceNo = pcd.AppSubmissionId,
-                    ClearanceNoBn = pcd.AppSubmissionId.ToString().NumberEnglishToBengali(),
-                    //ClearanceDate = DateTime.Now.ToString("dd MMMM, yyyy"),
-                    //ClearanceDateBn = DateTime.Now.ToString("dd MMMM, yyyy").NumberEnglishToBengali().MonthEnglishToBengali(),
-                    ClearanceDate = pcd.AppApprovalDate.Value.ToString("dd MMMM, yyyy"),
-                    ClearanceDateBn = pcd.AppApprovalDate.Value.ToString("dd MMMM, yyyy").NumberEnglishToBengali().MonthEnglishToBengali(),
-                    ProjectType = pt,
-                    FormNo = pt.ProjectTypeId.ToString().PadLeft(2, '0'),
-                    FormNoBn = pt.ProjectTypeId.ToString().PadLeft(2, '0').NumberEnglishToBengali(),
-                    CertificateFormat = cf,
-                    HigherAuthSignature = ahai.HigherAuthSignature,
-                    HigherAuthSeal = ahai.HigherAuthSeal
+                    LocationName = "CEGIS",
+                    LocationNameBn = "সি.ই.জি.আই.এস ",
+
+                    UndertakingDate = now_date_time.ToString("dd MMMM, yyyy"),
+                    UndertakingDateBn = now_date_time.ToString("dd MMMM, yyyy").NumberEnglishToBengali().MonthEnglishToBengali(),
+                    UndertakingTime = now_date_time.ToString("HH:mm:ss"),
+                    UndertakingTimeBn = now_date_time.ToString("HH:mm:ss").NumberEnglishToBengali(),
+                    UndertakingFormat = uf,
+                    ApplicantSignatureFile = _db.AdminModUsersDetail.Where(w => w.UserId == pcd.UserId).Select(s => s.SignatureFileName).FirstOrDefault()
                 };
 
-                ViewData["WrpCcNocWebCertificate"] = crt;
-
-                return new ViewAsPdf("~/Views/certificate/view.cshtml", viewData: ViewData)
-                {
-                    PageSize = Size.A4,
-                    PageOrientation = Orientation.Portrait,
-                    PageMargins = new Margins(10, 10, 10, 10)
-                };
-                //return View();
+                ViewData["WrpCcNocUndertaking"] = undertaking_info;
             }
             else
             {
                 TempData["Message"] = ch.ShowMessage(Sign.Danger, "Application Info", "Sorry, application information not found!");
                 return RedirectToAction("list", "form");
             }
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult undertaking()
+        {
+            int result = 0;
+            long pid = Request.Form["ProjectId"].ToString().ToLong();
+            int lid = Request.Form["LanguageId"].ToString().ToInt();
+
+            if (pid > 0)
+            {
+                try
+                {
+                    CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(pid);
+
+                    if (pcd != null)
+                    {
+                        pcd.IsCompletedId = 7;
+                        pcd.UndertakingSubmitYesNoId = 1;
+                        _db.Entry(pcd).State = EntityState.Modified;
+                        result = _db.SaveChanges();
+
+                        if (result > 0)
+                        {
+                            TempData["Message"] = ch.ShowMessage(Sign.Success, "Successfully Submitted", "Your undertaking has been successfully submitted!");
+                            return RedirectToAction("list", "form");
+                        }
+                        else
+                        {
+                            TempData["Message"] = ch.ShowMessage(Sign.Error, "Not Submitted", "Your undertaking not submitted! Try again...");
+                            return RedirectToAction("undertaking", "certificate", new { id = pid, lang = lid });
+                        }
+                    }
+                    else
+                    {
+                        TempData["Message"] = ch.ShowMessage(Sign.Error, "Invalid Project", "Invalid project selected!");
+                        return RedirectToAction("list", "form");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Error, "Error Occured", ex.Message);
+                    return RedirectToAction("list", "form");
+                }
+            }
+            else
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Error, "Invalid Project", "Invalid project selected!");
+                return RedirectToAction("list", "form");
+            }
+
+            return View();
         }
 
         #region Certificate Verification

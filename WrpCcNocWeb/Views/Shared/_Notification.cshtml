@@ -1,0 +1,78 @@
+﻿<li class="dropdown notification-list">
+    <a id="lnkTop10Notifications" class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+        <i class="fe-bell noti-icon"></i>
+        <span id="spnNewCount" class="badge badge-danger rounded-circle noti-icon-badge">0</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right dropdown-lg">
+        <div class="dropdown-item noti-title">
+            <h5 class="m-0">
+                Notification
+            </h5>
+        </div>
+
+        <div id="divNotificationsList" class="slimscroll noti-scroll">
+        </div>
+
+        <a href="@Url.Action("index", "query")" class="dropdown-item text-center text-primary notify-item notify-all">
+            View all
+            <i class="fi-arrow-right"></i>
+        </a>
+    </div>
+</li>
+
+<script type="text/javascript">
+    getLatestNotifications();
+
+    jQuery(document).ready(function () {
+        window.setInterval(getLatestNotifications, 5 * 60 * 1000);
+
+        jQuery("#lnkTop10Notifications").click(function () {
+            getLatestNotifications();
+        });
+    });
+
+    function getLatestNotifications() {
+        var url = '@Url.Action("gunl", "common")';
+        jQuery.ajax({
+            type: "GET",
+            url: url,            
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.length > 0) {
+                    console.log('Notification data loading...');
+                    console.log(data);
+
+                    var noti_data = '';
+
+                    if (data.status != 'error') {
+                        var count = 0, view_query = '';
+                        var query_link = '@Url.Action("query", "query")';
+
+                        jQuery.each(data, function (i, item) {
+                            ++count;
+                            if (item.projectId != '') {
+                                view_query = query_link + '/' + item.projectId + '?qid=' + item.projectQueryId;
+                                noti_data += '<a href="' + view_query + '" class="dropdown-item notify-item"><div class="notify-icon bg-info"><i class="fas fa-user-alt"></i></div><p class="notify-details">' + item.senderFullName + '</p><p class="text-muted mb-0 user-msg"><small>' + item.querySubject + '</small><br /><small>' + item.sentOn + '</small></p></a>';
+                            } else {
+                                view_query = query_link + '/0?qid=' + item.projectQueryId;
+                                noti_data += '<a href="' + view_query + '" class="dropdown-item notify-item"><div class="notify-icon bg-info"><i class="fas fa-user-tie"></i></div><p class="notify-details">' + item.senderFullName + '</p><p class="text-muted mb-0 user-msg"><small>' + item.querySubject + '</small><br /><small>' + item.sentOn + '</small></p></a>';
+                            }
+                        });
+
+                        jQuery("#spnNewCount").text(count);
+                        jQuery("#divNotificationsList").html(noti_data);
+                    } else {
+                        jQuery("#spnNewCount").text(0);
+                        jQuery("#divNotificationsList").html(data.message);
+                    }
+                } else {
+                    jQuery("#spnNewCount").text(0);
+                    jQuery("#divNotificationsList").html('no new query');
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#divNotificationsList").html(errorMsg);
+            }
+        });
+    }
+</script>

@@ -1,8 +1,143 @@
-﻿
+﻿@using WrpCcNocWeb.Models.TempModels;
+
 @{
-    ViewData["Title"] = "assurance";
+    ViewData["Title"] = "Submit Undertaking";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = "~/Views/Shared/_ReportLayout.cshtml";
+
+    WrpCcNocUndertaking crt = ViewData["WrpCcNocUndertaking"] as WrpCcNocUndertaking;
+    int language = crt.LanguageId;
+    LookUpCcModUndertakingFormat cf = crt.UndertakingFormat;
+
+    if (cf == null)
+    {
+        this.Context.Response.HttpContext.Response.Redirect("/form/list", true);
+    }
+
+    List<string> dynamic_data_list = new List<string>();
+    string undertaking_html_content = string.Empty;
 }
 
-<h1>assurance</h1>
+@if (language == 1)
+{
+    dynamic_data_list.Add(crt.ApplicantNameBn);
+    dynamic_data_list.Add(crt.ApplicantAddressBn);
+    dynamic_data_list.Add(crt.LocationNameBn);
+    dynamic_data_list.Add(crt.UndertakingDateBn);
+    dynamic_data_list.Add(crt.UndertakingTimeBn);
 
+    undertaking_html_content = "<p style='text-align: justify;'>" + cf.CertificateBodyBn.ToString() + "</p><br />";
+    undertaking_html_content += "<p><ul style='list-style-type: none;'>" + cf.TermsConditionsBn.ToString() + "</ul></p><br />";
+    undertaking_html_content += "<p style='text-align: justify;'>" + cf.CertificateFooterBn.ToString() + "</p><br />";
+
+    for (int i = 0; i < dynamic_data_list.Count; i++)
+    {
+        undertaking_html_content = undertaking_html_content.Replace("{{var_" + (i + 1) + "}}", dynamic_data_list[i]);
+    }
+
+    <div class="row justify-content-md-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div id="divCertificatePrint" class="collapse show">
+                    <div class="card-body" style="padding-left: 3.5rem !important;padding-right: 3.5rem !important;">
+                        <div id="divTopBar">
+                            <p style="text-align: right;">
+                                <span>@cf.FormNoBn</span><br />
+                                <span>(নমুনা)</span><br />
+                                <span>@cf.RuleAsPerGazetteBn</span>
+                            </p>
+                        </div>
+                        <p style="text-align: center;">
+                            অঙ্গীকারনামা<br />
+                            (অনাপত্তি এবং প্রকল্প ছাড়পত্রের ক্ষেত্রে প্রযোজ্য)<br />
+                            (যথাযথ স্ট্যাম্প কাগজে)<br />
+                        </p>
+                        <br />
+                        <div class="row">
+                            @Html.Raw(undertaking_html_content)
+                        </div>
+                        <br />
+                        <span style="text-align: center; float: right">
+                            @if (!string.IsNullOrEmpty(crt.ApplicantSignatureFile))
+                            {
+                                <img src="~/images/signature/@crt.ApplicantSignatureFile.ToString()" height="80" />
+                                <br /><hr />
+                            }
+                            অঙ্গীকার প্রদানকারীর স্বাক্ষর
+                        </span>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    dynamic_data_list.Add(crt.ApplicantName);
+    dynamic_data_list.Add(crt.ApplicantAddress);
+    dynamic_data_list.Add(crt.LocationName);
+    dynamic_data_list.Add(crt.UndertakingDate);
+    dynamic_data_list.Add(crt.UndertakingTime);
+
+    undertaking_html_content = "<p style='text-align: justify;'>" + cf.CertificateBody.ToString() + "</p><br />";
+    undertaking_html_content += "<p><ul style='list-style-type: none;'>" + cf.TermsConditions.ToString() + "</ul></p><br />";
+    undertaking_html_content += "<p style='text-align: justify;'>" + cf.CertificateFooter.ToString() + "</p><br />";
+
+    for (int i = 0; i < dynamic_data_list.Count; i++)
+    {
+        undertaking_html_content = undertaking_html_content.Replace("{{var_" + (i + 1) + "}}", dynamic_data_list[i]);
+    }
+
+    <div class="row justify-content-md-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div id="divCertificatePrint" class="collapse show">
+                    <div class="card-body" style="padding-left: 3.5rem !important;padding-right: 3.5rem !important;">
+                        <div id="divTopBar">
+                            <p style="text-align: right;">
+                                <span>@cf.FormNo</span><br />
+                                <span>(Sample)</span><br />
+                                <span>@cf.RuleAsPerGazette</span>
+                            </p>
+                        </div>
+                        <p style="text-align: center;">
+                            Undertaking<br />
+                            (Applicable in case of No-Objection and Project Clearance)<br />
+                            (On appropriate stamp paper)<br />
+                        </p>
+                        <br />
+                        <br />
+                        <div class="row">
+                            @Html.Raw(undertaking_html_content)
+                        </div>
+                        <br />
+                        <span style="text-align: center; float: right">
+                            @if (!string.IsNullOrEmpty(crt.ApplicantSignatureFile))
+                            {
+                                <img src="~/images/signature/@crt.ApplicantSignatureFile.ToString()" height="80" />
+                                <br /><hr />
+                            }
+                            Signature of the Undertaker
+                        </span>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<hr />
+<div class="row justify-content-md-center">
+    @using (Html.BeginForm("undertaking", "certificate", FormMethod.Post, new { enctype = "multipart/form-data", id = "FormUndertakingSubmit", role = "form" }))
+    {
+        <input type="hidden" id="ProjectId" name="ProjectId" value="@crt.ProjectId" />
+        <input type="hidden" id="LanguageId" name="LanguageId" value="@language" />
+
+        <button type="submit" class="btn btn-success waves-effect waves-light width-lg">
+            Submit
+            <span class="btn-label-right"><i class="mdi mdi-certificate"></i></span>
+        </button>
+    }
+</div>

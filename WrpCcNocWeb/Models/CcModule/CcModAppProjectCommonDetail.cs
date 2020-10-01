@@ -538,6 +538,12 @@ namespace WrpCcNocWeb.Models
         [MaxLength(500)]
         public string RecommendedByIwrmcNote { get; set; }
 
+        [Column("UndertakingSubmitYesNoId", Order = 101)]
+        [Display(Name = "Is Undertaking Submitted?")]
+        public int? UndertakingSubmitYesNoId { get; set; }
+        //[ForeignKey("UndertakingSubmitYesNoId")]
+        //public virtual LookUpCcModYesNo LookUpYesNoUndertakingSubmit { get; set; }
+
         public virtual List<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetails { get; set; }
         public virtual List<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetails { get; set; }
         public virtual List<CcModBDP2100GoalDetail> CcModBDP2100GoalDetails { get; set; }

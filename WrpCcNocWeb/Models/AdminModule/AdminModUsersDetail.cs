@@ -112,5 +112,11 @@ namespace WrpCcNocWeb.Models
         [Column("HigherAuthSeal", Order = 19)]
         [MaxLength(50)]
         public string HigherAuthSeal { get; set; }
+
+        [InverseProperty("AdminModUsersDetail_SenderId")]
+        public virtual List<CcModProjectQueryDetail> AdminModUsersDetail_SenderId { get; set; }
+
+        [InverseProperty("AdminModUsersDetail_ReceiverId")]
+        public virtual List<CcModProjectQueryDetail> AdminModUsersDetail_ReceiverId { get; set; }
     }
 }
