@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace WrpCcNocWeb.Helpers
 {
@@ -244,6 +245,25 @@ namespace WrpCcNocWeb.Helpers
                     yield return element;
                 }
             }
+        }
+
+        /// <summary>
+        /// To remove Tab, New Line, Carriage Return from a input string.
+        /// Writer: A.T.M. Saidul Karim RonY.
+        /// Written On: 04 Oct, 2020.
+        /// </summary>
+        /// <param name="text">String data type text</param>
+        /// <returns></returns>
+        public static string RemoveTabNewLineCarriageReturn(this string text)
+        {
+            string replacement = string.Empty;
+
+            if (!string.IsNullOrEmpty(text))
+                replacement = Regex.Replace(text, @"\t|\n|\r", "");
+            else
+                replacement = text;
+
+            return replacement;
         }
     }
 

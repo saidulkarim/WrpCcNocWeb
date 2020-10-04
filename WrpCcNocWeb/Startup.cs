@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -72,12 +73,14 @@ namespace WrpCcNocWeb
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    //pattern: "{controller=account}/{action=index}/{id?}");
                     pattern: "{controller=account}/{action=login}/{id?}");
-                    //pattern: "{controller=home}/{action=index}/{id?}");
             });
 
             RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");
+
+            var cultureInfo = new CultureInfo("bn-BD");
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@using WrpCcNocWeb.Models.TempModels;
+@using WrpCcNocWeb.Models.UserManagement;
 
 @{
     ViewData["Title"] = "Submit Undertaking";
@@ -14,8 +15,12 @@
         this.Context.Response.HttpContext.Response.Redirect("/form/list", true);
     }
 
+    string submit_date = crt.UndertakingDate.ToString() + " " + crt.UndertakingTime.ToString();
     List<string> dynamic_data_list = new List<string>();
     string undertaking_html_content = string.Empty;
+
+    UserLevelInfo uli = ViewData["UserLevelInfo"] as UserLevelInfo;
+    var UserAuthLevelID = uli.AuthorityLevelId;
 }
 
 @if (language == 1)
@@ -134,10 +139,61 @@ else
     {
         <input type="hidden" id="ProjectId" name="ProjectId" value="@crt.ProjectId" />
         <input type="hidden" id="LanguageId" name="LanguageId" value="@language" />
+        <input type="hidden" id="UndertakingSubmitYesNoId" name="UndertakingSubmitYesNoId" value="@crt.IsUndertakingSubmitted" />
+        <input type="hidden" id="UndertakingSubmitDate" name="UndertakingSubmitDate" value="@submit_date" />
 
-        <button type="submit" class="btn btn-success waves-effect waves-light width-lg">
-            Submit
-            <span class="btn-label-right"><i class="mdi mdi-certificate"></i></span>
-        </button>
+        if (UserAuthLevelID == 1 || UserAuthLevelID == 3 || UserAuthLevelID == 5)
+        {
+            <button id="btnUndertakingReviewCheckByHA" type="button" class="btn btn-blue waves-effect waves-light width-lg">
+                Yes, Reviewed
+                <span class="btn-label-right"><i class="mdi mdi-certificate"></i></span>
+            </button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-success waves-effect waves-light width-lg">
+                Submit
+                <span class="btn-label-right"><i class="mdi mdi-certificate"></i></span>
+            </button>
+        }
     }
 </div>
+
+@section PageScripts {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery("#btnUndertakingReviewCheckByHA").click(function () {
+                var pid = jQuery("#ProjectId").val();
+                var usyn = jQuery("#UndertakingSubmitYesNoId").val();
+
+                var url = '@Url.Action("urcbha", "certificate")';
+                    jQuery.ajax({
+                        type: "POST",
+                        url: url,
+                        data: { pid: pid, usyn: usyn },
+                        dataType: "json",
+                        success: function (data, status, jqXHR) {
+                            if (data.status == 'success') {
+                                CloseAndRefresh();
+                            } else {
+                                Notification(data.status, data.title, data.message);
+                                Swal.fire(data.title, data.message, data.status);
+                            }
+                        }, error: function (jqXHR, exception) {
+                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                            Notification('error', 'Error Occured', errorMsg);
+                            Swal.fire('Error Occured', errorMsg, 'error');
+                        }
+                    });
+            });
+        });
+
+        function CloseAndRefresh() {
+            window.close();
+
+            if (window.opener && !window.opener.closed) {
+                window.opener.location.reload();
+            }
+        }
+    </script>
+}

@@ -8894,10 +8894,10 @@ namespace WrpCcNocWeb.Controllers
                         if (pcd != null)
                         {
                             pcd.ProjectName = _pcd.ProjectName;
-                            pcd.BackgroundAndRationale = _pcd.BackgroundAndRationale;
-                            pcd.ProjectTarget = _pcd.ProjectTarget;
-                            pcd.ProjectObjective = _pcd.ProjectObjective;
-                            pcd.ProjectActivity = _pcd.ProjectActivity;
+                            pcd.BackgroundAndRationale = _pcd.BackgroundAndRationale.RemoveTabNewLineCarriageReturn();
+                            pcd.ProjectTarget = _pcd.ProjectTarget.RemoveTabNewLineCarriageReturn();
+                            pcd.ProjectObjective = _pcd.ProjectObjective.RemoveTabNewLineCarriageReturn();
+                            pcd.ProjectActivity = _pcd.ProjectActivity.RemoveTabNewLineCarriageReturn();
                             pcd.ProjectStartDate = _pcd.ProjectStartDate;
                             pcd.ProjectCompletionDate = _pcd.ProjectCompletionDate;
                             pcd.ProjectEstimatedCost = _pcd.ProjectEstimatedCost;
@@ -20695,6 +20695,21 @@ namespace WrpCcNocWeb.Controllers
                             title = "Success",
                             message = "Application has been successfully forwarded to " + ForwardedToMsg + ". Application tracking code is: " + _pcd.AppSubmissionId
                         };
+
+                        if (_pcd.IsCompletedId == 6)
+                        {                            
+                            AdminModUsersDetail ud = _db.AdminModUsersDetail.Find(_pcd.UserId);
+                            AdminModUserRegistrationDetail rd = _db.AdminModUserRegistrationDetail.Find(ud.UserRegistrationId);
+                            string base_url = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
+                            string undertaking_link = base_url + "/certificate/undertaking/" + _pcd.ProjectId + "?lang=1"; //_pcd.LanguageId;
+                            List<string> vars = new List<string>();
+                            string callAt = cc.GetCallCenterInfo();
+
+                            vars.Add(_pcd.AppSubmissionId.ToString());
+                            vars.Add(undertaking_link);
+                            vars.Add(callAt);
+                            es.SendEmail(rd.UserEmail, 6, vars);
+                        }
                     };
                 }
                 else

@@ -75,10 +75,12 @@ namespace WrpCcNocWeb.Models
 
         [Column("ProjectStartDate", Order = 11)]
         [Display(Name = "Starting Date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? ProjectStartDate { get; set; }
 
         [Column("ProjectCompletionDate", Order = 12)]
         [Display(Name = "Completion Date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? ProjectCompletionDate { get; set; }
 
         [Column("ProjectEstimatedCost", Order = 13)]
@@ -543,6 +545,14 @@ namespace WrpCcNocWeb.Models
         public int? UndertakingSubmitYesNoId { get; set; }
         //[ForeignKey("UndertakingSubmitYesNoId")]
         //public virtual LookUpCcModYesNo LookUpYesNoUndertakingSubmit { get; set; }
+
+        [Column("UndertakingSubmitDate", Order = 102)]
+        [Display(Name = "Undertaking Submission Date")]
+        public DateTime? UndertakingSubmitDate { get; set; }
+
+        [Column("UndertakingCheckByHigherAuth", Order = 101)]
+        [Display(Name = "Is Undertaking Checked by Higher Authority?")]
+        public int? UndertakingCheckByHigherAuth { get; set; }        
 
         public virtual List<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetails { get; set; }
         public virtual List<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetails { get; set; }

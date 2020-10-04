@@ -17,12 +17,14 @@ using Rotativa.AspNetCore.Options;
 using WrpCcNocWeb.Models.CcModule;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Routing.Matching;
+using Microsoft.AspNetCore.Hosting;
 
 namespace WrpCcNocWeb.Controllers
 {
     public class certificateController : Controller
     {
-        #region Initialization        
+        #region Initialization    
+        private readonly IWebHostEnvironment hostingEnvironment;
         private readonly WrpCcNocDbContext _db = new WrpCcNocDbContext();
         private readonly CommonHelper ch = new CommonHelper();
         private commonController cc = new commonController();
@@ -34,12 +36,26 @@ namespace WrpCcNocWeb.Controllers
 
         public IActionResult index()
         {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
             return View();
         }
 
         //certificate/view/59
         public IActionResult view(long? id, int? lang)
         {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
             if (id == null || id == 0)
             {
                 TempData["Message"] = ch.ShowMessage(Sign.Danger, "Ivalid ID", "Sorry, invalid project ID provided!");
@@ -117,6 +133,19 @@ namespace WrpCcNocWeb.Controllers
         //certificate/undertaking
         public IActionResult undertaking(long? id, int? lang)
         {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
+            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+            ViewData["UserLevelInfo"] = uli;
+            //ViewData["UserLevel"] = uli.UserGroupId;
+            //ViewData["UserAuthLevelID"] = uli.AuthorityLevelId;
+            //ViewData["HigherAuthLevelID"] = GetHighestLevelAuthority();
+
             if (id == null || id == 0)
             {
                 TempData["Message"] = ch.ShowMessage(Sign.Danger, "Ivalid ID", "Sorry, invalid project ID provided!");
@@ -163,6 +192,20 @@ namespace WrpCcNocWeb.Controllers
                     ApplicantSignatureFile = _db.AdminModUsersDetail.Where(w => w.UserId == pcd.UserId).Select(s => s.SignatureFileName).FirstOrDefault()
                 };
 
+                if (pcd.UndertakingSubmitYesNoId == 1)
+                {
+                    if (pcd.UndertakingSubmitDate != null)
+                    {
+                        undertaking_info.UndertakingDate = now_date_time.ToString("dd MMMM, yyyy");
+                        undertaking_info.UndertakingDateBn = now_date_time.ToString("dd MMMM, yyyy").NumberEnglishToBengali().MonthEnglishToBengali();
+                        undertaking_info.UndertakingTime = now_date_time.ToString("HH:mm:ss");
+                        undertaking_info.UndertakingTimeBn = now_date_time.ToString("HH:mm:ss").NumberEnglishToBengali();
+
+                        undertaking_info.IsUndertakingSubmitted = pcd.UndertakingSubmitYesNoId;
+                        undertaking_info.UndertakingSubmitDate = pcd.UndertakingSubmitDate;
+                    }
+                }
+
                 ViewData["WrpCcNocUndertaking"] = undertaking_info;
             }
             else
@@ -180,6 +223,8 @@ namespace WrpCcNocWeb.Controllers
             int result = 0;
             long pid = Request.Form["ProjectId"].ToString().ToLong();
             int lid = Request.Form["LanguageId"].ToString().ToInt();
+            int? is_submitted = Request.Form["UndertakingSubmitYesNoId"].ToString().ToInt();
+            string submit_date = Request.Form["UndertakingSubmitDate"].ToString();
 
             if (pid > 0)
             {
@@ -189,8 +234,18 @@ namespace WrpCcNocWeb.Controllers
 
                     if (pcd != null)
                     {
-                        pcd.IsCompletedId = 7;
-                        pcd.UndertakingSubmitYesNoId = 1;
+                        if (is_submitted == 1)
+                        {
+                            pcd.UndertakingCheckByHigherAuth = 1;
+                        }
+                        else
+                        {
+                            pcd.IsCompletedId = 7;
+                            pcd.UndertakingSubmitYesNoId = 1;
+                            pcd.UndertakingSubmitDate = DateTime.Parse(submit_date);
+                            pcd.UndertakingCheckByHigherAuth = 0;
+                        }
+
                         _db.Entry(pcd).State = EntityState.Modified;
                         result = _db.SaveChanges();
 
@@ -224,6 +279,51 @@ namespace WrpCcNocWeb.Controllers
             }
 
             return View();
+        }
+
+        //certificate/UndertakingReviewCheckByHigherAuthority :: urcbha
+        [HttpPost]
+        public JsonResult urcbha(long pid, int? usyn)
+        {
+            int result = 0;
+            noti = new Notification();
+            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+            CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(pid);
+
+            if (_pcd != null)
+            {
+                if (_pcd.UndertakingSubmitYesNoId == 1)
+                {
+                    _pcd.IsCompletedId = 8;
+                    _pcd.UndertakingCheckByHigherAuth = 1;
+
+                    _db.Entry(_pcd).State = EntityState.Modified;
+                    result = _db.SaveChanges();
+
+                    if (result > 0)
+                    {
+                        noti = new Notification
+                        {
+                            id = pid.ToString(),
+                            status = "success",
+                            title = "Successfully Reviewed",
+                            message = "Applicant undertaking has been successfully reviewed."
+                        };
+                    }
+                    else
+                    {
+                        noti = new Notification
+                        {
+                            id = pid.ToString(),
+                            status = "error",
+                            title = "Not Reviewed",
+                            message = "Applicant undertaking not reviewed!"
+                        };
+                    }
+                }
+            }
+
+            return Json(noti);
         }
 
         #region Certificate Verification
@@ -390,6 +490,40 @@ namespace WrpCcNocWeb.Controllers
             }
 
             return haud;
+        }
+
+        public int GetHighestLevelAuthority()
+        {
+            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+            List<LookUpAdminModUserGroup> userGroupList = new List<LookUpAdminModUserGroup>();
+            int result = 0;
+
+            if (!string.IsNullOrEmpty(uli.UnionGeoCode))
+            {
+                userGroupList = _db.LookUpAdminModUserGroup.Where(w => w.UnionGeoCode == uli.UnionGeoCode).ToList();
+            }
+
+            if (string.IsNullOrEmpty(uli.UnionGeoCode) && !string.IsNullOrEmpty(uli.UpazilaGeoCode))
+            {
+                userGroupList = _db.LookUpAdminModUserGroup.Where(w => w.UpazilaGeoCode == uli.UpazilaGeoCode).ToList();
+            }
+
+            if (string.IsNullOrEmpty(uli.UnionGeoCode) && string.IsNullOrEmpty(uli.UpazilaGeoCode) && !string.IsNullOrEmpty(uli.DistrictGeoCode))
+            {
+                userGroupList = _db.LookUpAdminModUserGroup.Where(w => w.DistrictGeoCode == uli.DistrictGeoCode).ToList();
+            }
+
+            if (userGroupList.Count > 0)
+            {
+                int higherAuthLevelId = userGroupList.Min(m => m.AuthorityLevelId).Value;
+                result = higherAuthLevelId;
+            }
+            else
+            {
+                result = 0;
+            }
+
+            return result;
         }
     }
 }

@@ -15,7 +15,8 @@
             }
             <span class="text-danger bold">*</span>
         </label>
-        <input type="text" id="ProjectName" name="ProjectName" class="form-control" />
+        <input type="text" id="ProjectName" name="ProjectName" class="form-control" data-toggle="tooltip"
+               data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language." />
     </div>
 
     <div class="form-group">
@@ -26,7 +27,8 @@
                 {<span>Project Background and Rationale</span>}
             }<span class="text-danger bold">*</span>
         </label>
-        <textarea id="BackgroundAndRationale" name="BackgroundAndRationale" class="form-control" rows="2"></textarea>
+        <textarea id="BackgroundAndRationale" name="BackgroundAndRationale" class="form-control" rows="2"
+                  data-toggle="tooltip" data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language."></textarea>
     </div>
 
     <div class="form-group">
@@ -37,7 +39,8 @@
                 {<span>Project Target</span>}
             }<span class="text-danger bold">*</span>
         </label>
-        <textarea id="ProjectTarget" name="ProjectTarget" class="form-control" rows="2"></textarea>
+        <textarea id="ProjectTarget" name="ProjectTarget" class="form-control" rows="2"
+                  data-toggle="tooltip" data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language."></textarea>
     </div>
 
     <div class="form-group">
@@ -48,7 +51,8 @@
                 {<span>Project Objective</span>}
             }<span class="text-danger bold">*</span>
         </label>
-        <textarea id="ProjectObjective" name="ProjectObjective" class="form-control" rows="2"></textarea>
+        <textarea id="ProjectObjective" name="ProjectObjective" class="form-control" rows="2"
+                  data-toggle="tooltip" data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language."></textarea>
     </div>
 
     <div class="form-group">
@@ -59,7 +63,8 @@
                 {<span>Project Activities/ Components</span>}
             }
         </label>
-        <textarea id="ProjectActivity" name="ProjectActivity" class="form-control" rows="2"></textarea>
+        <textarea id="ProjectActivity" name="ProjectActivity" class="form-control" rows="2"
+                  data-toggle="tooltip" data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language."></textarea>
     </div>
 
     <div class="divProjectPeriod">
@@ -83,7 +88,7 @@
                             {<span>Starting Time</span>}
                         }
                     </label>
-                    <input type="text" id="ProjectStartDate" name="ProjectStartDate" class="form-control datetimepicker" />
+                    <input type="date" id="ProjectStartDate" name="ProjectStartDate" class="form-control datetimepicker" />
                 </div>
 
                 <div class="form-group col-md-6">
@@ -94,7 +99,7 @@
                             {<span>Completion Time</span>}
                         }
                     </label>
-                    <input type="text" id="ProjectCompletionDate" name="ProjectCompletionDate" class="form-control datetimepicker" />
+                    <input type="date" id="ProjectCompletionDate" name="ProjectCompletionDate" class="form-control datetimepicker" />
                 </div>
             </div>
         </fieldset>
@@ -234,23 +239,33 @@
     });
 
     function GeneralInfoSave() {
+        var ProjectName = GetTextValue('ProjectName');
+        var BackgroundAndRationale = GetTextValue('BackgroundAndRationale');
+        var ProjectTarget = GetTextValue('ProjectTarget');
+        var ProjectObjective = GetTextValue('ProjectObjective');
+        var ProjectActivity = GetTextValue('ProjectActivity');
+        var ProjectStartDate = GetTextValue('ProjectStartDate');
+        var ProjectCompletionDate = GetTextValue('ProjectCompletionDate');
+        var ProjectEstimatedCost = GetTextValue('ProjectEstimatedCost') == '' ? '0' : GetTextValue('ProjectEstimatedCost');
+
         var pcd = {
-            "ProjectId": GetHiddenValue('ProjectId'),
+            "ProjectId": jQuery('#ProjectId').val(),
             "UserId": 0,
-            "AppSubmissionId": GetHiddenValue('AppSubmissionId'),
-            "ApplicationStateId": GetHiddenValue('ApplicationStateId'),
-            "ApprovalStatusId": GetHiddenValue('ApprovalStatusId'),
+            "AppSubmissionId": jQuery('#AppSubmissionId').val(),
+            "ApplicationStateId": jQuery('#ApplicationStateId').val(),
+            "ApprovalStatusId": jQuery('#ApprovalStatusId').val(),
             "ProjectTypeId": jQuery('#ProjectTypeId').val(),
-            "ProjectName": jQuery('#ProjectName').val(),
-            "BackgroundAndRationale": jQuery('#BackgroundAndRationale').val(),
-            "ProjectTarget": jQuery('#ProjectTarget').val(),
-            "ProjectObjective": jQuery('#ProjectObjective').val(),
-            "ProjectActivity": jQuery('#ProjectActivity').val(),
-            "ProjectStartDate": jQuery('#ProjectStartDate').val(),
-            "ProjectCompletionDate": jQuery('#ProjectCompletionDate').val(),
-            "ProjectEstimatedCost": jQuery('#ProjectEstimatedCost').val()
+            "ProjectName": ProjectName,
+            "BackgroundAndRationale": BackgroundAndRationale,
+            "ProjectTarget": ProjectTarget,
+            "ProjectObjective": ProjectObjective,
+            "ProjectActivity": ProjectActivity,
+            "ProjectStartDate": ProjectStartDate,
+            "ProjectCompletionDate": ProjectCompletionDate,
+            "ProjectEstimatedCost": ProjectEstimatedCost
         };
-        //console.log(pcd);
+
+        console.log(pcd);
 
         //#region project location script
         var rowCount = $('#tbodyProjectLocation tr').length;
@@ -305,11 +320,6 @@
             success: function (data, status, jqXHR) {
                 if (data.status == 'success') {
                     SetHiddenValue('ProjectId', data.id);
-
-                    //SetHiddenValue('AppSubmissionId', data.id);
-                    //SetHiddenValue('ApplicationStateId', data.id);
-                    //SetHiddenValue('ApprovalStatusId', data.id);
-
                     Notification('success', 'Success', data.message);
                 } else {
                     Notification('error', 'Saving Error', data.message);

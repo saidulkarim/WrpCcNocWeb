@@ -5,18 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style type="text/css">
-    .paginate_button {
-        padding: 0px;
-        margin-left: 0px;
-        display: inline;
-        border: 0px;
-    }
-
-        .paginate_button:hover {
-            border: 0px;
-        }
-</style>
+<link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
 <div class="row">
     <div class="col-md-12">
@@ -125,7 +114,7 @@
                                                             <i class="mdi mdi-chevron-down"></i>
                                                         </button>
                                                         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                                                            <a class="dropdown-item" href="@Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" target="_blank">View</a>                                                            
+                                                            <a class="dropdown-item" href="@Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" target="_blank">View</a>
                                                             <a class="dropdown-item" href="@Url.Action("query", "query", new { id = pcd.ProjectId })" target="_blank">Query</a>
                                                         </div>
                                                     </div>
@@ -192,7 +181,7 @@
                                                             <i class="mdi mdi-chevron-down"></i>
                                                         </button>
                                                         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                                                            <a class="dropdown-item" href="@Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" target="_blank">View</a>                                                           
+                                                            <a class="dropdown-item" href="@Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" target="_blank">View</a>
                                                             <a class="dropdown-item" href="@Url.Action("query", "query", new { id = pcd.ProjectId })" target="_blank">Query</a>
                                                         </div>
                                                     </div>
@@ -200,7 +189,7 @@
                                             }
                                         </tr>
                                     }
-                                    else if (pcd.IsCompletedId == 6 && pcd.UndertakingSubmitYesNoId == 0)
+                                    else if (pcd.IsCompletedId == 6 && (pcd.UndertakingSubmitYesNoId == 0 || pcd.UndertakingSubmitYesNoId == null))
                                     {
                                         <tr class="@css_class text-white">
                                             <td class="text-center align-middle">@count</td>
@@ -212,7 +201,7 @@
                                                 @if (is_expired)
                                                 {<span class="bg-danger" style="padding: 4px; border-radius: 3px;">Expired</span> }
                                                 else
-                                                { <span class="bg-warning" style="padding: 4px; border-radius: 3px;">Not Submit Undertaking</span>}
+                                                { <span class="bg-warning" style="padding: 4px; border-radius: 3px;">Not Submitted</span>}
                                             </td>
                                             <td class="align-middle">
                                                 <a href="@Url.Action("undertaking", "certificate", new { id = pcd.ProjectId, lang = 1 })" target="_blank"
@@ -280,7 +269,7 @@
                                                             <i class="mdi mdi-chevron-down"></i>
                                                         </button>
                                                         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                                                            <a class="dropdown-item" href="@Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" target="_blank">View</a>                                                            
+                                                            <a class="dropdown-item" href="@Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" target="_blank">View</a>
                                                             <a class="dropdown-item" href="@Url.Action("query", "query", new { id = pcd.ProjectId })" target="_blank">Query</a>
                                                         </div>
                                                     </div>
@@ -300,10 +289,12 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    jQuery(document).ready(function () {
-        jQuery('#tblAppList').DataTable({
-            "sPaginationType": "full_numbers"
+@section PageScripts {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery('#tblAppList').DataTable({
+                "sPaginationType": "full_numbers"
+            });
         });
-    });
-</script>
+    </script>
+}

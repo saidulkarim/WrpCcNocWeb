@@ -46,5 +46,8 @@ namespace WrpCcNocWeb.Models.TempModels
         public string UndertakingTimeBn { get; set; } // HH:mm:ss
         public LookUpCcModUndertakingFormat UndertakingFormat { get; set; }        
         public string ApplicantSignatureFile { get; set; }
+
+        public int? IsUndertakingSubmitted { get; set; }
+        public DateTime? UndertakingSubmitDate { get; set; }
     }
 }
