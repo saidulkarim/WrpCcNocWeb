@@ -9040,10 +9040,14 @@ namespace WrpCcNocWeb.Controllers
 
                                     if (result > 0)
                                     {
-                                        //rony rony rony
+                                        //written on 06-Oct-2020
+                                        if (!string.IsNullOrEmpty(loc.MapFile))
+                                        {
+                                            isSuccess = uplf(nplds.LocationId, nplds.ProjectId, loc.MapFile);
+                                        }
+
                                         isSuccess = uplif(nplds.LocationId, nplds.ProjectId, loc.ImageFile);
                                     }
-
                                 }
                             }
                         }
@@ -20099,11 +20103,12 @@ namespace WrpCcNocWeb.Controllers
         #region File Uploading
         //form/UploadProjectLocationFile :: uplf
         [HttpPost]
-        [Obsolete]
-        public JsonResult uplf(long locationid, long projectid, IFormFile file)
+        //[Obsolete]
+        public bool uplf(long locationid, long projectid, string map_file)
         {
+            bool res = false;
             int result = 0;
-            string filename = "", extension = "", foldername = "images/ProjectLocationPhotos";
+            string filename = "", extension = "", foldername = "docs/map_kml";
             CcModPrjLocationDetail location = new CcModPrjLocationDetail();
 
             if (locationid != 0)
@@ -20113,14 +20118,19 @@ namespace WrpCcNocWeb.Controllers
 
             try
             {
-                if (location != null && file != null)
+                if (location != null && !string.IsNullOrEmpty(map_file))
                 {
+                    string base64 = map_file;//.Substring(map_file.IndexOf(',') + 1);
+                    base64 = base64.Trim('\0');
+                    byte[] b64File = Convert.FromBase64String(base64);                    
+                    IFormFile file = new FormFile(new MemoryStream(b64File), 0, 0, "LocationMapData", "LocationMapData.kml");
+                    
                     filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                     extension = filename.Substring(filename.IndexOf('.'));
                     filename = EnsureCorrectFilename(filename);
                     filename = GetGenProjLocFilename(location) + extension;
 
-                    location.ImageFileName = filename;
+                    location.MapFileName = filename;
 
                     _db.Entry(location).State = EntityState.Modified;
                     result = _db.SaveChanges();
@@ -20130,50 +20140,57 @@ namespace WrpCcNocWeb.Controllers
                         using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
                         file.CopyTo(output);
 
-                        noti = new Notification
-                        {
-                            id = location.LocationId.ToString(),
-                            status = "success",
-                            title = "Success",
-                            message = "File has been successfully uploaded."
-                        };
+                        res = true;
+                        //noti = new Notification
+                        //{
+                        //    id = location.LocationId.ToString(),
+                        //    status = "success",
+                        //    title = "Success",
+                        //    message = "File has been successfully uploaded."
+                        //};
                     }
                     else
                     {
-                        noti = new Notification
-                        {
-                            id = location.LocationId.ToString(),
-                            status = "error",
-                            title = "File Submission Error",
-                            message = "Your selected file has not submitted."
-                        };
+                        res = false;
+
+                        //noti = new Notification
+                        //{
+                        //    id = location.LocationId.ToString(),
+                        //    status = "error",
+                        //    title = "File Submission Error",
+                        //    message = "Your selected file has not submitted."
+                        //};
                     }
                 }
                 else
                 {
-                    noti = new Notification
-                    {
-                        id = "0",
-                        status = "warning",
-                        title = "Select File",
-                        message = "No file(s) selected!"
-                    };
+                    res = false;
+
+                    //noti = new Notification
+                    //{
+                    //    id = "0",
+                    //    status = "warning",
+                    //    title = "Select File",
+                    //    message = "No file(s) selected!"
+                    //};
                 }
             }
             catch (Exception ex)
             {
                 var message = ch.ExtractInnerException(ex);
+                res = false;
 
-                noti = new Notification
-                {
-                    id = "0",
-                    status = "error",
-                    title = "An Exception Error Occured",
-                    message = message
-                };
+                //noti = new Notification
+                //{
+                //    id = "0",
+                //    status = "error",
+                //    title = "An Exception Error Occured",
+                //    message = message
+                //};
             }
 
-            return Json(noti);
+            //return Json(noti);
+            return res;
         }
 
         public bool uplif(long locationid, long projectid, List<string> files)
@@ -20697,7 +20714,7 @@ namespace WrpCcNocWeb.Controllers
                         };
 
                         if (_pcd.IsCompletedId == 6)
-                        {                            
+                        {
                             AdminModUsersDetail ud = _db.AdminModUsersDetail.Find(_pcd.UserId);
                             AdminModUserRegistrationDetail rd = _db.AdminModUserRegistrationDetail.Find(ud.UserRegistrationId);
                             string base_url = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";

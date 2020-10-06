@@ -51,6 +51,7 @@
     <Folder Include="wwwroot\docs\gpwm\" />
     <Folder Include="wwwroot\docs\additional_attachment\" />
     <Folder Include="wwwroot\docs\hearing_attachment\" />
+    <Folder Include="wwwroot\docs\map_kml\" />
     <Folder Include="wwwroot\docs\tutorial\pdf\eng\" />
     <Folder Include="wwwroot\docs\tutorial\video\" />
     <Folder Include="wwwroot\images\CommonDetails\" />

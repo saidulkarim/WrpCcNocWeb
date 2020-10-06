@@ -275,7 +275,7 @@
         table.find('tr').each(function (i) {
             var $tds = $(this).find('td');
 
-            var LocationId = $tds.eq(6).find('input[type=hidden]').val();
+            var LocationId = $tds.eq(7).find('input[type=hidden]').val();
             LocationId = (LocationId == '') ? 0 : LocationId;
             var DistrictGeoCode = $tds.eq(0).find('input[type=hidden]').val();
             var UpazilaGeoCode = $tds.eq(1).find('input[type=hidden]').val();
@@ -283,6 +283,7 @@
             var Latitude = $tds.eq(3).text();
             var Longitude = $tds.eq(4).text();
             var ImageFile = $tds.eq(5).find('input[type=hidden]').val();
+            var MapFile = $tds.eq(6).find('input[type=hidden]').val();//hdSelectedMapFile
 
             if (LocationId == 0) {
                 $tds.eq(5).find('img').each(function (i) {
@@ -301,6 +302,7 @@
                     'Latitude': Latitude,
                     'Longitude': Longitude,
                     'ImageFile': ImageFiles,
+                    'MapFile': MapFile,
                     'Error': ''
                 };
 

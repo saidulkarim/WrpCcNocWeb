@@ -104,12 +104,16 @@
             border-radius: 3px;
             padding: 1px;
         }
+
+        .location-controls {
+            font-size: 80% !important;
+        }
     </style>
 
     <div id="divProjectLocation">
         <div id="ProjectLocation" class="row" style="margin-left: -7px;">
             <div class="table-responsive">
-                <table class="table mb-0">
+                <table class="table mb-0 location-controls">
                     <thead>
                         <tr>
                             <th class="text-center" for="DistrictGeoCode">
@@ -164,13 +168,20 @@
                                     { <span>Location Photo</span>}
                                 }
                             </th>
+                            <th class="text-center" for="MapFileName">
+                                @{if (language == "1")
+                                    { <span>মানচিত্র</span>}
+                                    else
+                                    { <span>Map</span>}
+                                }
+                            </th>
                             <th class="text-center" style="width: 150px;"></th>
                         </tr>
                         <tr>
                             <th class="text-center">
                                 <input id="LocationId" type="hidden" />
 
-                                <select id="DistrictGeoCode" name="DistrictGeoCode" class="form-control" required="">
+                                <select id="DistrictGeoCode" name="DistrictGeoCode" class="form-control" required="" style="font-size: 90%;">
                                     <option value="">
                                         @if (language == "1")
                                         {<span>বাছাই করুন...</span>}
@@ -199,7 +210,7 @@
                                 </select>
                             </th>
                             <th class="text-center">
-                                <select id="UpazilaGeoCode" name="UpazilaGeoCode" class="form-control">
+                                <select id="UpazilaGeoCode" name="UpazilaGeoCode" class="form-control" style="font-size: 90%;">
                                     <option value="">
                                         @{if (language == "1")
                                             { <span>বাছাই করুন...</span>}
@@ -210,7 +221,7 @@
                                 </select>
                             </th>
                             <th class="text-center">
-                                <select id="UnionGeoCode" name="UnionGeoCode" class="form-control">
+                                <select id="UnionGeoCode" name="UnionGeoCode" class="form-control" style="font-size: 90%;">
                                     <option value="">
                                         @{if (language == "1")
                                             { <span>বাছাই করুন...</span>}
@@ -221,19 +232,19 @@
                                 </select>
                             </th>
                             <th class="text-center">
-                                <input type="number" min="0" id="Latitude" name="Latitude" class="form-control text-right" />
+                                <input type="number" min="0" id="Latitude" name="Latitude" class="form-control text-right" style="font-size: 90%;" />
                             </th>
                             <th class="text-center">
-                                <input type="number" min="0" id="Longitude" name="Longitude" class="form-control text-right" />
+                                <input type="number" min="0" id="Longitude" name="Longitude" class="form-control text-right" style="font-size: 90%;" />
                             </th>
                             <th class="text-center" style="vertical-align: central;">
-                                <span class="btn btn-success fileinput-button" data-toggle="tooltip" data-placement="top" title="" 
-                                      data-original-title="Allowed only files with extension (jpg, png, gif, bmp, pdf). Maximum number of allowed files 10 with 800 KB for each. You can select files from different folders.">
+                                <span class="btn btn-success fileinput-button" style="font-size: 90%;" data-toggle="tooltip" data-placement="top" title=""
+                                      data-original-title="Allowed only files with extension jpg, png, gif, bmp, pdf. Maximum number of allowed files 10 with 800 KB for each. You can select files from different folders.">
                                     <span>
                                         @if (language == "1")
-                                        { <span>সংযুক্তি বাছাই করুন</span> }
+                                        {<span>সংযুক্তি বাছাই করুন</span> }
                                         else
-                                        { <span>Select Attachment</span> }                                                                               
+                                        { <span>Select Attachment</span>}
                                     </span>
                                     <input type="file" name="files[]" id="files" multiple accept="image/jpeg, image/png, image/gif, image/bmp, application/pdf"><br />
                                 </span>
@@ -241,6 +252,21 @@
                                 <!--<input type="file" id="ImageFileName" name="ImageFileName[]" multiple class="form-control-file"
                                        onchange="return ValidateFileUpload()">
                                 <input id="files" name="files" type="file" multiple onchange="uploadFiles('files');" />-->
+                            </th>
+                            <th class="text-center" style="vertical-align: central;">
+                                <span class="btn btn-success fileinput-button" style="font-size: 90%;" data-toggle="tooltip" data-placement="top" title=""
+                                      data-original-title="Allowed only file with extension (kml) with maximum 1 MB.">
+                                    <span>
+                                        @if (language == "1")
+                                        {<span>মানচিত্র বাছাই</span> }
+                                        else
+                                        { <span>Select Map</span>}
+                                    </span>
+                                    <input type="file" name="MapFile" id="MapFile" accept="application/vnd.google-earth.kml+xml"
+                                           onchange="return ValidateFileUpload()"><br />
+                                </span>
+
+                                <input type="hidden" id="SelectedMapFile" name="SelectedMapFile" />
                             </th>
                             <th class="text-center">
                                 <button id="btnSaveProjLocation" type="button" class="btn btn-success waves-effect waves-light" value="Save">
@@ -253,7 +279,7 @@
                             </th>
                         </tr>
                         <tr>
-                            <th colspan="7" class="text-center">
+                            <th colspan="8" class="text-center">
                                 <output id="Filelist"></output>
                             </th>
                         </tr>
@@ -310,15 +336,17 @@
             var UnionName = jQuery("#UnionGeoCode option:selected").text();
             var Latitude = jQuery("#Latitude").val();
             var Longitude = jQuery("#Longitude").val();
+            var SelectedMapFileTitle = jQuery("#SelectedMapFile").attr('title');
+            var SelectedMapFile = jQuery("#SelectedMapFile").val();
             var row = '';
 
-            console.log('Total Attachments: ' + AttachmentArray.length);
+            //console.log('Total Attachments: ' + AttachmentArray.length);
 
             if (DistrictGeoCode != '' && DistrictGeoCode != undefined) {
                 //var lfuData = document.getElementById('ImageFileName');
                 //var FileUploadPath = lfuData.value;
 
-                if (AttachmentArray.length > 0) {                                        
+                if (AttachmentArray.length > 0) {
                     var imgs = '';
                     jQuery.each(AttachmentArray, function (i, item) {
                         console.log(item.Content);
@@ -328,11 +356,11 @@
                         imgs += img.outerHTML;
                     });
 
-                    row = '<tr><td>' + DistrictName + ' <input id="hdDistrictGeoCode" type="hidden" value="' + DistrictGeoCode + '" /></td><td>' + UpazilaName + ' <input id="hdUpazilaGeoCode" type="hidden" value="' + UpazilaGeoCode + '" /></td><td>' + UnionName + ' <input id="hdUnionGeoCode" type="hidden" value="' + UnionGeoCode + '" /></td><td>' + Latitude + '</td><td>' + Longitude + '</td><td>' + imgs + '<input id="hdProjectLocationFile" type="hidden" value="' + JSON.stringify(AttachmentArray) + '" /></td><td class="text-center"><button onclick="javascript:DeleteNewLocation(this);" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" type="hidden" /></td></tr>';
+                    row = '<tr><td>' + DistrictName + ' <input id="hdDistrictGeoCode" type="hidden" value="' + DistrictGeoCode + '" /></td><td>' + UpazilaName + ' <input id="hdUpazilaGeoCode" type="hidden" value="' + UpazilaGeoCode + '" /></td><td>' + UnionName + ' <input id="hdUnionGeoCode" type="hidden" value="' + UnionGeoCode + '" /></td><td>' + Latitude + '</td><td>' + Longitude + '</td><td>' + imgs + '<input id="hdProjectLocationFile" type="hidden" value="' + JSON.stringify(AttachmentArray) + '" /></td><td>' + SelectedMapFileTitle + '<input id="hdSelectedMapFile" type="hidden" value="' + SelectedMapFile + '" /></td><td class="text-center"><button onclick="javascript:DeleteNewLocation(this);" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" type="hidden" /></td></tr>';
                     jQuery("#tbodyProjectLocation").append(row);
                 } else {
                     console.log('no image');
-                    row = '<tr><td>' + DistrictName + ' <input id="hdDistrictGeoCode" type="hidden" value="' + DistrictGeoCode + '" /></td><td>' + UpazilaName + ' <input id="hdUpazilaGeoCode" type="hidden" value="' + UpazilaGeoCode + '" /></td><td>' + UnionName + ' <input id="hdUnionGeoCode" type="hidden" value="' + UnionGeoCode + '" /></td><td>' + Latitude + '</td><td>' + Longitude + '</td><td><input id="hdProjectLocationFile" type="hidden" value="" /></td><td class="text-center"><button onclick="javascript:DeleteNewLocation(this);" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" type="hidden" /></td></tr>';
+                    row = '<tr><td>' + DistrictName + ' <input id="hdDistrictGeoCode" type="hidden" value="' + DistrictGeoCode + '" /></td><td>' + UpazilaName + ' <input id="hdUpazilaGeoCode" type="hidden" value="' + UpazilaGeoCode + '" /></td><td>' + UnionName + ' <input id="hdUnionGeoCode" type="hidden" value="' + UnionGeoCode + '" /></td><td>' + Latitude + '</td><td>' + Longitude + '</td><td><input id="hdProjectLocationFile" type="hidden" value="" /></td><td>' + SelectedMapFileTitle + '<input id="hdSelectedMapFile" type="hidden" value="' + SelectedMapFile + '" /></td><td class="text-center"><button onclick="javascript:DeleteNewLocation(this);" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" type="hidden" /></td></tr>';
                     jQuery("#tbodyProjectLocation").append(row);
                 }
 
@@ -410,7 +438,7 @@
         });
     });
 
-    function SaveProjLocFile(locationid, projectid) {
+    @*function SaveProjLocFile(locationid, projectid) {
         var locfile = jQuery('#ImageFileName').prop('files')[0];
 
         var formData = new FormData();
@@ -433,7 +461,7 @@
                 Swal.fire('Error Occured', errorMsg, 'error');
             }
         });
-    }
+    }*@
 
     function ClearProjLocation() {
         jQuery("#LocationId").val('');
@@ -442,6 +470,7 @@
         jQuery("#UnionGeoCode").html('<option val=""></option>');
         jQuery("#Latitude, #Longitude").val('');
         jQuery('#ImageFileName').val('');
+        jQuery('#SelectedMapFile, #MapFile').val('');
 
         AttachmentArray = [];
         arrCounter = 0;
@@ -470,10 +499,10 @@
                         var count = 0;
 
                         if (lang == '1') {
-                            jQuery.each(data, function (i, item) {                                
+                            jQuery.each(data, function (i, item) {
                                 var imgs = '';
                                 if (item.imageFileName.length > 0) {
-                                    for (var i = 0; i < item.imageFileName.length; i++) {                                        
+                                    for (var i = 0; i < item.imageFileName.length; i++) {
                                         var fileName = item.imageFileName[i] != '' ? '../images/ProjectLocationPhotos/' + item.imageFileName[i] : '../images/no_image.png';
                                         imgs += '<a href="' + fileName + '" target="_blank"><img src="' + fileName +'" class="img-cell-thumb" /></a>';
                                     }
@@ -504,7 +533,7 @@
 
                         jQuery("#tbodyProjectLocation").html(rows);
                     } else {
-                        jQuery("#tbodyProjectLocation").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                        jQuery("#tbodyProjectLocation").html('<tr><td colspan="8" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
                     }
                 }, error: function (jqXHR, exception) {
                     var errorMsg = AjaxErrorHandle(jqXHR, exception);
@@ -727,59 +756,62 @@
     }
 
     function ValidateFileUpload() {
-        var lfuData = document.getElementById('ImageFileName');
+        var lfuData = document.getElementById('MapFile');
         var FileUploadPath = lfuData.value;
 
         if (FileUploadPath == '') {
-            Notification('info', 'Select Project Location Image', 'Please select an image of project location.');
-            Swal.fire('Select Project Location Image', 'Please select an image of project location.', 'info');
+            Notification('info', 'Select Project Location Map', 'Please select project location\'s KML formatted file.');
+            Swal.fire('Select Project Location Map', 'Please select project location\'s KML formatted file.', 'info');
         } else {
+            var kml_file = lfuData.files[0];
             var FileName = lfuData.files[0].name;
             var Extension = FileName.replace(/^.*\./, '');
 
-            if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
+            if (Extension == "kml" || Extension == "KML") {
                 if (lfuData.files && lfuData.files[0]) {
                     var reader = new FileReader();
                     reader.readAsDataURL(lfuData.files[0]);
                     reader.onload = function (e) {
+                        var file_size = kml_file.size/1024/1024;
+                        file_size = file_size.toFixed(2);
+
+                        if (file_size > 1) {
+                            Notification('warning', 'Exceeding File Size', 'Maximum file size is 1 MB. You file size is: ' + file_size + ' MB.');
+                            Swal.fire('Exceeding File Size', 'Maximum file size is 1 MB. You file size is: ' + file_size + ' MB.', 'warning');
+                            return;
+                        }
+
                         //var image = new Image();
                         //image.src = e.target.result;
                         //image.onload = function () {
                         //    var height = this.height;
                         //    var width = this.width;
-
                         //    if (height > 85) {
                         //        Notification('warning', 'Exceeding Image Height', 'Height must not exceed 80px.');
                         //        Swal.fire('Exceeding Image Height', 'Height must not exceed 80px.', 'warning');
-
                         //        return false;
                         //    }
-
                         //    if (width > 315) {
                         //        Notification('warning', 'Exceeding Image Width', 'Width must not exceed 300px');
                         //        Swal.fire('Exceeding Image Width', 'Width must not exceed 300px', 'warning');
                         //        return false;
                         //    }
                         //};
-
                         //$('#PrevSignatureFile').attr('src', e.target.result);
                         //$('#PrevSignatureFile').show();
-                        //$('#ViewSignatureFileName').text(FileName);
+
+                        $('#SelectedMapFile').val(e.target.result);
+                        $('#SelectedMapFile').attr('title', FileName);
                     }
                 }
-                //else {
-                //    $('#PrevSignatureFile').attr('src', '../images/sample_signature.jpg');
-                //    $('#PrevSignatureFile').show();
-                //    $('#ViewSignatureFileName').text('Choose file');
-                //}
+                else {
+                    $('#SelectedMapFile').val('');
+                    $('#SelectedMapFile').attr('title', '');
+                }
             }
             else {
-                Notification('warning', 'Invalid File Format', 'Photo only allows file types of JPG/ JPEG/ PNG/ GIF/ BMP.');
-                Swal.fire('Invalid File Format', 'Photo only allows file types of JPG/ JPEG/ PNG/ GIF/ BMP.', 'warning');
-
-                //$('#PrevSignatureFile').attr('src', '../images/sample_signature.jpg');
-                //$('#PrevSignatureFile').show();
-                //$('#ViewSignatureFileName').text('Choose file');
+                Notification('warning', 'Invalid File Format', 'File only allows file type of KML.');
+                Swal.fire('Invalid File Format', 'File only allows file type of KML.', 'warning');
             }
         }
     }
@@ -795,8 +827,6 @@
         }
         return result;
     }
-
-    
 
     //un ordered list to keep attachments thumbnails
     var ul = document.createElement('ul');
