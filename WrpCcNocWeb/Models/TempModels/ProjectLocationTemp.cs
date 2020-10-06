@@ -57,5 +57,6 @@ namespace WrpCcNocWeb.Models
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public List<string> ImageFileName { get; set; }
+        public string MapFileName { get; set; }
     }
 }

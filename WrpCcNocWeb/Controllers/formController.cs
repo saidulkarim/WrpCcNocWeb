@@ -9242,7 +9242,7 @@ namespace WrpCcNocWeb.Controllers
                                     //from plfs in plfsGroup.ToList()
 
                                 where d.ProjectId == project_id
-                                select new PrjLocationDetailList()
+                                select new PrjLocationDetailList
                                 {
                                     LocationId = d.LocationId,
                                     ProjectId = d.ProjectId,
@@ -9257,9 +9257,10 @@ namespace WrpCcNocWeb.Controllers
                                     UnionNameBn = un.UnionNameBn,
                                     Latitude = string.IsNullOrEmpty(d.Latitude) ? string.Empty : d.Latitude,
                                     Longitude = string.IsNullOrEmpty(d.Longitude) ? string.Empty : d.Longitude,
-                                    ImageFileName = _db.CcModAppPrjLocationFiles.Where(w => w.LocationId == d.LocationId).Select(s => s.AdditionalAttachmentFile).ToList()
+                                    ImageFileName = _db.CcModAppPrjLocationFiles.Where(w => w.LocationId == d.LocationId).Select(s => s.AdditionalAttachmentFile).ToList(),
                                     //ImageFileName = (!string.IsNullOrEmpty(d.ImageFileName)) ? String.Format("{0}/{1}/{2}", rootDirOfProjFile, "ProjectLocationPhotos", d.ImageFileName) : "",
                                     //OnlyImageFileName = d.ImageFileName
+                                    MapFileName = d.MapFileName
                                 }).OrderBy(o => o.LocationId).ToList();
 
                 if (_details.Count > 0)
@@ -20120,13 +20121,13 @@ namespace WrpCcNocWeb.Controllers
             {
                 if (location != null && !string.IsNullOrEmpty(map_file))
                 {
-                    string base64 = map_file;//.Substring(map_file.IndexOf(',') + 1);
+                    string base64 = map_file.Substring(map_file.IndexOf(',') + 1);
                     base64 = base64.Trim('\0');
-                    byte[] b64File = Convert.FromBase64String(base64);                    
-                    IFormFile file = new FormFile(new MemoryStream(b64File), 0, 0, "LocationMapData", "LocationMapData.kml");
-                    
-                    filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    extension = filename.Substring(filename.IndexOf('.'));
+                    byte[] b64File = Convert.FromBase64String(base64);
+                    using MemoryStream ms = new MemoryStream(b64File);
+
+                    //filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    extension = ".kml";// filename.Substring(filename.IndexOf('.'));
                     filename = EnsureCorrectFilename(filename);
                     filename = GetGenProjLocFilename(location) + extension;
 
@@ -20138,7 +20139,7 @@ namespace WrpCcNocWeb.Controllers
                     if (result > 0)
                     {
                         using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
-                        file.CopyTo(output);
+                        ms.CopyTo(output);
 
                         res = true;
                         //noti = new Notification
