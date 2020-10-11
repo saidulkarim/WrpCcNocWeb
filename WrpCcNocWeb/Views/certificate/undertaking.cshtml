@@ -142,7 +142,7 @@ else
         <input type="hidden" id="UndertakingSubmitYesNoId" name="UndertakingSubmitYesNoId" value="@crt.IsUndertakingSubmitted" />
         <input type="hidden" id="UndertakingSubmitDate" name="UndertakingSubmitDate" value="@submit_date" />
 
-        if (UserAuthLevelID == 1 || UserAuthLevelID == 3 || UserAuthLevelID == 5)
+        if (UserAuthLevelID == 1 || UserAuthLevelID == 3 || UserAuthLevelID == 5 || uli.UserGroupId == 1000000003)
         {
             <button id="btnUndertakingReviewCheckByHA" type="button" class="btn btn-blue waves-effect waves-light width-lg">
                 Yes, Reviewed

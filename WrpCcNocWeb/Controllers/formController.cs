@@ -5252,26 +5252,26 @@ namespace WrpCcNocWeb.Controllers
 
                 if (_pi.ApplicationStateId == 1)
                 {
-                    //Step 1: Project Estimated Cost Range
-                    #region Finding Application State from Cost Range
-                    appState = GetProjectCostRangeState(id);
+                    #region Blocked on 07 Oct, 2020 :: 3.12 directly will go to DG WARPO
+                    ////Step 1: Project Estimated Cost Range
+                    //#region Finding Application State from Cost Range
+                    //appState = GetProjectCostRangeState(id);
+                    //#endregion
+                    ////Step 2: Project Multiple Location
+                    //#region Multiple Location Checking
+                    //appState = GetProjectMultipleLocation(id);
+                    //#endregion
+                    ////Step 3: Payment Method
+                    //#region Payment Method Checking
+                    ////payment method code will be incorporate here
+                    //#endregion
+                    ////Step 3: Mandatory File Attachment
+                    //#region Mandatory File Attachment Checking
+                    ////mandatory file attachment code will be incorporate here
+                    //#endregion
                     #endregion
 
-                    //Step 2: Project Multiple Location
-                    #region Multiple Location Checking
-                    appState = GetProjectMultipleLocation(id);
-                    #endregion
-
-                    //Step 3: Payment Method
-                    #region Payment Method Checking
-                    //payment method code will be incorporate here
-                    #endregion
-
-                    //Step 3: Mandatory File Attachment
-                    #region Mandatory File Attachment Checking
-                    //mandatory file attachment code will be incorporate here
-                    #endregion
-
+                    appState = 43; //LookUpCcModApplicationState => Pending for Review of WARPO DG
                     string projectTrackingCode = id.ToString().GenerateTrackingNumber(6);
 
                     if (!string.IsNullOrEmpty(projectTrackingCode))

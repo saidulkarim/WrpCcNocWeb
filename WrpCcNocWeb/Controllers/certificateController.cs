@@ -32,7 +32,7 @@ namespace WrpCcNocWeb.Controllers
         private Notification noti = new Notification();
         private readonly string rootDirOfProjFile = "../images";
         private readonly string rootDirOfDocs = "../docs";
-        #endregion        
+        #endregion
 
         public IActionResult index()
         {
@@ -223,7 +223,7 @@ namespace WrpCcNocWeb.Controllers
             int result = 0;
             long pid = Request.Form["ProjectId"].ToString().ToLong();
             int lid = Request.Form["LanguageId"].ToString().ToInt();
-            int? is_submitted = Request.Form["UndertakingSubmitYesNoId"].ToString().ToInt();
+            int? is_submitted = (string.IsNullOrEmpty(Request.Form["UndertakingSubmitYesNoId"].ToString())) ? 0 : Request.Form["UndertakingSubmitYesNoId"].ToString().ToInt();
             string submit_date = Request.Form["UndertakingSubmitDate"].ToString();
 
             if (pid > 0)

@@ -2,6 +2,7 @@
 @using WrpCcNocWeb.Helpers
 
 @{
+    ViewData["Title"] = "Project for Ground Water Withdrawal, Distribution or Use";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     WrpCcNocDbContext _db = new WrpCcNocDbContext();
@@ -2478,7 +2479,7 @@
                     <hr />
 
                     <div class="row justify-content-md-center">
-                        @if (is_complete_id == 6 && (app_state_id == 13 || app_state_id == 23 || app_state_id == 33 || app_state_id == 43))
+                        @if (is_complete_id == 8 && (app_state_id == 13 || app_state_id == 23 || app_state_id == 33 || app_state_id == 43))
                         {
                             <div class="form-group">
                                 <button id="btnSubmitToApprove" class="btn btn-lg btn-success" type="button" style="width: 250px;">
@@ -2514,11 +2515,22 @@
                         {
                             if (app_state_id != 1 && user_group_id != "1000000001")
                             {
-                                <div class="form-group">
-                                    <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
-                                        Forward
-                                    </button>
-                                </div>
+                                if (pcd.UndertakingSubmitYesNoId == 1 && (app_state_id == 13 || app_state_id == 23 || app_state_id == 33 || app_state_id == 43))
+                                {
+                                    <div class="form-group">
+                                        <button id="btnReviewUndertaking" class="btn btn-lg btn-blue" type="button" style="width: 250px;">
+                                            Review Undertaking
+                                        </button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="form-group">
+                                        <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
+                                            Forward
+                                        </button>
+                                    </div>
+                                }
                             }
                         }
 
@@ -2902,6 +2914,26 @@
 				    });
 		        }
 	        });
+        });
+
+        jQuery("#btnReviewUndertaking").click(function () {
+            var projectId = GetHiddenValue('pProjectId');
+            var popupWinWidth = 850;
+            var popupWinHeight = 600;
+            var left = (screen.width - popupWinWidth) / 2;
+            var top = (screen.height - popupWinHeight) / 4;
+
+            if (projectId != '') {
+                if (window.screen) {
+                    w = window.screen.availWidth;
+                    h = window.screen.availHeight;
+                }
+
+                var url = '@Url.Action("undertaking", "certificate", new { id = ProjectId, lang = 1 })'; //pcd.LanguageId
+                window.open(url, 'Review Undertaking', 'height=' + popupWinHeight + ',width=' + popupWinWidth + ',left=' + left + ',top=' + top + ',status=no,toolbar=no,resizable=yes,scrollbars=yes,fullscreen=yes');                
+            } else {
+                Notification('error', 'Ivalid Project ID', 'Ivalid project ID found!');
+            }
         });
     });
 
