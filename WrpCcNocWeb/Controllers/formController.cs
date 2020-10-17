@@ -31,6 +31,7 @@ namespace WrpCcNocWeb.Controllers
         private readonly WrpCcNocDbContext _db = new WrpCcNocDbContext();
         private commonController cc = new commonController();
         private EmailService es = new EmailService();
+        private SmsService ss = new SmsService();
         private readonly CommonHelper ch = new CommonHelper();
         private Notification noti = new Notification();
         private readonly string rootDirOfProjFile = "../images";
@@ -4692,15 +4693,29 @@ namespace WrpCcNocWeb.Controllers
                                     try
                                     {
                                         List<string> vars = new List<string>();
-                                        string callAt = cc.GetCallCenterInfo();
 
+                                        #region Email
+                                        string callAt = cc.GetCallCenterInfo();
                                         vars.Add(projectTrackingCode);
                                         vars.Add(callAt);
                                         es.SendEmail(ui.UserEmail, 4, vars);
+                                        #endregion
+
+                                        #region SMS
+                                        vars = new List<string>();
+                                        vars.Add(projectTrackingCode);
+                                        ss.Send(1, ui.UserID, vars);
+                                        #endregion
                                     }
                                     catch (Exception ex)
                                     {
-
+                                        noti = new Notification
+                                        {
+                                            id = id.ToString(),
+                                            status = "warning",
+                                            title = "Exception",
+                                            message = ex.Message
+                                        };
                                     }
 
                                     noti = new Notification
@@ -20721,12 +20736,20 @@ namespace WrpCcNocWeb.Controllers
                             string base_url = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
                             string undertaking_link = base_url + "/certificate/undertaking/" + _pcd.ProjectId + "?lang=1"; //_pcd.LanguageId;
                             List<string> vars = new List<string>();
-                            string callAt = cc.GetCallCenterInfo();
 
+                            #region Email
+                            string callAt = cc.GetCallCenterInfo();
                             vars.Add(_pcd.AppSubmissionId.ToString());
                             vars.Add(undertaking_link);
                             vars.Add(callAt);
                             es.SendEmail(rd.UserEmail, 6, vars);
+                            #endregion
+
+                            #region SMS
+                            vars = new List<string>();
+                            vars.Add(_pcd.AppSubmissionId.ToString());
+                            ss.Send(2, _pcd.UserId, vars);
+                            #endregion
                         }
                     };
                 }

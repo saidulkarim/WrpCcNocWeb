@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -10,13 +9,10 @@ using WrpCcNocWeb.Models;
 using WrpCcNocWeb.Models.TempModels;
 using WrpCcNocWeb.Models.UserManagement;
 using WrpCcNocWeb.Models.Utility;
-using WrpCcNocWeb.ViewModels;
 using static WrpCcNocWeb.Helpers.CommonHelper;
 using Rotativa.AspNetCore;
 using Rotativa.AspNetCore.Options;
-using WrpCcNocWeb.Models.CcModule;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Routing.Matching;
 using Microsoft.AspNetCore.Hosting;
 
 namespace WrpCcNocWeb.Controllers
@@ -29,6 +25,7 @@ namespace WrpCcNocWeb.Controllers
         private readonly CommonHelper ch = new CommonHelper();
         private commonController cc = new commonController();
         private EmailService es = new EmailService();
+        private SmsService ss = new SmsService();
         private Notification noti = new Notification();
         private readonly string rootDirOfProjFile = "../images";
         private readonly string rootDirOfDocs = "../docs";
@@ -301,7 +298,7 @@ namespace WrpCcNocWeb.Controllers
                     result = _db.SaveChanges();
 
                     if (result > 0)
-                    {
+                    {                        
                         noti = new Notification
                         {
                             id = pid.ToString(),
