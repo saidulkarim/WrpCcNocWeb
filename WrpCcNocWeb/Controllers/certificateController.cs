@@ -298,7 +298,7 @@ namespace WrpCcNocWeb.Controllers
                     result = _db.SaveChanges();
 
                     if (result > 0)
-                    {                        
+                    {
                         noti = new Notification
                         {
                             id = pid.ToString(),
@@ -477,7 +477,19 @@ namespace WrpCcNocWeb.Controllers
             {
                 CcModAppProjectCommonDetail pCommonDetail = _db.CcModAppProjectCommonDetail.Find(projectId);
                 LookUpCcModApplicationState pApplicationState = _db.LookUpCcModApplicationState.Find(pCommonDetail.ApplicationStateId);
-                LookUpAdminModUserGroup pUserGroup = _db.LookUpAdminModUserGroup.Where(w => w.AuthorityLevelId == pApplicationState.AuthorityLevelId || w.UserGroupId == pApplicationState.UserGroupId).FirstOrDefault();
+
+                LookUpAdminModUserGroup pUserGroup = new LookUpAdminModUserGroup();
+
+                if (pApplicationState.AuthorityLevelId != null)
+                {
+                    pUserGroup = _db.LookUpAdminModUserGroup.Where(w => w.AuthorityLevelId == pApplicationState.AuthorityLevelId).FirstOrDefault();
+                }
+
+                if (pApplicationState.UserGroupId != null)
+                {
+                    pUserGroup = _db.LookUpAdminModUserGroup.Where(w => w.UserGroupId == pApplicationState.UserGroupId).FirstOrDefault();
+                }
+
                 AdminModUserGrpDistDetail pUserGrpDistDetail = _db.AdminModUserGrpDistDetail.Where(w => w.UserGroupId == pUserGroup.UserGroupId).FirstOrDefault();
                 haud = _db.AdminModUsersDetail.Find(pUserGrpDistDetail.UserId);
             }

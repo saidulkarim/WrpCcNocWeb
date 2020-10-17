@@ -133,20 +133,22 @@ namespace WrpCcNocWeb.Helpers
                     }
                 }
 
-                LookUpAdminModSmsHistory sh = new LookUpAdminModSmsHistory()
-                {
-                    SmsFormatId = ssi.SmsFormatId,
-                    ReceiverUserId = ssi.ReceiverUserId,
-                    UserMobile = ssi.UserMobile,
-                    SmsBody = ssi.SmsBody,
-                    SmsSentOn = DateTime.Now
-                };
+                //LookUpAdminModSmsHistory sh = new LookUpAdminModSmsHistory()
+                //{
+                //    SmsFormatId = ssi.SmsFormatId,
+                //    ReceiverUserId = ssi.ReceiverUserId,
+                //    UserMobile = ssi.UserMobile,
+                //    SmsBody = ssi.SmsBody,
+                //    SmsSentOn = DateTime.Now
+                //};
 
-                _db.LookUpAdminModSmsHistory.Add(sh);
-                if (_db.SaveChanges() > 0)
-                {
-                    result = true;
-                }
+                //_db.LookUpAdminModSmsHistory.Add(sh);
+                //if (_db.SaveChanges() > 0)
+                //{
+                //    result = true;
+                //}
+
+                result = true;
             }
             catch (Exception)
             {

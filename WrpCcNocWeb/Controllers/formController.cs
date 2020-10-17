@@ -20709,11 +20709,14 @@ namespace WrpCcNocWeb.Controllers
 
                 if (_pcd != null)
                 {
-                    _pcd.ApplicationStateId = NextAppState;
-                    _pcd.IsCompletedId = NextIsCompletedState;
+                    if (CurrentIsCompletedState != 6)
+                    {
+                        _pcd.ApplicationStateId = NextAppState;
+                        _pcd.IsCompletedId = NextIsCompletedState;
 
-                    _db.Entry(_pcd).State = EntityState.Modified;
-                    result = _db.SaveChanges();
+                        _db.Entry(_pcd).State = EntityState.Modified;
+                        result = _db.SaveChanges();
+                    }
 
                     string ForwardedToMsg = GetAppState(CurrentAppState, CurrentIsCompletedState);
 
