@@ -59,13 +59,12 @@ namespace WrpCcNocWeb.Models
         //SMS
         [Required]
         [Column("SmsApiUrl", Order = 10)]
-        [MaxLength(100)]
+        [MaxLength(250)]
         [Display(Name = "Name of SMS API URL")]
         public string SmsApiUrl { get; set; }
 
         [Required]
-        [Column("IsSmsApiActive", Order = 11)]
-        [MaxLength(100)]
+        [Column("IsSmsApiActive", Order = 11)]        
         [Display(Name = "Is SMS API Active?")]
         public int IsSmsApiActive { get; set; }
     }

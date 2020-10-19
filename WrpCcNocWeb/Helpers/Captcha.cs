@@ -25,8 +25,8 @@ namespace WrpCcNocWeb.Helpers
                 sb.Append(Letters[index]);
             }
 
-            return sb.ToString();
-            //return "1234"; // must be removed after development
+            //return sb.ToString();
+            return "1234"; // must be removed after development
         }
 
         public static bool ValidateCaptchaCode(string userInputCaptcha, HttpContext context)
