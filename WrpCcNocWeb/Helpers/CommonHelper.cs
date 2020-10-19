@@ -204,7 +204,7 @@ namespace WrpCcNocWeb.Helpers
             catch (Exception)
             {
                 generalSetting = new LookUpCcModGeneralSetting();
-                throw new NullReferenceException("Email configuration object is null. Could not get configuration data from database.");
+                throw new NullReferenceException("Configuration object is null. Could not get configuration data from database.");
             }
 
             return generalSetting;

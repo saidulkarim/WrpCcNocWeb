@@ -112,7 +112,7 @@ namespace WrpCcNocWeb.Helpers
             LookUpCcModGeneralSetting generalSetting = ch.GetAppGenInfo();
             if (generalSetting == null)
             {
-                throw new NullReferenceException("Email configuration object is null. Could not get configuration data from database.");
+                throw new NullReferenceException("Configuration object is null. Could not get configuration data from database.");
             }
 
             if (generalSetting.IsSmsApiActive == 1)
@@ -181,7 +181,7 @@ namespace WrpCcNocWeb.Helpers
             LookUpCcModGeneralSetting generalSetting = ch.GetAppGenInfo();
             if (generalSetting == null)
             {
-                throw new NullReferenceException("Email configuration object is null. Could not get configuration data from database.");
+                throw new NullReferenceException("Configuration object is null. Could not get configuration data from database.");
             }
 
             if (generalSetting.IsSmsApiActive == 1)
