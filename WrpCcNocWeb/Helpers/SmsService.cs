@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using WrpCcNocWeb.Controllers;
 using WrpCcNocWeb.DatabaseContext;

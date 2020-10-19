@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using WrpCcNocWeb.Models;
 using WrpCcNocWeb.Models.Utility;
 
 namespace WrpCcNocWeb.Helpers
@@ -30,7 +26,7 @@ namespace WrpCcNocWeb.Helpers
             }
 
             //return sb.ToString();
-            return "RONY"; // must be removed after development
+            return "1234"; // must be removed after development
         }
 
         public static bool ValidateCaptchaCode(string userInputCaptcha, HttpContext context)

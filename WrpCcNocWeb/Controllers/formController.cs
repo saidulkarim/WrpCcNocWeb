@@ -19,7 +19,6 @@ using Microsoft.AspNetCore.Hosting;
 using Rotativa.AspNetCore;
 using Rotativa.AspNetCore.Options;
 using Microsoft.CodeAnalysis;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Drawing;
 
 namespace WrpCcNocWeb.Controllers
