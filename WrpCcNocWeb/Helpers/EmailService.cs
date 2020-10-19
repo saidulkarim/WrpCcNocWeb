@@ -29,7 +29,6 @@ namespace WrpCcNocWeb.Helpers
         private Notification noti = new Notification();
         private readonly string rootDirOfProjFile = "../images";
         private readonly string rootDirOfDocs = "../docs";
-
         #endregion
 
         /// <summary>
@@ -103,50 +102,53 @@ namespace WrpCcNocWeb.Helpers
             EmailConfiguration emailConfig = new EmailConfiguration();
             try
             {
-                LookUpCcModGeneralSetting generalSetting = _db.LookUpCcModGeneralSetting.Find(1);
+                LookUpCcModGeneralSetting generalSetting = ch.GetAppGenInfo();
                 if (generalSetting == null)
                 {
                     throw new NullReferenceException("Email configuration object is null. Could not get configuration data from database.");
                 }
 
-                emailConfig.From = generalSetting.MailSendFrom;
-                emailConfig.SmtpServer = generalSetting.SmtpServer;
-                emailConfig.Port = generalSetting.SmtpOutGoingPort.ToInt();
-                emailConfig.UserName = generalSetting.MailSenderUserName;
-                emailConfig.Password = generalSetting.MailSenderPassword;
-
-                //var emailConfig = GetEmailConfiguration.GetConfig().GetSection("EmailConfiguration").Get<EmailConfiguration>();
-                //var connectionstring = setting["EmailConfiguration"];
-                //var emailConfig = Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
-
-                using MailMessage mm = new MailMessage(emailConfig.UserName, model.To)
+                if (generalSetting.IsEmailServiceActive == 1)
                 {
-                    Subject = model.Subject,
-                    Body = model.Body
-                };
+                    emailConfig.From = generalSetting.MailSendFrom;
+                    emailConfig.SmtpServer = generalSetting.SmtpServer;
+                    emailConfig.Port = generalSetting.SmtpOutGoingPort.ToInt();
+                    emailConfig.UserName = generalSetting.MailSenderUserName;
+                    emailConfig.Password = generalSetting.MailSenderPassword;
 
-                if (model.Attachment != null)
-                {
-                    if (model.Attachment.Length > 0)
+                    //var emailConfig = GetEmailConfiguration.GetConfig().GetSection("EmailConfiguration").Get<EmailConfiguration>();
+                    //var connectionstring = setting["EmailConfiguration"];
+                    //var emailConfig = Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
+
+                    using MailMessage mm = new MailMessage(emailConfig.UserName, model.To)
                     {
-                        string fileName = Path.GetFileName(model.Attachment.FileName);
-                        mm.Attachments.Add(new Attachment(model.Attachment.OpenReadStream(), fileName));
+                        Subject = model.Subject,
+                        Body = model.Body
+                    };
+
+                    if (model.Attachment != null)
+                    {
+                        if (model.Attachment.Length > 0)
+                        {
+                            string fileName = Path.GetFileName(model.Attachment.FileName);
+                            mm.Attachments.Add(new Attachment(model.Attachment.OpenReadStream(), fileName));
+                        }
                     }
+
+                    mm.IsBodyHtml = true;
+
+                    using SmtpClient smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        EnableSsl = true
+                    };
+
+                    NetworkCredential NetworkCred = new NetworkCredential(emailConfig.UserName, emailConfig.Password);
+                    smtp.UseDefaultCredentials = false;
+                    smtp.Credentials = NetworkCred;
+                    smtp.Port = 587;
+                    smtp.Send(mm);
                 }
-
-                mm.IsBodyHtml = true;
-
-                using SmtpClient smtp = new SmtpClient
-                {
-                    Host = "smtp.gmail.com",
-                    EnableSsl = true
-                };
-
-                NetworkCredential NetworkCred = new NetworkCredential(emailConfig.UserName, emailConfig.Password);
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = NetworkCred;
-                smtp.Port = 587;
-                smtp.Send(mm);
 
                 result = "success";
             }

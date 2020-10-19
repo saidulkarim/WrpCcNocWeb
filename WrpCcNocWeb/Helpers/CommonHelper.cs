@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WrpCcNocWeb.DatabaseContext;
 using WrpCcNocWeb.Models;
 
 namespace WrpCcNocWeb.Helpers
 {
     public class CommonHelper
     {
-        //private ApplicationDbContext db = new ApplicationDbContext();
+        #region Initialization        
+        private readonly WrpCcNocDbContext _db = new WrpCcNocDbContext();
+        #endregion
 
         public CommonHelper()
         {
@@ -188,6 +191,23 @@ namespace WrpCcNocWeb.Helpers
             };
 
             return chg;
+        }
+
+        public LookUpCcModGeneralSetting GetAppGenInfo()
+        {
+            LookUpCcModGeneralSetting generalSetting = new LookUpCcModGeneralSetting();
+
+            try
+            {
+                generalSetting = _db.LookUpCcModGeneralSetting.Find(1);
+            }
+            catch (Exception)
+            {
+                generalSetting = new LookUpCcModGeneralSetting();
+                throw new NullReferenceException("Email configuration object is null. Could not get configuration data from database.");
+            }
+
+            return generalSetting;
         }
     }
 }

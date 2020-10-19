@@ -50,5 +50,23 @@ namespace WrpCcNocWeb.Models
         [MaxLength(50)]
         [Display(Name = "Mail Sender Password")]
         public string MailSenderPassword { get; set; }
+
+        [Required]
+        [Column("IsEmailServiceActive", Order = 9)]        
+        [Display(Name = "Is Email Service Active?")]
+        public int IsEmailServiceActive { get; set; }
+
+        //SMS
+        [Required]
+        [Column("SmsApiUrl", Order = 10)]
+        [MaxLength(100)]
+        [Display(Name = "Name of SMS API URL")]
+        public string SmsApiUrl { get; set; }
+
+        [Required]
+        [Column("IsSmsApiActive", Order = 11)]
+        [MaxLength(100)]
+        [Display(Name = "Is SMS API Active?")]
+        public int IsSmsApiActive { get; set; }
     }
 }

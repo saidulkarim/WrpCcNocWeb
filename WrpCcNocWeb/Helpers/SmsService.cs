@@ -109,48 +109,56 @@ namespace WrpCcNocWeb.Helpers
         public bool SendSms(SmsSentInfo ssi)
         {
             bool result = false;
-
-            try
+            LookUpCcModGeneralSetting generalSetting = ch.GetAppGenInfo();
+            if (generalSetting == null)
             {
-                string strUrl = @"http://api.boom-cast.com/boomcast/WebFramework/boomCastWebService/externalApiSendTextMessage.php?masking=NOMASK&userName=CEGIS&password=a56c47b8954ee64f6b4db79bc60ba184&MsgType=TEXT&receiver=" + ssi.UserMobile + "&message=" + ssi.SmsBody;
-                WebRequest request = HttpWebRequest.Create(strUrl);
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                Stream s = (Stream)response.GetResponseStream();
-                StreamReader readStream = new StreamReader(s);
-                string responseString = readStream.ReadToEnd();
-                response.Close();
-                s.Close();
-                readStream.Close();
-                dynamic responseData = Newtonsoft.Json.JsonConvert.DeserializeObject(responseString);
-
-                if (!string.IsNullOrEmpty(responseString))
-                {
-                    foreach (var data in responseData)
-                    {
-
-                    }
-                }
-
-                //LookUpAdminModSmsHistory sh = new LookUpAdminModSmsHistory()
-                //{
-                //    SmsFormatId = ssi.SmsFormatId,
-                //    ReceiverUserId = ssi.ReceiverUserId,
-                //    UserMobile = ssi.UserMobile,
-                //    SmsBody = ssi.SmsBody,
-                //    SmsSentOn = DateTime.Now
-                //};
-
-                //_db.LookUpAdminModSmsHistory.Add(sh);
-                //if (_db.SaveChanges() > 0)
-                //{
-                //    result = true;
-                //}
-
-                result = true;
+                throw new NullReferenceException("Email configuration object is null. Could not get configuration data from database.");
             }
-            catch (Exception)
+
+            if (generalSetting.IsSmsApiActive == 1)
             {
-                throw;
+                try
+                {
+                    string strUrl = generalSetting.SmsApiUrl + @"&receiver=" + ssi.UserMobile + "&message=" + ssi.SmsBody;
+                    WebRequest request = HttpWebRequest.Create(strUrl);
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                    Stream s = (Stream)response.GetResponseStream();
+                    StreamReader readStream = new StreamReader(s);
+                    string responseString = readStream.ReadToEnd();
+                    response.Close();
+                    s.Close();
+                    readStream.Close();
+                    dynamic responseData = Newtonsoft.Json.JsonConvert.DeserializeObject(responseString);
+
+                    if (!string.IsNullOrEmpty(responseString))
+                    {
+                        foreach (var data in responseData)
+                        {
+
+                        }
+                    }
+
+                    //LookUpAdminModSmsHistory sh = new LookUpAdminModSmsHistory()
+                    //{
+                    //    SmsFormatId = ssi.SmsFormatId,
+                    //    ReceiverUserId = ssi.ReceiverUserId,
+                    //    UserMobile = ssi.UserMobile,
+                    //    SmsBody = ssi.SmsBody,
+                    //    SmsSentOn = DateTime.Now
+                    //};
+
+                    //_db.LookUpAdminModSmsHistory.Add(sh);
+                    //if (_db.SaveChanges() > 0)
+                    //{
+                    //    result = true;
+                    //}
+
+                    result = true;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
 
             return result;
@@ -170,44 +178,54 @@ namespace WrpCcNocWeb.Helpers
         public bool SendSms(int user_id, string mobile_number, string message)
         {
             bool result = false;
-
-            try
+            LookUpCcModGeneralSetting generalSetting = ch.GetAppGenInfo();
+            if (generalSetting == null)
             {
-                string strUrl = @"http://api.boom-cast.com/boomcast/WebFramework/boomCastWebService/externalApiSendTextMessage.php?masking=NOMASK&userName=CEGIS&password=a56c47b8954ee64f6b4db79bc60ba184&MsgType=TEXT&receiver=" + mobile_number + "&message=" + message;
-                WebRequest request = HttpWebRequest.Create(strUrl);
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                Stream s = (Stream)response.GetResponseStream();
-                StreamReader readStream = new StreamReader(s);
-                string responseString = readStream.ReadToEnd();
-                response.Close();
-                s.Close();
-                readStream.Close();
-                dynamic responseData = Newtonsoft.Json.JsonConvert.DeserializeObject(responseString);
+                throw new NullReferenceException("Email configuration object is null. Could not get configuration data from database.");
+            }
 
-                if (!string.IsNullOrEmpty(responseString))
+            if (generalSetting.IsSmsApiActive == 1)
+            {
+                try
                 {
-                    foreach (var data in responseData)
-                    {
-                        LookUpAdminModSmsHistory sh = new LookUpAdminModSmsHistory()
-                        {
-                            ReceiverUserId = user_id,
-                            UserMobile = mobile_number,
-                            SmsBody = message,
-                            SmsSentOn = DateTime.Now
-                        };
+                    string strUrl = generalSetting.SmsApiUrl + @"&receiver=" + mobile_number + "&message=" + message;
+                    WebRequest request = HttpWebRequest.Create(strUrl);
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                    Stream s = (Stream)response.GetResponseStream();
+                    StreamReader readStream = new StreamReader(s);
+                    string responseString = readStream.ReadToEnd();
+                    response.Close();
+                    s.Close();
+                    readStream.Close();
+                    dynamic responseData = Newtonsoft.Json.JsonConvert.DeserializeObject(responseString);
 
-                        _db.LookUpAdminModSmsHistory.Add(sh);
-                    }
-
-                    if (_db.SaveChanges() > 0)
+                    if (!string.IsNullOrEmpty(responseString))
                     {
+                        //foreach (var data in responseData)
+                        //{
+                        //    LookUpAdminModSmsHistory sh = new LookUpAdminModSmsHistory()
+                        //    {
+                        //        ReceiverUserId = user_id,
+                        //        UserMobile = mobile_number,
+                        //        SmsBody = message,
+                        //        SmsSentOn = DateTime.Now
+                        //    };
+
+                        //    _db.LookUpAdminModSmsHistory.Add(sh);
+                        //}
+
+                        //if (_db.SaveChanges() > 0)
+                        //{
+                        //    result = true;
+                        //}
+
                         result = true;
                     }
                 }
-            }
-            catch (Exception)
-            {
-                throw;
+                catch (Exception)
+                {
+                    throw;
+                }
             }
 
             return result;
