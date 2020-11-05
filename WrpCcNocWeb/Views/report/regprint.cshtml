@@ -1,0 +1,82 @@
+﻿@using WrpCcNocWeb.Models.ReportModels;
+
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+    List<CcRegistryBook> rbl = (List<CcRegistryBook>)ViewData["RegistryBookList"];
+}
+
+<style type="text/css">
+    #tblRegistryBook thead th, tbody td {
+        padding: 3px !important;
+        vertical-align: middle !important;
+    }
+
+    .no-wrap {
+        text-wrap: none;
+        white-space: nowrap;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3 text-center">Registry Book List</h4>
+
+                <table id="tblRegistryBook" class="table table-bordered table-hover font-13" style="width: 100%; ">
+                    @{
+                        if (rbl != null && rbl.Count > 0)
+                        {
+                            <tr>
+                                <td class="text-center" rowspan="2">Serial</td>
+                                <td class="text-center" rowspan="2">
+                                    Applicant Name<br />
+                                    Address
+                                </td>
+                                <td class="text-center" rowspan="2">Project Type</td>
+                                <td class="text-center" rowspan="2">
+                                    The Purpose of Using<br />
+                                    Water Resources
+                                </td>
+                                <td class="text-center" colspan="2">Project Locations</td>
+                                <td class="text-center" rowspan="2">Using Method</td>
+                                <td class="text-center" rowspan="2">Issuing Date</td>
+                                <td class="text-center" rowspan="2">Expiring Date</td>
+                                <td class="text-center" rowspan="2">Terms</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">District</td>
+                                <td class="text-center">Upazila</td>
+                            </tr>
+
+                            int count = 1;
+                            @foreach (CcRegistryBook rb in rbl)
+                            {
+                                <tr>
+                                    <td class="text-center">@Html.Raw(rb.AppSubmissionId)</td>
+                                    <td class="text-left">@Html.Raw(rb.ApplicantNameAddress)</td>
+                                    <td class="text-left">@Html.Raw(rb.ProjectType)</td>
+                                    <td class="text-left">@Html.Raw(rb.ProjectObjective)</td>
+                                    <td class="text-left">@Html.Raw(rb.ProjectDistrict)</td>
+                                    <td class="text-left">@Html.Raw(rb.ProjectUpazila)</td>
+                                    <td class="text-left">@Html.Raw(rb.MethodOfUsing)</td>
+                                    <td class="text-center no-wrap">@Html.Raw(rb.IssuingDate)</td>
+                                    <td class="text-center no-wrap">@Html.Raw(rb.ExpiringDate)</td>
+                                    <td class="text-left">@Html.Raw(rb.ClearanceTerms)</td>
+                                </tr>
+                            }
+
+                            count++;
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="10" class="bg-danger font-weight-bolder text-center">Sorry, no data found.</td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

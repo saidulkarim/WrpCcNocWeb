@@ -5,6 +5,27 @@
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
+<style type="text/css">
+    .separator {
+        display: flex;
+        align-items: center;
+        text-align: center;
+    }
+
+        .separator::before, .separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #1b1a1a;
+        }
+
+        .separator::before {
+            margin-right: .25em;
+        }
+
+        .separator::after {
+            margin-left: .25em;
+        }
+</style>
 <div class="account-pages mt-5 mb-5">
     <div class="container">
         <div class="row justify-content-center">
@@ -30,9 +51,12 @@
                                     <input type="radio" id="RecoverPassword" name="RecoverType" value="Password" class="custom-control-input">
                                     <label class="custom-control-label" for="RecoverPassword">Recover Password</label>
                                 </div>
+
+                                <div class="separator"> or </div>
+
                                 <div class="custom-control custom-radio" style="min-height: 2rem !important;">
                                     <input type="radio" id="RecoverBoth" name="RecoverType" value="Both" class="custom-control-input">
-                                    <label class="custom-control-label" for="RecoverBoth">or Both Recover</label>
+                                    <label class="custom-control-label" for="RecoverBoth">Both Recover</label>
                                 </div>
                             </div>
 
