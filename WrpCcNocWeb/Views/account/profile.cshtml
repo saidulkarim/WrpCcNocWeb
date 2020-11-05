@@ -28,65 +28,82 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(m => m.UserFullName, new { @class = "control-label" }) <span class="text-danger bold">*</span>
-                                    @Html.EditorFor(m => m.UserFullName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter full name in english", @required = "required", @autocomplete = ac } })
+                                    @Html.LabelFor(m => m.ApplicantTypeId, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                    @Html.DropDownList("ApplicantTypeId", null, string.Empty, new { @id = "ApplicantTypeId", @class = "form-control", @style = "width: 100%;" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ApplicantName, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                    @Html.EditorFor(m => m.ApplicantName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter applicant name in english", @autocomplete = ac } })
                                 </div>
 
                                 <div class="form-group" data-toggle="tooltip" title="Press Control + B to change language.">
-                                    @Html.LabelFor(m => m.UserFullNameBn, new { @class = "control-label" }) <span class="text-danger bold">*</span>
-                                    @Html.EditorFor(m => m.UserFullNameBn, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter full name in bengali", @required = "required", @autocomplete = ac } })
+                                    @Html.LabelFor(m => m.ApplicantNameBn, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                    @Html.EditorFor(m => m.ApplicantNameBn, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter applicant name in bengali", @autocomplete = ac } })
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(m => m.UserFatherName, new { @class = "control-label" }) <span class="text-danger bold">*</span>
-                                    @Html.EditorFor(m => m.UserFatherName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter father name", @required = "required", @autocomplete = ac } })
+                                    @Html.LabelFor(m => m.OrganizationName, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                    @Html.EditorFor(m => m.OrganizationName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter organization name in english", @autocomplete = ac } })
+                                </div>
+
+                                <div class="form-group" data-toggle="tooltip" title="Press Control + B to change language.">
+                                    @Html.LabelFor(m => m.OrganizationNameBn, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                    @Html.EditorFor(m => m.OrganizationNameBn, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter organization name in bengali", @autocomplete = ac } })
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(m => m.UserDateOfBirth, new { @class = "control-label" }) <span class="text-danger bold">*</span>
-                                    @Html.EditorFor(m => m.UserDateOfBirth, new { htmlAttributes = new { @class = "form-control datepicker", @type = "text", @placeholder = "Date of birth", @required = "required", @autocomplete = ac } })
+                                    @Html.LabelFor(m => m.OrganizationAddress, new { @class = "control-label" })
+                                    @Html.EditorFor(m => m.OrganizationAddress, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter organization address in english", @autocomplete = ac } })
                                 </div>
 
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.UserNID, new { @class = "control-label" })
-                                    @Html.EditorFor(m => m.UserNID, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "National ID card", @autocomplete = ac } })
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.UserPassportNo, new { @class = "control-label" })
-                                    @Html.EditorFor(m => m.UserPassportNo, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Passport no", @autocomplete = ac } })
+                                <div class="form-group" data-toggle="tooltip" title="Press Control + B to change language.">
+                                    @Html.LabelFor(m => m.OrganizationAddressBn, new { @class = "control-label" })
+                                    @Html.EditorFor(m => m.OrganizationAddressBn, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter organization address in bengali", @autocomplete = ac } })
                                 </div>
 
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.UserProfession, new { @class = "control-label" })
-                                    @Html.EditorFor(m => m.UserProfession, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Profession" } })
+                                    @Html.EditorFor(m => m.UserProfession, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter profession" } })
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.UserDesignation, new { @class = "control-label" })
-                                    @Html.EditorFor(m => m.UserDesignation, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Designation" } })
+                                    @Html.EditorFor(m => m.UserDesignation, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter designation" } })
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="UserAddress">Address <span class="text-danger bold">*</span></label>
-                                    <textarea id="UserAddress" name="UserAddress" class="form-control" rows="1" required="" placeholder="Address in english"></textarea>
+                                    @Html.LabelFor(m => m.UserNID, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                    @Html.EditorFor(m => m.UserNID, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter national identity number (NID)" } })
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="NidFileName" data-toggle="tooltip"
+                                           title="NID must be .jpg/.png/.bmp formatted and file size not more than 1 MB (Min. 200 KB)">
+                                        Upload NID <span class="text-danger bold">*</span>
+                                    </label>
+                                    <div class="input-group" style="width: 200px;">
+                                        <div class="custom-file">
+                                            <input id="NidFileName" name="NidFileName" type="file" class="custom-file-input"
+                                                   onchange="return ValidateNidFileUpload()" />
+                                            <label id="ViewNidFileName" for="NidFileName" class="custom-file-label">
+                                                Choose file
+                                            </label>
+                                            <img id="PrevNidFile" src="~/images/sample_nid.png" style="height: 36px; margin-left: 225px;" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.PostalAddress, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                    @Html.EditorFor(m => m.PostalAddress, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter postal address in english", } })
                                 </div>
 
                                 <div class="form-group" data-toggle="tooltip" title="Press Control + B to change language.">
-                                    <label for="UserAddressBn">Address In Bengali <span class="text-danger bold">*</span></label>
-                                    <textarea id="UserAddressBn" name="UserAddressBn" class="form-control" rows="1" required="" placeholder="Address in bengali"></textarea>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.UserAlternateEmail, new { @class = "control-label" })
-                                    @Html.EditorFor(m => m.UserAlternateEmail, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Alternate email address" } })
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.UserAlternateMobile, new { @class = "control-label" })
-                                    @Html.EditorFor(m => m.UserAlternateMobile, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Alternate mobile no" } })
+                                    @Html.LabelFor(m => m.PostalAddressBn, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                    @Html.EditorFor(m => m.PostalAddressBn, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter postal address in bengali", } })
                                 </div>
 
                                 <div class="form-group">
@@ -98,11 +115,7 @@
                                     @Html.LabelFor(m => m.SecurityQuestionAnswer, new { @class = "control-label" }) <span class="text-danger bold">*</span>
                                     @Html.EditorFor(m => m.SecurityQuestionAnswer, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Security question answer" } })
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="SignatureFileName" data-toggle="tooltip"
                                            title="Signature must be 300 X 80 pixel (width X height) [.jpg/.png/.bmp format] and file size not more than 80 KB (Min. 3 KB)">
@@ -120,9 +133,9 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <br />
-
+                        <div class="row">
                             <div class="col-md-6" style="margin-top: 30px;">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -150,13 +163,145 @@
     jQuery.noConflict();
 
     jQuery(document).ready(function () {
-        jQuery('#UserFullNameBn, #UserAddressBn').avro({ 'bn': true });
+        jQuery('#ApplicantNameBn, #OrganizationNameBn, #OrganizationAddressBn, #PostalAddressBn').avro({ 'bn': true });
+
+        jQuery('#ApplicantTypeId').change(function () {
+            var this_val = jQuery('#ApplicantTypeId option:selected').val();
+
+            if (this_val == 1) {
+                $('#ApplicantName, #ApplicantNameBn, #UserProfession').attr('disabled', false);
+                $('#OrganizationName, #OrganizationNameBn, #OrganizationAddress, #OrganizationAddressBn, #UserDesignation').attr('disabled', true);
+            } else if (this_val == 2) {
+                $('#ApplicantName, #ApplicantNameBn, #UserProfession').attr('disabled', true);
+                $('#OrganizationName, #OrganizationNameBn, #OrganizationAddress, #OrganizationAddressBn, #UserDesignation').attr('disabled', false);
+            } else {
+                Notification('warning', 'Required Field', 'Please select an applicant type!');
+                jQuery('#ApplicantTypeId').focus();
+
+                $('#ApplicantName, #ApplicantNameBn, #UserProfession').attr('disabled', true);
+                $('#OrganizationName, #OrganizationNameBn, #OrganizationAddress, #OrganizationAddressBn, #UserDesignation').attr('disabled', true);
+            }
+        });
     });
 
     jQuery("#btnSubmitProfileInfo").click(function () {
-        var urid = GetHiddenValue('UserRegistrationId');
-        var input = document.getElementById('SignatureFileName');
-        var files = input.files;
+        var UserRegistrationId = GetHiddenValue('UserRegistrationId');
+        var ApplicantTypeId = GetDropdownValue('ApplicantTypeId');
+        var ApplicantName = GetTextValue('ApplicantName');
+        var ApplicantNameBn = GetTextValue('ApplicantNameBn');
+        var OrganizationName = GetTextValue('OrganizationName');
+        var OrganizationNameBn = GetTextValue('OrganizationNameBn');
+        var OrganizationAddress = GetTextValue('OrganizationAddress');
+        var OrganizationAddressBn = GetTextValue('OrganizationAddressBn');
+        var UserProfession = GetTextValue('UserProfession');
+        var UserDesignation = GetTextValue('UserDesignation');
+        var UserNID = GetTextValue('UserNID');
+        var PostalAddress = GetTextValue('PostalAddress');
+        var PostalAddressBn = GetTextValue('PostalAddressBn');
+        var SecurityQuestionId = GetDropdownValue('SecurityQuestionId');
+        var SecurityQuestionAnswer = GetTextValue('SecurityQuestionAnswer');
+
+        var nfn = document.getElementById('NidFileName');
+        var fileNid = nfn.files;
+        var sfn = document.getElementById('SignatureFileName');
+        var fileSignature = sfn.files;
+
+        if (ApplicantTypeId == '' || ApplicantTypeId == undefined) {
+            Notification('warning', 'Required Field', 'Please select an applicant type!');
+            Swal.fire('Required Field', 'Please select an applicant type!', 'warning');
+            jQuery('#ApplicantTypeId').focus();
+            return;
+        }
+
+        if (ApplicantTypeId == 1) {
+            if (ApplicantName == '' || ApplicantName == undefined) {
+                Notification('warning', 'Required Field', 'Please enter applicant name in english!');
+                //Swal.fire('Required Field', 'Please enter applicant name!', 'warning');
+                jQuery('#ApplicantName').focus();
+                return;
+            }
+
+            if (ApplicantNameBn == '' || ApplicantNameBn == undefined) {
+                Notification('warning', 'Required Field', 'Please enter applicant name in bengali!');
+                //Swal.fire('Required Field', 'Please enter applicant name!', 'warning');
+                jQuery('#ApplicantNameBn').focus();
+                return;
+            }
+
+            if (UserProfession == '' || UserProfession == undefined) {
+                Notification('warning', 'Required Field', 'Please enter applicant profession!');
+                //Swal.fire('Required Field', 'Please enter applicant profession!', 'warning');
+                jQuery('#UserProfession').focus();
+                return;
+            }
+        }
+        else if (ApplicantTypeId == 2) {
+            if (OrganizationName == '' || OrganizationName == undefined) {
+                Notification('warning', 'Required Field', 'Please enter organization name in english!');
+                //Swal.fire('Required Field', 'Please enter organization name in english!', 'warning');
+                jQuery('#OrganizationName').focus();
+                return;
+            }
+
+            if (OrganizationNameBn == '' || OrganizationNameBn == undefined) {
+                Notification('warning', 'Required Field', 'Please enter organization name in bengali!');
+                //Swal.fire('Required Field', 'Please enter organization name in bengali!', 'warning');
+                jQuery('#OrganizationNameBn').focus();
+                return;
+            }
+
+            if (OrganizationAddress == '' || OrganizationAddress == undefined) {
+                Notification('warning', 'Required Field', 'Please enter organization address in english!');
+                //Swal.fire('Required Field', 'Please enter organization address in english!', 'warning');
+                jQuery('#OrganizationAddress').focus();
+                return;
+            }
+
+            if (OrganizationAddressBn == '' || OrganizationAddressBn == undefined) {
+                Notification('warning', 'Required Field', 'Please enter organization address in bengali!');
+                //Swal.fire('Required Field', 'Please enter organization address in bengali!', 'warning');
+                jQuery('#OrganizationAddressBn').focus();
+                return;
+            }
+        }
+        else {
+            Notification('warning', 'Required Field', 'Please select an applicant type!');
+            jQuery('#ApplicantTypeId').focus();
+            return;
+        }
+
+        if (UserNID == '' || UserNID == undefined) {
+            Notification('warning', 'Required Field', 'Please enter your national identity number (NID)!');
+            Swal.fire('Required Field', 'Please enter your national identity number (NID)!', 'warning');
+            jQuery('#UserNID').focus();
+            return;
+        }
+
+        if (PostalAddress == '' || PostalAddress == undefined) {
+            Notification('warning', 'Required Field', 'Please enter your postal address!');
+            Swal.fire('Required Field', 'Please enter your postal address!', 'warning');
+            jQuery('#PostalAddress').focus();
+            return;
+        }
+
+        if (PostalAddressBn == '' || PostalAddressBn == undefined) {
+            Notification('warning', 'Required Field', 'Please enter your postal address in bengali!');
+            Swal.fire('Required Field', 'Please enter your postal address in bengali!', 'warning');
+            jQuery('#PostalAddressBn').focus();
+            return;
+        }
+
+        if (fileNid.length == 0) {
+            Notification('warning', 'Required Field', 'Please select your national identity number (NID) file!');
+            //Swal.fire('Required Field', 'Please select your national identity number (NID) file!', 'warning');
+            return;
+        }
+
+        if (fileSignature.length == 0) {
+            Notification('warning', 'Required Field', 'Please select your digital signature file!');
+            //Swal.fire('Required Field', 'Please select your digital signature file!', 'warning');
+            return;
+        }
 
         Swal.fire({
             title: "Are you sure?",
@@ -169,43 +314,28 @@
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, Submit"
         }).then(function (t) {
-            var urid = GetHiddenValue('UserRegistrationId');
-            var ufn = GetTextValue('UserFullName');
-            var ufnbn = GetTextValue('UserFullNameBn');
-            var ufn = GetTextValue('UserFatherName');
-            var udb = GetTextValue('UserDateOfBirth');
-            var nid = GetTextValue('UserNID');
-            var upn = GetTextValue('UserPassportNo');
-            var ups = GetTextValue('UserProfession');
-            var udg = GetTextValue('UserDesignation');
-            var adr = GetTextValue('UserAddress');
-            var adrbn = GetTextValue('UserAddressBn');
-            var uae = GetTextValue('UserAlternateEmail');
-            var uam = GetTextValue('UserAlternateMobile');
-            var sqid = GetTextValue('SecurityQuestionId');
-            var sqa = GetTextValue('SecurityQuestionAnswer');
-
             var formData = new FormData();
             formData.append("UserId", '0');
-            formData.append("UserRegistrationId", urid);
-            formData.append("UserFullName", ufn);
-            formData.append("UserFullNameBn", ufnbn),
-            formData.append("UserFatherName", ufn),
-            formData.append("UserDateOfBirth", udb),
-            formData.append("UserNID", nid),
-            formData.append("UserPassportNo", upn),
-            formData.append("UserProfession", ups),
-            formData.append("UserDesignation", udg),
-            formData.append("UserAddress", adr),
-            formData.append("UserAddressBn", adrbn),
-            formData.append("UserAlternateEmail", uae),
-            formData.append("UserAlternateMobile", uam),
-            formData.append("SecurityQuestionId", sqid),
-            formData.append("SecurityQuestionAnswer", sqa),
-            formData.append("file", files[0]);
+            formData.append("UserRegistrationId", UserRegistrationId);
+            formData.append("ApplicantTypeId", ApplicantTypeId);
+            formData.append("ApplicantName", ApplicantName);
+            formData.append("ApplicantNameBn", ApplicantNameBn);
+            formData.append("OrganizationName", OrganizationName);
+            formData.append("OrganizationNameBn", OrganizationNameBn);
+            formData.append("OrganizationAddress", OrganizationAddress);
+            formData.append("OrganizationAddressBn", OrganizationAddressBn);
+            formData.append("UserProfession", UserProfession);
+            formData.append("UserDesignation", UserDesignation);
+            formData.append("UserNID", UserNID);
+            formData.append("PostalAddress", PostalAddress);
+            formData.append("PostalAddressBn", PostalAddressBn);
+            formData.append("SecurityQuestionId", SecurityQuestionId);
+            formData.append("SecurityQuestionAnswer", SecurityQuestionAnswer);
+            formData.append("file", fileSignature[0]);
+            formData.append("nidFile", fileNid[0]);
 
             if (t.value == true) {
-                if (urid != '') {
+                if (UserRegistrationId != '') {
                     var url = '@Url.Action("saveprofile", "account")';
 
                     $.ajax({
@@ -234,8 +364,8 @@
                         }
                     });
                 } else {
-                    Swal.fire('Required', 'User registration ID is required!', 'warning');
-                    Notification('warning', 'Required', 'User registration ID is required!');
+                    Swal.fire('Required', 'Please register at first!', 'warning');
+                    Notification('warning', 'Required', 'Please register at first!');
                 }
             }
         });
@@ -255,10 +385,15 @@
         return jQuery('#' + control).val();
     }
 
+    function GetDropdownValue(control) {
+        return jQuery('#' + control+' option:selected').val();
+    }
+
     function GetHiddenValue(control) {
         return jQuery('#' + control).val();
     }
 
+    /*
     function UploadSignatureFile(inputid) {
         var urid = GetHiddenValue('UserRegistrationId');
 	    var input = document.getElementById(inputid);
@@ -269,7 +404,7 @@
 	    formData.append("controltitle", inputid);
 	    formData.append("file", files[0]);
 
-        var url = '@Url.Action("uusf", "account")';
+        var url = 'Url.Action("uusf", "account")';
 	    $.ajax({
 		    url: url,
 		    data: formData,
@@ -285,6 +420,7 @@
 		    }
 	    });
     }
+    */
 
     function ValidateFileUpload() {
         var fuData = document.getElementById('SignatureFileName');
@@ -339,6 +475,62 @@
                 $('#PrevSignatureFile').attr('src', '../images/sample_signature.jpg');
                 $('#PrevSignatureFile').show();
                 $('#ViewSignatureFileName').text('Choose file');
+            }
+        }
+    }
+
+    function ValidateNidFileUpload() {
+        var fuData = document.getElementById('NidFileName');
+        var FileUploadPath = fuData.value;
+
+        if (FileUploadPath == '') {
+            Notification('info', 'Select NID File', 'Please select a file of NID.');
+            //Swal.fire('Select NID File', 'Please select a file of NID.', 'info');
+        } else {
+            var FileName = fuData.files[0].name;
+            var Extension = FileName.replace(/^.*\./, '');
+
+            if (Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
+                if (fuData.files && fuData.files[0]) {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(fuData.files[0]);
+                    reader.onload = function (e) {
+                        var image = new Image();
+                        image.src = e.target.result;
+                        image.onload = function () {
+                            var height = this.height;
+                            var width = this.width;
+
+                            if (height > 1080) {
+                                Notification('warning', 'Exceeding File Height', 'Height must not exceed 1080px.');
+                                //Swal.fire('Exceeding File Height', 'Height must not exceed 1080px.', 'warning');
+                                return;
+                            }
+
+                            if (width > 1920) {
+                                Notification('warning', 'Exceeding File Width', 'Width must not exceed 1920px.');
+                                //Swal.fire('Exceeding File Width', 'Width must not exceed 1920px.', 'warning');
+                                return;
+                            }
+                        };
+
+                        $('#PrevNidFile').attr('src', e.target.result);
+                        $('#PrevNidFile').show();
+                        $('#ViewNidFileName').text(FileName);
+                    }
+                } else {
+                    $('#PrevNidFile').attr('src', '../images/sample_nid.png');
+                    $('#PrevNidFile').show();
+                    $('#ViewNidFileName').text('Choose file');
+                }
+            }
+            else {
+                Notification('warning', 'Invalid File Format', 'Photo only allows file types of JPG/ JPEG/ PNG/ BMP.');
+                Swal.fire('Invalid File Format', 'Photo only allows file types of JPG/ JPEG/ PNG/ BMP.', 'warning');
+
+                $('#PrevNidFile').attr('src', '../images/sample_nid.png');
+                $('#PrevNidFile').show();
+                $('#ViewNidFileName').text('Choose file');
             }
         }
     }

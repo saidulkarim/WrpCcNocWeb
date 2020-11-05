@@ -26,24 +26,19 @@ namespace WrpCcNocWeb.Models.UserManagement
     public class UpdateUserInfo
     {
         public long UserID { get; set; }
-        //public long UserRegistrationID { get; set; }
-        //public string UserName { get; set; }
-        public string UserFullName { get; set; }
-        public string UserFullNameBn { get; set; }
-        public string UserFatherName { get; set; }
-        public string UserNID { get; set; }
-        public string UserPassportNo { get; set; }
+        public long ApplicantTypeId { get; set; }
+        public string ApplicantName { get; set; }
+        public string ApplicantNameBn { get; set; }
+        public string OrganizationName { get; set; }
+        public string OrganizationNameBn { get; set; }
+        public string OrganizationAddress { get; set; }
+        public string OrganizationAddressBn { get; set; }
         public string UserProfession { get; set; }
         public string UserDesignation { get; set; }
-        public string UserAddress { get; set; }
-        public string UserAddressBn { get; set; }
-        //public string UserEmail { get; set; }
-        public string UserAlternateEmail { get; set; }
-        //public string UserMobile { get; set; }
-        public string UserAlternateMobile { get; set; }
-
-        //public int SecurityQuestionId { get; set; }
-        //public string SecurityQuestionAnswer { get; set; }
+        public string UserNID { get; set; }
+        public string UserNIDFile { get; set; }
+        public string PostalAddress { get; set; }
+        public string PostalAddressBn { get; set; }
     }
 
     [Serializable]

@@ -1,0 +1,79 @@
+﻿@using WrpCcNocWeb.Models.ReportModels;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<CcRegistryBook> rbl = (List<CcRegistryBook>)ViewData["RegistryBookList"];
+}
+
+<link href="~/libs/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> Application List</h4>
+                @{
+                    if (rbl != null && rbl.Count > 0)
+                    {
+                        int count = 1;
+
+                        <table id="tblRegistryBook" class="table table-hover table-striped" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" valign="middle" rowspan="2">Serial</th>
+                                    <th class="text-left" valign="middle" rowspan="2">
+                                        Applicant Name<br />
+                                        Address
+                                    </th>
+                                    <th class="text-left" valign="middle" rowspan="2">Project Type</th>
+                                    <th class="text-left" valign="middle" rowspan="2">
+                                        The Purpose of Using<br />
+                                        Water Resources
+                                    </th>
+                                    <th class="text-center" valign="middle" colspan="2">Project Locations</th>
+                                    <th class="text-center" valign="middle" rowspan="2">Using Method</th>
+                                    <th class="text-center" valign="middle" rowspan="2">Issuing Date</th>
+                                    <th class="text-center" valign="middle" rowspan="2">Expiring Date</th>
+                                    <th class="text-center" valign="middle" rowspan="2">Terms</th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center" valign="middle">District</th>
+                                    <th class="text-center" valign="middle">Upazila</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (CcRegistryBook rb in rbl)
+                                {
+                                    <tr>
+                                        <td class="text-center">@Html.Raw(rb.AppSubmissionId)</td>
+                                        <td class="text-left">@Html.Raw(rb.ApplicantNameAddress)</td>
+                                        <td class="text-left">@Html.Raw(rb.ProjectType)</td>
+                                        <td class="text-left">@Html.Raw(rb.ProjectObjective)</td>
+                                        <td class="text-left">@Html.Raw(rb.ProjectDistrict)</td>
+                                        <td class="text-left">@Html.Raw(rb.ProjectUpazila)</td>
+                                        <td class="text-left">@Html.Raw(rb.MethodOfUsing)</td>
+                                        <td class="text-center">@Html.Raw(rb.IssuingDate)</td>
+                                        <td class="text-center">@Html.Raw(rb.ExpiringDate)</td>
+                                        <td class="text-left">@Html.Raw(rb.ClearanceTerms)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        count++;
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PageScripts {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery('#tblRegistryBook').DataTable({
+                "sPaginationType": "full_numbers"
+            });
+        });
+    </script>
+}

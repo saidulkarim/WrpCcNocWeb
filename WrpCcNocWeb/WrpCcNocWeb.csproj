@@ -58,6 +58,7 @@
     <Folder Include="wwwroot\images\file-icon\" />
     <Folder Include="wwwroot\images\higher_auth_signature\" />
     <Folder Include="wwwroot\images\higher_auth_seal\" />
+    <Folder Include="wwwroot\images\nid\" />
     <Folder Include="wwwroot\images\signature\" />
   </ItemGroup>
 

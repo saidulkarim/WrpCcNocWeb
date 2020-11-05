@@ -47,7 +47,6 @@ namespace WrpCcNocWeb.Controllers
         public IActionResult view(long? id, int? lang)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
-
             if (ui == null)
             {
                 return RedirectToAction("login", "account");
@@ -64,6 +63,29 @@ namespace WrpCcNocWeb.Controllers
             {
                 TempData["Message"] = ch.ShowMessage(Sign.Danger, "Project Info Error", "Sorry, project information not found!");
                 return RedirectToAction("list", "form");
+            }
+
+            bool is_expired = false;
+            if (pcd.AppApprovalDate != null)
+            {
+                var expired_date = pcd.AppApprovalDate.Value.AddYears(2);
+                var current_date = DateTime.Now;
+                is_expired = (current_date >= pcd.AppApprovalDate.Value && expired_date >= current_date) ? false : true;
+
+                if (pcd.ApprovalStatusId != 1)
+                {
+                    is_expired = false;
+                }
+            }
+            else
+            {
+                is_expired = false;
+            }
+
+            if (is_expired)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Danger, "Expired", "Sorry, your certificate has been expired!");
+                return RedirectToAction("expired", "certificate");
             }
 
             LookUpCcModProjectType pt = _db.LookUpCcModProjectType.Find(pcd.ProjectTypeId);
@@ -127,6 +149,12 @@ namespace WrpCcNocWeb.Controllers
             }
         }
 
+        //certificate/expired
+        public IActionResult expired()
+        {
+            return View();
+        }
+
         //certificate/undertaking
         public IActionResult undertaking(long? id, int? lang)
         {
@@ -186,7 +214,7 @@ namespace WrpCcNocWeb.Controllers
                     UndertakingTime = now_date_time.ToString("HH:mm:ss"),
                     UndertakingTimeBn = now_date_time.ToString("HH:mm:ss").NumberEnglishToBengali(),
                     UndertakingFormat = uf,
-                    ApplicantSignatureFile = _db.AdminModUsersDetail.Where(w => w.UserId == pcd.UserId).Select(s => s.SignatureFileName).FirstOrDefault()
+                    ApplicantSignatureFile = _db.AdminModUsersDetail.Where(w => w.UserId == pcd.UserId).Select(s => s.ApplicantSignature).FirstOrDefault()
                 };
 
                 if (pcd.UndertakingSubmitYesNoId == 1)
@@ -456,10 +484,10 @@ namespace WrpCcNocWeb.Controllers
                                   select new ApplicantInfo
                                   {
                                       ApplicantUserId = u.UserId,
-                                      ApplicantName = u.UserFullName,
-                                      ApplicantNameBn = u.UserFullNameBn,
-                                      ApplicantAddress = u.UserAddress,
-                                      ApplicantAddressBn = u.UserAddressBn,
+                                      ApplicantName = u.ApplicantTypeId == 1 ? u.ApplicantName : u.OrganizationName, //u.ApplicantName,
+                                      ApplicantNameBn = u.ApplicantTypeId == 1 ? u.ApplicantNameBn : u.OrganizationNameBn, //u.ApplicantNameBn,
+                                      ApplicantAddress = u.PostalAddress,
+                                      ApplicantAddressBn = u.PostalAddressBn,
                                       ApplicantMobile = reg.UserMobile,
                                       ApplicantMobileBn = reg.UserMobile,
                                       ApplicantEmail = reg.UserEmail,

@@ -73,20 +73,41 @@
 
                                             @if (@pcd.ApprovalStatusId == 1)
                                             {
-                                                <td class="align-middle">
-                                                    <div class="btn-group">
-                                                        <button type="button" class="btn btn-warning dropdown-toggle width-lg" data-toggle="dropdown" aria-expanded="false">
-                                                            Download
-                                                            <i class="mdi mdi-chevron-down"></i>
+                                                @if (is_expired)
+                                                {
+                                                    <td class="align-middle">
+                                                        <button type="button" class="btn btn-danger width-lg">
+                                                            Expired
+                                                            <i class="mdi mdi-timer-off"></i>
                                                         </button>
-                                                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                                                            <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId, lang = 1 })" target="_blank">বাংলা</a>
-                                                            <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId, lang = 2 })" target="_blank">English</a>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="align-middle">
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-warning dropdown-toggle width-lg" data-toggle="dropdown" aria-expanded="false">
+                                                                Download
+                                                                <i class="mdi mdi-chevron-down"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                                                                <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId, lang = 1 })" target="_blank">বাংলা</a>
+                                                                <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId, lang = 2 })" target="_blank">English</a>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </td>
+                                                }
+                                            }
+                                            else if (@pcd.ApprovalStatusId == 2)
+                                            {
+                                                <td>
+                                                    <button type="button" class="btn btn-danger waves-effect waves-light width-lg">
+                                                        Not Approved
+                                                        <span class="btn-label-right" style="margin-right: -1.5rem !important;"><i class="mdi mdi-close-circle-outline"></i></span>
+                                                    </button>
                                                 </td>
                                             }
-                                            else if (@pcd.ApprovalStatusId == 2 || @pcd.ApprovalStatusId == 3)
+                                            else if (@pcd.ApprovalStatusId == 3)
                                             {
                                                 <td>
                                                     <button type="button" class="btn btn-danger waves-effect waves-light width-lg"
@@ -139,20 +160,41 @@
 
                                             @if (@pcd.ApprovalStatusId == 1)
                                             {
-                                                <td class="align-middle">
-                                                    <div class="btn-group">
-                                                        <button type="button" class="btn btn-warning dropdown-toggle width-lg" data-toggle="dropdown" aria-expanded="false">
-                                                            Download
-                                                            <i class="mdi mdi-chevron-down"></i>
+                                                @if (is_expired)
+                                                {
+                                                    <td class="align-middle">
+                                                        <button type="button" class="btn btn-danger width-lg">
+                                                            Expired
+                                                            <i class="mdi mdi-timer-off"></i>
                                                         </button>
-                                                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                                                            <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId, lang = 1 })" target="_blank">বাংলা</a>
-                                                            <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId, lang = 2 })" target="_blank">English</a>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="align-middle">
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-warning dropdown-toggle width-lg" data-toggle="dropdown" aria-expanded="false">
+                                                                Download
+                                                                <i class="mdi mdi-chevron-down"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                                                                <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId, lang = 1 })" target="_blank">বাংলা</a>
+                                                                <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId, lang = 2 })" target="_blank">English</a>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </td>
+                                                }
+                                            }
+                                            else if (@pcd.ApprovalStatusId == 2)
+                                            {
+                                                <td>
+                                                    <button type="button" class="btn btn-danger waves-effect waves-light width-lg">
+                                                        Not Approved
+                                                        <span class="btn-label-right" style="margin-right: -1.5rem !important;"><i class="mdi mdi-close-circle-outline"></i></span>
+                                                    </button>
                                                 </td>
                                             }
-                                            else if (@pcd.ApprovalStatusId == 2 || @pcd.ApprovalStatusId == 3)
+                                            else if (@pcd.ApprovalStatusId == 3)
                                             {
                                                 <td>
                                                     <button type="button" class="btn btn-danger waves-effect waves-light width-lg"
@@ -203,13 +245,25 @@
                                                 else
                                                 { <span class="bg-warning" style="padding: 4px; border-radius: 3px;">Not Submitted</span>}
                                             </td>
-                                            <td class="align-middle">
-                                                <a href="@Url.Action("undertaking", "certificate", new { id = pcd.ProjectId, lang = 1 })" target="_blank"
-                                                   class="btn btn-blue waves-effect waves-light width-lg">
-                                                    Undertaking
-                                                    <span class="btn-label-right"><i class="mdi mdi-certificate"></i></span>
-                                                </a>
-                                            </td>
+                                            @if (is_expired)
+                                            {
+                                                <td class="align-middle">
+                                                    <button type="button" class="btn btn-danger width-lg">
+                                                        Expired
+                                                        <i class="mdi mdi-timer-off"></i>
+                                                    </button>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="align-middle">
+                                                    <a href="@Url.Action("undertaking", "certificate", new { id = pcd.ProjectId, lang = 1 })" target="_blank"
+                                                       class="btn btn-blue waves-effect waves-light width-lg">
+                                                        Undertaking
+                                                        <span class="btn-label-right"><i class="mdi mdi-certificate"></i></span>
+                                                    </a>
+                                                </td>
+                                            }
                                         </tr>
                                     }
                                     else
@@ -229,20 +283,41 @@
 
                                             @if (@pcd.ApprovalStatusId == 1)
                                             {
-                                                <td class="align-middle">
-                                                    <div class="btn-group">
-                                                        <button type="button" class="btn btn-warning dropdown-toggle waves-effect waves-light width-lg" data-toggle="dropdown" aria-expanded="false">
-                                                            Download
-                                                            <i class="mdi mdi-chevron-down"></i>
+                                                @if (is_expired)
+                                                {
+                                                    <td class="align-middle">
+                                                        <button type="button" class="btn btn-danger width-lg">
+                                                            Expired
+                                                            <i class="mdi mdi-timer-off"></i>
                                                         </button>
-                                                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                                                            <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId, lang = 1 })" target="_blank">বাংলা</a>
-                                                            <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId, lang = 2 })" target="_blank">English</a>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="align-middle">
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-warning dropdown-toggle waves-effect waves-light width-lg" data-toggle="dropdown" aria-expanded="false">
+                                                                Download
+                                                                <i class="mdi mdi-chevron-down"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                                                                <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId, lang = 1 })" target="_blank">বাংলা</a>
+                                                                <a class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId, lang = 2 })" target="_blank">English</a>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </td>
+                                                }
+                                            }
+                                            else if (@pcd.ApprovalStatusId == 2)
+                                            {
+                                                <td>
+                                                    <button type="button" class="btn btn-danger waves-effect waves-light width-lg">
+                                                        Not Approved
+                                                        <span class="btn-label-right" style="margin-right: -1.5rem !important;"><i class="mdi mdi-close-circle-outline"></i></span>
+                                                    </button>
                                                 </td>
                                             }
-                                            else if (@pcd.ApprovalStatusId == 2 || @pcd.ApprovalStatusId == 3)
+                                            else if (@pcd.ApprovalStatusId == 3)
                                             {
                                                 <td>
                                                     <button type="button" class="btn btn-danger waves-effect waves-light width-lg"

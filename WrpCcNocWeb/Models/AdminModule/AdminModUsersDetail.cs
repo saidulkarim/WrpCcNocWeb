@@ -21,97 +21,102 @@ namespace WrpCcNocWeb.Models
         public virtual AdminModUserRegistrationDetail adminModUserRegistrationDetails { get; set; }
 
         [Required]
-        [Column("UserFullName", Order = 2)]
-        [MaxLength(100)]
-        [Display(Name = "Name In English")]
-        public string UserFullName { get; set; }
-
-        [Required]
-        [Column("UserFatherName", Order = 3)]
-        [MaxLength(100)]
-        [DataType(DataType.Text)]
-        [Display(Name = "Father's Name")]
-        public string UserFatherName { get; set; }
-
-        [Required]
-        [Column("UserDateOfBirth", Order = 4)]
-        [Display(Name = "Date Of Birth")]
-        public DateTime UserDateOfBirth { get; set; }
-
-        [Column("UserNID", Order = 5)]
-        [Display(Name = "National ID No")]
-        [MaxLength(20)]
-        public string UserNID { get; set; }
-
-        [Column("UserPassportNo", Order = 6)]
-        [Display(Name = "Passport No")]
-        [MaxLength(20)]
-        public string UserPassportNo { get; set; }
-
-        [Column("UserProfession", Order = 7)]
-        [Display(Name = "Profession")]
-        [MaxLength(50)]
-        public string UserProfession { get; set; }
-
-        [Column("UserDesignation", Order = 8)]
-        [Display(Name = "Designation")]
-        [MaxLength(50)]
-        public string UserDesignation { get; set; }
-
-        [Required]
-        [Column("UserAddress", Order = 9)]
-        [Display(Name = "Address In English")]
-        [MaxLength(200)]
-        public string UserAddress { get; set; }
-
-        [Column("UserAlternateEmail", Order = 10)]
-        [Display(Name = "Alternate Email")]
-        [MaxLength(50)]
-        public string UserAlternateEmail { get; set; }
-
-        [Column("UserAlternateMobile", Order = 11)]
-        [Display(Name = "Alternate Mobile")]
-        [MaxLength(20)]
-        public string UserAlternateMobile { get; set; }
-
-        [Required]
-        [Column("SecurityQuestionId", Order = 12)]
+        [Column("SecurityQuestionId", Order = 2)]
         [Display(Name = "Security Question")]
         public int SecurityQuestionId { get; set; }
         [ForeignKey("SecurityQuestionId")]
         public virtual LookUpAdminModSecurityQuestion lookUpAdminModSecurityQuestion { get; set; }
 
         [Required]
-        [Column("SecurityQuestionAnswer", Order = 13)]
+        [Column("SecurityQuestionAnswer", Order = 3)]
         [Display(Name = "Answer of Security Question")]
         [MaxLength(50)]
         public string SecurityQuestionAnswer { get; set; }
 
         [Display(Name = "Is Profile Submitted")]
-        [Column("IsProfileSubmitted", Order = 14)]
+        [Column("IsProfileSubmitted", Order = 4)]
         public int? IsProfileSubmitted { get; set; }
 
-        [Display(Name = "Name In Bengali")]
-        [Column("UserFullNameBn", Order = 15)]
-        [MaxLength(100)]
-        public string UserFullNameBn { get; set; }
-
-        [Display(Name = "Address In Bengali")]
-        [Column("UserAddressBn", Order = 16)]
-        [MaxLength(200)]
-        public string UserAddressBn { get; set; }
-
-        [Column("SignatureFileName", Order = 17)]
+        [Column("ApplicantSignature", Order = 5)]
         [MaxLength(50)]
-        public string SignatureFileName { get; set; }
+        public string ApplicantSignature { get; set; }
 
-        [Column("HigherAuthSignature", Order = 18)]
+        [Column("HigherAuthSignature", Order = 6)]
         [MaxLength(50)]
         public string HigherAuthSignature { get; set; }
 
-        [Column("HigherAuthSeal", Order = 19)]
+        [Column("HigherAuthSeal", Order = 7)]
         [MaxLength(50)]
         public string HigherAuthSeal { get; set; }
+
+        [Required]
+        [Column("ApplicantTypeId", Order = 8)]
+        [Display(Name = "Applicant Type")]
+        public int ApplicantTypeId { get; set; }
+        [ForeignKey("ApplicantTypeId")]
+        public virtual LookUpCcModApplicantType LookUpCcModApplicantType { get; set; }
+
+        [Required]
+        [Column("ApplicantName", Order = 9)]
+        [MaxLength(100)]
+        [Display(Name = "Applicant Name (English)")]
+        public string ApplicantName { get; set; }
+
+        [Required]
+        [Column("ApplicantNameBn", Order = 10)]
+        [MaxLength(250)]
+        [Display(Name = "আবেদনকারীর নাম (বাংলায়)")]
+        public string ApplicantNameBn { get; set; }
+
+        [Column("OrganizationName", Order = 11)]
+        [MaxLength(150)]
+        [Display(Name = "Organization Name (English)")]
+        public string OrganizationName { get; set; }
+
+        [Column("OrganizationNameBn", Order = 12)]
+        [MaxLength(250)]
+        [Display(Name = "প্রতিষ্ঠানের নাম (বাংলায়)")]
+        public string OrganizationNameBn { get; set; }
+
+        [Column("OrganizationAddress", Order = 13)]
+        [MaxLength(150)]
+        [Display(Name = "Organization Address (English)")]
+        public string OrganizationAddress { get; set; }
+
+        [Column("OrganizationAddressBn", Order = 14)]
+        [MaxLength(250)]
+        [Display(Name = "প্রতিষ্ঠানের ঠিকানা (বাংলায়)")]
+        public string OrganizationAddressBn { get; set; }
+
+        [Column("UserProfession", Order = 15)]
+        [Display(Name = "Profession")]
+        [MaxLength(50)]
+        public string UserProfession { get; set; }
+
+        [Column("UserDesignation", Order = 16)]
+        [Display(Name = "Designation")]
+        [MaxLength(50)]
+        public string UserDesignation { get; set; }
+
+        [Column("UserNID", Order = 17)]
+        [Display(Name = "National ID No")]
+        [MaxLength(20)]
+        public string UserNID { get; set; }
+
+        [Column("UserNIDFile", Order = 18)]
+        [Display(Name = "National ID File")]
+        [MaxLength(50)]
+        public string UserNIDFile { get; set; }
+
+        [Column("PostalAddress", Order = 19)]
+        [MaxLength(250)]
+        [Display(Name = "Postal Address (English)")]
+        public string PostalAddress { get; set; }
+
+        [Column("PostalAddressBn", Order = 20)]
+        [MaxLength(500)]
+        [Display(Name = "পত্রের ঠিকানা (বাংলায়)")]
+        public string PostalAddressBn { get; set; }
 
         [InverseProperty("AdminModUsersDetail_SenderId")]
         public virtual List<CcModProjectQueryDetail> AdminModUsersDetail_SenderId { get; set; }

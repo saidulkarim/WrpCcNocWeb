@@ -160,11 +160,11 @@ namespace WrpCcNocWeb.Controllers
                            UserID = user_id,
                            UserRegistrationID = ri.UserRegistrationId,
                            UserName = ri.UserName.ToString(),
-                           UserFullName = ui.UserFullName,
+                           UserFullName = ui.ApplicantTypeId == 1 ? ui.ApplicantName : ui.OrganizationName, //ui.UserFullName,
                            UserDesignation = ui.UserDesignation,
                            UserMobile = ri.UserMobile.ToString(),
                            UserEmail = ri.UserEmail.ToString(),
-                           UserAddress = ui.UserAddress,
+                           UserAddress = ui.PostalAddress,
                            UserActivationStatus = ri.UserActivationStatus,
                            DateOfCreation = ri.DateOfCreation,
                            LastModifiedDate = ri.LastModifiedDate,
@@ -426,8 +426,14 @@ namespace WrpCcNocWeb.Controllers
         public IActionResult profile()
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
             ViewBag.UserName = ui.UserName;
             ViewBag.UserRegistrationID = ui.UserRegistrationID;
+            ViewBag.ApplicantTypeId = new SelectList(_db.LookUpCcModApplicantType.ToList(), "ApplicantTypeId", "ApplicantType");
             ViewBag.SecurityQuestionId = new SelectList(_db.LookUpAdminModSecurityQuestion.ToList(), "SecurityQuestionId", "SecurityQuestion");
 
             return View();
@@ -436,11 +442,11 @@ namespace WrpCcNocWeb.Controllers
         //account/saveprofile
         [HttpPost]
         [Obsolete]
-        public JsonResult saveprofile(long UserId, long UserRegistrationId, string UserFullName, string UserFullNameBn,
-            string UserFatherName, string UserDateOfBirth, string UserNID, string UserPassportNo,
-            string UserProfession, string UserDesignation, string UserAddress, string UserAddressBn,
-            string UserAlternateEmail, string UserAlternateMobile, int SecurityQuestionId,
-            string SecurityQuestionAnswer, IFormFile file)
+        public JsonResult saveprofile(long UserId, long UserRegistrationId, int ApplicantTypeId,
+            string ApplicantName, string ApplicantNameBn, string OrganizationName, string OrganizationNameBn,
+            string OrganizationAddress, string OrganizationAddressBn, string UserProfession, string UserDesignation,
+            string UserNID, string PostalAddress, string PostalAddressBn, int SecurityQuestionId,
+            string SecurityQuestionAnswer, IFormFile file, IFormFile nidFile)
         {
             int result = 0;
             AdminModUsersDetail _user = new AdminModUsersDetail();
@@ -457,18 +463,18 @@ namespace WrpCcNocWeb.Controllers
                     try
                     {
                         _user.UserRegistrationId = UserRegistrationId;
-                        _user.UserFullName = UserFullName;
-                        _user.UserFullNameBn = UserFullNameBn;
-                        _user.UserFatherName = UserFatherName;
-                        _user.UserDateOfBirth = DateTime.Parse(UserDateOfBirth.ToString());
-                        _user.UserNID = UserNID;
-                        _user.UserPassportNo = UserPassportNo;
+                        _user.ApplicantTypeId = ApplicantTypeId;
+                        _user.ApplicantName = ApplicantName;
+                        _user.ApplicantNameBn = ApplicantNameBn;
+                        _user.OrganizationName = OrganizationName;
+                        _user.OrganizationNameBn = OrganizationNameBn;
+                        _user.OrganizationAddress = OrganizationAddress;
+                        _user.OrganizationAddressBn = OrganizationAddressBn;
                         _user.UserProfession = UserProfession;
                         _user.UserDesignation = UserDesignation;
-                        _user.UserAddress = UserAddress;
-                        _user.UserAddressBn = UserAddressBn;
-                        _user.UserAlternateEmail = UserAlternateEmail;
-                        _user.UserAlternateMobile = UserAlternateMobile;
+                        _user.UserNID = UserNID;
+                        _user.PostalAddress = PostalAddress;
+                        _user.PostalAddressBn = PostalAddressBn;
                         _user.SecurityQuestionId = SecurityQuestionId;
                         _user.SecurityQuestionAnswer = SecurityQuestionAnswer;
                         _user.IsProfileSubmitted = 1;
@@ -489,28 +495,33 @@ namespace WrpCcNocWeb.Controllers
 
                             if (result > 0)
                             {
-                                noti = uusf(_user.UserId, "SignatureFileName", file);
+                                noti = uunc(_user.UserId, "NidFileName", nidFile);
 
                                 if (noti.status == "success")
                                 {
-                                    dbContextTransaction.Commit();
+                                    noti = uusf(_user.UserId, "SignatureFileName", file);
 
-                                    AdminModUserRegistrationDetail urd = _db.AdminModUserRegistrationDetail.Find(UserRegistrationId);
-                                    UserInfoToSession(urd.UserName, _user.UserId);
-
-                                    //UserInfo _ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
-                                    //_ui.UserID = _user.UserId;
-                                    //HttpContext.Session.SetComplexData("LoggerUserInfo", _ui);
-
-                                    noti = new Notification
+                                    if (noti.status == "success")
                                     {
-                                        id = _user.UserId.ToString(),
-                                        status = "success",
-                                        title = "Success",
-                                        message = "Profile information has been successfully submitted. Your signature also uploaded."
-                                    };
+                                        dbContextTransaction.Commit();
 
-                                    //return RedirectToAction("index", "home");
+                                        AdminModUserRegistrationDetail urd = _db.AdminModUserRegistrationDetail.Find(UserRegistrationId);
+                                        UserInfoToSession(urd.UserName, _user.UserId);
+
+                                        //UserInfo _ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+                                        //_ui.UserID = _user.UserId;
+                                        //HttpContext.Session.SetComplexData("LoggerUserInfo", _ui);
+
+                                        noti = new Notification
+                                        {
+                                            id = _user.UserId.ToString(),
+                                            status = "success",
+                                            title = "Success",
+                                            message = "Profile information has been successfully submitted. Your signature also uploaded."
+                                        };
+
+                                        //return RedirectToAction("index", "home");
+                                    }
                                 }
                             }
                             else
@@ -567,19 +578,19 @@ namespace WrpCcNocWeb.Controllers
 
                     try
                     {
-                        //_userExistCheck.UserRegistrationId = _userExistCheck.UserRegistrationId;
-                        _userExistCheck.UserFullName = UserFullName;
-                        _userExistCheck.UserFullNameBn = UserFullNameBn;
-                        _userExistCheck.UserFatherName = UserFatherName;
-                        _userExistCheck.UserDateOfBirth = DateTime.Parse(UserDateOfBirth.ToString());
-                        _userExistCheck.UserNID = UserNID;
-                        _userExistCheck.UserPassportNo = UserPassportNo;
+                        //_userExistCheck.UserRegistrationId = _userExistCheck.UserRegistrationId;                        
+                        _userExistCheck.ApplicantTypeId = ApplicantTypeId;
+                        _userExistCheck.ApplicantName = ApplicantName;
+                        _userExistCheck.ApplicantNameBn = ApplicantNameBn;
+                        _userExistCheck.OrganizationName = OrganizationName;
+                        _userExistCheck.OrganizationNameBn = OrganizationNameBn;
+                        _userExistCheck.OrganizationAddress = OrganizationAddress;
+                        _userExistCheck.OrganizationAddressBn = OrganizationAddressBn;
                         _userExistCheck.UserProfession = UserProfession;
                         _userExistCheck.UserDesignation = UserDesignation;
-                        _userExistCheck.UserAddress = UserAddress;
-                        _userExistCheck.UserAddressBn = UserAddressBn;
-                        _userExistCheck.UserAlternateEmail = UserAlternateEmail;
-                        _userExistCheck.UserAlternateMobile = UserAlternateMobile;
+                        _userExistCheck.UserNID = UserNID;
+                        _userExistCheck.PostalAddress = PostalAddress;
+                        _userExistCheck.PostalAddressBn = PostalAddressBn;
                         _userExistCheck.SecurityQuestionId = SecurityQuestionId;
                         _userExistCheck.SecurityQuestionAnswer = SecurityQuestionAnswer;
                         _userExistCheck.IsProfileSubmitted = _userExistCheck.IsProfileSubmitted;
@@ -593,22 +604,27 @@ namespace WrpCcNocWeb.Controllers
                             {
                                 if (file != null)
                                 {
-                                    noti = uusf(_userExistCheck, "SignatureFileName", file);
+                                    noti = uunc(_user.UserId, "NidFileName", nidFile);
 
                                     if (noti.status == "success")
                                     {
-                                        dbContextTransaction.Commit();
-                                        //UserInfo _ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
-                                        //_ui.UserID = _userExistCheck.UserId;
-                                        //HttpContext.Session.SetComplexData("LoggerUserInfo", _ui);
+                                        noti = uusf(_userExistCheck, "SignatureFileName", file);
 
-                                        noti = new Notification
+                                        if (noti.status == "success")
                                         {
-                                            id = _userExistCheck.UserId.ToString(),
-                                            status = "success",
-                                            title = "Success",
-                                            message = "Profile information has been successfully updated and signature also uploaded."
-                                        };
+                                            dbContextTransaction.Commit();
+                                            //UserInfo _ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+                                            //_ui.UserID = _userExistCheck.UserId;
+                                            //HttpContext.Session.SetComplexData("LoggerUserInfo", _ui);
+
+                                            noti = new Notification
+                                            {
+                                                id = _userExistCheck.UserId.ToString(),
+                                                status = "success",
+                                                title = "Success",
+                                                message = "Profile information has been successfully updated and signature also uploaded."
+                                            };
+                                        }
                                     }
                                 }
                                 else
@@ -673,7 +689,96 @@ namespace WrpCcNocWeb.Controllers
             return Json(noti);
         }
 
-        //account/saveprofile
+        //account/UploadUserNidCard
+        [Obsolete]
+        public Notification uunc(long urid, string controltitle, IFormFile nid_file)
+        {
+            int result = 0;
+            string filename = "", extension = "", foldername = "images/nid";
+            AdminModUsersDetail ud = new AdminModUsersDetail();
+
+            if (urid != 0)
+            {
+                ud = _db.AdminModUsersDetail.Find(urid);
+            }
+
+            try
+            {
+                if (nid_file != null)
+                {
+                    if (ud != null)
+                    {
+                        filename = ContentDispositionHeaderValue.Parse(nid_file.ContentDisposition).FileName.Trim('"');
+                        extension = filename.Substring(filename.LastIndexOf('.'));
+                        filename = EnsureCorrectFilename(filename);
+                        filename = String.Format("{0}_{1}{2}", ud.UserId, "nid", extension);
+
+                        ud.UserNIDFile = filename;
+                        _db.Entry(ud).State = EntityState.Modified;
+                        result = _db.SaveChanges();
+
+                        if (result > 0)
+                        {
+                            using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
+                            nid_file.CopyTo(output);
+
+                            noti = new Notification
+                            {
+                                id = ud.UserId.ToString(),
+                                status = "success",
+                                title = "Success",
+                                message = "Your NID has been successfully uploaded."
+                            };
+                        }
+                        else
+                        {
+                            noti = new Notification
+                            {
+                                id = ud.UserId.ToString(),
+                                status = "error",
+                                title = "NID Upload Error",
+                                message = "NID file has not uploaded."
+                            };
+                        }
+                    }
+                    else
+                    {
+                        noti = new Notification
+                        {
+                            id = "0",
+                            status = "warning",
+                            title = "Profile Error",
+                            message = "Your profile has not submit yet!"
+                        };
+                    }
+                }
+                else
+                {
+                    noti = new Notification
+                    {
+                        id = "0",
+                        status = "warning",
+                        title = "Select File",
+                        message = "No file(s) selected!"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    title = "An Exception Error Occured",
+                    message = message
+                };
+            }
+
+            return noti;
+        }
+
         [HttpPost]
         public JsonResult rupw(long urid, string uopw, string ucpw)
         {
@@ -761,7 +866,7 @@ namespace WrpCcNocWeb.Controllers
                         filename = EnsureCorrectFilename(filename);
                         filename = String.Format("{0}_{1}{2}", ud.UserId, "signature", extension);
 
-                        ud.SignatureFileName = filename;
+                        ud.ApplicantSignature = filename;
 
                         _db.Entry(ud).State = EntityState.Modified;
                         result = _db.SaveChanges();
@@ -845,7 +950,7 @@ namespace WrpCcNocWeb.Controllers
                         filename = EnsureCorrectFilename(filename);
                         filename = String.Format("{0}_{1}{2}", ud.UserId, "signature", extension);
 
-                        ud.SignatureFileName = filename;
+                        ud.ApplicantSignature = filename;
 
                         _db.Entry(ud).State = EntityState.Modified;
                         result = _db.SaveChanges();
@@ -1173,7 +1278,7 @@ namespace WrpCcNocWeb.Controllers
                 return false;
             }
         }
-        #endregion       
+        #endregion
 
         //[Route("get-captcha-image")]
         public IActionResult GetCaptchaImage()
@@ -1198,7 +1303,7 @@ namespace WrpCcNocWeb.Controllers
                              {
                                  UserID = s.U.UserId,
                                  UserName = s.R.UserName,
-                                 UserFullName = s.U.UserFullName,
+                                 UserFullName = s.U.ApplicantTypeId == 1 ? s.U.ApplicantName : s.U.OrganizationName,
                                  UserDesignation = s.U.UserDesignation,
                                  UserEmail = s.R.UserEmail,
                                  UserMobile = s.R.UserMobile,
@@ -1242,7 +1347,8 @@ namespace WrpCcNocWeb.Controllers
                                {
                                    UserID = ud.UserId,
                                    UserName = ur.UserName,
-                                   UserFullName = ud.UserFullName,
+                                   //UserFullName = ud.UserFullName,
+                                   UserFullName = ud.ApplicantTypeId == 1 ? ud.ApplicantName : ud.OrganizationName,
                                    UserDesignation = ud.UserDesignation,
                                    UserEmail = ur.UserEmail,
                                    UserMobile = ur.UserMobile,
@@ -1287,7 +1393,8 @@ namespace WrpCcNocWeb.Controllers
                                {
                                    UserID = ud.UserId,
                                    UserName = ur.UserName,
-                                   UserFullName = ud.UserFullName,
+                                   //UserFullName = ud.UserFullName,
+                                   UserFullName = ud.ApplicantTypeId == 1 ? ud.ApplicantName : ud.OrganizationName,
                                    UserDesignation = ud.UserDesignation,
                                    UserEmail = ur.UserEmail,
                                    UserMobile = ur.UserMobile,
@@ -1334,7 +1441,8 @@ namespace WrpCcNocWeb.Controllers
                                {
                                    UserID = ud.UserId,
                                    UserName = ur.UserName,
-                                   UserFullName = ud.UserFullName,
+                                   //UserFullName = ud.UserFullName,
+                                   UserFullName = ud.ApplicantTypeId == 1 ? ud.ApplicantName : ud.OrganizationName,
                                    UserDesignation = ud.UserDesignation,
                                    UserEmail = ur.UserEmail,
                                    UserMobile = ur.UserMobile,
@@ -1423,10 +1531,12 @@ namespace WrpCcNocWeb.Controllers
                     AdminModUsersDetail amud = new AdminModUsersDetail
                     {
                         UserRegistrationId = userReg.UserRegistrationId,
-                        UserFullName = anuc.FullName,
-                        UserFatherName = "empty",
-                        UserDateOfBirth = DateTime.Now,
-                        UserAddress = anuc.Address,
+                        //rony :: need to work here
+                        //UserFullName = anuc.FullName,
+                        //UserFullName = ud.ApplicantTypeId == 1 ? ud.ApplicantName : ud.OrganizationName,
+                        //UserFatherName = "empty",
+                        //UserDateOfBirth = DateTime.Now,
+                        //UserAddress = anuc.Address,
                         SecurityQuestionId = anuc.SecurityQuestionId.ToInt(),
                         SecurityQuestionAnswer = anuc.SecurityQuestionAnswer,
                         IsProfileSubmitted = 1
@@ -1537,11 +1647,13 @@ namespace WrpCcNocWeb.Controllers
                                          {
                                              UserID = s.U.UserId,
                                              UserName = s.R.UserName,
-                                             UserFullName = s.U.UserFullName,
+                                             //UserFullName = s.U.UserFullName,
+                                             UserFullName = s.U.ApplicantTypeId == 1 ? s.U.ApplicantName : s.U.OrganizationName,
                                              UserDesignation = s.U.UserDesignation,
                                              UserEmail = s.R.UserEmail,
                                              UserMobile = s.R.UserMobile,
-                                             UserAddress = s.U.UserAddress,
+                                             //UserAddress = s.U.UserAddress,
+                                             UserAddress = s.U.PostalAddress,
                                              UserActivationStatus = s.R.UserActivationStatus,
                                              DateOfCreation = s.R.DateOfCreation,
                                              LastModifiedDate = s.R.LastModifiedDate
@@ -1555,9 +1667,10 @@ namespace WrpCcNocWeb.Controllers
         {
             AdminModUsersDetail userDetails = _db.AdminModUsersDetail.Where(w => w.UserId == id).FirstOrDefault();
 
+            ViewBag.ApplicantTypeId = new SelectList(_db.LookUpCcModApplicantType.ToList(), "ApplicantTypeId", "ApplicantType", userDetails.ApplicantTypeId);
             ViewBag.SecurityQuestionId = new SelectList(_db.LookUpAdminModSecurityQuestion.ToList(), "SecurityQuestionId", "SecurityQuestion", userDetails.SecurityQuestionId);
-            ViewBag.UpdateUserInfo = userDetails;
-            return View();
+            //ViewBag.UpdateUserInfo = userDetails;
+            return View(userDetails);
         }
 
         public IActionResult resetPassword(long id)
@@ -1972,11 +2085,13 @@ namespace WrpCcNocWeb.Controllers
                            UserID = ud.UserId,
                            UserRegistrationID = ud.UserRegistrationId,
                            UserName = ur.UserName,
-                           UserFullName = ud.UserFullName,
+                           //UserFullName = ud.UserFullName,
+                           UserFullName = ud.ApplicantTypeId == 1 ? ud.ApplicantName : ud.OrganizationName,
                            UserDesignation = ud.UserDesignation,
                            UserMobile = ur.UserMobile,
                            UserEmail = ur.UserEmail,
-                           UserAddress = ud.UserAddress,
+                           //UserAddress = ud.UserAddress,
+                           UserAddress = ud.PostalAddress,
                            LoginDateTime = ulhd.LoginDateTime.ToString("dd MMM, yyyy HH:mm:ss"),
                            MachineIpOrUrl = ulhd.MachineIPOrUrl
                        }).ToList();

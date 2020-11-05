@@ -44,6 +44,7 @@ namespace WrpCcNocWeb.DatabaseContext
 
         public DbSet<LookUpAdminModSmsFormat> LookUpAdminModSmsFormat { get; set; }
         public DbSet<LookUpAdminModSmsHistory> LookUpAdminModSmsHistory { get; set; }
+        public DbSet<LookUpCcModApplicantType> LookUpCcModApplicantType { get; set; }
         #endregion
 
         #region Detail --- CC Module        

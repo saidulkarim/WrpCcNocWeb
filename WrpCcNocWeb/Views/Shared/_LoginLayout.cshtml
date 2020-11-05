@@ -20,6 +20,12 @@
     <link href="~/css/app.min.css" rel="stylesheet" type="text/css" />
     <link href="~/libs/jquery-toast/toastr.css" rel="stylesheet" type="text/css" />
 
+    <style type="text/css">
+        body {
+            font-family: Arial, Nikosh, 'Segoe UI' !important;
+        }
+    </style>
+
     <!-- jquery -->
     <script src="~/libs/jquery/dist/jquery.js"></script>
 
@@ -47,7 +53,16 @@
     <!-- End Page content -->
 
     <footer class="footer footer-alt">
-        @DateTime.Now.Year.ToString() © Water Resources Planning Organization. Powered by <a href="https://www.cegisbd.com/" class="text-white-50">CEGIS</a>
+        @if (DateTime.Now.Year == 2020)
+        {
+            <span>2020</span>
+        }
+        else
+        {
+            <span>2020 - @DateTime.Now.Year.ToString()</span>
+        }
+
+        ©<a href="http://www.warpo.gov.bd/" target="_blank" class="text-white-50">WARPO</a>. Powered by <a href="https://www.cegisbd.com/" target="_blank" class="text-white-50">CEGIS</a>
     </footer>
 
     <!-- taost -->
