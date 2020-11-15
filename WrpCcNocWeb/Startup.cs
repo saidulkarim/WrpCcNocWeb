@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Rotativa.AspNetCore;
 using WrpCcNocWeb.Models.Utility;
@@ -64,7 +66,15 @@ namespace WrpCcNocWeb
                 app.UseExceptionHandler("/error/index");
             }
 
+            app.UseFileServer();            
+            app.UseDefaultFiles();
             app.UseStaticFiles();
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(
+            //        Path.Combine(env.WebRootPath, "docs/map_kml")),
+            //    RequestPath = "/kml"
+            //});
             app.UseRouting();
             app.UseAuthorization();
             app.UseSession();
