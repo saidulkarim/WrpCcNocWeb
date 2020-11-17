@@ -21,7 +21,7 @@
     <link href="~/css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="~/css/app.min.css" rel="stylesheet" type="text/css" />
     <link href="~/libs/jquery-toast/toastr.css" rel="stylesheet" type="text/css" />
-    
+
 
     <style>
         body {
@@ -145,6 +145,7 @@
     <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     @*<script type="text/javascript" src="~/libs/jquery/dist/jquery.js"></script>*@
     <script type="text/javascript" src="~/lib/leaflet/leaflet.js"></script>
+    @*<script type="text/javascript" src="~/lib/leaflet/L.KML.js"></script>*@
     <script type="text/javascript" src="~/lib/leaflet/tools/d3/d3.js"></script>
     <script type="text/javascript" src="~/lib/leaflet/tools/chroma-js/chroma.min.js"></script>
     <script type="text/javascript" src="~/lib/leaflet/tools/leaflet-ajax/leaflet.ajax.js"></script>
@@ -156,7 +157,7 @@
     <script type="text/javascript" src="~/js/maps/map_data/legend_theme.js"></script>
     @*<script type="text/javascript" src="~/js/maps/load_map_data.js"></script>*@
     <script type="text/javascript" src="~/lib/photo-viewer/js/photo.viewer.js"></script>
-
+    <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
 </head>
 <body>
 
@@ -164,10 +165,10 @@
         <div id="map" class="map_content"></div>
         <div id="map_cord_info" class="coordinate_info"></div>
         @*<div class="map_opt_content">
-            <label><input type="checkbox" id="legend_info_opt" checked="checked" title="Show/Hide Map Information" />Map Information</label>
-                 <label><input type="checkbox" id="legend_opt" checked="checked" title="Show/Hide Map Legend" />Map Legend</label>
-            <label><input type="checkbox" id="map_label_opt" checked="checked" title="Show/Hide Map Label" />Map Label</label>
-        </div>*@
+                <label><input type="checkbox" id="legend_info_opt" checked="checked" title="Show/Hide Map Information" />Map Information</label>
+                     <label><input type="checkbox" id="legend_opt" checked="checked" title="Show/Hide Map Legend" />Map Legend</label>
+                <label><input type="checkbox" id="map_label_opt" checked="checked" title="Show/Hide Map Label" />Map Label</label>
+            </div>*@
 
         <div id="map_btns_content" class="map_btns_content">
             <div id="map_center" class="map_btns btn_full_extent" title="Full extent the map"></div>
@@ -679,11 +680,8 @@ var modal_open = function (content, top) {
                             $("#busy-indicator").fadeIn();
                         },
                         success: function (locData) {
-
                             var allLocations = locData && locData.value ? locData.value : null;
-
                             if (allLocations && allLocations.length > 0) {
-
                                 var icon = {
                                     pane: "label-layer",
                                     radius: 5,
@@ -742,7 +740,6 @@ var modal_open = function (content, top) {
                                 };
 
                                 allLocations.forEach(function (el, i) {
-
                                     if (el.lat == 'undefined' || el.lng == 'undefined')
                                         return;
 
@@ -772,6 +769,35 @@ var modal_open = function (content, top) {
                                         });
 
                                     map.addLayer(location);
+
+                                    var kmltext = el.kml_file_content;
+                                    console.log('Map JSON Loading...');
+                                    //console.log(kmltext);                                    
+
+                                    function polystyle(feature) {
+                                        return {
+                                            fillColor: '#ff7800',
+                                            weight: 2,
+                                            opacity: 1,
+                                            color: 'black',  //outline color
+                                            fillOpacity: 0.7
+                                        };
+                                    }
+                                    
+                                    var geojson = L.geoJson(jQuery.parseJSON(kmltext),
+                                        {
+                                            style: polystyle,
+                                            onEachFeature: function (feature, layer) {
+                                                var label = L.marker(layer.getBounds().getCenter(), {
+                                                    icon: L.divIcon({
+                                                        className: 'label',
+                                                        html: feature.properties.name,
+                                                        iconSize: [50, 40]
+                                                    })
+                                                }).addTo(map);
+                                            }
+                                        }).addTo(map);
+
                                 });
 
                                 $("#map_legend_colors").append(
@@ -795,8 +821,7 @@ var modal_open = function (content, top) {
                     msg.init("Error", "Error... . .", "Error trying to Unable to load project location data !! <br />" + e.message);
                 }
             }
-        }
-
+        }       
 
         function add_remove_admin_label(adminCode, isShow) {
 

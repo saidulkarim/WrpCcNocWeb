@@ -29,12 +29,14 @@
     <None Include="wwwroot\fonts\adorsholipi\AdorshoLipi.svg" />
     <None Include="wwwroot\fonts\bangla\Bangla.svg" />
     <None Include="wwwroot\fonts\siyamrupali\SiyamRupali.svg" />
+    <None Include="wwwroot\lib\photo-viewer\js\photo.viewer.js" />
     <None Include="wwwroot\Rotativa\wkhtmltoimage.exe" />
     <None Include="wwwroot\Rotativa\wkhtmltopdf.exe" />
     <None Include="wwwroot\Rotativa\wkhtmltox.dll" />
   </ItemGroup>
 
   <ItemGroup>    
+    <PackageReference Include="KmlToGeoJson" Version="0.1.0" />    
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

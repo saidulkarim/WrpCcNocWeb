@@ -3,21 +3,173 @@
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
-<div class="row" style="margin-top: 100px;">
-    <div class="col-md-12">
-        <div class="card text-white bg-pink text-xs-center">
-            <div class="card-body">
-                <blockquote class="card-bodyquote">
-                    <center>
-                        <p>
-                            <h1> Will be updated later</h1>
-                        </p>
-                    </center>
-                    @*<footer>
-                            Someone famous in <cite title="Source Title">Source Title</cite>
-                        </footer>*@
-                </blockquote>
+<div class="account-pages mt-5 mb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-lg-12" style="margin-top: 50px;">
+                <div class="card bg-pattern">
+                    <div class="card-body">
+                        <div id="accordion" class="mb-3">
+                            <div class="card mb-1">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="m-0">
+                                        <a class="text-dark collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false">
+                                            <i class="mdi mdi-help-circle mr-1 text-primary"></i>
+                                            1. How to register as new user?
+                                        </a>
+                                    </h5>
+                                </div>
+
+                                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion" style="">
+                                    <div class="card-body text-justify">
+                                        Click on the <b>Register</b> link button, a new registration blank
+                                        form will appear. User needs to input his/ her desired User Name (user name must be less or equal to 20
+                                        characters and required field), Password and Confirm Password (password and confirm password must need
+                                        to match and auto password strength checking after the lost focus of password textbox and required field),
+                                        Email (a valid unique email address, which has not been used before in this application and required field),
+                                        Mobile (a valid and unique 11 digit mobile number and it is also required field). You need to accept terms
+                                        and conditions and then click on the Sign-Up button to complete your registration first step. A confirmation
+                                        email will be sent to the email address you have provided and the subject will be Online Clearance Certificate
+                                        System - Confirmation of User Registration.<br />
+
+                                        <div class="text-center">
+                                            <img src="~/images/help/1.png" style="width: 70%;" /><br /><br />
+                                            <img src="~/images/help/2.PNG" style="width: 70%;" /><br /><br />
+                                        </div>
+
+                                        Please go to your email and open up your confirmation email then click on the verify link on the email body.
+                                        <div class="text-center">
+                                            <img src="~/images/help/3.PNG" style="width: 70%;" /><br /><br />
+                                        </div>
+                                        After email verification there will be a new window where new user must fill up with personal profile details.
+                                        Here they must upload signature (Signature must be 300-pixel width, 80-pixel height and must not exceed 60 KB) and NID.
+                                        <div class="text-center">
+                                            <img src="~/images/help/4.PNG" style="width: 70%;" /><br /><br />
+                                            <img src="~/images/help/5.PNG" style="width: 25%;" />
+                                        </div>
+                                        After this step you will be successfully registered.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-1">
+                                <div class="card-header" id="headingTwo">
+                                    <h5 class="m-0">
+                                        <a class="text-dark collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false">
+                                            <i class="mdi mdi-help-circle mr-1 text-primary"></i>
+                                            2. How to Log-In?
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion" style="">
+                                    <div class="card-body">
+                                        For logging in to the system go to login page enter your credentials (User Name and Password),
+                                        input captcha code and click on Login button or hit enter button from your key board.
+                                        <div class="text-center">
+                                            <img src="~/images/help/6.PNG" style="width: 70%;" /><br /><br />
+                                        </div>
+                                        Successful login as applicant will take you to Dashboard of this application.
+                                        A menu will be organized as per user level.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-1">
+                                <div class="card-header" id="headingThree">
+                                    <h5 class="m-0">
+                                        <a class="text-dark" data-toggle="collapse" href="#collapseThree" aria-expanded="false">
+                                            <i class="mdi mdi-help-circle mr-1 text-primary"></i>
+                                            3. What if I forget password or username?
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                    <div class="card-body">
+                                        Don’t worry if you forget your login data. If any user forgets his password or user ID
+                                        it is very easy for them to recover their log-in credentials.
+                                        <div class="text-center">
+                                            <img src="~/images/help/7.PNG" style="width: 70%;" /><br /><br />
+                                        </div>
+                                        There is a link to forgot password link just beneath the log-in panel. This will redirect you to recovery page.
+                                        <div class="text-center">
+                                            <img src="~/images/help/8.PNG" style="width: 70%;" /><br /><br />
+                                        </div>
+                                        Here you can recover your password or user ID or both at the same time. Just select which needed
+                                        to be recovered and enter email address.
+                                        <div class="text-center">
+                                            <img src="~/images/help/9.PNG" style="width: 70%;" /><br /><br />
+                                        </div>
+                                        There will be an email to your account about recovery information.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card mb-1">
+                                <div class="card-header" id="headingFour">
+                                    <h5 class="m-0">
+                                        <a class="text-dark" data-toggle="collapse" href="#collapseFour" aria-expanded="false">
+                                            <i class="mdi mdi-help-circle mr-1 text-primary"></i>
+                                            4. How can I verify and track a submitted form without logging in?
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapseFour" class="collapse" aria-labelledby="collapseFour" data-parent="#accordion">
+                                    <div class="card-body">
+                                        Any submitted application can be traced through dedicated tracking system.
+                                        <div class="text-center">
+                                            <img src="~/images/help/10.PNG" style="width: 70%;" /><br /><br />
+                                        </div>
+                                        Here from the upper link buttons in login window click the certificate verification button.
+                                        This will redirect to certificate verification page.
+                                        <div class="text-center">
+                                            <img src="~/images/help/11.PNG" style="width: 70%;" /><br /><br />
+                                        </div>
+                                        Here enter tracking number of application form, mobile number and email address.
+                                        This will verify and give a tracking of current situation of the application.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card mb-1">
+                                <div class="card-header" id="headingFour">
+                                    <h5 class="m-0">
+                                        <a class="text-dark" data-toggle="collapse" href="#collapseFive" aria-expanded="false">
+                                            <i class="mdi mdi-help-circle mr-1 text-primary"></i>
+                                            5. How can I change language in text box?
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapseFive" class="collapse" aria-labelledby="collapseFive" data-parent="#accordion">
+                                    <div class="card-body">
+                                        Just press "<b>Ctrl + b</b>" together. This will change the language.
+                                        <div class="text-center">
+                                            <img src="~/images/help/12.PNG" style="width: 30%;" /><br /><br />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card mb-1">
+                                <div class="card-header" id="headingFour">
+                                    <h5 class="m-0">
+                                        <a class="text-dark" data-toggle="collapse" href="#collapseSix" aria-expanded="false">
+                                            <i class="mdi mdi-help-circle mr-1 text-primary"></i>
+                                            6. How to set strong password?
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapseSix" class="collapse" aria-labelledby="collapseSix" data-parent="#accordion">
+                                    <div class="card-body">
+                                        For better security you must set at least 8-character long password.
+                                        Try to make password with combination of letters, Numbers and special characters
+                                        <div class="text-center">
+                                            <img src="~/images/help/13.PNG" style="width: 30%;" /><br /><br />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div> <!-- end card-box-->
-    </div> <!-- end col -->
+        </div>
+    </div>
 </div>
