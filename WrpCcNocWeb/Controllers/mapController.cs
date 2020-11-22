@@ -58,6 +58,8 @@ namespace WrpCcNocWeb.Controllers
             string path = Path.Combine(hostingEnvironment.WebRootPath, "docs/map_kml", fileName);
             XDocument doc = XDocument.Load(path);
             result = KmlToGeoJsonConverter.FromKml(doc.ToString());
+            result = result.Replace(": ", ":");
+            result = result.Contains("\"type\":\"Feature\"") ? result : result.Replace("\"feature\":\"Feature\",", "\"feature\":\"Feature\", \"type\":\"Feature\",");
             return result;
         }
     }

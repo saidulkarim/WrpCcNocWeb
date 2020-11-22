@@ -680,11 +680,8 @@ var modal_open = function (content, top) {
                             $("#busy-indicator").fadeIn();
                         },
                         success: function (locData) {
-
                             var allLocations = locData && locData.value ? locData.value : null;
-
                             if (allLocations && allLocations.length > 0) {
-
                                 var icon = {
                                     pane: "label-layer",
                                     radius: 5,
@@ -743,7 +740,6 @@ var modal_open = function (content, top) {
                                 };
 
                                 allLocations.forEach(function (el, i) {
-
                                     if (el.lat == 'undefined' || el.lng == 'undefined')
                                         return;
 
@@ -774,18 +770,34 @@ var modal_open = function (content, top) {
 
                                     map.addLayer(location);
 
-                                    var kmltext = '{"type":"FeatureCollection", "features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[90.2826716453104,23.7906370267684,0],[90.2827449800762,23.7905550039217,0],[90.2828419264791,23.7903935212272,0],[90.282899657127,23.7900580136409,0],[90.2826044252027,23.7900080277484,0],[90.28218603726,23.7899252668763,0],[90.2821956468809,23.7896183201585,0],[90.282267086163,23.7891582211946,0],[90.2824273626895,23.7887522255909,0],[90.2825893370217,23.7884895875464,0],[90.2828038332129,23.7882698839877,0],[90.2830219296153,23.7881086768745,0],[90.2833391679926,23.7880532044829,0],[90.283592177398,23.788111886933,0],[90.2836226899247,23.788260280934,0],[90.283660004872,23.7885191686134,0],[90.2838040673247,23.7885443440325,0],[90.2840995957988,23.7884834681985,0],[90.2843979253202,23.788468088936,0],[90.2846387297018,23.7890229368517,0],[90.2847295700653,23.7895724735505,0],[90.2847449780123,23.7900541761334,0],[90.2847894992288,23.7904300547116,0],[90.2847923006819,23.7904755520212,0],[90.2846966588083,23.7907738937589,0],[90.2846911564304,23.7908002584249,0],[90.2846935576726,23.790839256176,0],[90.2846360319707,23.7909465459317,0],[90.2844481467001,23.7909040692735,0],[90.2841181975064,23.7908689156064,0],[90.2838091581767,23.7908261636216,0],[90.2837026100445,23.7908316558534,0],[90.2834377905274,23.7908127050555,0],[90.2834093776978,23.7908141696137,0],[90.2831559637115,23.7907489887364,0],[90.2830707250098,23.7907533823059,0],[90.2826716453104,23.7906370267684,0]]]},"properties":{"name":"Project, Rony","tessellate":true}}]}'; //el.kml_file_content;
-                                    console.log(kmltext);
-                                    //console.log(JSON.stringify(kmltext));
-                                    //alert(kmltext);
+                                    var kmltext = el.kml_file_content;
+                                    console.log('Map JSON Loading...');
+                                    //console.log(kmltext);                                    
 
-                                    //L.geoJSON(kmltext, {
-                                    //    filter: function (feature, layer) {
-                                    //        return 0;// feature.properties.name;
-                                    //    }
-                                    //}).addTo(map);
+                                    function polystyle(feature) {
+                                        return {
+                                            fillColor: '#ff7800',
+                                            weight: 2,
+                                            opacity: 1,
+                                            color: 'black',  //outline color
+                                            fillOpacity: 0.7
+                                        };
+                                    }
+                                    
+                                    var geojson = L.geoJson(jQuery.parseJSON(kmltext),
+                                        {
+                                            style: polystyle,
+                                            onEachFeature: function (feature, layer) {
+                                                var label = L.marker(layer.getBounds().getCenter(), {
+                                                    icon: L.divIcon({
+                                                        className: 'label',
+                                                        html: feature.properties.name,
+                                                        iconSize: [50, 40]
+                                                    })
+                                                }).addTo(map);
+                                            }
+                                        }).addTo(map);
 
-                                    var geojson = L.geoJSON(JSON.parse(kmltext)).addTo(map);                                                                       
                                 });
 
                                 $("#map_legend_colors").append(
@@ -809,27 +821,7 @@ var modal_open = function (content, top) {
                     msg.init("Error", "Error... . .", "Error trying to Unable to load project location data !! <br />" + e.message);
                 }
             }
-        }
-
-        //using leaflet
-        function intialKml(file) {
-            var highlightStyle1 = {
-                fillColor: "00FFFFFF",
-                weight: 1,
-                opacity: 1,
-                color: "#000000",
-                fillOpacity: 0.0
-            };
-
-            projLoc = omnivore.kml.parse(file);// new L.KML("../docs/map_kml/" + file, { async: true });
-
-            projLoc.on("loaded", function (e) {
-                this.setStyle(highlightStyle1);
-                map.fitBounds(e.target.getBounds());
-            });
-
-            map.addLayer(projLoc);
-        }
+        }       
 
         function add_remove_admin_label(adminCode, isShow) {
 
