@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Hosting;
@@ -19,6 +17,7 @@ namespace WrpCcNocWeb.Controllers
         {
             this.hostingEnvironment = hostingEnvironment;
         }
+
         private readonly WrpCcNocDbContext _dbContext = new WrpCcNocDbContext();
 
         public IActionResult viewLocation(long projectId)
