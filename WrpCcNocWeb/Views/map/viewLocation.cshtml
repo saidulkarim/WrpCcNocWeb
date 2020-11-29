@@ -155,7 +155,7 @@
     <script type="text/javascript" src="~/lib/leaflet/tools/leaflet-markercluster/dist/leaflet.markercluster.js"></script>
     <script type="text/javascript" src="~/lib/leaflet/tools/leaflet-geotiff/leaflet-geotiff.js"></script>
     <script type="text/javascript" src="~/js/maps/map_data/legend_theme.js"></script>
-    @*<script type="text/javascript" src="~/js/maps/load_map_data.js"></script>*@
+    <script type="text/javascript" src="~/js/maps/load_map_data.js"></script>
     <script type="text/javascript" src="~/lib/photo-viewer/js/photo.viewer.js"></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
 </head>
@@ -665,7 +665,6 @@ var modal_open = function (content, top) {
 
 
         function set_project_locations(isShow) {
-
             if (isShow) {
                 try {
                      var url = '@Url.Action("GetProjectLocation", "map")';
@@ -768,36 +767,40 @@ var modal_open = function (content, top) {
                                             }
                                         });
 
-                                    map.addLayer(location);
+                                    //map.addLayer(location);
 
                                     var kmltext = el.kml_file_content;
                                     console.log('Map JSON Loading...');
-                                    //console.log(kmltext);                                    
+                                    //console.log(kmltext);
 
                                     function polystyle(feature) {
                                         return {
-                                            fillColor: '#ff7800',
-                                            weight: 2,
+                                            fillColor: '#64B8FE',
+                                            weight: 1,
                                             opacity: 1,
-                                            color: 'black',  //outline color
-                                            fillOpacity: 0.7
+                                            color: '#00489A',  //outline color
+                                            fillOpacity: 0.5
                                         };
                                     }
-                                    
-                                    var geojson = L.geoJson(jQuery.parseJSON(kmltext),
-                                        {
-                                            style: polystyle,
-                                            onEachFeature: function (feature, layer) {
-                                                var label = L.marker(layer.getBounds().getCenter(), {
-                                                    icon: L.divIcon({
-                                                        className: 'label',
-                                                        html: feature.properties.name,
-                                                        iconSize: [50, 40]
-                                                    })
-                                                }).addTo(map);
-                                            }
-                                        }).addTo(map);
 
+                                    var geojson = new L.geoJson(jQuery.parseJSON(kmltext),
+                                                {
+                                                    style: polystyle,
+                                                    onEachFeature: function (feature, layer) {
+                                                        var label = L.marker(layer.getBounds().getCenter(), {
+                                                            icon: L.divIcon({
+                                                                className: 'label',
+                                                                html: feature.properties.name,
+                                                                iconSize: [50, 40]
+                                                            })
+                                                        }).addTo(map);
+                                                    }
+                                        })
+                                        .bindPopup(getInfo(el, i))
+                                        .addTo(map);
+
+                                    map.fitBounds(geojson.getBounds());
+                                    //map.setView(new L.LatLng(el.lat, el.lng), 15);
                                 });
 
                                 $("#map_legend_colors").append(
@@ -821,7 +824,7 @@ var modal_open = function (content, top) {
                     msg.init("Error", "Error... . .", "Error trying to Unable to load project location data !! <br />" + e.message);
                 }
             }
-        }       
+        }
 
         function add_remove_admin_label(adminCode, isShow) {
 

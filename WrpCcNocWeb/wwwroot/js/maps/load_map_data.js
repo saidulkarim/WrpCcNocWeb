@@ -36,6 +36,7 @@ var map,
         "13": "Low Lift Pump (LLP)",
         "14": "Deep Tubewell (DTW)"
     },
+    //baseUrl = "@Url.Action("Index", "SurveyInfoes")",
     noDataColor = "#FFFFFF",
     defaultTheme,
     dataLayer = null,
@@ -58,6 +59,7 @@ var map,
 $(function () {
 
     $("#admin_info").val("dist");
+    $("#survey_info").val("DTW");
 
     dataAdminCode = $("#admin_info").val();
     dataAdminName = $("#admin_info option:selected").text();
@@ -72,6 +74,7 @@ $(function () {
 
     load_equipment_infos();
 
+    set_survey_data();
 
     draggable_modal("option_title", "map_filter_content", "map_filter_bg", false);
 
@@ -343,16 +346,11 @@ function set_basic_opts() {
     $("#survey_info").on("change",
         function () {
 
-            if ($("#survey_info").val()) {
-                //dataAdminCode = $("#admin_info").val();
-                //dataAdminName = $("#admin_info option:selected").text();
+            dataCode = $("#survey_info").val();
+            dataName = $("#survey_info option:selected").text();
+            equipmentId = $("#survey_info option:selected").attr("data-id");
 
-                dataCode = $("#survey_info").val();
-                dataName = $("#survey_info option:selected").text();
-                equipmentId = $("#survey_info option:selected").attr("data-id");
-
-                set_survey_data();
-            }
+            set_survey_data();
         });
 
     $("#legend_theme").on("change",
@@ -395,6 +393,496 @@ function set_basic_opts() {
 }
 
 
+//if ($("#basic_survey").prop("checked")) {
+//    add_data_layer();
+//} else {
+//    dataAdminCode = "union";
+
+//    $("#admin_div").prop({ "checked": false, "disabled": false });
+//    $("#admin_dist").prop({ "checked": false, "disabled": false });
+//    $("#admin_upaz").prop({ "checked": false, "disabled": false });
+//    $("#admin_union").prop({ "checked": false, "disabled": false });
+//}
+
+//{
+//    "equipment_type": "Low Lift Pump (LLP)",
+//        "address": "NSS, Pallabi Residential Area, Haji Bari Mosjid",
+//        "road_or_village": "Pallabi Residential Area",
+//        "mobile_no": "01712-795359",
+//        "image_name": "680_1.jpg",
+//        "lat": 22.1380571,
+//        "long": 90.2302515,
+//        "district_code": 1004,
+//        "upazila_code": 100409,
+//        "union_code": 10040902,
+//        "mauza_code": 10040903400,
+//        "district_name": "Barguna",
+//        "upazila_name": "Amtali",
+//        "union_name": "Ward No-02",
+//        "mauza_name": "Kontakata(Dakshin)"
+//}
+
+
+//var markerClusters = new L.MarkerClusterGroup({
+//    maxClusterRadius: 125,
+//    //iconCreateFunction: function (cluster) {
+//    //    var markers = cluster.getAllChildMarkers();
+//    //    var n = 0;
+//    //    for (var i = 0; i < markers.length; i++) {
+//    //        n += markers[i].number;
+//    //    }
+//    //    return L.divIcon({ html: n, className: "mycluster", iconSize: L.point(40, 40) });
+//    //},
+//    ////Disable all of the defaults:
+//    //spiderfyOnMaxZoom: false, showCoverageOnHover: false, zoomToBoundsOnClick: false
+//});
+
+//var eqp_loc = null;
+
+
+
+//map.createPane("pane1").style.zIndex = 610;
+
+
+function SetAdminData(dataAdminLevel, dataAdminInfo, dataViewLevel) {
+
+    $("#map_data_content > #data_title > span.modal-title-txt").empty();
+    $("#map_data_content > #data_content").empty();
+
+    var slNo = 0,
+        dataCode = "",
+        unionName = "",
+        upazName = "",
+        distName = "",
+        divName = "",
+        dataTitle = "▣ Survey Information",
+        dataUrl = "../MapViewer/GetSummaryData",
+        table = $("<table>").addClass("table data-table no-select").css({ "width": '100%' }),
+        summarizeData = {},
+        queryStr = "?equipmentId=" +
+            ((equipmentId && 0 < equipmentId && equipmentId < 4) ? equipmentId : "") +
+            "&adminLevel=" +
+            dataAdminLevel,
+        baseUrl = baseUrl ? baseUrl : "../SurveyInfoes/Index";
+
+    dataViewLevel = dataViewLevel && dataViewLevel == '1' ? 1 : 0;
+
+
+    switch (dataAdminLevel) {
+        case "div":
+            dataCode = dataAdminInfo["div_code"];
+            divName = dataAdminInfo["div_name"];
+
+            dataTitle = "▣ Division Wise Survey Information";
+            queryStr += "&divCode=" + dataCode;
+            break;
+
+        case "dist":
+            dataCode = dataAdminInfo["dist_code"];
+            distName = dataAdminInfo["dist_name"];
+            divName = dataAdminInfo["div_name"];
+
+            dataTitle = "▣ District Wise Survey Information";
+            queryStr += "&distCode=" + dataCode;
+            break;
+
+        case "upaz":
+            dataCode = dataAdminInfo["upaz_code"];
+            upazName = dataAdminInfo["upaz_name"];
+            distName = dataAdminInfo["dist_name"];
+            divName = dataAdminInfo["div_name"];
+
+            dataTitle = "▣ Upazila Wise Survey Information";
+            queryStr += "&upazCode=" + dataCode;
+            break;
+
+        case "union":
+            dataCode = dataAdminInfo["union_code"];
+            unionName = dataAdminInfo["union_name"];
+            upazName = dataAdminInfo["upaz_name"];
+            distName = dataAdminInfo["dist_name"];
+            divName = dataAdminInfo["div_name"];
+
+            dataTitle = "▣ Union Wise Survey Information";
+            queryStr += "&unionCode=" + dataCode;
+            break;
+
+        default:
+            break;
+    }
+
+    dataTitle += " <span style='text-align:center; font-size:11px; white-space:nowrap;'><a class='data-base' target='_blank' href='" +
+        baseUrl + queryStr +
+        "' title='Survey data source'>data source</a></span>";
+
+    $("#map_data_content > #data_title > span.modal-title-txt").html(dataTitle);
+
+    $("#map_data_content > #data_content").append(table);
+
+
+    if (divName) {
+        table.append("<tr><td style='width:195px; font-weight:600;'>0" + ++slNo + ". Division</td><td style='width:5px; font-weight:600;'>:</td><td style='width:auto;'>" + divName + "</td></tr>");
+    }
+    if (distName) {
+        table.append("<tr><td style='font-weight:600;'>0" + ++slNo + ". District</td><td style='font-weight:600;'>:</td><td>" + distName + "</td></tr>");
+    }
+    if (upazName) {
+        table.append("<tr><td style='font-weight:600;'>0" + ++slNo + ". Upazila</td><td style='font-weight:600;'>:</td><td>" + upazName + "</td></tr>");
+    }
+    if (unionName) {
+        table.append("<tr><td style='font-weight:600;'>0" + ++slNo + ". Union</td><td style='font-weight:600;'>:</td><td>" + unionName + "</td></tr>");
+    }
+
+
+    try {
+        $.ajax({
+            type: "Get",
+            url: dataUrl + queryStr,
+            cache: false,
+            contentType: false,
+            processData: false,
+            beforeSend: function () {
+                $("#busy-indicator").fadeIn();
+            },
+            success: function (allData) {
+                summarizeData = allData;
+            },
+            error: function (e) {
+                msg.init("Error", "Error... . .", "Unable to load/parse JSON data !!\n" + e.responseText);
+                $("#busy-indicator").fadeOut();
+            },
+            complete: function () {
+                if (summarizeData) {
+
+                    if (summarizeData.waterbodiesInfo && summarizeData.waterbodiesInfo.length > 0) {
+                        summarizeData.waterbodiesInfo.map(function (wbInfo) {
+                            table.append("<tr><td style='font-weight:600; vertical-align:top;'>0" + ++slNo + ". Rivers Name</td><td style='font-weight:600; vertical-align:top;'>:</td><td style='text-align:justify; vertical-align:top;'>" +
+                                (wbInfo.riversNames ? wbInfo.riversNames : "Unknown") +
+                                "</td></tr>");
+                            table.append("<tr><td style='font-weight:600;'>0" + ++slNo + ". Rivers Length(Km)</td><td style='font-weight:600;'>:</td><td style='font-weight:600;'>" +
+                                (wbInfo.totalRiversLength ? number_formatter(wbInfo.totalRiversLength / 1000, true, 2) + " (Km)" : "") +
+                                "</td></tr>");
+                            table.append("<tr><td style='font-weight:600; vertical-align:top;'>0" + ++slNo + ". Waterbodies Name</td><td style='font-weight:600; vertical-align:top;'>:</td><td style='text-align:justify; vertical-align:top;'>" +
+                                (wbInfo.waterbodiesNames ? wbInfo.waterbodiesNames : "Unknown") +
+                                "</td></tr>");
+                            table.append("<tr><td style='font-weight:600;'>0" + ++slNo + ". Waterbodies Area(ha)</td><td style='font-weight:600;'>:</td><td style='font-weight:600;'>" +
+                                (wbInfo.totalWaterbodiesArea ? number_formatter(wbInfo.totalWaterbodiesArea, true, 2) + " (ha)" : "") +
+                                "</td></tr>");
+                        });
+                    }
+
+                    var table1 = $("<table>").addClass("table data-table no-select").css({ "margin": '0' });
+
+                    $("#map_data_content > #data_content").append($("<div>").css({ "width": '100%', "margin": '10px 0 8px 0', "overflow": 'auto' }).append(table1));
+
+                    if (summarizeData.surveyInfo && summarizeData.surveyInfo.length > 0) {
+
+                        if (dataViewLevel == 1) {
+                            table1.append("<tr><th rowspan='2'><p style='width:150px;'>Equipment Name</p></th><th rowspan='2'>Equipment (Count)</th><th colspan='8'>Irrigated Area (Acre)</th><th colspan='6'>Irrigation Cost (Tk/Acre)</th><th colspan='3'>Benefited Farmer (Count)</th><th colspan='3'>Benefited Labour (Count)</th><th colspan='5'>Canal Length (Km)</th><th rowspan='2'>Conveyance Efficiency</th><th colspan='2'>Power Consumption</th><th colspan='2'>Abstraction of Water (M m<sup>3</sup>)</th></tr>" +
+                                "<tr><th>Boro</th><th>Wheat</th><th>Potato</th><th>Maize</th><th>Mustard</th><th>Veg (W)</th><th>Other<sup>4</sup></th><th>Total</th><th>Boro</th><th>Wheat</th><th>Potato</th><th>Maize</th><th>Veg (W)</th><th>Other<sup>4</sup></th> <th>Male</th><th>Female</th><th>Total</th> <th>Male</th><th>Female</th><th>Total</th> <th>Pacca</th><th>Buried Pipe</th><th>Fita Pipe</th><th>Kacha</th><th>Total</th><th>Diesel (M ton)</th><th>Electricity (MW)</th><th>GW</th><th>SW</th></tr>");
+                        } else {
+                            table1.append("<tr><th rowspan='2'><p style='width:150px;'>Equipment Name</p></th><th rowspan='2'>Equipment (Count)</th><th colspan='8'>Irrigated Area (Acre)</th><th colspan='6'>Irrigation Cost (Tk/Acre)</th><th rowspan='2'>Benefited Farmer (Count)</th><th rowspan='2'>Benefited Labour (Count)</th><th colspan='5'>Canal Length (Km)</th><th rowspan='2'>Conveyance Efficiency</th><th colspan='2'>Power Consumption</th><th colspan='2'>Abstraction of Water (M m<sup>3</sup>)</th></tr>" +
+                                "<tr><th>Boro</th><th>Wheat</th><th>Potato</th><th>Maize</th><th>Mustard</th><th>Veg (W)</th><th>Other<sup>4</sup></th><th>Total</th><th>Boro</th><th>Wheat</th><th>Potato</th><th>Maize</th><th>Veg (W)</th><th>Other<sup>4</sup></th> <th>Pacca</th><th>Buried Pipe</th><th>Fita Pipe</th><th>Kacha</th><th>Total</th><th>Diesel (M ton)</th><th>Electricity (MW)</th><th>GW</th><th>SW</th></tr>");
+                        }
+
+                        var totalData = {
+                            noOfEquipment: 0,
+
+                            totalBoroArea: 0,
+                            totalWheatArea: 0,
+                            totalPotatoArea: 0,
+                            totalMaizeArea: 0,
+                            totalMustardArea: 0,
+                            totalVegWinterArea: 0,
+                            totalOthersArea: 0,
+                            totalArea: 0,
+
+                            avgBoroCost: 0,
+                            avgWheatCost: 0,
+                            avgPotatoCost: 0,
+                            avgMaizeCost: 0,
+                            avgVegWinterCost: 0,
+                            avgOthersCost: 0,
+
+                            totalBenefitedFarmer: 0,
+                            totalBenefitedFarmerFemale: 0,
+                            totalBenefitedFarmerMale: 0,
+
+                            totalBenefitedAgricultureLabour: 0,
+                            totalBenefitedAgricultureLabourFemale: 0,
+                            totalBenefitedAgricultureLabourMale: 0,
+
+                            totalCanalLengthPacca: 0,
+                            totalCanalLengthBuriedPipe: 0,
+                            totalCanalLengthFitaPipe: 0,
+                            totalCanalLengthKacha: 0,
+                            totalCanalLength: 0,
+
+                            totalDistributionEfficiencyWeight: 0,
+
+                            totalPowerConsumptionDiesel: 0,
+                            totalPowerConsumptionElectric: 0,
+
+                            totalAbstractionGW: 0,
+                            totalAbstractionSW: 0,
+                        };
+
+                        summarizeData.surveyInfo.map(function (data) {
+                            table1.append("<tr><td>" +
+                                equipmentTypes[data.equipmentId] +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.noOfEquipment, true, 0) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalBoroArea, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalWheatArea, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalPotatoArea, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalMaizeArea, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalMustardArea, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalVegWinterArea, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalOthersArea, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalArea, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.avgBoroCost, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.avgWheatCost, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.avgPotatoCost, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.avgMaizeCost, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.avgVegWinterCost, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.avgOthersCost, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                (dataViewLevel == 1 ?
+                                    number_formatter(data.totalBenefitedFarmerMale, true, 0) +
+                                    "</td><td style='text-align:right;'>" +
+                                    number_formatter(data.totalBenefitedFarmerFemale, true, 0) +
+                                    "</td><td style='text-align:right;'>" : "") +
+                                number_formatter(data.totalBenefitedFarmer, true, 0) +
+                                "</td><td style='text-align:right;'>" +
+                                (dataViewLevel == 1 ?
+                                    number_formatter(data.totalBenefitedAgricultureLabourMale, true, 0) +
+                                    "</td><td style='text-align:right;'>" +
+                                    number_formatter(data.totalBenefitedAgricultureLabourFemale, true, 0) +
+                                    "</td><td style='text-align:right;'>" : "") +
+                                number_formatter(data.totalBenefitedAgricultureLabour, true, 0) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalCanalLengthPacca / 1000, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalCanalLengthBuriedPipe / 1000, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalCanalLengthFitaPipe / 1000, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalCanalLengthKacha / 1000, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalCanalLength / 1000, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.distributionEfficiency, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalPowerConsumptionDiesel, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalPowerConsumptionElectric, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalAbstractionGW / 1000000, true, 2) +
+                                "</td><td style='text-align:right;'>" +
+                                number_formatter(data.totalAbstractionSW / 1000000, true, 2) +
+                                "</td></tr>");
+
+                            if (!equipmentId || 1 > equipmentId || equipmentId > 3) {
+                                totalData.noOfEquipment += data.noOfEquipment;
+
+                                totalData.totalBoroArea += data.totalBoroArea;
+                                totalData.totalWheatArea += data.totalWheatArea;
+                                totalData.totalPotatoArea += data.totalPotatoArea;
+                                totalData.totalMaizeArea += data.totalMaizeArea;
+                                totalData.totalMustardArea += data.totalMustardArea;
+                                totalData.totalVegWinterArea += data.totalVegWinterArea;
+                                totalData.totalOthersArea += data.totalOthersArea;
+                                totalData.totalArea += data.totalArea;
+
+                                totalData.avgBoroCost += data.avgBoroCost * data.totalBoroArea;
+                                totalData.avgWheatCost += data.avgWheatCost * data.totalWheatArea;
+                                totalData.avgPotatoCost += data.avgPotatoCost * data.totalPotatoArea;
+                                totalData.avgMaizeCost += data.avgMaizeCost * data.totalMaizeArea;
+                                totalData.avgVegWinterCost += data.avgVegWinterCost * data.totalVegWinterArea;
+                                totalData.avgOthersCost += data.avgOthersCost * data.totalOthersArea;
+
+                                totalData.totalBenefitedFarmer += data.totalBenefitedFarmer;
+                                totalData.totalBenefitedFarmerFemale += data.totalBenefitedFarmerFemale;
+                                totalData.totalBenefitedFarmerMale += data.totalBenefitedFarmerMale;
+
+                                totalData.totalBenefitedAgricultureLabour += data.totalBenefitedAgricultureLabour;
+                                totalData.totalBenefitedAgricultureLabourFemale += data
+                                    .totalBenefitedAgricultureLabourFemale;
+                                totalData.totalBenefitedAgricultureLabourMale += data.totalBenefitedAgricultureLabourMale;
+
+                                totalData.totalCanalLengthPacca += data.totalCanalLengthPacca;
+                                totalData.totalCanalLengthBuriedPipe += data.totalCanalLengthBuriedPipe;
+                                totalData.totalCanalLengthFitaPipe += data.totalCanalLengthFitaPipe;
+                                totalData.totalCanalLengthKacha += data.totalCanalLengthKacha;
+                                totalData.totalCanalLength += data.totalCanalLength;
+
+                                totalData.totalDistributionEfficiencyWeight += data.distributionEfficiency *
+                                    data.totalCanalLength;
+
+                                totalData.totalPowerConsumptionDiesel += data.totalPowerConsumptionDiesel;
+                                totalData.totalPowerConsumptionElectric += data.totalPowerConsumptionElectric;
+
+                                totalData.totalAbstractionGW += data.totalAbstractionGW;
+                                totalData.totalAbstractionSW += data.totalAbstractionSW;
+                            }
+
+                        });
+
+                        if (!equipmentId || 1 > equipmentId || equipmentId > 3) {
+
+                            table1.append("<tr><td style='font-weight:600;'>" +
+                                "All Equipments" +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.noOfEquipment, true, 0) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalBoroArea, true, 2) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalWheatArea, true, 2) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalPotatoArea, true, 2) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalMaizeArea, true, 2) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalMustardArea, true, 2) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalVegWinterArea, true, 2) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalOthersArea, true, 2) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalArea, true, 2) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                (totalData.totalBoroArea ? number_formatter(totalData.avgBoroCost / totalData.totalBoroArea, true, 2) : "0.00") +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                (totalData.totalWheatArea ? number_formatter(totalData.avgWheatCost / totalData.totalWheatArea, true, 2) : "0.00") +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                (totalData.totalPotatoArea ? number_formatter(totalData.avgPotatoCost / totalData.totalPotatoArea, true, 2) : "0.00") +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                (totalData.totalMaizeArea ? number_formatter(totalData.avgMaizeCost / totalData.totalMaizeArea, true, 2) : "0.00") +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                (totalData.totalVegWinterArea ? number_formatter(totalData.avgVegWinterCost / totalData.totalVegWinterArea, true, 2) : "0.00") +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                (totalData.totalOthersArea ? number_formatter(totalData.avgOthersCost / totalData.totalOthersArea, true, 2) : "0.00") +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                (dataViewLevel == 1 ?
+                                    number_formatter(totalData.totalBenefitedFarmerMale, true, 0) +
+                                    "</td><td style='text-align:right; font-weight:600;'>" +
+                                    number_formatter(totalData.totalBenefitedFarmerFemale, true, 0) +
+                                    "</td><td style='text-align:right; font-weight:600;'>" : "") +
+                                number_formatter(totalData.totalBenefitedFarmer, true, 0) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                (dataViewLevel == 1 ?
+                                    number_formatter(totalData.totalBenefitedAgricultureLabourMale, true, 0) +
+                                    "</td><td style='text-align:right; font-weight:600;'>" +
+                                    number_formatter(totalData.totalBenefitedAgricultureLabourFemale, true, 0) +
+                                    "</td><td style='text-align:right; font-weight:600;'>" : "") +
+                                number_formatter(totalData.totalBenefitedAgricultureLabour, true, 0) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalCanalLengthPacca / 1000, true, 2) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalCanalLengthBuriedPipe / 1000, true, 2) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalCanalLengthFitaPipe / 1000, true, 2) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalCanalLengthKacha / 1000, true, 2) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalCanalLength / 1000, true, 2) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                (totalData.totalCanalLength ? number_formatter(totalData.totalDistributionEfficiencyWeight / totalData.totalCanalLength, true, 2) : "0.00") +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalPowerConsumptionDiesel, true, 2) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalPowerConsumptionElectric, true, 2) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalAbstractionGW / 1000000, true, 2) +
+                                "</td><td style='text-align:right; font-weight:600;'>" +
+                                number_formatter(totalData.totalAbstractionSW / 1000000, true, 2) +
+                                "</td></tr>");
+                        }
+                    }
+                } else {
+                    $("#map_data_content > #data_content").html("<p class='error'>Survey data not available !!</p>");
+                }
+
+                $("#busy-indicator").fadeOut();
+            }
+
+        });
+    } catch (e) {
+        msg.init("Error", "Error... . .", "Unable to load/parse JSON data !!\n" + e.error);
+        $("#busy-indicator").fadeOut();
+    }
+
+
+    map_data_open_close("map_data", true);
+
+    //legend_open_close("legend_info", "open", "left");
+
+    return;
+}
+
+
+function set_data_layer(isShow) {
+
+    if (!dataLayer) {
+        add_data_layer();
+        return;
+    }
+
+    if (isShow) {
+        if (!map.hasLayer(dataLayer))
+            map.addLayer(dataLayer);
+
+        $("#admin_sban").prop("checked", true);
+        //add_admin_boundary("sban");
+
+        $("input[type='checkbox'].multi-chkbx.admin").each(function () {
+            if (this.checked) {
+                add_admin_boundary($(this).prop("id").replace("admin_", ""));
+            }
+        });
+
+        $("input[type='checkbox'].multi-chkbx.other_layer").each(function () {
+            if (this.checked) {
+                add_other_layer($(this).prop("id"), $(this).attr("data"));
+            }
+        });
+
+        map_label_show_hide($("#map_label_opt").prop("checked"));
+
+        $("#map_legend_basic_data").slideDown(350);
+        //$("#map_legend_basic_data").css("display", "");
+
+        $("#legend_info_opt").prop("checked", true).trigger("change");
+    } else {
+        if (map.hasLayer(dataLayer))
+            map.removeLayer(dataLayer);
+
+        $("#admin_sban").prop("checked", false);
+        remove_admin_boundary("sban");
+
+        map_label_show_hide(false);
+
+        $("#map_legend_basic_data").slideUp(350);
+        //$("#map_legend_basic_data").css("display", "none");
+
+        $("#legend_info_opt").prop("checked", false).trigger("change");
+    }
+}
+
 function set_equipment_locations(isShow) {
 
     if (isShow) {
@@ -417,17 +905,137 @@ function set_equipment_locations(isShow) {
                     if (allLocations && allLocations.length > 0) {
 
                         var icon = {
-                                pane: "label-layer",
-                                radius: 5,
-                                color: "blue",
-                                weight: 2.25,
-                                opacity: 0.6,
-                                fillColor: "red",
-                                fillOpacity: 0.8
-                            },
-                            getLatLng = function (lat, lng) {
-                                return new L.LatLng(lat, lng);
-                            },
+                            pane: "label-layer",
+                            radius: 5,
+                            color: "blue",
+                            weight: 2.25,
+                            opacity: 0.6,
+                            fillColor: "red",
+                            fillOpacity: 0.8
+                        };
+
+                        equipmentClusters = {
+                            "1": new L.MarkerClusterGroup({
+                                disableClusteringAtZoom: 13,
+                                spiderfyOnMaxZoom: false,
+                                //pane: "marker-layer",
+                                maxClusterRadius: 85,
+                                iconCreateFunction: function (cluster) {
+                                    var markerCount = cluster.getChildCount();
+                                    return L.divIcon({
+                                        html: "<div>" + markerCount + "</div>",
+                                        className: "marker-cluster-eqp cluster-llp",
+                                        iconSize: L.point(35, 35)
+                                    });
+                                },
+                                ////clusterPane: "pane1",
+                                //spiderLegPolylineOptions: { weight: 0 },
+                                //clockHelpingCircleOptions: {
+                                //    weight: .7,
+                                //    opacity: 1,
+                                //    color: 'black',
+                                //    fillOpacity: 0,
+                                //    dashArray: '10 5'
+                                //},
+
+                                //elementsPlacementStrategy: "original-locations",
+                                //helpingCircles: true,
+
+                                //spiderfyDistanceSurplus: 25,
+                                //spiderfyDistanceMultiplier: 1,
+
+                                //elementsMultiplier: 1.4,
+                                //firstCircleElements: 8
+                            }),
+                            /*equipmentClusters[2] =*/
+                            "2": new L.MarkerClusterGroup({
+                                disableClusteringAtZoom: 15,
+                                spiderfyOnMaxZoom: false,
+                                //pane: "marker-layer",
+                                maxClusterRadius: 85,
+                                iconCreateFunction: function (cluster) {
+                                    var markerCount = cluster.getChildCount();
+                                    return L.divIcon({
+                                        pane: "label-layer",
+                                        html: "<div>" + markerCount + "</div>",
+                                        className: "marker-cluster-eqp cluster-dtw",
+                                        iconSize: L.point(35, 35)
+                                    });
+                                }
+                            }),
+                            /*equipmentClusters[3] =*/
+                            "3": new L.MarkerClusterGroup({
+                                disableClusteringAtZoom: 13,
+                                spiderfyOnMaxZoom: false,
+                                //pane: "marker-layer",
+                                maxClusterRadius: 85,
+                                iconCreateFunction: function (cluster) {
+                                    //var markers = cluster.getAllChildMarkers();
+                                    var markerCount = cluster.getChildCount();
+                                    return L.divIcon({
+                                        pane: "label-layer",
+                                        html: "<div>" + markerCount + "</div>",
+                                        className: "marker-cluster-eqp cluster-stw",
+                                        iconSize: L.point(35, 35)
+                                    });
+                                },
+                                ////clusterPane: "pane1",
+                                //spiderLegPolylineOptions: { weight: 0 },
+                                //clockHelpingCircleOptions: {
+                                //    weight: .7,
+                                //    opacity: 1,
+                                //    color: 'black',
+                                //    fillOpacity: 0,
+                                //    dashArray: '10 5'
+                                //},
+
+                                //elementsPlacementStrategy: "original-locations",
+                                //helpingCircles: true,
+
+                                //spiderfyDistanceSurplus: 25,
+                                //spiderfyDistanceMultiplier: 1,
+
+                                //elementsMultiplier: 1.4,
+                                //firstCircleElements: 8
+                            }),
+                            /*equipmentClusters[3] =*/
+                            "7": new L.MarkerClusterGroup({
+                                disableClusteringAtZoom: 13,
+                                spiderfyOnMaxZoom: false,
+                                //pane: "marker-layer",
+                                maxClusterRadius: 85,
+                                iconCreateFunction: function (cluster) {
+                                    var markerCount = cluster.getChildCount();
+                                    return L.divIcon({
+                                        pane: "label-layer",
+                                        html: "<div>" + markerCount + "</div>",
+                                        className: "marker-cluster-eqp cluster-stw",
+                                        iconSize: L.point(35, 35)
+                                    });
+                                }
+                            }),
+                            /*equipmentClusters[3] =*/
+                            "14": new L.MarkerClusterGroup({
+                                disableClusteringAtZoom: 13,
+                                spiderfyOnMaxZoom: false,
+                                //pane: "marker-layer",
+                                maxClusterRadius: 85,
+                                iconCreateFunction: function (cluster) {
+                                    var markerCount = cluster.getChildCount();
+                                    return L.divIcon({
+                                        pane: "label-layer",
+                                        html: "<div>" + markerCount + "</div>",
+                                        className: "marker-cluster-eqp cluster-stw",
+                                        iconSize: L.point(35, 35)
+                                    });
+                                }
+                            })
+                        };
+
+
+                        var getLatLng = function (lat, lng) {
+                            return new L.LatLng(lat, lng);
+                        },
                             getInfo = function (el) {
                                 if (!el)
                                     return "";
@@ -540,8 +1148,86 @@ function set_equipment_locations(isShow) {
                             icon.radius = 5;
                             icon.weight = 2.25;
                             icon.fillOpacity = 0.8;
-                            icon.color = "red";
-                            icon.fillColor = "green";
+
+                            switch (el.equipment_type) {
+                                case 1:
+                                    {
+                                        icon.color = "green";
+                                        icon.fillColor = "blue";
+
+                                        //location.icon = icon;
+                                        //equipmentClusters[1].addLayer(location);
+                                    }
+                                    break;
+
+                                case 2:
+                                    {
+                                        icon.color = "red";
+                                        icon.fillColor = "green";
+
+                                        //location.icon = icon;
+                                        //equipmentClusters[2].addLayer(location);
+                                    }
+                                    break;
+
+                                case 3:
+                                    {
+                                        icon.color = "blue";
+                                        icon.fillColor = "red";
+
+                                        //location.icon = icon;
+                                        //equipmentClusters[3].addLayer(location);
+                                    }
+                                    break;
+
+                                case 7:
+                                    {
+                                        //radius: 6,
+                                        //color: "blue",
+                                        //weight: 2.5,
+                                        //opacity: 0.6,
+                                        //fillColor: "red",
+                                        //fillOpacity: 0.8
+
+                                        icon.radius = 6.0;
+                                        icon.weight = 2.5;
+                                        icon.fillOpacity = 0.85;
+
+                                        icon.color = "blue";
+                                        icon.fillColor = "green";
+
+                                        //location.icon = icon;
+
+                                        //console.log(location);
+                                        //location.icon.radius = 7;
+                                        //location.icon.weight = 3.0;
+                                        //location.icon.fillOpacity = 0.85;
+
+                                        //equipmentClusters[7].addLayer(location);
+                                    }
+                                    break;
+
+                                case 14:
+                                    {
+                                        icon.radius = 7.0;
+                                        icon.weight = 3.0;
+                                        icon.fillOpacity = 0.9;
+
+                                        icon.color = "black";
+                                        icon.fillColor = "blue";
+
+                                        //location.icon = icon;
+
+
+                                        //console.log(location);
+                                        //equipmentClusters[14].addLayer(location);
+                                    }
+                                    break;
+
+                                default:
+                                    break;
+                            }
+
 
 
                             var location = new L.CircleMarker(getLatLng(el.lat, el.lng), icon)
@@ -562,9 +1248,9 @@ function set_equipment_locations(isShow) {
                                     }
                                 });
 
-                            map.addLayer(location);
+                            //map.addLayer(location);
 
-                            //equipmentClusters[el.equipment_type].addLayer(location);
+                            equipmentClusters[el.equipment_type].addLayer(location);
 
 
                             //console.log(icon.fillColor);
@@ -578,11 +1264,11 @@ function set_equipment_locations(isShow) {
                         //console.log(markerClusters);
                         //map.addLayer(equipmentClusters);
 
-                        //map.addLayer(equipmentClusters[1]);
-                        //map.addLayer(equipmentClusters[2]);
-                        //map.addLayer(equipmentClusters[3]);
-                        //map.addLayer(equipmentClusters[7]);
-                        //map.addLayer(equipmentClusters[14]);
+                        map.addLayer(equipmentClusters[1]);
+                        map.addLayer(equipmentClusters[2]);
+                        map.addLayer(equipmentClusters[3]);
+                        map.addLayer(equipmentClusters[7]);
+                        map.addLayer(equipmentClusters[14]);
 
 
                         //console.log($.isFunction($(".pump_img_link").myPhoto));
@@ -603,77 +1289,77 @@ function set_equipment_locations(isShow) {
                         $("#map_legend_colors").append(
                             "<div id='map_legend_loc_1'><label class='map_legend_label'>" +
                             "<label class='map_legend_color map_legend_circle' style='border-color:#1e1; background-color:#23e;'></label>" +
-                            Project Locations +
-                        "</label> <br /><div>");
+                            equipmentTypes[1] +
+                            "</label> <br /><div>");
 
-                        //$("#map_legend_colors").append(
-                        //    "<div id='map_legend_loc_2'><label class='map_legend_label'>" +
-                        //    "<label class='map_legend_color map_legend_circle' style='border-color:#e43; background-color:#3e2;'></label>" +
-                        //    equipmentTypes[2] +
-                        //    "</label> <br /><div>");
+                        $("#map_legend_colors").append(
+                            "<div id='map_legend_loc_2'><label class='map_legend_label'>" +
+                            "<label class='map_legend_color map_legend_circle' style='border-color:#e43; background-color:#3e2;'></label>" +
+                            equipmentTypes[2] +
+                            "</label> <br /><div>");
 
-                        //$("#map_legend_colors").append(
-                        //    "<div id='map_legend_loc_3'><label class='map_legend_label'>" +
-                        //    "<label class='map_legend_color map_legend_circle' style='border-color:#34e; background-color:#e32;'></label>" +
-                        //    equipmentTypes[3] +
-                        //    "</label> <br /><div>");
+                        $("#map_legend_colors").append(
+                            "<div id='map_legend_loc_3'><label class='map_legend_label'>" +
+                            "<label class='map_legend_color map_legend_circle' style='border-color:#34e; background-color:#e32;'></label>" +
+                            equipmentTypes[3] +
+                            "</label> <br /><div>");
 
-                        //$("#map_legend_colors").append(
-                        //    "<div id='map_legend_loc_7'><label class='map_legend_label'>" +
-                        //    "<label class='map_legend_color map_legend_circle' style='border-color:#23e; background-color:#5e8;'></label>" +
-                        //    equipmentTypes[7] +
-                        //    "</label> <br /><div>");
+                        $("#map_legend_colors").append(
+                            "<div id='map_legend_loc_7'><label class='map_legend_label'>" +
+                            "<label class='map_legend_color map_legend_circle' style='border-color:#23e; background-color:#5e8;'></label>" +
+                            equipmentTypes[7] +
+                            "</label> <br /><div>");
 
-                        //$("#map_legend_colors").append(
-                        //    "<div id='map_legend_loc_14'><label class='map_legend_label'>" +
-                        //    "<label class='map_legend_color map_legend_circle' style='border-color:#111; background-color:#21e;'></label>" +
-                        //    equipmentTypes[14] +
-                        //    "</label> <br /><div>");
+                        $("#map_legend_colors").append(
+                            "<div id='map_legend_loc_14'><label class='map_legend_label'>" +
+                            "<label class='map_legend_color map_legend_circle' style='border-color:#111; background-color:#21e;'></label>" +
+                            equipmentTypes[14] +
+                            "</label> <br /><div>");
 
 
 
-                        //$("#eqp_types").slideDown(350);
-                        //$("#eqp_types").find("input[type='checkbox']").each(function () {
-                        //    $(this).prop("checked", true);
-                        //    $(this).prop("disabled", false);
+                        $("#eqp_types").slideDown(350);
+                        $("#eqp_types").find("input[type='checkbox']").each(function () {
+                            $(this).prop("checked", true);
+                            $(this).prop("disabled", false);
 
-                        //    $(this).on("change",
-                        //        function () {
+                            $(this).on("change",
+                                function () {
 
-                        //            if ($("#eqp_types").find("input[type='checkbox']").length === $("#eqp_types").find("input[type='checkbox']:checked").length) {
-                        //                $("#eqp_loc").prop("indeterminate", false);
-                        //                $("#eqp_loc").prop("checked", true);
-                        //            } else if ($("#eqp_types").find("input[type='checkbox']:checked").length > 0) {
-                        //                $("#eqp_loc").prop("indeterminate", true);
-                        //                $("#eqp_loc").prop("checked", false);
-                        //            } else {
-                        //                $("#eqp_loc").prop("indeterminate", false);
-                        //                $("#eqp_loc").prop("checked", false);
-                        //            }
+                                    if ($("#eqp_types").find("input[type='checkbox']").length === $("#eqp_types").find("input[type='checkbox']:checked").length) {
+                                        $("#eqp_loc").prop("indeterminate", false);
+                                        $("#eqp_loc").prop("checked", true);
+                                    } else if ($("#eqp_types").find("input[type='checkbox']:checked").length > 0) {
+                                        $("#eqp_loc").prop("indeterminate", true);
+                                        $("#eqp_loc").prop("checked", false);
+                                    } else {
+                                        $("#eqp_loc").prop("indeterminate", false);
+                                        $("#eqp_loc").prop("checked", false);
+                                    }
 
-                        //            if (!$(this).prop("id").replace("eqp_", "") || !equipmentClusters)
-                        //                return;
+                                    if (!$(this).prop("id").replace("eqp_", "") || !equipmentClusters)
+                                        return;
 
-                        //            var eqpId = $(this).prop("id").replace("eqp_", "");
+                                    var eqpId = $(this).prop("id").replace("eqp_", "");
 
-                        //            if (!equipmentClusters[eqpId])
-                        //                return;
+                                    if (!equipmentClusters[eqpId])
+                                        return;
 
-                        //            if (this.checked) {
-                        //                if (!map.hasLayer(equipmentClusters[eqpId]))
-                        //                    map.addLayer(equipmentClusters[eqpId]);
+                                    if (this.checked) {
+                                        if (!map.hasLayer(equipmentClusters[eqpId]))
+                                            map.addLayer(equipmentClusters[eqpId]);
 
-                        //                if ($("#map_legend_loc_" + eqpId).length)
-                        //                    $("#map_legend_loc_" + eqpId).show();
-                        //            } else {
-                        //                if (map.hasLayer(equipmentClusters[eqpId]))
-                        //                    map.removeLayer(equipmentClusters[eqpId]);
+                                        if ($("#map_legend_loc_" + eqpId).length)
+                                            $("#map_legend_loc_" + eqpId).show();
+                                    } else {
+                                        if (map.hasLayer(equipmentClusters[eqpId]))
+                                            map.removeLayer(equipmentClusters[eqpId]);
 
-                        //                if ($("#map_legend_loc_" + eqpId).length)
-                        //                    $("#map_legend_loc_" + eqpId).hide();
-                        //            }
-                        //        });
-                        //});
+                                        if ($("#map_legend_loc_" + eqpId).length)
+                                            $("#map_legend_loc_" + eqpId).hide();
+                                    }
+                                });
+                        });
 
                         //add_data_layer();
                     }
@@ -697,25 +1383,1032 @@ function set_equipment_locations(isShow) {
         }
 
     } else {
-        //for (var ei = 1; ei <= 3; ei++) {
-        //    if (map.hasLayer(equipmentClusters[ei]))
-        //        map.removeLayer(equipmentClusters[ei]);
+        for (var ei = 1; ei <= 3; ei++) {
+            if (map.hasLayer(equipmentClusters[ei]))
+                map.removeLayer(equipmentClusters[ei]);
 
-        //    if ($("#map_legend_loc_" + ei).length)
-        //        $("#map_legend_loc_" + ei).remove();
-        //}
+            if ($("#map_legend_loc_" + ei).length)
+                $("#map_legend_loc_" + ei).remove();
+        }
 
-        //equipmentClusters = {};
+        equipmentClusters = {};
 
-        //$("#eqp_types").find("input[type='checkbox']").each(function () {
-        //    $(this).prop("checked", false);
-        //    $(this).prop("disabled", true);
-        //});
+        $("#eqp_types").find("input[type='checkbox']").each(function () {
+            $(this).prop("checked", false);
+            $(this).prop("disabled", true);
+        });
 
-        //$("#eqp_types").slideUp(350);
+        $("#eqp_types").slideUp(350);
 
     }
 }
+
+function set_survey_data() {
+
+    //dataAdminCode = $("#admin_info").val();
+    //dataAdminName = $("#admin_info option:selected").text();
+
+    //dataCode = $("#survey_info").val();
+    //dataName = $("#survey_info option:selected").text();
+    //equipmentId = $("#survey_info option:selected").attr("data-id");
+
+    //GetUnionWiseMapData
+
+    map.closePopup();
+
+    map_data = [];
+
+    try {
+        var dataModel = $("#survey_info option:selected").attr("data-model"),
+            dataAction = $("#survey_info option:selected").attr("data-action"),
+            dataId = $("#survey_info option:selected").attr("data-id"),
+            dataYear = $("#data_year").val();
+
+        dataModel = dataModel ? dataModel : "MapViewer";
+        dataAction = dataAction ? dataAction : "GetSurveyData";
+
+        var url = "../" +
+            dataModel +
+            "/" +
+            dataAction +
+            "?dataTypeId=" +
+            dataId +
+            "&adminLevel=" +
+            dataAdminCode +
+            "&dataYear=" +
+            dataYear;
+
+        switch (dataYear) {
+            case "2018":
+            case "2016":
+            case "2005":
+                $.ajax({
+                    type: "Get",
+                    //url: "../MapViewer/GetMapData?equipmentId=" + equipmentId + "&adminLevel="+dataAdminCode+"&divCode="++"&distCode="++"&upazCode=" + condition,
+                    //url: "../MapViewer/GetMapDataPre?equipmentId=" + equipmentId + "&adminLevel=" + dataAdminCode,
+                    url: url,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function () {
+                        $("#busy-indicator").fadeIn();
+                    },
+                    success: function (allData) {
+                        if (allData && allData.length > 0) {
+                            if (typeof allData == 'object' && allData.map) {
+                                allData.map(function (d) {
+                                    map_data[d[dataAdminCode + "Code"]] = d["data"];
+                                    return;
+                                });
+                            } else if (typeof allData == 'string') {
+                                msg.init("Error", "Error... . .", allData);
+                            }
+                            //add_data_layer();
+                        }
+                    },
+                    error: function () {
+                        msg.init("Error", "Error... . .", "Unable to load/parse JSON data !!");
+                        $("#busy-indicator").fadeOut();
+                    },
+                    //done: function () {
+                    //    //$("#busy-indicator").fadeOut();
+                    //},
+                    complete: function () {
+                        add_data_layer();
+
+                        $("#busy-indicator").fadeOut();
+                    }
+
+                });
+
+                break;
+
+            default:
+                //console.log(dataYear);
+
+                //$.getJSON("../js/maps/map_data/" + "all_data" + ".json",
+                //        function(allData) {
+                //            if (allData && allData.all_data.length > 0) {
+                //                //console.log(allData.all_data);
+                //                allData.all_data.some(function(ad) {
+                //                    if (ad.adminCode == dataAdminCode) {
+                //                        ad.data.map(function(d) {
+                //                            map_data[d[dataAdminCode + "Code"]] = d["data"];
+                //                            return;
+                //                        });
+                //                        return true;
+                //                    }
+                //                    return false;
+                //                });
+                //                //add_data_layer();
+                //            }
+                //        })
+                //    .done(function() {
+                //        add_data_layer();
+                //        $("#busy-indicator").fadeOut();
+                //    });
+
+                //return;
+
+                $.ajax({
+                    dataType: "json",
+                    url: "../js/maps/map_data/all_data.json",
+                    beforeSend: function () {
+                        $("#busy-indicator").fadeIn();
+                    },
+                    success: function (allData) {
+                        //console.log(allData[dataAdminCode]);
+
+                        if (allData && allData[dataAdminCode].length > 0) {
+
+                            allData[dataAdminCode].map(function (d) {
+                                map_data[d[dataAdminCode + "Code"]] = d[dataCode];
+                                return;
+                            });
+
+                        }
+                    },
+                    error: function () {
+                        msg.init("Error", "Error... . .", "Unable to load/parse JSON data !!");
+                        $("#busy-indicator").fadeOut();
+                    },
+                    complete: function () {
+                        add_data_layer();
+
+                        $("#busy-indicator").fadeOut();
+                    }
+                });
+
+                break;
+        }
+
+
+        //return;
+        //$.getJSON("../js/maps/map_data/" + "all_data" + ".json", function (allData) {
+        //    if (allData && allData.all_data.length > 0) {
+        //        //console.log(allData.all_data);
+
+        //        allData.all_data.some(function (ad, i) {
+        //            if (ad.adminCode == dataAdminCode) {
+        //                map_data = ad.data.map(function (d, i) {
+        //                    return { geo_code: d[dataAdminCode + "Code"], data_value: d[dataCode] };
+        //                });
+        //                return true;
+        //            }
+        //            return false;
+        //        });
+
+        //        //add_data_layer();
+        //    }
+        //}).done(function (e) {
+        //    add_data_layer();
+        //});
+
+    } catch (e) {
+        map_data = [];
+        msg.init("Error", "Error... . .", "Error trying to load/parse JSON data !! <br />" + e.message);
+    }
+
+}
+
+
+//$("input[type='checkbox'].multi-chkbx.layer").each(function () {
+//    if (this.checked && $(this).prop("id")) {
+//        add_other_data_layer($(this).prop("id"), $(this).attr("data"));
+//    }
+//});
+
+var isOpened = false, isDataOpened = false;
+
+function map_filter_open_close(content, isOpen) {
+    if (isOpened === isOpen) return;
+
+    if (isOpen && !isOpened)
+        modal_open(content, 50);
+    else if (!isOpen && isOpened)
+        modal_close(content);
+
+    isOpened = isOpen;
+}
+
+function map_data_open_close(content, isOpen) {
+    if (isDataOpened === isOpen) return;
+
+    if (isOpen && !isDataOpened)
+        modal_open(content, 25);
+    else if (!isOpen && isDataOpened)
+        modal_close(content);
+
+    isDataOpened = isOpen;
+}
+
+function legend_open_close(legendId, openCloseOpt, propOpt) {
+    if (openCloseOpt == "open") {
+        $("#" + legendId + "_btn")
+            .css(propOpt, "-" + ($("#" + legendId + "_btn").outerWidth(true) + 10) + "px");
+        $("#" + legendId).css(propOpt, "-2px");
+
+        $("#" + legendId + "_opt").prop("checked", true);
+    } else if (openCloseOpt == "close") {
+        $("#" + legendId).css(propOpt, "-" + ($("#" + legendId).outerWidth(true) + 5) + "px");
+        $("#" + legendId + "_btn").css(propOpt, "-10px");
+
+        $("#" + legendId + "_opt").prop("checked", false);
+    }
+}
+
+
+function random_color(format) {
+    var ran_int = Math.floor(0x100000000 * Math.random());
+    switch (format) {
+        case "hex":
+            return "#" + ("00000" + ran_int.toString(16)).slice(-6).toUpperCase();
+        case "hexa":
+            return "#" + ("0000000" + ran_int.toString(16)).slice(-8).toUpperCase();
+        case "rgb":
+            return "rgb(" + (ran_int & 255) + "," + (ran_int >> 8 & 255) + "," + (ran_int >> 16 & 255) + ")";
+        case "rgba":
+            return "rgba(" + (ran_int & 255) + "," + (ran_int >> 8 & 255) + "," + (ran_int >> 16 & 255) + "," + (ran_int >> 24 & 255) / 255 + ")";
+        default:
+            return ran_int;
+    }
+}
+
+function get_unique_theme(mapData) {
+
+    if (!mapData || mapData.length < 1) return [];
+
+    var theme = [], tc = 0;
+
+    var unique_data = mapData.filter(function (itm, i, mapData) {
+        return i == mapData.indexOf(itm);
+    });
+
+    unique_data.map(function (md, c) {
+        if (typeof (md) == "undefined")
+            return;
+
+        theme.push({
+            val: md,
+            title: md,
+            color: "#" + ("00000" + (Math.floor(0xFFFFFF * Math.random()) << 0).toString(16)).slice(-6).toUpperCase()
+        });
+    });
+
+    theme.push({ val: "", title: "-", color: "#FFFFFF" });
+
+    return theme;
+}
+
+function get_dynamic_theme(mapData) {
+    var minVal = Infinity, maxVal = -Infinity, currVal, theme = [];
+
+    if (!mapData || mapData.length < 1)
+        mapData = map_data;
+
+    if (!mapData || mapData.length < 1) return theme;
+
+    var isFloat = false;
+
+    for (var dc = 0; dc < mapData.length; dc++) {
+        if (isNaN(parseFloat(mapData[dc])) || !$.isNumeric(mapData[dc]))
+            continue;
+
+        currVal = parseFloat(mapData[dc]);
+
+        isFloat = isFloat || currVal % 1 != 0;
+
+        if (minVal > currVal)
+            minVal = currVal;
+        if (maxVal < currVal)
+            maxVal = currVal;
+    }
+    //var isFloat = minVal % 1 != 0 || maxVal % 1 != 0;
+
+    if ((maxVal - minVal) == 0) {
+        theme.push({ minVal: isFloat ? parseFloat(minVal).toFixed(2) : minVal, maxVal: "-", color: "#4A0000" });
+        theme.push({ minVal: "noData", maxVal: "-", color: "#FFFFFF" });
+
+        return theme;
+    } else if ((maxVal - minVal) == 1) {
+        theme.push({ minVal: "-", maxVal: isFloat ? parseFloat(minVal).toFixed(2) : minVal, color: "#FFFF80" });
+        theme.push({ minVal: isFloat ? parseFloat(minVal - 0.01).toFixed(2) : minVal + 1, maxVal: "-", color: "#4A0000" });
+        theme.push({ minVal: "noData", maxVal: "-", color: "#FFFFFF" });
+
+        return theme;
+    } else if ((maxVal - minVal) < 12) {
+        theme.push({ minVal: "-", maxVal: isFloat ? parseFloat(minVal).toFixed(2) : minVal, color: "#FFFF80" });
+        theme.push({ minVal: isFloat ? parseFloat(minVal + 0.01).toFixed(2) : minVal + 1, maxVal: isFloat ? parseFloat(maxVal - 0.01).toFixed(2) : maxVal - 1, color: "#F2A82F" });
+        theme.push({ minVal: isFloat ? parseFloat(maxVal).toFixed(2) : maxVal, maxVal: "-", color: "#4A0000" });
+        theme.push({ minVal: "noData", maxVal: "-", color: "#FFFFFF" });
+
+        return theme;
+    }
+
+    //var clrClass = ["#FFEEDD", "#FEBBAA", "#FE9988", "#FA7766", "#FA5544", "#FA3322", "#FA1100"],
+    var clrClass = ["#FFFF80", "#FAD155", "#F2A82F", "#AD5314", "#6A0000", "#4A0000"],
+        delta = parseInt((maxVal - minVal) / clrClass.length),
+        ci = 0;
+
+    for (ci = 0; ci < clrClass.length; ci++) {
+        if (ci === 0) {
+            theme.push({ minVal: isFloat ? parseFloat(minVal).toFixed(2) : minVal, maxVal: isFloat ? parseFloat(minVal + delta).toFixed(2) : minVal + delta, color: clrClass[ci] });
+        } else if (ci === clrClass.length - 1 || (delta < 2 && ci >= clrClass.length - 2)) {
+            theme.push({ minVal: isFloat ? parseFloat(minVal + (delta * ci) + 0.01).toFixed(2) : minVal + (delta * ci) + 1, maxVal: isFloat ? parseFloat(maxVal).toFixed(2) : maxVal, color: clrClass[ci] });
+        } else {
+            theme.push({ minVal: isFloat ? parseFloat(minVal + (delta * ci) + 0.01).toFixed(2) : minVal + (delta * ci) + 1, maxVal: isFloat ? parseFloat(minVal + (delta * (ci + 1))).toFixed(2) : minVal + (delta * (ci + 1)), color: clrClass[ci] });
+        }
+    }
+
+    theme.push({ minVal: "noData", maxVal: "-", color: "#FFFFFF" });
+    //console.log(theme);
+    return theme;
+}
+
+function get_theme(minVal, maxVal) {
+    var theme = [];
+
+    if (isNaN(minVal) || !$.isNumeric(minVal) || isNaN(maxVal) || !$.isNumeric(maxVal))
+        return theme;
+
+    if (maxVal === minVal) {
+        theme.push({ minVal: minVal, maxVal: "-", color: "#4A0000" });
+        theme.push({ minVal: "noData", maxVal: "-", color: "#FFFFFF" });
+
+        return theme;
+    }
+
+    //var clrClass = ["#FFEEDD", "#FEBBAA", "#FE9988", "#FA7766", "#FA5544", "#FA3322", "#FA1100"],
+    var clrClass = ["#AFFF80", "#AAD155", "#A2A82F", "#8D5314", "#5A0000", "#3A0000"],
+        delta = parseInt((maxVal - minVal) / clrClass.length),
+        ci;
+
+    for (ci = 0; ci < clrClass.length; ci++) {
+        if (ci === 0) {
+            theme.push({ minVal: minVal, maxVal: minVal + delta, color: clrClass[ci] });
+        } else if (ci === clrClass.length - 1) {
+            theme.push({ minVal: minVal + (delta * ci) + 1, maxVal: maxVal, color: clrClass[ci] });
+        } else {
+            theme.push({ minVal: minVal + (delta * ci) + 1, maxVal: minVal + (delta * (ci + 1)), color: clrClass[ci] });
+        }
+    }
+
+    theme.push({ minVal: "noData", maxVal: "-", color: "#FFFFFF" });
+
+    return theme;
+}
+
+
+function map_label_show_hide(isShow) {
+    if (!mapLabels)
+        return;
+
+    $("#map_label_opt").prop("checked", isShow);
+
+    if (isShow) {
+        if (!map.hasLayer(mapLabels))
+            map.addLayer(mapLabels);
+        //$(".map_label").fadeIn(500);
+    } else {
+        if (map.hasLayer(mapLabels))
+            map.removeLayer(mapLabels);
+        //$(".map_label").fadeOut(500);
+    }
+
+    return;
+}
+
+
+function add_data_layer() {
+
+    $("#legend_title").empty();
+    $("#legend_info_title").empty();
+    $("#map_legend_infos").empty();
+    $("#map_legend_colors").empty();
+
+    dataAdminCode = $("#admin_info").val();
+
+    if (!dataAdminCode || !map)
+        return;
+
+    if (dataLayer) {
+        if (map.hasLayer(dataLayer))
+            map.removeLayer(dataLayer);
+        dataLayer = null;
+    }
+
+    if (mapLabels) {
+        if (map.hasLayer(mapLabels))
+            map.removeLayer(mapLabels);
+        mapLabels = new L.LayerGroup();
+
+        $("#map_label_opt").prop("checked", false);
+    }
+
+    $(".map_label").remove();
+
+    //dataAdminName = $("#admin_info option:selected").text();
+    //dataName = $("#survey_info option:selected").text();
+    //equipmentId = $("#survey_info option:selected").attr("data-id");
+
+    //defaultTheme = $("#legend_theme").val() == "dynamic"
+    //    ? get_dynamic_theme(map_data)
+    //    : legend_themes[dataAdminCode + "_" + $("#survey_info").val()];
+
+    defaultTheme = $("#legend_theme").val() == "dynamic"
+        ? get_dynamic_theme(map_data)
+        : legend_themes[dataAdminCode + "_" + $("#survey_info").val()];
+    //$.extend(true, [], legend_themes[dataAdminCode + "_" + $("#survey_info").val()]);
+    //console.log(map_data);
+    //console.log(defaultTheme);
+    if (!defaultTheme) {
+        defaultTheme = get_dynamic_theme(map_data);
+        $("#legend_theme").val("dynamic");
+    }
+
+    if (defaultTheme && defaultTheme.length > 0) {
+        noDataColor = defaultTheme[defaultTheme.length - 1].color;
+        //defaultTheme.splice(-1, 1);
+    }
+
+
+    var dataLayerPath = "../js/maps/map_data/" + dataAdminCode + ".json",
+        totalValue = 0,
+        table = $("<table>").addClass("table data-table");
+
+    //map_data.map(d => totalValue += parseFloat(d.data_value));
+    map_data.map(d => totalValue += parseFloat(d));
+    totalValue = (totalValue % 1 == 0) ? totalValue : totalValue.toFixed(2);
+
+    $("#legend_title").append(dataName + " legend ");
+    $("#legend_info_title").append(dataAdminName + " Wise " + dataName + " (" + totalValue + ")");
+
+    $("#map_legend_infos").append(table);
+    table.append("<tr><th>" + dataAdminName + "</th> <th>" + dataName + "</th></tr>");
+
+
+    //L.geoJson(dataLayerPath, {
+    //    style: function (feature) {
+    //        return { color: feature.properties.color };
+    //    }
+    //}).bindPopup(function (layer) {
+    //    return layer.feature.properties.description;
+    //}).addTo(map);
+
+    //var sorted = map_layer.sort(function (a, b) {
+    //    if (a.a > b.a) {
+    //        return 1;
+    //    }
+    //    if (a.a < b.a) {
+    //        return -1;
+    //    }
+
+    //    return 0;
+    //});
+
+    $.getJSON(dataLayerPath, function (map_layer) {
+        if (!map_layer) return;
+
+        mapLabels = new L.LayerGroup();
+
+        dataLayer = L.geoJson(map_layer,
+            {
+                style: function (feature) { return mapDataStyle(feature, defaultTheme); },
+                onEachFeature: mapDataFeatures,
+                filter: function (feature, layer) {
+                    return (feature &&
+                        feature.properties[dataAdminCode + "_code"] &&
+                        !isNaN(map_data[feature.properties[dataAdminCode + "_code"]]));
+
+                    //if (!feature || !feature.properties[dataCode]) {
+                    //    return;
+                    //}
+                    //if (!feature || !feature.properties[dataAdminCode + "_code"] || !feature.properties[dataAdminCode + "_code"] || isNaN(map_data[feature.properties[dataAdminCode + "_code"]])) {
+                    //    return;
+                    //}
+                },
+                renderer: dataAdminCode == "union" ? new L.Canvas({ padding: 0.5 }) : null,
+                //renderer: dataAdminCode == "union" ? (L.canvas() ? new L.Canvas({ padding: 0.5 }) : new L.SVG({ padding: 0.5 })) : null
+            });
+
+    }).done(function (e) {
+
+        $("#basic_survey").prop("checked", true);
+        map.addLayer(dataLayer);
+
+        table.append(
+            "<tr><td style='padding-right:8px; text-align:right; font-weight:600;'>Total: </td><td style='padding-right:8px; text-align:right; font-weight:600;'>" +
+            totalValue +
+            "</td></tr>");
+
+        var $legendDiv = $("<div id='map_legend_basic_data'></div>");
+
+        if (defaultTheme && defaultTheme.length > 0) {
+
+            defaultTheme.map(function (d, i) {
+                if (defaultTheme.length - 1 == i)
+                    return;
+
+                var legend;
+                if (!$.isNumeric(d.minVal)) {
+                    legend = " =< " + d.maxVal;
+                } else if (!$.isNumeric(d.maxVal)) {
+                    legend = " >= " + d.minVal;
+                } else {
+                    legend = d.minVal + " - " + d.maxVal;
+                }
+
+                $legendDiv.append("<label class='map_legend_label'>" +
+                    "<label class='map_legend_color' style='background-color:" +
+                    d.color +
+                    ";'></label>" +
+                    legend +
+                    "</label><br/>");
+            });
+        }
+
+        $legendDiv.append("<label class='map_legend_label'>" +
+            "<label class='map_legend_color' style='border:1px solid #eee; background-color:" +
+            noDataColor +
+            ";'> </label>No data</label><br/>");
+
+        $("#map_legend_colors").append($legendDiv);
+
+
+        $("#admin_sban").prop("checked", true);
+        //add_admin_boundary("sban");
+
+        $("input[type='checkbox'].multi-chkbx.admin").each(function () {
+            if (this.checked) {
+                add_admin_boundary($(this).prop("id").replace("admin_", ""));
+            }
+        });
+
+        $("input[type='checkbox'].multi-chkbx.other_layer").each(function () {
+            if (this.checked) {
+                add_other_layer($(this).prop("id"), $(this).attr("data"));
+            }
+        });
+
+    });
+
+}
+
+function mapDataStyle(feature, legendTheme) {
+
+    var adminFieldCode = dataAdminCode + "_code",
+        polyOptions = $.extend(true, {}, polyDefaultOptions);
+
+    //polyOptions.pane = "data-layer";
+    //polyOptions.renderer = new L.Renderer
+
+    if (!feature.properties[adminFieldCode] || !legendTheme || isNaN(map_data[feature.properties[adminFieldCode]])) {
+        //return null;
+        return polyOptions;
+    }
+
+    var dataValue = !isNaN(map_data[feature.properties[adminFieldCode]])
+        ? map_data[feature.properties[adminFieldCode]]
+        : "no data";
+
+    if (!isNaN(dataValue) && $.isNumeric(dataValue)) {
+        var color = noDataColor;
+        legendTheme.some(th => ((!parseFloat(th.minVal) || dataValue >= parseFloat(th.minVal)) &&
+            (!parseFloat(th.maxVal) || dataValue <= parseFloat(th.maxVal)))
+            ? (color = th.color, true)
+            : (color = noDataColor, false)
+        );
+
+        polyOptions.color = color ? color : noDataColor;
+        polyOptions.fillColor = color ? color : noDataColor;
+    } else {
+        polyOptions.color = noDataColor;
+        polyOptions.fillColor = noDataColor;
+        polyOptions.fillOpacity = 0.8;
+    }
+
+    return polyOptions;
+}
+
+function mapDataFeatures(feature, layer) {
+
+    var adminFieldCode = dataAdminCode + "_code",
+        adminFieldName = dataAdminCode + "_name";
+
+    if (!feature || !feature.properties[adminFieldCode] || !feature.properties[adminFieldName]) {
+        //if (!feature || !feature.properties[adminFieldCode] || !feature.properties[adminFieldName] || isNaN(map_data[feature.properties[adminFieldCode]])) {
+        //layer.remove();
+        return;
+    }
+
+
+    var dataValue,
+        polyCenter,
+        offsetTop = 10,
+        offsetLeft,
+        labelClass,
+        labelContent,
+        labelInfo,
+        popupContent,
+        dataLink = "",
+        baseUrl = baseUrl ? baseUrl : "../SurveyInfoes",
+        queryStr = "?equipmentId=" + equipmentId,
+        table = $("#map_legend_infos table.table");
+
+
+    var currAdminName = feature.properties[adminFieldName],
+        currAdminCode = feature.properties[adminFieldCode];
+
+    dataValue = !isNaN(map_data[currAdminCode])
+        ? "" + map_data[currAdminCode]
+        : "no data";
+
+    polyCenter = new L.LatLng(feature.properties["CNT_LAT"], feature.properties["CNT_LONG"]);
+
+    offsetLeft = (currAdminName.length - 2 > dataValue.length)
+        ? (285 * currAdminName.length) / 100
+        : (325 * dataValue.length) / 100;
+
+
+    labelClass = "map_label";
+    if (feature.properties["div_code"]) {
+        labelClass += " div_" + feature.properties["div_code"];
+        queryStr += "&divCode=" + feature.properties["div_code"];
+    }
+    if (feature.properties["dist_code"]) {
+        labelClass += " dist_" + feature.properties["dist_code"];
+        queryStr += "&distCode=" + feature.properties["dist_code"];
+    }
+    if (feature.properties["upaz_code"]) {
+        labelClass += " upaz_" + feature.properties["upaz_code"];
+        queryStr += "&upazCode=" + feature.properties["upaz_code"];
+    }
+    if (feature.properties["union_code"]) {
+        labelClass += " union_" + feature.properties["union_code"];
+        queryStr += "&unionCode=" + feature.properties["union_code"];
+    }
+
+
+    labelContent = currAdminName + "<p style='text-align:center; font-weight:bold; color:#025;'>(" + dataValue + ")</p>";
+
+    popupContent = "<p style='text-align:center; font-weight:bold; font-size:14px; color:#137; white-space:nowrap;'>" + currAdminName + " " + dataAdminName +
+        "</p> <p style='text-align:center; font-weight:bold; font-size:13px; color:#024; white-space:nowrap;'>(" + dataValue + ")</p>";
+    dataLink = "<p style='text-align:center; font-size:11px; white-space:nowrap;'><a target='_blank' href='" + baseUrl + queryStr + "'>data source</a></p>";
+
+
+    labelInfo = new L.Marker(polyCenter, {
+        pane: "label-layer",
+        icon: L.divIcon({
+            iconSize: null,
+            className: labelClass,
+            iconAnchor: [offsetLeft, offsetTop],
+            html: labelContent
+        })
+    }).bindPopup(popupContent + dataLink)
+        .on({
+            "mouseover": function (e) {
+                layer.setStyle({
+                    weight: 2.5,
+                    opacity: 1.0
+                });
+            },
+            "mouseout": function (e) {
+                layer.setStyle({
+                    weight: 1.0,
+                    opacity: 0.9
+                });
+            }
+        });
+
+    mapLabels.addLayer(labelInfo);
+
+    layer.bindTooltip(popupContent, { sticky: true })
+        .on({
+            "click": function (e) {
+                //if (dataAdminCode == "union") {
+                //    var unionCode = feature.properties["union_code"],
+                //        unionName = feature.properties["union_name"],
+                //        upazName = feature.properties["upaz_name"],
+                //        distName = feature.properties["dist_name"],
+                //        divName = feature.properties["div_name"];
+
+                //    SetUnionData(unionCode, unionName, upazName, distName, divName);
+                //    SetUnionData(unionCode, unionName, upazName, distName, divName);
+
+                //    return;
+                //}
+
+                SetAdminData(dataAdminCode, feature.properties);
+
+                L.popup().setLatLng(polyCenter).setContent(popupContent + dataLink).openOn(map);
+            },
+            "mouseover": function (e) {
+                this.setStyle({
+                    weight: 2.5,
+                    opacity: 1.0
+                });
+            },
+            "mouseout": function (e) {
+                this.setStyle({
+                    weight: 1.0,
+                    opacity: 0.9
+                });
+            }
+        });
+
+    table.append("<tr><td style='padding-left:8px; text-align:left;'>" +
+        currAdminName +
+        "</td> <td style='padding-right:8px; text-align:right;'>" +
+        dataValue +
+        "</td></tr>");
+
+    return;
+}
+
+
+
+function remove_other_layer(layerCode) {
+    if (!layerCode) return;
+
+    if (mapLayers["other_" + layerCode] && map.hasLayer(mapLayers["other_" + layerCode].layer)) {
+        map.removeLayer(mapLayers["other_" + layerCode].layer);
+
+        $("#admin_label_" + layerCode).prop("disabled", true);
+
+        if (map.hasLayer(mapLayers["other_" + layerCode].label))
+            map.removeLayer(mapLayers["other_" + layerCode].label);
+    }
+
+    if (mapLayers["other_" + layerCode] && map.hasLayer(mapLayers["other_" + layerCode].layer)) {
+        map.removeLayer(mapLayers["other_" + layerCode].layer);
+
+        $("#admin_label_" + layerCode).prop("disabled", true);
+
+        if (map.hasLayer(mapLayers["other_" + layerCode].label))
+            map.removeLayer(mapLayers["other_" + layerCode].label);
+    }
+
+    if ($("div#map_legend_" + layerCode)) {
+        $("div#map_legend_" + layerCode).slideUp(350);
+    }
+
+    return;
+}
+
+function add_other_layer(layerCode, dataCode) {
+
+    if (mapLayers["other_" + layerCode]) {
+
+        //if (map.hasLayer(mapLayers["other_" + layerCode].layer))
+        //    map.removeLayer(mapLayers["other_" + layerCode].layer);
+
+        if (!map.hasLayer(mapLayers["other_" + layerCode].layer))
+            map.addLayer(mapLayers["other_" + layerCode].layer);
+
+        //admin-label
+        $("#admin_label_" + layerCode).prop("disabled", false);
+
+        if ($("#admin_label_" + layerCode).prop("checked"))
+            map.addLayer(mapLayers["other_" + layerCode].label);
+
+        if ($("div#map_legend_" + layerCode)) {
+            $("div#map_legend_" + layerCode).slideDown(350);
+        }
+
+        return;
+    }
+
+    var layerName = $("label[for='" + layerCode + "']") ? $("label[for='" + layerCode + "']").text() : "",
+        otherLayerPath = "../js/maps/map_data/" + layerCode + ".json";
+
+    $.getJSON(otherLayerPath,
+        function (map_layer) {
+            if (!map_layer) return;
+
+            if (legend_themes[layerCode]) {
+                defaultTheme = legend_themes[layerCode];
+                //defaultTheme = $.extend(true, [], legend_themes[layerCode]);
+            } else if (dataCode) {
+                other_data = map_layer.features.map(function (f, c) {
+                    if (f && f.properties[dataCode])
+                        return f.properties[dataCode];
+                });
+                defaultTheme = get_unique_theme(other_data);
+            } else {
+                defaultTheme = null;
+            }
+
+            //defaultTheme = legend_themes[layerCode]
+            //    ? legend_themes[layerCode]
+            //    : get_unique_theme(other_data);
+
+            if (defaultTheme && defaultTheme.length > 0) {
+                noDataColor = defaultTheme[defaultTheme.length - 1].color;
+                //defaultTheme.splice(-1, 1);
+            }
+
+            mapLabels = new L.LayerGroup();
+
+            //if (layerCode == "wtr_body" || layerCode == "det_river" || layerCode == "mjr_river" || layerCode == "main_river") {
+            if (layerCode == "wtr_body" || layerCode.indexOf("_river") > -1) {
+                var sty = {
+                    zIndex: 101,
+                    weight: 1.0,
+                    opacity: 0.9,
+                    color: defaultTheme[0] && defaultTheme[0].color
+                        ? defaultTheme[0].color
+                        : (layerCode == "wtr_body" ? "#0EB6F8" : "#73DFFF"),
+                    fillOpacity: 0.85
+                };
+
+                otherLayer = L.geoJson(map_layer,
+                    {
+                        style: function (feature) {
+                            return sty;
+                        },
+                        onEachFeature: function (feature, layer) {
+                            return mapOtherDataFeatures(feature, layer, layerName, dataCode);
+                        },
+                        //filter: function (feature, layer) {
+                        //    if (!feature || !feature.properties[dataCode]) {
+                        //        return;
+                        //    }
+                        //},
+                        //renderer: new L.Canvas({ padding: 0.5, pane: "other-layer" })
+                    });
+                //console.log(otherLayer);
+            } else {
+                otherLayer = L.geoJson(map_layer,
+                    {
+                        style: function (feature) {
+                            return otherDataStyle(feature, dataCode, defaultTheme);
+                        },
+                        onEachFeature: function (feature, layer) {
+                            return mapOtherDataFeatures(feature, layer, layerName, dataCode);
+                        },
+                        //filter: function (feature, layer) {
+                        //    if (!feature || !feature.properties[dataCode]) {
+                        //        return;
+                        //    }
+                        //},
+                        renderer: new L.Canvas({ padding: 0.5, pane: "other-layer" })
+                    });
+            }
+
+        }).done(function (e) {
+
+            mapLayers["other_" + layerCode] = { layer: otherLayer, label: otherLabels };
+
+            map.addLayer(mapLayers["other_" + layerCode].layer);
+
+            //map.fitBounds(mapLayers["other_" + layerCode].layer.getBounds());
+
+            $("#admin_label_" + layerCode).prop("disabled", false);
+
+            if ($("#admin_label_" + layerCode).prop("checked"))
+                map.addLayer(mapLayers["other_" + layerCode].label);
+
+
+            if ($("div#map_legend_" + layerCode)) {
+                $("div#map_legend_" + layerCode).remove();
+            }
+
+            if (defaultTheme && defaultTheme.length > 0) {
+
+                var $legendDiv = $("<div id='map_legend_" + layerCode + "' style='margin:8px auto auto 3px;'></div>");
+
+                if (layerName) {
+                    var layerDataName = $("#" + layerCode + "_data_code").length
+                        ? " (" + $("#" + layerCode + "_data_code option:selected").text() + ")"
+                        : "";
+
+                    $legendDiv.append(
+                        "<span class='map_legend_label legend_title'> ▣ " +
+                        layerName +
+                        layerDataName +
+                        "</span><br/>");
+                }
+
+                defaultTheme.map(function (th, i) {
+                    $legendDiv.append("<label class='map_legend_label'>" +
+                        "<label class='map_legend_color' style='background-color:" +
+                        th.color +
+                        ";'></label>" +
+                        th.title +
+                        "</label><br/>");
+                });
+
+                $("#map_legend_colors").append($legendDiv);
+            }
+
+        });
+
+}
+
+
+//(feature, legendField, defaultTheme)
+function otherDataStyle(feature, legendField, legendTheme) {
+
+    var polyOptions = $.extend(true, {}, polyDefaultOptions);
+
+    polyOptions.pane = "other-layer";
+
+    //if (!feature || isNaN(feature.properties[legendField]) || !legendTheme) {
+    if (!feature || typeof feature.properties[legendField] == "undefined" || !legendTheme) {
+        return polyOptions;
+    }
+
+    var color = noDataColor, dataValue = feature.properties[legendField];
+
+    legendTheme.some(th => (th.val && dataValue == th.val)
+        ? (color = th.color, true)
+        : (color = noDataColor, false)
+    );
+
+    polyOptions.color =
+        polyOptions.fillColor = color ? color : noDataColor;
+
+    polyOptions.opacity =
+        polyOptions.fillOpacity = 0.95;
+
+    return polyOptions;
+}
+
+function mapOtherDataFeatures(feature, layer, layerName, dataCode) {
+    //console.log(feature.properties[dataCode]);
+    if (!feature || !feature.properties[dataCode]) {
+        return;
+    }
+
+    var popupContent = "<p style='text-align:center; font-weight:bold; font-size:14px; color:#137; white-space:nowrap;'>" + layerName +
+        "</p> <p style='text-align:center; font-weight:bold; color:#024; white-space:nowrap;'>(" + feature.properties[dataCode] + ")</p>",
+        tooltipContent = "<p style='text-align:center; font-size:13px; color:#135; white-space:nowrap;'>" + layerName +
+            ": <span style='font-weight:bold; font-size:13px; color:#247;'>" + feature.properties[dataCode] + "</span></p>";
+
+    layer.bindPopup(popupContent)
+        .bindTooltip(tooltipContent, { sticky: true });
+
+    return;
+}
+
+function resetOtherDataLayerStyle(layerCode, legendField) {
+    if (mapLayers["other_" + layerCode] && mapLayers["other_" + layerCode].layer) {
+
+        //console.log(mapLayers["other_" + layerCode].layer.features);
+        //console.log(mapLayers["other_" + layerCode].layer.layers);
+
+        var other_data = [],
+            layerName = $("label[for='" + layerCode + "']") ? $("label[for='" + layerCode + "']").text() : "";
+
+        if (layerName && $("div#map_legend_" + layerCode + " span.map_legend_label.legend_title").length) {
+            var layerDataName = " (" + $("#" + layerCode + "_data_code option:selected").text() + ")";
+
+            $("div#map_legend_" + layerCode + " span.map_legend_label.legend_title").text(" ▣ " + layerName + layerDataName);
+        }
+
+        mapLayers["other_" + layerCode].layer.eachLayer(function (layer) {
+            if (!layer.feature || !layer.feature.properties[legendField]) {
+                return;
+            }
+
+            other_data.push(layer.feature.properties[legendField]);
+            // other_data[] = layer.feature.properties[legendField];
+
+            var popupContent = "<p style='text-align:center; font-weight:bold; font-size:14px; color:#137; white-space:nowrap;'>" + layerName +
+                "</p> <p style='text-align:center; font-weight:bold; color:#024; white-space:nowrap;'>(" + layer.feature.properties[legendField] + ")</p>",
+                tooltipContent = "<p style='text-align:center; font-size:13px; color:#135; white-space:nowrap;'>" + layerName +
+                    ": <span style='font-weight:bold; font-size:13px; color:#247;'>" + layer.feature.properties[legendField] + "</span></p>";
+
+            layer.bindPopup(popupContent)
+                .bindTooltip(tooltipContent, { sticky: true });
+
+            return;
+        });
+
+        //console.log(other_data);
+
+        if (legend_themes[layerCode]) {
+            defaultTheme = legend_themes[layerCode];
+        } else if (legendField) {
+            defaultTheme = get_unique_theme(other_data);
+        } else {
+            defaultTheme = null;
+        }
+
+        mapLayers["other_" + layerCode].layer.setStyle(function (feature) {
+            return otherDataStyle(feature, legendField, defaultTheme);
+        });
+
+        if (!map.hasLayer(mapLayers["other_" + layerCode].layer))
+            map.addLayer(mapLayers["other_" + layerCode].layer);
+
+    } else {
+        add_other_layer(layerCode, legendField);
+    }
+
+    return;
+}
+
 
 
 function add_remove_admin_label(adminCode, isShow) {
@@ -1198,4 +2891,598 @@ function getMapLabels(feature, layer, adminCode, labelClass, adminLabels, labelC
     return;
 }
 
+
+/*
+ //// ok admin ////
+function add_admin_boundary(adminCode) {
+    if (!adminCode) return;
+
+    var lineStyle = {
+            pane: "admin-layer",
+            color: "#5A3322",
+            weight: 1.0,
+            opacity: 1,
+            scale: 0.5,
+            fill: false,
+            fillColor: null,
+            fillOpacity: 0.0
+        };
+
+    switch (adminCode) {
+        case "div":
+            lineStyle.zIndex = 107;
+            lineStyle.dashArray = "7 3 2 4 2 3";
+            lineStyle.color = "#3A2211";
+            lineStyle.weight = 1.5;
+            lineStyle.scale = 1.5;
+
+            $("#map_legend_colors").append("<div id='map_legend_div'><label class='map_legend_label'>" +
+                "<svg height='15' width='36'> <g fill='none' stroke='#3A2211'> <path stroke-width='1.5' stroke='#3A2211' stroke-linecap='round' stroke-dasharray='5 3 2 3 2 3' d='M7 11 l025 0' /> </g>" +
+                "<label class='map_legend_color' style='height:0; border: 1px dashed #3A2211;'></label> </svg>" +
+                "▣ Division Boundary</label> <br /><div>");
+
+            //$("#map_legend_colors").append("<div id='map_legend_div'><label class='map_legend_label'>" +
+            //    "<label class='map_legend_color' style='height:0; border: 1px dashed #3A2211;'></label>" +
+            //    "▣ Division Boundary</label> <br /><div>");
+            break;
+
+        case "dist":
+            lineStyle.zIndex = 105;
+            lineStyle.dashArray = "5 2 1 3 1 2";
+            lineStyle.color = "#5A3322";
+            lineStyle.weight = 1.0;
+            lineStyle.scale = 1.0;
+
+            $("#map_legend_colors").append("<div id='map_legend_dist'><label class='map_legend_label'>" +
+                "<svg height='15' width='36'> <g fill='none' stroke='#5A3322'> <path stroke-width='1.0' stroke='#5A3322' stroke-linecap='round' stroke-dasharray='5 2 1 3 1 2' d='M7 11 l025 0' /> </g>" +
+                "<label class='map_legend_color' style='height:0; border-top: 1px dashed #5A3322;'></label> </svg>" +
+                "☐ District Boundary</label> <br /><div>");
+
+            //$("#map_legend_colors").append("<div id='map_legend_dist'><label class='map_legend_label'>" +
+            //    "<label class='map_legend_color' style='height:0; border-top: 1px dashed #5A3322;'></label>" +
+            //    "☐ District Boundary</label> <br /><div>");
+            break;
+
+        case "upaz":
+            lineStyle.zIndex = 103;
+            lineStyle.dashArray = "3 2";
+            lineStyle.color = "#4A0000";
+            lineStyle.weight = 0.5;
+            lineStyle.scale = 0.7;
+
+            $("#map_legend_colors").append("<div id='map_legend_upaz'><label class='map_legend_label'>" +
+                "<svg height='15' width='36'> <g fill='none' stroke='#4A0000'> <path stroke-width='0.7' stroke='#4A0000' stroke-linecap='round' stroke-dasharray='2 3' d='M7 11 l025 0' /> </g>" +
+                "<label class='map_legend_color' style='height:1px; background-color:#4A0000;'></label> </svg>" +
+                "⚀ Upazila Boundary </label> <br /><div>");
+            break;
+
+        case "union":
+            lineStyle.zIndex = 102;
+            lineStyle.dashArray = "2 4";
+            lineStyle.color = "#AA5533";
+            lineStyle.weight = 0.5;
+            lineStyle.scale = 0.5;
+
+            $("#map_legend_colors").append("<div id='map_legend_union'><label class='map_legend_label'>" +
+                "<svg height='15' width='36'> <g fill='none' stroke='#AA5533'> <path stroke-width='0.5' stroke='#AA5533' stroke-linecap='round' stroke-dasharray='2 3' d='M7 11 l025 0' /> </g>" +
+                "<label class='map_legend_color' style='height:1px; background-color:#AA5533;'></label> </svg>" +
+                "☉ Union Boundary </label> <br /><div>");
+            break;
+
+        case "sban":
+            lineStyle.zIndex = 102;
+            lineStyle.dashArray = "";
+            lineStyle.color = "#228800";
+            lineStyle.fill = "url(../images/mangrove.png)";
+            lineStyle.fillColor = "#22BB00";
+            lineStyle.fillOpacity = 1.0;
+            lineStyle.weight = 0.5;
+            lineStyle.scale = 0.5;
+
+            $("#map_legend_colors").append("<div id='map_legend_sban'><label class='map_legend_label'>" +
+                "<label class='map_legend_color' style='border:1px solid #3a0; background:#22AA00 url(../images/mangrove.png);'></label>" +
+                "Sundarban Area </label> <br /><div>");
+            break;
+
+        default:
+            break;
+    }
+
+    if (mapLayers["admin_" + adminCode]) {
+
+        if (map.hasLayer(mapLayers["admin_" + adminCode].layer))
+            map.removeLayer(mapLayers["admin_" + adminCode].layer);
+
+        map.addLayer(mapLayers["admin_" + adminCode].layer);
+
+
+        if ($("#admin_" + adminCode).length && !$("#admin_" + adminCode).prop("checked"))
+            $("#admin_" + adminCode).prop("checked", true);
+
+        //admin-label
+        $("#admin_label_" + adminCode).prop("disabled", false);
+
+        if ($("#admin_label_" + adminCode).length && $("#admin_label_" + adminCode).prop("checked"))
+            map.addLayer(mapLayers["admin_" + adminCode].label);
+
+        return;
+    }
+
+    var adminLayer = null,
+        adminLabels = new L.LayerGroup(),
+        adminLayerPath = "../js/maps/map_data/" + adminCode + ".json",
+        selectedAdminCode = "30";
+
+    adminLayer = L.geoJson(null, {
+        style: lineStyle,
+        onEachFeature: function (feature, layer) {
+            getMapLabels(feature, layer, adminCode, adminLabels, lineStyle);
+        }
+        //onEachFeature: getMapLabels,
+        //filter: function (feature) {
+        //    return setMapFilter(feature, adminCode, selectedAdminCode);
+        //}
+    });
+
+
+    $.getJSON(adminLayerPath, function (adminLayerInfo) {
+        if (!adminLayerInfo) return;
+
+        adminLayer.addData(adminLayerInfo);
+    }).done(function (e) {
+        mapLayers["admin_" + adminCode] = { layer: adminLayer, label: adminLabels };
+
+        map.addLayer(mapLayers["admin_" + adminCode].layer);
+
+
+        if ($("#admin_" + adminCode).length && !$("#admin_" + adminCode).prop("checked"))
+            $("#admin_" + adminCode).prop("checked", true);
+
+        $("#admin_label_" + adminCode).prop("disabled", false);
+
+        if (adminCode == "div" || adminCode == "dist") {
+            $("#admin_label_" + adminCode).prop("checked", true);
+        } else {
+            var labelGroups = new L.MarkerClusterGroup({
+                disableClusteringAtZoom: adminCode == "upaz" ? 10 : 11,
+                pane: "label-layer"
+            });
+            labelGroups.addLayer(adminLabels);
+            mapLayers["admin_" + adminCode]["label"] = labelGroups;
+        }
+
+        if ($("#admin_label_" + adminCode).prop("checked"))
+            map.addLayer(mapLayers["admin_" + adminCode].label);
+
+        //set_map_filter();
+    });
+
+    return;
+}
+
+function getMapLabels(feature, layer, adminCode, adminLabels, defaultStyle) {
+
+    var adminFieldName = adminCode + "_name";
+
+    if (!feature || !feature.properties[adminFieldName]) {
+
+        if (adminCode == "sban") {
+            layer.bindTooltip("<span style='padding:3px 6px; font-size:15px;font-weight:600;color:#258;'>Sundarban Area</span>", { sticky: true });
+        }
+        return;
+    }
+
+    defaultStyle = defaultStyle
+        ? defaultStyle
+        : { opacity: 1, scale: 0.5, color: "#5A3322", weight: 1.0, fill: false, fillColor: null, fillOpacity: 0.0 };
+
+    var currAdminName = feature.properties[adminFieldName],
+        polyCenter = new L.LatLng(feature.properties["CNT_LAT"], feature.properties["CNT_LONG"]),
+        offsetTop = 10,
+        offsetLeft = (285 * currAdminName.length) / 100,
+        labelClass = "map_label",
+        labelContent,
+        hoverStyle = { dashArray: null, zIndex: 9999, weight: 2.5, fill: false, color: "#FC4F3A", opacity: 1.0, fillColor: null, fillOpacity: 0.15 },
+        focusStyle = { dashArray: null, zIndex: 9999, weight: 3.0, fill: true, color: "#3587EA", opacity: 1.0, fillColor: "#35A3E8", fillOpacity: 0.15 };
+
+    switch (adminCode) {
+        case "div":
+            defaultStyle.weight = 1.5;
+            hoverStyle.weight = 2.5;
+
+            offsetLeft += 10;
+            labelClass = "map_admin_label";
+
+            labelContent = "<span style='font-size:15px;font-weight:500;color:#123;'>▣ " + currAdminName + "</span>";
+            break;
+
+        case "dist":
+            defaultStyle.weight = 1.0;
+            hoverStyle.weight = 1.5;
+
+            offsetLeft += 10;
+            labelClass = "map_admin_label";
+
+            labelContent = "<span style='font-size:13px;font-weight:400;color:#137;'>☐ " + currAdminName + "</span>";
+            break;
+
+        case "upaz":
+            defaultStyle.weight = 0.5;
+            hoverStyle.weight = 1.0;
+
+            labelContent = "⚀ " + currAdminName;
+            break;
+
+        case "union":
+            defaultStyle.weight = 0.25;
+            hoverStyle.weight = 1.0;
+            labelContent = "☉ " + currAdminName;
+            break;
+
+        default:
+            defaultStyle.weight = 0.5;
+            hoverStyle.weight = 1.0;
+
+            labelContent = currAdminName;
+            break;
+    }
+
+    var labelInfo = new L.Marker(polyCenter, {
+        pane: "label-layer",
+        icon: L.divIcon({
+            iconSize: null,
+            className: labelClass,
+            iconAnchor: [offsetLeft, offsetTop],
+            html: labelContent
+        })
+    }).on({
+        "mouseover": function (e) {
+            var isFocus = layer.className && layer.className == "focused";
+            layer.setStyle(isFocus ? focusStyle : hoverStyle);
+        },
+        "mouseout": function (e) {
+            var isFocus = layer.className && layer.className == "focused";
+            layer.setStyle(isFocus ? focusStyle : defaultStyle);
+        }
+    });
+
+    layer.on({
+        "click": function (e) {
+
+            SetAdminData(adminCode, feature.properties);
+
+            //if (adminCode == "union") {
+            //    var unionCode = feature.properties["union_code"],
+            //        unionName = feature.properties["union_name"],
+            //        upazName = feature.properties["upaz_name"],
+            //        distName = feature.properties["dist_name"],
+            //        divName = feature.properties["div_name"];
+
+            //    SetUnionData(unionCode, unionName, upazName, distName, divName);
+            //}
+
+            if (layer.className && layer.className == "focused") {
+                layer.className = "";
+                layer.setStyle(hoverStyle);
+            }
+
+            if (adminFocused && adminFocused.layer && adminFocused.layer == layer) {
+                adminFocused.layer.className = "";
+                adminFocused.layer.setStyle(defaultStyle);
+
+                adminFocused = null;
+            }
+        }
+    });
+    //.on({
+    //    "mouseover": function (e) {
+    //        var isFocus = layer.className && layer.className == "focused";
+    //        layer.setStyle(isFocus ? focusStyle : hoverStyle);
+    //    },
+    //    "mouseout": function (e) {
+    //        var isFocus = layer.className && layer.className == "focused";
+    //        layer.setStyle(isFocus ? focusStyle : defaultStyle);
+    //    }
+    //});
+
+
+    if (adminCode == "div" || adminCode == "dist") {
+
+        labelInfo.on("click", function (e) {
+
+            if (adminFocused && adminFocused.layer && adminFocused.layer != layer) {
+                adminFocused.layer.className = "";
+                adminFocused.layer.setStyle(defaultStyle);
+            }
+            adminFocused = null;
+
+            if (layer.className && layer.className == "focused") {
+                layer.className = "";
+                layer.setStyle(hoverStyle);
+
+                //layer.setZIndex(400);
+                //layer.setZIndexOffset(0);
+                return;
+            }
+
+            layer.className = "focused";
+            layer.setStyle(focusStyle);
+            //layer.setZIndex(450);
+            //layer.setZIndexOffset(250);
+
+            adminFocused = { layer: layer, label: labelInfo };
+
+            var geoCode = feature.properties[adminCode + "_code"],
+                zoomLevel = (geoCode && (geoCode == 20 || geoCode == 30 || geoCode == 40)) ? 7.5 : 8.5;
+
+            //zoomLevel = map.getZoom() > zoomLevel ? map.getZoom() : zoomLevel;
+            //zoomLevel = adminCode == "dist" ? zoomLevel + 1.5 : zoomLevel;
+            zoomLevel = map.getZoom() > zoomLevel
+                ? map.getZoom()
+                : adminCode == "dist"
+                    ? zoomLevel + 1.5 : zoomLevel;
+
+            map.setView(polyCenter, zoomLevel);
+        });
+    }
+
+
+
+    //if (adminCode == "union") {
+
+    labelInfo.on("click", function (e) {
+
+        SetAdminData(adminCode, feature.properties);
+
+        //var unionCode = feature.properties["union_code"],
+        //    unionName = feature.properties["union_name"],
+        //    upazName = feature.properties["upaz_name"],
+        //    distName = feature.properties["dist_name"],
+        //    divName = feature.properties["div_name"];
+
+        //SetUnionData(unionCode, unionName, upazName, distName, divName);
+
+
+        if (adminFocused && adminFocused.layer && adminFocused.layer != layer) {
+            adminFocused.layer.className = "";
+            adminFocused.layer.setStyle(defaultStyle);
+        }
+        adminFocused = null;
+
+        if (layer.className && layer.className == "focused") {
+            layer.className = "";
+            layer.setStyle(hoverStyle);
+
+            //layer.setZIndex(400);
+            //layer.setZIndexOffset(0);
+            return;
+        }
+
+        layer.className = "focused";
+        layer.setStyle(focusStyle);
+        //layer.setZIndex(450);
+        //layer.setZIndexOffset(250);
+
+        adminFocused = { layer: layer, label: labelInfo };
+
+        //{"union_code":"10040903","div_name":"Barishal","dist_name":"Barguna","upaz_name":"Amtali","union_name":"Ward No-03","CNT_LAT":22.1323710898,"CNT_LONG":90.2388422647}},
+
+        //var geoCode = feature.properties[adminCode + "_code"],
+        //    zoomLevel = (geoCode && (geoCode == 20 || geoCode == 30 || geoCode == 40)) ? 7.5 : 8.5;
+
+        ////zoomLevel = map.getZoom() > zoomLevel ? map.getZoom() : zoomLevel;
+        ////zoomLevel = adminCode == "dist" ? zoomLevel + 1.5 : zoomLevel;
+        //zoomLevel = map.getZoom() > zoomLevel
+        //    ? map.getZoom()
+        //    : adminCode == "dist"
+        //    ? zoomLevel + 1.5 : zoomLevel;
+
+        //map.setView(polyCenter, zoomLevel);
+    });
+    //}
+
+
+    adminLabels.addLayer(labelInfo);
+
+    return;
+}
+*/
+
+function setMapFilter(feature, adminCode, selectedAdminCode) {
+    //return true;
+    //console.log(feature.properties[adminCodeField]);
+
+    var adminCodeField = adminCode + "_code";
+
+    if (!feature || !feature.properties[adminCodeField] || feature.properties[adminCodeField] != selectedAdminCode)
+        return false;
+    else
+        return true;
+
+}
+
+
+function set_map_filter() {
+
+    var adminCode = "div",
+        selectedAdminCode = "30";
+
+    //console.log(adminCode);
+
+    if (dataLayer && map.hasLayer(dataLayer)) {
+        map.removeLayer(dataLayer);
+
+        //console.log("dataLayer");
+        dataLayer.filter = function (feature, layer) {
+            var adminCode = "div",
+                selectedAdminCode = "30";
+
+            //adminCode = "div";
+            //selectedAdminCode = "30";
+            return setMapFilter(feature, adminCode, selectedAdminCode);
+        };
+
+        //map.addLayer(dataLayer);
+    }
+
+
+    if (mapLayers["admin_" + adminCode] && mapLayers["admin_" + adminCode].layer && map.hasLayer(mapLayers["admin_" + adminCode].layer)) {
+        map.removeLayer(mapLayers["admin_" + adminCode].layer);
+
+        //console.log("adminLayers");
+
+        mapLayers["admin_" + adminCode].layer.filter = function (feature, layer) {
+            return setMapFilter(feature, adminCode, selectedAdminCode);
+        };
+
+        //map.addLayer(mapLayers["admin_" + adminCode].layer);
+    }
+
+    return;
+}
+
+// GeoTIFF
+function tt() {
+    return;
+    /*
+    console.log("tif...");
+
+    var tiff = "../js/maps/map_data/temp.tiff";
+    var tif = "../js/maps/map_data/GW Level (m)1.tif";
+
+    // Temperature and Geopotencial Height in GeoTIFF with 2 bands //
+    d3.request(tiff).responseType('arraybuffer').get(
+        function (error, tiffData) {
+
+            // Geopotential height (BAND 0)
+            //var geo = L.ScalarField.fromGeoTIFF(tiffData.response, bandIndex = 0);
+            var geo = L.scalarField.fromGeoTIFF(tiffData.response, bandIndex = 0);
+
+            var layerGeo = L.canvasLayer.scalarField(geo, {
+                color: chroma.scale('RdPu').domain(geo.range),
+                opacity: 0.65
+            }).addTo(map);
+            layerGeo.on('click', function (e) {
+                console.log(e);
+                if (e.value !== null) {
+                    var v = e.value.toFixed(0);
+                    var html = (`<span class="popupText">Geopotential height ${v} m</span>`);
+                    var popup = L.popup()
+                        .setLatLng(e.latlng)
+                        .setContent(html)
+                        .openOn(map);
+
+                    console.log(html);
+                }
+            });
+
+            // Temperature (BAND 1)
+            var t = L.scalarField.fromGeoTIFF(tiffData.response, bandIndex = 1);
+            var layerT = L.canvasLayer.scalarField(t, {
+                color: chroma.scale('OrRd').domain(t.range),
+                opacity: 0.65
+            });
+            layerT.on('click', function (e) {
+                console.log(e);
+                if (e.value !== null) {
+                    var v = e.value.toFixed(1);
+                    var html = (`<span class="popupText">Temperature ${e.value.toFixed(2)} ยบC</span>`);
+                    var popup = L.popup()
+                        .setLatLng(e.latlng)
+                        .setContent(html)
+                        .openOn(map);
+                    console.log(html);
+                }
+            });
+
+            L.control.layers({
+                "Geopotential Height": layerGeo,
+                "Temperature": layerT
+            }, {}, {
+                    position: 'bottomleft',
+                    collapsed: false
+                }).addTo(map);
+
+            //map.fitBounds(layerGeo.getBounds());
+
+        });
+
+    //return;
+
+    var gwLevel = L.leafletGeotiff(
+        url = tiff,
+        options = {
+            band: 0,
+            displayMin: 0,
+            displayMax: 30,
+            name: "Wind speed",
+            colorScale: "rainbow",
+            clampLow: false,
+            clampHigh: true,
+            //vector:true,
+            arrowSize: 20,
+        }
+    ).addTo(map);
+
+
+    fetch(tiff).then(r => r.arrayBuffer()).then(function (buffer) {
+        console.log(buffer);
+
+        var s = L.ScalarField.fromGeoTIFF(buffer),
+            layer = L.canvasLayer.scalarField(s).addTo(map);
+        console.log(s);
+        console.log(layer);
+        layer.on("click",
+            function (e) {
+                console.log(e);
+                if (e.value !== null) {
+                    var popup = L.popup()
+                        .setLatLng(e.latlng)
+                        //.setContent("${e.value}")
+                        .setContent(`${e.value}`)
+                        .openOn(map);
+                }
+            });
+
+        map.fitBounds(layer.getBounds());
+    });
+    */
+}
+
+/*
+
+var BigPointLayer = new L.CanvasLayer.extend({
+
+    renderCircle: function (ctx, point, radius) {
+        ctx.fillStyle = 'rgba(255, 60, 60, 0.2)';
+        ctx.strokeStyle = 'rgba(255, 60, 60, 0.9)';
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, radius, 0, Math.PI * 2.0, true, true);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+    },
+
+    render: function () {
+        var canvas = this.getCanvas();
+        var ctx = canvas.getContext('2d');
+
+        // clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // get center from the map (projected)
+        var point = this._map.latLngToContainerPoint(new L.LatLng(0, 0));
+
+        // render
+        this.renderCircle(ctx, point, (1.0 + Math.sin(Date.now() * 0.001)) * 300);
+
+        this.redraw();
+
+    }
+});
+
+var layer = new BigPointLayer();
+layer.addTo(map);
+
+*/
 
