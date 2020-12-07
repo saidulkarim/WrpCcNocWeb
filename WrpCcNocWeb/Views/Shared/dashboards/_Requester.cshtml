@@ -3,15 +3,15 @@
         <a href="@Url.Action("index", "form")">
             <div class="widget-rounded-circle card-box">
                 <div class="row">
-                    <div class="col-6">
-                        <div class="avatar-lg rounded-circle bg-soft-primary border-primary border">
-                            <i class="mdi mdi-format-float-none font-22 avatar-title text-primary"></i>
+                    <div class="col-4">
+                        <div class="avatar-lg rounded-circle bg-soft-info border-info border">
+                            <i class="mdi mdi-certificate font-22 avatar-title text-info"></i>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-8">
                         <div class="text-right">
                             <h3 class="text-dark mt-1">Apply</h3>
-                            <p class="text-muted mb-1 text-truncate">New Application</p>
+                            <p class="text-muted mb-1 text-truncate">Application for Clearnace Certificate</p>
                         </div>
                     </div>
                 </div>
@@ -23,15 +23,55 @@
         <a href="@Url.Action("list", "form")">
             <div class="widget-rounded-circle card-box">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-4">
+                        <div class="avatar-lg rounded-circle bg-soft-info border-info border">
+                            <i class="mdi mdi-format-float-none font-22 avatar-title text-info"></i>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="text-right">
+                            <h3 class="text-dark mt-1"><span data-plugin="counterup">@ViewBag.TotalAppliedApplication</span></h3>
+                            <p class="text-muted mb-1 text-truncate">Application Status of Clearnace Certificate</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-6 col-xl-6">
+        <a href="@Url.Action("index", "noc")">
+            <div class="widget-rounded-circle card-box">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="avatar-lg rounded-circle bg-soft-success border-success border">
+                            <i class="mdi mdi-certificate font-22 avatar-title text-success"></i>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="text-right">
+                            <h3 class="text-dark mt-1">Apply</h3>
+                            <p class="text-muted mb-1 text-truncate">Application for NOC (Deep/ Shallow Tube Well)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div> <!-- end col-->
+
+    <div class="col-md-6 col-xl-6">
+        <a href="@Url.Action("list", "noc")">
+            <div class="widget-rounded-circle card-box">
+                <div class="row">
+                    <div class="col-4">
                         <div class="avatar-lg rounded-circle bg-soft-success border-success border">
                             <i class="mdi mdi-format-float-none font-22 avatar-title text-success"></i>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-8">
                         <div class="text-right">
                             <h3 class="text-dark mt-1"><span data-plugin="counterup">@ViewBag.TotalAppliedApplication</span></h3>
-                            <p class="text-muted mb-1 text-truncate">Application Status</p>
+                            <p class="text-muted mb-1 text-truncate">Application Status of NOC (Deep/ Shallow Tube Well)</p>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,420 @@
+﻿@using Microsoft.AspNetCore.Http
+@using WrpCcNocWeb.Models.NocModule.Lookup
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var language = HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString();
+}
+
+<div id="gen-info-form">
+    <div class="form-group">
+        <label for="TitleOfTubeWell">
+            @{if (language == "1")
+                { <span>i. নতুন গভীর বা অগভীর নলকূপ স্থাপনের শিরোনাম</span>}
+                else
+                {<span>i. Title of Deep/ Shallow Tube Well</span>}
+            }
+            <span class="text-danger bold">*</span>
+        </label>
+        <input type="text" id="TitleOfTubeWell" name="TitleOfTubeWell" class="form-control" data-toggle="tooltip"
+               data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language." />
+    </div>
+
+    <div class="col-md-6 form-group" style="padding-left: 0 !important;">
+        <label for="TubeWellUserTypeId">
+            @{if (language == "1")
+                { <span>ii. ব্যবহারকারীর ধরন</span>}
+                else
+                {<span>ii. User Type</span>}
+            }<span class="text-danger bold">*</span>
+        </label>
+        <select id="TubeWellUserTypeId" name="TubeWellUserTypeId" class="form-control" required="" style="width: 100%;">
+            @if (language == "1")
+            {
+                <option value="">একটি বিকল্প নির্বাচন করুন...</option>
+            }
+            else
+            {
+                <option value="">Choose an option...</option>
+            }
+
+            @{
+                List<LookUpNocUserType> _usertype = ViewBag.LookUpNocUserType;
+
+                if (_usertype.Count > 0)
+                {
+                    foreach (LookUpNocUserType ut in _usertype)
+                    {
+                        if (language == "1")
+                        {
+                            <option value="@ut.TubeWellUserTypeId">@ut.TubeWellUserTypeBn</option>
+                        }
+                        else
+                        {
+                            <option value="@ut.TubeWellUserTypeId">@ut.TubeWellUserType</option>
+                        }
+                    }
+                }
+            }
+        </select>
+    </div>
+
+    <fieldset>
+        <legend>
+            <label>
+                @if (language == "1")
+                {<span>iii. নলকূপের অবস্থান</span>}
+                else
+                {<span>iii. Tube Well Location</span>}
+            </label>
+        </legend>
+        <div class="card-box" style="padding: 0;">
+            @{ Html.RenderPartial("noc/_3Location"); }
+        </div>
+    </fieldset>
+
+    <div class="col-md-6 form-group" style="padding-left: 0 !important;">
+        <label for="ModeId">
+            @{if (language == "1")
+                { <span>iv. ধরন</span>}
+                else
+                {<span>iv. Mode</span>}
+            }<span class="text-danger bold">*</span>
+        </label>
+        <select id="ModeId" name="ModeId" class="form-control" required="" style="width: 100%;">
+            @if (language == "1")
+            {
+                <option value="">একটি বিকল্প নির্বাচন করুন...</option>
+            }
+            else
+            {
+                <option value="">Choose an option...</option>
+            }
+
+            @{
+                List<LookUpNocAppMode> _appmode = ViewBag.LookUpNocAppMode;
+
+                if (_appmode.Count > 0)
+                {
+                    foreach (LookUpNocAppMode am in _appmode)
+                    {
+                        if (language == "1")
+                        {
+                            <option value="@am.ModeId">@am.ModeNameBn</option>
+                        }
+                        else
+                        {
+                            <option value="@am.ModeId">@am.ModeName</option>
+                        }
+                    }
+                }
+            }
+        </select>
+    </div>
+
+    <div class="col-md-6 form-group" style="padding-left: 0 !important;">
+        <label for="WithdrawalQuantityId">
+            @{if (language == "1")
+                { <span>v. উত্তোলনের পরিমান</span>}
+                else
+                {<span>v. Withdrawal Quantity</span>}
+            }<span class="text-danger bold">*</span>
+        </label>
+        <select id="WithdrawalQuantityId" name="WithdrawalQuantityId" class="form-control" required="" style="width: 100%;">
+            @if (language == "1")
+            {
+                <option value="">একটি বিকল্প নির্বাচন করুন...</option>
+            }
+            else
+            {
+                <option value="">Choose an option...</option>
+            }
+
+            @{
+                List<LookUpNocWithdrawalQuantity> _appwq = ViewBag.LookUpNocWithdrawalQuantity;
+
+                if (_appwq.Count > 0)
+                {
+                    foreach (LookUpNocWithdrawalQuantity aw in _appwq)
+                    {
+                        if (language == "1")
+                        {
+                            <option value="@aw.WithdrawalQuantityId">@aw.QuantityNameBn</option>
+                        }
+                        else
+                        {
+                            <option value="@aw.WithdrawalQuantityId">@aw.QuantityName</option>
+                        }
+                    }
+                }
+            }
+        </select>
+    </div>
+
+    <div class="col-md-6 form-group" style="padding-left: 0 !important;">
+        <label for="ObjectiveId">
+            @{if (language == "1")
+                { <span>vi. উদ্দেশ্য</span>}
+                else
+                {<span>vi. Objective/ Purpose</span>}
+            }<span class="text-danger bold">*</span>
+        </label>
+        <select id="ObjectiveId" name="ObjectiveId" class="form-control" required="" style="width: 100%;">
+            @if (language == "1")
+            {
+                <option value="">একটি বিকল্প নির্বাচন করুন...</option>
+            }
+            else
+            {
+                <option value="">Choose an option...</option>
+            }
+
+            @{
+                List<LookUpNocAppObjective> _appobj = ViewBag.LookUpNocAppObjective;
+
+                if (_appobj.Count > 0)
+                {
+                    foreach (LookUpNocAppObjective ao in _appobj)
+                    {
+                        if (language == "1")
+                        {
+                            <option value="@ao.ObjectiveId">@ao.ObjectiveNameBn</option>
+                        }
+                        else
+                        {
+                            <option value="@ao.ObjectiveId">@ao.ObjectiveName</option>
+                        }
+                    }
+                }
+            }
+        </select>
+    </div>
+
+    <hr />
+
+    <div class="form-group mb-0">
+        <button id="btnSaveGeneral" type="button" class="btn btn-info waves-effect waves-light"
+                data-toggle="tooltip" data-placement="top" title="" data-original-title="Save">
+            <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
+            @if (language == "1")
+            {
+                <span>সংরক্ষণ করুন</span>
+            }
+            else
+            {
+                <span>Save</span>
+            }
+            <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
+        </button>
+
+        <button id="btnClearGeneral" type="button" class="btn btn-secondary waves-effect waves-light"
+                data-toggle="tooltip" data-placement="top" title="" data-original-title="Clear">
+            <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
+            @if (language == "1")
+            {
+                <span>পরিষ্কার করুন</span>
+            }
+            else
+            {
+                <span>Clear</span>
+            }
+        </button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery("#TubeWellUserTypeId, #ModeId, #WithdrawalQuantityId, #ObjectiveId").select2({
+            placeholder: "Choose an option...",
+            allowClear: true
+        });
+
+        jQuery("#btnSaveGeneral").click(function () {
+            var ProjectName = GetTextValue('ProjectName');
+            var BackgroundAndRationale = GetTextValue('BackgroundAndRationale');
+            var ProjectTarget = GetTextValue('ProjectTarget');
+            var ProjectObjective = GetTextValue('ProjectObjective');
+            var ProjectStartDate = GetTextValue('ProjectStartDate');
+            var ProjectCompletionDate = GetTextValue('ProjectCompletionDate');
+            var ProjectEstimatedCost = GetTextValue('ProjectEstimatedCost') == '' ? '0' : GetTextValue('ProjectEstimatedCost');
+
+            if (ProjectName == '') {
+                Notification('warning', 'Required Field', 'Project name can not be left empty.');
+                Swal.fire('Required Field', 'Project name can not be left empty.', 'warning');
+                jQuery('#ProjectName').focus();
+                return;
+            }
+
+            if (BackgroundAndRationale == '') {
+                Notification('warning', 'Required Field', 'Project background and rationale can not be left empty.');
+                Swal.fire('Required Field', 'Project background and rationale can not be left empty.', 'warning');
+                jQuery('#BackgroundAndRationale').focus();
+                return;
+            }
+
+            if (ProjectTarget == '') {
+                Notification('warning', 'Required Field', 'Project target can not be left empty.');
+                Swal.fire('Required Field', 'Project target can not be left empty.', 'warning');
+                jQuery('#ProjectTarget').focus();
+                return;
+            }
+
+            if (ProjectObjective == '') {
+                Notification('warning', 'Required Field', 'Project objective can not be left empty.');
+                Swal.fire('Required Field', 'Project objective can not be left empty.', 'warning');
+                jQuery('#ProjectObjective').focus();
+                return;
+            }
+
+            if (ProjectStartDate == '') {
+                Notification('warning', 'Required Field', 'Please select a project start date and can not be left empty.');
+                Swal.fire('Required Field', 'Please select a project start date and can not be left empty.', 'warning');
+                jQuery('#ProjectStartDate').focus();
+                return;
+            }
+
+            if (ProjectCompletionDate == '') {
+                Notification('warning', 'Required Field', 'Please select a project completion date and can not be left empty.');
+                Swal.fire('Required Field', 'Please select a project completion date and can not be left empty.', 'warning');
+                jQuery('#ProjectCompletionDate').focus();
+                return;
+            }
+
+            if (ProjectEstimatedCost == '') {
+                Notification('warning', 'Required Field', 'Please enter project estimated cost amount.');
+                Swal.fire('Required Field', 'Please enter project estimated cost amount.', 'warning');
+                jQuery('#ProjectEstimatedCost').focus();
+                return;
+            }
+
+            if (!IsNumeric(ProjectEstimatedCost)) {
+                Notification('warning', 'Required Field', 'Please enter valid project estimated cost amount.');
+                Swal.fire('Required Field', 'Please enter valid project estimated cost amount.', 'warning');
+                jQuery('#ProjectEstimatedCost').focus();
+                return;
+            }
+
+            if (parseFloat(ProjectEstimatedCost) == 0 || parseFloat(ProjectEstimatedCost) < 0) {
+                Notification('warning', 'Required Field', 'Project estimated cost amount can not be equal to zero (0) or can not be negative.');
+                Swal.fire('Required Field', 'Project estimated cost amount can not be equal to zero (0) or can not be negative.', 'warning');
+                jQuery('#ProjectEstimatedCost').focus();
+                return;
+            }
+
+            GeneralInfoSave();
+        });
+
+        jQuery("#btnClearGeneral").click(function () {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "All data will be cleared from General Information panel!",
+                    type: "warning",
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    showCancelButton: !0,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Sure"
+                }).then(function (t) {
+                    if (t.value == true) {
+                        $('#frmGeneralInfo').trigger("reset");
+                    }
+                });
+            });
+    });
+
+    function GeneralInfoSave() {
+        var ProjectName = GetTextValue('ProjectName');
+        var BackgroundAndRationale = GetTextValue('BackgroundAndRationale');
+        var ProjectTarget = GetTextValue('ProjectTarget');
+        var ProjectObjective = GetTextValue('ProjectObjective');
+        var ProjectActivity = GetTextValue('ProjectActivity');
+        var ProjectStartDate = GetTextValue('ProjectStartDate');
+        var ProjectCompletionDate = GetTextValue('ProjectCompletionDate');
+        var ProjectEstimatedCost = GetTextValue('ProjectEstimatedCost') == '' ? '0' : GetTextValue('ProjectEstimatedCost');
+
+        var pcd = {
+            "ProjectId": jQuery('#ProjectId').val(),
+            "UserId": 0,
+            "AppSubmissionId": jQuery('#AppSubmissionId').val(),
+            "ApplicationStateId": jQuery('#ApplicationStateId').val(),
+            "ApprovalStatusId": jQuery('#ApprovalStatusId').val(),
+            "ProjectTypeId": jQuery('#ProjectTypeId').val(),
+            "ProjectName": ProjectName,
+            "BackgroundAndRationale": BackgroundAndRationale,
+            "ProjectTarget": ProjectTarget,
+            "ProjectObjective": ProjectObjective,
+            "ProjectActivity": ProjectActivity,
+            "ProjectStartDate": ProjectStartDate,
+            "ProjectCompletionDate": ProjectCompletionDate,
+            "ProjectEstimatedCost": ProjectEstimatedCost
+        };
+
+        console.log(pcd);
+
+        //#region project location script
+        var rowCount = $('#tbodyProjectLocation tr').length;
+        var LocationArray = [], ImageFiles =[];
+
+        var table = $("#tbodyProjectLocation");
+        table.find('tr').each(function (i) {
+            var $tds = $(this).find('td');
+
+            var LocationId = $tds.eq(7).find('input[type=hidden]').val();
+            LocationId = (LocationId == '') ? 0 : LocationId;
+            var DistrictGeoCode = $tds.eq(0).find('input[type=hidden]').val();
+            var UpazilaGeoCode = $tds.eq(1).find('input[type=hidden]').val();
+            var UnionGeoCode = $tds.eq(2).find('input[type=hidden]').val();
+            var Latitude = $tds.eq(3).text();
+            var Longitude = $tds.eq(4).text();
+            var ImageFile = $tds.eq(5).find('input[type=hidden]').val();
+            var MapFile = $tds.eq(6).find('input[type=hidden]').val();//hdSelectedMapFile
+
+            if (LocationId == 0) {
+                $tds.eq(5).find('img').each(function (i) {
+                    var src = $(this).attr('src');
+                    //console.log(src);
+                    ImageFiles.push(src);
+                });
+            }
+
+            if (DistrictGeoCode != '' && DistrictGeoCode != undefined) {
+                var location = {
+                    'LocationId': LocationId,
+                    'DistrictGeoCode': DistrictGeoCode,
+                    'UpazilaGeoCode': UpazilaGeoCode,
+                    'UnionGeoCode': UnionGeoCode,
+                    'Latitude': Latitude,
+                    'Longitude': Longitude,
+                    'ImageFile': ImageFiles,
+                    'MapFile': MapFile,
+                    'Error': ''
+                };
+
+                LocationArray.push(location);
+            }
+        });
+
+        console.log(LocationArray);
+        //#endregion
+
+        var url = '@Url.Action("gis", "form")';
+        jQuery.ajax({
+            type: "POST",
+            url: url,
+            data: { _pcd: pcd, _locs: LocationArray },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.status == 'success') {
+                    SetHiddenValue('ProjectId', data.id);
+                    Notification('success', 'Success', data.message);
+                } else {
+                    Notification('error', 'Saving Error', data.message);
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                Notification('error', 'Error Occured', errorMsg);
+            }
+        });
+    }
+</script>

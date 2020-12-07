@@ -1,0 +1,148 @@
+﻿@using static WrpCcNocWeb.Models.TempModels.SelectedForm
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("index", "noc", FormMethod.Post, new { enctype = "multipart/form-data", id = "NocFormSelection", role = "form" }))
+{
+    <div class="row justify-content-md-center">
+        <div class="col-6">
+            <div class="card-box widget-inline">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="LanguageTypeId">
+                                        Choose Language/ ভাষা নির্বাচন করুন
+                                        <span class="text-danger bold">*</span>
+                                    </label>
+                                    <select id="LanguageTypeId" name="LanguageTypeId" class="form-control" style="width: 100%;">
+                                        <option value="">Choose...</option>
+                                        @{
+                                            List<LookUpAdminModLanguage> _langs = ViewBag.LookUpAdminModLanguage;
+
+                                            if (_langs.Count > 0)
+                                            {
+                                                foreach (LookUpAdminModLanguage lang in _langs)
+                                                {
+                                                    <option value="@lang.LanguageId" data-toggle="tooltip" data-placement="top" title="" data-original-title="@lang.Language">@lang.Language</option>
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            @*<div class="col-md-12">
+                                    <div class="form-group">
+                                        <label id="lblSelectProjectType" for="ProjectTypeId">
+                                            Select Project Type
+                                            <span class="text-danger bold">*</span>
+                                        </label>
+                                        <select id="ProjectTypeId" name="ProjectTypeId" class="form-control" style="width: 100%;">
+                                        </select>
+
+                                        @Html.Hidden("ProjectTitle")
+                                    </div>
+                                </div>*@
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="form-group">
+                                <button id="btnSubmitFormSelection" class="btn btn-lg btn-info" type="button" style="width: 250px;">
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section PageScripts {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery("#LanguageTypeId").change(function () {
+                var val = jQuery("#LanguageTypeId option:selected").val();
+
+                if (val != '') {
+                    //GetProjectTypeData(val);
+
+                    if (val == 1) {
+                        //jQuery("#lblSelectProjectType").text('প্রকল্পের ধরণ নির্বাচন করুন');
+                        jQuery("#btnSubmitFormSelection").text('পরবর্তী >>');
+                    } else {
+                        //jQuery("#lblSelectProjectType").text('Select Project Type');
+                        jQuery("#btnSubmitFormSelection").text('Next >>');
+                    }
+                }
+            });
+
+            //jQuery("#ProjectTypeId").change(function () {
+            //    var text = jQuery("#ProjectTypeId option:selected").text();
+            //    jQuery("#ProjectTitle").val(text);
+            //});
+
+            jQuery("#btnSubmitFormSelection").click(function () {
+                //var ProjectTypeId = $("#ProjectTypeId").val();
+                var LanguageTypeId = $("#LanguageTypeId").val();
+
+                //if (ProjectTypeId != '') {
+                if (LanguageTypeId != '') {
+                    $("#NocFormSelection").submit();
+                } else {
+                    if (LanguageTypeId == 1)
+                        Swal.fire("ভাষা নির্বাচন করুন", "একটি পছন্দসই ভাষা নির্বাচন করুন।", "warning");
+                    else
+                        Swal.fire("Select Language", "Please select a preferred language.", "warning");
+                }
+                //} else {
+                //    if (LanguageTypeId == 1)
+                //        Swal.fire("প্রকল্পের ধরন", "একটি প্রকল্পের ধরন নির্বাচন করুন।", "warning");
+                //    else
+                //        Swal.fire("Project Type", "Please select a project type.", "warning");
+                //}
+            });
+        });
+
+        /*
+        function GetProjectTypeData(type) {
+            var url = 'Url.Action("gptd", "common")';
+
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                //data: { code: code, type: type },
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    if (type == 1) {
+                        jQuery("#ProjectTypeId").html('');
+                        jQuery("#ProjectTypeId").html('<option value="">নির্বাচন করুন...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            var sl = i + 1;
+                            var content = '<option value="' + item.projectTypeId + '">' + sl.toLocaleString("bn-BD") + '. ' + item.projectTypeBn + '</option>';
+                            jQuery("#ProjectTypeId").append(content);
+                        });
+                    } else {
+                        jQuery("#ProjectTypeId").html('');
+                        jQuery("#ProjectTypeId").html('<option value="">Choose...</option>');
+
+                        jQuery.each(data, function (i, item) {
+                            var sl = i + 1;
+                            var content = '<option value="' + item.projectTypeId + '">' + sl + '. ' + item.projectType + '</option>';
+                            jQuery("#ProjectTypeId").append(content);
+                        });
+                    }
+                }, error: function (jqXHR, exception) {
+                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                    Notification('error', 'Error Occured', errorMsg);
+                }
+            });
+        }
+        */
+    </script>
+}

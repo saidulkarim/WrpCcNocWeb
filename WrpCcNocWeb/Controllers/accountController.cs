@@ -2105,6 +2105,87 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
+        #region
+        //POST: /account/userlog
+        public IActionResult SendEmailViaLocalMail()
+        {
+            SmtpClient sc = new SmtpClient()
+            {
+                Host = "mail.cegisbd.com",
+                Credentials = new NetworkCredential("administrator@cegisbd.com", "cegis@2017"),
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false
+            };
+
+            try
+            {
+                MailMessage msg = new MailMessage();
+                msg.From = new MailAddress("administrator@cegisbd.com", "Administrator, CEGIS");
+
+                // In case the mail system doesn't like no to recipients. This could be removed
+                //msg.To.Add("pssp@companyDomainName.com");
+
+                //msg.To.Add("saidulkarim@cegisbd.com");
+                msg.To.Add("atmskrony@gmail.com");
+                msg.Subject = "Test Mail";
+                msg.Body = "This is test.";
+                msg.IsBodyHtml = true;
+                //Response.Write(msg);
+                sc.Send(msg);
+
+                TempData["Message"] = ch.ShowMessage(Sign.Success, Sign.Success.ToString(), "Success");
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Error, Sign.Error.ToString(), ex.Message);
+            }
+
+            //try
+            //{
+            //    SmtpClient client = new SmtpClient("mail.cegisbd.com", 465);
+            //    client.EnableSsl = true;
+            //    client.Timeout = 10000;
+            //    client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //    client.UseDefaultCredentials = false;
+            //    client.Credentials = new NetworkCredential("administrator@cegisbd.com", "cegis@2017");
+            //    MailMessage msg = new MailMessage();
+            //    msg.To.Add("atmskrony@gmail.com");
+            //    msg.From = new MailAddress("administrator@cegisbd.com");
+            //    msg.Subject = "Test Mail";
+            //    msg.Body = "This is test.";
+            //    client.Send(msg);
+            //    TempData["Message"] = ch.ShowMessage(Sign.Success, Sign.Success.ToString(), "Success");
+            //}
+            //catch (Exception ex)
+            //{
+            //    TempData["Message"] = ch.ShowMessage(Sign.Error, Sign.Error.ToString(), ex.Message);
+            //}
+            //try
+            //{
+            //    EmailModel em = new EmailModel
+            //    {
+            //        To = "atmskrony@gmail.com",
+            //        Subject = "Test Mail",
+            //        Body = "This is test.",
+            //        Attachment = null
+            //    };
+            //    if (em != null)
+            //    {
+            //        es.Send(em);
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    TempData["Message"] = ch.ShowMessage(Sign.Error, Sign.Error.ToString(), ex.Message);
+            //    //throw;
+            //}
+
+            return View();
+        }
+        #endregion
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

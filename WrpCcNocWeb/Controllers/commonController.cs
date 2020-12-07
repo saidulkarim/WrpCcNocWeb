@@ -70,6 +70,17 @@ namespace WrpCcNocWeb.Controllers
                                   ab_name_bn = u.UnionNameBn
                               }).ToList();
                 }
+                else if (type == "mou")
+                {
+                    _items = (from u in _db.LookUpAdminBndMouza
+                              where u.UnionGeoCode == code
+                              select new ListItems
+                              {
+                                  code = u.MouzaGeoCode,
+                                  ab_name = u.MouzaName,
+                                  ab_name_bn = u.MouzaNameBn
+                              }).ToList();
+                }
 
                 if (_items.Count > 0)
                 {
