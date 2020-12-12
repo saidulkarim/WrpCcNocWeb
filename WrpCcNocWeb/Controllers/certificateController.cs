@@ -134,13 +134,13 @@ namespace WrpCcNocWeb.Controllers
 
                 ViewData["WrpCcNocWebCertificate"] = crt;
 
-                //return new ViewAsPdf("~/Views/certificate/view.cshtml", viewData: ViewData)
-                //{
-                //    PageSize = Size.A4,
-                //    PageOrientation = Orientation.Portrait,
-                //    PageMargins = new Margins(10, 10, 10, 10)
-                //};
-                return View();
+                return new ViewAsPdf("~/Views/certificate/view.cshtml", viewData: ViewData)
+                {
+                    PageSize = Size.A4,
+                    PageOrientation = Orientation.Portrait,
+                    PageMargins = new Margins(10, 10, 10, 10)
+                };
+                //return View();
             }
             else
             {

@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\js\form31.js" />
+    <Content Remove="wwwroot\js\number-to-bangla-in-word.js" />
   </ItemGroup>
 
   <ItemGroup>

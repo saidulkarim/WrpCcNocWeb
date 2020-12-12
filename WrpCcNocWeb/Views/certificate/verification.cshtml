@@ -70,19 +70,6 @@
     jQuery.noConflict();
 
     jQuery(document).ready(function () {
-        jQuery("#refreshCaptcha").click(function () {
-            resetCaptchaImage();
-        });
-
-        //$('#CaptchaCode').val('RONY'); // must be removed after development
-        $('#CaptchaCode').keyup(function(){
-            this.value = this.value.toUpperCase();
-        });
+        
     });
-
-    function resetCaptchaImage() {
-        var date = new Date();
-        var url = '@Url.Action("GetCaptchaImage", "account")' + '?' + date.getTime();
-        jQuery("#captcha-img").attr("src", url);
-    }
 </script>

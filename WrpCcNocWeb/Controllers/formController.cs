@@ -389,10 +389,123 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
+        #region Certificate Status Checking
         public IActionResult status()
         {
             return View();
         }
+
+        // POST: form/verification
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> status([Bind("AppSubmissionId,UserMobile,UserEmail")] CertificateVerify verify)
+        {
+            string result = string.Empty;
+            List<string> vars = new List<string>();
+
+            if (ModelState.IsValid)
+            {
+                CcModAppProjectCommonDetail commonDetail = _db.CcModAppProjectCommonDetail.Where(w => w.AppSubmissionId == verify.AppSubmissionId.ToLong()).FirstOrDefault();
+                if (commonDetail == null)
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Danger, "Tracking Number", "Sorry, you have entered wrong tracking number!");
+                    return View(verify);
+                }
+
+                AdminModUserRegistrationDetail registrationDetail = _db.AdminModUserRegistrationDetail.Where(w => w.UserMobile == verify.UserMobile).FirstOrDefault();
+                if (registrationDetail == null)
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Danger, "Wrong Mobile Number", "Sorry, you have entered wrong mobile number!");
+                    return View(verify);
+                }
+
+                registrationDetail = _db.AdminModUserRegistrationDetail.Where(w => w.UserEmail == verify.UserEmail).FirstOrDefault();
+                if (registrationDetail == null)
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Danger, "Wrong Email Address", "Sorry, you have entered wrong email address!");
+                    return View(verify);
+                }
+
+                #region Email Sending                
+                if (commonDetail != null)
+                {
+                    var applicationInfoDetails = (from pcd in _db.CcModAppProjectCommonDetail
+                                                  join pty in _db.LookUpCcModProjectType on pcd.ProjectTypeId equals pty.ProjectTypeId into type
+                                                  from projecttype in type.DefaultIfEmpty()
+                                                  join ast in _db.LookUpCcModApplicationState on pcd.ApplicationStateId equals ast.ApplicationStateId into state
+                                                  from applicationstate in state.DefaultIfEmpty()
+                                                  join aps in _db.LookUpCcModApprovalStatus on pcd.ApprovalStatusId equals aps.ApprovalStatusId into status
+                                                  from approvalstatus in status.DefaultIfEmpty()
+                                                  join ics in _db.LookUpCcModIsCompletedState on pcd.IsCompletedId equals ics.IsCompletedId into cs
+                                                  from completedstate in cs.DefaultIfEmpty()
+
+                                                  where pcd.AppSubmissionId == verify.AppSubmissionId.ToLong()
+
+                                                  select new CertificateVerificationInfo
+                                                  {
+                                                      UserMobile = verify.UserMobile,
+                                                      UserEmail = verify.UserEmail,
+
+                                                      AppliedDate = pcd.AppSubmissionDate.Value.ToString("dd MMM yyyy"),
+                                                      ProjectType = projecttype.ProjectType,
+                                                      ProjectTitle = pcd.ProjectName,
+                                                      TrackingNumber = verify.AppSubmissionId,
+                                                      ApplicationState = string.IsNullOrEmpty(applicationstate.ApplicationState) ? "Not Found" : applicationstate.ApplicationState.Substring(applicationstate.ApplicationState.IndexOf("for") + 3, applicationstate.ApplicationState.Length - (applicationstate.ApplicationState.IndexOf("for") + 3)).Trim(),
+                                                      ApprovalStatus = approvalstatus.ApprovalStatus,
+                                                      ApprovalStage = completedstate.IsCompletedState,
+                                                      RejectReason = pcd.ReasonOfRejection
+                                                  }).FirstOrDefault();
+
+                    if (applicationInfoDetails != null)
+                    {
+                        string callAt = cc.GetCallCenterInfo();
+
+                        vars.Add(applicationInfoDetails.AppliedDate);
+                        vars.Add(applicationInfoDetails.ProjectType);
+                        vars.Add(applicationInfoDetails.ProjectTitle);
+                        vars.Add(applicationInfoDetails.TrackingNumber);
+                        vars.Add(applicationInfoDetails.ApplicationState);
+                        vars.Add(applicationInfoDetails.ApprovalStatus);
+
+                        if (applicationInfoDetails.ApprovalStatus == "Approved")
+                        {
+                            vars.Add("<span style='color: green; font-weight: bold;'>Certificate is ready to download</span>");
+                        }
+                        else if (applicationInfoDetails.ApprovalStatus == "Not Approved")
+                        {
+                            vars.Add("Certificate is not available to download");
+                        }
+                        else if (applicationInfoDetails.ApprovalStatus == "Rejected")
+                        {
+                            vars.Add("<span style='color: red; font-weight: bold;'>" + applicationInfoDetails.RejectReason + "</span>");
+                        }
+                        else
+                        {
+                            vars.Add("Certificate is not yet ready to download");
+                        }
+
+                        //vars.Add(applicationInfoDetails.ApprovalStage);
+                        vars.Add(callAt);
+
+                        //2 => Certificate Verification in LookUpAdminModEmailFormat table
+                        result = es.SendEmail(applicationInfoDetails.UserEmail, 2, vars);
+
+                        if (result == "success")
+                        {
+                            TempData["Message"] = ch.ShowMessage(Sign.Success, "Success", "An email has been sent to your email address.");
+                        }
+                        else
+                        {
+                            TempData["Message"] = ch.ShowMessage(Sign.Error, "An Error Occured", "Email not sent to your email address." + result);
+                        }
+                    }
+                }
+                #endregion                
+            }
+
+            return View(verify);
+        }
+        #endregion
 
         public IActionResult file()
         {
@@ -20657,7 +20770,7 @@ namespace WrpCcNocWeb.Controllers
             List<LookUpAdminModUserGroup> userGroupList = new List<LookUpAdminModUserGroup>();
             int CurrentAppState = 0, NextAppState = 0, CurrentIsCompletedState = 0, NextIsCompletedState = 0, result = 0;
 
-            #region
+            #region blocked code
             //if (!string.IsNullOrEmpty(uli.UnionGeoCode))
             //{
             //    userGroupList = _db.LookUpAdminModUserGroup.Where(w => w.UnionGeoCode == uli.UnionGeoCode).ToList();
@@ -20747,7 +20860,8 @@ namespace WrpCcNocWeb.Controllers
 
                         if (_pcd.IsCompletedId == 6)
                         {
-                            AdminModUsersDetail ud = _db.AdminModUsersDetail.Find(_pcd.UserId);
+                            int uid = _pcd.UserId.ToString().ToInt();
+                            AdminModUsersDetail ud = _db.AdminModUsersDetail.Where(w => w.UserId == _pcd.UserId).FirstOrDefault();
                             AdminModUserRegistrationDetail rd = _db.AdminModUserRegistrationDetail.Find(ud.UserRegistrationId);
                             string base_url = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
                             string undertaking_link = base_url + "/certificate/undertaking/" + _pcd.ProjectId + "?lang=1"; //_pcd.LanguageId;

@@ -78,7 +78,7 @@ namespace WrpCcNocWeb.Helpers
                         To = toEmail,
                         Subject = mailSubject,
                         Body = mailBody,
-                        Attachment = null                        
+                        Attachment = null
                     };
 
                     if (em != null)
@@ -125,7 +125,7 @@ namespace WrpCcNocWeb.Helpers
                         Subject = model.Subject,
                         Body = model.Body
                     };
-
+                   
                     if (model.Attachment != null)
                     {
                         if (model.Attachment.Length > 0)

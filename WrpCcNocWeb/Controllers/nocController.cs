@@ -372,6 +372,7 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.LookUpNocAppObjective = _db.LookUpNocAppObjective.ToList();
             ViewBag.LookUpNocWithdrawalQuantity = _db.LookUpNocWithdrawalQuantity.ToList();
             ViewBag.LookUpNocAuthority = _db.LookUpNocAuthority.ToList();
+            ViewBag.LookUpNocMonth = _db.LookUpCcModMonth.ToList();
 
             ViewBag.LookUpCcModNWPArticle = _db.LookUpCcModNWPArticle.ToList();
             ViewBag.LookUpCcModNWMPProgramme = _db.LookUpCcModNWMPProgramme.ToList();
