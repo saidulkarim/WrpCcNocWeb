@@ -6,9 +6,12 @@
     CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["ProjectCommonDetail"];
     var acalist = (List<CcModAppAdditionalAttachment>)ViewData["AdditionalCommentAttachment"];
     var halist = (List<CcModAppHearingAttachment>)ViewData["HearingAttachment"];
+    var app_state_id_aa = pcd.ApplicationStateId;
 }
 
 <div class="form-group">
+    @*@if (app_state_id_aa == 12 || app_state_id_aa == 22 || app_state_id_aa == 32 || app_state_id_aa == 42)
+        {*@
     <div class="form-group mb-0">
         <table style="width: 100%;">
             <tr>
@@ -76,6 +79,41 @@
     <div class="form-group mb-0">
         <table style="width: 100%;">
             <tr>
+                <td>
+                    @if (prev_lang == "1")
+                    {<span>কারিগরি কমিটির সামগ্রিক মন্তব্য</span> }
+                    else
+                    { <span>Overall Comments of Technical Committee</span>}
+                </td>
+                <td style="text-align: justify;">
+                    @pcd.AdditionalTextComment
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @if (prev_lang == "1")
+                    {<span>সংযুক্তি</span>}
+                    else
+                    {<span>Attachments</span>}
+                </td>
+                <td>
+                    <ul id="tbdAdditionalInfo">
+                        @foreach (CcModAppAdditionalAttachment aca in acalist)
+                        {
+                            <li>Title: @aca.AttachmentTitle&nbsp;&nbsp;&nbsp;Attachment File: @aca.AditionalAttachmentFile</li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+    @*}
+
+        @if (app_state_id_aa == 11 || app_state_id_aa == 21 || app_state_id_aa == 31 || app_state_id_aa == 41)
+        {*@
+    <div class="form-group mb-0">
+        <table style="width: 100%;">
+            <tr>
                 <td colspan="2">
                     @if (prev_lang == "1")
                     {<span>IWRMC দ্বারা প্রস্তাবিত</span> }
@@ -120,36 +158,5 @@
             </tr>
         </table>
     </div>
-
-    <div class="form-group mb-0">
-        <table style="width: 100%;">
-            <tr>
-                <td>
-                    @if (prev_lang == "1")
-                    {<span>মন্তব্য</span>}
-                    else
-                    {<span>Comments</span>}
-                </td>
-                <td style="text-align: justify;">
-                    @pcd.AdditionalTextComment
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    @if (prev_lang == "1")
-                    {<span>সংযুক্তি</span>}
-                    else
-                    {<span>Attachments</span>}
-                </td>
-                <td>
-                    <ul id="tbdAdditionalInfo">
-                        @foreach (CcModAppAdditionalAttachment aca in acalist)
-                        {
-                            <li>Title: @aca.AttachmentTitle&nbsp;&nbsp;&nbsp;Attachment File: @aca.AditionalAttachmentFile</li>
-                        }
-                    </ul>
-                </td>
-            </tr>
-        </table>
-    </div>
+    @*}*@
 </div>

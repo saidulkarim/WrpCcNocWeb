@@ -81,21 +81,21 @@
                         <div class="col">
                             <span>
                                 @if (prev_lang == "1")
-                                {<span>বরাবর</span>}
+                                {<span>প্রতি</span>}
                                 else
                                 {<span>To</span>}
                             </span><br />
                             <span>
                                 @if (prev_lang == "1")
-                                {<span>কার্যনির্বাহী কমিটি</span>}
+                                {<span>নির্বাহী কমিটি</span>}
                                 else
                                 {<span>Executive Committee</span>}
                             </span><br />
                             <span>
                                 @if (prev_lang == "1")
-                                {<span>জাতীয় পানি সম্পদ কাউন্সিল।</span>}
+                                {<span>জাতীয় পানি সম্পদ পরিষদ প্রকল্প।</span>}
                                 else
-                                {<span>National Water Resources Council.</span>}
+                                {<span>National Water Resources Project Committee.</span>}
                             </span>
                         </div>
                     </div>
@@ -1047,7 +1047,7 @@
                                                 {<span>Area</span>}
                                             </th>
                                         </tr>
-                                        </thead>
+                                    </thead>
                                     <tbody>
                                         @foreach (IrrigCropAreaDetailTemp ic in (List<IrrigCropAreaDetailTemp>)ica)
                                         {
@@ -1338,7 +1338,7 @@
                                     {
                                         <span>No</span>
                                     }
-                                  }
+                                }
                             </td>
                             <td>
                                 <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Use of Flow meter to measure water withdrawal', 'UseOfFlowMeterMeasrYNId');"
@@ -1417,7 +1417,7 @@
                                     {
                                         <span>No</span>
                                     }
-                                  }
+                                }
                             </td>
                             <td>
                                 <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Diverted Water Return to the Source', 'DivertedWaterRtnSrcYNId');"
@@ -2375,9 +2375,15 @@
                                 <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Economical and Financial Analysis', 'EconomicalFinancialAnalysis');"
                                    class="btn btn-sm btn-info waves-effect comment" data-close="false"
                                    data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                   style="margin: 0px !important; padding: 5px !important; line-height: 1 !important;">
                                     <i class="mdi mdi-comment-text-multiple"></i>
                                 </a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                @{ Html.RenderPartial("form/_AdditionalAttachment"); }
                             </td>
                         </tr>
 
@@ -3655,7 +3661,7 @@
                     <hr />
 
                     <div class="row justify-content-md-center">
-                        @if (is_complete_id == 6 && (app_state_id == 13 || app_state_id == 23 || app_state_id == 33 || app_state_id == 43))
+                        @if (is_complete_id == 8 && (app_state_id == 13 || app_state_id == 23 || app_state_id == 33 || app_state_id == 43))
                         {
                             <div class="form-group">
                                 <button id="btnSubmitToApprove" class="btn btn-lg btn-success" type="button" style="width: 250px;">
@@ -3691,21 +3697,25 @@
                         {
                             if (app_state_id != 1 && user_group_id != "1000000001")
                             {
-                                <div class="form-group">
-                                    <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
-                                        Forward
-                                    </button>
-                                </div>
+                                if (pcd.UndertakingSubmitYesNoId == 1 && (app_state_id == 13 || app_state_id == 23 || app_state_id == 33 || app_state_id == 43))
+                                {
+                                    <div class="form-group">
+                                        <button id="btnReviewUndertaking" class="btn btn-lg btn-blue" type="button" style="width: 250px;">
+                                            Review Undertaking
+                                        </button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="form-group">
+                                        <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
+                                            Forward
+                                        </button>
+                                    </div>
+                                }
                             }
                         }
 
-                        <!--
-    <div class="form-group">
-        <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
-            Forward
-        </button>
-    </div>
-    -->
                         <span>&nbsp;&nbsp;&nbsp;</span>
 
                         <div class="form-group">
@@ -3770,14 +3780,9 @@
             if (group_id == 1000000001) {
                 $('.comment').addClass('d-none');
             }
-            //else {
-            //    $('.comment').removeClass('d-none');
-            //}
         } else {
             $('.comment').addClass('d-none');
         }
-
-        console.log(app_state_id);
 
         if (app_state_id == 13 || app_state_id == 23 || app_state_id == 33 || app_state_id == 43) {
             if (is_complete_id < 3) {
@@ -3785,23 +3790,11 @@
             } else {
                 $('.comment').removeClass('d-none');
             }
+
+            if (group_id == 1000000001) {
+                $('.comment').addClass('d-none');
+            }
         }
-
-        //var projectId = 'ViewBag.ProjectCommonDetail.ProjectId';
-
-        //if (projectId != '') {
-        //    pBindData();
-
-        //    pGetProjLocationsData();
-        //    pGetHydroSystemData();
-        //    pGetFloodFrequencyData();
-        //    pGetIrrigatedCropAreaData();
-        //    pGetAoFOData();
-        //    pGetDswpdData();
-        //    pGetEiaData();
-        //    pGetSiaData();
-        //    pGetEconFinAnaData();
-        //}
 
         jQuery('#btnPopupCommentsSave').click(function () {
             SaveProjComments();
@@ -4080,7 +4073,40 @@
 		        }
 	        });
         });
+
+        jQuery("#btnReviewUndertaking").click(function () {
+            var projectId = GetHiddenValue('pProjectId');
+            var popupWinWidth = 850;
+            var popupWinHeight = 600;
+            var left = (screen.width - popupWinWidth) / 2;
+            var top = (screen.height - popupWinHeight) / 4;
+
+            if (projectId != '') {
+                if (window.screen) {
+                    w = window.screen.availWidth;
+                    h = window.screen.availHeight;
+                }
+
+                var url = '@Url.Action("undertaking", "certificate", new { id = ProjectId, lang = 1 })'; //pcd.LanguageId
+                window.open(url, 'Review Undertaking', 'height=' + popupWinHeight + ',width=' + popupWinWidth + ',left=' + left + ',top=' + top + ',status=no,toolbar=no,resizable=yes,scrollbars=yes,fullscreen=yes');
+            } else {
+                Notification('error', 'Ivalid Project ID', 'Ivalid project ID found!');
+            }
+        });
     });
+
+    function GetTextValue(control) {
+            return jQuery('#' + control).val();
+    }
+
+    function SetTextValue(control, val) {
+        return jQuery('#' + control).val(val);
+    }
+
+    function GetRadioValue(control) {
+            var value = $("input[name='" + control + "']:checked").val();
+            return (value == undefined || value == '') ? 0 : value;
+    }
 
     function GetHiddenValue(control) {
         return jQuery('#' + control).val();
@@ -4175,6 +4201,42 @@
                 jQuery("#tbodyCommentList").html('<tr><td colspan="3" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
             }
         });
+    }
+
+    function Delete(id, projectId, modelName) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this",
+                type: "warning",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                showCancelButton: !0,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sure"
+            }).then(function (t) {
+                if (t.value == true) {
+                    var url = '@Url.Action("cdm", "form")';
+                    jQuery.ajax({
+                        type: "POST",
+                        url: url,
+                        data: { id: id, projectId: projectId, modelName: modelName },
+                        dataType: "json",
+                        success: function (data, status, jqXHR) {
+                            if (data.status == 'success') {
+                                Notification('success', 'Success', data.message);
+                                Swal.fire("Success", data.message, "success");
+                            } else {
+                                Notification('error', 'Deletion Error', data.message);
+                                Swal.fire("Deletion Error", data.message, "error");
+                            }
+                        }, error: function (jqXHR, exception) {
+                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                            Notification('error', 'Error Occured', errorMsg);
+                        }
+                    });
+                }
+            });
     }
 
     function RedirectToHome() {

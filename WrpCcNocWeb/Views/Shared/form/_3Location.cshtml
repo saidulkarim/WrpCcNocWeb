@@ -224,10 +224,10 @@
                                 </select>
                             </th>
                             <th class="text-center">
-                                <input type="number" min="0" id="Latitude" name="Latitude" class="form-control text-right" style="width: 110px;font-size: 90%;" />
+                                <input type="number" min="0" id="Latitude" name="Latitude" class="form-control text-right" style="width: 110px;" />
                             </th>
                             <th class="text-center">
-                                <input type="number" min="0" id="Longitude" name="Longitude" class="form-control text-right" style="width: 110px;font-size: 90%;" />
+                                <input type="number" min="0" id="Longitude" name="Longitude" class="form-control text-right" style="width: 110px;" />
                             </th>
                             <th class="text-center" style="vertical-align: central;">
                                 <span class="btn-upload btn-upload-success fileinput-button">
@@ -278,22 +278,21 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    //I added event handler for the file upload control to access the files properties.
+<script type="text/javascript">    
     document.addEventListener("DOMContentLoaded", init, false);
-
-    //To save an array of attachments
     var AttachmentArray = [];
-
-    //counter for attachment array
-    var arrCounter = 0;
-
-    //to make sure the error message for number of files will be shown only one time.
+    var arrCounter = 0;    
     var filesCounterAlertStatus = false;
 
     jQuery(document).ready(function () {
-        jQuery("#DistrictGeoCode").change(function () {
-            var code = jQuery(this).val();
+        jQuery("#DistrictGeoCode").select2({
+            placeholder: "Select an option",
+            allowClear: true
+        }).on('change', function () {
+            var val = $("#DistrictGeoCode option:selected").val();
+            var txt = $("#DistrictGeoCode option:selected").text();
+
+            var code = val;
             var type = 'upz';
 
             if (code != '') {
@@ -302,14 +301,25 @@
             }
         });
 
-        jQuery("#UpazilaGeoCode").change(function () {
-            var code = jQuery(this).val();
+        jQuery("#UpazilaGeoCode").select2({
+            placeholder: "Select an option",
+            allowClear: true
+        }).on('change', function () {
+            var val = $("#UpazilaGeoCode option:selected").val();
+            var txt = $("#UpazilaGeoCode option:selected").text();
+
+            var code = val;
             var type = 'uni';
 
             if (code != '') {
                 jQuery("#UnionGeoCode").html('<option value="">Choose...</option>');
                 GetAdminData(code, type);
             }
+        });
+
+        jQuery("#UnionGeoCode").select2({
+            placeholder: "Select an option",
+            allowClear: true
         });
 
         jQuery("#btnSaveProjLocation").click(function () {
@@ -327,12 +337,7 @@
             var SelectedMapFile = jQuery("#SelectedMapFile").val();
             var row = '';
 
-            //console.log('Total Attachments: ' + AttachmentArray.length);
-
-            if (DistrictGeoCode != '' && DistrictGeoCode != undefined) {
-                //var lfuData = document.getElementById('ImageFileName');
-                //var FileUploadPath = lfuData.value;
-
+            if (DistrictGeoCode != '' && DistrictGeoCode != undefined) {               
                 if (AttachmentArray.length > 0) {
                     var imgs = '';
                     jQuery.each(AttachmentArray, function (i, item) {
@@ -346,74 +351,20 @@
                     row = '<tr><td>' + DistrictName + ' <input id="hdDistrictGeoCode" type="hidden" value="' + DistrictGeoCode + '" /></td><td>' + UpazilaName + ' <input id="hdUpazilaGeoCode" type="hidden" value="' + UpazilaGeoCode + '" /></td><td>' + UnionName + ' <input id="hdUnionGeoCode" type="hidden" value="' + UnionGeoCode + '" /></td><td>' + Latitude + '</td><td>' + Longitude + '</td><td>' + imgs + '<input id="hdProjectLocationFile" type="hidden" value="' + JSON.stringify(AttachmentArray) + '" /></td><td>' + SelectedMapFileTitle + '<input id="hdSelectedMapFile" type="hidden" value="' + SelectedMapFile + '" /></td><td class="text-center"><button onclick="javascript:DeleteNewLocation(this);" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" type="hidden" /></td></tr>';
                     jQuery("#tbodyProjectLocation").append(row);
                 } else {
+                    SelectedMapFileTitle = SelectedMapFileTitle == undefined ? '' : SelectedMapFileTitle;
+
                     console.log('no image');
+                    console.log('SelectedMapFileTitle: ' + SelectedMapFileTitle);
+
                     row = '<tr><td>' + DistrictName + ' <input id="hdDistrictGeoCode" type="hidden" value="' + DistrictGeoCode + '" /></td><td>' + UpazilaName + ' <input id="hdUpazilaGeoCode" type="hidden" value="' + UpazilaGeoCode + '" /></td><td>' + UnionName + ' <input id="hdUnionGeoCode" type="hidden" value="' + UnionGeoCode + '" /></td><td>' + Latitude + '</td><td>' + Longitude + '</td><td><input id="hdProjectLocationFile" type="hidden" value="" /></td><td>' + SelectedMapFileTitle + '<input id="hdSelectedMapFile" type="hidden" value="' + SelectedMapFile + '" /></td><td class="text-center"><button onclick="javascript:DeleteNewLocation(this);" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" type="hidden" /></td></tr>';
                     jQuery("#tbodyProjectLocation").append(row);
                 }
-
-                //try {
-                //    if (lfuData.files && lfuData.files[0]) {
-                //        var FileName = lfuData.files[0].name;
-                //        var Extension = FileName.replace(/^.*\./, '');
-
-                //        if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
-                //            var reader = new FileReader();
-                //            reader.readAsDataURL(lfuData.files[0]);
-                //            reader.onload = function (e) {
-                //                var img = new Image();
-                //                img.src = e.target.result;
-                //                img.height = "50";
-
-                //                row = '<tr><td>' + DistrictName + ' <input id="hdDistrictGeoCode" type="hidden" value="' + DistrictGeoCode + '" /></td><td>' + UpazilaName + ' <input id="hdUpazilaGeoCode" type="hidden" value="' + UpazilaGeoCode + '" /></td><td>' + UnionName + ' <input id="hdUnionGeoCode" type="hidden" value="' + UnionGeoCode + '" /></td><td>' + Latitude + '</td><td>' + Longitude + '</td><td>' + img.outerHTML + ' <input id="hdProjectLocationFile" type="hidden" value="' + e.target.result + '" /></td><td class="text-center"><button onclick="javascript:DeleteNewLocation(this);" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" type="hidden" /></td></tr>';
-                //                jQuery("#tbodyProjectLocation").append(row);
-                //            }
-                //        }
-                //    } else {
-                //        console.log('no image');
-                //        row = '<tr><td>' + DistrictName + ' <input id="hdDistrictGeoCode" type="hidden" value="' + DistrictGeoCode + '" /></td><td>' + UpazilaName + ' <input id="hdUpazilaGeoCode" type="hidden" value="' + UpazilaGeoCode + '" /></td><td>' + UnionName + ' <input id="hdUnionGeoCode" type="hidden" value="' + UnionGeoCode + '" /></td><td>' + Latitude + '</td><td>' + Longitude + '</td><td><input id="hdProjectLocationFile" type="hidden" value="" /></td><td class="text-center"><button onclick="javascript:DeleteNewLocation(this);" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" type="hidden" /></td></tr>';
-                //        jQuery("#tbodyProjectLocation").append(row);
-                //    }
-                //} catch (ex) {
-                //    console.log(ex.message);
-                //}
 
                 row = '';
                 ClearProjLocation();
                 Notification('success', 'Success', 'New location data added.');
 
-                //#region old code for location save
-                //var ProjectId = GetHiddenValue('ProjectId');
-                //var plds = {
-                //    "LocationId": LocationId,
-                //    "ProjectId": ProjectId,
-                //    "DistrictGeoCode": DistrictGeoCode,
-                //    "UpazilaGeoCode": UpazilaGeoCode,
-                //    "UnionGeoCode": UnionGeoCode,
-                //    "Latitude": Latitude,
-                //    "Longitude": Longitude
-                //};
-                //var url = 'Url.Action("plds", "form")';
-                //jQuery.ajax({
-                //    type: "POST",
-                //    url: url,
-                //    data: { _plds: plds },
-                //    dataType: "json",
-                //    success: function (data, status, jqXHR) {
-                //        if (data.status == 'success') {
-                //            var id = data.id;
-                //            SaveProjLocFile(id, ProjectId);
-                //            Notification('success', 'Success', data.message);
-                //            GetProjLocationsData();
-                //            ClearProjLocation();
-                //        } else {
-                //            Notification('error', 'Saving Error', data.message);
-                //        }
-                //    }, error: function (jqXHR, exception) {
-                //        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                //        Notification('error', 'Error Occured', errorMsg);
-                //    }
-                //});
-                //#endregion
+                return;
             } else {
                 Notification('warning', 'Required Field', 'Please select your project district!');
                 jQuery("#DistrictGeoCode").focus();
@@ -423,47 +374,24 @@
         jQuery("#btnClearProjLocation").click(function () {
             ClearProjLocation();
         });
-    });
-
-    @*function SaveProjLocFile(locationid, projectid) {
-        var locfile = jQuery('#ImageFileName').prop('files')[0];
-
-        var formData = new FormData();
-        formData.append("locationid", locationid);
-        formData.append("projectid", projectid);
-        formData.append("file", locfile);
-
-        var url = '@Url.Action("uplf", "form")';
-        $.ajax({
-            url: url,
-            data: formData,
-            processData: false,
-            contentType: false,
-            type: "POST",
-            success: function (data) {
-                if (data.message != '')
-                    Swal.fire(data.title, data.message, data.status);
-            }, error: function (jqXHR, exception) {
-                var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                Swal.fire('Error Occured', errorMsg, 'error');
-            }
-        });
-    }*@
+    });   
 
     function ClearProjLocation() {
         jQuery("#LocationId").val('');
-        jQuery("#DistrictGeoCode").val('');
+
+        jQuery('#DistrictGeoCode').val(null).trigger('change');
         jQuery("#UpazilaGeoCode").html('<option val=""></option>');
+        jQuery('#UpazilaGeoCode').val(null).trigger('change');
         jQuery("#UnionGeoCode").html('<option val=""></option>');
+        jQuery('#UnionGeoCode').val(null).trigger('change');
         jQuery("#Latitude, #Longitude").val('');
         jQuery('#ImageFileName').val('');
+        jQuery("#SelectedMapFile").attr('title', '');
         jQuery('#SelectedMapFile, #MapFile').val('');
 
         AttachmentArray = [];
         arrCounter = 0;
         jQuery('#Filelist').html('');
-
-        console.log('Total Attachments: ' + AttachmentArray.length);
     }
 
     function GetProjLocationsData() {
@@ -477,7 +405,7 @@
                 data: { project_id: ProjectId },
                 dataType: "json",
                 success: function (data, status, jqXHR) {
-                    console.log('Project Location Data Loaded...');
+                    console.log('Project Location Data Loading...');
                     console.log(data);
 
                     if (data.length > 0) {
@@ -497,8 +425,8 @@
 
                                 var latitude = item.latitude == null ? '' : item.latitude;
                                 var longitude = item.longitude == null ? '' : item.longitude;
-                                var map_file = item.mapFileName != '' ? '../docs/map_kml/' + item.mapFileName : '#';
-                                var map_file_name = item.mapFileName != '' ? item.mapFileName : 'No map attached';
+                                var map_file = (item.mapFileName != '' && item.mapFileName != null && item.mapFileName != undefined) ? '../docs/map_kml/' + item.mapFileName : '#';
+                                var map_file_name = (item.mapFileName != '' && item.mapFileName != null && item.mapFileName != undefined) ? item.mapFileName : '';
                                 //rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.districtNameBn + '</td><td>' + item.upazilaNameBn + '</td><td>' + item.unionNameBn + '</td><td>' + item.latitude + '</td><td>' + item.longitude + '</td><td><a href="' + fileName + '" target="_blank"><img src="' + fileName + '" height="50px" /></a></td><td class="text-center"><button onclick="javascript:EditLoc(' + item.locationId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.locationId + ', ' + item.projectId + ', \'CcModPrjLocationDetail\'); GetProjLocationsData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" value="' + locationId + '" /></td></tr>';
                                 rows += '<tr><td>' + item.districtNameBn + ' <input id="hdDistrictGeoCode" type="hidden" value="' + item.districtGeoCode + '" /></td><td>' + item.upazilaNameBn + ' <input id="hdUpazilaGeoCode" type="hidden" value="' + item.upazilaGeoCode + '" /></td><td>' + item.unionNameBn + ' <input id="hdUnionGeoCode" type="hidden" value="' + item.unionGeoCode + '" /></td><td>' + latitude + '</td><td>' + longitude + '</td><td>' + imgs + '</td><td><a href="' + map_file + '" target="_blank">' + map_file_name + '</a></td><td class="text-center"><button onclick="javascript:DeleteLocation(this, ' + item.locationId + ', ' + item.projectId + ', \'CcModPrjLocationDetail\');" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" type="hidden" value="' + item.locationId + '" /></td></tr>';
                             });
@@ -514,8 +442,8 @@
 
                                 var latitude = item.latitude == null ? '' : item.latitude;
                                 var longitude = item.longitude == null ? '' : item.longitude;
-                                var map_file = item.mapFileName != '' ? '../docs/map_kml/' + item.mapFileName : '#';
-                                var map_file_name = item.mapFileName != '' ? item.mapFileName : 'No map attached';
+                                var map_file = (item.mapFileName != '' && item.mapFileName != null && item.mapFileName != undefined) ? '../docs/map_kml/' + item.mapFileName : '#';
+                                var map_file_name = (item.mapFileName != '' && item.mapFileName != null && item.mapFileName != undefined) ? item.mapFileName : '';
                                 //below line comment out on 19 Aug, 2020. project location tab to general tab
                                 //rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.districtName + '</td><td>' + item.upazilaName + '</td><td>' + item.unionName + '</td><td>' + item.latitude + '</td><td>' + item.longitude + '</td><td><a href="' + fileName + '" target="_blank"><img src="' + fileName + '" height="50px" /></a></td><td class="text-center"><button onclick="javascript:EditLoc(' + item.locationId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.locationId + ', ' + item.projectId + ', \'CcModPrjLocationDetail\'); GetProjLocationsData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" value="' + locationId + '" /></td></tr>';
                                 rows += '<tr><td>' + item.districtName + ' <input id="hdDistrictGeoCode" type="hidden" value="' + item.districtGeoCode + '" /></td><td>' + item.upazilaName + ' <input id="hdUpazilaGeoCode" type="hidden" value="' + item.upazilaGeoCode + '" /></td><td>' + item.unionName + ' <input id="hdUnionGeoCode" type="hidden" value="' + item.unionGeoCode + '" /></td><td>' + latitude + '</td><td>' + longitude + '</td><td>' + imgs + '</td><td><a href="' + map_file + '" target="_blank">' + map_file_name + '</a></td><td class="text-center"><button onclick="javascript:DeleteLocation(this, ' + item.locationId + ', ' + item.projectId + ', \'CcModPrjLocationDetail\');" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdLocationId" type="hidden" value="' + item.locationId + '" /></td></tr>';
@@ -819,6 +747,7 @@
         return result;
     }
 
+    //#region File Uploading Block
     //un ordered list to keep attachments thumbnails
     var ul = document.createElement('ul');
     ul.className = ("thumb-Images");
@@ -1002,4 +931,5 @@
 
         arrCounter = arrCounter + 1;
     }
+    //#endregion
 </script>

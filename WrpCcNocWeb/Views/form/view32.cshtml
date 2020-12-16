@@ -81,21 +81,21 @@
                         <div class="col">
                             <span>
                                 @if (prev_lang == "1")
-                                {<span>বরাবর</span>}
+                                {<span>প্রতি</span>}
                                 else
                                 {<span>To</span>}
                             </span><br />
                             <span>
                                 @if (prev_lang == "1")
-                                {<span>কার্যনির্বাহী কমিটি</span>}
+                                {<span>নির্বাহী কমিটি</span>}
                                 else
                                 {<span>Executive Committee</span>}
                             </span><br />
                             <span>
                                 @if (prev_lang == "1")
-                                {<span>জাতীয় পানি সম্পদ কাউন্সিল।</span>}
+                                {<span>জাতীয় পানি সম্পদ পরিষদ প্রকল্প।</span>}
                                 else
-                                {<span>National Water Resources Council.</span>}
+                                {<span>National Water Resources Project Committee.</span>}
                             </span>
                         </div>
                     </div>
@@ -343,12 +343,12 @@
                                     {<span>viii. প্রকল্পের অবস্থান</span>}
                                     else
                                     {<span>viii. Project Location</span>}
-                                </b> &nbsp;&nbsp; 
+                                </b> &nbsp;&nbsp;
                                 <a id="btnMapView" href="javascript:void(0);" target="_blank" class="btn btn-sm btn-info waves-effect"
                                    data-toggle="tooltip" data-placement="top" title="" data-original-title="View Map"
                                    style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                                     <i class="mdi mdi-map"></i>
-                                </a> &nbsp;&nbsp; 
+                                </a> &nbsp;&nbsp;
                                 <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Location', 'ProjectLocation');"
                                    class="btn btn-sm btn-info waves-effect comment" data-close="false"
                                    data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
@@ -2161,6 +2161,12 @@
                             </td>
                         </tr>
 
+                        <tr>
+                            <td colspan="3">
+                                @{ Html.RenderPartial("form/_AdditionalAttachment"); }
+                            </td>
+                        </tr>
+
                         <tr style="background: #9d9b9b; font-weight: bold;">
                             <td colspan="3">
                                 <h4>
@@ -3435,7 +3441,7 @@
                     <hr />
 
                     <div class="row justify-content-md-center">
-                        @if (is_complete_id == 6 && (app_state_id == 13 || app_state_id == 23 || app_state_id == 33 || app_state_id == 43))
+                        @if (is_complete_id == 8 && (app_state_id == 13 || app_state_id == 23 || app_state_id == 33 || app_state_id == 43))
                         {
                             <div class="form-group">
                                 <button id="btnSubmitToApprove" class="btn btn-lg btn-success" type="button" style="width: 250px;">
@@ -3471,21 +3477,25 @@
                         {
                             if (app_state_id != 1 && user_group_id != "1000000001")
                             {
-                                <div class="form-group">
-                                    <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
-                                        Forward
-                                    </button>
-                                </div>
+                                if (pcd.UndertakingSubmitYesNoId == 1 && (app_state_id == 13 || app_state_id == 23 || app_state_id == 33 || app_state_id == 43))
+                                {
+                                    <div class="form-group">
+                                        <button id="btnReviewUndertaking" class="btn btn-lg btn-blue" type="button" style="width: 250px;">
+                                            Review Undertaking
+                                        </button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="form-group">
+                                        <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
+                                            Forward
+                                        </button>
+                                    </div>
+                                }
                             }
                         }
-
-                        <!--
-    <div class="form-group">
-        <button id="btnSubmitToForward" class="btn btn-lg btn-warning" type="button" style="width: 250px;">
-            Forward
-        </button>
-    </div>
-    -->
+                       
                         <span>&nbsp;&nbsp;&nbsp;</span>
 
                         <div class="form-group">
@@ -3545,9 +3555,9 @@
         var app_state_id = '@app_state_id';
         var is_complete_id = '@is_complete_id';
         var group_id = '@ViewData["UserLevel"].ToString()';
-        
-        if (group_id != '' && group_id != undefined && group_id != null) {            
-            if (group_id == 1000000001) {              
+
+        if (group_id != '' && group_id != undefined && group_id != null) {
+            if (group_id == 1000000001) {
                 $('.comment').addClass('d-none');
             }
         } else {
@@ -3561,26 +3571,10 @@
                 $('.comment').removeClass('d-none');
             }
 
-            if (group_id == 1000000001) {                
+            if (group_id == 1000000001) {
                 $('.comment').addClass('d-none');
             }
         }
-
-        //var projectId = 'ViewBag.ProjectCommonDetail.ProjectId';
-
-        //if (projectId != '') {
-        //    pBindData();
-
-        //    pGetProjLocationsData();
-        //    pGetHydroSystemData();
-        //    pGetFloodFrequencyData();
-        //    pGetIrrigatedCropAreaData();
-        //    pGetAoFOData();
-        //    pGetDswpdData();
-        //    pGetEiaData();
-        //    pGetSiaData();
-        //    pGetEconFinAnaData();
-        //}
 
         jQuery('#btnPopupCommentsSave').click(function () {
             SaveProjComments();
@@ -3859,7 +3853,40 @@
 		        }
 	        });
         });
+
+        jQuery("#btnReviewUndertaking").click(function () {
+            var projectId = GetHiddenValue('pProjectId');
+            var popupWinWidth = 850;
+            var popupWinHeight = 600;
+            var left = (screen.width - popupWinWidth) / 2;
+            var top = (screen.height - popupWinHeight) / 4;
+
+            if (projectId != '') {
+                if (window.screen) {
+                    w = window.screen.availWidth;
+                    h = window.screen.availHeight;
+                }
+
+                var url = '@Url.Action("undertaking", "certificate", new { id = ProjectId, lang = 1 })'; //pcd.LanguageId
+                window.open(url, 'Review Undertaking', 'height=' + popupWinHeight + ',width=' + popupWinWidth + ',left=' + left + ',top=' + top + ',status=no,toolbar=no,resizable=yes,scrollbars=yes,fullscreen=yes');
+            } else {
+                Notification('error', 'Ivalid Project ID', 'Ivalid project ID found!');
+            }
+        });
     });
+
+    function GetTextValue(control) {
+            return jQuery('#' + control).val();
+    }
+
+    function SetTextValue(control, val) {
+        return jQuery('#' + control).val(val);
+    }
+
+    function GetRadioValue(control) {
+            var value = $("input[name='" + control + "']:checked").val();
+            return (value == undefined || value == '') ? 0 : value;
+    }
 
     function GetHiddenValue(control) {
         return jQuery('#' + control).val();

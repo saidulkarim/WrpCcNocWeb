@@ -2833,6 +2833,15 @@ namespace WrpCcNocWeb.Controllers
                                     }).ToList();
             ViewData["SediOfRiverOrKhalDetail"] = _sdidetail;
 
+            //var _rivNature = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModRiverType)
+            //                        .Select(x => new RiverNatureDetailTemp
+            //                        {
+            //                            RiverNatureId = x.RiverNatureId.Value,
+            //                            RiverNatureTitle = x.LookUpCcModRiverNature.RiverNatureTitle,
+            //                            RiverNatureTitleBn = x.LookUpCcModRiverNature.RiverNatureTitleBn
+            //                        }).ToList();
+            //ViewData["RiverNatureDetail"] = _rivNature;
+
             var _swadetail = (from d in _db.CcModPrjSWADetail
                               where d.ProjectId == pcd.ProjectId
                               select new SWATemp
@@ -4748,7 +4757,7 @@ namespace WrpCcNocWeb.Controllers
         public IActionResult fcmp(long id)
         {
             ProjectStatusInfo _pi = GetProjectInfoById(id);
-            int result = 0, appState = 0;
+            int result = 0, appState = 0, appStateCost = 0;
 
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             if (ui == null)
@@ -4765,6 +4774,7 @@ namespace WrpCcNocWeb.Controllers
                     //Step 1: Project Estimated Cost Range
                     #region Finding Application State from Cost Range
                     appState = GetProjectCostRangeState(id);
+                    appStateCost = appState;
                     #endregion
 
                     //Step 2: Project Multiple Location
@@ -4781,6 +4791,9 @@ namespace WrpCcNocWeb.Controllers
                     #region Mandatory File Attachment Checking
                     //mandatory file attachment code will be incorporate here
                     #endregion
+
+                    if (appStateCost > appState)
+                        appState = appStateCost;                    
 
                     string projectTrackingCode = id.ToString().GenerateTrackingNumber(6);
 
@@ -4813,8 +4826,9 @@ namespace WrpCcNocWeb.Controllers
                                         #region Email
                                         string callAt = cc.GetCallCenterInfo();
                                         vars.Add(projectTrackingCode);
-                                        vars.Add(_pcd.AppSubmissionDate.Value.ToString("dd MMM, yyyy"));
-                                        vars.Add(_pcd.AppSubmissionDate.Value.AddDays(90).ToString("dd MMM, yyyy"));
+                                        //vars.Add(_pcd.AppSubmissionDate.Value.ToString("dd MMM, yyyy"));
+                                        //vars.Add(_pcd.AppSubmissionDate.Value.AddDays(90).ToString("dd MMM, yyyy"));
+                                        //Possibly your application will be approved within {{var_2}} to {{var_3}} date. When your application will be approved by higher authority, your certificate will be ready to download. After that, you will be notified through email immediately.
                                         vars.Add(callAt);
                                         es.SendEmail(ui.UserEmail, 4, vars);
                                         #endregion
@@ -4841,7 +4855,7 @@ namespace WrpCcNocWeb.Controllers
                                         id = id.ToString(),
                                         status = "success",
                                         title = "Success",
-                                        message = "Your application has been successfully submitted to higher authority. Application tracking code: " + projectTrackingCode
+                                        message = "Your application has been successfully submitted to higher authority. Application tracking number: " + projectTrackingCode
                                     };
                                 }
                                 else
@@ -5138,7 +5152,7 @@ namespace WrpCcNocWeb.Controllers
                                         id = id.ToString(),
                                         status = "success",
                                         title = "Success",
-                                        message = "Your application has been successfully submitted to higher authority. Application tracking code: " + projectTrackingCode
+                                        message = "Your application has been successfully submitted to higher authority. Application tracking number: " + projectTrackingCode
                                     };
                                 }
                                 else
@@ -5434,7 +5448,7 @@ namespace WrpCcNocWeb.Controllers
                                         id = id.ToString(),
                                         status = "success",
                                         title = "Success",
-                                        message = "Your application has been successfully submitted to higher authority. Application tracking code: " + projectTrackingCode
+                                        message = "Your application has been successfully submitted to higher authority. Application tracking number: " + projectTrackingCode
                                     };
                                 }
                                 else
@@ -5728,7 +5742,7 @@ namespace WrpCcNocWeb.Controllers
                                         id = id.ToString(),
                                         status = "success",
                                         title = "Success",
-                                        message = "Your application has been successfully submitted to higher authority. Application tracking code: " + projectTrackingCode
+                                        message = "Your application has been successfully submitted to higher authority. Application tracking number: " + projectTrackingCode
                                     };
                                 }
                                 else
@@ -6004,7 +6018,7 @@ namespace WrpCcNocWeb.Controllers
                                         id = id.ToString(),
                                         status = "success",
                                         title = "Success",
-                                        message = "Your application has been successfully submitted to higher authority. Application tracking code: " + projectTrackingCode
+                                        message = "Your application has been successfully submitted to higher authority. Application tracking number: " + projectTrackingCode
                                     };
                                 }
                                 else
@@ -6266,7 +6280,7 @@ namespace WrpCcNocWeb.Controllers
                                         id = id.ToString(),
                                         status = "success",
                                         title = "Success",
-                                        message = "Your application has been successfully submitted to higher authority. Application tracking code: " + projectTrackingCode
+                                        message = "Your application has been successfully submitted to higher authority. Application tracking number: " + projectTrackingCode
                                     };
                                 }
                                 else
@@ -6546,7 +6560,7 @@ namespace WrpCcNocWeb.Controllers
                                         id = id.ToString(),
                                         status = "success",
                                         title = "Success",
-                                        message = "Your application has been successfully submitted to higher authority. Application tracking code: " + projectTrackingCode
+                                        message = "Your application has been successfully submitted to higher authority. Application tracking number: " + projectTrackingCode
                                     };
                                 }
                                 else
@@ -6810,7 +6824,7 @@ namespace WrpCcNocWeb.Controllers
                                         id = id.ToString(),
                                         status = "success",
                                         title = "Success",
-                                        message = "Your application has been successfully submitted to higher authority. Application tracking code: " + projectTrackingCode
+                                        message = "Your application has been successfully submitted to higher authority. Application tracking number: " + projectTrackingCode
                                     };
                                 }
                                 else
@@ -7089,7 +7103,7 @@ namespace WrpCcNocWeb.Controllers
                                         id = id.ToString(),
                                         status = "success",
                                         title = "Success",
-                                        message = "Your application has been successfully submitted to higher authority. Application tracking code: " + projectTrackingCode
+                                        message = "Your application has been successfully submitted to higher authority. Application tracking number: " + projectTrackingCode
                                     };
                                 }
                                 else
@@ -7368,7 +7382,7 @@ namespace WrpCcNocWeb.Controllers
                                         id = id.ToString(),
                                         status = "success",
                                         title = "Success",
-                                        message = "Your application has been successfully submitted to higher authority. Application tracking code: " + projectTrackingCode
+                                        message = "Your application has been successfully submitted to higher authority. Application tracking number: " + projectTrackingCode
                                     };
                                 }
                                 else
@@ -7628,7 +7642,7 @@ namespace WrpCcNocWeb.Controllers
                                         id = id.ToString(),
                                         status = "success",
                                         title = "Success",
-                                        message = "Your application has been successfully submitted to higher authority. Application tracking code: " + projectTrackingCode
+                                        message = "Your application has been successfully submitted to higher authority. Application tracking number: " + projectTrackingCode
                                     };
                                 }
                                 else
@@ -7910,7 +7924,7 @@ namespace WrpCcNocWeb.Controllers
                                         id = id.ToString(),
                                         status = "success",
                                         title = "Success",
-                                        message = "Your application has been successfully submitted to higher authority. Application tracking code: " + projectTrackingCode
+                                        message = "Your application has been successfully submitted to higher authority. Application tracking number: " + projectTrackingCode
                                     };
                                 }
                                 else
@@ -8201,7 +8215,7 @@ namespace WrpCcNocWeb.Controllers
                                         id = id.ToString(),
                                         status = "success",
                                         title = "Success",
-                                        message = "Your application has been successfully submitted to higher authority. Application tracking code: " + projectTrackingCode
+                                        message = "Your application has been successfully submitted to higher authority. Application tracking number: " + projectTrackingCode
                                     };
                                 }
                                 else
@@ -9042,6 +9056,8 @@ namespace WrpCcNocWeb.Controllers
                             pcd.ProjectStartDate = _pcd.ProjectStartDate;
                             pcd.ProjectCompletionDate = _pcd.ProjectCompletionDate;
                             pcd.ProjectEstimatedCost = _pcd.ProjectEstimatedCost;
+                            pcd.ProjectOutcome = _pcd.ProjectOutcome;
+                            pcd.ProjectOutput = _pcd.ProjectOutput;
                             pcd.LanguageId = sf.LanguageTypeId.ToInt();
                             pcd.IsCompletedId = 0;
 
@@ -20855,7 +20871,7 @@ namespace WrpCcNocWeb.Controllers
                             id = pid.ToString(),
                             status = "success",
                             title = "Success",
-                            message = "Application has been successfully forwarded to " + ForwardedToMsg + ". Application tracking code is: " + _pcd.AppSubmissionId
+                            message = "Application has been successfully forwarded to " + ForwardedToMsg + ". Application tracking number is: " + _pcd.AppSubmissionId
                         };
 
                         if (_pcd.IsCompletedId == 6)
@@ -20892,7 +20908,7 @@ namespace WrpCcNocWeb.Controllers
                         id = pid.ToString(),
                         status = "error",
                         title = "Forwarding Error",
-                        message = "Application not forwarded. Application tracking code is: " + _pcd.AppSubmissionId
+                        message = "Application not forwarded. Application tracking number is: " + _pcd.AppSubmissionId
                     };
                 }
             }
@@ -20960,7 +20976,7 @@ namespace WrpCcNocWeb.Controllers
                             id = pid.ToString(),
                             status = "success",
                             title = "Success",
-                            message = "Application has been successfully approved. Application tracking code is: " + _pcd.AppSubmissionId
+                            message = "Application has been successfully approved. Application tracking number is: " + _pcd.AppSubmissionId
                         };
                     };
                 }
@@ -20973,7 +20989,7 @@ namespace WrpCcNocWeb.Controllers
                         id = pid.ToString(),
                         status = "error",
                         title = "Forwarding Error",
-                        message = "Application not approved. Application tracking code is: " + _pcd.AppSubmissionId
+                        message = "Application not approved. Application tracking number is: " + _pcd.AppSubmissionId
                     };
                 }
             }
@@ -21024,7 +21040,7 @@ namespace WrpCcNocWeb.Controllers
                             id = pid.ToString(),
                             status = "success",
                             title = "Success",
-                            message = "Application has been successfully rejected. Application tracking code is: " + _pcd.AppSubmissionId
+                            message = "Application has been successfully rejected. Application tracking number is: " + _pcd.AppSubmissionId
                         };
                     };
                 }
@@ -21037,7 +21053,7 @@ namespace WrpCcNocWeb.Controllers
                         id = pid.ToString(),
                         status = "error",
                         title = "Forwarding Error",
-                        message = "Application not rejected. Application tracking code is: " + _pcd.AppSubmissionId
+                        message = "Application not rejected. Application tracking number is: " + _pcd.AppSubmissionId
                     };
                 }
             }
@@ -21095,7 +21111,7 @@ namespace WrpCcNocWeb.Controllers
                             id = pid.ToString(),
                             status = "success",
                             title = "Success",
-                            message = message + " Application tracking code is: " + _pcd.AppSubmissionId
+                            message = message + " Application tracking number is: " + _pcd.AppSubmissionId
                         };
                     };
                 }
@@ -21108,7 +21124,7 @@ namespace WrpCcNocWeb.Controllers
                         id = pid.ToString(),
                         status = "error",
                         title = "Forwarding Error",
-                        message = "Application not forwarded to re-evaluate. Application tracking code is: " + _pcd.AppSubmissionId
+                        message = "Application not forwarded to re-evaluate. Application tracking number is: " + _pcd.AppSubmissionId
                     };
                 }
             }
@@ -21166,7 +21182,7 @@ namespace WrpCcNocWeb.Controllers
                             id = pid.ToString(),
                             status = "success",
                             title = "Success",
-                            message = message + " Application tracking code is: " + _pcd.AppSubmissionId
+                            message = message + " Application tracking number is: " + _pcd.AppSubmissionId
                         };
                     };
                 }
@@ -21179,7 +21195,7 @@ namespace WrpCcNocWeb.Controllers
                         id = pid.ToString(),
                         status = "error",
                         title = "Forwarding Error",
-                        message = "Application not forwarded to re-evaluate. Application tracking code is: " + _pcd.AppSubmissionId
+                        message = "Application not forwarded to re-evaluate. Application tracking number is: " + _pcd.AppSubmissionId
                     };
                 }
             }

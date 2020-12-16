@@ -80,19 +80,19 @@
                         <div class="col">
                             <span>
                                 @if (prev_lang == "1")
-                                {<span>বরাবর</span>}
+                                {<span>প্রতি</span>}
                                 else
                                 {<span>To</span>}
                             </span><br />
                             <span>
                                 @if (prev_lang == "1")
-                                {<span>কার্যনির্বাহী কমিটি</span>}
+                                {<span>নির্বাহী কমিটি</span>}
                                 else
                                 {<span>Executive Committee</span>}
                             </span><br />
                             <span>
                                 @if (prev_lang == "1")
-                                {<span>ন্যাশনাল ওয়াটার রিসোর্সেস প্রজেক্ট কমিটি।</span>}
+                                {<span>জাতীয় পানি সম্পদ পরিষদ প্রকল্প।</span>}
                                 else
                                 {<span>National Water Resources Project Committee.</span>}
                             </span>
@@ -882,7 +882,7 @@
                                 </table>
                             </td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "LandTypePercent").Select(s => s.Comments).FirstOrDefault())                               
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "LandTypePercent").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -940,7 +940,7 @@
                                 </table>
                             </td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "IrrigatedCropAreaHa").Select(s => s.Comments).FirstOrDefault())                                
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "IrrigatedCropAreaHa").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -955,7 +955,7 @@
                             </td>
                             <td>@projectindi.CropProduction</td>
                             <td>
-                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CropProduction").Select(s => s.Comments).FirstOrDefault())                                
+                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CropProduction").Select(s => s.Comments).FirstOrDefault())
                             </td>
                         </tr>
 
@@ -1167,7 +1167,7 @@
                                     else
                                     {<span>iv. Use of Flow meter to measure water withdrawal</span>}
                                 </b>
-                            </td>                            
+                            </td>
                             <td>
                                 @{
                                     if (projectindi.UseOfFlowMeterMeasrYNId == 1)
@@ -1178,7 +1178,7 @@
                                     {
                                         <span>No</span>
                                     }
-                                  }
+                                }
                             </td>
                             <td>
                                 @Html.Raw(fdac.Where(w => w.ControlTitle == "UseOfFlowMeterMeasrYNId").Select(s => s.Comments).FirstOrDefault())
@@ -1377,7 +1377,7 @@
                             </td>
                         </tr>
 
-                          <tr>
+                        <tr>
                             <td colspan="3">
                                 <h5>
                                     @if (prev_lang == "1")
@@ -2146,6 +2146,22 @@
                         <tr>
                             <td style="word-break: break-all;" colspan="3">
                                 @Html.Raw(fdac.Where(w => w.ControlTitle == "EconomicalFinancialAnalysis").Select(s => s.Comments).FirstOrDefault())
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <fieldset>
+                                    <legend>
+                                        @if (prev_lang == "1")
+                                        {<span>কারিগরি কমিটির সামগ্রিক মন্তব্য</span> }
+                                        else
+                                        { <span>Overall Comments of Technical Committee</span>}
+                                    </legend>
+                                    <div class="card-box">
+                                        @{ Html.RenderPartial("form/_AdditionalAttachmentPrint"); }
+                                    </div>
+                                </fieldset>
                             </td>
                         </tr>
 

@@ -550,9 +550,19 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Undertaking Submission Date")]
         public DateTime? UndertakingSubmitDate { get; set; }
 
-        [Column("UndertakingCheckByHigherAuth", Order = 101)]
+        [Column("UndertakingCheckByHigherAuth", Order = 103)]
         [Display(Name = "Is Undertaking Checked by Higher Authority?")]
-        public int? UndertakingCheckByHigherAuth { get; set; }        
+        public int? UndertakingCheckByHigherAuth { get; set; }
+
+        [Column("ProjectOutcome", Order = 104)]
+        [Display(Name = "Project Outcome")]
+        [MaxLength(250)]
+        public string ProjectOutcome { get; set; }
+
+        [Column("ProjectOutput", Order = 105)]
+        [Display(Name = "Project Output")]
+        [MaxLength(250)]
+        public string ProjectOutput { get; set; }
 
         public virtual List<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetails { get; set; }
         public virtual List<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetails { get; set; }

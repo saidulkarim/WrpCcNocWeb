@@ -1409,9 +1409,9 @@
                                                                                                         </th>
                                                                                                         <th class="text-center">
                                                                                                             @{if (language == "1")
-                                                                                                                { <span>প্রশমন পরিকল্পনা</span>}
+                                                                                                                { <span>ব্যবস্থাপনা পরিকল্পনা</span>}
                                                                                                                 else
-                                                                                                                {<span>Mitigation Plan</span>}
+                                                                                                                {<span>Management Plan</span>}
                                                                                                             }
                                                                                                         </th>
                                                                                                         <th class="text-center" style="width: 150px;"></th>
@@ -1522,9 +1522,9 @@
                                                                                                         </th>
                                                                                                         <th class="text-center">
                                                                                                             @{if (language == "1")
-                                                                                                                { <span>প্রশমন পরিকল্পনা</span>}
+                                                                                                                { <span>ব্যবস্থাপনা পরিকল্পনা</span>}
                                                                                                                 else
-                                                                                                                {<span>Mitigation Plan</span>}
+                                                                                                                {<span>Management Plan</span>}
                                                                                                             }
                                                                                                         </th>
                                                                                                         <th class="text-center" style="width: 150px;"></th>
@@ -1913,7 +1913,7 @@
             GetEiaData();
             GetSiaData();
             GetEconFinAnaData();
-            
+
             jQuery("#btnNext").click(function (e) {
                 //block 1
                 if (jQuery("#lnkTab1").hasClass('active')) {
@@ -1976,7 +1976,7 @@
                     //    break;
                 }
             }
-        });        
+        });
 
         jQuery("input[type='radio'][name='YesNoStakeId']").change(function () {
             if (jQuery(this).val() == 1) {
@@ -2056,7 +2056,7 @@
                 jQuery("#divCwgpwm").removeClass('d-block fadeIn');
                 jQuery("#divCwgpwm").addClass('d-none fadeOut');
             }
-        });        
+        });
 
         //start :: Hydrological System JS
         jQuery("#HydroSystemCategoryId").change(function () {
@@ -3441,14 +3441,9 @@
                 SetTextValue('ProjectStartDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate)');
                 SetTextValue('ProjectCompletionDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate)');
                 SetTextValue('ProjectEstimatedCost', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectEstimatedCost)');
-
-                ////location
-                //SetDropdownValue('DistrictGeoCode', 'Html.Raw(ViewBag.ProjectLocationDetail.DistrictGeoCode)');
-                //SetDropdownValue('UpazilaGeoCode', 'Html.Raw(ViewBag.ProjectLocationDetail.UpazilaGeoCode)');
-                //SetDropdownValue('UnionGeoCode', 'Html.Raw(ViewBag.ProjectLocationDetail.UnionGeoCode)');
-                //SetDropdownValue('Latitude', 'Html.Raw(ViewBag.ProjectLocationDetail.Latitude)');
-                //SetDropdownValue('Longitude', 'Html.Raw(ViewBag.ProjectLocationDetail.Longitude)');
-
+                SetTextValue('ProjectOutcome', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectOutcome)');
+                SetTextValue('ProjectOutput', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectOutput)');
+                
                 var hrs = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.HydroRegionDetail))');
                 jQuery.each(hrs, function (i, item) {
                     $(":checkbox[name='hydrological_region'][value='" + item.hydroRegionId + "']").attr('checked', true);

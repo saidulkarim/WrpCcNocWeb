@@ -4,267 +4,274 @@
 @{
     var prev_lang = ViewData["LanguageId"].ToString();
     CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["ProjectCommonDetail"];
+    var app_state_id_aa = pcd.ApplicationStateId;
 }
 
-<fieldset>
-    <legend>
-        @if (prev_lang == "1")
-        {<span>শুনানি</span> }
-        else
-        { <span>Hearing</span>}
-    </legend>
-    <div class="card-box">
-        <div class="form-group">
-            <div id="AnyHearingOccured" class="row" style="margin-left: 5px;">
-                <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                    <input type="radio" name="AnyHearingOccured" id="chkAHOYes" value="1" data-parsley-multiple="AnyHearingOccured">
-                    <label for="chkAHOYes">
+@if (app_state_id_aa == 12 || app_state_id_aa == 22 || app_state_id_aa == 32 || app_state_id_aa == 42)
+{
+    <div id="divTechnicalCom">
+        <fieldset>
+            <legend>
+                @if (prev_lang == "1")
+                {<span>শুনানি</span> }
+                else
+                { <span>Hearing</span>}
+            </legend>
+            <div class="card-box">
+                <div class="form-group">
+                    <div id="AnyHearingOccured" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="AnyHearingOccured" id="chkAHOYes" value="1" data-parsley-multiple="AnyHearingOccured">
+                            <label for="chkAHOYes">
+                                @{if (prev_lang == "1")
+                                    { <span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>}
+                                }
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="AnyHearingOccured" id="chkAHONo" value="0" checked data-parsley-multiple="AnyHearingOccured">
+                            <label for="chkAHONo">
+                                @{if (prev_lang == "1")
+                                    { <span>না</span>}
+                                    else
+                                    {<span>No</span>}
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="HearingDescription">
                         @{if (prev_lang == "1")
-                            { <span>হ্যাঁ</span>}
+                            { <span>বর্ণনা</span> }
                             else
-                            {<span>Yes</span>}
+                            { <span>Description</span> }
                         }
                     </label>
+                    <textarea id="HearingDescription" name="HearingDescription" class="form-control" rows="3"></textarea>
                 </div>
 
-                <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                    <input type="radio" name="AnyHearingOccured" id="chkAHONo" value="0" checked data-parsley-multiple="AnyHearingOccured">
-                    <label for="chkAHONo">
+                <div class="form-group">
+                    <label for="fileHearingAttachments">
                         @{if (prev_lang == "1")
-                            { <span>না</span>}
+                            { <span>শুনানির সংযুক্তি</span>}
                             else
-                            {<span>No</span>}
+                            {<span>Hearing Attachments</span>}
                         }
                     </label>
+                    <div class="file-field">
+                        <div class="btn btn-info btn-sm float-left">
+                            <input id="fileHearingAttachments" type="file">
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <br />
+                <div class="clearfix"></div>
+
+                <div class="form-group">
+                    <label for="HearingAttachmentTitle">
+                        @{if (prev_lang == "1")
+                            { <span>সংযুক্তি শিরোনাম</span>}
+                            else
+                            {<span>Attachment Title</span>}
+                        }
+                    </label>
+                    <input type="text" id="HearingAttachmentTitle" name="HearingAttachmentTitle" class="form-control" />
+                </div>
+
+                <div class="clearfix"></div><br />
+
+                <div class="form-group mb-0">
+                    <table class="table table-bordered" style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <ul id="tbdHearingAttachments">
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="clearfix"></div><br />
+
+                <div class="form-group mb-0">
+                    <button id="btnSaveHearingInfo" type="button" class="btn btn-success waves-effect waves-light">
+                        <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
+                        @if (prev_lang == "1")
+                        {<span>সংরক্ষণ করুন</span>}
+                        else
+                        {<span>Submit</span>}
+                    </button>
+
+                    <button id="btnClearHearingInfo" type="button" class="btn btn-secondary waves-effect waves-light">
+                        <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
+                        @if (prev_lang == "1")
+                        {<span>বাতিল করুন</span>}
+                        else
+                        {<span>Cancel</span>}
+                    </button>
                 </div>
             </div>
-        </div>
+        </fieldset>
 
-        <div class="form-group">
-            <label for="HearingDescription">
-                @{if (prev_lang == "1")
-                    { <span>বর্ণনা</span> }
-                    else
-                    { <span>Description</span> }
-                }
-            </label>
-            <textarea id="HearingDescription" name="HearingDescription" class="form-control" rows="3"></textarea>
-        </div>
+        <fieldset>
+            <legend>
+                @if (prev_lang == "1")
+                {<span>কারিগরি কমিটির সামগ্রিক মন্তব্য</span> }
+                else
+                { <span>Overall Comments of Technical Committee</span>}
+            </legend>
+            <div class="card-box">
+                <div class="form-group">
+                    <label for="AdditionalTextComment">
+                        @{if (prev_lang == "1")
+                            { <span>মন্তব্য</span> }
+                            else
+                            { <span>Comments</span> }
+                        }
+                    </label>
+                    <textarea id="AdditionalTextComment" name="AdditionalTextComment" class="form-control" rows="3"></textarea>
+                </div>
 
-        <div class="form-group">
-            <label for="fileHearingAttachments">
-                @{if (prev_lang == "1")
-                    { <span>শুনানির সংযুক্তি</span>}
-                    else
-                    {<span>Hearing Attachments</span>}
-                }
-            </label>
-            <div class="file-field">
-                <div class="btn btn-info btn-sm float-left">
-                    <input id="fileHearingAttachments" type="file">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="AttachmentTitle">
+                            @{if (prev_lang == "1")
+                                { <span>সংযুক্তি শিরোনাম</span>}
+                                else
+                                {<span>Attachment Title</span>}
+                            }
+                        </label>
+                        <input type="text" id="AttachmentTitle" name="AttachmentTitle" class="form-control" />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="fileAdditionalAttachments">
+                            @{if (prev_lang == "1")
+                                { <span>সংযুক্তি</span>}
+                                else
+                                {<span>Attachments</span>}
+                            }
+                        </label>
+                        <div class="file-field">
+                            <div class="btn btn-info btn-sm float-left">
+                                <input id="fileAdditionalAttachments" type="file">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div><br />
+
+                <div class="form-group mb-0">
+                    <button id="btnSaveAdditionalInfo" type="button" class="btn btn-success waves-effect waves-light">
+                        <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
+                        @if (prev_lang == "1")
+                        {<span>সংরক্ষণ করুন</span>}
+                        else
+                        {<span>Submit</span>}
+                    </button>
+
+                    <button id="btnClearAdditionalInfo" type="button" class="btn btn-secondary waves-effect waves-light">
+                        <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
+                        @if (prev_lang == "1")
+                        {<span>বাতিল করুন</span>}
+                        else
+                        {<span>Cancel</span>}
+                    </button>
+                </div>
+
+                <div class="clearfix"></div><br />
+
+                <div class="form-group mb-0">
+                    <table class="table table-bordered" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @if (prev_lang == "1")
+                                    {<span>মন্তব্য</span>}
+                                    else
+                                    {<span>Comments</span>}
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: justify;">
+                                    @pcd.AdditionalTextComment
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <ul id="tbdAdditionalInfo">
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-
-        <br />
-        <br />
-        <div class="clearfix"></div>
-
-        <div class="form-group">
-            <label for="HearingAttachmentTitle">
-                @{if (prev_lang == "1")
-                    { <span>সংযুক্তি শিরোনাম</span>}
-                    else
-                    {<span>Attachment Title</span>}
-                }
-            </label>
-            <input type="text" id="HearingAttachmentTitle" name="HearingAttachmentTitle" class="form-control" />
-        </div>
-
-        <div class="clearfix"></div><br />
-
-        <div class="form-group mb-0">
-            <table class="table table-bordered" style="width: 100%;">
-                <tbody>
-                    <tr>
-                        <td>
-                            <ul id="tbdHearingAttachments">
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="clearfix"></div><br />
-
-        <div class="form-group mb-0">
-            <button id="btnSaveHearingInfo" type="button" class="btn btn-success waves-effect waves-light">
-                <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
-                @if (prev_lang == "1")
-                {<span>সংরক্ষণ করুন</span>}
-                else
-                {<span>Submit</span>}
-            </button>
-
-            <button id="btnClearHearingInfo" type="button" class="btn btn-secondary waves-effect waves-light">
-                <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
-                @if (prev_lang == "1")
-                {<span>বাতিল করুন</span>}
-                else
-                {<span>Cancel</span>}
-            </button>
-        </div>
+        </fieldset>
     </div>
-</fieldset>
+}
 
-<fieldset>
-    <legend>
-        @if (prev_lang == "1")
-        {<span>IWRMC দ্বারা প্রস্তাবিত</span> }
-        else
-        { <span>Recommended by IWRMC</span>}
-    </legend>
-    <div class="card-box">
-        <div class="form-group">
-            <div id="RecommendedByIwrmc" class="row" style="margin-left: 5px;">
-                <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                    <input type="radio" name="RecommendedByIwrmc" id="chkRBIYes" value="1" data-parsley-multiple="RecommendedByIwrmc">
-                    <label for="chkRBIYes">
-                        @{if (prev_lang == "1")
-                            { <span>হ্যাঁ</span>}
-                            else
-                            {<span>Yes</span>}
-                        }
-                    </label>
-                </div>
+@if (app_state_id_aa == 11 || app_state_id_aa == 21 || app_state_id_aa == 31 || app_state_id_aa == 41)
+{
+    <fieldset>
+        <legend>
+            @if (prev_lang == "1")
+            {<span>IWRMC দ্বারা প্রস্তাবিত</span> }
+            else
+            { <span>Recommended by IWRMC</span>}
+        </legend>
+        <div class="card-box">
+            <div class="form-group">
+                <div id="RecommendedByIwrmc" class="row" style="margin-left: 5px;">
+                    <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                        <input type="radio" name="RecommendedByIwrmc" id="chkRBIYes" value="1" data-parsley-multiple="RecommendedByIwrmc">
+                        <label for="chkRBIYes">
+                            @{if (prev_lang == "1")
+                                { <span>হ্যাঁ</span>}
+                                else
+                                {<span>Yes</span>}
+                            }
+                        </label>
+                    </div>
 
-                <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                    <input type="radio" name="RecommendedByIwrmc" id="chkRBINo" value="0" checked data-parsley-multiple="RecommendedByIwrmc">
-                    <label for="chkRBINo">
-                        @{if (prev_lang == "1")
-                            { <span>না</span>}
-                            else
-                            {<span>No</span>}
-                        }
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="RecommendedByIwrmcNote">
-                @{if (prev_lang == "1")
-                    { <span>টীকা</span> }
-                    else
-                    { <span>Note</span> }
-                }
-            </label>
-            <textarea id="RecommendedByIwrmcNote" name="RecommendedByIwrmcNote" class="form-control" rows="3"></textarea>
-        </div>
-    </div>
-</fieldset>
-
-<fieldset>
-    <legend>
-        @if (prev_lang == "1")
-        {<span>কারিগরি কমিটির সামগ্রিক মন্তব্য</span> }
-        else
-        { <span>Overall Comments of Technical Committee</span>}
-    </legend>
-    <div class="card-box">
-        <div class="form-group">
-            <label for="AdditionalTextComment">
-                @{if (prev_lang == "1")
-                    { <span>মন্তব্য</span> }
-                    else
-                    { <span>Comments</span> }
-                }
-            </label>
-            <textarea id="AdditionalTextComment" name="AdditionalTextComment" class="form-control" rows="3"></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="fileAdditionalAttachments">
-                @{if (prev_lang == "1")
-                    { <span>সংযুক্তি</span>}
-                    else
-                    {<span>Attachments</span>}
-                }
-            </label>
-            <div class="file-field">
-                <div class="btn btn-info btn-sm float-left">
-                    <input id="fileAdditionalAttachments" type="file">
+                    <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                        <input type="radio" name="RecommendedByIwrmc" id="chkRBINo" value="0" checked data-parsley-multiple="RecommendedByIwrmc">
+                        <label for="chkRBINo">
+                            @{if (prev_lang == "1")
+                                { <span>না</span>}
+                                else
+                                {<span>No</span>}
+                            }
+                        </label>
+                    </div>
                 </div>
             </div>
+
+            <div class="form-group">
+                <label for="RecommendedByIwrmcNote">
+                    @{if (prev_lang == "1")
+                        { <span>টীকা</span> }
+                        else
+                        { <span>Note</span> }
+                    }
+                </label>
+                <textarea id="RecommendedByIwrmcNote" name="RecommendedByIwrmcNote" class="form-control" rows="3"></textarea>
+            </div>
         </div>
-
-        <br />
-        <br />
-        <div class="clearfix"></div>
-
-        <div class="form-group">
-            <label for="AttachmentTitle">
-                @{if (prev_lang == "1")
-                    { <span>সংযুক্তি শিরোনাম</span>}
-                    else
-                    {<span>Attachment Title</span>}
-                }
-            </label>
-            <input type="text" id="AttachmentTitle" name="AttachmentTitle" class="form-control" />
-        </div>
-
-        <div class="clearfix"></div><br />
-
-        <div class="form-group mb-0">
-            <button id="btnSaveAdditionalInfo" type="button" class="btn btn-success waves-effect waves-light">
-                <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
-                @if (prev_lang == "1")
-                {<span>সংরক্ষণ করুন</span>}
-                else
-                {<span>Submit</span>}
-            </button>
-
-            <button id="btnClearAdditionalInfo" type="button" class="btn btn-secondary waves-effect waves-light">
-                <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
-                @if (prev_lang == "1")
-                {<span>বাতিল করুন</span>}
-                else
-                {<span>Cancel</span>}
-            </button>
-        </div>
-
-        <div class="clearfix"></div><br />
-
-        <div class="form-group mb-0">
-            <table class="table table-bordered" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th>
-                            @if (prev_lang == "1")
-                            {<span>মন্তব্য</span>}
-                            else
-                            {<span>Comments</span>}
-                        </th>
-                    </tr>
-                    <tr>
-                        <th style="text-align: justify;">
-                            @pcd.AdditionalTextComment
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <ul id="tbdAdditionalInfo">
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</fieldset>
+    </fieldset>
+}
 
 <script type="text/javascript">
     jQuery(document).ready(function () {
