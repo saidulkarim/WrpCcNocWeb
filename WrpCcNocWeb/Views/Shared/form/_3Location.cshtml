@@ -407,10 +407,10 @@
                 success: function (data, status, jqXHR) {
                     console.log('Project Location Data Loading...');
                     console.log(data);
-
-                    if (data.length > 0) {
+														
+                    if (data.length > 0) {						
+						jQuery("#spnTotalLocations").html(data.length + ' location(s) added.');
                         var rows = '';
-
                         var count = 0;
 
                         if (lang == '1') {
@@ -452,9 +452,11 @@
 
                         jQuery("#tbodyProjectLocation").html(rows);
                     } else {
+						jQuery("#spnTotalLocations").html('');
                         jQuery("#tbodyProjectLocation").html('<tr><td colspan="8" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
                     }
                 }, error: function (jqXHR, exception) {
+					jQuery("#spnTotalLocations").html('');
                     var errorMsg = AjaxErrorHandle(jqXHR, exception);
                     jQuery("#tbodyProjectLocation").html('<tr><td colspan="8" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
                     Notification('error', 'Error Occured', errorMsg);

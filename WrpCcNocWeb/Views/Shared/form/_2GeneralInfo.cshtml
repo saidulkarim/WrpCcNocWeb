@@ -9,9 +9,9 @@
     <div class="form-group">
         <label for="ProjectName">
             @{if (language == "1")
-                { <span>প্রকল্প শিরোনাম</span>}
+                { <span>১. প্রকল্প শিরোনাম</span>}
                 else
-                {<span>Project Name</span>}
+                {<span>1. Project Name</span>}
             } 
             <span class="text-danger bold">*</span>
         </label>
@@ -22,9 +22,9 @@
     <div class="form-group">
         <label for="BackgroundAndRationale">
             @{if (language == "1")
-                { <span>প্রকল্পের পূর্ব ইতিহাস ও যৌক্তিকতা</span>}
+                { <span>২. প্রকল্পের পূর্ব ইতিহাস ও যৌক্তিকতা</span>}
                 else
-                {<span>Project Background and Rationale</span>}
+                {<span>2. Project Background and Rationale</span>}
             } 
             <span class="text-danger bold">*</span>
         </label>
@@ -35,9 +35,9 @@
     <div class="form-group">
         <label for="ProjectTarget">
             @{if (language == "1")
-                { <span>প্রকল্পের লক্ষ্য</span>}
+                { <span>৩. প্রকল্পের লক্ষ্য</span>}
                 else
-                {<span>Project Target</span>}
+                {<span>3. Project Target</span>}
             } 
             <span class="text-danger bold">*</span>
         </label>
@@ -48,9 +48,9 @@
     <div class="form-group">
         <label for="ProjectObjective">
             @{if (language == "1")
-                { <span>প্রকল্পের উদ্দেশ্য</span>}
+                { <span>৪. প্রকল্পের উদ্দেশ্য</span>}
                 else
-                {<span>Project Objective</span>}
+                {<span>4. Project Objective</span>}
             } 
             <span class="text-danger bold">*</span>
         </label>
@@ -58,12 +58,79 @@
                   data-toggle="tooltip" data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language."></textarea>
     </div>
 
+	<div class="form-group">
+        <label for="ProjectActivity">
+            @if (language == "1")
+			{ <span>৫. প্রকল্পের অবস্থান</span> }
+			else
+			{ <span>5. Project Location</span> } <span class="text-danger bold">*</span>            
+        </label>
+		<br />
+        <button id="btnShowProjectLocations" type="button" data-toggle="modal" data-target="#projectLocationModal" 
+				class="btn btn-info waves-effect waves-light">
+            <span class="btn-label"><i class="mdi mdi-map-plus"></i></span>
+            @if (language == "1")
+			{ <span>প্রকল্পের অবস্থান</span> }
+			else
+			{ <span>Project Location</span> }
+            <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>					
+        </button>
+		
+		<span id="spnTotalLocations" class="badge badge-info"></span>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="projectLocationModal" tabindex="-1" role="dialog" 
+			 aria-labelledby="projectLocationModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="projectLocationModalLabel">
+							@if (language == "1")
+							{ <span>প্রকল্পের অবস্থান</span> }
+							else
+							{ <span>Project Location</span> }
+						</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						@{ Html.RenderPartial("form/_3Location"); }
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>				
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+	
+	<div class="form-group">
+        <label for="ProjectActivity">
+            @{if (language == "1")
+                { <span>৬. থানা বেজ ম্যাপে জিও কোডসহ প্রকল্পের সীমানা</span>}
+                else
+                {<span>6. Project Boundary with Geo Code at Thana Base Map</span>}
+            }
+        </label>
+        <br />
+        <button id="btnShowProjectBoundary" type="button" data-toggle="modal" data-target="#projectBoundaryModal" 
+				class="btn btn-success waves-effect waves-light">
+            <span class="btn-label"><i class="mdi mdi-map-marker-path"></i></span>
+				@if (language == "1")
+				{ <span>প্রকল্পের সীমানা</span> }
+				else
+				{ <span>Project Boundary</span> }
+            <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
+        </button>
+    </div>	
+	
     <div class="form-group">
         <label for="ProjectActivity">
             @{if (language == "1")
-                { <span>প্রকল্পের ক্রিয়াকলাপ/ উপাদানসমূহ</span>}
+                { <span>৭. প্রকল্পের ভৌত কাজের বিবরণ/ অবকাঠামো সমূহ</span>}
                 else
-                {<span>Project Activities/ Components</span>}
+                {<span>7. Project Activities/ Components</span>}
             }
         </label>
         <textarea id="ProjectActivity" name="ProjectActivity" class="form-control" rows="2"
@@ -75,9 +142,9 @@
             <legend>
                 <label for="ProjectPeriod" class="bold">
                     @{if (language == "1")
-                        { <span>প্রকল্প সময়কাল</span>}
+                        { <span>৮. প্রকল্প সময়কাল</span>}
                         else
-                        {<span>Project Period</span>}
+                        {<span>8. Project Period</span>}
                     } 
                     <span class="text-danger bold">*</span>
                 </label>
@@ -113,9 +180,9 @@
         <label for="ProjectEstimatedCost">
             @{
                 if (language == "1")
-                { <span>প্রকল্পের প্রাক্কলিত মোট ব্যয় (লক্ষ টাকায়)</span>}
+                { <span>৯. প্রকল্পের প্রাক্কলিত মোট ব্যয় (লক্ষ টাকায়)</span>}
                 else
-                {<span>Estimated Project Cost (In Lakh Taka)</span>}
+                {<span>9. Estimated Project Cost (In Lakh Taka)</span>}
             } 
             <span class="text-danger bold">*</span>
         </label>
@@ -126,9 +193,9 @@
     <div class="form-group">
         <label for="ProjectOutcome">
             @{if (language == "1")
-                { <span>প্রকল্পের ফলাফল</span>}
+                { <span>১০. প্রকল্পের ফলাফল</span>}
                 else
-                {<span>Project Outcome</span>}
+                {<span>10. Project Outcome</span>}
             }
         </label>
         <textarea id="ProjectOutcome" name="ProjectOutcome" class="form-control" rows="2"
@@ -138,29 +205,14 @@
     <div class="form-group">
         <label for="ProjectOutput">
             @{if (language == "1")
-                { <span>প্রকল্পের আউটপুট</span>}
+                { <span>১১. প্রকল্পের আউটপুট</span>}
                 else
-                {<span>Project Output</span>}
+                {<span>11. Project Output</span>}
             }
         </label>
         <textarea id="ProjectOutput" name="ProjectOutput" class="form-control" rows="2"
                   data-toggle="tooltip" data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language."></textarea>
     </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <fieldset>
-        <legend>
-            @if (language == "1")
-            {<span>প্রকল্পের অবস্থান</span>}
-            else
-            {<span>Project Location</span>}<span class="text-danger bold">*</span>
-        </legend>
-        <div class="card-box" style="padding: 0;">
-            @{ Html.RenderPartial("form/_3Location"); }
-        </div>
-    </fieldset>
 
     <div class="form-group mb-0">
         <button id="btnSaveGeneral" type="button" class="btn btn-info waves-effect waves-light">
