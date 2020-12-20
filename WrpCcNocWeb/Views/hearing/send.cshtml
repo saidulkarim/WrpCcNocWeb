@@ -1,0 +1,105 @@
+﻿@{
+    ViewData["Title"] = "Send Hearing Email to Applicant";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var ProjectId = ViewData["ProjectId"];
+    var ApplicantEmail = ViewData["ApplicantEmail"].ToString();
+    var Success = ViewData["SuccessEmailSend"].ToString();
+}
+
+<div class="row justify-content-md-center">
+    <div class="col-md-12">
+        <div class="card">
+            <div id="divHearingEmailSendPrint" class="collapse show">
+                <div class="card-body" style="padding-left: 3.5rem !important;padding-right: 3.5rem !important;">
+                    <div class="form-group">
+                        <label for="ApplicantEmail">
+                            <span>Applicant Email</span>
+                        </label>
+                        <input type="text" id="AppEmail" name="AppEmail" value="@ApplicantEmail" readonly disabled class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="HearingSubject">
+                            <span>Subject</span>
+                        </label>
+                        <input type="text" id="HearingSub" name="HearingSub" value="" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="divHearingEmailEditor">
+                            <span>Message</span>
+                        </label>
+                        <div id="divHearingEmailEditor">
+                            Write from here...
+                        </div>
+                    </div>
+                </div>
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="row justify-content-md-center">
+    @using (Html.BeginForm("send", "hearing", FormMethod.Post, new { enctype = "multipart/form-data", id = "FormSendHearingEmailSubmit", role = "form" }))
+    {
+        <input type="hidden" id="ProjectId" name="ProjectId" value="@ProjectId" />
+        <input type="hidden" id="LanguageId" name="LanguageId" value="" />
+        <input type="hidden" id="ApplicantEmail" name="ApplicantEmail" />
+        <input type="hidden" id="HearingSubject" name="HearingSubject" />
+        <input type="hidden" id="HearingMessage" name="HearingMessage" />
+
+        <div class="form-group mb-0">
+            <button id="btnOkSendEmailHearing" type="button" class="btn btn-blue waves-effect waves-light">
+                <span class="btn-label"><i class="mdi mdi-send"></i></span>
+                Send
+            </button>
+
+            <button id="btnCancelSendEmailHearing" type="reset" class="btn btn-secondary waves-effect waves-light"
+                    onclick="javascript: window.close();">
+                <span class="btn-label"><i class="mdi mdi-cancel"></i></span>
+                Cancel
+            </button>
+        </div>
+    }
+</div>
+
+@section PageScripts {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            var success = '@Success';
+            if (success == "success") {
+                Notification('success', 'Hearing Email Send', 'Your hearing email has been successfully sent to the applicant.');
+
+                setTimeout(
+                    function () {
+                        window.close();
+                    }, 5000);
+            } else {
+                if (success != "not yet") {
+                    Notification('error', 'Email Send Error', success);
+                }
+            }
+
+            $("#divHearingEmailEditor").summernote({
+                height: 250,
+                minHeight: null,
+                maxHeight: null,
+                focus: !1
+            });
+
+            jQuery("#btnOkSendEmailHearing").click(function () {
+                var contents = $('#divHearingEmailEditor').summernote('code');
+                console.log(contents);
+
+                $("#ApplicantEmail").val($("#AppEmail").val());
+                $("#HearingSubject").val($("#HearingSub").val());
+                $("#HearingMessage").val(contents);
+                $("#FormSendHearingEmailSubmit").submit();
+            });
+        });
+    </script>
+}

@@ -92,7 +92,7 @@ namespace WrpCcNocWeb.Helpers
         }
 
         /// <summary>
-        /// Fianl Email Sending Method
+        /// Final Email Sending Method
         /// </summary>
         /// <param name="model">EmailModel parameter</param>
         /// <returns></returns>
@@ -158,6 +158,6 @@ namespace WrpCcNocWeb.Helpers
             }
 
             return result;
-        }
+        }        
     }
 }

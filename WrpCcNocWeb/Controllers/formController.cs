@@ -4793,7 +4793,7 @@ namespace WrpCcNocWeb.Controllers
                     #endregion
 
                     if (appStateCost > appState)
-                        appState = appStateCost;                    
+                        appState = appStateCost;
 
                     string projectTrackingCode = id.ToString().GenerateTrackingNumber(6);
 
