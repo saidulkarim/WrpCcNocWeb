@@ -61,7 +61,7 @@
                 <div class="clearfix"></div>
                 <br />
 
-                <div id="divIsHearingOccured" style="display: none;">
+                <div id="divIsHearingOccured">
                     <div class="form-group">
                         <label for="HearingDescription">
                             @{if (prev_lang == "1")
@@ -142,9 +142,9 @@
         <fieldset>
             <legend>
                 @if (prev_lang == "1")
-                {<span>কারিগরি কমিটির সামগ্রিক মন্তব্য</span> }
+                {<span>কারিগরি কমিটির সামগ্রিক সুপারিশ</span> }
                 else
-                { <span>Overall Comments of Technical Committee</span>}
+                { <span>Overall Recommendation of Technical Committee</span>}
             </legend>
             <div class="card-box">
                 <div class="form-group">
@@ -296,11 +296,11 @@
         if (aho != '') {
             $(":radio[name='AnyHearingOccured'][value='" + aho + "']").attr('checked', true);
 
-            if (aho == 1) {
+            /*if (aho == 1) {
                 jQuery("#divIsHearingOccured").removeAttr('style');
             } else {
                 jQuery("#divIsHearingOccured").attr('style', 'display: none;');
-            }
+            }*/
         }
 
         var hd = '@pcd.HearingDescription';
@@ -321,8 +321,8 @@
 
         jQuery("#btnSendEmailHearing").click(function () {
             var projectId = jQuery('#pProjectId').val();
-            var popupWinWidth = 850;
-            var popupWinHeight = 600;
+            var popupWinWidth = 960;
+            var popupWinHeight = 767;
             var left = (screen.width - popupWinWidth) / 2;
             var top = (screen.height - popupWinHeight) / 4;
 
@@ -345,7 +345,8 @@
 
             if (jQuery(this).val() == 1) {
                 console.log('Yes' + jQuery(this).val());
-                jQuery("#divIsHearingOccured").removeAttr('style');
+                jQuery("#divIsHearingOccured").show();
+                //jQuery("#divIsHearingOccured").attr('style', 'display: block;');
             }
         });
 
@@ -354,9 +355,10 @@
 
             if (jQuery(this).val() == 0) {
                 console.log('No' + jQuery(this).val());
-                jQuery("#divIsHearingOccured").attr('style', 'display: none;');
+                jQuery("#divIsHearingOccured").hide();
+                //jQuery("#divIsHearingOccured").attr('style', 'display: none;');
             }
-        });
+        });        
         */
 
         jQuery("#btnSaveHearingInfo").click(function () {

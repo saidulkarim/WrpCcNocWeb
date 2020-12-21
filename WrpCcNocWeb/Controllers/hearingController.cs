@@ -8,6 +8,7 @@ using WrpCcNocWeb.Helpers;
 using WrpCcNocWeb.Models;
 using WrpCcNocWeb.Models.TempModels;
 using WrpCcNocWeb.Models.Utility;
+using WrpCcNocWeb.Models.UserManagement;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -38,38 +39,88 @@ namespace WrpCcNocWeb.Controllers
         [HttpPost]
         public IActionResult send()
         {
-            int result = 0;
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
+            string _hearingBody = string.Empty;
+            long ProjectApplicantId = 0;
+
             long _projectId = Request.Form["ProjectId"].ToString().ToLong();
             string _applicantEmail = Request.Form["ApplicantEmail"].ToString().Trim();
             string _hearingSubject = Request.Form["HearingSubject"].ToString().Trim();
-            string _hearingMessage = Request.Form["HearingMessage"].ToString().Trim();
+            string _hearingReason = Request.Form["HearingReason"].ToString().Trim();
+
+            string _hearingDate = Request.Form["DateOfHearing"].ToString().Trim();
+            string _hearingTime = Request.Form["TimeOfHearing"].ToString().Trim();
+            string _hearingPlace = Request.Form["HearingPlace"].ToString().Trim();
+
+            _hearingBody += "Date of Hearing: " + _hearingDate + "<br />";
+            _hearingBody += "Time of Hearing: " + _hearingTime + "<br />";
+            _hearingBody += "Hearing Place: " + _hearingPlace + "<br /><br />";
+            _hearingBody += "Reason: " + "<br />" + _hearingReason + "<br /><br />";
+
+            CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(_projectId);
 
             try
             {
-                CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(_projectId);
-
                 if (_pcd != null)
                 {
+                    if (_hearingBody.Length > 500)
+                    {
+                        ViewData["SuccessEmailSend"] = "Hearing reason text could not be greater than 500 characters.";
+                        GetApplicantInfoViewData(_pcd.ProjectId);
+                        return View();
+                    }
+
+                    ProjectApplicantId = ui.UserID;
+                    using var dbContextTransaction = _db.Database.BeginTransaction();
+
+                    CcModAppProjHearing hearing = new CcModAppProjHearing
+                    {
+                        ProjectId = _projectId,
+                        SenderUserId = ProjectApplicantId,
+                        HearingSubject = _hearingSubject,
+                        HearingReason = _hearingBody,
+                        HearingPlace = _hearingPlace,
+                        DateOfHearing = _hearingDate,
+                        TimeOfHearing = _hearingTime
+                    };
+
                     EmailModel em = new EmailModel
                     {
                         To = _applicantEmail,
                         Subject = _hearingSubject,
-                        Body = _hearingMessage,
+                        Body = _hearingBody,
                         Attachment = null
                     };
 
                     _es.Send(em);
+                    _db.CcModAppProjHearing.Add(hearing);
+                    int result = _db.SaveChanges();
+
+                    if (result > 0)
+                    {
+                        dbContextTransaction.Commit();
+                        ViewData["SuccessEmailSend"] = "success";
+                    }
+                    else
+                    {
+                        dbContextTransaction.Rollback();
+                        ViewData["SuccessEmailSend"] = "failed";
+                    }
 
                     ViewData["ProjectId"] = _pcd.ProjectId;
-                    GetApplicantInfoViewData(_pcd.UserId);
-                    ViewData["SuccessEmailSend"] = "success";
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ViewData["SuccessEmailSend"] = ex.Message;
             }
 
+            GetApplicantInfoViewData(_pcd.UserId);
             return View();
         }
 

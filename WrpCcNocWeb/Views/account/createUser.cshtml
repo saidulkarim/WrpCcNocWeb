@@ -101,6 +101,11 @@
                                 @Html.EditorFor(m => m.FullName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter user full name", @autocomplete = "off" } })
                             </div>
 
+                            <div class="form-group" data-toggle="tooltip" title="Press Control + B to change language.">
+                                @Html.LabelFor(m => m.FullNameBn, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                @Html.EditorFor(m => m.FullNameBn, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter user full name", @autocomplete = "off" } })
+                            </div>
+
                             <div class="form-group">
                                 @Html.LabelFor(m => m.Designation, new { @class = "control-label" }) <span class="text-danger bold">*</span>
                                 @Html.EditorFor(m => m.Designation, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter user designation", @autocomplete = "off" } })
@@ -109,6 +114,11 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.Address, new { @class = "control-label" }) <span class="text-danger bold">*</span>
                                 @Html.EditorFor(m => m.Address, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter user address", @autocomplete = "off" } })
+                            </div>
+
+                            <div class="form-group" data-toggle="tooltip" title="Press Control + B to change language.">
+                                @Html.LabelFor(m => m.AddressBn, new { @class = "control-label" }) <span class="text-danger bold">*</span>
+                                @Html.EditorFor(m => m.AddressBn, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter user address", @autocomplete = "off" } })
                             </div>
 
                             <div id="divSigSeal" class="d-none">
@@ -189,10 +199,12 @@
 
 <script type="text/javascript">
     jQuery(document).ready(function () {
+        jQuery('#FullNameBn, #AddressBn').avro({ 'bn': true });
+
         jQuery("#UserGroup").change(function () {
             var groupId = jQuery(this).val(); //1000000003
             var authLevel = $(this).find("option:selected").attr("title"); //1, 3, 5
-            
+
             if (groupId == '1000000003' || authLevel == 1 || authLevel == 3 || authLevel == 5) {
                 jQuery("#divSigSeal").removeClass('d-none');
             } else {

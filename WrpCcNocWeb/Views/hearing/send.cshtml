@@ -7,51 +7,80 @@
     var Success = ViewData["SuccessEmailSend"].ToString();
 }
 
-<div class="row justify-content-md-center">
-    <div class="col-md-12">
-        <div class="card">
-            <div id="divHearingEmailSendPrint" class="collapse show">
-                <div class="card-body" style="padding-left: 3.5rem !important;padding-right: 3.5rem !important;">
-                    <div class="form-group">
-                        <label for="ApplicantEmail">
-                            <span>Applicant Email</span>
-                        </label>
-                        <input type="text" id="AppEmail" name="AppEmail" value="@ApplicantEmail" readonly disabled class="form-control" />
-                    </div>
+@using (Html.BeginForm("send", "hearing", FormMethod.Post, new { enctype = "multipart/form-data", id = "FormSendHearingEmailSubmit", role = "form" }))
+{
+    <div class="row justify-content-md-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div id="divHearingEmailSendPrint" class="collapse show">
+                    <div class="card-body" style="padding-left: 3.5rem !important;padding-right: 3.5rem !important;">
+                        <input type="hidden" id="ProjectId" name="ProjectId" value="@ProjectId" />
+                        <input type="hidden" id="LanguageId" name="LanguageId" value="" />
+                        <input type="hidden" id="ApplicantEmail" name="ApplicantEmail" />
+                        <input type="hidden" id="HearingReason" name="HearingReason" />
 
-                    <div class="form-group">
-                        <label for="HearingSubject">
-                            <span>Subject</span>
-                        </label>
-                        <input type="text" id="HearingSub" name="HearingSub" value="" class="form-control" />
-                    </div>
+                        <div class="form-group">
+                            <label for="ApplicantEmail">
+                                <span>Applicant Email</span>
+                            </label>
+                            <input type="text" id="AppEmail" name="AppEmail" value="@ApplicantEmail" readonly disabled class="form-control" />
+                        </div>
 
-                    <div class="form-group">
-                        <label for="divHearingEmailEditor">
-                            <span>Message</span>
-                        </label>
-                        <div id="divHearingEmailEditor">
-                            Write from here...
+                        <div class="form-group">
+                            <label for="HearingEmailCC">
+                                <span>CC</span>
+                            </label>
+                            <input type="text" id="HearingEmailCC" name="HearingEmailCC" class="form-control" />
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="DateOfHearing">
+                                    <span>Date of Hearing</span>
+                                </label>
+                                <input type="date" id="DateOfHearing" name="DateOfHearing" maxlength="10" class="form-control datepicker" />
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="TimeOfHearing">
+                                    <span>Time of Hearing</span>
+                                </label>
+                                <input type="time" id="TimeOfHearing" name="TimeOfHearing" maxlength="11" class="form-control timepicker" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="HearingPlace">
+                                <span>Hearing Place</span>
+                            </label>
+                            <input type="text" id="HearingPlace" name="HearingPlace" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="HearingSubject">
+                                <span>Subject</span>
+                            </label>
+                            <input type="text" id="HearingSubject" name="HearingSubject" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="divHearingEmailEditor">
+                                <span>Hearing Reasons</span>
+                            </label>
+                            <div id="divHearingEmailEditor">
+                                Write from here...
+                            </div>
                         </div>
                     </div>
+                    <br />
                 </div>
-                <br />
             </div>
         </div>
     </div>
-</div>
 
-<hr />
+    <hr />
 
-<div class="row justify-content-md-center">
-    @using (Html.BeginForm("send", "hearing", FormMethod.Post, new { enctype = "multipart/form-data", id = "FormSendHearingEmailSubmit", role = "form" }))
-    {
-        <input type="hidden" id="ProjectId" name="ProjectId" value="@ProjectId" />
-        <input type="hidden" id="LanguageId" name="LanguageId" value="" />
-        <input type="hidden" id="ApplicantEmail" name="ApplicantEmail" />
-        <input type="hidden" id="HearingSubject" name="HearingSubject" />
-        <input type="hidden" id="HearingMessage" name="HearingMessage" />
-
+    <div class="row justify-content-md-center">
         <div class="form-group mb-0">
             <button id="btnOkSendEmailHearing" type="button" class="btn btn-blue waves-effect waves-light">
                 <span class="btn-label"><i class="mdi mdi-send"></i></span>
@@ -64,8 +93,8 @@
                 Cancel
             </button>
         </div>
-    }
-</div>
+    </div>
+}
 
 @section PageScripts {
     <script type="text/javascript">
@@ -85,7 +114,7 @@
             }
 
             $("#divHearingEmailEditor").summernote({
-                height: 250,
+                height: 150,
                 minHeight: null,
                 maxHeight: null,
                 focus: !1
@@ -96,8 +125,8 @@
                 console.log(contents);
 
                 $("#ApplicantEmail").val($("#AppEmail").val());
-                $("#HearingSubject").val($("#HearingSub").val());
-                $("#HearingMessage").val(contents);
+                //$("#HearingSubject").val($("#HearingSub").val());
+                $("#HearingReason").val(contents);
                 $("#FormSendHearingEmailSubmit").submit();
             });
         });

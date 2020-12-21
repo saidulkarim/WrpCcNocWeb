@@ -32,11 +32,17 @@ namespace WrpCcNocWeb.ViewModels
         [Display(Name = "Full Name")]
         public string FullName { get; set; }
 
+        [Display(Name = "Full Name (Bangla)")]
+        public string FullNameBn { get; set; }
+
         [Display(Name = "Designation")]
         public string Designation { get; set; }
-
-        [Display(Name = "Address")]
+       
+        [Display(Name = "Postal Address")]
         public string Address { get; set; }
+
+        [Display(Name = "Postal Address (Bangla)")]
+        public string AddressBn { get; set; }
 
         [Display(Name = "Security Question")]
         public string SecurityQuestionId { get; set; }

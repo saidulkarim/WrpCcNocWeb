@@ -107,6 +107,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<CcModAppHearingAttachment> CcModAppHearingAttachment { get; set; }
         public DbSet<CcModAppPrjLocationFiles> CcModAppPrjLocationFiles { get; set; }
         public DbSet<CcModProjectQueryDetail> CcModProjectQueryDetail { get; set; }
+        public DbSet<CcModAppProjHearing> CcModAppProjHearing { get; set; }
         #endregion
 
         #region LookUp --- CC Module     

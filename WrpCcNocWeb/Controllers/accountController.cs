@@ -2,28 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WrpCcNocWeb.Models;
 using WrpCcNocWeb.Helpers;
 using static WrpCcNocWeb.Helpers.CommonHelper;
 using Microsoft.EntityFrameworkCore;
-using System.Drawing;
 using System.IO;
-using System.Drawing.Imaging;
 using Microsoft.AspNetCore.Http;
 using WrpCcNocWeb.Models.Utility;
 using WrpCcNocWeb.Models.UserManagement;
 using WrpCcNocWeb.DatabaseContext;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WrpCcNocWeb.ViewModels;
-using WrpCcNocWeb.Models.AdminModule;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Hosting;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using WrpCcNocWeb.Models.TempModels;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -1531,12 +1526,20 @@ namespace WrpCcNocWeb.Controllers
                     AdminModUsersDetail amud = new AdminModUsersDetail
                     {
                         UserRegistrationId = userReg.UserRegistrationId,
+                        
                         //rony :: need to work here
                         //UserFullName = anuc.FullName,
                         //UserFullName = ud.ApplicantTypeId == 1 ? ud.ApplicantName : ud.OrganizationName,
                         //UserFatherName = "empty",
                         //UserDateOfBirth = DateTime.Now,
                         //UserAddress = anuc.Address,
+
+                        ApplicantTypeId = 1,
+                        ApplicantName = anuc.FullName,
+                        ApplicantNameBn = anuc.FullNameBn,
+                        UserDesignation = anuc.Designation,
+                        PostalAddress = anuc.Address,
+                        PostalAddressBn = anuc.AddressBn,
                         SecurityQuestionId = anuc.SecurityQuestionId.ToInt(),
                         SecurityQuestionAnswer = anuc.SecurityQuestionAnswer,
                         IsProfileSubmitted = 1

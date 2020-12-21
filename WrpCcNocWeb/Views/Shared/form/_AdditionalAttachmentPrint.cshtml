@@ -65,12 +65,12 @@
                     {<span>Attachments</span>}
                 </td>
                 <td>
-                    <ul id="tbdAdditionalInfo">
-                        @foreach (CcModAppHearingAttachment ha in halist)
+                    <ol id="tbdAdditionalInfo">
+                        @foreach (CcModAppHearingAttachment ha in halist.OrderBy(o => o.HearingAttachmentId))
                         {
                             <li>Title: @ha.AttachmentTitle&nbsp;&nbsp;&nbsp;Attachment File: @ha.AdditionalAttachmentFile</li>
                         }
-                    </ul>
+                    </ol>
                 </td>
             </tr>
         </table>
@@ -81,9 +81,9 @@
             <tr>
                 <td>
                     @if (prev_lang == "1")
-                    {<span>কারিগরি কমিটির সামগ্রিক মন্তব্য</span> }
+                    {<span>সুপারিশ</span> }
                     else
-                    { <span>Overall Comments of Technical Committee</span>}
+                    { <span>Recommendation</span>}
                 </td>
                 <td style="text-align: justify;">
                     @pcd.AdditionalTextComment
@@ -97,12 +97,12 @@
                     {<span>Attachments</span>}
                 </td>
                 <td>
-                    <ul id="tbdAdditionalInfo">
-                        @foreach (CcModAppAdditionalAttachment aca in acalist)
+                    <ol id="tbdAdditionalInfo">
+                        @foreach (CcModAppAdditionalAttachment aca in acalist.OrderBy(o => o.AttachmentId))
                         {
                             <li>Title: @aca.AttachmentTitle&nbsp;&nbsp;&nbsp;Attachment File: @aca.AditionalAttachmentFile</li>
                         }
-                    </ul>
+                    </ol>
                 </td>
             </tr>
         </table>
