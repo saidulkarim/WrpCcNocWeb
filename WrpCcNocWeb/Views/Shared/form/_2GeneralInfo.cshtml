@@ -2,17 +2,17 @@
 @inject IHttpContextAccessor HttpContextAccessor
 
 @{
-    var language = HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString();
+    var language = int.Parse(HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString());
 }
 
 <div id="gen-info-form">
     <div class="form-group">
         <label for="ProjectName">
-            @{if (language == "1")
+            @{if (language == 1)
                 { <span>১. প্রকল্প শিরোনাম</span>}
                 else
                 {<span>1. Project Name</span>}
-            } 
+            }
             <span class="text-danger bold">*</span>
         </label>
         <input type="text" id="ProjectName" name="ProjectName" class="form-control" data-toggle="tooltip"
@@ -21,11 +21,11 @@
 
     <div class="form-group">
         <label for="BackgroundAndRationale">
-            @{if (language == "1")
+            @{if (language == 1)
                 { <span>২. প্রকল্পের পূর্ব ইতিহাস ও যৌক্তিকতা</span>}
                 else
                 {<span>2. Project Background and Rationale</span>}
-            } 
+            }
             <span class="text-danger bold">*</span>
         </label>
         <textarea id="BackgroundAndRationale" name="BackgroundAndRationale" class="form-control" rows="2"
@@ -34,11 +34,11 @@
 
     <div class="form-group">
         <label for="ProjectTarget">
-            @{if (language == "1")
+            @{if (language == 1)
                 { <span>৩. প্রকল্পের লক্ষ্য</span>}
                 else
                 {<span>3. Project Target</span>}
-            } 
+            }
             <span class="text-danger bold">*</span>
         </label>
         <textarea id="ProjectTarget" name="ProjectTarget" class="form-control" rows="2"
@@ -47,87 +47,91 @@
 
     <div class="form-group">
         <label for="ProjectObjective">
-            @{if (language == "1")
+            @{if (language == 1)
                 { <span>৪. প্রকল্পের উদ্দেশ্য</span>}
                 else
                 {<span>4. Project Objective</span>}
-            } 
+            }
             <span class="text-danger bold">*</span>
         </label>
         <textarea id="ProjectObjective" name="ProjectObjective" class="form-control" rows="2"
                   data-toggle="tooltip" data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language."></textarea>
     </div>
 
-	<div class="form-group">
+    <div class="form-group">
         <label for="ProjectActivity">
-            @if (language == "1")
-			{ <span>৫. প্রকল্পের অবস্থান</span> }
-			else
-			{ <span>5. Project Location</span> } <span class="text-danger bold">*</span>            
+            @if (language == 1)
+            {<span>৫. প্রকল্পের অবস্থান</span> }
+            else
+            { <span>5. Project Location</span>} <span class="text-danger bold">*</span>
         </label>
-		<br />
-        <button id="btnShowProjectLocations" type="button" data-toggle="modal" data-target="#projectLocationModal" 
-				class="btn btn-info waves-effect waves-light">
+        <br />
+        <button id="btnShowProjectLocations" type="button" data-toggle="modal" data-backdrop="static" data-keyboard="false"
+                data-target="#projectLocationModal" class="btn btn-info waves-effect waves-light">
             <span class="btn-label"><i class="mdi mdi-map-plus"></i></span>
-            @if (language == "1")
-			{ <span>প্রকল্পের অবস্থান</span> }
-			else
-			{ <span>Project Location</span> }
-            <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>					
+            @if (language == 1)
+            {<span>প্রকল্পের অবস্থান</span> }
+            else
+            { <span>Project Location</span>}
+            <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
         </button>
-		
-		<span id="spnTotalLocations" class="badge badge-info"></span>
-		
-		<!-- Modal -->
-		<div class="modal fade" id="projectLocationModal" tabindex="-1" role="dialog" 
-			 aria-labelledby="projectLocationModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="projectLocationModalLabel">
-							@if (language == "1")
-							{ <span>প্রকল্পের অবস্থান</span> }
-							else
-							{ <span>Project Location</span> }
-						</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						@{ Html.RenderPartial("form/_3Location"); }
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>				
-					</div>
-				</div>
-			</div>
-		</div>
+        <span id="spnTotalLocations" class="badge badge-blue font-13 p-2" style="position: absolute; margin-left: 10px;"></span>
+
+        <!-- Modal -->
+        <div class="modal fade" id="projectLocationModal" tabindex="-1" role="dialog"
+             aria-labelledby="projectLocationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content p-1">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="projectLocationModalLabel">
+                            @if (language == 1)
+                            {<span>প্রকল্পের অবস্থান</span> }
+                            else
+                            { <span>Project Location</span>}
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @{ Html.RenderPartial("form/_3Location"); }
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnModalClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-	
-	<div class="form-group">
+
+    <div class="form-group">
         <label for="ProjectActivity">
-            @{if (language == "1")
+            @{if (language == 1)
                 { <span>৬. থানা বেজ ম্যাপে জিও কোডসহ প্রকল্পের সীমানা</span>}
                 else
                 {<span>6. Project Boundary with Geo Code at Thana Base Map</span>}
             }
         </label>
         <br />
-        <button id="btnShowProjectBoundary" type="button" data-toggle="modal" data-target="#projectBoundaryModal" 
-				class="btn btn-success waves-effect waves-light">
+        <span class="btn btn-success fileinput-button waves-effect waves-light font-">
             <span class="btn-label"><i class="mdi mdi-map-marker-path"></i></span>
-				@if (language == "1")
-				{ <span>প্রকল্পের সীমানা</span> }
-				else
-				{ <span>Project Boundary</span> }
-            <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
-        </button>
-    </div>	
-	
+            <span>
+                @if (language == 1)
+                {<span>প্রকল্পের সীমানা</span> }
+                else
+                { <span>Project Boundary</span>}
+            </span>
+            <input type="file" name="MapFile" id="MapFile" accept="application/vnd.google-earth.kml+xml"
+                   onchange="return ValidateFileUpload()" />
+        </span>
+
+        <input type="hidden" id="SelectedMapFile" name="SelectedMapFile" />
+        <span id="spnKmlFileName" class="badge badge-blue font-13 p-2" style="position: absolute; margin-left: 10px;"></span>
+    </div>
+
     <div class="form-group">
         <label for="ProjectActivity">
-            @{if (language == "1")
+            @{if (language == 1)
                 { <span>৭. প্রকল্পের ভৌত কাজের বিবরণ/ অবকাঠামো সমূহ</span>}
                 else
                 {<span>7. Project Activities/ Components</span>}
@@ -141,11 +145,11 @@
         <fieldset>
             <legend>
                 <label for="ProjectPeriod" class="bold">
-                    @{if (language == "1")
+                    @{if (language == 1)
                         { <span>৮. প্রকল্প সময়কাল</span>}
                         else
                         {<span>8. Project Period</span>}
-                    } 
+                    }
                     <span class="text-danger bold">*</span>
                 </label>
             </legend>
@@ -153,7 +157,7 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="ProjectStartDate">
-                        @{if (language == "1")
+                        @{if (language == 1)
                             { <span>প্রাম্ভিক কাল</span>}
                             else
                             {<span>Starting Time</span>}
@@ -164,7 +168,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="ProjectCompletionDate">
-                        @{if (language == "1")
+                        @{if (language == 1)
                             { <span>সমাপ্তি কাল</span>}
                             else
                             {<span>Completion Time</span>}
@@ -179,20 +183,20 @@
     <div class="form-group col-md-6" style="padding-left: 0 !important;">
         <label for="ProjectEstimatedCost">
             @{
-                if (language == "1")
+                if (language == 1)
                 { <span>৯. প্রকল্পের প্রাক্কলিত মোট ব্যয় (লক্ষ টাকায়)</span>}
                 else
                 {<span>9. Estimated Project Cost (In Lakh Taka)</span>}
-            } 
+            }
             <span class="text-danger bold">*</span>
         </label>
 
-        <input type="number" maxlength="10" min="0" id="ProjectEstimatedCost" name="ProjectEstimatedCost" class="form-control text-right" />
+        <input type="number" maxlength="10" min="0" id="ProjectEstimatedCost" name="ProjectEstimatedCost" class="form-control text-right pr-1" />
     </div>
 
     <div class="form-group">
         <label for="ProjectOutcome">
-            @{if (language == "1")
+            @{if (language == 1)
                 { <span>১০. প্রকল্পের ফলাফল</span>}
                 else
                 {<span>10. Project Outcome</span>}
@@ -204,7 +208,7 @@
 
     <div class="form-group">
         <label for="ProjectOutput">
-            @{if (language == "1")
+            @{if (language == 1)
                 { <span>১১. প্রকল্পের আউটপুট</span>}
                 else
                 {<span>11. Project Output</span>}
@@ -217,7 +221,7 @@
     <div class="form-group mb-0">
         <button id="btnSaveGeneral" type="button" class="btn btn-info waves-effect waves-light">
             <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
-            @if (language == "1")
+            @if (language == 1)
             {
                 <span>সংরক্ষণ করুন</span>
             }
@@ -230,7 +234,7 @@
 
         <button id="btnClearGeneral" type="button" class="btn btn-secondary waves-effect waves-light">
             <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
-            @if (language == "1")
+            @if (language == 1)
             {
                 <span>পরিষ্কার করুন</span>
             }
@@ -254,6 +258,7 @@
             var ProjectEstimatedCost = GetTextValue('ProjectEstimatedCost') == '' ? '0' : GetTextValue('ProjectEstimatedCost');
             var ProjectOutcome = GetTextValue('ProjectOutcome');
             var ProjectOutput = GetTextValue('ProjectOutput');
+            var ProjectBoundaryMap = jQuery("#SelectedMapFile").val();
 
             if (ProjectName == '') {
                 Notification('warning', 'Required Field', 'Project name can not be left empty.');
@@ -318,26 +323,39 @@
                 return;
             }
 
+            if (ProjectBoundaryMap == '') {
+                Notification('warning', 'Required Field', '6. Project Boundary with Geo Code at Thana Base Map is required!');
+                Swal.fire('Required Field', '6. Project Boundary with Geo Code at Thana Base Map is required!', 'warning');
+                return;
+            }
+
             GeneralInfoSave();
         });
 
         jQuery("#btnClearGeneral").click(function () {
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "All data will be cleared from General Information panel!",
-                    type: "warning",
-                    allowEscapeKey: false,
-                    allowOutsideClick: false,
-                    showCancelButton: !0,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Sure"
-                }).then(function (t) {
-                    if (t.value == true) {
-                        $('#gen-info-form').trigger("reset");
-                    }
-                });
+            Swal.fire({
+                title: "Are you sure?",
+                text: "All data will be cleared from General Information panel!",
+                type: "warning",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                showCancelButton: !0,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sure"
+            }).then(function (t) {
+                if (t.value == true) {
+                    $('#gen-info-form').trigger("reset");
+                    $('#spnTotalLocations, #spnKmlFileName').text('');
+                }
             });
+        });
+
+        jQuery("#btnModalClose").click(function () {
+            var table = $("#tbodyProjectLocation");
+            var rows = table.find('tr').length;
+            jQuery("#spnTotalLocations").html(rows + ' location(s) added');
+        });
     });
 
     function GeneralInfoSave() {
@@ -351,6 +369,7 @@
         var ProjectEstimatedCost = GetTextValue('ProjectEstimatedCost') == '' ? '0' : GetTextValue('ProjectEstimatedCost');
         var ProjectOutcome = GetTextValue('ProjectOutcome');
         var ProjectOutput = GetTextValue('ProjectOutput');
+        var ProjectBoundaryMap = jQuery("#SelectedMapFile").val();
 
         var pcd = {
             "ProjectId": jQuery('#ProjectId').val(),
@@ -368,10 +387,9 @@
             "ProjectCompletionDate": ProjectCompletionDate,
             "ProjectEstimatedCost": ProjectEstimatedCost,
             "ProjectOutcome": ProjectOutcome,
-            "ProjectOutput": ProjectOutput
+            "ProjectOutput": ProjectOutput,
+            "ProjectBoundaryMap": ProjectBoundaryMap
         };
-
-        //console.log(pcd);
 
         //#region project location script
         var rowCount = $('#tbodyProjectLocation tr').length;
@@ -380,8 +398,10 @@
         var table = $("#tbodyProjectLocation");
         table.find('tr').each(function (i) {
             var $tds = $(this).find('td');
+            ImageFiles = [];
+            ImageFiles.length = 0;
 
-            var LocationId = $tds.eq(7).find('input[type=hidden]').val();
+            var LocationId = $tds.eq(6).find('input[type=hidden]').val();
             LocationId = (LocationId == '') ? 0 : LocationId;
             var DistrictGeoCode = $tds.eq(0).find('input[type=hidden]').val();
             var UpazilaGeoCode = $tds.eq(1).find('input[type=hidden]').val();
@@ -389,12 +409,12 @@
             var Latitude = $tds.eq(3).text();
             var Longitude = $tds.eq(4).text();
             var ImageFile = $tds.eq(5).find('input[type=hidden]').val();
-            var MapFile = $tds.eq(6).find('input[type=hidden]').val();//hdSelectedMapFile
+            //var MapFile = $tds.eq(6).find('input[type=hidden]').val();//hdSelectedMapFile
 
             if (LocationId == 0) {
                 $tds.eq(5).find('img').each(function (i) {
                     var src = $(this).attr('src');
-                    //console.log(src);
+                    console.log(src);
                     ImageFiles.push(src);
                 });
             }
@@ -408,7 +428,7 @@
                     'Latitude': Latitude,
                     'Longitude': Longitude,
                     'ImageFile': ImageFiles,
-                    'MapFile': MapFile,
+                    //'MapFile': MapFile,
                     'Error': ''
                 };
 

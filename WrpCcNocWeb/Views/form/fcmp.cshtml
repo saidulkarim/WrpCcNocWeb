@@ -932,7 +932,7 @@
                                                                                     <input type="text" id="DiscussWithStakeApplicantCmt" name="DiscussWithStakeApplicantCmt" class="form-control" />
                                                                                 </div>
 
-                                                                                <div class="form-group">
+                                                                                <div class="form-group hidden">
                                                                                     <label for="DiscussWithStakeAuthorityCmt">
 
                                                                                         @{if (language == "1")
@@ -1083,7 +1083,7 @@
                                                                                     <input type="text" id="AnalyzeOptionsApplicantCmt" name="AnalyzeOptionsApplicantCmt" class="form-control" />
                                                                                 </div>
 
-                                                                                <div class="form-group">
+                                                                                <div class="form-group hidden">
                                                                                     <label for="AnalyzeOptionsAuthorityCmt">
                                                                                         @{if (language == "1")
                                                                                             { <span>iii. কর্তৃপক্ষের মন্তব্য</span>}
@@ -1349,7 +1349,7 @@
                                                                                     <input type="text" id="EnvAndSocialApplicantCmt" name="EnvAndSocialApplicantCmt" class="form-control" />
                                                                                 </div>
 
-                                                                                <div class="form-group">
+                                                                                <div class="form-group hidden">
                                                                                     <label for="EnvAndSocialAuthorityCmt">
                                                                                         @{if (language == "1")
                                                                                             { <span>iii. কর্তৃপক্ষের মন্তব্য</span>}
@@ -1650,7 +1650,7 @@
                                                                                     <input type="text" id="ToolsApplicantComments" name="ToolsApplicantComments" class="form-control" />
                                                                                 </div>
 
-                                                                                <div class="form-group">
+                                                                                <div class="form-group hidden">
                                                                                     <label for="ToolsAuthorityComments">
                                                                                         @{if (language == "1")
                                                                                             { <span>iii. কর্তৃপক্ষের মন্তব্য</span>}
@@ -3420,7 +3420,7 @@
             var projectId = '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectId)';
 
             if (projectId != '') {
-                console.log('Form 31 ViewBag.ProjectCommonDetail.ProjectId: ' + projectId);
+                console.log('Form 31 Project Id: ' + projectId);
 
                 //General Info
                 SetHiddenValue('ProjectId', projectId);
@@ -3431,7 +3431,7 @@
                     SetHiddenValue('ProjectTypeId', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectTypeId)');
 
                 var pn = '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectName)';
-                console.log(pn);
+                console.log('Form 31 Project Name: ' + pn);
 
                 SetTextValue('ProjectName', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectName)');
                 SetTextValue('BackgroundAndRationale', '@Html.Raw(ViewBag.ProjectCommonDetail.BackgroundAndRationale)');
@@ -3443,7 +3443,11 @@
                 SetTextValue('ProjectEstimatedCost', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectEstimatedCost)');
                 SetTextValue('ProjectOutcome', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectOutcome)');
                 SetTextValue('ProjectOutput', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectOutput)');
+                $('#spnKmlFileName').text('@Html.Raw(ViewBag.ProjectCommonDetail.ProjectBoundaryMap)');
                 
+                jQuery("#SelectedMapFile").attr('title', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectBoundaryMap)');
+                jQuery('#SelectedMapFile').val('@Html.Raw(ViewBag.ProjectBoundaryMap)');
+
                 var hrs = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.HydroRegionDetail))');
                 jQuery.each(hrs, function (i, item) {
                     $(":checkbox[name='hydrological_region'][value='" + item.hydroRegionId + "']").attr('checked', true);

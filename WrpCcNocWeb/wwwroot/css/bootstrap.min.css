@@ -11875,3 +11875,7 @@ button:focus {
 .cursor {
     cursor: pointer;
 }
+
+.hidden {
+    display: none;
+}

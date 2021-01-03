@@ -4686,9 +4686,15 @@ namespace WrpCcNocWeb.Controllers
                 CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(_psi.ProjectId);
 
                 if (_pcd != null)
+                {
                     ViewBag.ProjectCommonDetail = _pcd;
+                    ViewBag.ProjectBoundaryMap = "data:application/octet-stream;base64," + FileToBase64("docs/map_kml", _pcd.ProjectBoundaryMap);
+                }
                 else
+                {
                     ViewBag.ProjectCommonDetail = new CcModAppProjectCommonDetail();
+                    ViewBag.ProjectBoundaryMap = string.Empty;
+                }
 
                 CcModPrjLocationDetail _locationdetail = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == _psi.ProjectId).FirstOrDefault();
 
@@ -9036,6 +9042,14 @@ namespace WrpCcNocWeb.Controllers
             long ProjectID = 0;
             int result = 0;
             using var dbContextTransaction = _db.Database.BeginTransaction();
+            bool isSuccess = false;
+            string map_file = string.Empty;
+
+            if (!string.IsNullOrEmpty(_pcd.ProjectBoundaryMap))
+            {
+                map_file = _pcd.ProjectBoundaryMap;
+                _pcd.ProjectBoundaryMap = string.Empty;
+            }
 
             try
             {
@@ -9067,6 +9081,13 @@ namespace WrpCcNocWeb.Controllers
                             if (result > 0)
                             {
                                 ProjectID = pcd.ProjectId;
+
+                                //Project Boundary Map
+                                //written on 24-Dec-2020
+                                if (!string.IsNullOrEmpty(map_file))
+                                {
+                                    isSuccess = UploadPrjBoundaryMap(ProjectID, map_file);
+                                }
 
                                 noti = new Notification
                                 {
@@ -9108,6 +9129,13 @@ namespace WrpCcNocWeb.Controllers
                                 ProjectID = _pcd.ProjectId;
                                 //dbContextTransaction.Commit();
 
+                                //Project Boundary Map
+                                //written on 24-Dec-2020
+                                if (!string.IsNullOrEmpty(map_file))
+                                {
+                                    isSuccess = UploadPrjBoundaryMap(ProjectID, map_file);
+                                }
+
                                 noti = new Notification
                                 {
                                     id = _pcd.ProjectId.ToString(),
@@ -9143,14 +9171,12 @@ namespace WrpCcNocWeb.Controllers
 
                             goto Failed;
                         }
-                    }
+                    }                    
                     #endregion
 
                     #region Project Location
                     if (_locs.Count > 0)
                     {
-                        bool isSuccess = false;
-
                         try
                         {
                             foreach (ProjectLocationsTemp loc in _locs)
@@ -9165,7 +9191,7 @@ namespace WrpCcNocWeb.Controllers
                                         {
                                             id = _pcd.ProjectId.ToString(),
                                             status = "error",
-                                            message = "Sorry, invalid location ID found."
+                                            message = "Sorry, invalid location found."
                                         };
                                     }
                                     else
@@ -9197,11 +9223,12 @@ namespace WrpCcNocWeb.Controllers
 
                                     if (result > 0)
                                     {
-                                        //written on 06-Oct-2020
-                                        if (!string.IsNullOrEmpty(loc.MapFile))
-                                        {
-                                            isSuccess = uplf(nplds.LocationId, nplds.ProjectId, loc.MapFile);
-                                        }
+                                        //Block on 24-Dec-2020
+                                        ////written on 06-Oct-2020
+                                        //if (!string.IsNullOrEmpty(loc.MapFile))
+                                        //{
+                                        //    isSuccess = uplf(nplds.LocationId, nplds.ProjectId, loc.MapFile);
+                                        //}
 
                                         isSuccess = uplif(nplds.LocationId, nplds.ProjectId, loc.ImageFile);
                                     }
@@ -9395,8 +9422,8 @@ namespace WrpCcNocWeb.Controllers
                                 join union in _db.LookUpAdminBndUnion on d.UnionGeoCode equals union.UnionGeoCode into unio
                                 from un in unio.DefaultIfEmpty()
 
-                                    //join prjlocfiles in _db.CcModAppPrjLocationFiles on d.LocationId equals prjlocfiles.LocationId into plfsGroup
-                                    //from plfs in plfsGroup.ToList()
+                                //join prjlocfiles in _db.CcModAppPrjLocationFiles on d.LocationId equals prjlocfiles.LocationId into plfsGroup
+                                //from plfs in plfsGroup.ToList()
 
                                 where d.ProjectId == project_id
                                 select new PrjLocationDetailList
@@ -9414,10 +9441,10 @@ namespace WrpCcNocWeb.Controllers
                                     UnionNameBn = un.UnionNameBn,
                                     Latitude = string.IsNullOrEmpty(d.Latitude) ? string.Empty : d.Latitude,
                                     Longitude = string.IsNullOrEmpty(d.Longitude) ? string.Empty : d.Longitude,
-                                    ImageFileName = _db.CcModAppPrjLocationFiles.Where(w => w.LocationId == d.LocationId).Select(s => s.AdditionalAttachmentFile).ToList(),
+                                    ImageFileName = _db.CcModAppPrjLocationFiles.Where(w => w.LocationId == d.LocationId).Select(s => s.AdditionalAttachmentFile).ToList()
                                     //ImageFileName = (!string.IsNullOrEmpty(d.ImageFileName)) ? String.Format("{0}/{1}/{2}", rootDirOfProjFile, "ProjectLocationPhotos", d.ImageFileName) : "",
                                     //OnlyImageFileName = d.ImageFileName
-                                    MapFileName = d.MapFileName
+                                    //MapFileName = d.MapFileName
                                 }).OrderBy(o => o.LocationId).ToList();
 
                 if (_details.Count > 0)
@@ -20261,7 +20288,6 @@ namespace WrpCcNocWeb.Controllers
         #region File Uploading
         //form/UploadProjectLocationFile :: uplf
         [HttpPost]
-        //[Obsolete]
         public bool uplf(long locationid, long projectid, string map_file)
         {
             bool res = false;
@@ -20341,6 +20367,96 @@ namespace WrpCcNocWeb.Controllers
                 //noti = new Notification
                 //{
                 //    id = "0",
+                //    status = "error",
+                //    title = "An Exception Error Occured",
+                //    message = message
+                //};
+            }
+
+            return res;
+        }
+
+        //form/UploadPrjBoundaryMap :: upbm
+        [HttpPost]        
+        public bool UploadPrjBoundaryMap(long projectid, string map_file)
+        {
+            bool res = false;
+            int result = 0;
+            string filename = "", extension = "", foldername = "docs/map_kml";
+            CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(projectid);
+
+            if (pcd == null)
+            {
+                res = false;
+                return res;
+            }
+
+            try
+            {
+                if (!string.IsNullOrEmpty(map_file))
+                {
+                    string base64 = map_file.Substring(map_file.IndexOf(',') + 1);
+                    base64 = base64.Trim('\0');
+                    byte[] b64File = Convert.FromBase64String(base64);
+                    using MemoryStream ms = new MemoryStream(b64File);
+
+                    //filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    extension = ".kml";// filename.Substring(filename.IndexOf('.'));
+                    filename = EnsureCorrectFilename(filename);
+                    filename = GetCommonDetailFileName(projectid.ToString(), "ProjectBoundaryMap").Trim() + extension;
+                    
+                    pcd.ProjectBoundaryMap = filename;
+                    _db.Entry(pcd).State = EntityState.Modified;
+                    result = _db.SaveChanges();
+
+                    if (result > 0)
+                    {
+                        using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
+                        ms.CopyTo(output);
+
+                        res = true;
+                        //noti = new Notification
+                        //{
+                        //    id = projectid.ToString(),
+                        //    status = "success",
+                        //    title = "Success",
+                        //    message = "File has been successfully uploaded."
+                        //};
+                    }
+                    else
+                    {
+                        res = false;
+
+                        //noti = new Notification
+                        //{
+                        //    id = projectid.ToString(),
+                        //    status = "error",
+                        //    title = "File Submission Error",
+                        //    message = "Your selected file has not submitted."
+                        //};
+                    }
+                }
+                else
+                {
+                    res = false;
+
+                    //noti = new Notification
+                    //{
+                    //    id = projectid.ToString(),
+                    //    status = "warning",
+                    //    title = "Select File",
+                    //    message = "No file(s) selected!"
+                    //};
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+                res = false;
+
+                //noti = new Notification
+                //{
+                //    id = projectid.ToString(),
                 //    status = "error",
                 //    title = "An Exception Error Occured",
                 //    message = message
@@ -20695,7 +20811,7 @@ namespace WrpCcNocWeb.Controllers
 
             return result;
         }
-
+        
         private string GetCommonDetailFileName(string projectId, string control_title)
         {
             string result = string.Empty;
@@ -20756,6 +20872,10 @@ namespace WrpCcNocWeb.Controllers
 
                 case "Hearing":
                     result = projectId + "_HRG_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "ProjectBoundaryMap":
+                    result = projectId + "_PBM_" + DateTime.Now.ToString("yyMMddHHmmssfff");
                     break;
             }
 
@@ -21574,5 +21694,14 @@ namespace WrpCcNocWeb.Controllers
             return aaList;
         }
         #endregion        
+
+        private string FileToBase64(string FolderName, string FileName)
+        {
+            string result = string.Empty;
+            byte[] data = System.IO.File.ReadAllBytes(GetPathAndFilename(FileName, FolderName));           
+            result = Convert.ToBase64String(data);
+
+            return result;
+        }
     }
 }

@@ -564,6 +564,11 @@ namespace WrpCcNocWeb.Models
         [MaxLength(250)]
         public string ProjectOutput { get; set; }
 
+        [Column("ProjectBoundaryMap", Order = 106)]
+        [Display(Name = "Project Boundary Map")]
+        [MaxLength(50)]
+        public string ProjectBoundaryMap { get; set; }
+
         public virtual List<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetails { get; set; }
         public virtual List<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetails { get; set; }
         public virtual List<CcModBDP2100GoalDetail> CcModBDP2100GoalDetails { get; set; }
