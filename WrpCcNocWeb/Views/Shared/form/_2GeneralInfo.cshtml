@@ -9,7 +9,7 @@
     <div class="form-group">
         <label for="ProjectName">
             @{if (language == 1)
-                { <span>১. প্রকল্প শিরোনাম</span>}
+                { <span>১. প্রকল্পের শিরোনাম</span>}
                 else
                 {<span>1. Project Name</span>}
             }
@@ -77,7 +77,7 @@
         </button>
         <span id="spnTotalLocations" class="badge badge-blue font-13 p-2" style="position: absolute; margin-left: 10px;"></span>
 
-        <!-- Modal -->
+        <!-- Project Location Modal -->
         <div class="modal fade" id="projectLocationModal" tabindex="-1" role="dialog"
              aria-labelledby="projectLocationModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -137,6 +137,11 @@
                 {<span>7. Project Activities/ Components</span>}
             }
         </label>
+        <span class="text-danger">
+            <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
+               data-content="Item-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5<br />Item-2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10"
+               data-original-title="Project Activities/ Components Sample"></i>
+        </span>
         <textarea id="ProjectActivity" name="ProjectActivity" class="form-control" rows="2"
                   data-toggle="tooltip" data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language."></textarea>
     </div>
@@ -146,34 +151,52 @@
             <legend>
                 <label for="ProjectPeriod" class="bold">
                     @{if (language == 1)
-                        { <span>৮. প্রকল্প সময়কাল</span>}
+                        { <span>৮. প্রকল্প বাস্তবায়নকাল</span>}
                         else
                         {<span>8. Project Period</span>}
                     }
                     <span class="text-danger bold">*</span>
                 </label>
+
+                <span class="text-danger">
+                    <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
+                       data-content="Project <b>Starting Time</b> and <b>Completion Time</b> both are required fields."
+                       data-original-title="Project Period/ প্রকল্প বাস্তবায়নকাল"></i>
+                </span>
             </legend>
 
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="ProjectStartDate">
                         @{if (language == 1)
-                            { <span>প্রাম্ভিক কাল</span>}
+                            { <span>শুরুর তারিখ</span>}
                             else
                             {<span>Starting Time</span>}
                         }
                     </label>
+
+                    <span class="text-danger">
+                        <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
+                           data-content="Starting Time is required field. Date format is: dd/MM/yyyy e.g. 15/12/2020"
+                           data-original-title="Starting Time/ শুরুর তারিখ"></i>
+                    </span>
                     <input type="text" id="ProjectStartDate" name="ProjectStartDate" class="form-control datepicker" />
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="ProjectCompletionDate">
                         @{if (language == 1)
-                            { <span>সমাপ্তি কাল</span>}
+                            { <span>সমাপ্তির তারিখ</span>}
                             else
                             {<span>Completion Time</span>}
                         }
                     </label>
+
+                    <span class="text-danger">
+                        <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
+                           data-content="Completion Time is required field. Date format is: dd/MM/yyyy e.g. 30/03/2020"
+                           data-original-title="Completion Time/ সমাপ্তির তারিখ"></i>
+                    </span>
                     <input type="text" id="ProjectCompletionDate" name="ProjectCompletionDate" class="form-control datepicker" />
                 </div>
             </div>
@@ -346,7 +369,21 @@
             }).then(function (t) {
                 if (t.value == true) {
                     $('#gen-info-form').trigger("reset");
+
+                    ClearTextValue('ProjectName');
+                    ClearTextValue('BackgroundAndRationale');
+                    ClearTextValue('ProjectTarget');
+                    ClearTextValue('ProjectObjective');
+                    ClearTextValue('ProjectActivity');
+                    ClearTextValue('ProjectStartDate');
+                    ClearTextValue('ProjectCompletionDate');
+                    ClearTextValue('ProjectEstimatedCost');
+                    ClearTextValue('ProjectOutcome');
+                    ClearTextValue('ProjectOutput');
+                    ClearTextValue('SelectedMapFile');
+
                     $('#spnTotalLocations, #spnKmlFileName').text('');
+                    $('#tbodyProjectLocation').html('');
                 }
             });
         });
@@ -449,12 +486,15 @@
                 if (data.status == 'success') {
                     SetHiddenValue('ProjectId', data.id);
                     Notification('success', 'Success', data.message);
+                    Swal.fire('Success', data.message, 'success');
                 } else {
-                    Notification('error', 'Saving Error', data.message);
+                    Notification('error', 'General Info Saving Error', data.message);
+                    Swal.fire('General Info Saving Error', data.message, 'error');
                 }
             }, error: function (jqXHR, exception) {
                 var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                Notification('error', 'Error Occured', errorMsg);
+                Notification('error', 'General Info Error Occured', errorMsg);
+                Swal.fire('General Info Error Occured', errorMsg, 'error');
             }
         });
     }

@@ -48,29 +48,29 @@ namespace WrpCcNocWeb.Models
         [Required]
         [Column("ProjectName", Order = 6)]
         [Display(Name = "Name of Project")]
-        [MaxLength(200)]
+        [MaxLength(500)]
         public string ProjectName { get; set; }
 
         [Required]
         [Column("BackgroundAndRationale", Order = 7)]
         [Display(Name = "Background And Rationale")]
-        [MaxLength(550)]
+        [MaxLength(1000)]
         public string BackgroundAndRationale { get; set; }
 
         [Column("ProjectTarget", Order = 8)]
         [Display(Name = "Target")]
-        [MaxLength(350)]
+        [MaxLength(1000)]
         public string ProjectTarget { get; set; }
 
         [Required]
         [Column("ProjectObjective", Order = 9)]
         [Display(Name = "Objectives")]
-        [MaxLength(450)]
+        [MaxLength(1000)]
         public string ProjectObjective { get; set; }
 
         [Column("ProjectActivity", Order = 10)]
         [Display(Name = "Activity")]
-        [MaxLength(250)]
+        [MaxLength(1000)]
         public string ProjectActivity { get; set; }
 
         [Column("ProjectStartDate", Order = 11)]
@@ -556,12 +556,12 @@ namespace WrpCcNocWeb.Models
 
         [Column("ProjectOutcome", Order = 104)]
         [Display(Name = "Project Outcome")]
-        [MaxLength(250)]
+        [MaxLength(1000)]
         public string ProjectOutcome { get; set; }
 
         [Column("ProjectOutput", Order = 105)]
         [Display(Name = "Project Output")]
-        [MaxLength(250)]
+        [MaxLength(1000)]
         public string ProjectOutput { get; set; }
 
         [Column("ProjectBoundaryMap", Order = 106)]

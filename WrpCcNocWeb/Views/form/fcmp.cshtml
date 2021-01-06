@@ -3192,6 +3192,10 @@
         //end
 
         //region Get Set
+        function ClearTextValue(control) {
+            jQuery('#' + control).val('');
+        }
+
         function GetTextValue(control) {
             return jQuery('#' + control).val();
         }
@@ -3438,8 +3442,8 @@
                 SetTextValue('ProjectTarget', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectTarget)');
                 SetTextValue('ProjectObjective', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectObjective)');
                 SetTextValue('ProjectActivity', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectActivity)');
-                SetTextValue('ProjectStartDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate)');
-                SetTextValue('ProjectCompletionDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate)');
+                SetTextValue('ProjectStartDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate.ToString("dd/MM/yyyy"))');
+                SetTextValue('ProjectCompletionDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate.ToString("dd/MM/yyyy"))');
                 SetTextValue('ProjectEstimatedCost', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectEstimatedCost)');
                 SetTextValue('ProjectOutcome', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectOutcome)');
                 SetTextValue('ProjectOutput', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectOutput)');
