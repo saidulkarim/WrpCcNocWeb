@@ -72,7 +72,7 @@ $(function () {
 
     set_basic_opts();
 
-    load_equipment_infos();
+    //load_equipment_infos();
 
     set_survey_data();
 
@@ -102,7 +102,7 @@ function load_equipment_infos() {
             }
         },
         error: function (e) {
-            msg.init("Error", "Error... . .", "Unable to load/parse JSON data !!\n" + e.responseText);
+            //msg.init("Error", "Error... . .", "Unable to load/parse JSON data !!\n" + e.responseText);
             $("#busy-indicator").fadeOut();
         },
         complete: function () {
@@ -120,7 +120,7 @@ function set_basic_opts() {
         legend_open_close("legend_info", "close", "left");
         $("#legend_info").css("left", "-1000px");
 
-        msg.init("error", "Error... . .", "Map Loading Failed !");
+        //msg.init("error", "Error... . .", "Map Loading Failed !");
         $("#busy-indicator").fadeOut();
 
         return false;
@@ -548,7 +548,7 @@ function SetAdminData(dataAdminLevel, dataAdminInfo, dataViewLevel) {
                 summarizeData = allData;
             },
             error: function (e) {
-                msg.init("Error", "Error... . .", "Unable to load/parse JSON data !!\n" + e.responseText);
+                //msg.init("Error", "Error... . .", "Unable to load/parse JSON data !!\n" + e.responseText);
                 $("#busy-indicator").fadeOut();
             },
             complete: function () {
@@ -822,7 +822,7 @@ function SetAdminData(dataAdminLevel, dataAdminInfo, dataViewLevel) {
 
         });
     } catch (e) {
-        msg.init("Error", "Error... . .", "Unable to load/parse JSON data !!\n" + e.error);
+        //msg.init("Error", "Error... . .", "Unable to load/parse JSON data !!\n" + e.error);
         $("#busy-indicator").fadeOut();
     }
 
@@ -1366,7 +1366,7 @@ function set_equipment_locations(isShow) {
                 },
                 error: function (ex) {
                     console.log(ex);
-                    msg.init("Error", "Error... . .", "Unable to load/parse JSON data !!");
+                    //msg.init("Error", "Error... . .", "Unable to load/parse JSON data !!");
                     $("#busy-indicator").fadeOut();
                 },
                 //done: function () {
@@ -1379,7 +1379,7 @@ function set_equipment_locations(isShow) {
             });
 
         } catch (e) {
-            msg.init("Error", "Error... . .", "Error trying to load/parse JSON data !! <br />" + e.message);
+            //msg.init("Error", "Error... . .", "Error trying to load/parse JSON data !! <br />" + e.message);
         }
 
     } else {
@@ -1461,13 +1461,13 @@ function set_survey_data() {
                                     return;
                                 });
                             } else if (typeof allData == 'string') {
-                                msg.init("Error", "Error... . .", allData);
+                                //msg.init("Error", "Error... . .", allData);
                             }
                             //add_data_layer();
                         }
                     },
                     error: function () {
-                        msg.init("Error", "Error... . .", "Unable to load/parse JSON data !!");
+                        //msg.init("Error", "Error... . .", "Unable to load/parse JSON data !!");
                         $("#busy-indicator").fadeOut();
                     },
                     //done: function () {
@@ -1519,7 +1519,7 @@ function set_survey_data() {
                     success: function (allData) {
                         //console.log(allData[dataAdminCode]);
 
-                        if (allData && allData[dataAdminCode].length > 0) {
+                        if (allData && allData.length > 0) {
 
                             allData[dataAdminCode].map(function (d) {
                                 map_data[d[dataAdminCode + "Code"]] = d[dataCode];
@@ -1529,7 +1529,7 @@ function set_survey_data() {
                         }
                     },
                     error: function () {
-                        msg.init("Error", "Error... . .", "Unable to load/parse JSON data !!");
+                        //msg.init("Error", "Error... . .", "Unable to load/parse JSON data !!");
                         $("#busy-indicator").fadeOut();
                     },
                     complete: function () {
@@ -1566,7 +1566,7 @@ function set_survey_data() {
 
     } catch (e) {
         map_data = [];
-        msg.init("Error", "Error... . .", "Error trying to load/parse JSON data !! <br />" + e.message);
+        //msg.init("Error", "Error... . .", "Error trying to load/parse JSON data !! <br />" + e.message);
     }
 
 }

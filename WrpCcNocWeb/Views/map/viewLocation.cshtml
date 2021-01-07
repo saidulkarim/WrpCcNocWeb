@@ -22,7 +22,6 @@
     <link href="~/css/app.min.css" rel="stylesheet" type="text/css" />
     <link href="~/libs/jquery-toast/toastr.css" rel="stylesheet" type="text/css" />
 
-
     <style>
         body {
             margin: 0;
@@ -669,7 +668,7 @@ var modal_open = function (content, top) {
                 try {
                      var url = '@Url.Action("GetProjectLocation", "map")';
 
-                     $.ajax({
+                    $.ajax({
                         type: "GET",
                         url: url,
                         dataType: "json",
@@ -679,8 +678,12 @@ var modal_open = function (content, top) {
                             $("#busy-indicator").fadeIn();
                         },
                         success: function (locData) {
+                            console.log(locData);
                             var allLocations = locData && locData.value ? locData.value : null;
+
                             if (allLocations && allLocations.length > 0) {
+                                var project_locations = '', loc_files = '';
+
                                 var icon = {
                                     pane: "label-layer",
                                     radius: 5,
@@ -697,50 +700,58 @@ var modal_open = function (content, top) {
                                     if (!el)
                                         return "";
 
-                                    var admin_boundary_name = "";
+                                    var locations = el.locations;
+                                    if (locations && locations.length > 0) {
+                                        var project_locations = "<tr><td class='headCol'>District</td><td class='headCol'>Upazila</td><td class='headCol'>Union</td><td class='headCol text-right'>Latitude</td><td class='headCol text-right'>Longitude</td></tr>";
 
-                                    if (el.dist_code != "") {
-                                        admin_boundary_name = "<tr class='dataRow'><td class='headCol'>District</td><td class='colon'> : </td><td class='dataCol'>" + el.district+ "</td></tr>";
-
-                                        if(el.upaz_code != "") {
-                                            admin_boundary_name = admin_boundary_name + "<tr class='altDataRow'><td class='headCol'>Upazila</td><td class='colon'> : </td><td class='dataCol'>" + el.upazila+ "</td></tr>";
-
-                                            if(el.union_code != "") {
-                                                admin_boundary_name = admin_boundary_name + "<tr class='dataRow'><td class='headCol'>Union</td><td class='colon'> : </td><td class='dataCol'>" + el.union+ "</td></tr>";
+                                        locations.forEach(function (loc, i) {
+                                            if (loc.dist_code != "") {
+                                                project_locations += "<tr><td class='dataCol'>" + (loc.district == null ? '' : loc.district) + "</td><td class='dataCol'>" + (loc.upazila == null ? '' : loc.upazila) + "</td><td class='dataCol'>" + (loc.union == null ? '' : loc.union) + "</td><td class='dataCol text-right'>" + (loc.lat == null ? '' : loc.lat) + "</td><td class='dataCol text-right'>" + (loc.lng == null ? '' : loc.lng) + "</td></tr>";
                                             }
-                                        }
+                                        });
                                     }
 
-                                    var image_file_name = "../images/ProjectLocationPhotos/" + el.image_file_name;
+                                    var location_files = el.location_files;
+                                    if (location_files && location_files.length > 0) {
+                                        //var image_file_name = "../images/ProjectLocationPhotos/" + el.image_file_name;
+                                        //var img_name = el.project_name;
 
-                                    var img_name = el.project_name;
+                                        location_files.forEach(function (file, i) {
+                                            var file_link = '../images/ProjectLocationPhotos/' + file;
+                                            loc_files += "<a href='" + file_link + "' target='_blank' style='margin-right: 10px;'><img src='" + file_link + "' alt='File: " + file + "' style='width:50px;' class='rounded' /></a>";
+                                        });
+                                    }
 
                                     return "<div style='display:inline-block; overflow:auto; width:650px; max-width:754px; max-height:654px;'>" +
                                         "    <table style='width: 100%;'>" +
                                         "        <tr>" +
                                         "            <td colspan='2'>" +
-                                        "                <h4><strong>Name of Project : </strong><span style='color: #05c;'>" + el.project_name + "</span></h4>" +
+                                        "                <h5><strong><span style='color: #05c;'>" + el.name + "</span></strong></h5><hr />" +
+                                        "                <h6><strong>Background and Rationale: </strong><span style='color: #05c;'>" + el.background + "</span></h6>" +
+                                        "                <h6><strong>Target: </strong><span style='color: #05c;'>" + el.target + "</span></h6>" +
+                                        "                <h6><strong>Objective: </strong><span style='color: #05c;'>" + el.objective + "</span></h6>" +
+                                        "                <h6><strong>Activities/ Components: </strong><span style='color: #05c;'>" + el.activity + "</span></h6>" +
+                                        "                <h6><strong>Period: </strong><span style='color: #05c;'>" + el.start_date + " to " + el.completion_date + "</span></h6>" +
+                                        "                <h6><strong>Estimated Project Cost (In Lakh Taka): </strong><span style='color: #05c;'>" + el.estimated_cost + "</span></h6>" +
+                                        "                <h6><strong>Outcome: </strong><span style='color: #05c;'>" + el.outcome + "</span></h6>" +
+                                        "                <h6><strong>Output: </strong><span style='color: #05c;'>" + el.output + "</span></h6>" +
                                         "            </td>" +
                                         "        </tr>" +
                                         "        <tr>" +
-                                        "            <td style='width: 100%; min-width:200px; vertical-align: top;'>" +
-                                        "               <table>"
-                                                            + admin_boundary_name +
-                                        "                   <tr class='altDataRow'><td class='headCol'>Latitude</td><td class='colon'>:</td><td class='dataCol'>" + el.lat + "</td></tr>" +
-                                        "                   <tr class='dataRow'><td class='headCol'>Longitude</td><td class='colon'>:</td><td class='dataCol'>" + el.lng + "</td></tr>" +
-                                        "               </table>" +
-                                        "            </td>"+
-                                        "            <td style='width: auto; vertical-align:top;'>" +
-                                        "                <img src='" + image_file_name + "' alt='Picture : " + img_name + "' style='width:550px;height: 450px;' >" +
+                                        "            <td colspan='2' style='width: 100%; min-width:200px; vertical-align: top;'>" +
+                                        "               <table class='table' style='width: 100%;'>" + project_locations + "</table>" +
                                         "            </td>" +
+                                        "        </tr>" +
+                                        "        <tr>" +
+                                        "            <td style='width: auto; vertical-align:top;'>" + loc_files + "</td>" +
                                         "        </tr>" +
                                         "    </table>" +
                                         "</div>";
-                                };
+                                    };
 
                                 allLocations.forEach(function (el, i) {
-                                    if (el.lat == 'undefined' || el.lng == 'undefined')
-                                        return;
+                                    //if (el.lat == 'undefined' || el.lng == 'undefined')
+                                    //    return;
 
                                     icon.radius = 15;
                                     icon.weight = 2.25;
@@ -749,24 +760,23 @@ var modal_open = function (content, top) {
                                     icon.fillColor = '#fc9a03';
                                     icon.fillOpacity = 0.8;
 
-                                    var location = new L.CircleMarker(getLatLng(el.lat, el.lng), icon)
-                                        .bindPopup(getInfo(el, i))
-                                        .on({
-                                            "mouseover": function () {
-                                                this.setStyle({
-                                                    weight: 3.5,
-                                                    opacity: 0.9
-                                                });
-                                            },
-                                            "mouseout": function () {
-                                                //e.target.resetStyle();
-                                                this.setStyle({
-                                                    weight: 2.0,
-                                                    opacity: 0.5
-                                                });
-                                            }
-                                        });
-
+                                    //var location = new L.CircleMarker(getLatLng(el.lat, el.lng), icon)
+                                    //    .bindPopup(getInfo(el, i))
+                                    //    .on({
+                                    //        "mouseover": function () {
+                                    //            this.setStyle({
+                                    //                weight: 3.5,
+                                    //                opacity: 0.9
+                                    //            });
+                                    //        },
+                                    //        "mouseout": function () {
+                                    //            //e.target.resetStyle();
+                                    //            this.setStyle({
+                                    //                weight: 2.0,
+                                    //                opacity: 0.5
+                                    //            });
+                                    //        }
+                                    //    });
                                     //map.addLayer(location);
 
                                     var kmltext = el.kml_file_content;
@@ -784,17 +794,17 @@ var modal_open = function (content, top) {
                                     }
 
                                     var geojson = new L.geoJson(jQuery.parseJSON(kmltext),
-                                                {
-                                                    style: polystyle,
-                                                    onEachFeature: function (feature, layer) {
-                                                        var label = L.marker(layer.getBounds().getCenter(), {
-                                                            icon: L.divIcon({
-                                                                className: 'label',
-                                                                html: feature.properties.name,
-                                                                iconSize: [50, 40]
-                                                            })
-                                                        }).addTo(map);
-                                                    }
+                                        {
+                                            style: polystyle,
+                                            onEachFeature: function (feature, layer) {
+                                                var label = L.marker(layer.getBounds().getCenter(), {
+                                                    icon: L.divIcon({
+                                                        className: 'label',
+                                                        html: el.name, //feature.properties.name,
+                                                        iconSize: [50, 40]
+                                                    })
+                                                }).addTo(map);
+                                            }
                                         })
                                         .bindPopup(getInfo(el, i))
                                         .addTo(map);
@@ -812,7 +822,7 @@ var modal_open = function (content, top) {
                         },
                         error: function (ex) {
                             console.log(ex);
-                            msg.init("Error", "Error... . .", "Unable to load project location data !!");
+                            msg.init("Error", "Error", "Unable to load project location data!");
                             $("#busy-indicator").fadeOut();
                         },
                         complete: function () {
@@ -821,7 +831,7 @@ var modal_open = function (content, top) {
                     });
 
                 } catch (e) {
-                    msg.init("Error", "Error... . .", "Error trying to Unable to load project location data !! <br />" + e.message);
+                    msg.init("Error", "Error", "Unable to load project location data! <br />" + e.message);
                 }
             }
         }

@@ -28,23 +28,39 @@ namespace WrpCcNocWeb.Controllers
 
         public JsonResult GetProjectLocation(long projectId)
         {
-            var query = _dbContext.CcModPrjLocationDetail.Where(w => w.ProjectId == projectId).AsNoTracking();
+            var query = _dbContext.CcModAppProjectCommonDetail.Where(w => w.ProjectId == projectId).AsNoTracking();
 
-            object geoData = query.Select(pLoc => new
+            object geoData = query.Select(pInfo => new
             {
-                project_id = pLoc.ProjectId,
-                project_name = pLoc.CcModAppProjectCommonDetail.ProjectName,
-                lat = pLoc.Latitude,
-                lng = pLoc.Longitude,
-                dist_code = pLoc.DistrictGeoCode,
-                upaz_code = pLoc.UpazilaGeoCode,
-                union_code = pLoc.UnionGeoCode,
-                district = pLoc.LookUpAdminBndDistrict.DistrictName,
-                upazila = pLoc.LookUpAdminBndUpazila.UpazilaName,
-                union = pLoc.LookUpAdminBndUnion.UnionName,
-                image_file_name = pLoc.ImageFileName,
-                kml_file_name = pLoc.MapFileName,
-                kml_file_content = ReadKmlFile(pLoc.MapFileName)
+                pid = pInfo.ProjectId,
+                name = pInfo.ProjectName,
+                background = pInfo.BackgroundAndRationale,
+                target = pInfo.ProjectTarget,
+                objective = pInfo.ProjectObjective,
+                activity = pInfo.ProjectActivity,
+                start_date = pInfo.ProjectStartDate.Value.ToString("dd MMM, yyyy"),
+                completion_date = pInfo.ProjectCompletionDate.Value.ToString("dd MMM, yyyy"),
+                estimated_cost = pInfo.ProjectEstimatedCost,
+                outcome = pInfo.ProjectOutcome,
+                output = pInfo.ProjectOutput,
+                locations = _dbContext.CcModPrjLocationDetail.Where(w => w.ProjectId == projectId).AsNoTracking().Select(locs => new
+                {
+                    dist_code = locs.DistrictGeoCode,
+                    district = locs.LookUpAdminBndDistrict.DistrictName,
+                    upaz_code = locs.UpazilaGeoCode,
+                    upazila = locs.LookUpAdminBndUpazila.UpazilaName,
+                    union_code = locs.UnionGeoCode,
+                    union = locs.LookUpAdminBndUnion.UnionName,
+                    lat = string.IsNullOrEmpty(locs.Latitude) ? "" : locs.Latitude,
+                    lng = string.IsNullOrEmpty(locs.Longitude) ? "" : locs.Longitude,
+                }),
+                location_files = _dbContext.CcModAppPrjLocationFiles
+                                            .Where(w => w.ProjectId == projectId)
+                                            .AsNoTracking()
+                                            .Select(s => s.AdditionalAttachmentFile)
+                                            .ToArray(),
+                kml_file_name = pInfo.ProjectBoundaryMap,
+                kml_file_content = ReadKmlFile(pInfo.ProjectBoundaryMap)
             });
 
             var jsonData = Json(geoData);
@@ -54,11 +70,16 @@ namespace WrpCcNocWeb.Controllers
         private string ReadKmlFile(string fileName)
         {
             string result = string.Empty;
-            string path = Path.Combine(hostingEnvironment.WebRootPath, "docs/map_kml", fileName);
-            XDocument doc = XDocument.Load(path);
-            result = KmlToGeoJsonConverter.FromKml(doc.ToString());
-            result = result.Replace(": ", ":");
-            result = result.Contains("\"type\":\"Feature\"") ? result : result.Replace("\"feature\":\"Feature\",", "\"feature\":\"Feature\", \"type\":\"Feature\",");
+
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                string path = Path.Combine(hostingEnvironment.WebRootPath, "docs/map_kml", fileName);
+                XDocument doc = XDocument.Load(path);
+                result = KmlToGeoJsonConverter.FromKml(doc.ToString());
+                result = result.Replace(": ", ":");
+                result = result.Contains("\"type\":\"Feature\"") ? result : result.Replace("\"feature\":\"Feature\",", "\"feature\":\"Feature\", \"type\":\"Feature\",");
+            }
+
             return result;
         }
     }
