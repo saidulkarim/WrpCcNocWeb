@@ -730,6 +730,15 @@ namespace WrpCcNocWeb.Controllers
                 return RedirectToAction("login", "account");
             }
 
+            GetF31ViewData(id);
+            return View();
+        }
+
+        private void GetF31ViewData(long id)
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            System.Globalization.DateTimeFormatInfo mfi = new System.Globalization.DateTimeFormatInfo();
+
             UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
             ViewData["UserLevel"] = uli.UserGroupId;
             ViewData["UserAuthLevelID"] = uli.AuthorityLevelId;
@@ -838,9 +847,8 @@ namespace WrpCcNocWeb.Controllers
             ViewData["LanguageId"] = pcd.LanguageId;
             ViewData["SignatureFileName"] = _db.AdminModUsersDetail.Where(w => w.UserId == pcd.UserId).Select(s => s.ApplicantSignature).FirstOrDefault();
             ViewData["ApplicationState"] = GetAppState(pcd.ApplicationStateId, pcd.IsCompletedId.Value);
-            GetApplicantInfoViewData(pcd.UserId);
 
-            return View();
+            GetApplicantInfoViewData(pcd.UserId);
         }
 
         //Form 3.2: Surface Water Withdrawal, Distribution or Use Print View
@@ -4755,6 +4763,7 @@ namespace WrpCcNocWeb.Controllers
             }
 
             GetApplicantInfo(ui.UserID);
+            //GetF31ViewData(_psi.ProjectId);
             return View();
         }
 
@@ -9511,8 +9520,15 @@ namespace WrpCcNocWeb.Controllers
                                 LatitudeBn = string.IsNullOrEmpty(d.Latitude) ? string.Empty : d.Latitude.NumberEnglishToBengali(),
                                 Longitude = string.IsNullOrEmpty(d.Longitude) ? string.Empty : d.Longitude,
                                 LongitudeBn = string.IsNullOrEmpty(d.Longitude) ? string.Empty : d.Longitude.NumberEnglishToBengali(),
-                                ImageFileName = (!string.IsNullOrEmpty(d.ImageFileName)) ? String.Format("{0}/{1}/{2}", rootDirOfProjFile, "ProjectLocationPhotos", d.ImageFileName) : "",
-                                OnlyImageFileName = d.ImageFileName
+                                ImageFileNames = _db.CcModAppPrjLocationFiles
+                                                   .Where(w => w.LocationId == d.LocationId)
+                                                   .Select(s =>
+                                                    (!string.IsNullOrEmpty(s.AdditionalAttachmentFile)) ?
+                                                    String.Format("{0}/{1}/{2}", rootDirOfProjFile, "ProjectLocationPhotos", s.AdditionalAttachmentFile) :
+                                                    "")
+                                                   .ToArray()
+                                //(!string.IsNullOrEmpty(d.ImageFileName)) ? String.Format("{0}/{1}/{2}", rootDirOfProjFile, "ProjectLocationPhotos", d.ImageFileName) : "",
+                                //OnlyImageFileNames = "" //d.ImageFileName
                             }).OrderBy(o => o.LocationId).ToList();
 
                 if (_details.Count == 0)
@@ -20286,97 +20302,97 @@ namespace WrpCcNocWeb.Controllers
         #endregion
 
         #region File Uploading
-        //form/UploadProjectLocationFile :: uplf
-        [HttpPost]
-        public bool uplf(long locationid, long projectid, string map_file)
-        {
-            bool res = false;
-            int result = 0;
-            string filename = "", extension = "", foldername = "docs/map_kml";
-            CcModPrjLocationDetail location = new CcModPrjLocationDetail();
+        ////form/UploadProjectLocationFile :: uplf
+        //[HttpPost]
+        //public bool uplf(long locationid, long projectid, string map_file)
+        //{
+        //    bool res = false;
+        //    int result = 0;
+        //    string filename = "", extension = "", foldername = "docs/map_kml";
+        //    CcModPrjLocationDetail location = new CcModPrjLocationDetail();
 
-            if (locationid != 0)
-            {
-                location = _db.CcModPrjLocationDetail.Find(locationid);
-            }
+        //    if (locationid != 0)
+        //    {
+        //        location = _db.CcModPrjLocationDetail.Find(locationid);
+        //    }
 
-            try
-            {
-                if (location != null && !string.IsNullOrEmpty(map_file))
-                {
-                    string base64 = map_file.Substring(map_file.IndexOf(',') + 1);
-                    base64 = base64.Trim('\0');
-                    byte[] b64File = Convert.FromBase64String(base64);
-                    using MemoryStream ms = new MemoryStream(b64File);
+        //    try
+        //    {
+        //        if (location != null && !string.IsNullOrEmpty(map_file))
+        //        {
+        //            string base64 = map_file.Substring(map_file.IndexOf(',') + 1);
+        //            base64 = base64.Trim('\0');
+        //            byte[] b64File = Convert.FromBase64String(base64);
+        //            using MemoryStream ms = new MemoryStream(b64File);
 
-                    //filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    extension = ".kml";// filename.Substring(filename.IndexOf('.'));
-                    filename = EnsureCorrectFilename(filename);
-                    filename = GetGenProjLocFilename(location) + extension;
+        //            //filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+        //            extension = ".kml";// filename.Substring(filename.IndexOf('.'));
+        //            filename = EnsureCorrectFilename(filename);
+        //            filename = GetGenProjLocFilename(location) + extension;
 
-                    location.MapFileName = filename;
+        //            //location.MapFileName = filename;
+        //            _db.Entry(location).State = EntityState.Modified;
+        //            result = _db.SaveChanges();
 
-                    _db.Entry(location).State = EntityState.Modified;
-                    result = _db.SaveChanges();
+        //            if (result > 0)
+        //            {
+        //                using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
+        //                ms.CopyTo(output);
 
-                    if (result > 0)
-                    {
-                        using FileStream output = System.IO.File.Create(GetPathAndFilename(filename, foldername));
-                        ms.CopyTo(output);
+        //                res = true;
+        //                //noti = new Notification
+        //                //{
+        //                //    id = location.LocationId.ToString(),
+        //                //    status = "success",
+        //                //    title = "Success",
+        //                //    message = "File has been successfully uploaded."
+        //                //};
+        //            }
+        //            else
+        //            {
+        //                res = false;
 
-                        res = true;
-                        //noti = new Notification
-                        //{
-                        //    id = location.LocationId.ToString(),
-                        //    status = "success",
-                        //    title = "Success",
-                        //    message = "File has been successfully uploaded."
-                        //};
-                    }
-                    else
-                    {
-                        res = false;
+        //                //noti = new Notification
+        //                //{
+        //                //    id = location.LocationId.ToString(),
+        //                //    status = "error",
+        //                //    title = "File Submission Error",
+        //                //    message = "Your selected file has not submitted."
+        //                //};
+        //            }
+        //        }
+        //        else
+        //        {
+        //            res = false;
 
-                        //noti = new Notification
-                        //{
-                        //    id = location.LocationId.ToString(),
-                        //    status = "error",
-                        //    title = "File Submission Error",
-                        //    message = "Your selected file has not submitted."
-                        //};
-                    }
-                }
-                else
-                {
-                    res = false;
+        //            //noti = new Notification
+        //            //{
+        //            //    id = "0",
+        //            //    status = "warning",
+        //            //    title = "Select File",
+        //            //    message = "No file(s) selected!"
+        //            //};
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var message = ch.ExtractInnerException(ex);
+        //        res = false;
 
-                    //noti = new Notification
-                    //{
-                    //    id = "0",
-                    //    status = "warning",
-                    //    title = "Select File",
-                    //    message = "No file(s) selected!"
-                    //};
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ch.ExtractInnerException(ex);
-                res = false;
+        //        //noti = new Notification
+        //        //{
+        //        //    id = "0",
+        //        //    status = "error",
+        //        //    title = "An Exception Error Occured",
+        //        //    message = message
+        //        //};
+        //    }
 
-                //noti = new Notification
-                //{
-                //    id = "0",
-                //    status = "error",
-                //    title = "An Exception Error Occured",
-                //    message = message
-                //};
-            }
-
-            return res;
-        }
+        //    return res;
+        //}
 
         //form/UploadPrjBoundaryMap :: upbm
+        
         [HttpPost]        
         public bool UploadPrjBoundaryMap(long projectid, string map_file)
         {

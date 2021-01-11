@@ -13,7 +13,7 @@
             <div class="card-body">
                 <h4 class="header-title mb-3">
                     <b>@ViewBag.ProjectTitle</b>
-                
+
                     <button id="btnGoBack" type="button" class="btn btn-secondary float-right" style="margin-top: -10px;">Back</button>
                 </h4>
                 <form>
@@ -67,21 +67,21 @@
                                                 <input id="ProjectTypeId" type="hidden" value="@ViewBag.ProjectTypeId" />
 
                                                 <div class="col-sm-3">
-													@{ Html.RenderPartial("form/_1TabPanel"); }
+                                                    @{ await Html.RenderPartialAsync("form/_1TabPanel"); }
                                                 </div> <!-- end col-->
                                                 <div class="col-sm-9">
                                                     <div class="tab-content pt-0">
                                                         <div class="tab-pane fade active show" id="v-gen-info" role="tabpanel" aria-labelledby="v-gen-info-tab">
                                                             <div class="card-box">
-																@{ Html.RenderPartial("form/_2GeneralInfo"); }                                                                
+                                                                @{ Html.RenderPartial("form/_2GeneralInfo"); }
                                                             </div>
                                                         </div>
 
                                                         @*<div class="tab-pane fade" id="v-project-location" role="tabpanel" aria-labelledby="v-project-location-tab">
-                                                            <div class="card-box">
-                                                                @{ Html.RenderPartial("form/_3Location"); }
-                                                            </div>
-                                                        </div>*@
+                                                                <div class="card-box">
+                                                                    @{ Html.RenderPartial("form/_3Location"); }
+                                                                </div>
+                                                            </div>*@
 
                                                         <div class="tab-pane fade" id="v-tech-info" role="tabpanel" aria-labelledby="v-tech-info-tab">
                                                             <div class="card-box">
@@ -1230,9 +1230,9 @@
                                                                                                         <select id="DesignSubmittedParameterId" name="DesignSubmittedParameterId" class="form-control">
                                                                                                             <option value="">
                                                                                                                 @if (language == "1")
-                                                                                                                    { <span>বাছাই করুন...</span>}
-                                                                                                                    else
-                                                                                                                    {<span>Choose...</span>}                                                                                                                
+                                                                                                                {<span>বাছাই করুন...</span>}
+                                                                                                                else
+                                                                                                                {<span>Choose...</span>}
                                                                                                             </option>
                                                                                                             @{
                                                                                                                 List<LookUpCcModDesignSubmitParam> _dsp = ViewBag.DesignSubmittedParameterId;
@@ -1535,9 +1535,9 @@
                                                                                                             <select id="SIAParameterId" name="SIAParameterId" class="form-control">
                                                                                                                 <option value="">
                                                                                                                     @if (language == "1")
-                                                                                                                        { <span>বাছাই করুন...</span>}
-                                                                                                                        else
-                                                                                                                        {<span>Choose...</span>}                                                                                                                    
+                                                                                                                    {<span>বাছাই করুন...</span>}
+                                                                                                                    else
+                                                                                                                    {<span>Choose...</span>}
                                                                                                                 </option>
                                                                                                                 @{
                                                                                                                     List<LookUpCcModSIAParameter> _sias = ViewBag.LookUpCcModSIAParameter;
@@ -1832,19 +1832,19 @@
 
                                                         <div class="tab-pane fade" id="v-deed-obligatory" role="tabpanel" aria-labelledby="v-deed-obligatory-tab">
                                                             <div class="card-box">
-																@{ Html.RenderPartial("form/_4DeedObligatory"); }
+                                                                @{ Html.RenderPartial("form/_4DeedObligatory"); }
                                                             </div>
                                                         </div>
 
                                                         <div class="tab-pane fade" id="v-administrative" role="tabpanel" aria-labelledby="v-administrative-tab">
-															<div class="card-box">
-																@{ Html.RenderPartial("form/_5Administrative"); }
-															</div>
+                                                            <div class="card-box">
+                                                                @{ Html.RenderPartial("form/_5Administrative"); }
+                                                            </div>
                                                         </div>
 
                                                         <div class="tab-pane fade" id="v-final-submit" role="tabpanel" aria-labelledby="v-final-submit-tab">
                                                             <div class="card-box">
-																@{ Html.RenderPartial("form/_6FinalSubmit"); }
+                                                                @{ Html.RenderPartial("form/_6FinalSubmit"); }
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1857,18 +1857,9 @@
 
                             <div class="tab-pane" id="basictab2">
                                 <div class="row">
-                                    @Html.Partial("_Preview")
+                                    @*@{ Html.RenderPartial("preview/_Preview31"); }*@
                                 </div>
                             </div>
-
-                            @*<ul class="list-inline wizard mb-0">
-                            <li id="btnPrevious" class="previous list-inline-item disabled">
-                                <a href="javascript: void(0);" class="btn btn-secondary">Previous</a>
-                            </li>
-                            <li id="btnNext" class="next list-inline-item float-right">
-                                <a href="javascript: void(0);" class="btn btn-secondary">Next</a>
-                            </li>
-							</ul>*@
                         </div>
                     </div>
                 </form>
@@ -1884,7 +1875,7 @@
     <script type="text/javascript">
         jQuery(document).ready(function () {
             $("#btnGoBack").click(function () {
-                GoBack();                
+                GoBack();
             });
 
             var input_lang = '@language';
@@ -3448,7 +3439,7 @@
                 SetTextValue('ProjectOutcome', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectOutcome)');
                 SetTextValue('ProjectOutput', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectOutput)');
                 $('#spnKmlFileName').text('@Html.Raw(ViewBag.ProjectCommonDetail.ProjectBoundaryMap)');
-                
+
                 jQuery("#SelectedMapFile").attr('title', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectBoundaryMap)');
                 jQuery('#SelectedMapFile').val('@Html.Raw(ViewBag.ProjectBoundaryMap)');
 

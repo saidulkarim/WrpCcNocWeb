@@ -23,8 +23,8 @@ namespace WrpCcNocWeb.Models
         public string LatitudeBn { get; set; }
         public string Longitude { get; set; }
         public string LongitudeBn { get; set; }
-        public string ImageFileName { get; set; }
-        public string OnlyImageFileName { get; set; }
+        public string[] ImageFileNames { get; set; }
+        public string[] OnlyImageFileNames { get; set; }
         public string Error { get; set; }
     }
 

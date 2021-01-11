@@ -1,0 +1,189 @@
+﻿@using WrpCcNocWeb.DatabaseContext
+@using WrpCcNocWeb.Helpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    WrpCcNocDbContext _db = new WrpCcNocDbContext();
+    CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["aProjectCommonDetail"];
+    CcModAppProject_31_IndvDetail projectindi = (CcModAppProject_31_IndvDetail)ViewData["aProjectIndvDetail31"];
+
+    var prev_lang = ViewData["aFormLanguage"].ToString();
+    var prj_type_id = ViewData["aProjectTypeId"].ToString();
+    string yesTickMark = string.Empty, noTickMark = string.Empty;
+}
+
+<table style="border: 1px solid #CFCFCF; table-layout: fixed; width: 100%;" border="1" cellpadding="1" cellspacing="0">
+    <tr style="background: #9d9b9b; font-weight: bold;">
+        <td colspan="3">
+            <h4>
+                @if (prev_lang == "1")
+                {<span>ঘ। প্রশাসনিক</span>}
+                else
+                {<span>D. Administrative</span>}
+            </h4>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 250px;">
+            <b>
+                @if (prev_lang == "1")
+                {<span>(১) স্থানীয় কর্তৃপক্ষ অনাপত্তি পত্র (NOC)</span>}
+                else
+                {<span>(1) No Objection Certificate (NOC)</span>}
+            </b>
+        </td>
+        <td>
+            <table style="width:100%; border: 1px solid #CFCFCF; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>NOC Type</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>অনাপত্তি কাগজপত্র সংযুক্তি</span>}
+                        else
+                        {<span>Attchments of NOC Document</span>}
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @if (pcd.NocTypeId != null)
+                        {
+                            LookUpCcModNocType nt = _db.LookUpCcModNocType.Where(w => w.NocTypeId == pcd.NocTypeId).FirstOrDefault();
+
+                            if (prev_lang == "1")
+                            {
+                                <span>@nt.NocTypeBn</span>
+                            }
+                            else
+                            {
+                                <span>@nt.NocType</span>
+                            }
+                        }
+                    </td>
+                    <td style="word-break: break-all;">
+                        <a href="~/images/CommonDetails/@pcd.NocFileName" target="_blank">@pcd.NocFileName</a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td style="word-wrap: break-word;">
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Administrative', 'Administrative');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 250px;">
+            <b>
+                @if (prev_lang == "1")
+                {<span>(২) সরকার কর্তৃক অনুমোদিত হারে চালান বা ব্যাংক ড্রাফট বা পে-অর্ডার নম্বর</span>}
+                else
+                {<span>(2) Goverment Approved Challan/ Bank Draft/ Pay-Order Number</span>}
+            </b>
+        </td>
+        <td>
+            <table style="width:100%; border: 1px solid #CFCFCF; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>টাকা প্রদানের ধরণ</span>}
+                        else
+                        {<span>Payment Type</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>পেমেন্ট ডকুমেন্ট নম্বর</span>}
+                        else
+                        {<span>Payment Document Number</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>টাকার পরিমাণ</span>}
+                        else
+                        {<span>Paid Amount</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>টাকা প্রদানের তারিখ</span>}
+                        else
+                        {<span>Payment Date</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>টাকা প্রদানের সংযুক্তি</span>}
+                        else
+                        {<span>Payment Document File</span>}
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @if (pcd.PaymentMethodId != null)
+                        {
+                            LookUpCcModPaymentMethod pm = _db.LookUpCcModPaymentMethod.Where(w => w.PaymentMethodId == pcd.PaymentMethodId).FirstOrDefault();
+
+                            if (prev_lang == "1")
+                            {
+                                <span>@pm.PaymentMethodBn</span>
+                            }
+                            else
+                            {
+                                <span>@pm.PaymentMethod</span>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @if (prev_lang == "1")
+                        {
+                            <span>@pcd.PaymentDocNumber.ToString().NumberEnglishToBengali()</span>
+                        }
+                        else
+                        {
+                            <span>@pcd.PaymentDocNumber</span>
+                        }
+                    </td>
+                    <td>
+                        @if (prev_lang == "1")
+                        {
+                            <span>@pcd.PaidAmount.ToString().NumberEnglishToBengali()</span>
+                        }
+                        else
+                        {
+                            <span>@pcd.PaidAmount</span>
+                        }
+                    </td>
+                    <td style="white-space: nowrap;">
+                        @if (prev_lang == "1")
+                        {
+                            <span>@pcd.PaymentDate.Value.ToString("dd MMMM, yyyy").NumberEnglishToBengali()</span>
+                        }
+                        else
+                        {
+                            <span>@pcd.PaymentDate.Value.ToString("dd MMMM, yyyy")</span>
+                        }
+                    </td>
+                    <td style="word-break: break-all;">
+                        <a href="~/images/CommonDetails/@pcd.PaymentDocFileName" target="_blank">@pcd.PaymentDocFileName</a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td style="word-wrap: break-word;">
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Administrative', 'Administrative');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+</table>

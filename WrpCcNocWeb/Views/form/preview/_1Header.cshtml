@@ -1,0 +1,130 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var prev_lang = int.Parse(ViewData["FormLanguage"].ToString());
+    var prj_type_id = int.Parse(ViewData["PTID"].ToString());
+
+    string[] t1En = { "", "Form 3.1", "Form 3.2", "Form 3.3", "Form 3.4", "Form 3.5", "Form 3.6", "Form 3.7", "Form 3.8", "Form 3.9", "Form 3.10", "Form 3.11", "Form 3.12", "Form 3.13" };
+    string[] t1Bn = { "", "ফরম-৩.১", "ফরম-৩.২", "ফরম-৩.৩ ", "ফরম-৩.৪", "ফরম-৩.৫", "ফরম-৩.৬", "ফরম-৩.৭", "ফরম-৩.৮", "ফরম-৩.৯", "ফরম-৩.১০", "ফরম-৩.১১", "ফরম-৩.১২", "ফরম-৩.১৩" };
+
+    string[] t3En = { "", "[Rule-20(1)(A) Note]", "[Rule-20(1)(B) Note]", "[Rule-20(1)(C) Note]", "[Rule-20(1)(D) Note]", "[Rule-20(1)(E) Note]", "[Rule-20(1)(F) Note]", "[Rule-20(1)(G) Note]", "[Rule-20(1)(H) Note]", "[Rule-20(1)(I) Note]", "[Rule-20(1)(J) Note]", "[Rule-20(1)(K) Note]", "[Rule-33(2) Note]", "[Rule-XX(X)(X) Note]" };
+    string[] t3Bn = { "", "[বিধি ২০(১)(ক) দ্রষ্টব্য]", "[বিধি ২০(১)(খ) দ্রষ্টব্য]", "[বিধি ২০(১)(গ) দ্রষ্টব্য]", "[বিধি ২০(১)(ঘ) দ্রষ্টব্য]", "[বিধি ২০(১)(ঙ) দ্রষ্টব্য]", "[বিধি ২০(১)(চ) দ্রষ্টব্য]", "[বিধি ২০(১)(ছ) দ্রষ্টব্য]", "[বিধি ২০(১)(জ) দ্রষ্টব্য]", "[বিধি ২০(১)(ঝ) দ্রষ্টব্য]", "[বিধি ২০(১)(ঞ) দ্রষ্টব্য]", "[বিধি ২০(১)(ট) দ্রষ্টব্য]", "[বিধি ৩৩(২) দ্রষ্টব্য]", "[বিধি XX(X)(X) দ্রষ্টব্য]" };
+}
+
+<div class="text-right">
+    @if (prev_lang == 1)
+    {
+        <span>@t1Bn[prj_type_id].ToString()</span><br />
+        <span>(নমুনা)</span><br />
+        <span>@t3Bn[prj_type_id].ToString()</span>
+    }
+    else
+    {
+        <span>@t1En[prj_type_id].ToString()</span><br />
+        <span>(Sample)</span><br />
+        <span>@t3En[prj_type_id].ToString()</span>
+    }
+</div>
+
+<br />
+
+<center>
+    <div class="col-md-12 text-center">
+        <h3 class="HeaderTitle">
+            @if (prev_lang == 1)
+            {<span>ছাড়পত্রের জন্য আবেদন</span>}
+            else
+            {<span>Application for Clearance</span>}
+        </h3>
+        <h4 class="HeaderSubTitle">
+            @if (prev_lang == 1)
+            {<span>(@ViewData["ProjectTypeTitleBn"].ToString())</span>}
+        else
+        {<span>(@ViewData["ProjectTypeTitle"].ToString())</span>}
+        </h4>
+    </div>
+</center>
+
+<div class="row lineGap">
+    <div class="col">
+        <span>
+            @if (prev_lang == 1)
+            {<span>প্রতি</span>}
+            else
+            {<span>To</span>}
+        </span><br />
+        <span>
+            @if (prev_lang == 1)
+            {<span>নির্বাহী কমিটি</span>}
+            else
+            {<span>Executive Committee</span>}
+        </span><br />
+        <span>
+            @if (prev_lang == 1)
+            {<span>জাতীয় পানি সম্পদ পরিষদ</span>}
+            else
+            {<span>National Water Resources Committee</span>}
+        </span>
+    </div>
+</div>
+
+<br />
+
+<div class="row lineGap">
+    <div class="col">
+        <p>
+            @if (prev_lang == 1)
+            {<strong>মাধ্যম:</strong>}
+            else
+            {<strong>Through:</strong>}
+
+            @if (prev_lang == 1)
+            {<span>মহাপরিচালক, পানি সম্পদ পরিকল্পনা সংস্থা/ জেলা প্রশাসক/ উপজেলা নির্বাহী কর্মকর্তা/ চেয়ারম্যান ইউনিয়ন পরিষদ</span>}
+            else
+            {<span>Director General, Water Resources Planning Organization/ Deputy Commissioner/ Upazila Nirbahi Officer/ Chairman of Union Parishad</span>}
+        </p>
+    </div>
+</div>
+
+<div class="row lineGap">
+    <div class="col">
+        <p>
+            @if (prev_lang == 1)
+            {<span>
+                    আমি/ আমরা, নিম্নস্বাক্ষরকারী, <b>@ViewData["ProjectTypeTitleBn"].ToString()</b> শীর্ষক একটি প্রকল্প গ্রহণ ও বায়স্তবায়ন করিতে
+                    ইচ্ছুক, এবং প্রকল্প ছাড়পত্র ইস্যুর অনুরোধ জানাইয়া প্রয়োজনীয় কাগজপত্র ও বিবরণ সংযুক্তক্রমে আবেদন করিতেছি।
+                </span>}
+            else
+            {<span>I/ We, the undersigned, willing to initiate and implement a project on <b>@ViewData["ProjectTypeTitle"].ToString()</b>, And I am hereby requesting for clearance certificate with relevant attachments.</span>}
+        </p>
+    </div>
+</div>
+
+<div class="row lineGap">
+    <div class="col-md-12">
+        <h4>
+            <strong>
+                @if (prev_lang == 1)
+                {<span>১। আবেদনকারীর পূর্ণ নাম এবং ঠিকানাঃ </span>}
+                else
+                {<span>1. Full Name and Address of the Applicant:</span>}
+            </strong>
+        </h4>
+
+        @if (prev_lang == 1)
+        {
+            @ViewData["ApplicantNameBn"].ToString()<br />
+            @ViewData["ApplicantAddressBn"].ToString()<br />
+            <span>যোগাযোগ:</span> @ViewData["ApplicantMobileBn"].ToString()<br />
+            <span>ইমেইল:</span> @ViewData["ApplicantEmail"].ToString()
+        }
+        else
+        {
+            @ViewData["ApplicantName"].ToString()<br />
+            @ViewData["ApplicantAddress"].ToString()<br />
+            <span>Mobile:</span> @ViewData["ApplicantMobile"].ToString()<br />
+            <span>Email:</span> @ViewData["ApplicantEmail"].ToString()
+        }
+    </div>
+</div>

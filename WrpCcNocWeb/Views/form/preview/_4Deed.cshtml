@@ -1,0 +1,1041 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["dProjectCommonDetail"];
+    CcModAppProject_31_IndvDetail projectindi = (CcModAppProject_31_IndvDetail)ViewData["dProjectIndvDetail31"];
+
+    var cnwpd = ViewData["dCompatNWPDetail"];
+    var cnwmpd = ViewData["dCompatNWMPDetail"];
+    var sdgd = ViewData["dCompatSDGDetail"];
+    var sdgid = ViewData["dCompatSDGIndiDetail"];
+    var bdp2100gd = ViewData["dBDP2100GoalDetail"];
+    var gpwmgtd = ViewData["dGPWMGroupType"];
+
+    var prev_lang = ViewData["dFormLanguage"].ToString();
+    var prj_type_id = ViewData["dProjectTypeId"].ToString();
+    string yesTickMark = string.Empty, noTickMark = string.Empty;
+}
+
+<table style="border: 1px solid #CFCFCF; table-layout: fixed; width: 100%;" border="1" cellpadding="1" cellspacing="0">
+    <tr style="background: #9d9b9b; font-weight: bold;">
+        <td colspan="3">
+            <h4>
+                @if (prev_lang == "1")
+                {<span>গ। দলিল প্রতিপালন</span>}
+                else
+                {<span>C. Deed Obligatory</span>}
+            </h4>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 250px;">
+            <b>
+                @if (prev_lang == "1")
+                {<span>(১) প্রকল্পটি জাতীয় পানি নীতির সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                else
+                {<span>(1) Compatibility with National Water Policy</span>}
+            </b>
+        </td>
+        <td>
+            <table style="width:100%; border: 1px solid #CFCFCF; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                        else
+                        {<span>Authority Comments</span>}
+                    </th>
+
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>নথি লিঙ্ক</span>}
+                        else
+                        {<span>Document Link</span>}
+                    </th>
+                </tr>
+                <tr>
+                    @{
+                        yesTickMark = string.Empty;
+                        noTickMark = string.Empty;
+
+                        if (pcd.CompatNWPYesNoId == 1)
+                        {
+                            yesTickMark = "<span class='fe-check'></span>";
+                            noTickMark = "";
+                        }
+                        else
+                        {
+                            yesTickMark = "";
+                            noTickMark = "<span class='fe-check'></span>";
+                        }
+
+                        <td>@Html.Raw(yesTickMark)</td>
+                        <td>@Html.Raw(noTickMark)</td>
+                        <td style="word-break: break-all;">@pcd.CompatibilityNWPApplicantCmt</td>
+                        <td style="word-break: break-all;">@pcd.CompatibilityNWPAuthorityCmt</td>
+                        <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.CompatibilityNWPDocLink" target="_blank">@pcd.CompatibilityNWPDocLink</a></td>
+                    }
+                </tr>
+            </table>
+            @if (pcd.CompatNWPYesNoId == 1)
+            {
+                <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
+                    <tbody>@Html.Raw(cnwpd.ToString())</tbody>
+                </table>
+            }
+        </td>
+        <td style="word-wrap: break-word;">
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility with National Water Policy', 'CompatibilityNationalWaterPolicy');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 250px;">
+            <b>
+                @if (prev_lang == "1")
+                {<span>(২) প্রকল্পটি জাতীয় পানি ব্যবস্থাপনা পরিকল্পনা (এনডব্লিউএমপি) এর সহিত সামঞ্জস্যপূর্ণ কিনা</span>}
+                else
+                {<span>(2) Compatibility with National Water Management Plan (NWMP)</span>}
+            </b>
+        </td>
+        <td>
+            <table style="width:100%; border: 1px solid #CFCFCF; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                        else
+                        {<span>Authority Comments</span>}
+                    </th>
+
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>নথি লিঙ্ক</span>}
+                        else
+                        {<span>Document Link</span>}
+                    </th>
+                </tr>
+                <tr>
+                    @{
+                        yesTickMark = string.Empty;
+                        noTickMark = string.Empty;
+
+                        if (pcd.NWMPCompatYesNoId == 1)
+                        {
+                            yesTickMark = "<span class='fe-check'></span>";
+                            noTickMark = "";
+                        }
+                        else
+                        {
+                            yesTickMark = "";
+                            noTickMark = "<span class='fe-check'></span>";
+                        }
+
+                        <td>@Html.Raw(yesTickMark)</td>
+                        <td>@Html.Raw(noTickMark)</td>
+                        <td style="word-break: break-all;">@pcd.NWMPApplicantCmt</td>
+                        <td style="word-break: break-all;">@pcd.NWMPAuthorityCmt</td>
+                        <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.NWMPDocLink" target="_blank">@pcd.NWMPDocLink</a></td>
+                    }
+                </tr>
+            </table>
+            @if (pcd.CompatNWPYesNoId == 1)
+            {
+                <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
+                    <tbody>@Html.Raw(cnwmpd.ToString())</tbody>
+                </table>
+            }
+        </td>
+        <td style="word-wrap: break-word;">
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility National Water Management Plan', 'CompatibilityNationalWaterManagementPlan');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 250px;">
+            <b>
+                @if (prev_lang == "1")
+                {<span>(৩) প্রকল্পটি পানি সম্পদ ব্যবস্থাপনায় চলমান পঞ্চবার্ষিকী পরিকল্পনা এর সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                else
+                {<span>(3) Compatibility with Current Fifth Year Plan (FYP)</span>}
+            </b>
+        </td>
+        <td>
+            <table style="width:100%; border: 1px solid #CFCFCF; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                        else
+                        {<span>Authority Comments</span>}
+                    </th>
+                </tr>
+                <tr>
+                    @{
+                        yesTickMark = string.Empty;
+                        noTickMark = string.Empty;
+
+                        if (pcd.FYPYesNoId == 1)
+                        {
+                            yesTickMark = "<span class='fe-check'></span>";
+                            noTickMark = "";
+                        }
+                        else
+                        {
+                            yesTickMark = "";
+                            noTickMark = "<span class='fe-check'></span>";
+                        }
+
+                        <td>@Html.Raw(yesTickMark)</td>
+                        <td>@Html.Raw(noTickMark)</td>
+                        <td style="word-break: break-all;">@pcd.FYPApplicantCmt</td>
+                        <td style="word-break: break-all;">@pcd.FYPAuthorityCmt</td>
+                    }
+                </tr>
+            </table>
+        </td>
+        <td style="word-wrap: break-word;">
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility Current Fifth Year Plan', 'CompatibilityCurrentFifthYearPlan');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 250px;">
+            <b>
+                @if (prev_lang == "1")
+                {<span>(৪) প্রকল্পটি টেকসই উন্নয়ন লক্ষ্যমাত্রা (এসডিজি) এর সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                else
+                {<span>(4) Compatibility with Sustainable Development Goal (SDG)</span>}
+            </b>
+        </td>
+        <td>
+            <table style="width:100%; border: 1px solid #CFCFCF; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                        else
+                        {<span>Authority Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>নথি লিঙ্ক</span>}
+                        else
+                        {<span>Document Link</span>}
+                    </th>
+                </tr>
+                <tr>
+                    @{
+                        yesTickMark = string.Empty;
+                        noTickMark = string.Empty;
+
+                        if (pcd.SDGYesNoId == 1)
+                        {
+                            yesTickMark = "<span class='fe-check'></span>";
+                            noTickMark = "";
+                        }
+                        else
+                        {
+                            yesTickMark = "";
+                            noTickMark = "<span class='fe-check'></span>";
+                        }
+
+                        <td>@Html.Raw(yesTickMark)</td>
+                        <td>@Html.Raw(noTickMark)</td>
+                        <td style="word-break: break-all;">@pcd.SDGApplicantCmt</td>
+                        <td style="word-break: break-all;">@pcd.SDGAuthorityCmt</td>
+                        <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.SDGDocLink" target="_blank">@pcd.SDGDocLink</a></td>
+                    }
+                </tr>
+            </table>
+            @if (pcd.SDGYesNoId == 1)
+            {
+                <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
+                    <tbody>
+                        @Html.Raw(sdgd.ToString())
+                        @Html.Raw(sdgid.ToString())
+                    </tbody>
+                </table>
+            }
+        </td>
+        <td style="word-wrap: break-word;">
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility Sustainable Development Goal', 'CompatibilitySustainableDevelopmentGoal');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 250px;">
+            <b>
+                @if (prev_lang == "1")
+                {<span>(৫) প্রকল্পটি বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০ এর সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                else
+                {<span>(5) Compatibility with Bangladesh Delta Plan 2100</span>}
+            </b>
+        </td>
+        <td>
+            <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                        else
+                        {<span>Authority Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>নথি লিঙ্ক</span>}
+                        else
+                        {<span>Document Link</span>}
+                    </th>
+                </tr>
+                <tr>
+                    @{
+                        yesTickMark = string.Empty;
+                        noTickMark = string.Empty;
+
+                        if (pcd.DeltaPlanYesNoId == 1)
+                        {
+                            yesTickMark = "<span class='fe-check'></span>";
+                            noTickMark = "";
+                        }
+                        else
+                        {
+                            yesTickMark = "";
+                            noTickMark = "<span class='fe-check'></span>";
+                        }
+
+                        <td>@Html.Raw(yesTickMark)</td>
+                        <td>@Html.Raw(noTickMark)</td>
+                        <td style="word-break: break-all;">@pcd.DeltaPlan2100ApplicantCmt</td>
+                        <td style="word-break: break-all;">@pcd.DeltaPlan2100AuthorityCmt</td>
+                        <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.DeltaPlan2100DocLink" target="_blank">@pcd.DeltaPlan2100DocLink</a></td>
+                    }
+                </tr>
+            </table>
+            @if (pcd.DeltaPlanYesNoId == 1)
+            {
+                <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
+                    <tbody>@Html.Raw(bdp2100gd.ToString())</tbody>
+                </table>
+            }
+        </td>
+        <td>
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility Bangladesh Delta Plan 2100', 'CompatibilityBangladeshDeltaPlan2100');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 250px;">
+            <b>
+                @if (prev_lang == "1")
+                {<span>(৬) প্রকল্পটি উপকূলীয় অঞ্চল নীতির সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
+                else
+                {<span>(6) Compatibility with Coastal Zone Policy</span>}
+            </b>
+        </td>
+        <td>
+            <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                        else
+                        {<span>Authority Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>নথি লিঙ্ক</span>}
+                        else
+                        {<span>Document Link</span>}
+                    </th>
+                </tr>
+                <tr>
+                    @{
+                        yesTickMark = string.Empty;
+                        noTickMark = string.Empty;
+
+                        if (pcd.CostalZoneYesNoId == 1)
+                        {
+                            yesTickMark = "<span class='fe-check'></span>";
+                            noTickMark = "";
+                        }
+                        else
+                        {
+                            yesTickMark = "";
+                            noTickMark = "<span class='fe-check'></span>";
+                        }
+
+                        <td>@Html.Raw(yesTickMark)</td>
+                        <td>@Html.Raw(noTickMark)</td>
+                        <td style="word-break: break-all;">@pcd.CostalZoneApplicantCmt</td>
+                        <td style="word-break: break-all;">@pcd.CostalZoneAuthorityCmt</td>
+                        <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.CostalZoneDocLink" target="_blank">@pcd.CostalZoneDocLink</a></td>
+                    }
+                </tr>
+            </table>
+        </td>
+        <td style="word-wrap: break-word;">
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility Coastal Zone Policy', 'CompatibilityCoastalZonePolicy');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 250px;">
+            <b>
+                @if (prev_lang == "1")
+                {<span>(৭) কৃষি নীতিমালার সাথে সামঞ্জস্যতা</span>}
+                else
+                {<span>(7) Compatibility with Agricultural Policy</span>}
+            </b>
+        </td>
+        <td>
+            <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                        else
+                        {<span>Authority Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>নথি লিঙ্ক</span>}
+                        else
+                        {<span>Document Link</span>}
+                    </th>
+                </tr>
+                <tr>
+                    @{
+                        yesTickMark = string.Empty;
+                        noTickMark = string.Empty;
+
+                        if (pcd.AgriculturalYesNoId == 1)
+                        {
+                            yesTickMark = "<span class='fe-check'></span>";
+                            noTickMark = "";
+                        }
+                        else
+                        {
+                            yesTickMark = "";
+                            noTickMark = "<span class='fe-check'></span>";
+                        }
+
+                        <td>@Html.Raw(yesTickMark)</td>
+                        <td>@Html.Raw(noTickMark)</td>
+                        <td style="word-break: break-all;">@pcd.AgriApplicantCmt</td>
+                        <td style="word-break: break-all;">@pcd.AgriAuthorityCmt</td>
+                        <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.AgriDocLink" target="_blank">@pcd.AgriDocLink</a></td>
+                    }
+                </tr>
+            </table>
+        </td>
+        <td style="word-wrap: break-word;">
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility Agricultural Policy', 'CompatibilityAgriculturalPolicy');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 250px;">
+            <b>
+                @if (prev_lang == "1")
+                {<span>(৮) মৎস্য নীতির সঙ্গে সামঞ্জস্য</span>}
+                else
+                {<span>(8) Compatibility with Fisheries Policy</span>}
+            </b>
+        </td>
+        <td>
+            <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                        else
+                        {<span>Authority Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>নথি লিঙ্ক</span>}
+                        else
+                        {<span>Document Link</span>}
+                    </th>
+                </tr>
+                <tr>
+                    @{
+                        yesTickMark = string.Empty;
+                        noTickMark = string.Empty;
+
+                        if (pcd.FisheriesYesNoId == 1)
+                        {
+                            yesTickMark = "<span class='fe-check'></span>";
+                            noTickMark = "";
+                        }
+                        else
+                        {
+                            yesTickMark = "";
+                            noTickMark = "<span class='fe-check'></span>";
+                        }
+
+                        <td>@Html.Raw(yesTickMark)</td>
+                        <td>@Html.Raw(noTickMark)</td>
+                        <td style="word-break: break-all;">@pcd.FisheriesApplicantCmt</td>
+                        <td style="word-break: break-all;">@pcd.FisheriesAuthorityCmt</td>
+                        <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.FisheriesDocLink" target="_blank">@pcd.FisheriesDocLink</a></td>
+                    }
+                </tr>
+            </table>
+        </td>
+        <td>
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility Fisheries Policy', 'CompatibilityFisheriesPolicy');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 250px;">
+            <b>
+                @if (prev_lang == "1")
+                {<span>(৯) ইন্টিগ্রেটেড ওয়াটার রিসোর্স ম্যানেজমেন্টের সাথে সামঞ্জস্যতা</span>}
+                else
+                {<span>(9) Compatibility with Integrated Water Resource Management (IWRM)</span>}
+            </b>
+        </td>
+        <td>
+            <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                        else
+                        {<span>Authority Comments</span>}
+                    </th>
+                </tr>
+                <tr>
+                    @{
+                        yesTickMark = string.Empty;
+                        noTickMark = string.Empty;
+
+                        if (pcd.IWRMYesNoId == 1)
+                        {
+                            yesTickMark = "<span class='fe-check'></span>";
+                            noTickMark = "";
+                        }
+                        else
+                        {
+                            yesTickMark = "";
+                            noTickMark = "<span class='fe-check'></span>";
+                        }
+
+                        <td>@Html.Raw(yesTickMark)</td>
+                        <td>@Html.Raw(noTickMark)</td>
+                        <td style="word-break: break-all;">@pcd.IWRMApplicantCmt</td>
+                        <td style="word-break: break-all;">@pcd.IWRMAuthorityCmt</td>
+                    }
+                </tr>
+            </table>
+        </td>
+        <td style="word-wrap: break-word;">
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility Integrated Water Resource Management', 'CompatibilityIntegratedWaterResourceManagement');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 250px;">
+            <b>
+                @if (prev_lang == "1")
+                {<span>(১০) জিপিডব্লিউএম এর সাথে সামঞ্জস্যতা</span>}
+                else
+                {<span>(10) Compatibility with GPWM</span>}
+            </b>
+        </td>
+        <td>
+            <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                        else
+                        {<span>Authority Comments</span>}
+                    </th>
+                </tr>
+                <tr>
+                    @{
+                        yesTickMark = string.Empty;
+                        noTickMark = string.Empty;
+
+                        if (pcd.GPWMYesNoId == 1)
+                        {
+                            yesTickMark = "<span class='fe-check'></span>";
+                            noTickMark = "";
+                        }
+                        else
+                        {
+                            yesTickMark = "";
+                            noTickMark = "<span class='fe-check'></span>";
+                        }
+
+                        <td>@Html.Raw(yesTickMark)</td>
+                        <td>@Html.Raw(noTickMark)</td>
+                        <td style="word-break: break-all;">@pcd.GPWMApplicantCmt</td>
+                        <td style="word-break: break-all;">@pcd.GPWMAuthorityCmt</td>
+                    }
+                </tr>
+            </table>
+            @if (pcd.GPWMYesNoId == 1)
+            {
+                <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
+                    <tbody>@Html.Raw(gpwmgtd.ToString())</tbody>
+                </table>
+            }
+        </td>
+        <td style="word-wrap: break-word;">
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility GPWM', 'CompatibilityGPWM');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 250px;">
+            <b>
+                @if (prev_lang == "1")
+                {<span>(১১) প্রকল্পটির সম্ভাব্যতা অধ্যয়ন</span>}
+                else
+                {<span>(11) Feasibility Study</span>}
+            </b>
+        </td>
+        <td>
+            <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                        else
+                        {<span>Authority Comments</span>}
+                    </th>
+                </tr>
+                <tr>
+                    @{
+                        yesTickMark = string.Empty;
+                        noTickMark = string.Empty;
+
+                        if (pcd.FeasibilityYesNoId == 1)
+                        {
+                            yesTickMark = "<span class='fe-check'></span>";
+                            noTickMark = "";
+                        }
+                        else
+                        {
+                            yesTickMark = "";
+                            noTickMark = "<span class='fe-check'></span>";
+                        }
+
+                        <td>@Html.Raw(yesTickMark)</td>
+                        <td>@Html.Raw(noTickMark)</td>
+                        <td style="word-break: break-all;">@pcd.FeasibilityApplicantCmt</td>
+                        <td style="word-break: break-all;">@pcd.FeasibilityAuthorityCmt</td>
+                    }
+                </tr>
+            </table>
+        </td>
+        <td style="word-wrap: break-word;">
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Feasibility Study', 'FeasibilityStudy');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 250px;">
+            <b>
+                @if (prev_lang == "1")
+                {<span>(১২) প্রকল্পটির সদৃশ</span>}
+                else
+                {<span>(12) Duplication of the Project</span>}
+            </b>
+        </td>
+        <td>
+            <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                        else
+                        {<span>Authority Comments</span>}
+                    </th>
+                </tr>
+                <tr>
+                    @{
+                        yesTickMark = string.Empty;
+                        noTickMark = string.Empty;
+
+                        if (projectindi.DuplicatYesNoId == 1)
+                        {
+                            yesTickMark = "<span class='fe-check'></span>";
+                            noTickMark = "";
+                        }
+                        else
+                        {
+                            yesTickMark = "";
+                            noTickMark = "<span class='fe-check'></span>";
+                        }
+
+                        <td>@Html.Raw(yesTickMark)</td>
+                        <td>@Html.Raw(noTickMark)</td>
+                        <td style="word-break: break-all;">@projectindi.DuplicationApplicantComments</td>
+                        <td style="word-break: break-all;">@projectindi.DuplicationAuthorityComments</td>
+                    }
+                </tr>
+            </table>
+        </td>
+        <td style="word-wrap: break-word;">
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Duplication of the Project', 'DuplicationOfTheProject');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="3">
+            <b>
+                @if (prev_lang == "1")
+                {<span>(১৩) প্রকল্পটি গুরুত্বপূর্ণ সামাজিক বিষয়াদি এবং নারী, শিশু, দরিদ্র ও অনগ্রসর  জনগোষ্ঠীর প্রতি বিশেষ গুরুত্ব দিয়ে প্রস্তুত করা হয়েছে কিনা</span>}
+                else
+                {<span>(13) Project development by emphasizing on underprivileged people, child, women and important social issues</span>}
+            </b>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 750px; word-wrap: break-word;" colspan="2">
+            <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == "1")
+                        {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                        else
+                        {<span>Authority Comments</span>}
+                    </th>
+                </tr>
+                <tr>
+                    @{
+                        yesTickMark = string.Empty;
+                        noTickMark = string.Empty;
+
+                        if (pcd.SocialIssuesYesNoId == 1)
+                        {
+                            yesTickMark = "<span class='fe-check'></span>";
+                            noTickMark = "";
+                        }
+                        else
+                        {
+                            yesTickMark = "";
+                            noTickMark = "<span class='fe-check'></span>";
+                        }
+
+                        <td>@Html.Raw(yesTickMark)</td>
+                        <td>@Html.Raw(noTickMark)</td>
+                        <td style="word-break: break-all;">@pcd.SocialIssuesApplicantCmt</td>
+                        <td style="word-break: break-all;">@pcd.SocialIssuesAuthorityCmt</td>
+                    }
+                </tr>
+            </table>
+        </td>
+        <td style="word-wrap: break-word;">
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Development Emphasizing People', 'ProjectDevelopmentEmphasizingPeople');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+</table>

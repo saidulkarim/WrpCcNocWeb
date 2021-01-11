@@ -51,6 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Shared\self-preview\" />
     <Folder Include="wwwroot\docs\gpwm\" />
     <Folder Include="wwwroot\docs\additional_attachment\" />
     <Folder Include="wwwroot\docs\hearing_attachment\" />

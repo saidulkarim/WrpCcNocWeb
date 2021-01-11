@@ -468,31 +468,6 @@
         });
     });
 
-    @*function SaveProjLocFile(locationid, projectid) {
-        var locfile = jQuery('#ImageFileName').prop('files')[0];
-
-        var formData = new FormData();
-        formData.append("locationid", locationid);
-        formData.append("projectid", projectid);
-        formData.append("file", locfile);
-
-        var url = '@Url.Action("uplf", "form")';
-        $.ajax({
-            url: url,
-            data: formData,
-            processData: false,
-            contentType: false,
-            type: "POST",
-            success: function (data) {
-                if (data.message != '')
-                    Swal.fire(data.title, data.message, data.status);
-            }, error: function (jqXHR, exception) {
-                var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                Swal.fire('Error Occured', errorMsg, 'error');
-            }
-        });
-    }*@
-
     function ClearProjLocation() {
         jQuery("#LocationId").val('');
         jQuery('#DistrictGeoCode').val(null).trigger('change');

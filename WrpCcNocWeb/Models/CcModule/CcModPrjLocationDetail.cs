@@ -51,15 +51,5 @@ namespace WrpCcNocWeb.Models
         [MaxLength(8)]
         [Display(Name = "Longitude")]
         public string Longitude { get; set; }
-
-        [Column("ImageFileName", Order = 7)]
-        [MaxLength(50)]
-        [Display(Name = "Upload Picture")]
-        public string ImageFileName { get; set; }
-
-        [Column("MapFileName", Order = 8)]
-        [MaxLength(50)]
-        [Display(Name = "Upload Project Map")]
-        public string MapFileName { get; set; }
     }
 }

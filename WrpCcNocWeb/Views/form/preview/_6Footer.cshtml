@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var prev_lang = ViewData["fFormLanguage"].ToString();
+    var prj_type_id = ViewData["fProjectTypeId"].ToString();
+
+    var sfn = ViewData["fSignatureFileName"].ToString();
+    var anbn = ViewData["fApplicantNameBn"].ToString();
+    var anen = ViewData["fApplicantName"].ToString();
+    var agne = ViewData["fApplicantGroupName"].ToString();
+}
+
+<div class="row">
+    <div class="col">
+        <p>
+            @if (prev_lang == "1")
+            {<span>আমি বা আমরা হলফ করিয়া ঘোষণা করিতেছি যে, এই আবেদন পত্রে প্রদত্ত যাবতীয় তথ্য এবং সংযুক্ত সকল কাগজাদি আমার জ্ঞান ও বিশ্বাস মতে সত্য, সঠিক ও নির্ভুল। </span>}
+            else
+            {<span>I or we declare under oath that all the information and attached documents provided in this application form are true, correct and accurate to the best of my knowledge and belief.</span>}
+        </p>
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col text-right">
+        <img src="~/images/signature/@sfn" height="80" />
+        <br />
+        <span>-------------------------------</span>
+        <p style="margin-bottom: 0 !important;">
+            @if (prev_lang == "1")
+            {<span>আবেদনকারীর স্বাক্ষর</span>}
+            else
+            {<span>Signature of Applicant</span>}
+        </p>
+        @if (prev_lang == "1")
+        {
+            <span id="pApplicantName">@anbn</span><br />
+            <span id="pApplicantGroupName">@agne</span>
+        }
+        else
+        {
+            <span id="pApplicantName">@anen</span><br />
+            <span id="pApplicantGroupName">@agne</span>
+        }
+    </div>
+</div>
