@@ -43,5 +43,10 @@ namespace WrpCcNocWeb.Models
         [MaxLength(50)]
         [Display(Name = "Unit")]
         public string HydroSystemUnit { get; set; }
+
+        [Column("Description", Order = 6)]
+        [MaxLength(250)]
+        [Display(Name = "Description")]
+        public string Description { get; set; }
     }
 }

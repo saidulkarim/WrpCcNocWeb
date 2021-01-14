@@ -13,14 +13,12 @@ namespace WrpCcNocWeb.Models
         [Column("FloodFrequencyDetailId", Order = 0)]
         public long FloodFrequencyDetailId { get; set; }
 
-
         [Required]
         [Column("ProjectId", Order = 1)]
         [Display(Name = "Name of Project")]
         public long ProjectId { get; set; }
         [ForeignKey("ProjectId")]
         public virtual CcModAppProjectCommonDetail CcModAppProjectCommonDetail { get; set; }
-
 
         [Required]
         [Column("FloodFrequencyId", Order = 2)]
@@ -29,10 +27,13 @@ namespace WrpCcNocWeb.Models
         [ForeignKey("FloodFrequencyId")]
         public virtual LookUpCcModFloodFrequency LookUpCcModFloodFrequency { get; set; }
 
-
         [Column("FloodFrequencyLevel", Order = 3)]
         [Display(Name = "Flood Frequency Level")]
         public double FloodFrequencyLevel { get; set; }
-        
+
+        [Column("Datum", Order = 4)]
+        [MaxLength(50)]
+        [Display(Name = "Datum")]
+        public string Datum { get; set; }
     }
 }

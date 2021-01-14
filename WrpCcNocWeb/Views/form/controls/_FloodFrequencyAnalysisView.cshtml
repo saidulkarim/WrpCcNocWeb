@@ -1,0 +1,60 @@
+﻿@{
+    var language = int.Parse(ViewData["vFormLanguage"].ToString());
+    List<FloodFrequencyDetailTemp> ffad = (List<FloodFrequencyDetailTemp>)ViewData["vFloodFrequencyDetail"];
+}
+
+<div id="view-proj-annual-railfall-form">
+    <table class="table table-bordered" style="width: 100%;">
+        @if (ffad.Count > 0)
+        {
+            <tr>
+                <td>
+                    @if (language == 1)
+                    {<span>ফ্লাড ফ্রিকোয়েন্সি</span>}
+                    else
+                    {<span>Flood Frequency</span>}
+                </td>
+                <td>
+                    @if (language == 1)
+                    {<span>ফ্রিকোয়েন্সি (মি.)</span>}
+                    else
+                    {<span>Frequency (m)</span>}
+                </td>
+                <td>
+                    @if (language == 1)
+                    {<span>ডেটাম</span>}
+                    else
+                    {<span>Datum</span>}
+                </td>
+            </tr>
+
+            @foreach (FloodFrequencyDetailTemp ff in ffad)
+            {
+                if (language == 1)
+                {
+                    <tr>
+                        <td>@ff.FloodFrequencyBn</td>
+                        <td>@ff.FloodFrequencyLevel</td>
+                        <td>@ff.Datum</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>@ff.FloodFrequency</td>
+                        <td>@ff.FloodFrequencyLevel</td>
+                        <td>@ff.Datum</td>
+                    </tr>
+                }
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3" class="text-center">
+                    No data added
+                </td>
+            </tr>
+        }
+    </table>
+</div>

@@ -1,0 +1,88 @@
+﻿@{
+    var language = int.Parse(ViewData["vFormLanguage"].ToString());
+    List<IrrigCropAreaDetailTemp> icad = (List<IrrigCropAreaDetailTemp>)ViewData["vIrrigCropAreaDetail"];
+}
+
+<div id="view-irrigated-crop-area-form">
+    <table class="table table-bordered" style="width: 100%;">
+        @if (icad.Count > 0)
+        {
+            <tr>
+                <td class="text-center">
+                    @{if (language == 1)
+                        { <span>ফসল</span>}
+                        else
+                        {<span>Crops</span>}
+                    }
+                </td>
+                <td class="text-right">
+                    @{if (language == 1)
+                        { <span>এলাকা (হেক্টর)</span>}
+                        else
+                        {<span>Area (ha)</span>}
+                    }
+                </td>
+                <td class="text-right">
+                    @{if (language == 1)
+                        { <span>উৎপাদন (টন)</span>}
+                        else
+                        {<span>Production (Ton)</span>}
+                    }
+                </td>
+                <td class="text-right">
+                    @{if (language == 1)
+                        { <span>টাকার পরিমাণ</span>}
+                        else
+                        {<span>Amount (Taka)</span>}
+                    }
+                </td>
+            </tr>
+
+            foreach (IrrigCropAreaDetailTemp ica in icad)
+            {
+                if (language == 1)
+                {
+                    <tr>
+                        <td>
+                            @ica.CropName
+                        </td>
+                        <td class="text-right">
+                            @ica.Area
+                        </td>
+                        <td class="text-right">
+                            @ica.ProductionInTon
+                        </td>
+                        <td class="text-right">
+                            @ica.ProductionAmount
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            @ica.CropName
+                        </td>
+                        <td class="text-right">
+                            @ica.Area
+                        </td>
+                        <td class="text-right">
+                            @ica.ProductionInTon
+                        </td>
+                        <td class="text-right">
+                            @ica.ProductionAmount
+                        </td>
+                    </tr>
+                }
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">
+                    No data added
+                </td>
+            </tr>
+        }
+    </table>
+</div>

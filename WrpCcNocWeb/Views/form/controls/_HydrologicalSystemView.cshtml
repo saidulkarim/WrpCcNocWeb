@@ -1,0 +1,76 @@
+﻿@using WrpCcNocWeb.Helpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var language = int.Parse(ViewData["vFormLanguage"].ToString());
+    List<HydroSystemDetailTemp> hysd = (List<HydroSystemDetailTemp>)ViewData["vHydroSystemDetail"];
+}
+
+<div id="view-proj-annual-railfall-form">
+    <table class="table table-bordered" style="width: 100%;">
+        @if (hysd.Count > 0)
+        {
+            <tr>
+                <td class="text-center">
+                    @{if (language == 1)
+                        { <span>সিস্টেম</span>}
+                        else
+                        {<span>System</span>}
+                    }
+                </td>
+                <td class="text-center">
+                    <span id="HydroSystemName"></span>
+                    @{if (language == 1)
+                        { <span>নাম</span>}
+                        else
+                        {<span>Name</span>}
+                    }
+                </td>
+                <td class="text-center">
+                    @{if (language == 1)
+                        { <span>দৈর্ঘ্য বা এরিয়া</span>}
+                        else
+                        {<span>Length or Area</span>}
+                    }
+                </td>
+                <td class="text-center">
+                    @{if (language == 1)
+                        { <span>বিবরণ</span>}
+                        else
+                        {<span>Description</span>}
+                    }
+                </td>
+            </tr>
+            @foreach (HydroSystemDetailTemp hsdt in hysd)
+            {
+                if (language == 1)
+                {
+                    <tr>
+                        <td>@hsdt.HydroSystemCategoryBn</td>
+                        <td>@hsdt.NameOfHydroSystem</td>
+                        <td>@hsdt.HydroSystemLengthArea.NumberEnglishToBengali() @hsdt.HydroSystemUnitBn</td>
+                        <td>@hsdt.Description</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>@hsdt.HydroSystemCategory</td>
+                        <td>@hsdt.NameOfHydroSystem</td>
+                        <td>@hsdt.HydroSystemLengthArea @hsdt.HydroSystemUnit</td>
+                        <td>@hsdt.Description</td>
+                    </tr>
+                }
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">
+                    No data added
+                </td>
+            </tr>
+        }
+    </table>
+</div>

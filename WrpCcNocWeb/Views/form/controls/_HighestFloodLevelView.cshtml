@@ -1,0 +1,72 @@
+﻿@{
+    var language = int.Parse(ViewData["vFormLanguage"].ToString());
+    List<CcModHighestFloodLevelDetailTemp> highestfloodleveldetail = (List<CcModHighestFloodLevelDetailTemp>)ViewData["vHighestFloodLevelDetail"];
+}
+
+<div id="view-highest-flood-level-form">
+    <table class="table table-bordered" style="width: 100%;">
+        @if (highestfloodleveldetail.Count > 0)
+        {
+            <tr>
+                <td>
+                    @if (language == 1)
+                    {<span>সন</span> }
+                    else
+                    { <span>Year</span>}
+                </td>
+                <td class="text-right">
+                    @if (language == 1)
+                    {<span>সর্বোচ্চ পানির উচ্চতা (মিটার)</span> }
+                    else
+                    { <span>Highest Flood Level (m)</span>}
+                </td>
+                <td>
+                    @if (language == 1)
+                    {<span>ডেটাম</span> }
+                    else
+                    { <span>Datum</span>}
+                </td>
+            </tr>
+
+            foreach (CcModHighestFloodLevelDetailTemp hfl in highestfloodleveldetail)
+            {
+                if (language == 1)
+                {
+                    <tr>
+                        <td>
+                            @hfl.FloodYearBn
+                        </td>
+                        <td class="text-right">
+                            @hfl.HighestFloodLevelBn
+                        </td>
+                        <td>
+                            @hfl.Datum
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            @hfl.FloodYear
+                        </td>
+                        <td class="text-right">
+                            @hfl.HighestFloodLevel
+                        </td>
+                        <td>
+                            @hfl.Datum
+                        </td>
+                    </tr>
+                }
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3" class="text-center">
+                    No data added
+                </td>
+            </tr>
+        }
+    </table>
+</div>

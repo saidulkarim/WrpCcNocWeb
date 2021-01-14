@@ -1,0 +1,84 @@
+﻿@{
+    var language = int.Parse(ViewData["vFormLanguage"].ToString());
+    List<CcModAnnualRainfallDetailTemp> annualrainfalldetail = (List<CcModAnnualRainfallDetailTemp>)ViewData["vAnnualRainfallDetail"];
+}
+
+<div id="view-proj-annual-railfall-form">
+    <table class="table table-bordered" style="width: 100%;">
+        @if (annualrainfalldetail.Count > 0)
+        {
+            <tr>
+                <td>
+                    @if (language == 1)
+                    {<span>সন</span> }
+                    else
+                    { <span>Year</span>}
+                </td>
+                <td class="text-right">
+                    @if (language == 1)
+                    {<span>বৃষ্টিপাত (মি.মি.)</span> }
+                    else
+                    { <span>Rainfall (mm)</span>}
+                </td>
+                <td>
+                    @if (language == 1)
+                    {<span>সংগৃহীত স্টেশন</span> }
+                    else
+                    { <span>Station</span>}
+                </td>
+                <td>
+                    @if (language == 1)
+                    {<span>মৌসুম</span> }
+                    else
+                    { <span>Season</span>}
+                </td>
+            </tr>
+
+            foreach (CcModAnnualRainfallDetailTemp arr in annualrainfalldetail)
+            {
+                if (language == 1)
+                {
+                    <tr>
+                        <td>
+                            @arr.RainfallYearBn
+                        </td>
+                        <td class="text-right">
+                            @arr.RainfallMmBn
+                        </td>
+                        <td>
+                            @arr.CollectedStationName
+                        </td>
+                        <td>
+                            @arr.Season
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            @arr.RainfallYear
+                        </td>
+                        <td class="text-right">
+                            @arr.RainfallMm
+                        </td>
+                        <td>
+                            @arr.CollectedStationName
+                        </td>
+                        <td>
+                            @arr.Season
+                        </td>
+                    </tr>
+                }
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">
+                    No data added
+                </td>
+            </tr>
+        }
+    </table>
+</div>

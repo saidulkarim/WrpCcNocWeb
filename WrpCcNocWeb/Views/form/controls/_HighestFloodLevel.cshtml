@@ -1,0 +1,307 @@
+﻿@using WrpCcNocWeb.Helpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var language = int.Parse(HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString());
+}
+
+<div id="proj-highest-flood-level-form" style="width: 100%;">
+    <style>
+        .select2-selection__rendered {
+            line-height: 31px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+        }
+
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+    </style>
+
+    <div id="divHighestFloodLevel">
+        <div class="row">
+            <div class="col-md-3 form-group">
+                <label for="FloodYear">
+                    @{if (language == 1)
+                        { <span>সন</span> }
+                        else
+                        { <span>Year</span> }
+                    }
+                    <span class="text-danger bold">*</span>
+                </label>
+                <br />
+                <input id="HighestFloodLevelDetailId" type="hidden" />
+                <select id="FloodYear" name="FloodYear" class="form-control" required="" style="width: 100%;">
+                    @if (language == 1)
+                    {
+                        <option value="">বাছাই করুন...</option>
+                    }
+                    else
+                    {
+                        <option value="">Choose...</option>
+                    }
+
+                    @for (int i = DateTime.Now.Year; i >= 1990; i--)
+                    {
+                        if (language == 1)
+                        {
+                            <option value="@i">@i.ToString().NumberEnglishToBengali()</option>
+                        }
+                        else
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label for="HighestFloodLevel">
+                    @{if (language == 1)
+                        { <span>সর্বোচ্চ পানির উচ্চতা (মিটার)</span> }
+                        else
+                        { <span>Highest Flood Level (m)</span> }
+                    }
+                </label>
+                <br />
+                <input type="number" min="0" id="HighestFloodLevel" name="HighestFloodLevel" class="form-control text-right pr-1" />
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label for="Datum">
+                    @{if (language == 1)
+                        { <span>ডেটাম</span> }
+                        else
+                        { <span>Datum</span> }
+                    }
+                </label>
+                <br />
+                <select id="Datum" name="Datum" style="width: 100%;">
+                    @if (language == 1)
+                    {
+                        <option value="">বাছাই করুন...</option>
+                        <option value="PWD">পি.ডব্লিউ.ডি</option>
+                        <option value="MSL">এম.এস.এল</option>
+                    }
+                    else
+                    {
+                        <option value="">Choose...</option>
+                        <option value="PWD">PWD</option>
+                        <option value="MSL">MSL</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label></label>
+                <div class="button-list" style="margin-top: 7px;">
+                    <button id="btnSaveHighestFloodLevel" type="button" class="btn btn-success waves-effect waves-light" style="width: 40%;">
+                        <i class="mdi mdi-content-save"></i>
+                    </button>
+                    <button id="btnClearHighestFloodLevel" type="button" class="btn btn-secondary waves-effect waves-light" style="width: 40%;">
+                        <i class="mdi mdi-close"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <table id="tblHighestFloodLevel" class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @if (language == 1)
+                        {<span>সন</span> }
+                        else
+                        { <span>Year</span>}
+                    </th>
+                    <th class="text-right">
+                        @if (language == 1)
+                        {<span>সর্বোচ্চ পানির উচ্চতা (মিটার)</span> }
+                        else
+                        { <span>Highest Flood Level (m)</span>}
+                    </th>
+                    <th>
+                        @if (language == 1)
+                        {<span>ডেটাম</span> }
+                        else
+                        { <span>Datum</span>}
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tbodyHighestFloodLevel"></tbody>
+        </table>
+    </div>
+</div>
+
+<script id="HighestFloodLevelControl" type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery("#FloodYear").select2({
+            placeholder: "Select an option",
+            allowClear: true
+        }).on('change', function () {
+            var val = $("#FloodYear option:selected").val();
+            var txt = $("#FloodYear option:selected").text();
+        });
+
+        jQuery("#Datum").select2({
+            placeholder: "Select an option",
+            allowClear: true
+        }).on('change', function () {
+            var val = $("#Datum option:selected").val();
+            var txt = $("#Datum option:selected").text();
+        });
+
+        jQuery("#btnSaveHighestFloodLevel").click(function () {
+            var tableContent = jQuery("#tbodyHighestFloodLevel").html(); //<tr><td colspan="4"
+            var noDataCheck = "<tr><td colspan=\"4\"";
+            if (tableContent.indexOf(noDataCheck) !== -1) {
+                jQuery("#tbodyHighestFloodLevel").html('');
+            }
+
+            var HighestFloodLevelDetailId = jQuery("#HighestFloodLevelDetailId").val();
+            HighestFloodLevelDetailId = (HighestFloodLevelDetailId == '') ? 0 : HighestFloodLevelDetailId;
+            var hflProjectId = jQuery('#ProjectId').val(); //Project Id from Parent Page
+            var FloodYear = jQuery("#FloodYear option:selected").val();
+            var Datum = jQuery("#Datum option:selected").text();
+            var HighestFloodLevel = jQuery("#HighestFloodLevel").val();
+            var row = '';
+
+            if (FloodYear != '' && FloodYear != undefined) {
+                if (HighestFloodLevel != '' && HighestFloodLevel != undefined && HighestFloodLevel > 0) {
+                    var highest_flood_level = {
+                        'HighestFloodLevelDetailId': HighestFloodLevelDetailId,
+                        'ProjectId': hflProjectId,
+                        'FloodYear': FloodYear,
+                        'HighestFloodLevel': HighestFloodLevel,
+                        'Datum': Datum
+                    };
+
+                    console.log(highest_flood_level);
+
+                    var url = '@Url.Action("sv_hfl_dt", "controls")';
+                    jQuery.ajax({
+                        type: "POST",
+                        url: url,
+                        data: { _hfl: highest_flood_level },
+                        dataType: "json",
+                        success: function (data, status, jqXHR) {
+                            if (data.status == 'success') {
+                                Notification('success', 'Success', data.message);
+                                Swal.fire('Success', data.message, 'success');
+
+                                GetHighestFloodLevelData();
+                                ClearHighestFloodLevel();
+                            } else {
+                                Notification('error', 'Highest Flood Level Saving Error', data.message);
+                                Swal.fire('Highest Flood Level Saving Error', data.message, 'error');
+                            }
+                        }, error: function (jqXHR, exception) {
+                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                            Notification('error', 'Highest Flood Level Error Occured', errorMsg);
+                            Swal.fire('Highest Flood Level Error Occured', errorMsg, 'error');
+                        }
+                    });
+                } else {
+                    Notification('warning', 'Required Field', 'Please enter rainfall (milimeter) data!');
+                    jQuery("#HighestFloodLevel").focus();
+                }
+            } else {
+                Notification('warning', 'Required Field', 'Please select a rainfall year!');
+                jQuery("#FloodYear").focus();
+            }
+        });
+
+        jQuery("#btnClearHighestFloodLevel").click(function () {
+            ClearHighestFloodLevel();
+        });
+    });
+
+    function GetHighestFloodLevelData() {
+        var lang = '@language';
+        var hfl_pid = jQuery('#ProjectId').val();
+
+        var url = '@Url.Action("get_hfld", "controls")';
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { project_id: hfl_pid },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                console.log('Project Highest Flood Level Data Loading...');
+
+                if (data.length > 0) {
+                    var rows = '';
+                    var count = 0;
+
+                    if (lang == '1') {
+                        jQuery.each(data, function (i, item) {
+                            rows += '<tr><td>' + item.floodYearBn + '</td><td class="text-right">' + item.highestFloodLevelBn + '</td><td>' + item.datum + '</td><td class="text-center"><button onclick="javascript:DeleteHighestFloodLevel(this, ' + item.highestFloodLevelDetailId + ', ' + item.projectId + ', \'CcModHighestFloodLevelDetail\');" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdHighestFloodLevelDetailId" type="hidden" value="' + item.highestFloodLevelDetailId + '" /></td></tr>';
+                        });
+                    } else {
+                        jQuery.each(data, function (i, item) {
+                            rows += '<tr><td>' + item.floodYear + '</td><td class="text-right">' + item.highestFloodLevel + '</td><td>' + item.datum + '</td><td class="text-center"><button onclick="javascript:DeleteHighestFloodLevel(this, ' + item.highestFloodLevelDetailId + ', ' + item.projectId + ', \'CcModHighestFloodLevelDetail\');" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button> <input id="hdHighestFloodLevelDetailId" type="hidden" value="' + item.highestFloodLevelDetailId + '" /></td></tr>';
+                        });
+                    }
+
+                    jQuery("#tbodyHighestFloodLevel").html(rows);
+                } else {
+                    jQuery("#tblHighestFloodLevel").html('<tr><td colspan="4" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tblHighestFloodLevel").html('<tr><td colspan="4" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+                Notification('error', 'Error Occured', errorMsg);
+            }
+        });
+    }
+
+    function DeleteHighestFloodLevel(index, id, projectId, modelName) {
+        var row = index.parentNode.parentNode;
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this",
+            type: "warning",
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            showCancelButton: !0,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sure"
+        }).then(function (t) {
+            if (t.value == true) {
+                var url = '@Url.Action("cdm", "form")';
+                jQuery.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { id: id, projectId: projectId, modelName: modelName },
+                    dataType: "json",
+                    success: function (data, status, jqXHR) {
+                        if (data.status == 'success') {
+                            row.parentNode.removeChild(row);
+                            Notification('success', 'Success', data.message);
+                            Swal.fire("Success", data.message, "success");
+                        } else {
+                            Notification('error', 'Deletion Error', data.message);
+                            Swal.fire("Deletion Error", data.message, "error");
+                        }
+                    }, error: function (jqXHR, exception) {
+                        var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                        Notification('error', 'Error Occured', errorMsg);
+                    }
+                });
+            }
+        });
+    }
+
+    function ClearHighestFloodLevel() {
+        jQuery('#HighestFloodLevelDetailId').val('');
+        jQuery('#FloodYear').val(null).trigger('change');
+        jQuery('#Datum').val(null).trigger('change');
+        jQuery("#HighestFloodLevel").val('');
+    }
+</script>

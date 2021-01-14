@@ -156,6 +156,7 @@ namespace WrpCcNocWeb.Models
         public string HydroSystemLengthArea { get; set; }
         public string HydroSystemUnit { get; set; }
         public string HydroSystemUnitBn { get; set; }
+        public string Description { get; set; }
         public string Error { get; set; }
     }
 
@@ -177,6 +178,7 @@ namespace WrpCcNocWeb.Models
         public string FloodFrequency { get; set; }
         public string FloodFrequencyBn { get; set; }
         public string FloodFrequencyLevel { get; set; }
+        public string Datum { get; set; }
         public string Error { get; set; }
     }
 
@@ -186,6 +188,8 @@ namespace WrpCcNocWeb.Models
         public long ProjectId { get; set; }
         public string CropName { get; set; }
         public string Area { get; set; }
+        public string ProductionInTon { get; set; }
+        public string ProductionAmount { get; set; }
         public string Error { get; set; }
     }
 
@@ -486,5 +490,50 @@ namespace WrpCcNocWeb.Models
         public string KhalTypeName { get; set; }
         public string KhalTypeNameBn { get; set; }
         public string Error { get; set; }
+    }
+
+    public class CcModAnnualRainfallDetailTemp
+    {
+        public long AnnualRainfallDetailId { get; set; }
+        public long ProjectId { get; set; }
+        public string RainfallYear { get; set; }
+        public string RainfallYearBn { get; set; }
+        public string RainfallMm { get; set; }
+        public string RainfallMmBn { get; set; }
+        public string CollectedStationName { get; set; }
+        public string Season { get; set; } //Dry or Wet
+    }
+
+    public class CcModHighestFloodLevelDetailTemp
+    {
+        public long HighestFloodLevelDetailId { get; set; }
+        public long ProjectId { get; set; }
+        public string FloodYear { get; set; }
+        public string FloodYearBn { get; set; }
+        public string HighestFloodLevel { get; set; }
+        public string HighestFloodLevelBn { get; set; }
+        public string Datum { get; set; } //Dry or Wet
+    }
+
+    public class CcModMaxDischargeDetailTemp
+    {
+        public long MaxDischargeDetailId { get; set; }
+        public long ProjectId { get; set; }
+        public string DischargeYear { get; set; }
+        public string DischargeYearBn { get; set; }
+        public string DischargeAmount { get; set; }
+        public string DischargeAmountBn { get; set; }
+    }
+
+    public class CcModFishProdDiversityDetailTemp
+    {
+        public long FishProdDiversityDetailId { get; set; }
+        public long ProjectId { get; set; }
+        public string TypesOfFisheries { get; set; }
+        public string TypesOfFisheriesBn { get; set; }
+        public string Diversity { get; set; }
+        public string FishProductionInTon { get; set; }
+        public string FishProductionInTonBn { get; set; }
+        public string Season { get; set; }
     }
 }

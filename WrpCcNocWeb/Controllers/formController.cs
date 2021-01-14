@@ -32,6 +32,7 @@ namespace WrpCcNocWeb.Controllers
         private EmailService es = new EmailService();
         private SmsService ss = new SmsService();
         private readonly CommonHelper ch = new CommonHelper();
+        private readonly controlsController controls = new controlsController();
         private Notification noti = new Notification();
         private readonly string rootDirOfProjFile = "../images";
         private readonly string rootDirOfDocs = "../docs";
@@ -778,6 +779,15 @@ namespace WrpCcNocWeb.Controllers
             var _hydrosystemdetail = GetHydroSystemDetail(pcd.ProjectId);
             ViewData["HydroSystemDetail"] = _hydrosystemdetail;
 
+            List<CcModAnnualRainfallDetailTemp> _annualrainfalldetail = controls.GetAnnualRainfallDetailTemp(pcd.ProjectId);
+            ViewData["AnnualRainfallDetail"] = _annualrainfalldetail;
+
+            List<CcModHighestFloodLevelDetailTemp> _highestfloodleveldetail = controls.GetHighestFloodLevelDetailTemp(pcd.ProjectId);
+            ViewData["HighestFloodLevelDetail"] = _highestfloodleveldetail;
+
+            List<CcModMaxDischargeDetailTemp> _maximumdischarge = controls.GetMaximumDischargeDetailTemp(pcd.ProjectId);
+            ViewData["MaximumDischargeDetail"] = _maximumdischarge;
+
             var _typesofflood = _db.CcModPrjTypesOfFloodDetail.Where(w => w.ProjectId == pcd.ProjectId)
                                    .Select(x => new TypesOfFloodTemp
                                    {
@@ -803,6 +813,9 @@ namespace WrpCcNocWeb.Controllers
 
             var _irrigcropareadetail = GetIrrigCropAreaDetail(pcd.ProjectId);
             ViewData["IrrigCropAreaDetail"] = _irrigcropareadetail;
+
+            var _fishproddivdetail = controls.GetFishProductionDiversityDetailTemp(pcd.ProjectId);
+            ViewData["FishProdDivDetail"] = _fishproddivdetail;
 
             var _analyzeoptionsdetail = GetAnalyzeOptionsDetail(pcd.ProjectId);
             ViewData["AnalyzeOptionsDetail"] = _analyzeoptionsdetail;
@@ -4696,7 +4709,15 @@ namespace WrpCcNocWeb.Controllers
                 if (_pcd != null)
                 {
                     ViewBag.ProjectCommonDetail = _pcd;
-                    ViewBag.ProjectBoundaryMap = "data:application/octet-stream;base64," + FileToBase64("docs/map_kml", _pcd.ProjectBoundaryMap);
+
+                    if (!string.IsNullOrEmpty(_pcd.ProjectBoundaryMap))
+                    {
+                        ViewBag.ProjectBoundaryMap = "data:application/octet-stream;base64," + FileToBase64("docs/map_kml", _pcd.ProjectBoundaryMap);
+                    }
+                    else
+                    {
+                        ViewBag.ProjectBoundaryMap = string.Empty;
+                    }
                 }
                 else
                 {
@@ -8652,6 +8673,7 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList();
             ViewBag.LookUpCcModDeltPlan2100HotSpot = _db.LookUpCcModDeltPlan2100HotSpot.ToList();
             ViewBag.LookUpCcModHydroSystem = _db.LookUpCcModHydroSystem.ToList();
+            ViewBag.LookUpCcModConnAmidKhalRiver = _db.LookUpCcModConnAmidKhalRiver.ToList();
 
             ViewBag.LookUpCcModTypeOfFlood = _db.LookUpCcModTypeOfFlood.ToList();
             ViewBag.FloodFrequencyId = _db.LookUpCcModFloodFrequency.ToList();
@@ -9180,7 +9202,7 @@ namespace WrpCcNocWeb.Controllers
 
                             goto Failed;
                         }
-                    }                    
+                    }
                     #endregion
 
                     #region Project Location
@@ -9431,8 +9453,8 @@ namespace WrpCcNocWeb.Controllers
                                 join union in _db.LookUpAdminBndUnion on d.UnionGeoCode equals union.UnionGeoCode into unio
                                 from un in unio.DefaultIfEmpty()
 
-                                //join prjlocfiles in _db.CcModAppPrjLocationFiles on d.LocationId equals prjlocfiles.LocationId into plfsGroup
-                                //from plfs in plfsGroup.ToList()
+                                    //join prjlocfiles in _db.CcModAppPrjLocationFiles on d.LocationId equals prjlocfiles.LocationId into plfsGroup
+                                    //from plfs in plfsGroup.ToList()
 
                                 where d.ProjectId == project_id
                                 select new PrjLocationDetailList
@@ -9630,6 +9652,7 @@ namespace WrpCcNocWeb.Controllers
             return html;
         }
 
+        #region need to shift in controls controller
         private List<HydroSystemDetailTemp> GetHydroSystemDetail(long project_id)
         {
             List<HydroSystemDetailTemp> _details = new List<HydroSystemDetailTemp>();
@@ -9649,7 +9672,8 @@ namespace WrpCcNocWeb.Controllers
                                 NameOfHydroSystem = d.NameOfHydroSystem,
                                 HydroSystemLengthArea = d.HydroSystemLengthArea.ToString(),
                                 HydroSystemUnit = l.HydroSysCategoryUnit,
-                                HydroSystemUnitBn = l.HydroSysCategoryUnitBn
+                                HydroSystemUnitBn = l.HydroSysCategoryUnitBn,
+                                Description = d.Description
                             }).OrderBy(o => o.HydroSysDetailId).ToList();
 
                 if (_details.Count == 0)
@@ -9689,7 +9713,8 @@ namespace WrpCcNocWeb.Controllers
                                 FloodFrequencyId = d.FloodFrequencyId,
                                 FloodFrequency = l.FloodFrequency,
                                 FloodFrequencyBn = l.FloodFrequencyBn,
-                                FloodFrequencyLevel = d.FloodFrequencyLevel.ToString()
+                                FloodFrequencyLevel = d.FloodFrequencyLevel.ToString(),
+                                Datum = d.Datum
                             }).ToList();
 
                 if (_details.Count == 0)
@@ -9726,7 +9751,9 @@ namespace WrpCcNocWeb.Controllers
                                 IrrigatedCropId = d.IrrigatedCropId,
                                 ProjectId = d.ProjectId,
                                 CropName = d.CropName,
-                                Area = d.Area.ToString()
+                                Area = d.Area.Value.ToString(),
+                                ProductionInTon = d.ProductionInTon.Value.ToString(),
+                                ProductionAmount = d.ProductionAmount.Value.ToString()
                             }).ToList();
 
                 if (_details.Count == 0)
@@ -9957,6 +9984,7 @@ namespace WrpCcNocWeb.Controllers
 
             return _details;
         }
+        #endregion
 
         private string GetCompatNWPDetail(long project_id, int language)
         {
@@ -10596,167 +10624,7 @@ namespace WrpCcNocWeb.Controllers
 
             return _details;
         }
-        #endregion
-
-        #region Hydrological System
-        //form/HydroSystemDetailSave :: hsds
-        [HttpPost]
-        public JsonResult hsds(CcModHydroSystemDetail _hsd)
-        {
-            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
-            int result = 0;
-
-            try
-            {
-                if (_hsd != null && _hsd.ProjectId != 0)
-                {
-                    using (var dbContextTransaction = _db.Database.BeginTransaction())
-                    {
-                        if (_hsd.HydroSysDetailId != 0)
-                        {
-                            _db.Entry(_hsd).State = EntityState.Modified;
-                            result = _db.SaveChanges();
-
-                            if (result > 0)
-                            {
-                                dbContextTransaction.Commit();
-
-                                noti = new Notification
-                                {
-                                    id = _hsd.HydroSysDetailId.ToString(),
-                                    status = "success",
-                                    message = "Hydrological system information has been updated successfully."
-                                };
-                            }
-                            else
-                            {
-                                dbContextTransaction.Rollback();
-
-                                noti = new Notification
-                                {
-                                    id = _hsd.HydroSysDetailId.ToString(),
-                                    status = "error",
-                                    message = "Hydrological system information not updated."
-                                };
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                _db.CcModHydroSystemDetail.Add(_hsd);
-                                result = _db.SaveChanges();
-
-                                if (result > 0)
-                                {
-                                    dbContextTransaction.Commit();
-
-                                    noti = new Notification
-                                    {
-                                        id = _hsd.HydroSysDetailId.ToString(),
-                                        status = "success",
-                                        message = "Hydrological system information has been saved successfully."
-                                    };
-                                }
-                                else
-                                {
-                                    dbContextTransaction.Rollback();
-
-                                    noti = new Notification
-                                    {
-                                        id = _hsd.HydroSysDetailId.ToString(),
-                                        status = "error",
-                                        message = "Hydrological system information not saved."
-                                    };
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                dbContextTransaction.Rollback();
-                                var message = ch.ExtractInnerException(ex);
-
-                                noti = new Notification
-                                {
-                                    id = _hsd.HydroSysDetailId.ToString(),
-                                    status = "error",
-                                    message = "Transaction has been rollbacked. " + message
-                                };
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ch.ExtractInnerException(ex);
-
-                noti = new Notification
-                {
-                    id = "0",
-                    status = "error",
-                    message = message
-                };
-            }
-
-            return Json(noti);
-        }
-
-        //form/GetHydroSystemDetail :: get_hsd
-        [HttpGet]
-        public JsonResult get_hsd(long project_id)
-        {
-            //List<CcModHydroSystemDetail> _details = new List<CcModHydroSystemDetail>();
-            //_details = _db.CcModHydroSystemDetail.Where(w => w.ProjectId != null && w.ProjectId == project_id).ToList();
-
-            try
-            {
-                var _details = (from d in _db.CcModHydroSystemDetail
-                                join l in _db.LookUpCcModHydroSystem on d.HydroSystemCategoryId equals l.HydroSystemCategoryId
-                                where d.ProjectId != null && d.ProjectId == project_id
-                                select new
-                                {
-                                    d.HydroSysDetailId,
-                                    d.ProjectId,
-                                    d.HydroSystemCategoryId,
-                                    l.HydroSystemCategory,
-                                    d.NameOfHydroSystem,
-                                    d.HydroSystemLengthArea,
-                                    d.HydroSystemUnit
-                                }).OrderBy(o => o.HydroSysDetailId).ToList();
-
-                if (_details.Count > 0)
-                {
-                    return Json(_details);
-                }
-                else
-                {
-                    _details = null;
-
-                    noti = new Notification
-                    {
-                        id = string.Empty,
-                        status = "error",
-                        message = "Sorry, no data found."
-                    };
-
-                    return Json(noti);
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ch.ExtractInnerException(ex);
-
-                noti = new Notification
-                {
-                    id = string.Empty,
-                    status = "error",
-                    message = message
-                };
-
-                return Json(noti);
-            }
-        }
-        #endregion
+        #endregion        
 
         #region Surface Water Availability
         //form/SurfaceWaterAvailabilityDetailSave :: swads
@@ -11750,323 +11618,7 @@ namespace WrpCcNocWeb.Controllers
             CcModPrjGrndWtrDepthDetail _hsd = _db.CcModPrjGrndWtrDepthDetail.Where(w => w.ProjectId == projectId && w.GrndWtrDepthDetailId == id).FirstOrDefault();
             return Json(_hsd);
         }
-        #endregion
-
-        #region Flood Frequency
-        //form/FloodFrequencyDetailSave :: ffds
-        [HttpPost]
-        public JsonResult ffds(CcModFloodFrequencyDetail _ffd)
-        {
-            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
-            int result = 0;
-
-            try
-            {
-                if (_ffd != null && _ffd.ProjectId != 0)
-                {
-                    using (var dbContextTransaction = _db.Database.BeginTransaction())
-                    {
-                        if (_ffd.FloodFrequencyDetailId != 0)
-                        {
-                            _db.Entry(_ffd).State = EntityState.Modified;
-                            result = _db.SaveChanges();
-
-                            if (result > 0)
-                            {
-                                dbContextTransaction.Commit();
-
-                                noti = new Notification
-                                {
-                                    id = _ffd.FloodFrequencyId.ToString(),
-                                    status = "success",
-                                    message = "Flood frequency information has been updated successfully."
-                                };
-                            }
-                            else
-                            {
-                                dbContextTransaction.Rollback();
-
-                                noti = new Notification
-                                {
-                                    id = _ffd.FloodFrequencyId.ToString(),
-                                    status = "error",
-                                    message = "Flood frequency information not updated."
-                                };
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                _db.CcModFloodFrequencyDetail.Add(_ffd);
-                                result = _db.SaveChanges();
-
-                                if (result > 0)
-                                {
-                                    dbContextTransaction.Commit();
-
-                                    noti = new Notification
-                                    {
-                                        id = _ffd.FloodFrequencyId.ToString(),
-                                        status = "success",
-                                        message = "Flood frequency information has been saved successfully."
-                                    };
-                                }
-                                else
-                                {
-                                    dbContextTransaction.Rollback();
-
-                                    noti = new Notification
-                                    {
-                                        id = _ffd.FloodFrequencyId.ToString(),
-                                        status = "error",
-                                        message = "Flood frequency information not saved."
-                                    };
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                dbContextTransaction.Rollback();
-                                var message = ch.ExtractInnerException(ex);
-
-                                noti = new Notification
-                                {
-                                    id = _ffd.FloodFrequencyId.ToString(),
-                                    status = "error",
-                                    message = "Transaction has been rollbacked. " + message
-                                };
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ch.ExtractInnerException(ex);
-
-                noti = new Notification
-                {
-                    id = "0",
-                    status = "error",
-                    message = message
-                };
-            }
-
-            return Json(noti);
-        }
-
-        //form/GetFloodFrequencyDetail :: get_ffd
-        [HttpGet]
-        public JsonResult get_ffd(long project_id)
-        {
-            //List<CcModHydroSystemDetail> _details = new List<CcModHydroSystemDetail>();
-            //_details = _db.CcModHydroSystemDetail.Where(w => w.ProjectId != null && w.ProjectId == project_id).ToList();
-
-            try
-            {
-                var _details = (from d in _db.CcModFloodFrequencyDetail
-                                join l in _db.LookUpCcModFloodFrequency on d.FloodFrequencyId equals l.FloodFrequencyId
-                                where d.ProjectId != null && d.ProjectId == project_id
-                                select new
-                                {
-                                    d.FloodFrequencyDetailId,
-                                    d.ProjectId,
-                                    d.FloodFrequencyId,
-                                    l.FloodFrequency,
-                                    d.FloodFrequencyLevel
-                                }).ToList();
-
-                if (_details.Count > 0)
-                {
-                    return Json(_details);
-                }
-                else
-                {
-                    _details = null;
-
-                    noti = new Notification
-                    {
-                        id = string.Empty,
-                        status = "error",
-                        message = "Sorry, no data found."
-                    };
-
-                    return Json(noti);
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ch.ExtractInnerException(ex);
-
-                noti = new Notification
-                {
-                    id = string.Empty,
-                    status = "error",
-                    message = message
-                };
-
-                return Json(noti);
-            }
-        }
-        #endregion
-
-        #region Irrigated Crop
-        //form/IrrigatedCropAreaSave :: icas
-        [HttpPost]
-        public JsonResult icas(CcModPrjIrrigCropAreaDetail _ica)
-        {
-            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
-            int result = 0;
-
-            try
-            {
-                if (_ica != null && _ica.ProjectId != 0)
-                {
-                    using (var dbContextTransaction = _db.Database.BeginTransaction())
-                    {
-                        if (_ica.IrrigatedCropId != 0)
-                        {
-                            _db.Entry(_ica).State = EntityState.Modified;
-                            result = _db.SaveChanges();
-
-                            if (result > 0)
-                            {
-                                dbContextTransaction.Commit();
-
-                                noti = new Notification
-                                {
-                                    id = _ica.IrrigatedCropId.ToString(),
-                                    status = "success",
-                                    message = "Irrigated crop area information has been updated successfully."
-                                };
-                            }
-                            else
-                            {
-                                dbContextTransaction.Rollback();
-
-                                noti = new Notification
-                                {
-                                    id = _ica.IrrigatedCropId.ToString(),
-                                    status = "error",
-                                    message = "Irrigated crop area information not updated."
-                                };
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                _db.CcModPrjIrrigCropAreaDetail.Add(_ica);
-                                result = _db.SaveChanges();
-
-                                if (result > 0)
-                                {
-                                    dbContextTransaction.Commit();
-
-                                    noti = new Notification
-                                    {
-                                        id = _ica.IrrigatedCropId.ToString(),
-                                        status = "success",
-                                        message = "Irrigated crop area information has been saved successfully."
-                                    };
-                                }
-                                else
-                                {
-                                    dbContextTransaction.Rollback();
-
-                                    noti = new Notification
-                                    {
-                                        id = _ica.IrrigatedCropId.ToString(),
-                                        status = "error",
-                                        message = "Irrigated crop area information not saved."
-                                    };
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                dbContextTransaction.Rollback();
-                                var message = ch.ExtractInnerException(ex);
-
-                                noti = new Notification
-                                {
-                                    id = _ica.IrrigatedCropId.ToString(),
-                                    status = "error",
-                                    message = "Transaction has been rollbacked. " + message
-                                };
-                            }
-                        }
-
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ch.ExtractInnerException(ex);
-
-                noti = new Notification
-                {
-                    id = "0",
-                    status = "error",
-                    message = message
-                };
-            }
-
-            return Json(noti);
-        }
-
-        //form/GetIrrigatedCropArea :: get_ica
-        [HttpGet]
-        public JsonResult get_ica(long project_id)
-        {
-            //List<CcModHydroSystemDetail> _details = new List<CcModHydroSystemDetail>();
-            //_details = _db.CcModHydroSystemDetail.Where(w => w.ProjectId != null && w.ProjectId == project_id).ToList();
-
-            try
-            {
-                var _details = (from d in _db.CcModPrjIrrigCropAreaDetail
-                                    //join l in _db.Irri on d.FloodFrequencyId equals l.FloodFrequencyId
-                                where d.ProjectId == project_id
-                                select new
-                                {
-                                    d.IrrigatedCropId,
-                                    d.ProjectId,
-                                    d.CropName,
-                                    d.Area
-                                }).ToList();
-
-                if (_details.Count > 0)
-                {
-                    return Json(_details);
-                }
-                else
-                {
-                    _details = null;
-
-                    noti = new Notification
-                    {
-                        id = string.Empty,
-                        status = "error",
-                        message = "Sorry, no data found."
-                    };
-
-                    return Json(noti);
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ch.ExtractInnerException(ex);
-
-                noti = new Notification
-                {
-                    id = string.Empty,
-                    status = "error",
-                    message = message
-                };
-
-                return Json(noti);
-            }
-        }
-        #endregion
+        #endregion        
 
         #region Analyze Options to fulfill objective
         //form/AnalyzeOptionsFulfillObjectiveSave :: aofos
@@ -12893,11 +12445,11 @@ namespace WrpCcNocWeb.Controllers
                         #endregion
 
                         #region Common Detail Data Binding
-                        pcd.AnnualRainFallLast1Year = CommonDetail.AnnualRainFallLast1Year;
-                        pcd.AnnualRainFallLast2Years = CommonDetail.AnnualRainFallLast2Years;
-                        pcd.AnnualRainFallLast3Years = CommonDetail.AnnualRainFallLast3Years;
-                        pcd.AnnualRainFallLast4Years = CommonDetail.AnnualRainFallLast4Years;
-                        pcd.AnnualRainFallLast5Years = CommonDetail.AnnualRainFallLast5Years;
+                        //pcd.AnnualRainFallLast1Year = CommonDetail.AnnualRainFallLast1Year;
+                        //pcd.AnnualRainFallLast2Years = CommonDetail.AnnualRainFallLast2Years;
+                        //pcd.AnnualRainFallLast3Years = CommonDetail.AnnualRainFallLast3Years;
+                        //pcd.AnnualRainFallLast4Years = CommonDetail.AnnualRainFallLast4Years;
+                        //pcd.AnnualRainFallLast5Years = CommonDetail.AnnualRainFallLast5Years;
                         pcd.IssueChallageProblem = CommonDetail.IssueChallageProblem;
                         pcd.YesNoStakeId = CommonDetail.YesNoStakeId;
                         pcd.DiscussWithStakeApplicantCmt = CommonDetail.DiscussWithStakeApplicantCmt;
@@ -13040,6 +12592,7 @@ namespace WrpCcNocWeb.Controllers
                                 p31i.HighestFloodLevel = Project31Indv.HighestFloodLevel;
                                 p31i.MaximumDischarge = Project31Indv.MaximumDischarge;
                                 p31i.DrainageConditionId = Project31Indv.DrainageConditionId;
+                                p31i.DrainageConditionOther = Project31Indv.DrainageConditionOther;
                                 p31i.WaterSalinity = Project31Indv.WaterSalinity;
                                 p31i.WaterDO = Project31Indv.WaterDO;
                                 p31i.WaterTDS = Project31Indv.WaterTDS;
@@ -13051,6 +12604,7 @@ namespace WrpCcNocWeb.Controllers
                                 p31i.VeryLowLandPercent = Project31Indv.VeryLowLandPercent;
                                 p31i.CultivableCrops = Project31Indv.CultivableCrops;
                                 p31i.CropProduction = Project31Indv.CropProduction;
+                                p31i.CropProductionAmount = Project31Indv.CropProductionAmount;
                                 p31i.FishProduction = Project31Indv.FishProduction;
                                 p31i.FishDiversity = Project31Indv.FishDiversity;
                                 p31i.FishMigration = Project31Indv.FishMigration;
@@ -20002,6 +19556,30 @@ namespace WrpCcNocWeb.Controllers
                                 CcModAppAdditionalAttachment _afa = _db.CcModAppAdditionalAttachment.Where(w => w.ProjectId == projectId && w.AttachmentId == id).FirstOrDefault();
                                 _db.CcModAppAdditionalAttachment.Remove(_afa);
                                 break;
+
+                            //CcModAnnualRainfallDetail
+                            case "CcModAnnualRainfallDetail":
+                                CcModAnnualRainfallDetail _arr = _db.CcModAnnualRainfallDetail.Where(w => w.ProjectId == projectId && w.AnnualRainfallDetailId == id).FirstOrDefault();
+                                _db.CcModAnnualRainfallDetail.Remove(_arr);
+                                break;
+
+                            //CcModHighestFloodLevelDetail
+                            case "CcModHighestFloodLevelDetail":
+                                CcModHighestFloodLevelDetail _hfl = _db.CcModHighestFloodLevelDetail.Where(w => w.ProjectId == projectId && w.HighestFloodLevelDetailId == id).FirstOrDefault();
+                                _db.CcModHighestFloodLevelDetail.Remove(_hfl);
+                                break;
+
+                            //CcModMaxDischargeDetail
+                            case "CcModMaxDischargeDetail":
+                                CcModMaxDischargeDetail _mxdrg = _db.CcModMaxDischargeDetail.Where(w => w.ProjectId == projectId && w.MaxDischargeDetailId == id).FirstOrDefault();
+                                _db.CcModMaxDischargeDetail.Remove(_mxdrg);
+                                break;
+
+                            //CcModFishProdDiversityDetail
+                            case "CcModFishProdDiversityDetail":
+                                CcModFishProdDiversityDetail _fpd = _db.CcModFishProdDiversityDetail.Where(w => w.ProjectId == projectId && w.FishProdDiversityDetailId == id).FirstOrDefault();
+                                _db.CcModFishProdDiversityDetail.Remove(_fpd);
+                                break;
                         }
 
                         _db.SaveChanges();
@@ -20040,31 +19618,7 @@ namespace WrpCcNocWeb.Controllers
         {
             CcModPrjLocationDetail _loc = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == projectId && w.LocationId == id).FirstOrDefault();
             return Json(_loc);
-        }
-
-        //form/GetSingleHydrologicalSystem :: gshs
-        [HttpGet]
-        public JsonResult gshs(long id, long projectId)
-        {
-            CcModHydroSystemDetail _hsd = _db.CcModHydroSystemDetail.Where(w => w.ProjectId == projectId && w.HydroSysDetailId == id).FirstOrDefault();
-            return Json(_hsd);
-        }
-
-        //form/GetSingleFloodFrequency :: gsff
-        [HttpGet]
-        public JsonResult gsff(long id, long projectId)
-        {
-            CcModFloodFrequencyDetail _ffd = _db.CcModFloodFrequencyDetail.Where(w => w.ProjectId == projectId && w.FloodFrequencyDetailId == id).FirstOrDefault();
-            return Json(_ffd);
-        }
-
-        //form/GetSingleIrrigCropArea :: gsica
-        [HttpGet]
-        public JsonResult gsica(long id, long projectId)
-        {
-            CcModPrjIrrigCropAreaDetail _ica = _db.CcModPrjIrrigCropAreaDetail.Where(w => w.ProjectId == projectId && w.IrrigatedCropId == id).FirstOrDefault();
-            return Json(_ica);
-        }
+        }        
 
         //form/GetSingleAnalyzeOptionsDetail :: gsaod
         [HttpGet]
@@ -20392,8 +19946,8 @@ namespace WrpCcNocWeb.Controllers
         //}
 
         //form/UploadPrjBoundaryMap :: upbm
-        
-        [HttpPost]        
+
+        [HttpPost]
         public bool UploadPrjBoundaryMap(long projectid, string map_file)
         {
             bool res = false;
@@ -20420,7 +19974,7 @@ namespace WrpCcNocWeb.Controllers
                     extension = ".kml";// filename.Substring(filename.IndexOf('.'));
                     filename = EnsureCorrectFilename(filename);
                     filename = GetCommonDetailFileName(projectid.ToString(), "ProjectBoundaryMap").Trim() + extension;
-                    
+
                     pcd.ProjectBoundaryMap = filename;
                     _db.Entry(pcd).State = EntityState.Modified;
                     result = _db.SaveChanges();
@@ -20827,7 +20381,7 @@ namespace WrpCcNocWeb.Controllers
 
             return result;
         }
-        
+
         private string GetCommonDetailFileName(string projectId, string control_title)
         {
             string result = string.Empty;
@@ -21714,7 +21268,7 @@ namespace WrpCcNocWeb.Controllers
         private string FileToBase64(string FolderName, string FileName)
         {
             string result = string.Empty;
-            byte[] data = System.IO.File.ReadAllBytes(GetPathAndFilename(FileName, FolderName));           
+            byte[] data = System.IO.File.ReadAllBytes(GetPathAndFilename(FileName, FolderName));
             result = Convert.ToBase64String(data);
 
             return result;

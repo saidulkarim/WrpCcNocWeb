@@ -1,0 +1,166 @@
+﻿@using WrpCcNocWeb.Helpers
+
+@{
+    var language = int.Parse(ViewData["vFormLanguage"].ToString());
+    List<CcModFishProdDiversityDetailTemp> fpdd = (List<CcModFishProdDiversityDetailTemp>)ViewData["vFishProdDivDetail"];
+}
+
+<div id="view-fish-prod-div-form">
+    <table class="table table-bordered" style="width: 100%;">
+        @if (fpdd.Count > 0)
+        {
+            List<CcModFishProdDiversityDetailTemp> capture = fpdd.Where(w => w.TypesOfFisheries == "Capture").ToList();
+            List<CcModFishProdDiversityDetailTemp> culture = fpdd.Where(w => w.TypesOfFisheries == "Culture").ToList();
+
+            if (capture.Count > 0)
+            {
+                double captureTotal = 0;
+
+                <tr>
+                    <td colspan="3" class="text-left">
+                        @if (language == 1)
+                        {<span>ধরা/ শিকার</span>}
+                        else
+                        {<span>Capture Fish</span>}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">
+                        @if (language == 1)
+                        {<span>মাছের প্রকার</span>}
+                        else
+                        {<span>Types of Fisheries</span>}
+                    </td>
+                    <td class="text-left">
+                        @if (language == 1)
+                        {<span>মৎস্য প্রজাতি</span>}
+                        else
+                        {<span>Diversity</span>}
+                    </td>
+                    <td class="text-left">
+                        @if (language == 1)
+                        {<span>উৎপাদনের পরিমান (টন)</span>}
+                        else
+                        {<span>Production (Ton)</span>}
+                    </td>
+                </tr>
+
+                @foreach (CcModFishProdDiversityDetailTemp cap in capture)
+                {
+                    if (language == 1)
+                    {
+                        <tr>
+                            <td>@cap.TypesOfFisheriesBn</td>
+                            <td>@cap.Diversity</td>
+                            <td class="text-right">@cap.FishProductionInTonBn</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@cap.TypesOfFisheries</td>
+                            <td>@cap.Diversity</td>
+                            <td class="text-right">@cap.FishProductionInTon</td>
+                        </tr>
+                    }
+
+                    captureTotal += double.Parse(string.IsNullOrEmpty(cap.FishProductionInTon) ? "0" : cap.FishProductionInTon);
+
+                    <tr>
+                        <td colspan="2" class="text-left">
+                            @if (language == 1)
+                            {<span>সাব টোটাল</span>}
+                            else
+                            {<span>Sub Total</span>}
+                        </td>
+                        <td class="text-right">
+                            @if (language == 1)
+                            {<span>@captureTotal.ToString().NumberEnglishToBengali()</span>}
+                        else
+                        {<span>@captureTotal</span>}
+                        </td>
+                    </tr>
+                }
+            }
+
+            if (culture.Count > 0)
+            {
+                double cultureTotal = 0;
+
+                <tr>
+                    <td colspan="3" class="text-left">
+                        @if (language == 1)
+                        {<span>চাষাবাদ</span>}
+                        else
+                        {<span>Culture Fish</span>}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">
+                        @if (language == 1)
+                        {<span>মাছের প্রকার</span>}
+                        else
+                        {<span>Types of Fisheries</span>}
+                    </td>
+                    <td class="text-left">
+                        @if (language == 1)
+                        {<span>মৎস্য প্রজাতি</span>}
+                        else
+                        {<span>Diversity</span>}
+                    </td>
+                    <td class="text-left">
+                        @if (language == 1)
+                        {<span>উৎপাদনের পরিমান (টন)</span>}
+                        else
+                        {<span>Production (Ton)</span>}
+                    </td>
+                </tr>
+
+                @foreach (CcModFishProdDiversityDetailTemp cul in culture)
+                {
+                    if (language == 1)
+                    {
+                        <tr>
+                            <td>@cul.TypesOfFisheriesBn</td>
+                            <td>@cul.Diversity</td>
+                            <td class="text-right">@cul.FishProductionInTonBn</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@cul.TypesOfFisheries</td>
+                            <td>@cul.Diversity</td>
+                            <td class="text-right">@cul.FishProductionInTon</td>
+                        </tr>
+                    }
+
+                    cultureTotal += double.Parse(string.IsNullOrEmpty(cul.FishProductionInTon) ? "0" : cul.FishProductionInTon);
+
+                    <tr>
+                        <td colspan="2" class="text-left">
+                            @if (language == 1)
+                            {<span>সাব টোটাল</span>}
+                            else
+                            {<span>Sub Total</span>}
+                        </td>
+                        <td class="text-right">
+                            @if (language == 1)
+                            {<span>@cultureTotal.ToString().NumberEnglishToBengali()</span>}
+                        else
+                        {<span>@cultureTotal</span>}
+                        </td>
+                    </tr>
+                }
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3" class="text-center">
+                    No data added
+                </td>
+            </tr>
+        }
+    </table>
+</div>

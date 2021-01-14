@@ -108,6 +108,10 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<CcModAppPrjLocationFiles> CcModAppPrjLocationFiles { get; set; }
         public DbSet<CcModProjectQueryDetail> CcModProjectQueryDetail { get; set; }
         public DbSet<CcModAppProjHearing> CcModAppProjHearing { get; set; }
+        public DbSet<CcModAnnualRainfallDetail> CcModAnnualRainfallDetail { get; set; }
+        public DbSet<CcModHighestFloodLevelDetail> CcModHighestFloodLevelDetail { get; set; }
+        public DbSet<CcModMaxDischargeDetail> CcModMaxDischargeDetail { get; set; }
+        public DbSet<CcModFishProdDiversityDetail> CcModFishProdDiversityDetail { get; set; }
         #endregion
 
         #region LookUp --- CC Module     
@@ -177,6 +181,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<LookUpCcModGeneralSetting> LookUpCcModGeneralSetting { get; set; }
         public DbSet<LookUpCcModQueryState> LookUpCcModQueryState { get; set; }
         public DbSet<LookUpCcModUndertakingFormat> LookUpCcModUndertakingFormat { get; set; }
+        public DbSet<LookUpCcModConnAmidKhalRiver> LookUpCcModConnAmidKhalRiver { get; set; }
         #endregion
 
         #region NoC Module Models

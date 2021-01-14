@@ -1,0 +1,60 @@
+﻿@{
+    var language = int.Parse(ViewData["vFormLanguage"].ToString());
+    List<CcModMaxDischargeDetailTemp> maxdischargedetail = (List<CcModMaxDischargeDetailTemp>)ViewData["vMaximumDischargeDetail"];
+}
+
+<div id="view-highest-flood-level-form">
+    <table class="table table-bordered" style="width: 100%;">
+        @if (maxdischargedetail.Count > 0)
+        {
+            <tr>
+                <td>
+                    @if (language == 1)
+                    {<span>সন</span> }
+                    else
+                    { <span>Year</span>}
+                </td>
+                <td class="text-right">
+                    @if (language == 1)
+                    {<span>প্রবাহের পরিমাণ</span> }
+                    else
+                    { <span>Discharge Amount</span>}
+                </td>
+            </tr>
+
+            foreach (CcModMaxDischargeDetailTemp mxd in maxdischargedetail)
+            {
+                if (language == 1)
+                {
+                    <tr>
+                        <td>
+                            @mxd.DischargeYearBn
+                        </td>
+                        <td class="text-right">
+                            @mxd.DischargeAmountBn
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            @mxd.DischargeYear
+                        </td>
+                        <td class="text-right">
+                            @mxd.DischargeAmount
+                        </td>
+                    </tr>
+                }
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="2" class="text-center">
+                    No data added
+                </td>
+            </tr>
+        }
+    </table>
+</div>

@@ -155,5 +155,18 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Duplication Authority Comments")]
         [MaxLength(150)]
         public string DuplicationAuthorityComments { get; set; }
+
+        [Column("CropProductionAmount", Order = 31)]
+        [Display(Name = "Crop Production Amount (Taka)")]
+        public double? CropProductionAmount { get; set; }
+
+        [Column("DrainageConditionOther", Order = 32)]
+        [Display(Name = "Other Drainage Condition")]
+        [MaxLength(250)]
+        public string DrainageConditionOther { get; set; }
+
+        [Column("TotalFishProduction", Order = 33)]
+        [Display(Name = "Total Fish Production (Ton)")]
+        public double? TotalFishProduction { get; set; }
     }
 }

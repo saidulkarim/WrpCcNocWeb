@@ -1,0 +1,226 @@
+﻿@using WrpCcNocWeb.Helpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var language = int.Parse(HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString());
+}
+
+<div id="proj-irrigated-crop-area-form" style="width: 100%;">
+    <div id="divIrrigatedCropArea">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">
+                        @{if (language == 1)
+                            { <span>ফসল</span>}
+                            else
+                            {<span>Crops</span>}
+                        }
+                    </th>
+                    <th class="text-center">
+                        @{if (language == 1)
+                            { <span>এলাকা (হেক্টর)</span>}
+                            else
+                            {<span>Area (ha)</span>}
+                        }
+                    </th>
+                    <th class="text-center">
+                        @{if (language == 1)
+                            { <span>উৎপাদন (টন)</span>}
+                            else
+                            {<span>Production (Ton)</span>}
+                        }
+                    </th>
+                    <th class="text-center">
+                        @{if (language == 1)
+                            { <span>টাকার পরিমাণ</span>}
+                            else
+                            {<span>Amount (Taka)</span>}
+                        }
+                    </th>
+                    <th class="text-center"></th>
+                </tr>
+                <tr>
+                    <th colspan="2" class="text-center">
+                        <input id="IrrigatedCropId" type="hidden" />
+                        <input type="text" id="CropName" name="CropName" class="form-control" />
+                    </th>
+                    <th class="text-center">
+                        <input type="number" min="0" id="Area" name="Area" class="form-control" />
+                    </th>
+                    <th class="text-center">
+                        <input type="number" min="0" id="ProductionInTon" name="ProductionInTon" class="form-control" />
+                    </th>
+                    <th class="text-center">
+                        <input type="number" min="0" id="ProductionAmount" name="ProductionAmount" class="form-control" />
+                    </th>
+                    <th class="text-center">
+                        <button id="btnSaveIrrigatedCropArea" type="button" class="btn btn-success waves-effect waves-light" value="Save">
+                            <i class="mdi mdi-content-save"></i>
+                        </button>
+
+                        <button id="btnClearIrrigatedCropArea" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
+                            <i class="mdi mdi-refresh"></i>
+                        </button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tbodyIrrigatedCropArea"></tbody>
+        </table>
+    </div>
+</div>
+
+<script id="IrrigatedCropAreaControlScript" type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery("#btnSaveIrrigatedCropArea").click(function () {
+            var IrrigatedCropId = GetHiddenValue('IrrigatedCropId');
+            IrrigatedCropId = (IrrigatedCropId == '') ? 0 : IrrigatedCropId;
+            var CropName = jQuery("#CropName").val();
+            var Area = jQuery("#Area").val();
+            var ProductionInTon = jQuery("#ProductionInTon").val();
+            var ProductionAmount = jQuery("#ProductionAmount").val();
+
+            if (CropName != '') {
+                if (Area != '') {
+                    var ProjectId = GetHiddenValue('ProjectId');
+                    var irrigCropAreaDetail = {
+                        "IrrigatedCropId": IrrigatedCropId,
+                        "ProjectId": ProjectId,
+                        "CropName": CropName,
+                        "Area": Area,
+                        "ProductionInTon": ProductionInTon,
+                        "ProductionAmount": ProductionAmount
+                    };
+
+                    var url = '@Url.Action("icas", "controls")';
+                    jQuery.ajax({
+                        type: "POST",
+                        url: url,
+                        data: { _ica: irrigCropAreaDetail },
+                        dataType: "json",
+                        success: function (data, status, jqXHR) {
+                            if (data.status == 'success') {
+                                Notification('success', 'Success', data.message);
+
+                                GetIrrigatedCropAreaData();
+                                ClearIrrigatedCropArea();
+                            } else {
+                                Notification('error', 'Saving Error', data.message);
+                            }
+                        }, error: function (jqXHR, exception) {
+                            var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                            Notification('error', 'Error Occured', errorMsg);
+                        }
+                    });
+                } else {
+                    Notification('warning', 'Required Field', 'Please enter area!');
+                    jQuery("#Area").focus();
+                }
+            } else {
+                Notification('warning', 'Required Field', 'Please enter crop name!');
+                jQuery("#CropName").focus();
+            }
+        });
+
+        jQuery("#btnClearIrrigatedCropArea").click(function () {
+            ClearIrrigatedCropArea();
+        });
+    });
+
+    function ClearIrrigatedCropArea() {
+        jQuery("#IrrigatedCropId, #CropName, #Area, #ProductionInTon, #ProductionAmount").val('');
+    }
+
+    function GetIrrigatedCropAreaData() {
+        var ica_pid = GetHiddenValue('ProjectId');
+
+        var url = '@Url.Action("get_ica", "controls")';
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { project_id: ica_pid },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.length > 0) {
+                    console.log('Irrigated Crop Area Data Loading...');
+                    var rows = '';
+
+                    var count = 0;
+                    jQuery.each(data, function (i, item) {
+                        ++count;
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.cropName + '</td><td>' + item.area + '</td><td>' + item.productionInTon + '</td><td>' + item.productionAmount + '</td><td class="text-center"><button onclick="javascript:DeleteIrrigatedCrop(' + item.irrigatedCropId + ', ' + item.projectId + ', \'CcModPrjIrrigCropAreaDetail\'); GetIrrigatedCropAreaData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                        //<button onclick="javascript:EditIrrigatedCrop(' + item.irrigatedCropId + ', '+item.projectId+');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button>
+                    });
+
+                    jQuery("#tbodyIrrigatedCropArea").html(rows);
+                } else {
+                    jQuery("#tbodyIrrigatedCropArea").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tbodyIrrigatedCropArea").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+            }
+        });
+    }
+
+    function EditIrrigatedCrop(id, projectId) {
+        var url = '@Url.Action("gsica", "controls")';
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { id: id, projectId: projectId },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.irrigatedCropId != '') {
+                    //console.log('Single Irrigated Crop Area');
+                    //console.log(data);
+
+                    SetHiddenValue('IrrigatedCropId', data.irrigatedCropId);
+                    SetTextValue('CropName', data.cropName);
+                    SetTextValue('Area', data.area);
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                Notification('error', 'Error Occured', errorMsg);
+            }
+        });
+    }
+
+    function DeleteIrrigatedCrop(id, projectId, modelName) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this",
+            type: "warning",
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            showCancelButton: !0,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sure"
+        }).then(function (t) {
+            if (t.value == true) {
+                var url = '@Url.Action("cdm", "form")';
+                jQuery.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { id: id, projectId: projectId, modelName: modelName },
+                    dataType: "json",
+                    success: function (data, status, jqXHR) {
+                        if (data.status == 'success') {
+                            Notification('success', 'Success', data.message);
+                            Swal.fire("Success", data.message, "success");
+                        } else {
+                            Notification('error', 'Deletion Error', data.message);
+                            Swal.fire("Deletion Error", data.message, "error");
+                        }
+                    }, error: function (jqXHR, exception) {
+                        var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                        Notification('error', 'Error Occured', errorMsg);
+                    }
+                });
+            }
+        });
+    }
+</script>
