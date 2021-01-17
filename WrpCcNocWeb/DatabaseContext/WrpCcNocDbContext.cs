@@ -182,6 +182,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<LookUpCcModQueryState> LookUpCcModQueryState { get; set; }
         public DbSet<LookUpCcModUndertakingFormat> LookUpCcModUndertakingFormat { get; set; }
         public DbSet<LookUpCcModConnAmidKhalRiver> LookUpCcModConnAmidKhalRiver { get; set; }
+        public DbSet<LookUpCcModTypesOfConsultation> LookUpCcModTypesOfConsultation { get; set; }
         #endregion
 
         #region NoC Module Models

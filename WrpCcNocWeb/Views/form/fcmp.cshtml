@@ -592,9 +592,9 @@
                                                                                 <div class="form-group">
                                                                                     <label for="FloraAndFauna">
                                                                                         @{if (language == 1)
-                                                                                            { <span>xviii. প্রকল্প এলাকায় বিদ্যমান গাছপালা ও পশুপাখি</span>}
+                                                                                            { <span>xviii. প্রকল্প এলাকার বিদ্যমান গাছপালা, জলজ প্রাণী ও জলজ উদ্ভিদ</span>}
                                                                                             else
-                                                                                            {<span>xviii. Flora and Fauna</span>}
+                                                                                            {<span>xviii. Flora and Fauna of Project Area</span>}
                                                                                         }
                                                                                     </label>
                                                                                     <input type="text" id="FloraAndFauna" name="FloraAndFauna" class="form-control" />
@@ -603,9 +603,9 @@
                                                                                 <fieldset>
                                                                                     <legend>
                                                                                         @{if (language == 1)
-                                                                                            { <span>xix. আর্থ সামাজিক অবস্থা</span>}
+                                                                                            { <span>xix. প্রকল্প এলাকার আর্থ সামাজিক অবস্থা</span>}
                                                                                             else
-                                                                                            {<span>xix. Socio Economic Condition</span>}
+                                                                                            {<span>xix. Socio Economic Condition of Project Area</span>}
                                                                                         }
                                                                                     </legend>
 
@@ -613,9 +613,9 @@
                                                                                         <div class="form-group col-md-4">
                                                                                             <label for="LandLessPeoplePercentage">
                                                                                                 @{if (language == 1)
-                                                                                                    { <span>ল্যান্ড হীন মানুষ (%)</span>}
+                                                                                                    { <span>ভূমিহীন জনগোষ্ঠী (শতকরা পরিমান)</span>}
                                                                                                     else
-                                                                                                    {<span> Land Less People Percentage (%)</span>}
+                                                                                                    {<span>Land Less People (%)</span>}
                                                                                                 }
                                                                                             </label>
                                                                                             <input type="text" id="LandLessPeoplePercentage" name="LandLessPeoplePercentage" class="form-control" />
@@ -624,9 +624,9 @@
                                                                                         <div class="form-group col-md-4">
                                                                                             <label for="SmallFarmerPercentage">
                                                                                                 @{if (language == 1)
-                                                                                                    { <span>ক্ষুদ্র কৃষক (%)</span>}
+                                                                                                    { <span>ছোট/প্রান্তিক কৃষক (শতকরা পরিমান)</span>}
                                                                                                     else
-                                                                                                    {<span>Small Farmer Percentage (%)</span>}
+                                                                                                    {<span>Small Farmer (%)</span>}
                                                                                                 }
                                                                                             </label>
                                                                                             <input type="text" id="SmallFarmerPercentage" name="SmallFarmerPercentage" class="form-control" />
@@ -635,9 +635,9 @@
                                                                                         <div class="form-group col-md-4">
                                                                                             <label for="AvgMonthlyIncome">
                                                                                                 @{if (language == 1)
-                                                                                                    { <span>গড় মাসিক আয়</span>}
+                                                                                                    { <span>প্রকল্প এলাকার জনগোষ্ঠীর গড় মাসিক আয়</span>}
                                                                                                     else
-                                                                                                    {<span>Avg Monthly Income</span>}
+                                                                                                    {<span>Average Monthly Income of Project People</span>}
                                                                                                 }
                                                                                             </label>
                                                                                             <input type="text" id="AvgMonthlyIncome" name="AvgMonthlyIncome" class="form-control" />
@@ -695,7 +695,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>i. প্রকল্প প্রণয়ন পর্যায়ে স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
                                                                                             else
-                                                                                            {<span>i .Discussion with stakeholders during starting of the project</span>}
+                                                                                            {<span>i. Discussion with stakeholders during starting of the project</span>}
                                                                                         }
                                                                                     </label>
 
@@ -724,13 +724,54 @@
                                                                                     </div>
                                                                                 </div>
 
+                                                                                <div class="col-md-6 form-group pl-0">
+                                                                                    <label for="TypesOfConsultationId">
+                                                                                        @{if (language == 1)
+                                                                                            { <span>ii. আলোচনা সভার ধরণ</span>}
+                                                                                            else
+                                                                                            {<span>ii. Types of Consultation</span>}
+                                                                                        }
+                                                                                    </label>
+                                                                                    
+                                                                                    <select id="TypesOfConsultationId" name="TypesOfConsultationId" class="form-control" style="width: 100%;">
+                                                                                        @{if (language == 1)
+                                                                                            {
+                                                                                                <option value="">বাছাই করুন...</option>
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                <option value="">Choose...</option>
+                                                                                            }
+                                                                                        }
+
+                                                                                        @{
+                                                                                            List<LookUpCcModTypesOfConsultation> _toc = ViewBag.TypesOfConsultationId;
+
+                                                                                            if (_toc.Count > 0)
+                                                                                            {
+                                                                                                foreach (LookUpCcModTypesOfConsultation toc in _toc)
+                                                                                                {
+                                                                                                    if (language == 1)
+                                                                                                    {
+                                                                                                        <option value="@toc.TypesOfConsultationId">@toc.ConsultationNameBn</option>
+                                                                                                    }
+                                                                                                    else
+                                                                                                    {
+                                                                                                        <option value="@toc.TypesOfConsultationId">@toc.ConsultationName</option>
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    </select>
+                                                                                </div>
+
                                                                                 <div class="form-group">
                                                                                     <label for="DiscussWithStakeApplicantCmt">
 
                                                                                         @{if (language == 1)
-                                                                                            { <span>ii. আবেদনকারীর মন্তব্য</span>}
+                                                                                            { <span>iii. আবেদনকারীর মন্তব্য</span>}
                                                                                             else
-                                                                                            {<span>ii. Applicant Comments</span>}
+                                                                                            {<span>iii. Applicant Comments</span>}
                                                                                         }
                                                                                     </label>
                                                                                     <input type="text" id="DiscussWithStakeApplicantCmt" name="DiscussWithStakeApplicantCmt" class="form-control" />
@@ -740,9 +781,9 @@
                                                                                     <label for="DiscussWithStakeAuthorityCmt">
 
                                                                                         @{if (language == 1)
-                                                                                            { <span>iii. কর্তৃপক্ষের মন্তব্য</span>}
+                                                                                            { <span>কর্তৃপক্ষের মন্তব্য</span>}
                                                                                             else
-                                                                                            {<span>iii. Authority Comments</span>}
+                                                                                            {<span>Authority Comments</span>}
                                                                                         }
                                                                                     </label>
                                                                                     <input type="text" id="DiscussWithStakeAuthorityCmt" name="DiscussWithStakeAuthorityCmt" class="form-control" />
@@ -2373,6 +2414,7 @@
                 //"AnnualRainFallLast5Years": GetTextValue('AnnualRainFallLast5Years'),
                 "IssueChallageProblem": GetTextValue('IssueChallageProblem'),
                 "YesNoStakeId": GetRadioValue('YesNoStakeId'),
+                "TypesOfConsultationId": GetDropdownValue('TypesOfConsultationId'),
                 "DiscussWithStakeApplicantCmt": GetTextValue('DiscussWithStakeApplicantCmt'),
                 "DiscussWithStakeAuthorityCmt": GetTextValue('DiscussWithStakeAuthorityCmt'),
                 "DiscussWithStakePosFeedback": GetTextValue('DiscussWithStakePosFeedback'),
@@ -2410,7 +2452,8 @@
                 "CropProductionAmount": GetTextValue('CropProductionAmount'),
                 //"FishProduction": GetTextValue('FishProduction'),
                 //"FishDiversity": GetTextValue('FishDiversity'),
-                //"FishMigration": GetTextValue('FishMigration'),
+                //"FishMigration": GetTextValue('FishMigration'),TotalFishProduction
+                "TotalFishProduction": GetTextValue('TotalFishProduction'),
                 "FloraAndFauna": GetTextValue('FloraAndFauna'),
                 "LandLessPeoplePercentage": GetTextValue('LandLessPeoplePercentage'),
                 "SmallFarmerPercentage": GetTextValue('SmallFarmerPercentage'),
@@ -2718,6 +2761,10 @@
             return jQuery('#' + control).val(val);
         }
 
+        function GetDropdownValue(control) {
+            return jQuery('#' + control + ' option:selected').val();
+        }
+
         function SetDropdownValue(control, val) {
             return jQuery('#' + control).val(val);
         }
@@ -2897,7 +2944,7 @@
                     $(":checkbox[name='bdp2100_hot_spot'][value='" + item.deltaPlanHotSpotId + "']").attr('checked', true);
                 });
 
-                SetTextValue('ConnectivityAmidWaterland', '@Html.Raw(ViewBag.ProjectIndvDetail31.ConnectivityAmidWaterland)');
+                SetDropdownValue('ConnectivityAmidWaterland', '@Html.Raw(ViewBag.ProjectIndvDetail31.ConnectivityAmidWaterland)');
                 SetTextValue('CatchmentArea', '@Html.Raw(ViewBag.ProjectIndvDetail31.CatchmentArea)');
 
                 @*SetTextValue('AnnualRainFallLast1Year', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast1Year)');
@@ -2937,7 +2984,8 @@
                 SetTextValue('VeryLowLandPercent', '@Html.Raw(ViewBag.ProjectIndvDetail31.VeryLowLandPercent)');
                 SetTextValue('CultivableCrops', '@Html.Raw(ViewBag.ProjectIndvDetail31.CultivableCrops)');
                 SetTextValue('CropProduction', '@Html.Raw(ViewBag.ProjectIndvDetail31.CropProduction)');
-                SetTextValue('CropProductionAmount', '@Html.Raw(ViewBag.ProjectIndvDetail31.CropProductionAmount)');                
+                SetTextValue('CropProductionAmount', '@Html.Raw(ViewBag.ProjectIndvDetail31.CropProductionAmount)');
+                SetTextValue('TotalFishProduction', '@Html.Raw(ViewBag.ProjectIndvDetail31.TotalFishProduction)');
                 SetTextValue('FloraAndFauna', '@Html.Raw(ViewBag.ProjectIndvDetail31.FloraAndFauna)');
                 SetTextValue('LandLessPeoplePercentage', '@Html.Raw(ViewBag.ProjectIndvDetail31.LandLessPeoplePercentage)');
                 SetTextValue('SmallFarmerPercentage', '@Html.Raw(ViewBag.ProjectIndvDetail31.SmallFarmerPercentage)');
@@ -2958,6 +3006,7 @@
                     }
                 }
 
+                SetDropdownValue('TypesOfConsultationId', '@Html.Raw(ViewBag.ProjectCommonDetail.TypesOfConsultationId)');
                 SetTextValue('DiscussWithStakeApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeApplicantCmt)');
                 SetTextValue('DiscussWithStakeAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeAuthorityCmt)');
                 SetTextValue('DiscussWithStakePosFeedback', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakePosFeedback)');

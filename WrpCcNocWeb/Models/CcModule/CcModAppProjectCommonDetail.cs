@@ -569,6 +569,10 @@ namespace WrpCcNocWeb.Models
         [MaxLength(50)]
         public string ProjectBoundaryMap { get; set; }
 
+        [Column("TypesOfConsultationId", Order = 107)]
+        [Display(Name = "Types of Consultation")]       
+        public int? TypesOfConsultationId { get; set; }
+
         public virtual List<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetails { get; set; }
         public virtual List<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetails { get; set; }
         public virtual List<CcModBDP2100GoalDetail> CcModBDP2100GoalDetails { get; set; }

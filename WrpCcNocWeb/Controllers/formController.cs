@@ -8677,6 +8677,7 @@ namespace WrpCcNocWeb.Controllers
 
             ViewBag.LookUpCcModTypeOfFlood = _db.LookUpCcModTypeOfFlood.ToList();
             ViewBag.FloodFrequencyId = _db.LookUpCcModFloodFrequency.ToList();
+            ViewBag.TypesOfConsultationId = _db.LookUpCcModTypesOfConsultation.ToList();
             ViewBag.DesignSubmittedParameterId = _db.LookUpCcModDesignSubmitParam.ToList();
 
             ViewBag.LookUpCcModDrainageCondition = _db.LookUpCcModDrainageCondition.ToList();
@@ -12452,6 +12453,7 @@ namespace WrpCcNocWeb.Controllers
                         //pcd.AnnualRainFallLast5Years = CommonDetail.AnnualRainFallLast5Years;
                         pcd.IssueChallageProblem = CommonDetail.IssueChallageProblem;
                         pcd.YesNoStakeId = CommonDetail.YesNoStakeId;
+                        pcd.TypesOfConsultationId = CommonDetail.TypesOfConsultationId;
                         pcd.DiscussWithStakeApplicantCmt = CommonDetail.DiscussWithStakeApplicantCmt;
                         pcd.DiscussWithStakeAuthorityCmt = CommonDetail.DiscussWithStakeAuthorityCmt;
                         pcd.DiscussWithStakePosFeedback = CommonDetail.DiscussWithStakePosFeedback;
@@ -12605,9 +12607,10 @@ namespace WrpCcNocWeb.Controllers
                                 p31i.CultivableCrops = Project31Indv.CultivableCrops;
                                 p31i.CropProduction = Project31Indv.CropProduction;
                                 p31i.CropProductionAmount = Project31Indv.CropProductionAmount;
-                                p31i.FishProduction = Project31Indv.FishProduction;
-                                p31i.FishDiversity = Project31Indv.FishDiversity;
-                                p31i.FishMigration = Project31Indv.FishMigration;
+                                //p31i.FishProduction = Project31Indv.FishProduction;
+                                //p31i.FishDiversity = Project31Indv.FishDiversity;
+                                //p31i.FishMigration = Project31Indv.FishMigration;
+                                p31i.TotalFishProduction = Project31Indv.TotalFishProduction;
                                 p31i.FloraAndFauna = Project31Indv.FloraAndFauna;
                                 p31i.LandLessPeoplePercentage = Project31Indv.LandLessPeoplePercentage;
                                 p31i.SmallFarmerPercentage = Project31Indv.SmallFarmerPercentage;
