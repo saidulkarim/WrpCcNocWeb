@@ -1,0 +1,328 @@
+﻿@{ var language = int.Parse(ViewData["vFormLanguage"].ToString());
+    List<DesignSubmitDetailTemp> dsdtlList = (List<DesignSubmitDetailTemp>)ViewData["vDesignSubmitDetail"];
+    CcModSubDesignSubmitDetail gsdspd = (CcModSubDesignSubmitDetail)ViewData["vGetDesignSubmitProjDoc"]; }
+
+<div id="view-proj-annual-railfall-form">
+
+    @if (dsdtlList.Count > 0)
+    {
+        string yesTickMark = string.Empty, noTickMark = string.Empty;
+
+        <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+            <thead>
+                <tr>
+                    <th class="text-center">
+                        @if (language == 1)
+                        {<span>প্যারামিটার</span>}
+                        else
+                        {<span>Parameters</span>}
+                    </th>
+                    <th>
+                        @if (language == 1)
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    </th>
+                    <th>
+                        @if (language == 1)
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    </th>
+                    <th>
+                        @if (language == 1)
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </th>                   
+                </tr>
+            </thead>
+            <tbody id="tbodyDesignSubProjDocPreview">
+                @foreach (DesignSubmitDetailTemp dsdt in dsdtlList)
+                {
+                    yesTickMark = string.Empty;
+                    noTickMark = string.Empty;
+
+                    if (dsdt.dswpdYN == 1)
+                    {
+                        yesTickMark = "<span class='fe-check'></span>";
+                        noTickMark = "";
+                    }
+                    else
+                    {
+                        yesTickMark = "";
+                        noTickMark = "<span class='fe-check'></span>";
+                    }
+
+                    if (string.IsNullOrEmpty(dsdt.Error))
+                    {
+                        <tr>
+                            <td>
+                                @if (language == 1)
+                                {
+                                    <span>@dsdt.ParameterNameBn</span> }
+                                else
+                                {
+                                    <span>@dsdt.ParameterNameBn</span>}
+                            </td>
+                            <td class="text-center">@Html.Raw(yesTickMark)</td>
+                            <td class="text-center">@Html.Raw(noTickMark)</td>
+                            <td>@dsdt.DesignSubmitApplicantCmt</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4">@dsdt.Error</td>
+                        </tr>
+                    }
+                }
+
+                @if (gsdspd != null)
+                {
+                    yesTickMark = string.Empty;
+                    noTickMark = string.Empty;
+
+                    if (gsdspd.EmbankmentPlantationYesNoId == 1)
+                    {
+                        yesTickMark = "<span class='fe-check'></span>";
+                        noTickMark = "";
+                    }
+                    else
+                    {
+                        yesTickMark = "";
+                        noTickMark = "<span class='fe-check'></span>";
+                    }
+
+                    <tr>
+                        <td colspan="5" class="text-left">
+                            @if (language == 1)
+                            {<span>
+                                    i. বাঁধ ডিজাইনে বাাঁধের দুই পাড়ে বনায়ন/ উপকূলীয় বাঁধের সী-সাইডে ম্যানগোভ বন স্থাপন/
+                                    হাওড় অঞ্চলে ডুবন্ত বাঁধের দুই পাড়ে হিজল / করচ/ উপযোগী বৃক্ষ রোপনের ব্যবস্থা রাখা হয়েছে কিনা?
+                                </span>}
+                            else
+                            {<span>
+                                    i. Whether any provision for tree plantation at both side of the embankment or
+                                    plantation of Mangrove forest at sea side of coastal embankment or
+                                    plantation of Hijol/Koroch/other suitable tree at both bank of submergible
+                                    embankment in Haor areas during embankment design?
+                                </span>}
+
+                            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Embankment or Plantation of Mangrove Forest at Sea Side', 'EmbankPlantMangroveForestSeaSide');"
+                               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                <i class="mdi mdi-comment-text-multiple"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr style="background: #9d9b9b;">
+                        <td>
+                            @if (language == 1)
+                            {<span>হ্যাঁ</span>}
+                            else
+                            {<span>Yes</span>}
+                        </td>
+                        <td>
+                            @if (language == 1)
+                            {<span>না</span>}
+                            else
+                            {<span>No</span>}
+                        </td>
+                        <td colspan="3">
+                            @if (language == 1)
+                            {<span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">@Html.Raw(yesTickMark)</td>
+                        <td class="text-center">@Html.Raw(noTickMark)</td>
+                        <td colspan="3" class="text-left">@Html.Raw(gsdspd.EmbankmentPlantationAppCmt)</td>
+                    </tr>
+
+                    yesTickMark = string.Empty;
+                    noTickMark = string.Empty;
+
+                    if (gsdspd.PolderDrainageSysYesNoId == 1)
+                    {
+                        yesTickMark = "<span class='fe-check'></span>";
+                        noTickMark = "";
+                    }
+                    else
+                    {
+                        yesTickMark = "";
+                        noTickMark = "<span class='fe-check'></span>";
+                    }
+
+                    <tr>
+                        <td colspan="5" class="text-left">
+                            @if (language == 1)
+                            {<span>
+                                    ii. পোল্ডারের অভ্যন্তরে পানি নিষ্কশন ব্যবস্থা গুরুত্ব সহকারে বিবেচনা করা হয়েছে কিনা?
+                                </span>}
+                            else
+                            {<span>
+                                    ii.	Whether drainage system inside the polder area is considered with high importance or not?
+                                </span>}
+
+                            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Drainage System inside the Polder Area', 'DrainageSystemPolderArea');"
+                               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                <i class="mdi mdi-comment-text-multiple"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr style="background: #9d9b9b;">
+                        <td>
+                            @if (language == 1)
+                            {<span>হ্যাঁ</span>}
+                            else
+                            {<span>Yes</span>}
+                        </td>
+                        <td>
+                            @if (language == 1)
+                            {<span>না</span>}
+                            else
+                            {<span>No</span>}
+                        </td>
+                        <td colspan="3">
+                            @if (language == 1)
+                            {<span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">@Html.Raw(yesTickMark)</td>
+                        <td class="text-center">@Html.Raw(noTickMark)</td>
+                        <td colspan="3" class="text-left">@Html.Raw(gsdspd.PolderDrainageSysAppCmt)</td>
+                    </tr>
+
+                    yesTickMark = string.Empty;
+                    noTickMark = string.Empty;
+
+                    if (gsdspd.ShelterDesignYesNoId == 1)
+                    {
+                        yesTickMark = "<span class='fe-check'></span>";
+                        noTickMark = "";
+                    }
+                    else
+                    {
+                        yesTickMark = "";
+                        noTickMark = "<span class='fe-check'></span>";
+                    }
+
+                    <tr>
+                        <td colspan="5" class="text-left">
+                            @if (language == 1)
+                            {<span>
+                                    iii. বন্যা পরিস্থিতিতে দুর্গত মানুষ যেন তাদের মালামাল ও গবাদি পশু পাখি নিয়ে বাধেঁ আশ্রয় গ্রহন করতে পারে
+                                    সেজন্য স্থানীয় প্রয়োজন অনুযায়ী বাঁধের ক্রেস্ট চওড়া করে একটি খোলা স্থান (Bay) ডিজাইনে সন্নিবেশ করা হয়েছে কিনা?
+                                </span>}
+                            else
+                            {<span>
+                                    iii. Whether any bay included in the design for shelter of flood affected people during flood?
+                                </span>}
+
+                            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Shelter of Flood Affected People', 'ShelterFloodAffectedPeople');"
+                               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                <i class="mdi mdi-comment-text-multiple"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr style="background: #9d9b9b;">
+                        <td>
+                            @if (language == 1)
+                            {<span>হ্যাঁ</span>}
+                            else
+                            {<span>Yes</span>}
+                        </td>
+                        <td>
+                            @if (language == 1)
+                            {<span>না</span>}
+                            else
+                            {<span>No</span>}
+                        </td>
+                        <td colspan="3">
+                            @if (language == 1)
+                            {<span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">@Html.Raw(yesTickMark)</td>
+                        <td class="text-center">@Html.Raw(noTickMark)</td>
+                        <td colspan="3" class="text-left">@Html.Raw(gsdspd.ShelterDesignAppCmt)</td>
+                    </tr>
+
+                    yesTickMark = string.Empty;
+                    noTickMark = string.Empty;
+
+                    if (gsdspd.SufficientDisShrimpGherYesNoId == 1)
+                    {
+                        yesTickMark = "<span class='fe-check'></span>";
+                        noTickMark = "";
+                    }
+                    else
+                    {
+                        yesTickMark = "";
+                        noTickMark = "<span class='fe-check'></span>";
+                    }
+
+                    <tr>
+                        <td colspan="5" class="text-left">
+                            @if (language == 1)
+                            {<span>
+                                    iv. উপকূলীয় বাঁধের ক্ষেত্রে চিংড়ি ঘের থেকে যথেষ্ট পরিমান জায়গা (সর্বনিম্ন ৩০০ ফিট) রেখে
+                                    এবং চিংড়ি ঘেরে পানি প্রবেশ/ নিষ্কাশন খালের সংস্থান রেখে বাঁধের ডিজাইন করা হয়েছে কিনা?
+                                </span>}
+                            else
+                            {<span>
+                                    iv.	During embankment design, whether sufficient distance (minimum 300 feet) is kept from Shrimp gher
+                                    and provision for water intrusion in Shrimp gher through drainage canal?
+                                </span>}
+
+                            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Sufficient Distance Shrimp Gher', 'SufficientDistanceShrimpGher');"
+                               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                <i class="mdi mdi-comment-text-multiple"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr style="background: #9d9b9b;">
+                        <td>
+                            @if (language == 1)
+                            {<span>হ্যাঁ</span>}
+                            else
+                            {<span>Yes</span>}
+                        </td>
+                        <td>
+                            @if (language == 1)
+                            {<span>না</span>}
+                            else
+                            {<span>No</span>}
+                        </td>
+                        <td colspan="3">
+                            @if (language == 1)
+                            {<span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">@Html.Raw(yesTickMark)</td>
+                        <td class="text-center">@Html.Raw(noTickMark)</td>
+                        <td colspan="3" class="text-left">@Html.Raw(gsdspd.SufficientDisShrimpGherAppCmt)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>}
+</div>

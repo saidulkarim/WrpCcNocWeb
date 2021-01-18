@@ -1,0 +1,218 @@
+﻿@using WrpCcNocWeb.Helpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{ var language = int.Parse(HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString()); }
+
+<div id="proj-analyze-option-fulfill-object-form">
+    <label for="AnalyzeOptFulfillObj">
+        @{if (language == 1)
+            { <span>i. উদ্দেশ্য পূরনের অপশনসমূহ বিশ্লেষণ</span>}
+            else
+            {<span>i. Analyze options to fulfill objective</span>} }
+    </label>
+
+    <div class="form-group">
+        <div id="AnalyzeOptFulfillObj" class="row" style="margin-left: 5px;">
+            <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                <input type="radio" name="AnalyzeOptYesNoId" id="chkAOFOYes" value="1" data-parsley-multiple="AnalyzeOptYesNoId">
+                <label for="chkAOFOYes">
+                    @{if (language == 1)
+                        { <span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>} }
+                </label>
+            </div>
+
+            <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                <input type="radio" name="AnalyzeOptYesNoId" id="chkAOFONo" value="0" checked data-parsley-multiple="AnalyzeOptYesNoId">
+                <label for="chkAOFONo">
+                    @{if (language == 1)
+                        { <span>না</span>}
+                        else
+                        {<span>No</span>} }
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="AnalyzeOptionsApplicantCmt">
+            @{if (language == 1)
+                { <span>ii. আবেদনকারীর মন্তব্য</span>}
+                else
+                {<span>ii. Applicant Comments</span>} }
+        </label>
+        <input type="text" id="AnalyzeOptionsApplicantCmt" name="AnalyzeOptionsApplicantCmt" class="form-control" />
+    </div>
+
+    <div id="divAoFOYes" class="form-group d-none">
+        <div id="AoFOYes" class="row" style="margin-left: -7px;">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">
+
+                                @{if (language == 1)
+                                    { <span>বিকল্প</span>}
+                                    else
+                                    {<span>Option</span>} }
+                            </th>
+                            <th class="text-center">
+
+                                @{if (language == 1)
+                                    { <span>বিবরণ</span>}
+                                    else
+                                    {<span>Description</span>} }
+                            </th>
+                            <th class="text-center">
+
+                                @{if (language == 1)
+                                    { <span>বিশ্লেষণ পদ্ধতি</span>}
+                                    else
+                                    {<span>Analysis Procedure</span>} }
+                            </th>
+                            <th class="text-center"></th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-center">
+                                <input id="AnalyzeOptionsId" type="hidden" />
+                                <input type="text" id="OptionNumber" name="OptionNumber" class="form-control" />
+                            </th>
+                            <th class="text-center">
+                                <input type="text" id="AnalyzeDescription" name="AnalyzeDescription" class="form-control" />
+                            </th>
+                            <th class="text-center">
+                                <input type="text" id="AnalyzeRemarks" name="AnalyzeRemarks" class="form-control" />
+                            </th>
+                            <th class="text-center">
+                                <button id="btnSaveAoFOYes" type="button" class="btn btn-success waves-effect waves-light" value="Save">
+                                    <i class="mdi mdi-content-save"></i>
+                                </button>
+
+                                <button id="btnClearAoFOYes" type="button" class="btn btn-warning  waves-effect waves-light" value="Clear">
+                                    <i class="mdi mdi-refresh"></i>
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyAnalyzeOptFulfillObj"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="AnalyzeOptionFulfillObjectControl" type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery("#btnSaveAoFOYes").click(function () {
+            var AnalyzeOptionsId = jQuery("#AnalyzeOptionsId").val();
+            AnalyzeOptionsId = (AnalyzeOptionsId == '') ? 0 : AnalyzeOptionsId;
+            var OptionNumber = jQuery("#OptionNumber").val();
+            var AnalyzeDescription = jQuery("#AnalyzeDescription").val();
+            var AnalyzeRemarks = jQuery("#AnalyzeRemarks").val();
+
+            if (AnalyzeDescription != '') {
+                var aofo_pid = GetHiddenValue('ProjectId');
+                var analyzeOptionsDetail = {
+                    "AnalyzeOptionsId": AnalyzeOptionsId,
+                    "ProjectId": aofo_pid,
+                    "OptionNumber": OptionNumber,
+                    "AnalyzeDescription": AnalyzeDescription,
+                    "AnalyzeRemarks": AnalyzeRemarks
+                };
+
+                var url = '@Url.Action("aofos", "controls")';
+                jQuery.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { _aofd: analyzeOptionsDetail },
+                    dataType: "json",
+                    success: function (data, status, jqXHR) {
+                        if (data.status == 'success') {
+                            Notification('success', 'Success', data.message);
+
+                            GetAoFOData();
+                            ClearAoFO();
+                        } else {
+                            Notification('error', 'Saving Error', data.message);
+                        }
+                    }, error: function (jqXHR, exception) {
+                        var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                        Notification('error', 'Error Occured', errorMsg);
+                    }
+                });
+            } else {
+                Notification('warning', 'Required Field', 'Please enter analyze description!');
+                jQuery("#CropName").focus();
+            }
+        });
+
+        jQuery("#btnClearAoFOYes").click(function () {
+            ClearAoFO();
+        });
+    });
+
+    function ClearAoFO() {
+        jQuery("#OptionNumber").val('');
+        jQuery("#AnalyzeDescription").val('');
+        jQuery("#AnalyzeRemarks").val('');
+    }
+
+    function GetAoFOData() {
+        var aofo_pid = GetHiddenValue('ProjectId');
+        var url = '@Url.Action("get_aofo", "controls")';
+
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { project_id: aofo_pid },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.length > 0) {
+                    //console.log(data);
+                    var rows = '';
+
+                    var count = 0;
+                    jQuery.each(data, function (i, item) {
+                        ++count;
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.optionNumber + '</td><td>' + item.analyzeDescription + '</td><td>' + item.analyzeRemarks + '</td><td class="text-center"><button onclick="javascript:Delete(' + item.analyzeOptionsId + ', ' + item.projectId + ', \'CcModAnalyzeOptionsDetail\'); GetAoFOData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                        //<button onclick="javascript:EditAofo(' + item.analyzeOptionsId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button>
+                    });
+
+                    jQuery("#tbodyAnalyzeOptFulfillObj").html(rows);
+                } else {
+                    jQuery("#tbodyAnalyzeOptFulfillObj").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tbodyAnalyzeOptFulfillObj").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+            }
+        });
+    }
+
+    function EditAofo(id, projectId) {
+        var url = '@Url.Action("gsaod", "controls")';
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { id: id, projectId: projectId },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                console.log('Analyze options to fulfill objective detail...');
+
+                if (data.analyzeOptionsId != '') {
+                    SetHiddenValue('AnalyzeOptionsId', data.analyzeOptionsId);
+                    SetTextValue('OptionNumber', data.optionNumber);
+                    SetTextValue('AnalyzeDescription', data.analyzeDescription);
+                    SetTextValue('AnalyzeRemarks', data.analyzeRemarks);
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                Notification('error', 'Error Occured', errorMsg);
+            }
+        });
+    }
+</script>

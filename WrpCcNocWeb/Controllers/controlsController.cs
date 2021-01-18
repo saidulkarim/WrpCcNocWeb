@@ -1349,5 +1349,332 @@ namespace WrpCcNocWeb.Controllers
             return _details;
         }
         #endregion
+
+        #region Design Submitted with Project Document
+        //controls/DesignSubmittedWithProjectDocumentSave :: dswpds
+        [HttpPost]
+        public JsonResult dswpds(CcModDesignSubmitDetail _dspd)
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            int result = 0;
+
+            try
+            {
+                if (_dspd != null && _dspd.ProjectId != 0)
+                {
+                    using (var dbContextTransaction = _db.Database.BeginTransaction())
+                    {
+                        if (_dspd.DesignSubmittedId != 0)
+                        {
+                            _db.Entry(_dspd).State = EntityState.Modified;
+                            result = _db.SaveChanges();
+
+                            if (result > 0)
+                            {
+                                dbContextTransaction.Commit();
+
+                                noti = new Notification
+                                {
+                                    id = _dspd.DesignSubmittedId.ToString(),
+                                    status = "success",
+                                    message = "Design submitted with project document information has been updated successfully."
+                                };
+                            }
+                            else
+                            {
+                                dbContextTransaction.Rollback();
+
+                                noti = new Notification
+                                {
+                                    id = _dspd.DesignSubmittedId.ToString(),
+                                    status = "error",
+                                    message = "Design submitted with project document information not updated."
+                                };
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                _db.CcModDesignSubmitDetail.Add(_dspd);
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = _dspd.DesignSubmittedId.ToString(),
+                                        status = "success",
+                                        message = "Design submitted with project document information has been saved successfully."
+                                    };
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = _dspd.DesignSubmittedId.ToString(),
+                                        status = "error",
+                                        message = "Design submitted with project document information not saved."
+                                    };
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                dbContextTransaction.Rollback();
+                                var message = ch.ExtractInnerException(ex);
+
+                                noti = new Notification
+                                {
+                                    id = _dspd.DesignSubmittedId.ToString(),
+                                    status = "error",
+                                    message = "Transaction has been rollbacked. " + message
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    message = message
+                };
+            }
+
+            return Json(noti);
+        }
+
+        //controls/GetAnalyzeOptionsFulfillObjective :: get_aofo
+        [HttpGet]
+        public JsonResult get_dswpd(long project_id)
+        {
+            try
+            {
+                var _details = (from d in _db.CcModDesignSubmitDetail
+                                join l in _db.LookUpCcModDesignSubmitParam on d.DesignSubmittedParameterId equals l.DesignSubmittedParameterId
+                                where d.ProjectId != null && d.ProjectId == project_id
+                                select new
+                                {
+                                    d.DesignSubmittedId,
+                                    d.ProjectId,
+                                    d.DesignSubmittedParameterId,
+                                    l.ParameterName,
+                                    dswpdYN = d.YesNoId == 0 ? "No" : "Yes",
+                                    d.DesignSubmitApplicantCmt,
+                                    d.DesignSubmitAuthorityCmt
+                                }).ToList();
+
+                if (_details.Count > 0)
+                {
+                    return Json(_details);
+                }
+                else
+                {
+                    _details = null;
+
+                    noti = new Notification
+                    {
+                        id = string.Empty,
+                        status = "error",
+                        message = "Sorry, no data found."
+                    };
+
+                    return Json(noti);
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = string.Empty,
+                    status = "error",
+                    message = message
+                };
+
+                return Json(noti);
+            }
+        }
+
+        //controls/GetSingleDesignSubmittedWithProjectDocument :: gsdswpd
+        [HttpGet]
+        public JsonResult gsdswpd(long id, long projectId)
+        {
+            CcModDesignSubmitDetail _dsd = _db.CcModDesignSubmitDetail.Where(w => w.ProjectId == projectId && w.DesignSubmittedId == id).FirstOrDefault();
+            return Json(_dsd);
+        }
+        #endregion
+
+        #region Analyze Options to fulfill objective
+        //controls/AnalyzeOptionsFulfillObjectiveSave :: aofos
+        [HttpPost]
+        public JsonResult aofos(CcModAnalyzeOptionsDetail _aofd)
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            int result = 0;
+
+            try
+            {
+                if (_aofd != null && _aofd.ProjectId != 0)
+                {
+                    using (var dbContextTransaction = _db.Database.BeginTransaction())
+                    {
+                        if (_aofd.AnalyzeOptionsId != 0)
+                        {
+                            _db.Entry(_aofd).State = EntityState.Modified;
+                            result = _db.SaveChanges();
+
+                            if (result > 0)
+                            {
+                                dbContextTransaction.Commit();
+
+                                noti = new Notification
+                                {
+                                    id = _aofd.AnalyzeOptionsId.ToString(),
+                                    status = "success",
+                                    message = "Information has been updated successfully."
+                                };
+                            }
+                            else
+                            {
+                                dbContextTransaction.Rollback();
+
+                                noti = new Notification
+                                {
+                                    id = _aofd.AnalyzeOptionsId.ToString(),
+                                    status = "error",
+                                    message = "Information not updated."
+                                };
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                _db.CcModAnalyzeOptionsDetail.Add(_aofd);
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    dbContextTransaction.Commit();
+
+                                    noti = new Notification
+                                    {
+                                        id = _aofd.AnalyzeOptionsId.ToString(),
+                                        status = "success",
+                                        message = "Information has been saved successfully."
+                                    };
+                                }
+                                else
+                                {
+                                    dbContextTransaction.Rollback();
+
+                                    noti = new Notification
+                                    {
+                                        id = _aofd.AnalyzeOptionsId.ToString(),
+                                        status = "error",
+                                        message = "Information not saved."
+                                    };
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                dbContextTransaction.Rollback();
+                                var message = ch.ExtractInnerException(ex);
+
+                                noti = new Notification
+                                {
+                                    id = _aofd.AnalyzeOptionsId.ToString(),
+                                    status = "error",
+                                    message = "Transaction has been rollbacked. " + message
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    message = message
+                };
+            }
+
+            return Json(noti);
+        }
+
+        //controls/GetAnalyzeOptionsFulfillObjective :: get_aofo
+        [HttpGet]
+        public JsonResult get_aofo(long project_id)
+        {
+            try
+            {
+                var _details = (from d in _db.CcModAnalyzeOptionsDetail
+                                where d.ProjectId != null && d.ProjectId == project_id
+                                select new
+                                {
+                                    d.AnalyzeOptionsId,
+                                    d.ProjectId,
+                                    d.OptionNumber,
+                                    d.AnalyzeDescription,
+                                    d.AnalyzeRemarks
+                                }).ToList();
+
+                if (_details.Count > 0)
+                {
+                    return Json(_details);
+                }
+                else
+                {
+                    _details = null;
+
+                    noti = new Notification
+                    {
+                        id = string.Empty,
+                        status = "error",
+                        message = "Sorry, no data found."
+                    };
+
+                    return Json(noti);
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = string.Empty,
+                    status = "error",
+                    message = message
+                };
+
+                return Json(noti);
+            }
+        }
+
+        //controls/GetSingleAnalyzeOptionsDetail :: gsaod
+        [HttpGet]
+        public JsonResult gsaod(long id, long projectId)
+        {
+            CcModAnalyzeOptionsDetail _aod = _db.CcModAnalyzeOptionsDetail.Where(w => w.ProjectId == projectId && w.AnalyzeOptionsId == id).FirstOrDefault();
+            return Json(_aod);
+        }
+        #endregion
     }
 }

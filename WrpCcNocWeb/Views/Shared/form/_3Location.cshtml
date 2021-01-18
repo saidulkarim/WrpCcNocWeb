@@ -445,10 +445,15 @@
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     console.log('Project Location Data Loading...');
-                    console.log(data);
+                    //console.log(data);
 
                     if (data.length > 0) {
-						jQuery("#spnTotalLocations").html(data.length + ' location(s) added');
+                        if (lang == 1) {
+                            jQuery("#spnTotalLocations").html(data.length + ' অবস্থান যুক্ত হয়েছে');
+                        } else {
+                            jQuery("#spnTotalLocations").html(data.length + ' location(s) added');
+                        }
+
                         var rows = '';
                         var count = 0;
 

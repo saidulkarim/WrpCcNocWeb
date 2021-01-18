@@ -266,6 +266,8 @@
                                                                                         }
                                                                                     </label>
 
+                                                                                    <hr />
+
                                                                                     <!--<input type="text" id="HighestFloodLevel" name="HighestFloodLevel" class="form-control" />-->
                                                                                     <div class="row">
                                                                                         <div class="col-md-12">
@@ -279,9 +281,10 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>viii. নদীর সর্বোচ্চ পানি প্রবাহ (ডিসচার্জ, কিউসেক)</span>}
                                                                                             else
-                                                                                            {<span>viii. Maximum Discharge (m<sup>3</sup>/s)</span>}
-                                                                                        }
+                                                                                            {<span>viii. Maximum Discharge (m<sup>3</sup>/s)</span>} }
                                                                                     </label>
+
+                                                                                    <hr />
 
                                                                                     <!--<input type="text" id="MaximumDischarge" name="MaximumDischarge" class="form-control" />-->
                                                                                     <div class="row">
@@ -882,121 +885,12 @@
                                                                             </h5>
                                                                         </div>
                                                                         <div id="cardCollpase34" class="collapse show">
-                                                                            <div class="card-body">
-                                                                                <label for="AnalyzeOptFulfillObj">
-                                                                                    @{if (language == 1)
-                                                                                        { <span>i. উদ্দেশ্য পূরনের অপশনসমূহ বিশ্লেষণ</span>}
-                                                                                        else
-                                                                                        {<span>i. Analyze options to fulfill objective</span>}
-                                                                                    }
-                                                                                </label>
-
-                                                                                <div class="form-group">
-                                                                                    <div id="AnalyzeOptFulfillObj" class="row" style="margin-left: 5px;">
-                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                            <input type="radio" name="AnalyzeOptYesNoId" id="chkAOFOYes" value="1" data-parsley-multiple="AnalyzeOptYesNoId">
-                                                                                            <label for="chkAOFOYes">
-                                                                                                @{if (language == 1)
-                                                                                                    { <span>হ্যাঁ</span>}
-                                                                                                    else
-                                                                                                    {<span>Yes</span>}
-                                                                                                }
-                                                                                            </label>
-                                                                                        </div>
-
-                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                            <input type="radio" name="AnalyzeOptYesNoId" id="chkAOFONo" value="0" checked data-parsley-multiple="AnalyzeOptYesNoId">
-                                                                                            <label for="chkAOFONo">
-                                                                                                @{if (language == 1)
-                                                                                                    { <span>না</span>}
-                                                                                                    else
-                                                                                                    {<span>No</span>}
-                                                                                                }
-                                                                                            </label>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="form-group">
-                                                                                    <label for="AnalyzeOptionsApplicantCmt">
-                                                                                        @{if (language == 1)
-                                                                                            { <span>ii. আবেদনকারীর মন্তব্য</span>}
-                                                                                            else
-                                                                                            {<span>ii. Applicant Comments</span>}
-                                                                                        }
-                                                                                    </label>
-                                                                                    <input type="text" id="AnalyzeOptionsApplicantCmt" name="AnalyzeOptionsApplicantCmt" class="form-control" />
-                                                                                </div>
-
-                                                                                <div class="form-group hidden">
-                                                                                    <label for="AnalyzeOptionsAuthorityCmt">
-                                                                                        @{if (language == 1)
-                                                                                            { <span>iii. কর্তৃপক্ষের মন্তব্য</span>}
-                                                                                            else
-                                                                                            {<span>iii. Authority Comments</span>}
-                                                                                        }
-                                                                                    </label>
-                                                                                    <input type="text" id="AnalyzeOptionsAuthorityCmt" name="AnalyzeOptionsAuthorityCmt" class="form-control" />
-                                                                                </div>
-
-                                                                                <div id="divAoFOYes" class="form-group d-none">
-                                                                                    <div id="AoFOYes" class="row" style="margin-left: -7px;">
-                                                                                        <div class="table-responsive">
-                                                                                            <table class="table mb-0">
-                                                                                                <thead>
-                                                                                                    <tr>
-                                                                                                        <th class="text-center">#</th>
-                                                                                                        <th class="text-center">
-
-                                                                                                            @{if (language == 1)
-                                                                                                                { <span>বিকল্প</span>}
-                                                                                                                else
-                                                                                                                {<span>Option</span>}
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-
-                                                                                                            @{if (language == 1)
-                                                                                                                { <span>বিবরণ</span>}
-                                                                                                                else
-                                                                                                                {<span>Description</span>}
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-
-                                                                                                            @{if (language == 1)
-                                                                                                                { <span>মন্তব্য</span>}
-                                                                                                                else
-                                                                                                                {<span>Remarks</span>}
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                        <th class="text-center"></th>
-                                                                                                    </tr>
-                                                                                                    <tr>
-                                                                                                        <th colspan="2" class="text-center">
-                                                                                                            <input id="AnalyzeOptionsId" type="hidden" />
-                                                                                                            <input type="text" id="OptionNumber" name="OptionNumber" class="form-control" />
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            <input type="text" id="AnalyzeDescription" name="AnalyzeDescription" class="form-control" />
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            <input type="text" id="AnalyzeRemarks" name="AnalyzeRemarks" class="form-control" />
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            <button id="btnSaveAoFOYes" type="button" class="btn btn-success waves-effect waves-light" value="Save">
-                                                                                                                <i class="mdi mdi-content-save"></i>
-                                                                                                            </button>
-
-                                                                                                            <button id="btnClearAoFOYes" type="button" class="btn btn-warning  waves-effect waves-light" value="Clear">
-                                                                                                                <i class="mdi mdi-refresh"></i>
-                                                                                                            </button>
-                                                                                                        </th>
-                                                                                                    </tr>
-                                                                                                </thead>
-                                                                                                <tbody id="tbodyAnalyzeOptFulfillObj"></tbody>
-                                                                                            </table>
-                                                                                        </div>
+                                                                            <div class="card-body">                                                                                
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        @{ await Html.RenderPartialAsync("controls/_AnalyzeOptionFulfillObject.cshtml",
+                                                                                                new ViewDataDictionary(ViewData) {
+                                                                                                    { "vFormLanguage", language }}); }
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -1021,114 +915,15 @@
                                                                         </div>
                                                                         <div id="cardCollpase35" class="collapse show">
                                                                             <div class="card-body">
-                                                                                <div id="divDSWPD" class="row" style="margin-left: -7px;">
-                                                                                    <div class="table-responsive">
-                                                                                        <table class="table mb-0">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th class="text-center">#</th>
-                                                                                                    <th class="text-center">
-                                                                                                        @if (language == 1)
-                                                                                                        {
-                                                                                                            <span>প্যারামিটার</span>
-                                                                                                        }
-                                                                                                        else
-                                                                                                        {
-                                                                                                            <span>Parameters</span>
-                                                                                                        }
-                                                                                                    </th>
-                                                                                                    <th class="text-center">
-                                                                                                        @if (language == 1)
-                                                                                                        {
-                                                                                                            <span>হ্যাঁ/ না</span>
-                                                                                                        }
-                                                                                                        else
-                                                                                                        {
-                                                                                                            <span>Yes/ No</span>
-                                                                                                        }
-                                                                                                    </th>
-                                                                                                    <th class="text-center">
-                                                                                                        @if (language == 1)
-                                                                                                        {
-                                                                                                            <span>আবেদনকারী মন্তব্য</span>
-                                                                                                        }
-                                                                                                        else
-                                                                                                        {
-                                                                                                            <span>Applicant Comments</span>
-                                                                                                        }
-                                                                                                    </th>
-                                                                                                    <th class="text-center">
-                                                                                                        @if (language == 1)
-                                                                                                        {
-                                                                                                            <span>কর্তৃপক্ষের মন্তব্য</span>
-                                                                                                        }
-                                                                                                        else
-                                                                                                        {
-                                                                                                            <span>Authority Comments</span>
-                                                                                                        }
-                                                                                                    </th>
-                                                                                                    <th class="text-center"></th>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <th colspan="2" class="text-center">
-                                                                                                        <input id="DesignSubmittedId" type="hidden" />
-                                                                                                        <select id="DesignSubmittedParameterId" name="DesignSubmittedParameterId" class="form-control">
-                                                                                                            <option value="">
-                                                                                                                @if (language == 1)
-                                                                                                                {<span>বাছাই করুন...</span>}
-                                                                                                                else
-                                                                                                                {<span>Choose...</span>}
-                                                                                                            </option>
-                                                                                                            @{
-                                                                                                                List<LookUpCcModDesignSubmitParam> _dsp = ViewBag.DesignSubmittedParameterId;
-
-                                                                                                                if (_dsp.Count > 0)
-                                                                                                                {
-                                                                                                                    foreach (LookUpCcModDesignSubmitParam dsp in _dsp)
-                                                                                                                    {
-                                                                                                                        if (language == 1)
-                                                                                                                        {
-                                                                                                                            <option value="@dsp.DesignSubmittedParameterId">@dsp.ParameterNameBn</option>
-                                                                                                                        }
-                                                                                                                        else
-                                                                                                                        {
-                                                                                                                            <option value="@dsp.DesignSubmittedParameterId">@dsp.ParameterName</option>
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                }
-                                                                                                            }
-                                                                                                        </select>
-                                                                                                    </th>
-                                                                                                    <th class="text-center">
-                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                            <input type="radio" name="dswpdYN" id="chkDSWPDYes" value="1" data-parsley-multiple="dswpdYN">
-                                                                                                            <label for="chkDSWPDYes"> Yes </label>
-                                                                                                        </div>
-
-                                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                                                                                            <input type="radio" name="dswpdYN" id="chkDSWPDNo" value="0" data-parsley-multiple="dswpdYN">
-                                                                                                            <label for="chkDSWPDNo"> No </label>
-                                                                                                        </div>
-                                                                                                    </th>
-                                                                                                    <th class="text-center">
-                                                                                                        <input type="text" id="DesignSubmitApplicantCmt" name="DesignSubmitApplicantCmt" class="form-control" />
-                                                                                                    </th>
-                                                                                                    <th class="text-center">
-                                                                                                        <input type="text" id="DesignSubmitAuthorityCmt" name="DesignSubmitAuthorityCmt" class="form-control" />
-                                                                                                    </th>
-                                                                                                    <th class="text-center">
-                                                                                                        <button id="btnSaveDSWPD" type="button" class="btn btn-success waves-effect waves-light" value="Save">
-                                                                                                            <i class="mdi mdi-content-save"></i>
-                                                                                                        </button>
-
-                                                                                                        <button id="btnClearDSWPD" type="button" class="btn btn-warning  waves-effect waves-light" value="Clear">
-                                                                                                            <i class="mdi mdi-refresh"></i>
-                                                                                                        </button>
-                                                                                                    </th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody id="tbodyDesignSubProjDoc"></tbody>
-                                                                                        </table>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        @{ var dspid = ViewBag.DesignSubmittedParameterId;
+                                                                                            var gsdspd = ViewBag.SubDesignSubmitDetail;
+                                                                                            await Html.RenderPartialAsync("controls/_DesignSubmitProjectDoc.cshtml",
+                                                                                                new ViewDataDictionary(ViewData) {
+                                                                                                    { "vFormLanguage", language },
+                                                                                                    { "vDesignSubmittedParameter", dspid },
+                                                                                                    { "vGetDesignSubmitProjDoc", gsdspd }}); }
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -1740,7 +1535,7 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function () {
-            GetProjLocationsData();
+            GetProjLocationsData(); //call from partial page Shared/form/_3Location.cshtml
             GetHydroSystemData(); //call from partial page controls/_HydrologicalSystem
             GetAnnualRainfallData(); //call from partial page controls/_AnnualRainfall
             GetFloodFrequencyData(); //call from partial page controls/_FloodFrequencyAnalysis
@@ -1748,8 +1543,10 @@
             GetMaxDischargeData(); //call from partial page controls/_MaximumDischarge
             GetIrrigatedCropAreaData(); //call from partial page controls/_IrrigatedCropArea
             GetFishProdDiversityData(); //call from partial page controls/_FishProductionDiversity
-            GetAoFOData();
-            GetDswpdData();
+            GetAoFOData();//call from partial page controls/_AnalyzeOptionFulfillObject
+            GetDswpdData(); //call from partial page controls/_DesignSubmitProjectDoc
+            
+            
             GetEiaData();
             GetSiaData();
             GetEconFinAnaData();
@@ -1905,187 +1702,6 @@
                 jQuery("#divCwgpwm").addClass('d-none fadeOut');
             }
         });
-
-        //start :: Analyze options to fulfill objective
-        jQuery("#btnSaveAoFOYes").click(function () {
-            var AnalyzeOptionsId = jQuery("#AnalyzeOptionsId").val();
-            AnalyzeOptionsId = (AnalyzeOptionsId == '') ? 0 : AnalyzeOptionsId;
-            var OptionNumber = jQuery("#OptionNumber").val();
-            var AnalyzeDescription = jQuery("#AnalyzeDescription").val();
-            var AnalyzeRemarks = jQuery("#AnalyzeRemarks").val();
-
-            if (AnalyzeDescription != '') {
-                var ProjectId = GetHiddenValue('ProjectId');
-                var analyzeOptionsDetail = {
-                    "AnalyzeOptionsId": AnalyzeOptionsId,
-                    "ProjectId": ProjectId,
-                    "OptionNumber": OptionNumber,
-                    "AnalyzeDescription": AnalyzeDescription,
-                    "AnalyzeRemarks": AnalyzeRemarks
-                };
-
-                var url = '@Url.Action("aofos", "form")';
-                jQuery.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { _aofd: analyzeOptionsDetail },
-                    dataType: "json",
-                    success: function (data, status, jqXHR) {
-                        if (data.status == 'success') {
-                            Notification('success', 'Success', data.message);
-
-                            GetAoFOData();
-                            ClearAoFO();
-                        } else {
-                            Notification('error', 'Saving Error', data.message);
-                        }
-                    }, error: function (jqXHR, exception) {
-                        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                        Notification('error', 'Error Occured', errorMsg);
-                    }
-                });
-            } else {
-                Notification('warning', 'Required Field', 'Please enter analyze description!');
-                jQuery("#CropName").focus();
-            }
-        });
-
-        jQuery("#btnClearAoFOYes").click(function () {
-            ClearAoFO();
-        });
-
-        function ClearAoFO() {
-            jQuery("#OptionNumber").val('');
-            jQuery("#AnalyzeDescription").val('');
-            jQuery("#AnalyzeRemarks").val('');
-        }
-
-        function GetAoFOData() {
-            var ProjectId = GetHiddenValue('ProjectId');
-            var url = '@Url.Action("get_aofo", "form")';
-
-            jQuery.ajax({
-                type: "GET",
-                url: url,
-                data: { project_id: ProjectId },
-                dataType: "json",
-                success: function (data, status, jqXHR) {
-                    if (data.length > 0) {
-                        //console.log(data);
-                        var rows = '';
-
-                        var count = 0;
-                        jQuery.each(data, function (i, item) {
-                            ++count;
-                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.optionNumber + '</td><td>' + item.analyzeDescription + '</td><td>' + item.analyzeRemarks + '</td><td class="text-center"><button onclick="javascript:EditAofo(' + item.analyzeOptionsId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.analyzeOptionsId + ', ' + item.projectId + ', \'CcModAnalyzeOptionsDetail\'); GetAoFOData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
-                        });
-
-                        jQuery("#tbodyAnalyzeOptFulfillObj").html(rows);
-                    } else {
-                        jQuery("#tbodyAnalyzeOptFulfillObj").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
-                    }
-                }, error: function (jqXHR, exception) {
-                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                    jQuery("#tbodyAnalyzeOptFulfillObj").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
-                }
-            });
-        }
-        //end
-
-        //region start :: Design submitted with project document JS
-        jQuery("#btnSaveDSWPD").click(function () {
-            var DesignSubmittedId = GetHiddenValue('DesignSubmittedId');
-            DesignSubmittedId = (DesignSubmittedId == '') ? 0 : DesignSubmittedId;
-            var DesignSubmittedParameterId = jQuery("#DesignSubmittedParameterId option:selected").val();
-            var DswpYesNoId = jQuery("input:radio[name='dswpdYN']:checked").val();
-            DswpYesNoId = (DswpYesNoId == '') ? 0 : DswpYesNoId;
-            var DesignSubmitApplicantCmt = jQuery("#DesignSubmitApplicantCmt").val();
-            var DesignSubmitAuthorityCmt = jQuery("#DesignSubmitAuthorityCmt").val();
-
-            if (AnalyzeDescription != '') {
-                var ProjectId = GetHiddenValue('ProjectId');
-                var designSubParamDetail = {
-                    "DesignSubmittedId": DesignSubmittedId,
-                    "ProjectId": ProjectId,
-                    "DesignSubmittedParameterId": DesignSubmittedParameterId,
-                    "YesNoId": DswpYesNoId,
-                    "DesignSubmitApplicantCmt": DesignSubmitApplicantCmt,
-                    "DesignSubmitAuthorityCmt": DesignSubmitAuthorityCmt
-                };
-
-                //console.log(designSubParamDetail);
-                //console.log(DswpYesNoId);
-
-                var url = '@Url.Action("dswpds", "form")';
-                jQuery.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { _dspd: designSubParamDetail },
-                    dataType: "json",
-                    success: function (data, status, jqXHR) {
-                        if (data.status == 'success') {
-                            Notification('success', 'Success', data.message);
-
-                            GetDswpdData();
-                            ClearDswpd();
-                        } else {
-                            Notification('error', 'Saving Error', data.message);
-                        }
-                    }, error: function (jqXHR, exception) {
-                        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                        Notification('error', 'Error Occured', errorMsg);
-                    }
-                });
-            } else {
-                Notification('warning', 'Required Field', 'Please enter analyze description!');
-                jQuery("#CropName").focus();
-            }
-        });
-
-        jQuery("#btnClearDSWPD").click(function () {
-            ClearDswpd();
-        });
-
-        function ClearDswpd() {
-            jQuery("#DesignSubmittedId").val('');
-            jQuery("#DesignSubmittedParameterId").val('');
-            jQuery("#DesignSubmitApplicantCmt").val('');
-            jQuery("#DesignSubmitAuthorityCmt").val('');
-            //jQuery("input:radio[name='dswpdYN']").val('');
-            //jQuery("input:radio[name='dswpdYN']:checked").prop('checked', false);
-        }
-
-        function GetDswpdData() {
-            var ProjectId = GetHiddenValue('ProjectId');
-            var url = '@Url.Action("get_dswpd", "form")';
-
-            jQuery.ajax({
-                type: "GET",
-                url: url,
-                data: { project_id: ProjectId },
-                dataType: "json",
-                success: function (data, status, jqXHR) {
-                    if (data.length > 0) {
-                        //console.log(data);
-                        var rows = '';
-
-                        var count = 0;
-                        jQuery.each(data, function (i, item) {
-                            ++count;
-                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.parameterName + '</td><td>' + item.dswpdYN + '</td><td>' + item.designSubmitApplicantCmt + '</td><td>' + item.designSubmitAuthorityCmt + '</td><td class="text-center"><button onclick="javascript:EditDesiSub(' + item.designSubmittedId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.designSubmittedId + ', ' + item.projectId + ', \'CcModDesignSubmitDetail\'); GetDswpdData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
-                        });
-
-                        jQuery("#tbodyDesignSubProjDoc").html(rows);
-                    } else {
-                        jQuery("#tbodyDesignSubProjDoc").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
-                    }
-                }, error: function (jqXHR, exception) {
-                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                    jQuery("#tbodyDesignSubProjDoc").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
-                }
-            });
-        }
-        //endregion
 
         //start :: Environmental Impact Assessment
         jQuery("#btnSaveEIAYes").click(function () {
@@ -2423,7 +2039,7 @@
                 //"DiscussWithStakeMeetingMin": , //file
                 "AnalyzeOptYesNoId": GetRadioValue('AnalyzeOptYesNoId'),
                 "AnalyzeOptionsApplicantCmt": GetTextValue('AnalyzeOptionsApplicantCmt'),
-                "AnalyzeOptionsAuthorityCmt": GetTextValue('AnalyzeOptionsAuthorityCmt'),
+                //"AnalyzeOptionsAuthorityCmt": GetTextValue('AnalyzeOptionsAuthorityCmt'),
                 "EnvAndSocialYesNoId": GetRadioValue('EnvAndSocialYesNoId'),
                 "EnvAndSocialApplicantCmt": GetTextValue('EnvAndSocialApplicantCmt'),
                 "EnvAndSocialAuthorityCmt": GetTextValue('EnvAndSocialAuthorityCmt')
@@ -2463,12 +2079,30 @@
                 "ToolsAuthorityComments": GetTextValue('ToolsAuthorityComments')
             };
 
+            //region Sub Design Submitted Detail with Proejct Docs
+            var SubDesignSubmittedId = GetHiddenValue('SubDesignSubmittedId');
+            SubDesignSubmittedId = (SubDesignSubmittedId == '') ? 0 : SubDesignSubmittedId;
+            var subDesignSubmitDetail = {
+                "SubDesignSubmittedId": SubDesignSubmittedId,
+                "ProjectId": ProjectId,
+                "EmbankmentPlantationYesNoId": GetRadioValue('EmbankmentPlantationYesNoId'),
+                "EmbankmentPlantationAppCmt": GetTextValue('EmbankmentPlantationAppCmt'),
+                "PolderDrainageSysYesNoId": GetRadioValue('PolderDrainageSysYesNoId'),
+                "PolderDrainageSysAppCmt": GetRadioValue('PolderDrainageSysAppCmt'),
+                "ShelterDesignYesNoId": GetRadioValue('ShelterDesignYesNoId'),
+                "ShelterDesignAppCmt": GetTextValue('ShelterDesignAppCmt'),
+                "SufficientDisShrimpGherYesNoId": GetRadioValue('SufficientDisShrimpGherYesNoId'),
+                "SufficientDisShrimpGherAppCmt": GetTextValue('SufficientDisShrimpGherAppCmt')
+            };
+            //endregion
+
             var _Form31FinalObj = {
                 "CommonDetail": ProjectCommonDetail,
                 "Project31Indv": Project31IndvDetail,
                 "HydroRegion": hydroRegions,
                 "BDP2100HotSpot": bdp2100HotSpot,
-                "TypesOfFlood": typesOfFlood
+                "TypesOfFlood": typesOfFlood,
+                "SubDesignSubmitDetail": subDesignSubmitDetail
             }
 
             //console.log(_Form31FinalObj); //jQuery('#ProjectId').val()
@@ -2773,56 +2407,7 @@
             var value = $("input[name='" + control + "']:checked").val();
             return (value == undefined || value == '') ? 0 : value;
         }
-        //endregion
-
-        function EditAofo(id, projectId) {
-            var url = '@Url.Action("gsaod", "form")';
-            jQuery.ajax({
-                type: "GET",
-                url: url,
-                data: { id: id, projectId: projectId },
-                dataType: "json",
-                success: function (data, status, jqXHR) {
-                    //console.log('Single Analyze Options Detail');
-                    //console.log(data);
-
-                    if (data.analyzeOptionsId != '') {
-                        SetHiddenValue('AnalyzeOptionsId', data.analyzeOptionsId);
-                        SetTextValue('OptionNumber', data.optionNumber);
-                        SetTextValue('AnalyzeDescription', data.analyzeDescription);
-                        SetTextValue('AnalyzeRemarks', data.analyzeRemarks);
-                    }
-                }, error: function (jqXHR, exception) {
-                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                    Notification('error', 'Error Occured', errorMsg);
-                }
-            });
-        }
-
-        function EditDesiSub(id, projectId) {
-	        var url = '@Url.Action("gsdswpd", "form")';
-	        jQuery.ajax({
-		        type: "GET",
-		        url: url,
-		        data: { id: id, projectId: projectId },
-		        dataType: "json",
-		        success: function (data, status, jqXHR) {
-			        //console.log('Single Analyze Options Detail');
-			        //console.log(data);
-
-			        if (data.designSubmittedId != '') {
-				        SetHiddenValue('DesignSubmittedId', data.designSubmittedId);
-				        jQuery("#DesignSubmittedParameterId option[value=" + data.designSubmittedParameterId + "]").prop('selected', true);
-				        $(":radio[name='dswpdYN'][value='" + data.dswpdYN + "']").attr('checked', true);
-				        SetTextValue('DesignSubmitApplicantCmt', data.designSubmitApplicantCmt);
-				        SetTextValue('DesignSubmitAuthorityCmt', data.designSubmitAuthorityCmt);
-			        }
-		        }, error: function (jqXHR, exception) {
-			        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-			        Notification('error', 'Error Occured', errorMsg);
-		        }
-	        });
-        }
+        //endregion        
 
         function EditEia(id, projectId) {
 	        var url = '@Url.Action("gseia", "form")';
@@ -3017,7 +2602,7 @@
 					$(":radio[name='AnalyzeOptYesNoId'][value='" + AnalyzeOptYesNoId + "']").attr('checked', true);
 
                 SetTextValue('AnalyzeOptionsApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptionsApplicantCmt)');
-                SetTextValue('AnalyzeOptionsAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptionsAuthorityCmt)');
+                //SetTextValue('AnalyzeOptionsAuthorityCmt', 'Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptionsAuthorityCmt)');
 
 				var EnvAndSocialYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialYesNoId)';
 				if(EnvAndSocialYesNoId != '')

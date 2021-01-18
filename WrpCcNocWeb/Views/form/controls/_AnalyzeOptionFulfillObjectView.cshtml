@@ -1,0 +1,55 @@
+﻿@{ var language = int.Parse(ViewData["vFormLanguage"].ToString());
+    List<AnalyzeOptionsDetailTemp> aofoList = (List<AnalyzeOptionsDetailTemp>)ViewData["vAnalyzeOptionsDetailTemp"]; }
+
+<div id="view-proj-annual-railfall-form">
+    <table class="table table-bordered" style="width: 100%;">
+        @if (aofoList.Count > 0)
+        {
+<tr>
+    <th>
+        @if (language == 1)
+        {<span>বিকল্প</span>}
+        else
+        {<span>Options</span>}
+    </th>
+    <th>
+        @if (language == 1)
+        {<span>বিবরণ</span>}
+        else
+        {<span>Description</span>}
+    </th>
+    <th>
+        @if (language == 1)
+        {<span>বিশ্লেষণ পদ্ধতি</span>}
+        else
+        {<span>Analysis Procedure</span>}
+    </th>
+</tr>
+ foreach (AnalyzeOptionsDetailTemp aod in aofoList)
+{
+    if (string.IsNullOrEmpty(aod.Error))
+    {
+<tr>
+    <td>@aod.OptionNumber</td>
+    <td>@aod.AnalyzeDescription</td>
+    <td>@aod.AnalyzeRemarks</td>
+</tr>
+ }
+else
+{
+<tr>
+    <td colspan="3">@aod.Error</td>
+</tr>
+ }
+}
+}
+else
+{
+<tr>
+    <td colspan="3" class="text-center">
+        No data added
+    </td>
+</tr>
+}
+    </table>
+</div>

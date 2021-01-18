@@ -13,5 +13,6 @@ namespace WrpCcNocWeb.ViewModels
         public List<CcModPrjHydroRegionDetail> HydroRegion { get; set; }
         public List<CcModBDP2100HotSpotDetail> BDP2100HotSpot { get; set; }
         public List<CcModPrjTypesOfFloodDetail> TypesOfFlood { get; set; }
+        public CcModSubDesignSubmitDetail SubDesignSubmitDetail { get; set; }
     }
 }

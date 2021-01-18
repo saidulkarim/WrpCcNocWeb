@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WrpCcNocWeb.Models;
 using WrpCcNocWeb.Models.AdminModule;
 using WrpCcNocWeb.Models.CcModule;
@@ -112,6 +108,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<CcModHighestFloodLevelDetail> CcModHighestFloodLevelDetail { get; set; }
         public DbSet<CcModMaxDischargeDetail> CcModMaxDischargeDetail { get; set; }
         public DbSet<CcModFishProdDiversityDetail> CcModFishProdDiversityDetail { get; set; }
+        public DbSet<CcModSubDesignSubmitDetail> CcModSubDesignSubmitDetail { get; set; }
         #endregion
 
         #region LookUp --- CC Module     

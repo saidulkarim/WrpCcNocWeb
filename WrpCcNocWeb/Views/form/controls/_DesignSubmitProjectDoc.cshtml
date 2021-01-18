@@ -1,0 +1,502 @@
+﻿@using WrpCcNocWeb.Helpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{ var language = int.Parse(ViewData["vFormLanguage"].ToString());
+    List<LookUpCcModDesignSubmitParam> dsps = (List<LookUpCcModDesignSubmitParam>)ViewData["vDesignSubmittedParameter"];
+    CcModSubDesignSubmitDetail gsdspd = (CcModSubDesignSubmitDetail)ViewData["vGetDesignSubmitProjDoc"];
+
+    if (gsdspd == null)
+    {
+        gsdspd = new CcModSubDesignSubmitDetail();
+    } }
+
+<div id="proj-design-submit-project-doc-form">
+    <style>
+        .select2-selection__rendered {
+            line-height: 31px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+        }
+
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+    </style>
+
+    <div id="divDesignSubmitProjectDoc">
+        <div id="DesignSubmitProjectDoc" class="row" style="margin-left: -7px;">
+            <div id="divDSWPD" class="row" style="width: 100%;">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">
+                                @if (language == 1)
+                                {
+                    <span>প্যারামিটার</span> }
+                else
+                {
+    <span>Parameters</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (language == 1)
+                                {
+                    <span>হ্যাঁ/ না</span> }
+                else
+                {
+    <span>Yes/ No</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (language == 1)
+                                {
+                    <span>আবেদনকারী মন্তব্য</span> }
+                else
+                {
+    <span>Applicant Comments</span>}
+                            </th>
+                            <th class="text-center"></th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-center">
+                                <input id="DesignSubmittedId" type="hidden" />
+                                <input id="SubDesignSubmittedId" type="hidden" />
+                                <select id="DesignSubmittedParameterId" name="DesignSubmittedParameterId" class="form-control" style="width: 100%;">
+                                    @if (language == 1)
+                                    {
+                        <option value="">বাছাই করুন...</option>
+ }
+                    else
+                    {
+        <option value="">Choose...</option>
+}
+
+                                    @{ List<LookUpCcModDesignSubmitParam> _dsp = dsps;
+
+                                        if (_dsp.Count > 0)
+                                        {
+                                            foreach (LookUpCcModDesignSubmitParam dsp in _dsp)
+                                            {
+                                                if (language == 1)
+                                                {
+                            <option value="@dsp.DesignSubmittedParameterId">@dsp.ParameterNameBn</option> }
+                                                else
+                                                {
+                            <option value="@dsp.DesignSubmittedParameterId">@dsp.ParameterName</option> }
+                                            }
+                                        } }
+                                </select>
+                            </th>
+                            <th class="text-center">
+                                <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                                    <input type="radio" name="dswpdYN" id="chkDSWPDYes" value="1" data-parsley-multiple="dswpdYN">
+                                    <label for="chkDSWPDYes">
+                                        @if (language == 1)
+                                        {
+                            <span>হ্যাঁ</span> }
+                        else
+                        {
+            <span>Yes</span>}
+                                    </label>
+                                </div>
+
+                                <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                                    <input type="radio" name="dswpdYN" id="chkDSWPDNo" value="0" data-parsley-multiple="dswpdYN">
+                                    <label for="chkDSWPDNo">
+                                        @if (language == 1)
+                                        {
+                            <span>না</span> }
+                        else
+                        {
+            <span>No</span>}
+                                    </label>
+                                </div>
+                            </th>
+                            <th class="text-center">
+                                <input type="text" id="DesignSubmitApplicantCmt" name="DesignSubmitApplicantCmt" class="form-control" />
+                            </th>
+                            <th class="text-center">
+                                <button id="btnSaveDSWPD" type="button" class="btn btn-success waves-effect waves-light" value="Save">
+                                    <i class="mdi mdi-content-save"></i>
+                                </button>
+
+                                <button id="btnClearDSWPD" type="button" class="btn btn-warning  waves-effect waves-light" value="Clear">
+                                    <i class="mdi mdi-refresh"></i>
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyDesignSubProjDoc"></tbody>
+                </table>
+            </div>
+
+            <div id="divEmbankmentPlantation" class="col-md-12">
+                <label for="EmbankmentPlantationForm">
+                    @if (language == 1)
+                    {<span>
+                            i. বাঁধ ডিজাইনে বাাঁধের দুই পাড়ে বনায়ন/ উপকূলীয় বাঁধের সী-সাইডে ম্যানগোভ বন স্থাপন/
+                            হাওড় অঞ্চলে ডুবন্ত বাঁধের দুই পাড়ে হিজল / করচ/ উপযোগী বৃক্ষ রোপনের ব্যবস্থা রাখা হয়েছে কিনা?
+                        </span>}
+                    else
+                    {<span>
+                            i. Whether any provision for tree plantation at both side of the embankment or
+                            plantation of Mangrove forest at sea side of coastal embankment or
+                            plantation of Hijol/Koroch/other suitable tree at both bank of submergible
+                            embankment in Haor areas during embankment design?
+                        </span>}
+                </label>
+
+                <div class="form-group">
+                    <div id="EmbankmentPlantationForm" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="EmbankmentPlantationYesNoId" id="radEmbankmentPlantationYes" value="1" data-parsley-multiple="EmbankmentPlantationYesNoId">
+                            <label for="radEmbankmentPlantationYes">
+                                @{if (language == 1)
+                                    { <span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>} }
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="EmbankmentPlantationYesNoId" id="radEmbankmentPlantationNo" value="0" checked data-parsley-multiple="EmbankmentPlantationYesNoId">
+                            <label for="radEmbankmentPlantationNo">
+                                @{if (language == 1)
+                                    { <span>না</span>}
+                                    else
+                                    {<span>No</span>} }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="EmbankmentPlantationAppCmt">
+                        @{if (language == 1)
+                            { <span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>} }
+                    </label>
+                    <input type="text" maxlength="500" id="EmbankmentPlantationAppCmt" name="EmbankmentPlantationAppCmt" class="form-control" style="width: 100%;" />
+                </div>
+            </div>
+
+            <div id="divPolderDrainageSystem" class="col-md-12">
+                <label for="PolderDrainageSystem">
+                    @if (language == 1)
+                        { <span>
+                                ii. পোল্ডারের অভ্যন্তরে পানি নিষ্কশন ব্যবস্থা গুরুত্ব সহকারে বিবেচনা করা হয়েছে কিনা?
+                            </span>}
+                        else
+                        {<span>
+                                ii.	Whether drainage system inside the polder area is considered with high importance or not?
+                            </span>}
+                </label>
+
+                <div class="form-group">
+                    <div id="PolderDrainageSystem" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="PolderDrainageSysYesNoId" id="radPolderDrainageSysYes" value="1" data-parsley-multiple="PolderDrainageSysYesNoId">
+                            <label for="radPolderDrainageSysYes">
+                                @{if (language == 1)
+                                    { <span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>} }
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="PolderDrainageSysYesNoId" id="radPolderDrainageSysNo" value="0" checked data-parsley-multiple="PolderDrainageSysYesNoId">
+                            <label for="radPolderDrainageSysNo">
+                                @{if (language == 1)
+                                    { <span>না</span>}
+                                    else
+                                    {<span>No</span>} }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="PolderDrainageSysAppCmt">
+                        @{if (language == 1)
+                            { <span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>} }
+                    </label>
+                    <input type="text" maxlength="500" id="PolderDrainageSysAppCmt" name="PolderDrainageSysAppCmt" class="form-control" style="width: 100%;" />
+                </div>
+            </div>
+
+            <div id="divShelterDesignSystem" class="col-md-12">
+                <label for="ShelterDesignSystem">
+                    @if (language == 1)
+                        { <span>
+                                iii. বন্যা পরিস্থিতিতে দুর্গত মানুষ যেন তাদের মালামাল ও গবাদি পশু পাখি নিয়ে বাধেঁ আশ্রয় গ্রহন করতে পারে
+                                সেজন্য স্থানীয় প্রয়োজন অনুযায়ী বাঁধের ক্রেস্ট চওড়া করে একটি খোলা স্থান (Bay) ডিজাইনে সন্নিবেশ করা হয়েছে কিনা?
+                            </span>}
+                        else
+                        {<span>
+                                iii. Whether any bay included in the design for shelter of flood affected people during flood?
+                            </span>}
+                </label>
+
+                <div class="form-group">
+                    <div id="ShelterDesignSystem" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="ShelterDesignYesNoId" id="radShelterDesignYes" value="1" data-parsley-multiple="ShelterDesignYesNoId">
+                            <label for="radShelterDesignYes">
+                                @{if (language == 1)
+                                    { <span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>} }
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="ShelterDesignYesNoId" id="radShelterDesignNo" value="0" checked data-parsley-multiple="ShelterDesignYesNoId">
+                            <label for="radShelterDesignNo">
+                                @{if (language == 1)
+                                    { <span>না</span>}
+                                    else
+                                    {<span>No</span>} }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ShelterDesignAppCmt">
+                        @{if (language == 1)
+                            { <span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>} }
+                    </label>
+                    <input type="text" maxlength="500" id="ShelterDesignAppCmt" name="ShelterDesignAppCmt" class="form-control" style="width: 100%;" />
+                </div>
+            </div>
+
+            <div id="divSufficientDisShrimpGher" class="col-md-12">
+                <label for="SufficientDisShrimpGher">
+                    @if (language == 1)
+                        { <span>
+                                iv. উপকূলীয় বাঁধের ক্ষেত্রে চিংড়ি ঘের থেকে যথেষ্ট পরিমান জায়গা (সর্বনি¤œ ৩০০ ফিট) রেখে
+                                এবং চিংড়ি ঘেরে পানি প্রবেশ/ নিষ্কাশন খালের সংস্থান রেখে বাঁধের ডিজাইন করা হয়েছে কিনা?
+                            </span>}
+                        else
+                        {<span>
+                                iv.	During embankment design, whether sufficient distance (minimum 300 feet) is kept from Shrimp gher
+                                and provision for water intrusion in Shrimp gher through drainage canal?
+                            </span>}
+                </label>
+
+                <div class="form-group">
+                    <div id="ShelterDesignSystem" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="SufficientDisShrimpGherYesNoId" id="radSufficientDisShrimpGherYes" value="1" data-parsley-multiple="SufficientDisShrimpGherYesNoId">
+                            <label for="radSufficientDisShrimpGherYes">
+                                @{if (language == 1)
+                                    { <span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>} }
+                            </label>
+                        </div>
+
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="SufficientDisShrimpGherYesNoId" id="radSufficientDisShrimpGherNo" value="0" checked data-parsley-multiple="SufficientDisShrimpGherYesNoId">
+                            <label for="radSufficientDisShrimpGherNo">
+                                @{if (language == 1)
+                                    { <span>না</span>}
+                                    else
+                                    {<span>No</span>} }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="SufficientDisShrimpGherAppCmt">
+                        @{if (language == 1)
+                            { <span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>} }
+                    </label>
+                    <input type="text" maxlength="500" id="SufficientDisShrimpGherAppCmt" name="SufficientDisShrimpGherAppCmt" class="form-control" style="width: 100%;" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="DesignSubmitProjectDocControl" type="text/javascript">
+    jQuery(document).ready(function () {
+        var lang = '@language';
+        var selectOptionText = '';
+        if (lang == 1) {
+            selectOptionText = 'নির্বাচন করুন...';
+        } else {
+            selectOptionText = 'Select an option...';
+        }
+
+        jQuery("#DesignSubmittedParameterId").select2({
+            placeholder: selectOptionText,
+            allowClear: true
+        }).on('change', function () {
+            var val = $("#DesignSubmittedParameterId option:selected").val();
+            var txt = $("#DesignSubmittedParameterId option:selected").text();
+        });
+
+        jQuery("#btnSaveDSWPD").click(function () {
+            var DesignSubmittedId = GetHiddenValue('DesignSubmittedId');
+            DesignSubmittedId = (DesignSubmittedId == '') ? 0 : DesignSubmittedId;
+            var DesignSubmittedParameterId = jQuery("#DesignSubmittedParameterId option:selected").val();
+            var DswpYesNoId = jQuery("input:radio[name='dswpdYN']:checked").val();
+            DswpYesNoId = (DswpYesNoId == '') ? 0 : DswpYesNoId;
+            var DesignSubmitApplicantCmt = jQuery("#DesignSubmitApplicantCmt").val();
+            var DesignSubmitAuthorityCmt = jQuery("#DesignSubmitAuthorityCmt").val();
+
+            if (DesignSubmittedParameterId != '') {
+                var dsp_pid = jQuery("#ProjectId").val();
+                var designSubParamDetail = {
+                    "DesignSubmittedId": DesignSubmittedId,
+                    "ProjectId": dsp_pid,
+                    "DesignSubmittedParameterId": DesignSubmittedParameterId,
+                    "YesNoId": DswpYesNoId,
+                    "DesignSubmitApplicantCmt": DesignSubmitApplicantCmt
+                };
+
+                var url = '@Url.Action("dswpds", "controls")';
+                jQuery.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { _dspd: designSubParamDetail },
+                    dataType: "json",
+                    success: function (data, status, jqXHR) {
+                        if (data.status == 'success') {
+                            Notification('success', 'Success', data.message);
+
+                            GetDswpdData();
+                            ClearDswpd();
+                        } else {
+                            Notification('error', 'Saving Error', data.message);
+                        }
+                    }, error: function (jqXHR, exception) {
+                        var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                        Notification('error', 'Error Occured', errorMsg);
+                    }
+                });
+            } else {
+                Notification('warning', 'Required Field', 'Please select design submitted parameters!');
+                jQuery("#DesignSubmittedParameterId").focus();
+            }
+        });
+
+        jQuery("#btnClearDSWPD").click(function () {
+            ClearDswpd();
+        });
+
+        BindSubDesSubmitPrjDoc();
+    });
+
+    function BindSubDesSubmitPrjDoc() {
+        var SubDesignSubmittedId = '@gsdspd.SubDesignSubmittedId';
+
+        if (SubDesignSubmittedId != 0) {
+            jQuery("#SubDesignSubmittedId").val(SubDesignSubmittedId);
+
+            var epyn = '@gsdspd.EmbankmentPlantationYesNoId';
+            if (epyn != '') {
+                $(":radio[name='EmbankmentPlantationYesNoId'][value='" + epyn + "']").attr('checked', true);
+            }
+
+            SetTextValue('EmbankmentPlantationAppCmt', '@Html.Raw(gsdspd.EmbankmentPlantationAppCmt)');
+
+            var pdyn = '@gsdspd.PolderDrainageSysYesNoId';
+            if (pdyn != '') {
+                $(":radio[name='PolderDrainageSysYesNoId'][value='" + pdyn + "']").attr('checked', true);
+            }
+
+            SetTextValue('PolderDrainageSysAppCmt', '@Html.Raw(gsdspd.PolderDrainageSysAppCmt)');
+
+            var sdyn = '@gsdspd.ShelterDesignYesNoId';
+            if (sdyn != '') {
+                $(":radio[name='ShelterDesignYesNoId'][value='" + sdyn + "']").attr('checked', true);
+            }
+
+            SetTextValue('ShelterDesignAppCmt', '@Html.Raw(gsdspd.ShelterDesignAppCmt)');
+
+            var sssg = '@gsdspd.SufficientDisShrimpGherYesNoId';
+            if (sssg != '') {
+                $(":radio[name='SufficientDisShrimpGherYesNoId'][value='" + sssg + "']").attr('checked', true);
+            }
+
+            SetTextValue('SufficientDisShrimpGherAppCmt', '@Html.Raw(gsdspd.SufficientDisShrimpGherAppCmt)');
+        }
+    }
+
+    function ClearDswpd() {
+        jQuery("#DesignSubmittedId").val('');
+        jQuery("#DesignSubmittedParameterId").val('');
+        jQuery("#DesignSubmitApplicantCmt").val('');
+        //jQuery("#DesignSubmitAuthorityCmt").val('');
+        //jQuery("input:radio[name='dswpdYN']").val('');
+        //jQuery("input:radio[name='dswpdYN']:checked").prop('checked', false);
+    }
+
+    function GetDswpdData() {
+        var dsp_pid = jQuery("#ProjectId").val();
+        var url = '@Url.Action("get_dswpd", "controls")';
+
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { project_id: dsp_pid },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.length > 0) {
+                    //console.log(data);
+                    var rows = '';
+
+                    var count = 0;
+                    jQuery.each(data, function (i, item) {
+                        ++count;
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.parameterName + '</td><td>' + item.dswpdYN + '</td><td>' + item.designSubmitApplicantCmt + '</td><td class="text-center"><button onclick="javascript:Delete(' + item.designSubmittedId + ', ' + item.projectId + ', \'CcModDesignSubmitDetail\'); GetDswpdData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                        //<button onclick="javascript:EditDesiSub(' + item.designSubmittedId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button>
+                    });
+
+                    jQuery("#tbodyDesignSubProjDoc").html(rows);
+                } else {
+                    jQuery("#tbodyDesignSubProjDoc").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tbodyDesignSubProjDoc").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+            }
+        });
+    }
+
+    function EditDesiSub(id, projectId) {
+	    var url = '@Url.Action("gsdswpd", "controls")';
+	    jQuery.ajax({
+		    type: "GET",
+		    url: url,
+		    data: { id: id, projectId: projectId },
+		    dataType: "json",
+		    success: function (data, status, jqXHR) {
+			    console.log('Single Analyze Options Detail');
+
+			    if (data.designSubmittedId != '') {
+				    SetHiddenValue('DesignSubmittedId', data.designSubmittedId);
+				    jQuery("#DesignSubmittedParameterId option[value=" + data.designSubmittedParameterId + "]").prop('selected', true);
+				    $(":radio[name='dswpdYN'][value='" + data.dswpdYN + "']").attr('checked', true);
+				    SetTextValue('DesignSubmitApplicantCmt', data.designSubmitApplicantCmt);
+			    }
+		    }, error: function (jqXHR, exception) {
+			    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			    Notification('error', 'Error Occured', errorMsg);
+		    }
+	    });
+    }
+</script>

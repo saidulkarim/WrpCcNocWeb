@@ -13,14 +13,12 @@ namespace WrpCcNocWeb.Models
         [Column("DesignSubmittedId", Order = 0)]
         public long DesignSubmittedId { get; set; }
 
-
         [Required]
         [Column("ProjectId", Order = 1)]
         [Display(Name = "Name of Project")]
         public long ProjectId { get; set; }
         [ForeignKey("ProjectId")]
         public virtual CcModAppProjectCommonDetail CcModAppProjectCommonDetail { get; set; }
-
 
         [Required]
         [Column("DesignSubmittedParameterId", Order = 2)]
@@ -29,7 +27,6 @@ namespace WrpCcNocWeb.Models
         [ForeignKey("DesignSubmittedParameterId")]
         public virtual LookUpCcModDesignSubmitParam LookUpCcModDesignSubmitParam { get; set; }
 
-
         [Required]
         [Column("YesNoId", Order = 3)]
         [Display(Name = "Was there Design Submitted with this Parameter?")]
@@ -37,12 +34,10 @@ namespace WrpCcNocWeb.Models
         [ForeignKey("YesNoId")]
         public virtual LookUpCcModYesNo LookUpCcModYesNoDesign { get; set; }
 
-
         [Column("DesignSubmitApplicantCmt", Order = 4)]
         [MaxLength(150)]
         [Display(Name = "Applicant Comments")]        
         public string DesignSubmitApplicantCmt { get; set; }
-
 
         [Column("DesignSubmitAuthorityCmt", Order = 5)]
         [MaxLength(150)]

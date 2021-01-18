@@ -923,76 +923,33 @@
                                     </th>
                                 </tr>
                                 <tr>
-                                    @{
-                                        yesTickMark = string.Empty;
-                                        noTickMark = string.Empty;
+                                    @{ yesTickMark = string.Empty;
+                                                    noTickMark = string.Empty;
 
-                                        if (pcd.AnalyzeOptYesNoId == 1)
-                                        {
-                                            yesTickMark = "<span class='fe-check'></span>";
-                                            noTickMark = "";
-                                        }
-                                        else
-                                        {
-                                            yesTickMark = "";
-                                            noTickMark = "<span class='fe-check'></span>";
-                                        }
+                                                    if (pcd.AnalyzeOptYesNoId == 1)
+                                                    {
+                                                        yesTickMark = "<span class='fe-check'></span>";
+                                                        noTickMark = "";
+                                                    }
+                                                    else
+                                                    {
+                                                        yesTickMark = "";
+                                                        noTickMark = "<span class='fe-check'></span>";
+                                                    }
 
                                         <td class="text-center">@Html.Raw(yesTickMark)</td>
-                                        <td class="text-center">@Html.Raw(noTickMark)</td>
-                                        <td>@pcd.AnalyzeOptionsApplicantCmt</td>
-                                        <td>@pcd.AnalyzeOptionsAuthorityCmt</td>
-                                    }
+                                                    <td class="text-center">@Html.Raw(noTickMark)</td>
+                                                                <td>@pcd.AnalyzeOptionsApplicantCmt</td>
+                                                                            <td>@pcd.AnalyzeOptionsAuthorityCmt</td> }
                                 </tr>
                             </table>
                             @if (pcd.AnalyzeOptYesNoId == 1)
                             {
-                                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                @if (prev_lang == 1)
-                                                {<span>বিকল্প</span>}
-                                                else
-                                                {<span>Options</span>}
-                                            </th>
-                                            <th>
-                                                @if (prev_lang == 1)
-                                                {<span>বিবরণ</span>}
-                                                else
-                                                {<span>Description</span>}
-                                            </th>
-                                            <th>
-                                                @if (prev_lang == 1)
-                                                {<span>মন্তব্য</span>}
-                                                else
-                                                {<span>Remarks</span>}
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tbodyAnalyzeOptFulfillObjPreview">
-                                        @{
-                                            foreach (AnalyzeOptionsDetailTemp aod in (List<AnalyzeOptionsDetailTemp>)aodt)
-                                            {
-                                                if (string.IsNullOrEmpty(aod.Error))
-                                                {
-                                                    <tr>
-                                                        <td>@aod.OptionNumber</td>
-                                                        <td>@aod.AnalyzeDescription</td>
-                                                        <td>@aod.AnalyzeRemarks</td>
-                                                    </tr>
-                                                }
-                                                else
-                                                {
-                                                    <tr>
-                                                        <td colspan="3">@aod.Error</td>
-                                                    </tr>
-                                                }
-                                            }
-                                        }
-                                    </tbody>
-                                </table>
-                            }
+                        var aod = ViewData["AnalyzeOptionsDetail"];
+                            await Html.RenderPartialAsync("controls/_AnalyzeOptionFulfillObjectView.cshtml",
+                                new ViewDataDictionary(ViewData) {
+                                        { "vFormLanguage", prev_lang },
+                                        { "vAnalyzeOptionsDetailTemp", aod }}); }
                         </td>
                         <td>
                             <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Analyze Options', 'AnalyzeOptionsFulfillObjective');"
@@ -1008,107 +965,11 @@
                         <td colspan="3">
                             <h5>
                                 @if (prev_lang == 1)
-                                {<span>৫. প্রকল্প নথির সাথে ডিজাইন জমা দেওয়া</span>}
+                                {<span>৫. প্রকল্পের দলিলাদির সাথে ডিজাইন সংযোজন</span>}
                                 else
-                                {<span>5. Design submitted with project document</span>}
+                                {<span>5. Design Submitted with Project Document</span>}
                             </h5>
-                        </td>
-                    </tr>
 
-                    <tr style="vertical-align: top; text-align: left;">
-                        <td style="width: 250px;">
-                            <b>
-                                @if (prev_lang == 1)
-                                {<span>i. নথি জমা দেওয়া</span>}
-                                else
-                                {<span>i. Design Submition</span>}
-                            </b>
-                        </td>
-                        <td>
-                            <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">
-                                            @if (prev_lang == 1)
-                                            {<span>প্যারামিটার</span>}
-                                            else
-                                            {<span>Parameters</span>}
-                                        </th>
-                                        <th>
-                                            @if (prev_lang == 1)
-                                            {<span>হ্যাঁ</span>}
-                                            else
-                                            {<span>Yes</span>}
-                                        </th>
-                                        <th>
-                                            @if (prev_lang == 1)
-                                            {<span>না</span>}
-                                            else
-                                            {<span>No</span>}
-                                        </th>
-                                        <th>
-                                            @if (prev_lang == 1)
-                                            {<span>আবেদনকারীর মন্তব্য</span>}
-                                            else
-                                            {<span>Applicant Comments</span>}
-                                        </th>
-                                        <th>
-                                            @if (prev_lang == 1)
-                                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
-                                            else
-                                            {<span>Authority Comments</span>}
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tbodyDesignSubProjDocPreview">
-                                    @{
-                                        foreach (DesignSubmitDetailTemp dsdt in (List<DesignSubmitDetailTemp>)dsd)
-                                        {
-                                            yesTickMark = string.Empty;
-                                            noTickMark = string.Empty;
-
-                                            if (dsdt.dswpdYN == 1)
-                                            {
-                                                yesTickMark = "<span class='fe-check'></span>";
-                                                noTickMark = "";
-                                            }
-                                            else
-                                            {
-                                                yesTickMark = "";
-                                                noTickMark = "<span class='fe-check'></span>";
-                                            }
-
-                                            if (string.IsNullOrEmpty(dsdt.Error))
-                                            {
-                                                <tr>
-                                                    <td>
-                                                        @if (prev_lang == 1)
-                                                        {
-                                                            <span>@dsdt.ParameterNameBn</span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span>@dsdt.ParameterNameBn</span>
-                                                        }
-                                                    </td>
-                                                    <td class="text-center">@Html.Raw(yesTickMark)</td>
-                                                    <td class="text-center">@Html.Raw(noTickMark)</td>
-                                                    <td>@dsdt.DesignSubmitApplicantCmt</td>
-                                                    <td>@dsdt.DesignSubmitAuthorityCmt</td>
-                                                </tr>
-                                            }
-                                            else
-                                            {
-                                                <tr>
-                                                    <td colspan="5">@dsdt.Error</td>
-                                                </tr>
-                                            }
-                                        }
-                                    }
-                                </tbody>
-                            </table>
-                        </td>
-                        <td>
                             <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Design Submitted with Project Document', 'DesignSubmittedWithProjectDocument');"
                                class="btn btn-sm btn-info waves-effect comment" data-close="false"
                                data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
@@ -1116,6 +977,18 @@
                                 <i class="mdi mdi-comment-text-multiple"></i>
                             </a>
                         </td>
+                    </tr>
+
+                    <tr style="vertical-align: top; text-align: left;">                        
+                        <td colspan="3">
+                            @{ var dspdtl = ViewData["DesignSubmitDetail"];
+                                var gsdspd = ViewData["SubDesignSubmitDetail"];
+                                await Html.RenderPartialAsync("controls/_DesignSubmitProjectDocView.cshtml",
+                                    new ViewDataDictionary(ViewData) {
+                                        { "vFormLanguage", prev_lang },
+                                        { "vDesignSubmitDetail", dspdtl },
+                                        { "vGetDesignSubmitProjDoc", gsdspd }}); }
+                        </td>                        
                     </tr>
 
                     <tr>
