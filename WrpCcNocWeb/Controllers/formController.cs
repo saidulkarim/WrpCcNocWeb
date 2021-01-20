@@ -4695,7 +4695,7 @@ namespace WrpCcNocWeb.Controllers
 
                 ViewBag.ProjectCommonDetail = _pcd;
 
-                LoadDropdownData();
+                LoadDropdownDataForForm31();
                 FcmpNewEmptyForm();
 
                 //TempData["Message"] = ch.ShowMessage(Sign.Info, "Information", "Please enter new project information.");                
@@ -4707,8 +4707,7 @@ namespace WrpCcNocWeb.Controllers
             }
             else
             {
-                LoadDropdownData();
-
+                LoadDropdownDataForForm31();
                 CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(_psi.ProjectId);
 
                 if (_pcd != null)
@@ -7787,8 +7786,8 @@ namespace WrpCcNocWeb.Controllers
 
             ViewBag.LookUpCcModFishWaterArea = _db.LookUpCcModFishWaterArea.ToList();
 
-            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.ToList();
-            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.ToList();
+            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.OrderBy(o => o.ParameterName).ToList();
+            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.OrderBy(o => o.SIAParameterName).ToList();
             ViewBag.LookUpCcModEcoAndFinancial = _db.LookUpCcModEcoAndFinancial.ToList();
 
             ViewBag.LookUpCcModNWPArticle = _db.LookUpCcModNWPArticle.ToList();
@@ -8348,8 +8347,8 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.LookUpCcModKhalType = _db.LookUpCcModKhalType.ToList();
             ViewBag.LookUpCcModRiverType = _db.LookUpCcModRiverType.ToList();
             ViewBag.LookUpCcModDrainageCondition = _db.LookUpCcModDrainageCondition.ToList();
-            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.ToList();
-            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.ToList();
+            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.OrderBy(o => o.ParameterName).ToList();
+            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.OrderBy(o => o.SIAParameterName).ToList();
             ViewBag.LookUpCcModEcoAndFinancial = _db.LookUpCcModEcoAndFinancial.ToList();
 
             List<CcModPrjCompatNWPDetail> _compatnwpdetail = new List<CcModPrjCompatNWPDetail>();
@@ -8382,8 +8381,8 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.LookUpCcModKhalType = _db.LookUpCcModKhalType.ToList();//multi
             ViewBag.LookUpCcModRiverType = _db.LookUpCcModRiverType.ToList();
             ViewBag.LookUpCcModDrainageCondition = _db.LookUpCcModDrainageCondition.ToList();//multi
-            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.ToList();
-            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.ToList();
+            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.OrderBy(o => o.ParameterName).ToList();
+            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.OrderBy(o => o.SIAParameterName).ToList();
             ViewBag.LookUpCcModEcoAndFinancial = _db.LookUpCcModEcoAndFinancial.ToList();
 
             ViewBag.LookUpCcModNWPArticle = _db.LookUpCcModNWPArticle.ToList();
@@ -8673,12 +8672,10 @@ namespace WrpCcNocWeb.Controllers
             return appState;
         }
 
-        private void LoadDropdownData()
+        private void LoadDropdownDataForForm31()
         {
             #region Dropdown Data Loading
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
-            //ViewBag.LookUpAdminBndUpazila = _db.LookUpAdminBndUpazila.ToList();
-            //ViewBag.LookUpAdminBndUnion = _db.LookUpAdminBndUnion.ToList();
 
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList();
             ViewBag.LookUpCcModDeltPlan2100HotSpot = _db.LookUpCcModDeltPlan2100HotSpot.ToList();
@@ -8691,8 +8688,8 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.DesignSubmittedParameterId = _db.LookUpCcModDesignSubmitParam.ToList();
 
             ViewBag.LookUpCcModDrainageCondition = _db.LookUpCcModDrainageCondition.ToList();
-            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.ToList();
-            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.ToList();
+            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.OrderBy(o => o.ParameterName).ToList();
+            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.OrderBy(o => o.SIAParameterName).ToList();
             ViewBag.LookUpCcModEcoAndFinancial = _db.LookUpCcModEcoAndFinancial.ToList();
 
             ViewBag.LookUpCcModNWPArticle = _db.LookUpCcModNWPArticle.ToList();
@@ -8727,8 +8724,8 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.DesignSubmittedParameterId = _db.LookUpCcModDesignSubmitParam.ToList();
 
             ViewBag.LookUpCcModDrainageCondition = _db.LookUpCcModDrainageCondition.ToList();
-            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.ToList();
-            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.ToList();
+            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.OrderBy(o => o.ParameterName).ToList();
+            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.OrderBy(o => o.SIAParameterName).ToList();
             ViewBag.LookUpCcModEcoAndFinancial = _db.LookUpCcModEcoAndFinancial.ToList();
 
             ViewBag.LookUpCcModNWPArticle = _db.LookUpCcModNWPArticle.ToList();
@@ -8756,8 +8753,8 @@ namespace WrpCcNocWeb.Controllers
 
             ViewBag.DesignSubmittedParameterId = _db.LookUpCcModDesignSubmitParam.ToList();
             ViewBag.LookUpCcModDrainageCondition = _db.LookUpCcModDrainageCondition.ToList();
-            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.ToList();
-            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.ToList();
+            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.OrderBy(o => o.ParameterName).ToList();
+            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.OrderBy(o => o.SIAParameterName).ToList();
             ViewBag.LookUpCcModEcoAndFinancial = _db.LookUpCcModEcoAndFinancial.ToList();
 
             ViewBag.LookUpCcModNWPArticle = _db.LookUpCcModNWPArticle.ToList();
@@ -8794,8 +8791,8 @@ namespace WrpCcNocWeb.Controllers
 
             ViewBag.DesignSubmittedParameterId = _db.LookUpCcModDesignSubmitParam.ToList();
             //ViewBag.LookUpCcModDrainageCondition = _db.LookUpCcModDrainageCondition.ToList();
-            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.ToList();
-            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.ToList();
+            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.OrderBy(o => o.ParameterName).ToList();
+            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.OrderBy(o => o.SIAParameterName).ToList();
             ViewBag.LookUpCcModEcoAndFinancial = _db.LookUpCcModEcoAndFinancial.ToList();
 
             ViewBag.LookUpCcModNWPArticle = _db.LookUpCcModNWPArticle.ToList();
@@ -8835,8 +8832,8 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.DesignSubmittedParameterId = _db.LookUpCcModDesignSubmitParam.ToList();
 
             ViewBag.LookUpCcModDrainageCondition = _db.LookUpCcModDrainageCondition.ToList();
-            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.ToList();
-            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.ToList();
+            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.OrderBy(o => o.ParameterName).ToList();
+            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.OrderBy(o => o.SIAParameterName).ToList();
             ViewBag.LookUpCcModEcoAndFinancial = _db.LookUpCcModEcoAndFinancial.ToList();
 
             ViewBag.LookUpCcModNWPArticle = _db.LookUpCcModNWPArticle.ToList();
@@ -8875,8 +8872,8 @@ namespace WrpCcNocWeb.Controllers
 
             ViewBag.DesignSubmittedParameterId = _db.LookUpCcModDesignSubmitParam.ToList();
             ViewBag.LookUpCcModDrainageCondition = _db.LookUpCcModDrainageCondition.ToList();
-            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.ToList();
-            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.ToList();
+            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.OrderBy(o => o.ParameterName).ToList();
+            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.OrderBy(o => o.SIAParameterName).ToList();
             ViewBag.LookUpCcModEcoAndFinancial = _db.LookUpCcModEcoAndFinancial.ToList();
 
             ViewBag.LookUpCcModNWPArticle = _db.LookUpCcModNWPArticle.ToList();
@@ -8908,8 +8905,8 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.LookUpCcModWtrDiversionSource = _db.LookUpCcModWtrDiversionSource.ToList();
             ViewBag.LookUpCcModGrndWtrWthdrwParam = _db.LookUpCcModGrndWtrWthdrwParam.ToList();
 
-            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.ToList();
-            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.ToList();
+            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.OrderBy(o => o.ParameterName).ToList();
+            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.OrderBy(o => o.SIAParameterName).ToList();
 
             ViewBag.LookUpCcModNWPArticle = _db.LookUpCcModNWPArticle.ToList();
             ViewBag.LookUpCcModNWMPProgramme = _db.LookUpCcModNWMPProgramme.ToList();
@@ -8944,8 +8941,8 @@ namespace WrpCcNocWeb.Controllers
 
             ViewBag.DesignSubmittedParameterId = _db.LookUpCcModDesignSubmitParam.ToList();
             //ViewBag.LookUpCcModDrainageCondition = _db.LookUpCcModDrainageCondition.ToList();
-            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.ToList();
-            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.ToList();
+            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.OrderBy(o => o.ParameterName).ToList();
+            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.OrderBy(o => o.SIAParameterName).ToList();
             ViewBag.LookUpCcModEcoAndFinancial = _db.LookUpCcModEcoAndFinancial.ToList();
 
             ViewBag.LookUpCcModNWPArticle = _db.LookUpCcModNWPArticle.ToList();
@@ -8983,8 +8980,8 @@ namespace WrpCcNocWeb.Controllers
             //ViewBag.LookUpCcModGroundWaterQuality = _db.LookUpCcModGroundWaterQuality.ToList();
             //ViewBag.DesignSubmittedParameterId = _db.LookUpCcModDesignSubmitParam.ToList();
 
-            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.ToList();
-            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.ToList();
+            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.OrderBy(o => o.ParameterName).ToList();
+            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.OrderBy(o => o.SIAParameterName).ToList();
             ViewBag.LookUpCcModEcoAndFinancial = _db.LookUpCcModEcoAndFinancial.ToList();
 
             ViewBag.LookUpCcModNWPArticle = _db.LookUpCcModNWPArticle.ToList();
@@ -9023,8 +9020,8 @@ namespace WrpCcNocWeb.Controllers
             //ViewBag.LookUpCcModGroundWaterQuality = _db.LookUpCcModGroundWaterQuality.ToList();
             //ViewBag.DesignSubmittedParameterId = _db.LookUpCcModDesignSubmitParam.ToList();
 
-            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.ToList();
-            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.ToList();
+            ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.OrderBy(o => o.ParameterName).ToList();
+            ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.OrderBy(o => o.SIAParameterName).ToList();
             ViewBag.LookUpCcModEcoAndFinancial = _db.LookUpCcModEcoAndFinancial.ToList();
 
             ViewBag.LookUpCcModNWPArticle = _db.LookUpCcModNWPArticle.ToList();
@@ -9884,9 +9881,7 @@ namespace WrpCcNocWeb.Controllers
                                 EcoAndFinancialParamId = d.EcoAndFinancialParamId,
                                 EcoAndFinancialParamName = l.EcoAndFinancialParamName,
                                 EcoAndFinancialParamNameBn = l.EcoAndFinancialParamNameBn,
-                                EcoAndFinancialParamUnit = l.EcoAndFinancialUnit,
-                                EcoAndFinancialApplicantCmt = d.EcoAndFinancialApplicantCmt,
-                                EcoAndFinancialAuthorityCmt = d.EcoAndFinancialAuthorityCmt
+                                EcoAndFinancialParamUnitValue = d.EcoAndFinancialParamUnitValue
                             }).ToList();
 
                 if (_details.Count == 0)
@@ -11631,479 +11626,6 @@ namespace WrpCcNocWeb.Controllers
         }
         #endregion
 
-        #region EIA
-        //form/EIADetailSave :: eiads
-        [HttpPost]
-        public JsonResult eiads(CcModPrjEIADetail _eia)
-        {
-            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
-            int result = 0;
-
-            try
-            {
-                if (_eia != null && _eia.ProjectId != 0)
-                {
-                    using (var dbContextTransaction = _db.Database.BeginTransaction())
-                    {
-                        if (_eia.EIAId != 0)
-                        {
-                            _db.Entry(_eia).State = EntityState.Modified;
-                            result = _db.SaveChanges();
-
-                            if (result > 0)
-                            {
-                                dbContextTransaction.Commit();
-
-                                noti = new Notification
-                                {
-                                    id = _eia.EIAId.ToString(),
-                                    status = "success",
-                                    message = "Environmental Impact Assessment (EIA) information has been updated successfully."
-                                };
-                            }
-                            else
-                            {
-                                dbContextTransaction.Rollback();
-
-                                noti = new Notification
-                                {
-                                    id = _eia.EIAId.ToString(),
-                                    status = "error",
-                                    message = "Environmental Impact Assessment (EIA) information not updated."
-                                };
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                _db.CcModPrjEIADetail.Add(_eia);
-                                result = _db.SaveChanges();
-
-                                if (result > 0)
-                                {
-                                    dbContextTransaction.Commit();
-
-                                    noti = new Notification
-                                    {
-                                        id = _eia.EIAId.ToString(),
-                                        status = "success",
-                                        message = "Environmental Impact Assessment (EIA) information has been saved successfully."
-                                    };
-                                }
-                                else
-                                {
-                                    dbContextTransaction.Rollback();
-
-                                    noti = new Notification
-                                    {
-                                        id = _eia.EIAId.ToString(),
-                                        status = "error",
-                                        message = "Environmental Impact Assessment (EIA) information not saved."
-                                    };
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                dbContextTransaction.Rollback();
-                                var message = ch.ExtractInnerException(ex);
-
-                                noti = new Notification
-                                {
-                                    id = _eia.EIAId.ToString(),
-                                    status = "error",
-                                    message = "Transaction has been rollbacked. " + message
-                                };
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ch.ExtractInnerException(ex);
-
-                noti = new Notification
-                {
-                    id = "0",
-                    status = "error",
-                    message = message
-                };
-            }
-
-            return Json(noti);
-        }
-
-        //form/GetAnalyzeOptionsFulfillObjective :: get_eiad
-        [HttpGet]
-        public JsonResult get_eiad(long project_id)
-        {
-            try
-            {
-                var _details = (from d in _db.CcModPrjEIADetail
-                                join l in _db.LookUpCcModEIAParameter on d.EIAParameterId equals l.EIAParameterId
-                                where d.ProjectId != null && d.ProjectId == project_id
-                                select new
-                                {
-                                    d.EIAId,
-                                    d.ProjectId,
-                                    d.EIAParameterId,
-                                    l.ParameterName,
-                                    d.PreProjectSituation,
-                                    d.PostProjectSituation,
-                                    d.PositiveNegativeImpact,
-                                    d.MitigationPlan
-                                }).ToList();
-
-                if (_details.Count > 0)
-                {
-                    return Json(_details);
-                }
-                else
-                {
-                    _details = null;
-
-                    noti = new Notification
-                    {
-                        id = string.Empty,
-                        status = "error",
-                        message = "Sorry, no data found."
-                    };
-
-                    return Json(noti);
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ch.ExtractInnerException(ex);
-
-                noti = new Notification
-                {
-                    id = string.Empty,
-                    status = "error",
-                    message = message
-                };
-
-                return Json(noti);
-            }
-        }
-        #endregion
-
-        #region SIA
-        //form/SIADetailSave :: eiads
-        [HttpPost]
-        public JsonResult siads(CcModPrjSIADetail _sia)
-        {
-            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
-            int result = 0;
-
-            try
-            {
-                if (_sia != null && _sia.ProjectId != 0)
-                {
-                    using (var dbContextTransaction = _db.Database.BeginTransaction())
-                    {
-                        if (_sia.SIAId != 0)
-                        {
-                            _db.Entry(_sia).State = EntityState.Modified;
-                            result = _db.SaveChanges();
-
-                            if (result > 0)
-                            {
-                                dbContextTransaction.Commit();
-
-                                noti = new Notification
-                                {
-                                    id = _sia.SIAId.ToString(),
-                                    status = "success",
-                                    message = "Social Impact Assessment (EIA) information has been updated successfully."
-                                };
-                            }
-                            else
-                            {
-                                dbContextTransaction.Rollback();
-
-                                noti = new Notification
-                                {
-                                    id = _sia.SIAId.ToString(),
-                                    status = "error",
-                                    message = "Social Impact Assessment (EIA) information not updated."
-                                };
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                _db.CcModPrjSIADetail.Add(_sia);
-                                result = _db.SaveChanges();
-
-                                if (result > 0)
-                                {
-                                    dbContextTransaction.Commit();
-
-                                    noti = new Notification
-                                    {
-                                        id = _sia.SIAId.ToString(),
-                                        status = "success",
-                                        message = "Social Impact Assessment (EIA) information has been saved successfully."
-                                    };
-                                }
-                                else
-                                {
-                                    dbContextTransaction.Rollback();
-
-                                    noti = new Notification
-                                    {
-                                        id = _sia.SIAId.ToString(),
-                                        status = "error",
-                                        message = "Social Impact Assessment (EIA) information not saved."
-                                    };
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                dbContextTransaction.Rollback();
-                                var message = ch.ExtractInnerException(ex);
-
-                                noti = new Notification
-                                {
-                                    id = _sia.SIAId.ToString(),
-                                    status = "error",
-                                    message = "Transaction has been rollbacked. " + message
-                                };
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ch.ExtractInnerException(ex);
-
-                noti = new Notification
-                {
-                    id = "0",
-                    status = "error",
-                    message = message
-                };
-            }
-
-            return Json(noti);
-        }
-
-        //form/GetAnalyzeOptionsFulfillObjective :: get_eiad
-        [HttpGet]
-        public JsonResult get_siad(long project_id)
-        {
-            try
-            {
-                var _details = (from d in _db.CcModPrjSIADetail
-                                join l in _db.LookUpCcModSIAParameter on d.SIAParameterId equals l.SIAParameterId
-                                where d.ProjectId != null && d.ProjectId == project_id
-                                select new
-                                {
-                                    d.SIAId,
-                                    d.ProjectId,
-                                    d.SIAParameterId,
-                                    l.SIAParameterName,
-                                    d.PreProjectSituation,
-                                    d.PostProjectSituation,
-                                    d.PositiveNegativeImpact,
-                                    d.MitigationPlan
-                                }).ToList();
-
-                if (_details.Count > 0)
-                {
-                    return Json(_details);
-                }
-                else
-                {
-                    _details = null;
-
-                    noti = new Notification
-                    {
-                        id = string.Empty,
-                        status = "error",
-                        message = "Sorry, no data found."
-                    };
-
-                    return Json(noti);
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ch.ExtractInnerException(ex);
-
-                noti = new Notification
-                {
-                    id = string.Empty,
-                    status = "error",
-                    message = message
-                };
-
-                return Json(noti);
-            }
-        }
-        #endregion
-
-        #region Economical & Financial Analysis
-        //form/EconomicalFinancialAnalysisSave :: efas
-        [HttpPost]
-        public JsonResult efas(CcModPrjEcoFinAnalysisDetail _efas)
-        {
-            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
-            int result = 0;
-
-            try
-            {
-                if (_efas != null && _efas.ProjectId != 0)
-                {
-                    using (var dbContextTransaction = _db.Database.BeginTransaction())
-                    {
-                        if (_efas.EconomicalAndFinancialId != 0)
-                        {
-                            _db.Entry(_efas).State = EntityState.Modified;
-                            result = _db.SaveChanges();
-
-                            if (result > 0)
-                            {
-                                dbContextTransaction.Commit();
-
-                                noti = new Notification
-                                {
-                                    id = _efas.EconomicalAndFinancialId.ToString(),
-                                    status = "success",
-                                    message = "Economical & financial analysis information has been updated successfully."
-                                };
-                            }
-                            else
-                            {
-                                dbContextTransaction.Rollback();
-
-                                noti = new Notification
-                                {
-                                    id = _efas.EconomicalAndFinancialId.ToString(),
-                                    status = "error",
-                                    message = "Economical & financial analysis information not updated."
-                                };
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                _db.CcModPrjEcoFinAnalysisDetail.Add(_efas);
-                                result = _db.SaveChanges();
-
-                                if (result > 0)
-                                {
-                                    dbContextTransaction.Commit();
-
-                                    noti = new Notification
-                                    {
-                                        id = _efas.EconomicalAndFinancialId.ToString(),
-                                        status = "success",
-                                        message = "Economical & financial analysis information has been saved successfully."
-                                    };
-                                }
-                                else
-                                {
-                                    dbContextTransaction.Rollback();
-
-                                    noti = new Notification
-                                    {
-                                        id = _efas.EconomicalAndFinancialId.ToString(),
-                                        status = "error",
-                                        message = "Economical & financial analysis information not saved."
-                                    };
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                dbContextTransaction.Rollback();
-                                var message = ch.ExtractInnerException(ex);
-
-                                noti = new Notification
-                                {
-                                    id = _efas.EconomicalAndFinancialId.ToString(),
-                                    status = "error",
-                                    message = "Transaction has been rollbacked. " + message
-                                };
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ch.ExtractInnerException(ex);
-
-                noti = new Notification
-                {
-                    id = "0",
-                    status = "error",
-                    message = message
-                };
-            }
-
-            return Json(noti);
-        }
-
-        //form/GerEconomicalFinancialAnalysis :: get_efad
-        [HttpGet]
-        public JsonResult get_efad(long project_id)
-        {
-            try
-            {
-                var _details = (from d in _db.CcModPrjEcoFinAnalysisDetail
-                                join l in _db.LookUpCcModEcoAndFinancial on d.EcoAndFinancialParamId equals l.EcoAndFinancialParamId
-                                where d.ProjectId != null && d.ProjectId == project_id
-                                select new
-                                {
-                                    d.EconomicalAndFinancialId,
-                                    d.ProjectId,
-                                    d.EcoAndFinancialParamId,
-                                    l.EcoAndFinancialParamName,
-                                    EcoAndFinancialParamUnit = l.EcoAndFinancialUnit,
-                                    d.EcoAndFinancialApplicantCmt,
-                                    d.EcoAndFinancialAuthorityCmt
-                                }).ToList();
-
-                if (_details.Count > 0)
-                {
-                    return Json(_details);
-                }
-                else
-                {
-                    _details = null;
-
-                    noti = new Notification
-                    {
-                        id = string.Empty,
-                        status = "error",
-                        message = "Sorry, no data found."
-                    };
-
-                    return Json(noti);
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ch.ExtractInnerException(ex);
-
-                noti = new Notification
-                {
-                    id = string.Empty,
-                    status = "error",
-                    message = message
-                };
-
-                return Json(noti);
-            }
-        }
-        #endregion
-
         #region Form 3.1 One to One Save > Flood Control Management
         //Tehnical Info
         //form/Form31TechInfoOneToOneSave :: f31otos
@@ -12165,7 +11687,8 @@ namespace WrpCcNocWeb.Controllers
                         pcd.AnalyzeOptionsAuthorityCmt = CommonDetail.AnalyzeOptionsAuthorityCmt;
                         pcd.EnvAndSocialYesNoId = CommonDetail.EnvAndSocialYesNoId;
                         pcd.EnvAndSocialApplicantCmt = CommonDetail.EnvAndSocialApplicantCmt;
-                        pcd.EnvAndSocialAuthorityCmt = CommonDetail.EnvAndSocialAuthorityCmt;
+                        //pcd.EnvAndSocialAuthorityCmt = CommonDetail.EnvAndSocialAuthorityCmt;
+                        pcd.RecommendedOption = CommonDetail.RecommendedOption;
                         #endregion
 
                         _db.Entry(pcd).State = EntityState.Modified;
@@ -12328,7 +11851,8 @@ namespace WrpCcNocWeb.Controllers
                                 p31i.AvgMonthlyIncome = Project31Indv.AvgMonthlyIncome;
                                 p31i.UseOfToolsYesNoId = Project31Indv.UseOfToolsYesNoId;
                                 p31i.ToolsApplicantComments = Project31Indv.ToolsApplicantComments;
-                                p31i.ToolsAuthorityComments = Project31Indv.ToolsAuthorityComments;
+                                //p31i.ToolsAuthorityComments = Project31Indv.ToolsAuthorityComments;
+                                p31i.UseOfAppropToolsDescription = Project31Indv.UseOfAppropToolsDescription;
                                 #endregion
 
                                 _db.Entry(p31i).State = EntityState.Modified;
@@ -12475,53 +11999,46 @@ namespace WrpCcNocWeb.Controllers
                         #region Common Detail Data Binding
                         pcd.CompatNWPYesNoId = CommonDetail.CompatNWPYesNoId;
                         pcd.CompatibilityNWPApplicantCmt = CommonDetail.CompatibilityNWPApplicantCmt;
-                        pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
-                        //pcd.CompatibilityNWPDocLink //file
+                        //pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
                         pcd.NWMPCompatYesNoId = CommonDetail.NWMPCompatYesNoId;
                         pcd.NWMPApplicantCmt = CommonDetail.NWMPApplicantCmt;
-                        pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
-                        //pcd.NWMPDocLink //file
+                        //pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
                         pcd.FYPYesNoId = CommonDetail.FYPYesNoId;
                         pcd.FYPApplicantCmt = CommonDetail.FYPApplicantCmt;
-                        pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
+                        //pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
                         pcd.SDGYesNoId = CommonDetail.SDGYesNoId;
                         pcd.SDGApplicantCmt = CommonDetail.SDGApplicantCmt;
-                        pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
-                        //pcd.SDGDocLink //file
+                        //pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
                         pcd.DeltaPlanYesNoId = CommonDetail.DeltaPlanYesNoId;
                         pcd.DeltaPlan2100ApplicantCmt = CommonDetail.DeltaPlan2100ApplicantCmt;
-                        pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
-                        //pcd.DeltaPlan2100DocLink //file
+                        //pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
                         pcd.CostalZoneYesNoId = CommonDetail.CostalZoneYesNoId;
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
-                        pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
-                        //pcd.CostalZoneDocLink //file.
-
+                        //pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
                         pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
-                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
-                        //pcd.CiwupDocLink //file.
-
+                        //pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
-                        pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
-                        //pcd.AgriDocLink //file
+                        //pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
                         pcd.FisheriesYesNoId = CommonDetail.FisheriesYesNoId;
                         pcd.FisheriesApplicantCmt = CommonDetail.FisheriesApplicantCmt;
-                        pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
-                        //pcd.FisheriesDocLink //file
+                        //pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
                         pcd.IWRMYesNoId = CommonDetail.IWRMYesNoId;
                         pcd.IWRMApplicantCmt = CommonDetail.IWRMApplicantCmt;
-                        pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
+                        //pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
                         pcd.GPWMYesNoId = CommonDetail.GPWMYesNoId;
                         pcd.GPWMApplicantCmt = CommonDetail.GPWMApplicantCmt;
-                        pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
+                        //pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
                         pcd.FeasibilityYesNoId = CommonDetail.FeasibilityYesNoId;
                         pcd.FeasibilityApplicantCmt = CommonDetail.FeasibilityApplicantCmt;
-                        pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
+                        //pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
                         pcd.SocialIssuesYesNoId = CommonDetail.SocialIssuesYesNoId;
                         pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;
-                        pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        //pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        pcd.GuidelinesFollowedYesNoId = CommonDetail.GuidelinesFollowedYesNoId;
+                        pcd.GuidelinesFollowedAppCmt = CommonDetail.GuidelinesFollowedAppCmt;
+                        //pcd.GuidelinesFollowedAuthCmt = CommonDetail.GuidelinesFollowedAuthCmt;
                         #endregion
 
                         #region Project 31 Individual Data Binding
@@ -12705,8 +12222,8 @@ namespace WrpCcNocWeb.Controllers
                         pcd.PaymentDocNumber = _recDetail.PaymentDocNumber;
                         pcd.PaidAmount = _recDetail.PaidAmount;
                         pcd.PaymentDate = _recDetail.PaymentDate;
-                        pcd.RecommendationId = _recDetail.RecommendationId;
-                        pcd.RecommendationComment = _recDetail.RecommendationComment;
+                        //pcd.RecommendationId = _recDetail.RecommendationId;
+                        //pcd.RecommendationComment = _recDetail.RecommendationComment;
                         #endregion
 
                         _db.Entry(pcd).State = EntityState.Modified;
@@ -19344,30 +18861,6 @@ namespace WrpCcNocWeb.Controllers
         {
             CcModPrjLocationDetail _loc = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == projectId && w.LocationId == id).FirstOrDefault();
             return Json(_loc);
-        }        
-
-        //form/GetSingleDesignSubmittedWithProjectDocument :: gseia
-        [HttpGet]
-        public JsonResult gseia(long id, long projectId)
-        {
-            CcModPrjEIADetail _eia = _db.CcModPrjEIADetail.Where(w => w.ProjectId == projectId && w.EIAId == id).FirstOrDefault();
-            return Json(_eia);
-        }
-
-        //form/GetSingleDesignSubmittedWithProjectDocument :: gssia
-        [HttpGet]
-        public JsonResult gssia(long id, long projectId)
-        {
-            CcModPrjSIADetail _sia = _db.CcModPrjSIADetail.Where(w => w.ProjectId == projectId && w.SIAId == id).FirstOrDefault();
-            return Json(_sia);
-        }
-
-        //form/GetSingleEcoFinAnalysisDetail :: gsefa
-        [HttpGet]
-        public JsonResult gsefa(long id, long projectId)
-        {
-            CcModPrjEcoFinAnalysisDetail _efa = _db.CcModPrjEcoFinAnalysisDetail.Where(w => w.ProjectId == projectId && w.EconomicalAndFinancialId == id).FirstOrDefault();
-            return Json(_efa);
         }
 
         //form/GetFormComments :: sfc
@@ -19923,50 +19416,97 @@ namespace WrpCcNocWeb.Controllers
                     {
                         case "DiscussWithStakeParticipntLst":
                             pcd.DiscussWithStakeParticipntLst = filename;
+                            foldername = "images/CommonDetails/DiscussStakeParticipantListDocs";
                             break;
 
                         case "DiscussWithStakeMeetingMin":
                             pcd.DiscussWithStakeMeetingMin = filename;
+                            foldername = "images/CommonDetails/DiscussStakeMeetMins";
                             break;
 
                         case "CompatibilityNWPDocLink":
                             pcd.CompatibilityNWPDocLink = filename;
+                            foldername = "images/CommonDetails/CompatNWPDocs";
                             break;
 
                         case "NWMPDocLink":
                             pcd.NWMPDocLink = filename;
+                            foldername = "images/CommonDetails/NWMPDocs";
                             break;
 
                         case "SDGDocLink":
                             pcd.SDGDocLink = filename;
+                            foldername = "images/CommonDetails/SDGDocs";
                             break;
 
                         case "DeltaPlan2100DocLink":
                             pcd.DeltaPlan2100DocLink = filename;
+                            foldername = "images/CommonDetails/DeltaPlan2100Docs";
                             break;
 
                         case "CostalZoneDocLink":
                             pcd.CostalZoneDocLink = filename;
+                            foldername = "images/CommonDetails/CostalZoneDocs";
                             break;
 
                         case "AgriDocLink":
                             pcd.AgriDocLink = filename;
+                            foldername = "images/CommonDetails/AgriDocs";
                             break;
 
                         case "FisheriesDocLink":
                             pcd.FisheriesDocLink = filename;
+                            foldername = "images/CommonDetails/FisheriesDocs";
                             break;
 
                         case "NocFileName":
                             pcd.NocFileName = filename;
+                            foldername = "images/CommonDetails/NocFiles";
                             break;
 
                         case "PaymentDocFileName":
                             pcd.PaymentDocFileName = filename;
+                            foldername = "images/CommonDetails/PayDocFiles";
                             break;
 
                         case "FYPDocLink":
                             pcd.FYPDocLink = filename;
+                            foldername = "images/CommonDetails/FYPDocs";
+                            break;
+
+                        case "EcoFinAnalysisFile":
+                            pcd.EcoFinAnalysisFile = filename;
+                            foldername = "images/CommonDetails/EcoFinAnalysis";
+                            break;
+
+                        case "EnvAndSocialEiaFile":
+                            pcd.EnvAndSocialEiaFile = filename;
+                            foldername = "images/CommonDetails/EiaFiles";
+                            break;
+
+                        case "EnvAndSocialSiaFile":
+                            pcd.EnvAndSocialSiaFile = filename;
+                            foldername = "images/CommonDetails/SiaFiles";
+                            break;
+
+                        case "CiwupDocLink":
+                            pcd.CiwupDocLink = filename;
+                            foldername = "images/CommonDetails/DmpDocs";
+                            break;
+                        
+                        case "FeasibilityStudyReportFile":
+                            pcd.FeasibilityStudyReportFile = filename;
+                            foldername = "images/CommonDetails/FeasibilityStudyReports";
+                            break;
+
+                        case "PrjDuplicateAttestedLtrFile":
+                            pcd.PrjDuplicateAttestedLtrFile = filename;
+                            foldername = "images/CommonDetails/ProjectDuplicationFiles";
+                            break;
+
+                        case "OrgHeadAttestedLetterFile":
+                            pcd.OrgHeadAttestedLetterFile = filename;
+                            foldername = "images/CommonDetails/OrgHeadAttstLtrFiles";
                             break;
                     }
 
@@ -19983,7 +19523,8 @@ namespace WrpCcNocWeb.Controllers
                             id = pcd.ProjectId.ToString(),
                             status = "success",
                             title = "Success",
-                            message = "File has been successfully uploaded."
+                            message = "File has been successfully uploaded.",
+                            data = String.Format("{0}/{1}", foldername, filename) + "###" + filename
                         };
                     }
                     else
@@ -20130,6 +19671,10 @@ namespace WrpCcNocWeb.Controllers
                     result = projectId + "_CZDL_" + DateTime.Now.ToString("yyMMddHHmmssfff");
                     break;
 
+                case "CiwupDocLink":
+                    result = projectId + "_DMP_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
                 case "AgriDocLink":
                     result = projectId + "_AGRDL_" + DateTime.Now.ToString("yyMMddHHmmssfff");
                     break;
@@ -20156,6 +19701,30 @@ namespace WrpCcNocWeb.Controllers
 
                 case "ProjectBoundaryMap":
                     result = projectId + "_PBM_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "EcoFinAnalysisFile":
+                    result = projectId + "_EFA_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "EnvAndSocialEiaFile":
+                    result = projectId + "_EIA_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "EnvAndSocialSiaFile":
+                    result = projectId + "_SIA_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+                
+                case "FeasibilityStudyReportFile":
+                    result = projectId + "_FSR_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "PrjDuplicateAttestedLtrFile":
+                    result = projectId + "_PDA_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "OrgHeadAttestedLetterFile":
+                    result = projectId + "_OHAL_" + DateTime.Now.ToString("yyMMddHHmmssfff");
                     break;
             }
 

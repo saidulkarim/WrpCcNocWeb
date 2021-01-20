@@ -1,0 +1,258 @@
+﻿@using WrpCcNocWeb.Helpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var language = int.Parse(ViewData["vFormLanguage"].ToString());
+}
+
+<div id="proj-eco-fin-ana-form">
+    <style type="text/css">
+        .select2-selection__rendered {
+            line-height: 31px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+        }
+
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+    </style>
+
+    <div id="divEcoAndFinAnalysis">
+        <div id="divEconFinAna" class="row" style="margin-left: -7px;">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">
+                                @if (language == 1)
+                                {
+                                    <span>তালিকা</span>
+                                }
+                                else
+                                {
+                                    <span>Item</span>
+                                }
+                            </th>
+
+                            <th class="text-center">
+                                @if (language == 1)
+                                {
+                                    <span>মূল্য (%)</span>
+                                }
+                                else
+                                {
+                                    <span>Value (%)</span>
+                                }
+                            </th>
+
+                            <th class="text-center"></th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-center">
+                                <input id="EconomicalAndFinancialId" type="hidden" />
+                                <select id="EcoAndFinancialParamId" name="EcoAndFinancialParamId" class="form-control" style="width: 80%;">
+                                    @if (language == 1)
+                                    {
+                                        <option value="">বাছাই করুন...</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="">Choose...</option>
+                                    }
+
+                                    @{
+                                        List<LookUpCcModEcoAndFinancial> _eaf = ViewBag.LookUpCcModEcoAndFinancial;
+
+                                        if (_eaf.Count > 0)
+                                        {
+                                            foreach (LookUpCcModEcoAndFinancial eaf in _eaf)
+                                            {
+                                                if (language == 1)
+                                                {
+                                                    <option value="@eaf.EcoAndFinancialParamId" title="@eaf.EcoAndFinancialUnit">@eaf.EcoAndFinancialParamNameBn</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@eaf.EcoAndFinancialParamId" title="@eaf.EcoAndFinancialUnit">@eaf.EcoAndFinancialParamName</option>
+                                                }
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </th>
+                            <th class="text-center">
+                                <input type="text" maxlength="50" id="EcoAndFinancialParamUnitValue" name="EcoAndFinancialParamUnitValue" class="form-control" />
+                            </th>
+
+                            <th class="text-center" style="width: 200px;">
+                                <button id="btnSaveEconFinAna" type="button" class="btn btn-success waves-effect waves-light" value="Save">
+                                    <i class="mdi mdi-content-save"></i>
+                                </button>
+
+                                <button id="btnClearEconFinAna" type="button" class="btn btn-warning  waves-effect waves-light" value="Clear">
+                                    <i class="mdi mdi-refresh"></i>
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyEcoFinAna"></tbody>
+                </table>
+            </div>
+
+            <div class="form-group">
+                <label for="EcoFinAnalysisFile">
+                    @{if (language == 1)
+                        { <span>বিশ্লেষণ আপলোড</span>}
+                        else
+                        {<span>Analysis Upload</span>}
+                    }
+                </label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input id="EcoFinAnalysisFile" name="EcoFinAnalysisFile" type="file" class="custom-file-input"
+                               onchange="UploadCommonFiles(this, 'EcoFinAnalysisFile');" />
+                        <label class="custom-file-label" for="EcoFinAnalysisFile">
+                            @if (language == 1)
+                            {
+                                <span>ফাইল পছন্দ করুন</span>
+                            }
+                            else
+                            {
+                                <span>Choose file</span>
+                            }
+                        </label>
+                    </div>
+
+                    <a id="EcoFinAnalysisFileView" href="#" target="_blank" class="btn btn-blue ml-2 text-white"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="EcoAndFinAnalysisControl" type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery("#EcoAndFinancialParamId").select2({
+            placeholder: "Select an option",
+            allowClear: true
+        }).on('change', function () {
+            var val = $("#EcoAndFinancialParamId option:selected").val();
+            var txt = $("#EcoAndFinancialParamId option:selected").text();
+        });
+
+        jQuery("#btnSaveEconFinAna").click(function () {
+            var EconomicalAndFinancialId = GetHiddenValue('EconomicalAndFinancialId');
+            EconomicalAndFinancialId = (EconomicalAndFinancialId == '') ? 0 : EconomicalAndFinancialId;
+            var EcoAndFinancialParamId = jQuery("#EcoAndFinancialParamId option:selected").val();
+            var EcoAndFinParamUnitValue = jQuery("#EcoAndFinancialParamUnitValue").val();
+
+            if (EcoAndFinancialParamId != '') {
+                var ProjectId = GetHiddenValue('ProjectId');
+                var ecoFinAnaDetail = {
+                    "EconomicalAndFinancialId": EconomicalAndFinancialId,
+                    "ProjectId": ProjectId,
+                    "EcoAndFinancialParamId": EcoAndFinancialParamId,
+                    "EcoAndFinancialParamUnitValue": EcoAndFinParamUnitValue
+                };
+
+                var url = '@Url.Action("efas", "controls")';
+                jQuery.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { _efas: ecoFinAnaDetail },
+                    dataType: "json",
+                    success: function (data, status, jqXHR) {
+                        if (data.status == 'success') {
+                            Notification('success', 'Success', data.message);
+
+                            GetEconFinAnaData();
+                            ClearEconFinAna();
+                        } else {
+                            Notification('error', 'Saving Error', data.message);
+                        }
+                    }, error: function (jqXHR, exception) {
+                        var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                        Notification('error', 'Error Occured', errorMsg);
+                    }
+                });
+            } else {
+                Notification('warning', 'Required Field', 'Please select an option!');
+                jQuery("#EcoAndFinancialParamId").focus();
+            }
+        });
+
+        jQuery("#btnClearEconFinAna").click(function () {
+            ClearEconFinAna();
+        });
+    });
+
+    function ClearEconFinAna() {
+        jQuery("#EconomicalAndFinancialId").val('');
+        jQuery("#EcoAndFinancialParamId").val('');
+        jQuery("#EcoAndFinancialParamUnitValue").val('');
+    }
+
+    function GetEconFinAnaData() {
+	    var ProjectId = GetHiddenValue('ProjectId');
+	    var url = '@Url.Action("get_efad", "controls")';
+
+	    jQuery.ajax({
+		    type: "GET",
+		    url: url,
+		    data: { project_id: ProjectId },
+		    dataType: "json",
+		    success: function (data, status, jqXHR) {
+			    if (data.length > 0) {
+				    //console.log(data);
+				    var rows = '';
+
+				    var count = 0;
+				    jQuery.each(data, function (i, item) {
+				    ++count;
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.ecoAndFinancialParamName + '</td><td>' + item.ecoAndFinancialParamUnitValue + '</td><td class="text-center"><button onclick="javascript:Delete(' + item.economicalAndFinancialId + ', ' + item.projectId + ', \'CcModPrjEcoFinAnalysisDetail\'); GetEconFinAnaData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                        //<button onclick="javascript:EditEfa(' + item.economicalAndFinancialId + ', '+item.projectId+');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button>
+				    });
+
+				    jQuery("#tbodyEcoFinAna").html(rows);
+			    }
+			    else {
+				    jQuery("#tbodyEcoFinAna").html('<tr><td colspan="4" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+				    //Notification('error', 'Data Fetch Error', data.message);
+			    }
+		    },
+		    error: function (jqXHR, exception) {
+			    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			    jQuery("#tbodyEcoFinAna").html('<tr><td colspan="4" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+			    //Notification('error', 'Error Occured', errorMsg);
+		    }
+	    });
+    }
+
+    function EditEfa(id, projectId) {
+	    var url = '@Url.Action("gsefa", "controls")';
+	    jQuery.ajax({
+		    type: "GET",
+		    url: url,
+		    data: { id: id, projectId: projectId },
+		    dataType: "json",
+		    success: function (data, status, jqXHR) {
+			    //console.log('Single Eco Fin Analysis Detail');
+			    //console.log(data);
+
+                if (data.eiaId != '') {
+				    SetHiddenValue('EconomicalAndFinancialId', data.economicalAndFinancialId);
+                    jQuery("#EcoAndFinancialParamId option[value=" + data.ecoAndFinancialParamId + "]").prop('selected', true);
+				    SetTextValue('EcoAndFinancialParamUnitValue', data.ecoAndFinancialParamUnitValue);
+			    }
+		    }, error: function (jqXHR, exception) {
+			    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			    Notification('error', 'Error Occured', errorMsg);
+		    }
+	    });
+    }
+</script>

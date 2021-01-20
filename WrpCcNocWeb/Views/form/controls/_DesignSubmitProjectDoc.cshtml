@@ -13,6 +13,7 @@
 
 <div id="proj-design-submit-project-doc-form">
     <style>
+
         .select2-selection__rendered {
             line-height: 31px !important;
         }
@@ -36,26 +37,26 @@
                             <th class="text-center">
                                 @if (language == 1)
                                 {
-                    <span>প্যারামিটার</span> }
-                else
-                {
-    <span>Parameters</span>}
+                                    <span>প্যারামিটার</span> }
+                                else
+                                {
+                                    <span>Parameters</span>}
                             </th>
                             <th class="text-center">
                                 @if (language == 1)
                                 {
-                    <span>হ্যাঁ/ না</span> }
-                else
-                {
-    <span>Yes/ No</span>}
+                                    <span>হ্যাঁ/ না</span> }
+                                else
+                                {
+                                    <span>Yes/ No</span>}
                             </th>
                             <th class="text-center">
                                 @if (language == 1)
                                 {
-                    <span>আবেদনকারী মন্তব্য</span> }
-                else
-                {
-    <span>Applicant Comments</span>}
+                                    <span>আবেদনকারী মন্তব্য</span> }
+                                else
+                                {
+                                    <span>Applicant Comments</span>}
                             </th>
                             <th class="text-center"></th>
                         </tr>
@@ -66,12 +67,12 @@
                                 <select id="DesignSubmittedParameterId" name="DesignSubmittedParameterId" class="form-control" style="width: 100%;">
                                     @if (language == 1)
                                     {
-                        <option value="">বাছাই করুন...</option>
- }
-                    else
-                    {
-        <option value="">Choose...</option>
-}
+                                        <option value="">বাছাই করুন...</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="">Choose...</option>
+                                    }
 
                                     @{ List<LookUpCcModDesignSubmitParam> _dsp = dsps;
 
@@ -81,10 +82,12 @@
                                             {
                                                 if (language == 1)
                                                 {
-                            <option value="@dsp.DesignSubmittedParameterId">@dsp.ParameterNameBn</option> }
+                                                    <option value="@dsp.DesignSubmittedParameterId">@dsp.ParameterNameBn</option>
+ }
                                                 else
                                                 {
-                            <option value="@dsp.DesignSubmittedParameterId">@dsp.ParameterName</option> }
+                                                    <option value="@dsp.DesignSubmittedParameterId">@dsp.ParameterName</option>
+ }
                                             }
                                         } }
                                 </select>
@@ -95,10 +98,10 @@
                                     <label for="chkDSWPDYes">
                                         @if (language == 1)
                                         {
-                            <span>হ্যাঁ</span> }
-                        else
-                        {
-            <span>Yes</span>}
+                                            <span>হ্যাঁ</span> }
+                                        else
+                                        {
+                                            <span>Yes</span>}
                                     </label>
                                 </div>
 
@@ -107,10 +110,10 @@
                                     <label for="chkDSWPDNo">
                                         @if (language == 1)
                                         {
-                            <span>না</span> }
-                        else
-                        {
-            <span>No</span>}
+                                            <span>না</span> }
+                                        else
+                                        {
+                                            <span>No</span>}
                                     </label>
                                 </div>
                             </th>
@@ -186,13 +189,13 @@
             <div id="divPolderDrainageSystem" class="col-md-12">
                 <label for="PolderDrainageSystem">
                     @if (language == 1)
-                        { <span>
-                                ii. পোল্ডারের অভ্যন্তরে পানি নিষ্কশন ব্যবস্থা গুরুত্ব সহকারে বিবেচনা করা হয়েছে কিনা?
-                            </span>}
-                        else
-                        {<span>
-                                ii.	Whether drainage system inside the polder area is considered with high importance or not?
-                            </span>}
+                    {<span>
+                            ii. পোল্ডারের অভ্যন্তরে পানি নিষ্কশন ব্যবস্থা গুরুত্ব সহকারে বিবেচনা করা হয়েছে কিনা?
+                        </span>}
+                    else
+                    {<span>
+                            ii.	Whether drainage system inside the polder area is considered with high importance or not?
+                        </span>}
                 </label>
 
                 <div class="form-group">
@@ -233,14 +236,14 @@
             <div id="divShelterDesignSystem" class="col-md-12">
                 <label for="ShelterDesignSystem">
                     @if (language == 1)
-                        { <span>
-                                iii. বন্যা পরিস্থিতিতে দুর্গত মানুষ যেন তাদের মালামাল ও গবাদি পশু পাখি নিয়ে বাধেঁ আশ্রয় গ্রহন করতে পারে
-                                সেজন্য স্থানীয় প্রয়োজন অনুযায়ী বাঁধের ক্রেস্ট চওড়া করে একটি খোলা স্থান (Bay) ডিজাইনে সন্নিবেশ করা হয়েছে কিনা?
-                            </span>}
-                        else
-                        {<span>
-                                iii. Whether any bay included in the design for shelter of flood affected people during flood?
-                            </span>}
+                    {<span>
+                            iii. বন্যা পরিস্থিতিতে দুর্গত মানুষ যেন তাদের মালামাল ও গবাদি পশু পাখি নিয়ে বাধেঁ আশ্রয় গ্রহন করতে পারে
+                            সেজন্য স্থানীয় প্রয়োজন অনুযায়ী বাঁধের ক্রেস্ট চওড়া করে একটি খোলা স্থান (Bay) ডিজাইনে সন্নিবেশ করা হয়েছে কিনা?
+                        </span>}
+                    else
+                    {<span>
+                            iii. Whether any bay included in the design for shelter of flood affected people during flood?
+                        </span>}
                 </label>
 
                 <div class="form-group">
@@ -281,15 +284,15 @@
             <div id="divSufficientDisShrimpGher" class="col-md-12">
                 <label for="SufficientDisShrimpGher">
                     @if (language == 1)
-                        { <span>
-                                iv. উপকূলীয় বাঁধের ক্ষেত্রে চিংড়ি ঘের থেকে যথেষ্ট পরিমান জায়গা (সর্বনি¤œ ৩০০ ফিট) রেখে
-                                এবং চিংড়ি ঘেরে পানি প্রবেশ/ নিষ্কাশন খালের সংস্থান রেখে বাঁধের ডিজাইন করা হয়েছে কিনা?
-                            </span>}
-                        else
-                        {<span>
-                                iv.	During embankment design, whether sufficient distance (minimum 300 feet) is kept from Shrimp gher
-                                and provision for water intrusion in Shrimp gher through drainage canal?
-                            </span>}
+                    {<span>
+                            iv. উপকূলীয় বাঁধের ক্ষেত্রে চিংড়ি ঘের থেকে যথেষ্ট পরিমান জায়গা (সর্বনি¤œ ৩০০ ফিট) রেখে
+                            এবং চিংড়ি ঘেরে পানি প্রবেশ/ নিষ্কাশন খালের সংস্থান রেখে বাঁধের ডিজাইন করা হয়েছে কিনা?
+                        </span>}
+                    else
+                    {<span>
+                            iv.	During embankment design, whether sufficient distance (minimum 300 feet) is kept from Shrimp gher
+                            and provision for water intrusion in Shrimp gher through drainage canal?
+                        </span>}
                 </label>
 
                 <div class="form-group">

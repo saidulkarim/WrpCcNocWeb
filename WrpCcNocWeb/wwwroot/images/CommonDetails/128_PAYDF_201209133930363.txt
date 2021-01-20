@@ -1,7 +1,0 @@
-C:\Windows\system32>netsh wlan show drivers
-
-C:\Windows\system32>netsh wlan set hostednetwork mode=allow ssid=RossNebula key=rony@1234
-
-C:\Windows\system32>netsh wlan start hostednetwork
-
-C:\Windows\system32>netsh wlan stop hostednetwork

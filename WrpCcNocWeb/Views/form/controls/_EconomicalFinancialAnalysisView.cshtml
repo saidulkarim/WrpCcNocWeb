@@ -1,0 +1,81 @@
+﻿@{
+    var language = int.Parse(ViewData["vFormLanguage"].ToString());
+    List<EcoFinAnalysisDetailTemp> efad = (List<EcoFinAnalysisDetailTemp>)ViewData["vEcoFinAnalysisDetail"];
+    var efaFile = (string)ViewData["vEcoFinAnalysisFile"];
+}
+
+<div id="view-proj-annual-railfall-form">
+    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+        <thead>
+            <tr>
+                <th class="text-center">
+                    @if (language == 1)
+                    {<span>তালিকা</span>}
+                    else
+                    {<span>Item</span>}
+                </th>
+                <th class="text-center">
+                    @if (language == 1)
+                    {<span>মূল্য (%)</span>}
+                    else
+                    {<span>Value (%)</span>}
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tbodyEcoFinAnaPreview">
+            @if (efad.Count > 0)
+            {
+                foreach (EcoFinAnalysisDetailTemp efa in efad)
+                {
+                    if (string.IsNullOrEmpty(efa.Error))
+                    {
+                        <tr>
+                            <td class="text-left">
+                                @if (language == 1)
+                                {
+                                    <span>@efa.EcoAndFinancialParamNameBn</span>
+                                }
+                                else
+                                {
+                                    <span>@efa.EcoAndFinancialParamName</span>
+                                }
+                            </td>
+                            <td class="text-right">@efa.EcoAndFinancialParamUnitValue</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="2">@efa.Error</td>
+                        </tr>
+                    }
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2">No information added.</td>
+                </tr>
+            }
+
+            @if (!string.IsNullOrEmpty(efaFile))
+            {
+                <tr>
+                    <td class="text-left">
+                        @if (language == 1)
+                        {
+                            <span>বিশ্লেষণ ফাইল</span>
+                        }
+                        else
+                        {
+                            <span>Analysis Document</span>
+                        }
+                    </td>
+                    <td class="text-left">
+                        <a href="../../images/CommonDetails/EcoFinAnalysis/@efaFile" target="_blank">@efaFile</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

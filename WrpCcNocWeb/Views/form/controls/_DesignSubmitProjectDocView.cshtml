@@ -3,7 +3,6 @@
     CcModSubDesignSubmitDetail gsdspd = (CcModSubDesignSubmitDetail)ViewData["vGetDesignSubmitProjDoc"]; }
 
 <div id="view-proj-annual-railfall-form">
-
     @if (dsdtlList.Count > 0)
     {
         string yesTickMark = string.Empty, noTickMark = string.Empty;
@@ -34,7 +33,7 @@
                         {<span>আবেদনকারীর মন্তব্য</span>}
                         else
                         {<span>Applicant Comments</span>}
-                    </th>                   
+                    </th>
                 </tr>
             </thead>
             <tbody id="tbodyDesignSubProjDocPreview">
@@ -57,13 +56,11 @@
                     if (string.IsNullOrEmpty(dsdt.Error))
                     {
                         <tr>
-                            <td>
+                            <td class="text-left">
                                 @if (language == 1)
-                                {
-                                    <span>@dsdt.ParameterNameBn</span> }
-                                else
-                                {
-                                    <span>@dsdt.ParameterNameBn</span>}
+                                {<span>@dsdt.ParameterNameBn</span> }
+                            else
+                            { <span>@dsdt.ParameterName</span>}
                             </td>
                             <td class="text-center">@Html.Raw(yesTickMark)</td>
                             <td class="text-center">@Html.Raw(noTickMark)</td>
@@ -324,5 +321,6 @@
                     </tr>
                 }
             </tbody>
-        </table>}
+        </table>
+    }
 </div>

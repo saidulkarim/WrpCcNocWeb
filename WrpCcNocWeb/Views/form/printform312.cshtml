@@ -8,7 +8,7 @@
     CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["ProjectCommonDetail"];
     CcModAppProject_312_IndvDetail projectindi = (CcModAppProject_312_IndvDetail)ViewData["ProjectIndvDetail312"];
 
-    var prev_lang = ViewData["LanguageId"].ToString();
+    var prev_lang = int.Parse(ViewData["LanguageId"].ToString());
     var app_state_id = pcd.ApplicationStateId;
     var app_state = (string)ViewData["ApplicationState"];
     var is_complete_id = pcd.IsCompletedId;
@@ -56,13 +56,13 @@
                 <center>
                     <div class="col-md-12 text-center">
                         <h3 class="HeaderTitle">
-                            @if (prev_lang == "1")
+                            @if (prev_lang == 1)
                             {<span>ছাড়পত্রের সনদের জন্য আবেদন</span>}
                             else
                             {<span>Application for Clearance Certificate</span>}
                         </h3>
                         <h4 class="HeaderSubTitle">
-                            @if (prev_lang == "1")
+                            @if (prev_lang == 1)
                             {<span>(@ViewData["ProjectTypeTitleBn"].ToString())</span>}
                         else
                         {<span>(@ViewData["ProjectTypeTitle"].ToString())</span>}
@@ -74,19 +74,19 @@
                     <div class="row lineGap">
                         <div class="col">
                             <span>
-                                @if (prev_lang == "1")
+                                @if (prev_lang == 1)
                                 {<span>প্রতি</span>}
                                 else
                                 {<span>To</span>}
                             </span><br />
                             <span>
-                                @if (prev_lang == "1")
+                                @if (prev_lang == 1)
                                 {<span>নির্বাহী কমিটি</span>}
                                 else
                                 {<span>Executive Committee</span>}
                             </span><br />
                             <span>
-                                @if (prev_lang == "1")
+                                @if (prev_lang == 1)
                                 {<span>জাতীয় পানি সম্পদ পরিষদ প্রকল্প।</span>}
                                 else
                                 {<span>National Water Resources Project Committee.</span>}
@@ -99,12 +99,12 @@
                     <div class="row lineGap">
                         <div class="col">
                             <p>
-                                @if (prev_lang == "1")
+                                @if (prev_lang == 1)
                                 {<strong>মাধ্যম:</strong>}
                                 else
                                 {<strong>Through:</strong>}
 
-                                @if (prev_lang == "1")
+                                @if (prev_lang == 1)
                                 {<span>মহাপরিচালক, পানি সম্পদ পরিকল্পনা সংস্থা।</span>}
                                 else
                                 {<span>Director General, Water Resources Planning Organization.</span>}
@@ -117,7 +117,7 @@
                     <div class="row lineGap">
                         <div class="col">
                             <p>
-                                @if (prev_lang == "1")
+                                @if (prev_lang == 1)
                                 {<span>আমি, নীচে স্বাক্ষরিত, বন্যা নিয়ন্ত্রণ/ পরিচালনা সম্পর্কিত একটি প্রকল্প শুরু এবং বাস্তবায়নে ইচ্ছুক এবং আমি এখানে প্রাসঙ্গিক সংযুক্তিগুলির সাথে ছাড়পত্রের জন্য অনুরোধ করছি।</span>}
                                 else
                                 {<span>I, the undersigned, willing to initiate and implement a project on Flood Control/Management, And I am hereby requesting for clearance certificate with relevant attachments.</span>}
@@ -131,14 +131,14 @@
                         <div class="col-md-12">
                             <h4>
                                 <strong>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>আবেদনকারীর পুরো নাম এবং ঠিকানা:</span>}
                                     else
                                     {<span>Full Name and Address of Applicant:</span>}
                                 </strong>
                             </h4>
 
-                            @if (prev_lang == "1")
+                            @if (prev_lang == 1)
                             {
                                 @ViewData["ApplicantNameBn"].ToString()<br />
                                 @ViewData["ApplicantAddressBn"].ToString()<br />
@@ -161,7 +161,7 @@
                         <tr style="background: #9d9b9b; font-weight: bold;">
                             <td colspan="3">
                                 <h4>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>১. সাধারণ তথ্য</span>}
                                     else
                                     {<span>A. General Information</span>}
@@ -172,7 +172,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 200px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>i. প্রকল্পের নাম</span>}
                                     else
                                     {<span>i. Project Name</span>}
@@ -187,7 +187,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td>
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>ii. প্রকল্পের পূর্ব ইতিহাস ও যৌক্তিকতা</span>}
                                     else
                                     {<span>ii. Project Background and Rationale</span>}
@@ -201,7 +201,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>iii. প্রকল্পের লক্ষ্য</span>}
                                     else
                                     {<span>iii. Project Target</span>}
@@ -216,7 +216,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>iv. প্রকল্পের উদ্দেশ্য</span>}
                                     else
                                     {<span>iv. Project Objective</span>}
@@ -231,7 +231,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>v. প্রকল্পের ক্রিয়াকলাপ / উপাদানসমূহ</span>}
                                     else
                                     {<span>v. Project Activities/ Components</span>}
@@ -246,14 +246,14 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>vi. প্রকল্প ব্যয়</span>}
                                     else
                                     {<span>vi. Estimated Project Cost</span>}
                                 </b>
                             </td>
                             <td>
-                                @if (prev_lang == "1")
+                                @if (prev_lang == 1)
                                 {<span>@pcd.ProjectEstimatedCost.ToString().NumberEnglishToBengali()</span>}
                             else
                             { <span>@pcd.ProjectEstimatedCost</span>}
@@ -265,14 +265,14 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>vii. প্রকল্প সময়কাল</span>}
                                     else
                                     {<span>vii. Project Period</span>}
                                 </b>
                             </td>
                             <td>
-                                @if (prev_lang == "1")
+                                @if (prev_lang == 1)
                                 {
                                     <span>প্রাম্ভিক কাল: @pcd.ProjectStartDate.Value.ToString("dd MMMM, yyyy").MonthEnglishToBengali().NumberEnglishToBengali()</span>
                                 }
@@ -283,7 +283,7 @@
 
                                 <br />
 
-                                @if (prev_lang == "1")
+                                @if (prev_lang == 1)
                                 {
                                     <span>সমাপ্তি কাল: @pcd.ProjectCompletionDate.Value.ToString("dd MMMM, yyyy").MonthEnglishToBengali().NumberEnglishToBengali()</span>
                                 }
@@ -299,7 +299,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td colspan="3">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>viii. প্রকল্পের অবস্থান</span>}
                                     else
                                     {<span>viii. Project Location</span>}
@@ -323,37 +323,37 @@
                                     <thead style="background: #9d9b9b; font-weight: bold;">
                                         <tr>
                                             <th class="text-center">
-                                                @if (prev_lang == "1")
+                                                @if (prev_lang == 1)
                                                 {<span>ইউনিয়ন</span>}
                                                 else
                                                 {<span>Union</span>}
                                             </th>
                                             <th class="text-center">
-                                                @if (prev_lang == "1")
+                                                @if (prev_lang == 1)
                                                 {<span>উপজেলা</span>}
                                                 else
                                                 {<span>Upazila</span>}
                                             </th>
                                             <th class="text-center">
-                                                @if (prev_lang == "1")
+                                                @if (prev_lang == 1)
                                                 {<span>জেলা</span>}
                                                 else
                                                 {<span>District</span>}
                                             </th>
                                             <th class="text-center">
-                                                @if (prev_lang == "1")
+                                                @if (prev_lang == 1)
                                                 {<span>অক্ষাংশ</span>}
                                                 else
                                                 {<span>Latitude</span>}
                                             </th>
                                             <th class="text-center">
-                                                @if (prev_lang == "1")
+                                                @if (prev_lang == 1)
                                                 {<span>দ্রাঘিমাংশ</span>}
                                                 else
                                                 {<span>Longitude</span>}
                                             </th>
                                             <th class="text-center">
-                                                @if (prev_lang == "1")
+                                                @if (prev_lang == 1)
                                                 {<span>সংযুক্তি</span>}
                                                 else
                                                 {<span>Attchments</span>}
@@ -363,7 +363,7 @@
                                     <tbody id="tbodyProjectLocationPreview">
                                         @foreach (ProjectLocationTemp loc in location as List<ProjectLocationTemp>)
                                         {
-                                            if (prev_lang == "1")
+                                            if (prev_lang == 1)
                                             {
                                                 <tr>
                                                     <td>@loc.UnionNameBn</td>
@@ -399,7 +399,7 @@
                         <tr style="background: #9d9b9b; font-weight: bold;">
                             <td colspan="3">
                                 <h4>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>২. কারিগরি তথ্য</span>}
                                     else
                                     {<span>B. Technical Information</span>}
@@ -410,7 +410,7 @@
                         <tr>
                             <td colspan="3">
                                 <h5>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>২.১ বেজলাইন সম্পর্কিত তথ্য বা অবস্থা পর্যালোচনা</span>}
                                     else
                                     {<span>2.1 Discussion about baseline related information or situation</span>}
@@ -421,7 +421,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>i. নলকূপের বিবরণ</span> }
                                     else
                                     { <span>i. Well Description</span>}
@@ -436,7 +436,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>ii. পানি ব্যবহারের উদ্দেশ্য</span> }
                                     else
                                     { <span>ii. Purpose of Water Use</span>}
@@ -446,7 +446,7 @@
                                 <ol>
                                     @foreach (var _pwu in (List<PurposeOfWaterUseDetailTemp>)pwu)
                                     {
-                                        if (prev_lang == "1")
+                                        if (prev_lang == 1)
                                         {
                                             <li>@_pwu.WaterUsePurposeBn</li>
                                         }
@@ -465,7 +465,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>iii. হাইড্রোলজিক্যাল অঞ্চল</span>}
                                     else
                                     {<span>iii. Hydrological Region</span>}
@@ -484,7 +484,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>iv. বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০ হট স্পট</span>}
                                     else
                                     {<span>iv. Bangladesh Delta Plan 2100 Hot Spot</span>}
@@ -494,7 +494,7 @@
                                 <ol>
                                     @foreach (var bdphsd in (List<BDP2100HotSpotDetailTemp>)ViewData["BDP2100HotSpotDetail"])
                                     {
-                                        if (prev_lang == "1")
+                                        if (prev_lang == 1)
                                         {
                                             <li>@bdphsd.PlanNameBn</li>
                                         }
@@ -513,7 +513,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>v. বার্ষিক বৃষ্টিপাত (বিগত পাঁচ বছর) (মি.মি.)</span>}
                                     else
                                     {<span>v. Annual Rainfall (last five years)</span>}
@@ -570,7 +570,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>vi. প্রস্তাবিত কূপের ধরণ</span> }
                                     else
                                     { <span>vi. Type of Proposed Well</span>}
@@ -579,7 +579,7 @@
                             <td>
                                 @foreach (TypeProposedWellDetailTemp _tpw in (List<TypeProposedWellDetailTemp>)tpw)
                                 {
-                                    if (prev_lang == "1")
+                                    if (prev_lang == 1)
                                     {
                                         @_tpw.ProposedWellNameBn
                                     }
@@ -597,7 +597,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>vii. ভূগর্ভস্থ পানির গভীরতা(মিটার)</span>}
                                     else
                                     {<span>vii. Ground Water Depth (m)</span>}
@@ -608,13 +608,13 @@
                                     <thead>
                                         <tr>
                                             <th>
-                                                @if (prev_lang == "1")
+                                                @if (prev_lang == 1)
                                                 {<span>Month</span>}
                                                 else
                                                 {<span>Month</span>}
                                             </th>
                                             <th>
-                                                @if (prev_lang == "1")
+                                                @if (prev_lang == 1)
                                                 {<span>Depth (m)</span>}
                                                 else
                                                 {<span>Depth (m)</span>}
@@ -624,7 +624,7 @@
                                     <tbody>
                                         @foreach (GrndWtrDepthDetailTemp _gwd in (List<GrndWtrDepthDetailTemp>)gwd)
                                         {
-                                            if (prev_lang == "1")
+                                            if (prev_lang == 1)
                                             {
                                                 <tr>
                                                     <td>@_gwd.MonthBn</td>
@@ -650,7 +650,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>viii. পানির স্তরের বর্তমান অবস্থা</span> }
                                     else
                                     { <span>viii. Status of Aquifer for Existing Extraction</span>}
@@ -665,7 +665,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>ix. একুইফারের শ্রেণীবিন্যাস</span>}
                                     else
                                     {<span>ix. Categorization of Aquifer</span>}
@@ -674,7 +674,7 @@
                             <td>
                                 @foreach (CategoryOfAquiferDetailTemp _coa in (List<CategoryOfAquiferDetailTemp>)coa)
                                 {
-                                    if (prev_lang == "1")
+                                    if (prev_lang == 1)
                                     {
                                         @_coa.AquiferNameBn
                                     }
@@ -692,7 +692,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>x. ভূগর্ভস্থ পানির গুনগতমান</span> }
                                     else
                                     { <span>x. Ground Water Quality</span>}
@@ -701,7 +701,7 @@
                             <td>
                                 @foreach (GroundWaterQualityDetailTemp _gwq in (List<GroundWaterQualityDetailTemp>)gwq)
                                 {
-                                    if (prev_lang == "1")
+                                    if (prev_lang == 1)
                                     {
                                         @_gwq.ParameterNameBn
                                     }
@@ -719,7 +719,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xi. পভূগর্ভস্থ পানির রিচার্জের সম্ভাবনা</span>}
                                     else
                                     {<span>xi. Potential Ground Water Recharge</span>}
@@ -728,7 +728,7 @@
                             <td>
                                 @foreach (PotentialGroundWaterRechargeDetailTemp _pgw in (List<PotentialGroundWaterRechargeDetailTemp>)pgw)
                                 {
-                                    if (prev_lang == "1")
+                                    if (prev_lang == 1)
                                     {
                                         @_pgw.IndicatorNameBn
                                     }
@@ -746,7 +746,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xii. পানি উত্তোলনের লক্ষমাত্রা (কিউসেক)</span> }
                                     else
                                     { <span>xii. Water Withdrawal Target (ft<sup>3</sup>/sec)</span>}
@@ -761,7 +761,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xiii. পানি উত্তোলনের পদ্ধতি</span> }
                                     else
                                     { <span>xiii. Water Withdrawal Procedure</span>}
@@ -776,7 +776,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xiv. পানি উত্তোলন পরিমাপের জন্য পরিমাপক যন্ত্রের ব্যবস্থা</span> }
                                     else
                                     { <span>xiv. Use of Meter to Measure Groundwater Withdrawal</span>}
@@ -791,7 +791,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xv. ব্যবহৃতব্য মটরের ক্ষমতা</span> }
                                     else
                                     { <span>xv. Pump Capacity (hp)</span>}
@@ -806,7 +806,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xvi. নলকূপের গভীরতা (ফুট)</span> }
                                     else
                                     { <span>xvi. Well Depth (ft)</span>}
@@ -821,7 +821,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xvii. নলকূপ ব্যবহৃতব্য পাইপের ব্যাস (ইঞ্চি)</span> }
                                     else
                                     { <span>xvii. Pipe Diameter of Well (inch)</span>}
@@ -836,7 +836,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xviii. পানি উত্তোলনের পরিমাণ (কিউবিক মিটার/ দিন)</span> }
                                     else
                                     { <span>xviii. Water Withdrawal Quantity Per Day (m<sup>3</sup>/day)</span>}
@@ -851,7 +851,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xix. রিচার্জের সময়</span> }
                                     else
                                     { <span>xix. Recharge Time</span>}
@@ -866,7 +866,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xx. মাটির ধরণ</span> }
                                     else
                                     { <span>xx. Soil Type</span>}
@@ -875,7 +875,7 @@
                             <td>
                                 @foreach (SoilTypeDetailTemp _std in (List<SoilTypeDetailTemp>)std)
                                 {
-                                    if (prev_lang == "1")
+                                    if (prev_lang == 1)
                                     {
                                         @_std.SoilTypeNameBn
                                     }
@@ -893,7 +893,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xxi. পানির ব্যবহার</span> }
                                     else
                                     { <span>xxi. Water Use</span>}
@@ -902,7 +902,7 @@
                             <td>
                                 @foreach (WaterUseConsumptionDetailTemp _wuc in (List<WaterUseConsumptionDetailTemp>)wuc)
                                 {
-                                    if (prev_lang == "1")
+                                    if (prev_lang == 1)
                                     {
                                         @_wuc.ConsumptionNameBn
                                     }
@@ -920,7 +920,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xxii. নির্গমিত পানির স্থানের বিবরণ</span> }
                                     else
                                     { <span>xxii. Discharge Point</span>}
@@ -935,7 +935,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xxiii. নিকটস্থ নলকূপের বিবরণ</span> }
                                     else
                                     { <span>xxiii. Nearest Well Description</span>}
@@ -945,43 +945,43 @@
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th class="text-center">
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>প্রস্থাবিত কূপ হতে দূরত্ব (মি.)</span> }
                                             else
                                             { <span>Distance (m) from proposed extraction well</span>}
                                         </th>
                                         <th class="text-center">
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>স্থান</span> }
                                             else
                                             { <span>Place</span>}
                                         </th>
                                         <th class="text-center" title="e.g. Dug well, Dug Cum Bore well, Bore Well, Open Well, Shallow Tube Well, Deep Tube Well">
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>ধরণ</span> }
                                             else
                                             { <span>Type</span>}
                                         </th>
                                         <th class="text-center">
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>ক্ষমতা</span> }
                                             else
                                             { <span>Capacity</span>}
                                         </th>
                                         <th class="text-center">
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>মনলকূপ ব্যবহৃতব্য পাইপের ব্যাস (ইঞ্চি)</span> }
                                             else
                                             { <span>Diameter of Well (m)</span>}
                                         </th>
                                         <th class="text-center">
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>নলকূপের গভীরতা (ফুট)</span> }
                                             else
                                             { <span>Depth of Well (m)</span>}
                                         </th>
                                         <th class="text-center">
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>রিচার্জের সময়</span> }
                                             else
                                             { <span>Recuperation Hours</span>}
@@ -1006,7 +1006,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xxiv. নিকটস্থ  ভূপরিস্থ পানি প্রাপ্যতার বিবরণ</span> }
                                     else
                                     { <span>xxiv. Description of Nearest Surface Water Availability</span>}
@@ -1016,25 +1016,25 @@
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th class="text-center">
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>নদী/ খাল</span> }
                                             else
                                             { <span>River/ Khal</span>}
                                         </th>
                                         <th class="text-center">
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>প্রস্থাবিত কূপ হতে দূরত্ব (মি.)</span> }
                                             else
                                             { <span>Distance (m) from Proposed Extraction Well</span>}
                                         </th>
                                         <th class="text-center">
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>পানির সমতল (মিটার)</span> }
                                             else
                                             { <span>Water Level (m)</span>}
                                         </th>
                                         <th class="text-center">
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>পানির প্রবাহ (কিউমেক)</span> }
                                             else
                                             { <span>Discharge (m<sup>3</sup>/s)</span>}
@@ -1056,7 +1056,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xxx. চাষাবাদকৃত খাদ্যশস্য এলাকা (হেক্টর)</span>}
                                     else
                                     {<span>xxx. Irrigated Crop Area (ha)</span>}
@@ -1067,13 +1067,13 @@
                                     <thead>
                                         <tr>
                                             <th>
-                                                @if (prev_lang == "1")
+                                                @if (prev_lang == 1)
                                                 {<span>ফসলের নাম</span>}
                                                 else
                                                 {<span>Crops Name</span>}
                                             </th>
                                             <th>
-                                                @if (prev_lang == "1")
+                                                @if (prev_lang == 1)
                                                 {<span>এলাকা</span>}
                                                 else
                                                 {<span>Area</span>}
@@ -1099,7 +1099,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xxxi. ফসল/ খাদ্যশস্য উৎপাদনের পরিমান (টন)</span> }
                                     else
                                     { <span>xxxi. Crop Production (ton)</span>}
@@ -1114,7 +1114,7 @@
                         <tr style="background: #9d9b9b; font-weight: bold;">
                             <td colspan="3">
                                 <h4>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>৩. দলিল প্রতিপালন</span>}
                                     else
                                     {<span>C. Deed Obligatory</span>}
@@ -1125,7 +1125,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>i. প্রকল্পটি জাতীয় পানি নীতির সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
                                     else
                                     {<span>i. Compatibility with National Water Policy</span>}
@@ -1135,32 +1135,32 @@
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>হ্যাঁ</span>}
                                             else
                                             {<span>Yes</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>না</span>}
                                             else
                                             {<span>No</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>আবেদনকারীর মন্তব্য</span>}
                                             else
                                             {<span>Applicant Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>কর্তৃপক্ষের মন্তব্য</span>}
                                             else
                                             {<span>Authority Comments</span>}
                                         </th>
 
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>নথি লিঙ্ক</span>}
                                             else
                                             {<span>Document Link</span>}
@@ -1204,7 +1204,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>ii. প্রকল্পটি জাতীয় পানি ব্যবস্থাপনা পরিকল্পনা (এনডব্লিউএমপি) এর সহিত সামঞ্জস্যপূর্ণ কিনা</span>}
                                     else
                                     {<span>ii. Compatibility with National Water Management Plan (NWMP)</span>}
@@ -1214,32 +1214,32 @@
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>হ্যাঁ</span>}
                                             else
                                             {<span>Yes</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>না</span>}
                                             else
                                             {<span>No</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>আবেদনকারীর মন্তব্য</span>}
                                             else
                                             {<span>Applicant Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>কর্তৃপক্ষের মন্তব্য</span>}
                                             else
                                             {<span>Authority Comments</span>}
                                         </th>
 
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>নথি লিঙ্ক</span>}
                                             else
                                             {<span>Document Link</span>}
@@ -1284,7 +1284,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>iii. প্রকল্পটি পানি সম্পদ ব্যবস্থাপনায় চলমান পঞ্চবার্ষিকী পরিকল্পনা এর সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
                                     else
                                     {<span>iii.	Compatibility with Current Fifth Year Plan (FYP)</span>}
@@ -1294,25 +1294,25 @@
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>হ্যাঁ</span>}
                                             else
                                             {<span>Yes</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>না</span>}
                                             else
                                             {<span>No</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>আবেদনকারীর মন্তব্য</span>}
                                             else
                                             {<span>Applicant Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>কর্তৃপক্ষের মন্তব্য</span>}
                                             else
                                             {<span>Authority Comments</span>}
@@ -1350,7 +1350,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>iv. প্রকল্পটি টেকসই উন্নয়ন লক্ষ্যমাত্রা (এসডিজি) এর সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
                                     else
                                     {<span>iv. Compatibility with Sustainable Development Goal (SDG)</span>}
@@ -1360,31 +1360,31 @@
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>হ্যাঁ</span>}
                                             else
                                             {<span>Yes</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>না</span>}
                                             else
                                             {<span>No</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>আবেদনকারীর মন্তব্য</span>}
                                             else
                                             {<span>Applicant Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>কর্তৃপক্ষের মন্তব্য</span>}
                                             else
                                             {<span>Authority Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>নথি লিঙ্ক</span>}
                                             else
                                             {<span>Document Link</span>}
@@ -1432,7 +1432,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>v. প্রকল্পটি বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০ এর সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
                                     else
                                     {<span>v. Compatibility with Bangladesh Delta Plan 2100</span>}
@@ -1442,31 +1442,31 @@
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tr>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>হ্যাঁ</span>}
                                             else
                                             {<span>Yes</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>না</span>}
                                             else
                                             {<span>No</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>আবেদনকারীর মন্তব্য</span>}
                                             else
                                             {<span>Applicant Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>কর্তৃপক্ষের মন্তব্য</span>}
                                             else
                                             {<span>Authority Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>নথি লিঙ্ক</span>}
                                             else
                                             {<span>Document Link</span>}
@@ -1511,7 +1511,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>vi. প্রকল্পটি উপকূলীয় অঞ্চল নীতির সাথে সামঞ্জস্যপূর্ণ কিনা</span>}
                                     else
                                     {<span>vi. Compatibility with Coastal Zone Policy</span>}
@@ -1521,31 +1521,31 @@
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tr>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>হ্যাঁ</span>}
                                             else
                                             {<span>Yes</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>না</span>}
                                             else
                                             {<span>No</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>আবেদনকারীর মন্তব্য</span>}
                                             else
                                             {<span>Applicant Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>কর্তৃপক্ষের মন্তব্য</span>}
                                             else
                                             {<span>Authority Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>নথি লিঙ্ক</span>}
                                             else
                                             {<span>Document Link</span>}
@@ -1584,7 +1584,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>vii. কৃষি নীতিমালার সাথে সামঞ্জস্যতা</span>}
                                     else
                                     {<span>vii.	Compatibility with Agricultural Policy</span>}
@@ -1594,31 +1594,31 @@
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tr>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>হ্যাঁ</span>}
                                             else
                                             {<span>Yes</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>না</span>}
                                             else
                                             {<span>No</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>আবেদনকারীর মন্তব্য</span>}
                                             else
                                             {<span>Applicant Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>কর্তৃপক্ষের মন্তব্য</span>}
                                             else
                                             {<span>Authority Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>নথি লিঙ্ক</span>}
                                             else
                                             {<span>Document Link</span>}
@@ -1657,7 +1657,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>viii. মৎস্য নীতির সঙ্গে সামঞ্জস্য</span>}
                                     else
                                     {<span>viii. Compatibility with Fisheries Policy</span>}
@@ -1667,31 +1667,31 @@
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tr>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>হ্যাঁ</span>}
                                             else
                                             {<span>Yes</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>না</span>}
                                             else
                                             {<span>No</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>আবেদনকারীর মন্তব্য</span>}
                                             else
                                             {<span>Applicant Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>কর্তৃপক্ষের মন্তব্য</span>}
                                             else
                                             {<span>Authority Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>নথি লিঙ্ক</span>}
                                             else
                                             {<span>Document Link</span>}
@@ -1730,7 +1730,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>ix. ইন্টিগ্রেটেড ওয়াটার রিসোর্স ম্যানেজমেন্টের সাথে সামঞ্জস্যতা</span>}
                                     else
                                     {<span>ix. Compatibility with Integrated Water Resource Management (IWRM)</span>}
@@ -1740,25 +1740,25 @@
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tr>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>হ্যাঁ</span>}
                                             else
                                             {<span>Yes</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>না</span>}
                                             else
                                             {<span>No</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>আবেদনকারীর মন্তব্য</span>}
                                             else
                                             {<span>Applicant Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>কর্তৃপক্ষের মন্তব্য</span>}
                                             else
                                             {<span>Authority Comments</span>}
@@ -1796,7 +1796,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>x. জিপিডব্লিউএম এর সাথে সামঞ্জস্যতা</span>}
                                     else
                                     {<span>x. Compatibility with GPWM</span>}
@@ -1806,25 +1806,25 @@
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tr>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>হ্যাঁ</span>}
                                             else
                                             {<span>Yes</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>না</span>}
                                             else
                                             {<span>No</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>আবেদনকারীর মন্তব্য</span>}
                                             else
                                             {<span>Applicant Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>কর্তৃপক্ষের মন্তব্য</span>}
                                             else
                                             {<span>Authority Comments</span>}
@@ -1868,7 +1868,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xi. প্রকল্পটির সম্ভাব্যতা অধ্যয়ন</span>}
                                     else
                                     {<span>xi. Feasibility Study</span>}
@@ -1878,25 +1878,25 @@
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tr>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>হ্যাঁ</span>}
                                             else
                                             {<span>Yes</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>না</span>}
                                             else
                                             {<span>No</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>আবেদনকারীর মন্তব্য</span>}
                                             else
                                             {<span>Applicant Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>কর্তৃপক্ষের মন্তব্য</span>}
                                             else
                                             {<span>Authority Comments</span>}
@@ -1934,7 +1934,7 @@
                         <tr>
                             <td colspan="3">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>xiii. প্রকল্পটি গুরুত্বপূর্ণ সামাজিক বিষয়াদি এবং নারী, শিশু, দরিদ্র ও অনগ্রসর  জনগোষ্ঠীর প্রতি বিশেষ গুরুত্ব দিয়ে প্রস্তুত করা হয়েছে কিনা</span>}
                                     else
                                     {<span>xiii. Project development by emphasizing on underprivileged people, child, women and important social issues</span>}
@@ -1947,25 +1947,25 @@
                                 <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
                                     <tr>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>হ্যাঁ</span>}
                                             else
                                             {<span>Yes</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>না</span>}
                                             else
                                             {<span>No</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>আবেদনকারীর মন্তব্য</span>}
                                             else
                                             {<span>Applicant Comments</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>কর্তৃপক্ষের মন্তব্য</span>}
                                             else
                                             {<span>Authority Comments</span>}
@@ -2003,7 +2003,7 @@
                         <tr style="background: #9d9b9b; font-weight: bold;">
                             <td colspan="3">
                                 <h4>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>৪. প্রশাসনিক</span>}
                                     else
                                     {<span>D. Administrative</span>}
@@ -2014,7 +2014,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>i. অনাপত্তি পত্র</span>}
                                     else
                                     {<span>i. No Objection Certificate</span>}
@@ -2024,13 +2024,13 @@
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>হ্যাঁ</span>}
                                             else
                                             {<span>NOC Type</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>অনাপত্তি কাগজপত্র সংযুক্তি</span>}
                                             else
                                             {<span>Attchments of NOC Document</span>}
@@ -2042,7 +2042,7 @@
                                             {
                                                 LookUpCcModNocType nt = _db.LookUpCcModNocType.Where(w => w.NocTypeId == pcd.NocTypeId).FirstOrDefault();
 
-                                                if (prev_lang == "1")
+                                                if (prev_lang == 1)
                                                 {
                                                     <span>@nt.NocTypeBn</span>
                                                 }
@@ -2064,7 +2064,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>ii. টাকা প্রদান</span>}
                                     else
                                     {<span>ii. Payments</span>}
@@ -2074,25 +2074,25 @@
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>টাকা প্রদানের ধরণ</span>}
                                             else
                                             {<span>Payment Type</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>পেমেন্ট ডকুমেন্ট নম্বর</span>}
                                             else
                                             {<span>Payment Document Number</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>টাকার পরিমাণ</span>}
                                             else
                                             {<span>Paid Amount</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>টাকা প্রদানের সংযুক্তি</span>}
                                             else
                                             {<span>Payment Document File</span>}
@@ -2104,7 +2104,7 @@
                                             {
                                                 LookUpCcModPaymentMethod pm = _db.LookUpCcModPaymentMethod.Where(w => w.PaymentMethodId == pcd.PaymentMethodId).FirstOrDefault();
 
-                                                if (prev_lang == "1")
+                                                if (prev_lang == 1)
                                                 {
                                                     <span>@pm.PaymentMethodBn</span>
                                                 }
@@ -2115,7 +2115,7 @@
                                             }
                                         </td>
                                         <td>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {
                                                 <span>@pcd.PaymentDocNumber.ToString().NumberEnglishToBengali()</span>
                                             }
@@ -2125,7 +2125,7 @@
                                             }
                                         </td>
                                         <td>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {
                                                 <span>@pcd.PaidAmount.ToString().NumberEnglishToBengali()</span>
                                             }
@@ -2146,7 +2146,7 @@
                         <tr style="vertical-align: top; text-align: left;">
                             <td style="width: 250px;">
                                 <b>
-                                    @if (prev_lang == "1")
+                                    @if (prev_lang == 1)
                                     {<span>iii. সুপারিশ</span>}
                                     else
                                     {<span>iii. Recommendation</span>}
@@ -2156,13 +2156,13 @@
                                 <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                                     <tr>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>সুপারিশ</span>}
                                             else
                                             {<span>Recommendation</span>}
                                         </th>
                                         <th>
-                                            @if (prev_lang == "1")
+                                            @if (prev_lang == 1)
                                             {<span>শর্ত</span>}
                                             else
                                             {<span>Condition</span>}
@@ -2174,7 +2174,7 @@
                                             {
                                                 LookUpCcModRecommendation rec = _db.LookUpCcModRecommendation.Where(w => w.RecommendationId == pcd.RecommendationId).FirstOrDefault();
 
-                                                if (prev_lang == "1")
+                                                if (prev_lang == 1)
                                                 {
                                                     <span>@rec.RecommendationTitleBn</span>
                                                 }
@@ -2200,7 +2200,7 @@
                     <div class="row">
                         <div class="col">
                             <p>
-                                @if (prev_lang == "1")
+                                @if (prev_lang == 1)
                                 {<span>আমি নিশ্চিত ভাবে বলছি যে এই আবেদন এর সাথে সকল তথ্য এন্ড সংযুক্তি সঠিক এবং আমার জানামতে সর্বশেষ্ঠ।</span>}
                                 else
                                 {<span>I certify that the information and attachment provided with this application are correct to the best of my knowledge and belief. </span>}
@@ -2213,7 +2213,7 @@
                     <div class="row">
                         <div class="col">
                             <p>
-                                @if (prev_lang == "1")
+                                @if (prev_lang == 1)
                                 {<span>আবেদনকারীর স্বাক্ষর</span>}
                                 else
                                 {<span>Signature of Applicant</span>}
@@ -2222,7 +2222,7 @@
                             <br />
                             <span>----------------------</span>
                             <br />
-                            @if (prev_lang == "1")
+                            @if (prev_lang == 1)
                             {
                                 <span id="pApplicantName">@ViewData["ApplicantNameBn"].ToString()</span><br />
                                 <span id="pApplicantGroupName">@ViewData["ApplicantGroupName"].ToString()</span>

@@ -5,35 +5,50 @@
     var language = HttpContextAccessor.HttpContext.Request.Cookies["FormLanguage"].ToString();
 }
 
+<style type="text/css">
+    .active > h4 {
+        color: white;
+    }
+</style>
 <div class="nav flex-column nav-pills nav-pills-tab" id="v-pills-tab" role="tablist" aria-orientation="vertical">
     <a class="nav-link show mb-2 active" id="v-gen-info-tab" data-toggle="pill" href="#v-gen-info" role="tab" aria-controls="v-gen-info" aria-selected="true">
-        @if (language == "1")
-        {<span>ক. সাধারণ তথ্য</span>}
-        else
-        {<span>A. General Information</span>}
+        <h4 style="margin: 0 !important;">
+            @if (language == "1")
+            {<span>ক. সাধারণ তথ্য</span>}
+            else
+            {<span>A. General Information</span>}
+        </h4>
     </a>
     <a class="nav-link mb-2" id="v-tech-info-tab" data-toggle="pill" href="#v-tech-info" role="tab" aria-controls="v-tech-info" aria-selected="false">
-        @if (language == "1")
-        {<span>খ. কারিগরি তথ্য</span>}
-        else
-        {<span>B. Technical Information</span>}
+        <h4 style="margin: 0 !important;">
+            @if (language == "1")
+            {<span>খ. কারিগরি তথ্য</span>}
+            else
+            {<span>B. Technical Information</span>}
+        </h4>
     </a>
     <a class="nav-link mb-2" id="v-deed-obligatory-tab" data-toggle="pill" href="#v-deed-obligatory" role="tab" aria-controls="v-deed-obligatory" aria-selected="false">
-        @if (language == "1")
-        {<span>গ. দলিল প্রতিপালন</span>}
-        else
-        {<span>C. Deed Obligatory</span>}
+        <h4 style="margin: 0 !important;">
+            @if (language == "1")
+            {<span>গ. দলিল প্রতিপালন</span>}
+            else
+            {<span>C. Deed Obligatory</span>}
+        </h4>
     </a>
     <a class="nav-link mb-2" id="v-administrative-tab" data-toggle="pill" href="#v-administrative" role="tab" aria-controls="v-administrative" aria-selected="false">
-        @if (language == "1")
-        {<span>ঘ. প্রশাসনিক</span>}
-        else
-        {<span>D. Administrative</span>}
+        <h4 style="margin: 0 !important;">
+            @if (language == "1")
+            {<span>ঘ. প্রশাসনিক</span>}
+            else
+            {<span>D. Administrative</span>}
+        </h4>
     </a>
     <a class="nav-link mb-2 btn btn-info text-white" id="v-final-submit-tab" data-toggle="pill" href="#v-final-submit" role="tab" aria-controls="v-final-submit" aria-selected="false">
-        @if (language == "1")
-        {<span>চূড়ান্ত দাখিল</span>}
-        else
-        {<span>Final Submit</span>}
+        <h4 style="margin: 0 !important;">
+            @if (language == "1")
+            {<span>চূড়ান্ত দাখিল</span>}
+            else
+            {<span>Final Submit</span>}
+        </h4>
     </a>
 </div>

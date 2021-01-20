@@ -1,0 +1,235 @@
+﻿@{
+    var language = int.Parse(ViewData["vFormLanguage"].ToString());
+    List<EiaDetailTemp> eiad = (List<EiaDetailTemp>)ViewData["vEiaDetailTemp"];
+    List<SiaDetailTemp> siad = (List<SiaDetailTemp>)ViewData["vSiaDetailTemp"];
+    var eia_file = ViewData["vEnvAndSocEiaFile"].ToString();
+    var sia_file = ViewData["vEnvAndSocSiaFile"].ToString();
+}
+
+<tr>
+    <td colspan="3" class="text-left">
+        <h5>
+            @if (language == 1)
+            {<span>ii. পরিবেশগত প্রভাব নিরুপণ</span>}
+            else
+            {<span>ii. Environmental Impact Assessment</span>}
+        </h5>
+
+        <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Environmental Impact Assessment', 'EnvironmentalImpactAssessment');"
+           class="btn btn-sm btn-info waves-effect comment" data-close="false"
+           data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+           style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+            <i class="mdi mdi-comment-text-multiple"></i>
+        </a>
+    </td>
+</tr>
+
+<tr>
+    <td colspan="3">
+        <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+            <thead>
+                <tr>
+                    <th class="text-center">
+                        @if (language == 1)
+                        {<span>প্যারামিটার</span>}
+                        else
+                        {<span>Parameters</span>}
+                    </th>
+                    <th class="text-center">
+                        @if (language == 1)
+                        {<span>প্রকল্প পূর্ববর্তী পরিস্থিতি</span>}
+                        else
+                        {<span>Pre Project Situation</span>}
+                    </th>
+
+                    <th class="text-center">
+                        @if (language == 1)
+                        {<span>প্রকল্প পরবর্তী পরিস্থিতি</span>}
+                        else
+                        {<span>Post Project Situation</span>}
+                    </th>
+
+                    <th class="text-center">
+                        @if (language == 1)
+                        {<span>ইতিবাচক/ নেতিবাচক প্রভাব</span>}
+                        else
+                        {<span>Positive/ Negative Impact</span>}
+                    </th>
+
+                    <th class="text-center">
+                        @if (language == 1)
+                        {<span>প্রশমন পরিকল্পনা</span>}
+                        else
+                        {<span>Mitigation Plan</span>}
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tbodyEIADetailPreview">
+                @if (eiad.Count > 0)
+                {
+                    foreach (EiaDetailTemp eia in eiad)
+                    {
+                        if (string.IsNullOrEmpty(eia.Error))
+                        {
+                            <tr>
+                                <td class="text-left">
+                                    @if (language == 1)
+                                    {<span>@eia.ParameterNameBn</span>}
+                                else
+                                {<span>@eia.ParameterName</span>}
+                                </td>
+                                <td class="text-left">@eia.PreProjectSituation</td>
+                                <td class="text-left">@eia.PostProjectSituation</td>
+                                <td class="text-left">@eia.PositiveNegativeImpact</td>
+                                <td class="text-left">@eia.MitigationPlan</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-warning text-center">@eia.Error</td>
+                            </tr>
+                        }
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-warning text-center">no data found</td>
+                    </tr>
+                }
+            </tbody>
+
+            @if (!string.IsNullOrEmpty(eia_file))
+            {
+                <tfoot>
+                    <tr>
+                        <td colspan="2" class="text-left">
+                            @if (language == 1)
+                            {<span>পরিবেশগত প্রভাব নিরুপনের ফাইল</span>}
+                            else
+                            {<span>Environmental Impact Assessment File</span>}
+                        </td>
+                        <td colspan="3" class="text-left">
+                            <a href="../../images/CommonDetails/EiaFiles/@eia_file" target="_blank">@eia_file</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            }
+        </table>
+    </td>
+</tr>
+
+<tr class="text-center">
+    <td colspan="3" class="text-left">
+        <h5>
+            @if (language == 1)
+            {<span>iii. সামাজিক প্রভাব নিরুপণ</span>}
+            else
+            {<span>iii. Social Impact Assessment</span>}
+        </h5>
+
+        <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Social Impact Assessment', 'SocialImpactAssessment');"
+           class="btn btn-sm btn-info waves-effect comment" data-close="false"
+           data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+           style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+            <i class="mdi mdi-comment-text-multiple"></i>
+        </a>
+    </td>
+</tr>
+
+<tr>
+    <td colspan="3">
+        <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+            <tbody>
+                <tr>
+                    <th class="text-center">
+                        @if (language == 1)
+                        {<span>প্যারামিটার</span>}
+                        else
+                        {<span>Parameters</span>}
+                    </th>
+                    <th class="text-center">
+                        @if (language == 1)
+                        {<span>প্রকল্প পূর্ববর্তী পরিস্থিতি</span>}
+                        else
+                        {<span>Pre Project Situation</span>}
+                    </th>
+
+                    <th class="text-center">
+                        @if (language == 1)
+                        {<span>প্রকল্প পরবর্তী পরিস্থিতি</span>}
+                        else
+                        {<span>Post Project Situation</span>}
+                    </th>
+
+                    <th class="text-center">
+                        @if (language == 1)
+                        {<span>ইতিবাচক/ নেতিবাচক প্রভাব</span>}
+                        else
+                        {<span>Positive/ Negative Impact</span>}
+                    </th>
+
+                    <th class="text-center">
+                        @if (language == 1)
+                        {<span>প্রশমন পরিকল্পনা</span>}
+                        else
+                        {<span>Mitigation Plan</span>}
+                    </th>
+                </tr>
+            </tbody>
+            <tbody id="tbodySIADetailPreview">
+                @if (siad.Count > 0)
+                {
+                    foreach (SiaDetailTemp sia in siad)
+                    {
+                        if (string.IsNullOrEmpty(sia.Error))
+                        {
+                            <tr>
+                                <td class="text-left">
+                                    @if (language == 1)
+                                    {<span>@sia.SIAParameterNameBn</span>}
+                                else
+                                {<span>@sia.SIAParameterName</span>}
+                                </td>
+                                <td class="text-left">@sia.PreProjectSituation</td>
+                                <td class="text-left">@sia.PostProjectSituation</td>
+                                <td class="text-left">@sia.PositiveNegativeImpact</td>
+                                <td class="text-left">@sia.MitigationPlan</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-warning text-center">@sia.Error</td>
+                            </tr>
+                        }
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-warning text-center">no data found</td>
+                    </tr>
+                }
+            </tbody>
+
+            @if (!string.IsNullOrEmpty(sia_file))
+            {
+                <tfoot>
+                    <tr>
+                        <td colspan="2" class="text-left">
+                            @if (language == 1)
+                            {<span>সামাজিক প্রভাব নিরুপনের ফাইল</span>}
+                            else
+                            {<span>Social Impact Assessment File</span>}
+                        </td>
+                        <td colspan="3" class="text-left">
+                            <a href="../../images/CommonDetails/SiaFiles/@sia_file" target="_blank">@sia_file</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            }
+        </table>
+    </td>
+</tr>

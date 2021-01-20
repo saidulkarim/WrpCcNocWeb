@@ -223,9 +223,7 @@ namespace WrpCcNocWeb.Models
         public int EcoAndFinancialParamId { get; set; }
         public string EcoAndFinancialParamName { get; set; }
         public string EcoAndFinancialParamNameBn { get; set; }
-        public string EcoAndFinancialParamUnit { get; set; }
-        public string EcoAndFinancialApplicantCmt { get; set; }
-        public string EcoAndFinancialAuthorityCmt { get; set; }
+        public string EcoAndFinancialParamUnitValue { get; set; }
         public string Error { get; set; }
     }
 

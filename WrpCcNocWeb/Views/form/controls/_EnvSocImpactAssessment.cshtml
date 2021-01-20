@@ -1,0 +1,574 @@
+﻿@using WrpCcNocWeb.Helpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var language = int.Parse(ViewData["vFormLanguage"].ToString());
+}
+
+<div id="proj-env-sco-imp-assess-form">
+    <style type="text/css">
+        .select2-selection__rendered {
+            line-height: 31px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+        }
+
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+    </style>
+
+    <div id="divEnvSocImpAssessment">
+        <div id="EiaSia" class="row" style="margin-left: -7px;">
+            <div id="divEIAYes" class="form-group d-none">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th colspan="7" class="text-left">
+                                    @if (language == 1)
+                                    {
+                                        <span>iii. পরিবেশগত প্রভাব মূল্যায়ন</span>
+                                    }
+                                    else
+                                    {
+                                        <span>iii. Environmental Impact Assessment</span>
+                                    }
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-center">
+                                    @{if (language == 1)
+                                        { <span>প্যারামিটার</span>}
+                                        else
+                                        {<span>Parameters</span>}
+                                    }
+                                </th>
+                                <th class="text-center">
+                                    @{if (language == 1)
+                                        { <span>প্রকল্প পূর্ববর্তী পরিস্থিতি</span>}
+                                        else
+                                        {<span>Pre Project Situation</span>}
+                                    }
+                                </th>
+                                <th class="text-center">
+                                    @{if (language == 1)
+                                        { <span>প্রকল্প পরবর্তী পরিস্থিতি</span>}
+                                        else
+                                        {<span>Post Project Situation</span>}
+                                    }
+                                </th>
+                                <th class="text-center">
+                                    @{if (language == 1)
+                                        { <span>ইতিবাচক/ নেতিবাচক প্রভাব</span>}
+                                        else
+                                        {<span>Positive/ Negative Impact</span>}
+                                    }
+                                </th>
+                                <th class="text-center">
+                                    @{if (language == 1)
+                                        { <span>ব্যবস্থাপনা পরিকল্পনা</span>}
+                                        else
+                                        {<span>Management Plan</span>}
+                                    }
+                                </th>
+                                <th class="text-center" style="width: 150px;"></th>
+                            </tr>
+                            <tr>
+                                <th colspan="2" class="text-center">
+                                    <input id="EIAId" type="hidden" />
+                                    <select id="EIAParameterId" name="EIAParameterId" class="form-control" style="width: 100%;">
+                                        @if (language == 1)
+                                        {
+                                            <option value="">বাছাই করুন...</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="">Choose...</option>
+                                        }
+
+                                        @{
+                                            List<LookUpCcModEIAParameter> _eias = ViewBag.LookUpCcModEIAParameter;
+
+                                            if (_eias.Count > 0)
+                                            {
+                                                foreach (LookUpCcModEIAParameter eia in _eias)
+                                                {
+                                                    if (language == 1)
+                                                    {
+                                                        <option value="@eia.EIAParameterId">@eia.ParameterNameBn</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@eia.EIAParameterId">@eia.ParameterName</option>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                </th>
+                                <th class="text-center">
+                                    <input type="text" id="PreProjectSituation" name="PreProjectSituation" class="form-control" />
+                                </th>
+                                <th class="text-center">
+                                    <input type="text" id="PostProjectSituation" name="PostProjectSituation" class="form-control" />
+                                </th>
+                                <th class="text-center">
+                                    <input type="text" id="PositiveNegativeImpact" name="PositiveNegativeImpact" class="form-control" />
+                                </th>
+                                <th class="text-center">
+                                    <input type="text" id="MitigationPlan" name="MitigationPlan" class="form-control" />
+                                </th>
+                                <th class="text-center">
+                                    <button id="btnSaveEIAYes" type="button" class="btn btn-success waves-effect waves-light" value="Save">
+                                        <i class="mdi mdi-content-save"></i>
+                                    </button>
+
+                                    <button id="btnClearEIAYes" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
+                                        <i class="mdi mdi-refresh"></i>
+                                    </button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyEIADetail"></tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label for="EnvAndSocialEiaFile">
+                        @{if (language == 1)
+                            { <span>পরিবেশগত প্রভাব নিরুপনের ফাইল</span>}
+                            else
+                            {<span>Environmental Impact Assessment File</span>}
+                        }
+                    </label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input id="EnvAndSocialEiaFile" name="EnvAndSocialEiaFile" type="file" class="custom-file-input"
+                                   onchange="UploadCommonFiles(this, 'EnvAndSocialEiaFile');" />
+                            <label class="custom-file-label" for="EnvAndSocialEiaFile">
+                                @if (language == 1)
+                                {
+                                    <span>ফাইল পছন্দ করুন</span>
+                                }
+                                else
+                                {
+                                    <span>Choose file</span>
+                                }
+                            </label>
+                        </div>
+
+                        <a id="EnvAndSocialEiaFileView" href="javascript:void(0);" target="_blank" class="btn btn-blue ml-2 text-white"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="divSIAYes" class="form-group d-none">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th colspan="7" class="text-left">
+                                    @{if (language == 1)
+                                        { <span>iv. সামাজিক প্রভাব মূল্যায়ন</span>}
+                                        else
+                                        {<span>iv. Social Impact Assessment</span>}
+                                    }
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-center">
+                                    @{if (language == 1)
+                                        { <span>বিবরন</span>}
+                                        else
+                                        {<span>Parameters</span>}
+                                    }
+                                </th>
+                                <th class="text-center">
+                                    @{if (language == 1)
+                                        { <span>প্রকল্প পূর্ববর্তী পরিস্থিতি</span>}
+                                        else
+                                        {<span>Pre Project Situation</span>}
+                                    }
+                                </th>
+                                <th class="text-center">
+                                    @{if (language == 1)
+                                        { <span>প্রকল্প পরবর্তী পরিস্থিতি</span>}
+                                        else
+                                        {<span>Post Project Situation</span>}
+                                    }
+                                </th>
+                                <th class="text-center">
+                                    @{if (language == 1)
+                                        { <span>ইতিবাচক/ নেতিবাচক প্রভাব</span>}
+                                        else
+                                        {<span>Positive/ Negative Impact</span>}
+                                    }
+                                </th>
+                                <th class="text-center">
+                                    @{if (language == 1)
+                                        { <span>ব্যবস্থাপনা পরিকল্পনা</span>}
+                                        else
+                                        {<span>Management Plan</span>}
+                                    }
+                                </th>
+                                <th class="text-center" style="width: 150px;"></th>
+                            </tr>
+                            <tr>
+                                <th colspan="2" class="text-center">
+                                    <input id="SIAId" type="hidden" />
+                                    <select id="SIAParameterId" name="SIAParameterId" class="form-control" style="width: 100%;">
+                                        @if (language == 1)
+                                        {
+                                            <option value="">বাছাই করুন...</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="">Choose...</option>
+                                        }
+
+                                        @{
+                                            List<LookUpCcModSIAParameter> _sias = ViewBag.LookUpCcModSIAParameter;
+
+                                            if (_sias.Count > 0)
+                                            {
+                                                foreach (LookUpCcModSIAParameter sia in _sias)
+                                                {
+                                                    if (language == 1)
+                                                    {
+                                                        <option value="@sia.SIAParameterId">@sia.SIAParameterNameBn</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@sia.SIAParameterId">@sia.SIAParameterName</option>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                </th>
+                                <th class="text-center">
+                                    <input type="text" id="SiaPreProjectSituation" name="SiaPreProjectSituation" class="form-control" />
+                                </th>
+                                <th class="text-center">
+                                    <input type="text" id="SiaPostProjectSituation" name="SiaPostProjectSituation" class="form-control" />
+                                </th>
+                                <th class="text-center">
+                                    <input type="text" id="SiaPositiveNegativeImpact" name="SiaPositiveNegativeImpact" class="form-control" />
+                                </th>
+                                <th class="text-center">
+                                    <input type="text" id="SiaMitigationPlan" name="SiaMitigationPlan" class="form-control" />
+                                </th>
+                                <th class="text-center">
+                                    <button id="btnSaveSIAYes" type="button" class="btn btn-success waves-effect waves-light" value="Save">
+                                        <i class="mdi mdi-content-save"></i>
+                                    </button>
+
+                                    <button id="btnClearSIAYes" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
+                                        <i class="mdi mdi-refresh"></i>
+                                    </button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodySIADetail"></tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label for="EnvAndSocialSiaFile">
+                        @{if (language == 1)
+                            { <span>সামাজিক প্রভাব নিরুপনের ফাইল</span>}
+                            else
+                            {<span>Social Impact Assessment File</span>}
+                        }
+                    </label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input id="EnvAndSocialSiaFile" name="EnvAndSocialSiaFile" type="file" class="custom-file-input"
+                                   onchange="UploadCommonFiles(this, 'EnvAndSocialSiaFile');" />
+                            <label class="custom-file-label" for="EnvAndSocialSiaFile">
+                                @if (language == 1)
+                                {
+                                    <span>ফাইল পছন্দ করুন</span>
+                                }
+                                else
+                                {
+                                    <span>Choose file</span>
+                                }
+                            </label>
+                        </div>
+
+                        <a id="EnvAndSocialSiaFileView" href="javascript:void(0);" target="_blank" class="btn btn-blue ml-2 text-white"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="EnvSocImpAssessmentControl" type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery("#EIAParameterId").select2({
+            placeholder: "Select an option",
+            allowClear: true
+        }).on('change', function () {
+            var val = $("#EIAParameterId option:selected").val();
+            var txt = $("#EIAParameterId option:selected").text();
+        });
+
+        jQuery("#SIAParameterId").select2({
+            placeholder: "Select an option",
+            allowClear: true
+        }).on('change', function () {
+            var val = $("#SIAParameterId option:selected").val();
+            var txt = $("#SIAParameterId option:selected").text();
+        });
+
+        jQuery("#btnSaveEIAYes").click(function () {
+            var EIAId = GetHiddenValue('EIAId');
+            EIAId = (EIAId == '') ? 0 : EIAId;
+            var EIAParameterId = jQuery("#EIAParameterId option:selected").val();
+            var PreProjectSituation = jQuery("#PreProjectSituation").val();
+            var PostProjectSituation = jQuery("#PostProjectSituation").val();
+            var PositiveNegativeImpact = jQuery("#PositiveNegativeImpact").val();
+            var MitigationPlan = jQuery("#MitigationPlan").val();
+
+            if (EIAParameterId != '') {
+                var eia_pid = GetHiddenValue('ProjectId');
+                var eiaDetail = {
+                    "EIAId": EIAId,
+                    "ProjectId": eia_pid,
+                    "EIAParameterId": EIAParameterId,
+                    "PreProjectSituation": PreProjectSituation,
+                    "PostProjectSituation": PostProjectSituation,
+                    "PositiveNegativeImpact": PositiveNegativeImpact,
+                    "MitigationPlan": MitigationPlan
+                };
+
+                var url = '@Url.Action("eiads", "controls")';
+                jQuery.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { _eia: eiaDetail },
+                    dataType: "json",
+                    success: function (data, status, jqXHR) {
+                        if (data.status == 'success') {
+                            Notification('success', 'Success', data.message);
+
+                            GetEiaData();
+                            ClearEIA();
+                        } else {
+                            Notification('error', 'Saving Error', data.message);
+                        }
+                    }, error: function (jqXHR, exception) {
+                        var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                        Notification('error', 'Error Occured', errorMsg);
+                    }
+                });
+            } else {
+                Notification('warning', 'Required Field', 'Please select an option from EIA parameter!');
+                jQuery("#EIAParameterId").focus();
+            }
+        });
+
+        jQuery("#btnClearEIAYes").click(function () {
+            ClearEIA();
+        });
+
+        jQuery("#btnSaveSIAYes").click(function () {
+            var SIAId = GetHiddenValue('SIAId');
+            SIAId = (SIAId == '') ? 0 : SIAId;
+            var SIAParameterId = jQuery("#SIAParameterId option:selected").val();
+            var SiaPreProjectSituation = jQuery("#SiaPreProjectSituation").val();
+            var SiaPostProjectSituation = jQuery("#SiaPostProjectSituation").val();
+            var SiaPositiveNegativeImpact = jQuery("#SiaPositiveNegativeImpact").val();
+            var SiaMitigationPlan = jQuery("#SiaMitigationPlan").val();
+
+            if (SIAParameterId != '') {
+                var sia_pid = GetHiddenValue('ProjectId');
+                var siaDetail = {
+                    "SIAId": SIAId,
+                    "ProjectId": sia_pid,
+                    "SIAParameterId": SIAParameterId,
+                    "PreProjectSituation": SiaPreProjectSituation,
+                    "PostProjectSituation": SiaPostProjectSituation,
+                    "PositiveNegativeImpact": SiaPositiveNegativeImpact,
+                    "MitigationPlan": SiaMitigationPlan
+                };
+
+                var url = '@Url.Action("siads", "controls")';
+                jQuery.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { _sia: siaDetail },
+                    dataType: "json",
+                    success: function (data, status, jqXHR) {
+                        if (data.status == 'success') {
+                            Notification('success', 'Success', data.message);
+
+                            GetSiaData();
+                            ClearSIA();
+                        } else {
+                            Notification('error', 'Saving Error', data.message);
+                        }
+                    }, error: function (jqXHR, exception) {
+                        var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                        Notification('error', 'Error Occured', errorMsg);
+                    }
+                });
+            } else {
+                Notification('warning', 'Required Field', 'Please select an option from SIA parameter!');
+                jQuery("#EIAParameterId").focus();
+            }
+        });
+
+        jQuery("#btnClearSIAYes").click(function () {
+            ClearSIA();
+        });
+    });
+
+    //start :: Environmental Impact Assessment
+    function ClearEIA() {
+        jQuery("#EIAId").val('');
+        jQuery('#EIAParameterId').val(null).trigger('change');
+        jQuery("#PreProjectSituation").val('');
+        jQuery("#PostProjectSituation").val('');
+        jQuery("#PositiveNegativeImpact").val('');
+        jQuery("#MitigationPlan").val('');
+    }
+
+    function GetEiaData() {
+        var eia_get_pid = GetHiddenValue('ProjectId');
+        var url = '@Url.Action("get_eiad", "controls")';
+
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { project_id: eia_get_pid },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.length > 0) {
+                    //console.log(data);
+                    var rows = '';
+
+                    var count = 0;
+                    jQuery.each(data, function (i, item) {
+                        ++count;
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.parameterName + '</td><td>' + item.preProjectSituation + '</td><td>' + item.postProjectSituation + '</td><td>' + item.positiveNegativeImpact + '</td><td>' + item.mitigationPlan + '</td><td class="text-center"><button onclick="javascript:EditEia(' + item.eiaId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.eiaId + ', ' + item.projectId + ', \'CcModPrjEIADetail\'); GetEiaData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                    });
+
+                    jQuery("#tbodyEIADetail").html(rows);
+                } else {
+                    jQuery("#tbodyEIADetail").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                    //Notification('error', 'Data Fetch Error', data.message);
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tbodyEIADetail").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+                //Notification('error', 'Error Occured', errorMsg);
+            }
+        });
+    }
+
+    function EditEia(id, projectId) {
+	    var url = '@Url.Action("gseia", "controls")';
+	    jQuery.ajax({
+		    type: "GET",
+		    url: url,
+		    data: { id: id, projectId: projectId },
+		    dataType: "json",
+		    success: function (data, status, jqXHR) {
+			    //console.log('Single EIA Detail');
+			    //console.log(data);
+
+                if (data.eiaId != '') {
+				    SetHiddenValue('EIAId', data.eiaId);
+				    jQuery("#EIAParameterId option[value=" + data.eiaParameterId + "]").prop('selected', true);
+				    SetTextValue('PreProjectSituation', data.preProjectSituation);
+                    SetTextValue('PostProjectSituation', data.postProjectSituation);
+                    SetTextValue('PositiveNegativeImpact', data.positiveNegativeImpact);
+                    SetTextValue('MitigationPlan', data.mitigationPlan);
+			    }
+		    }, error: function (jqXHR, exception) {
+			    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			    Notification('error', 'Error Occured', errorMsg);
+		    }
+	    });
+    }
+    //end
+
+    //start :: Social Impact Assessment
+    function ClearSIA() {
+        jQuery("#SIAId").val('');
+        jQuery('#SIAParameterId').val(null).trigger('change');
+        jQuery("#SiaPreProjectSituation").val('');
+        jQuery("#SiaPostProjectSituation").val('');
+        jQuery("#SiaPositiveNegativeImpact").val('');
+        jQuery("#SiaMitigationPlan").val('');
+    }
+
+    function GetSiaData() {
+        var sia_get_pid = GetHiddenValue('ProjectId');
+        var url = '@Url.Action("get_siad", "controls")';
+
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { project_id: sia_get_pid },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.length > 0) {
+                    //console.log(data);
+                    var rows = '';
+
+                    var count = 0;
+                    jQuery.each(data, function (i, item) {
+                        ++count;
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.siaParameterName + '</td><td>' + item.preProjectSituation + '</td><td>' + item.postProjectSituation + '</td><td>' + item.positiveNegativeImpact + '</td><td>' + item.mitigationPlan + '</td><td class="text-center"><button onclick="javascript:EditSia(' + item.siaId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.siaId + ', ' + item.projectId + ', \'CcModPrjSIADetail\'); GetSiaData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                    });
+
+                    jQuery("#tbodySIADetail").html(rows);
+                } else {
+                    jQuery("#tbodySIADetail").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                    //Notification('error', 'Data Fetch Error', data.message);
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tbodySIADetail").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+                //Notification('error', 'Error Occured', errorMsg);
+            }
+        });
+    }
+
+    function EditSia(id, projectId) {
+	    var url = '@Url.Action("gssia", "controls")';
+	    jQuery.ajax({
+		    type: "GET",
+		    url: url,
+		    data: { id: id, projectId: projectId },
+		    dataType: "json",
+		    success: function (data, status, jqXHR) {
+			    //console.log('Single SIA Detail');
+			    //console.log(data);
+
+                if (data.eiaId != '') {
+				    SetHiddenValue('SIAId', data.siaId);
+				    jQuery("#SIAParameterId option[value=" + data.siaParameterId + "]").prop('selected', true);
+				    SetTextValue('SiaPreProjectSituation', data.preProjectSituation);
+                    SetTextValue('SiaPostProjectSituation', data.postProjectSituation);
+                    SetTextValue('SiaPositiveNegativeImpact', data.positiveNegativeImpact);
+                    SetTextValue('SiaMitigationPlan', data.mitigationPlan);
+			    }
+		    }, error: function (jqXHR, exception) {
+			    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			    Notification('error', 'Error Occured', errorMsg);
+		    }
+	    });
+    }
+    //end
+</script>

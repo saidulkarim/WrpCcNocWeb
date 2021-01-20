@@ -576,13 +576,13 @@
                                                                                 <div class="form-group">
                                                                                     <label for="CropProductionAmount">
                                                                                         @if (language == 1)
-                                                                                            {
-                                                                                                <span>xvii. মাছ উৎপাদন এবং বৈচিত্র্য</span>
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                                <span>xvii. Fish Production and Diversity</span>
-                                                                                            }                                                                                        
+                                                                                        {
+                                                                                            <span>xvii. মাছ উৎপাদন এবং বৈচিত্র্য</span>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <span>xvii. Fish Production and Diversity</span>
+                                                                                        }
                                                                                     </label>
 
                                                                                     <div id="FishProductionDiversity" class="row">
@@ -590,7 +590,7 @@
                                                                                             @{ await Html.RenderPartialAsync("controls/_FishProductionDiversity"); }
                                                                                         </div>
                                                                                     </div>
-                                                                                </div>                                                                                
+                                                                                </div>
 
                                                                                 <div class="form-group">
                                                                                     <label for="FloraAndFauna">
@@ -698,7 +698,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>i. প্রকল্প প্রণয়ন পর্যায়ে স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
                                                                                             else
-                                                                                            {<span>i. Discussion with stakeholders during starting of the project</span>}
+                                                                                            {<span>i. Discussion with Stakeholders During Starting of the Project</span>}
                                                                                         }
                                                                                     </label>
 
@@ -735,7 +735,7 @@
                                                                                             {<span>ii. Types of Consultation</span>}
                                                                                         }
                                                                                     </label>
-                                                                                    
+
                                                                                     <select id="TypesOfConsultationId" name="TypesOfConsultationId" class="form-control" style="width: 100%;">
                                                                                         @{if (language == 1)
                                                                                             {
@@ -780,18 +780,6 @@
                                                                                     <input type="text" id="DiscussWithStakeApplicantCmt" name="DiscussWithStakeApplicantCmt" class="form-control" />
                                                                                 </div>
 
-                                                                                <div class="form-group hidden">
-                                                                                    <label for="DiscussWithStakeAuthorityCmt">
-
-                                                                                        @{if (language == 1)
-                                                                                            { <span>কর্তৃপক্ষের মন্তব্য</span>}
-                                                                                            else
-                                                                                            {<span>Authority Comments</span>}
-                                                                                        }
-                                                                                    </label>
-                                                                                    <input type="text" id="DiscussWithStakeAuthorityCmt" name="DiscussWithStakeAuthorityCmt" class="form-control" />
-                                                                                </div>
-
                                                                                 <div id="divDSDSPYesControls" class="d-none">
                                                                                     <div class="form-group">
                                                                                         <label for="DiscussWithStakePosFeedback">
@@ -816,7 +804,7 @@
                                                                                         <input type="text" id="DiscussWithStakeNegFeedback" name="DiscussWithStakeNegFeedback" class="form-control" />
                                                                                     </div>
 
-                                                                                    <div class="form-group">
+                                                                                    <div class="col-md-6 form-group" style="padding-left: 0 !important;">
                                                                                         <label for="DiscussWithStakeParticipntLst">
                                                                                             @{if (language == 1)
                                                                                                 { <span>vi. অংশগ্রহণকারীদের তালিকা</span>}
@@ -827,22 +815,20 @@
                                                                                         <div class="input-group">
                                                                                             <div class="custom-file">
                                                                                                 <input id="DiscussWithStakeParticipntLst" name="DiscussWithStakeParticipntLst" type="file"
-                                                                                                       class="custom-file-input" onchange="UploadCommonFiles('DiscussWithStakeParticipntLst');" />
+                                                                                                       class="custom-file-input" onchange="UploadCommonFiles(this, 'DiscussWithStakeParticipntLst');" />
                                                                                                 <label class="custom-file-label" for="DiscussWithStakeParticipntLst">
                                                                                                     @if (language == 1)
-                                                                                                    {
-                                                                                                        <span>ফাইল পছন্দ করুন</span>
-                                                                                                    }
+                                                                                                    {<span>ফাইল পছন্দ করুন</span>}
                                                                                                     else
-                                                                                                    {
-                                                                                                        <span>Choose file</span>
-                                                                                                    }
+                                                                                                    {<span>Choose file</span>}
                                                                                                 </label>
                                                                                             </div>
+
+                                                                                            <a id="DiscussWithStakeParticipntLstView" href="javascript:void(0);" target="_blank" class="btn btn-blue ml-2 text-white"></a>
                                                                                         </div>
                                                                                     </div>
 
-                                                                                    <div class="form-group">
+                                                                                    <div class="col-md-6 form-group" style="padding-left: 0 !important;">
                                                                                         <label for="DiscussWithStakeMeetingMin">
                                                                                             @{if (language == 1)
                                                                                                 { <span>vii. মিটিং মিনিট</span>}
@@ -853,18 +839,16 @@
                                                                                         <div class="input-group">
                                                                                             <div class="custom-file">
                                                                                                 <input id="DiscussWithStakeMeetingMin" name="DiscussWithStakeMeetingMin" type="file"
-                                                                                                       class="custom-file-input" onchange="UploadCommonFiles('DiscussWithStakeMeetingMin');" />
+                                                                                                       class="custom-file-input" onchange="UploadCommonFiles(this, 'DiscussWithStakeMeetingMin');" />
                                                                                                 <label class="custom-file-label" for="DiscussWithStakeMeetingMin">
                                                                                                     @if (language == 1)
-                                                                                                    {
-                                                                                                        <span>ফাইল পছন্দ করুন</span>
-                                                                                                    }
+                                                                                                    {<span>ফাইল পছন্দ করুন</span>}
                                                                                                     else
-                                                                                                    {
-                                                                                                        <span>Choose file</span>
-                                                                                                    }
+                                                                                                    {<span>Choose file</span>}
                                                                                                 </label>
                                                                                             </div>
+
+                                                                                            <a id="DiscussWithStakeMeetingMinView" href="javascript:void(0);" target="_blank" class="btn btn-blue ml-2 text-white"></a>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -885,11 +869,11 @@
                                                                             </h5>
                                                                         </div>
                                                                         <div id="cardCollpase34" class="collapse show">
-                                                                            <div class="card-body">                                                                                
+                                                                            <div class="card-body">
                                                                                 <div class="row">
                                                                                     <div class="col-md-12">
                                                                                         @{ await Html.RenderPartialAsync("controls/_AnalyzeOptionFulfillObject.cshtml",
-                                                                                                new ViewDataDictionary(ViewData) {
+                                                                                                    new ViewDataDictionary(ViewData) {
                                                                                                     { "vFormLanguage", language }}); }
                                                                                     </div>
                                                                                 </div>
@@ -989,242 +973,10 @@
                                                                                     <input type="text" id="EnvAndSocialApplicantCmt" name="EnvAndSocialApplicantCmt" class="form-control" />
                                                                                 </div>
 
-                                                                                <div class="form-group hidden">
-                                                                                    <label for="EnvAndSocialAuthorityCmt">
-                                                                                        @{if (language == 1)
-                                                                                            { <span>iii. কর্তৃপক্ষের মন্তব্য</span>}
-                                                                                            else
-                                                                                            {<span>iii. Authority Comments</span>}
-                                                                                        }
-                                                                                    </label>
-                                                                                    <input type="text" id="EnvAndSocialAuthorityCmt" name="EnvAndSocialAuthorityCmt" class="form-control" />
-                                                                                </div>
-
-                                                                                <div id="divEIAYes" class="form-group d-none">
-                                                                                    <div id="EIAYes" class="row" style="margin-left: -7px;">
-                                                                                        <div class="table-responsive">
-                                                                                            <table class="table mb-0">
-                                                                                                <thead>
-                                                                                                    <tr>
-                                                                                                        <th colspan="7" class="text-center">
-                                                                                                            @if (language == 1)
-                                                                                                            {
-                                                                                                                <span>iv. পরিবেশগত প্রভাব মূল্যায়ন</span>
-                                                                                                            }
-                                                                                                            else
-                                                                                                            {
-                                                                                                                <span>iv. Environmental Impact Assessment</span>
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                    </tr>
-                                                                                                    <tr>
-                                                                                                        <th class="text-center">#</th>
-                                                                                                        <th class="text-center">
-                                                                                                            @{if (language == 1)
-                                                                                                                { <span>প্যারামিটার</span>}
-                                                                                                                else
-                                                                                                                {<span>Parameters</span>}
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            @{if (language == 1)
-                                                                                                                { <span>প্রকল্প পূর্ববর্তী পরিস্থিতি</span>}
-                                                                                                                else
-                                                                                                                {<span>Pre Project Situation</span>}
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            @{if (language == 1)
-                                                                                                                { <span>প্রকল্প পরবর্তী পরিস্থিতি</span>}
-                                                                                                                else
-                                                                                                                {<span>Post Project Situation</span>}
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            @{if (language == 1)
-                                                                                                                { <span>ইতিবাচক/ নেতিবাচক প্রভাব</span>}
-                                                                                                                else
-                                                                                                                {<span>Positive/ Negative Impact</span>}
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            @{if (language == 1)
-                                                                                                                { <span>ব্যবস্থাপনা পরিকল্পনা</span>}
-                                                                                                                else
-                                                                                                                {<span>Management Plan</span>}
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                        <th class="text-center" style="width: 150px;"></th>
-                                                                                                    </tr>
-                                                                                                    <tr>
-                                                                                                        <th colspan="2" class="text-center">
-                                                                                                            <input id="EIAId" type="hidden" />
-                                                                                                            <select id="EIAParameterId" name="EIAParameterId" class="form-control">
-                                                                                                                <option value="">
-                                                                                                                    @{if (language == 1)
-                                                                                                                        { <span>বাছাই করুন...</span>}
-                                                                                                                        else
-                                                                                                                        {<span>Choose...</span>}
-                                                                                                                    }
-                                                                                                                </option>
-                                                                                                                @{
-                                                                                                                    List<LookUpCcModEIAParameter> _eias = ViewBag.LookUpCcModEIAParameter;
-
-                                                                                                                    if (_eias.Count > 0)
-                                                                                                                    {
-                                                                                                                        foreach (LookUpCcModEIAParameter eia in _eias)
-                                                                                                                        {
-                                                                                                                            if (language == 1)
-                                                                                                                            {
-                                                                                                                                <option value="@eia.EIAParameterId">@eia.ParameterNameBn</option>
-                                                                                                                            }
-                                                                                                                            else
-                                                                                                                            {
-                                                                                                                                <option value="@eia.EIAParameterId">@eia.ParameterName</option>
-                                                                                                                            }
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                }
-                                                                                                            </select>
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            <input type="text" id="PreProjectSituation" name="PreProjectSituation" class="form-control" />
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            <input type="text" id="PostProjectSituation" name="PostProjectSituation" class="form-control" />
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            <input type="text" id="PositiveNegativeImpact" name="PositiveNegativeImpact" class="form-control" />
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            <input type="text" id="MitigationPlan" name="MitigationPlan" class="form-control" />
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            <button id="btnSaveEIAYes" type="button" class="btn btn-success waves-effect waves-light" value="Save">
-                                                                                                                <i class="mdi mdi-content-save"></i>
-                                                                                                            </button>
-
-                                                                                                            <button id="btnClearEIAYes" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
-                                                                                                                <i class="mdi mdi-refresh"></i>
-                                                                                                            </button>
-                                                                                                        </th>
-                                                                                                    </tr>
-                                                                                                </thead>
-                                                                                                <tbody id="tbodyEIADetail"></tbody>
-                                                                                            </table>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div id="divSIAYes" class="form-group d-none">
-                                                                                    <div id="SIAYes" class="row" style="margin-left: -7px;">
-                                                                                        <div class="table-responsive">
-                                                                                            <table class="table mb-0">
-                                                                                                <thead>
-                                                                                                    <tr>
-                                                                                                        <th colspan="7" class="text-center">
-                                                                                                            @{if (language == 1)
-                                                                                                                { <span>v. সামাজিক প্রভাব মূল্যায়ন</span>}
-                                                                                                                else
-                                                                                                                {<span>v. Social Impact Assessment</span>}
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                    </tr>
-                                                                                                    <tr>
-                                                                                                        <th class="text-center">#</th>
-                                                                                                        <th class="text-center">
-                                                                                                            @{if (language == 1)
-                                                                                                                { <span>বিবরন</span>}
-                                                                                                                else
-                                                                                                                {<span>Parameters</span>}
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            @{if (language == 1)
-                                                                                                                { <span>প্রকল্প পূর্ববর্তী পরিস্থিতি</span>}
-                                                                                                                else
-                                                                                                                {<span>Pre Project Situation</span>}
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            @{if (language == 1)
-                                                                                                                { <span>প্রকল্প পরবর্তী পরিস্থিতি</span>}
-                                                                                                                else
-                                                                                                                {<span>Post Project Situation</span>}
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            @{if (language == 1)
-                                                                                                                { <span>ইতিবাচক/ নেতিবাচক প্রভাব</span>}
-                                                                                                                else
-                                                                                                                {<span>Positive/ Negative Impact</span>}
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            @{if (language == 1)
-                                                                                                                { <span>ব্যবস্থাপনা পরিকল্পনা</span>}
-                                                                                                                else
-                                                                                                                {<span>Management Plan</span>}
-                                                                                                            }
-                                                                                                        </th>
-                                                                                                        <th class="text-center" style="width: 150px;"></th>
-                                                                                                    </tr>
-                                                                                                    <tr>
-                                                                                                        <th colspan="2" class="text-center">
-                                                                                                            <input id="SIAId" type="hidden" />
-                                                                                                            <select id="SIAParameterId" name="SIAParameterId" class="form-control">
-                                                                                                                <option value="">
-                                                                                                                    @if (language == 1)
-                                                                                                                    {<span>বাছাই করুন...</span>}
-                                                                                                                    else
-                                                                                                                    {<span>Choose...</span>}
-                                                                                                                </option>
-                                                                                                                @{
-                                                                                                                    List<LookUpCcModSIAParameter> _sias = ViewBag.LookUpCcModSIAParameter;
-
-                                                                                                                    if (_sias.Count > 0)
-                                                                                                                    {
-                                                                                                                        foreach (LookUpCcModSIAParameter sia in _sias)
-                                                                                                                        {
-                                                                                                                            if (language == 1)
-                                                                                                                            {
-                                                                                                                                <option value="@sia.SIAParameterId">@sia.SIAParameterNameBn</option>
-                                                                                                                            }
-                                                                                                                            else
-                                                                                                                            {
-                                                                                                                                <option value="@sia.SIAParameterId">@sia.SIAParameterName</option>
-                                                                                                                            }
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                }
-                                                                                                            </select>
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            <input type="text" id="SiaPreProjectSituation" name="SiaPreProjectSituation" class="form-control" />
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            <input type="text" id="SiaPostProjectSituation" name="SiaPostProjectSituation" class="form-control" />
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            <input type="text" id="SiaPositiveNegativeImpact" name="SiaPositiveNegativeImpact" class="form-control" />
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            <input type="text" id="SiaMitigationPlan" name="SiaMitigationPlan" class="form-control" />
-                                                                                                        </th>
-                                                                                                        <th class="text-center">
-                                                                                                            <button id="btnSaveSIAYes" type="button" class="btn btn-success waves-effect waves-light" value="Save">
-                                                                                                                <i class="mdi mdi-content-save"></i>
-                                                                                                            </button>
-
-                                                                                                            <button id="btnClearSIAYes" type="button" class="btn btn-warning  waves-effect waves-light" value="Save">
-                                                                                                                <i class="mdi mdi-refresh"></i>
-                                                                                                            </button>
-                                                                                                        </th>
-                                                                                                    </tr>
-                                                                                                </thead>
-                                                                                                <tbody id="tbodySIADetail"></tbody>
-                                                                                            </table>
-                                                                                        </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        @{ await Html.RenderPartialAsync("controls/_EnvSocImpactAssessment.cshtml",
+                                                                                                   new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -1232,24 +984,52 @@
                                                                     </div>
 
                                                                     <div class="card">
-                                                                        <div class="card-header bg-success py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase37">
+                                                                        <div class="card-header bg-warning py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase37">
                                                                             <div class="card-widgets">
-                                                                                <a data-toggle="collapse" href="#cardCollpase37" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                                                                                <a data-toggle="collapse" href="#cardCollpase37" role="button" aria-expanded="false" aria-controls="cardCollpase37"><i class="mdi mdi-minus"></i></a>
                                                                             </div>
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == 1)
-                                                                                {<span>৭. প্রকল্পটি তৈরিতে উপযুক্ত ও পরীক্ষিত  বিশ্লেষণি প্রক্রিয়া, মুল্যায়ন পদ্ধতি, কৌশল ও টুলস্ ব্যবহার করা হয়েছে কিনা</span>}
+                                                                                {<span>৭. অপশন সুপারিশ</span>}
                                                                                 else
-                                                                                {<span>7. Use of Appropriate tools, technics, analytical procedures etc.</span>}
+                                                                                {<span>7. Recommended Option</span>}
                                                                             </h5>
                                                                         </div>
                                                                         <div id="cardCollpase37" class="collapse show">
                                                                             <div class="card-body">
-                                                                                <label for="AnalyzeOptFulfillObj">
+                                                                                <div class="form-group">
+                                                                                    <label for="RecommendedOption">
+                                                                                        @{if (language == 1)
+                                                                                            { <span>i. অপশন সুপারিশ</span>}
+                                                                                            else
+                                                                                            {<span>i. Recommended Option</span>}
+                                                                                        }
+                                                                                    </label>
+                                                                                    <input type="text" maxlength="500" id="RecommendedOption" name="RecommendedOption" class="form-control" />
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="card">
+                                                                        <div class="card-header bg-success py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase38">
+                                                                            <div class="card-widgets">
+                                                                                <a data-toggle="collapse" href="#cardCollpase38" role="button" aria-expanded="false" aria-controls="cardCollpase38"><i class="mdi mdi-minus"></i></a>
+                                                                            </div>
+                                                                            <h5 class="card-title mb-0 text-white">
+                                                                                @if (language == 1)
+                                                                                {<span>৮. প্রকল্পটি প্রণয়নের ক্ষেত্রে উপযুক্ত ও পরীক্ষিত টুলস্, কৌশল বিশ্লেষণি প্রক্রিয়া, মুল্যায়ন পদ্ধতির ব্যবহার করা হয়েছে কি না?</span>}
+                                                                                else
+                                                                                {<span>8. Examine whether appropriate and proven analytical procedures and evaluation methods, tools and technique used in the project document</span>}
+                                                                            </h5>
+                                                                        </div>
+                                                                        <div id="cardCollpase38" class="collapse show">
+                                                                            <div class="card-body">
+                                                                                <label for="UseOfAppropriateTools">
                                                                                     @{if (language == 1)
                                                                                         { <span>i. উপযুক্ত সরঞ্জাম ব্যবহার করা হয়েছে কিনা</span>}
                                                                                         else
-                                                                                        {<span>i. Use of Appropriate tools</span>}
+                                                                                        {<span>i. Use of Appropriate Tools</span>}
                                                                                     }
                                                                                 </label>
 
@@ -1290,148 +1070,42 @@
                                                                                     <input type="text" id="ToolsApplicantComments" name="ToolsApplicantComments" class="form-control" />
                                                                                 </div>
 
-                                                                                <div class="form-group hidden">
-                                                                                    <label for="ToolsAuthorityComments">
-                                                                                        @{if (language == 1)
-                                                                                            { <span>iii. কর্তৃপক্ষের মন্তব্য</span>}
-                                                                                            else
-                                                                                            {<span>iii. Authority Comments</span>}
-                                                                                        }
-                                                                                    </label>
-                                                                                    <input type="text" id="ToolsAuthorityComments" name="ToolsAuthorityComments" class="form-control" />
+                                                                                <div id="divUseOfAppropriateToolsControls" class="d-none">
+                                                                                    <div class="form-group">
+                                                                                        <label for="UseOfAppropToolsDescription">
+                                                                                            @{if (language == 1)
+                                                                                                { <span>iii. হ্যাঁ হলে সংক্ষিপ্ত বিবরণ</span>}
+                                                                                                else
+                                                                                                {<span>iii. Short Description, If Yes</span>}
+                                                                                            }
+                                                                                        </label>
+
+                                                                                        <input type="text" maxlength="500" id="UseOfAppropToolsDescription" name="UseOfAppropToolsDescription" class="form-control" />
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="card">
-                                                                        <div class="card-header bg-danger py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase38">
+                                                                        <div class="card-header bg-danger py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase39">
                                                                             <div class="card-widgets">
-                                                                                <a data-toggle="collapse" href="#cardCollpase38" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                                                                                <a data-toggle="collapse" href="#cardCollpase39" role="button" aria-expanded="false" aria-controls="cardCollpase39"><i class="mdi mdi-minus"></i></a>
                                                                             </div>
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == 1)
-                                                                                {<span>৮. অর্থনৈতিক ও আর্থিক বিশ্লেষণ</span>}
+                                                                                {<span>৯. অর্থনৈতিক ও আর্থিক বিশ্লেষণ</span>}
                                                                                 else
-                                                                                {<span>8. Economical & Financial Analysis</span>}
+                                                                                {<span>9. Economical & Financial Analysis</span>}
                                                                             </h5>
                                                                         </div>
-                                                                        <div id="cardCollpase38" class="collapse show">
+                                                                        <div id="cardCollpase39" class="collapse show">
                                                                             <div class="card-body">
-                                                                                <div id="divEconFinAna" class="row" style="margin-left: -7px;">
-                                                                                    <div class="table-responsive">
-                                                                                        <table class="table mb-0">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th class="text-center">#</th>
-                                                                                                    <th class="text-center">
-                                                                                                        @if (language == 1)
-                                                                                                        {
-                                                                                                            <span>তালিকা</span>
-                                                                                                        }
-                                                                                                        else
-                                                                                                        {
-                                                                                                            <span>Item</span>
-                                                                                                        }
-                                                                                                    </th>
-                                                                                                    <th class="text-center">
-                                                                                                        @if (language == 1)
-                                                                                                        {
-                                                                                                            <span>একক</span>
-                                                                                                        }
-                                                                                                        else
-                                                                                                        {
-                                                                                                            <span>Unit</span>
-                                                                                                        }
-                                                                                                    </th>
-                                                                                                    <th class="text-center">
-                                                                                                        @{if (language == 1)
-                                                                                                            { <span>আবেদনকারীর মন্তব্য</span>}
-                                                                                                            else
-                                                                                                            {<span>Applicant Comments</span>}
-                                                                                                        }
-                                                                                                    </th>
-                                                                                                    <th class="text-center">
-                                                                                                        @{if (language == 1)
-                                                                                                            { <span>কর্তৃপক্ষের মন্তব্য</span>}
-                                                                                                            else
-                                                                                                            {<span>Authority Comments</span>}
-                                                                                                        }
-                                                                                                    </th>
-                                                                                                    <th class="text-center"></th>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <th colspan="2" class="text-center">
-                                                                                                        <input id="EconomicalAndFinancialId" type="hidden" />
-                                                                                                        <select id="EcoAndFinancialParamId" name="EcoAndFinancialParamId" class="form-control" style="width: 80%;">
-                                                                                                            <option value="">
-                                                                                                                @{if (language == 1)
-                                                                                                                    { <span>বাছাই করুন...</span>}
-                                                                                                                    else
-                                                                                                                    {<span>Choose...</span>}
-                                                                                                                }
-                                                                                                            </option>
-                                                                                                            @{
-                                                                                                                List<LookUpCcModEcoAndFinancial> _eaf = ViewBag.LookUpCcModEcoAndFinancial;
-
-                                                                                                                if (_eaf.Count > 0)
-                                                                                                                {
-                                                                                                                    foreach (LookUpCcModEcoAndFinancial eaf in _eaf)
-                                                                                                                    {
-                                                                                                                        if (language == 1)
-                                                                                                                        {
-                                                                                                                            <option value="@eaf.EcoAndFinancialParamId" title="@eaf.EcoAndFinancialUnit">@eaf.EcoAndFinancialParamNameBn</option>
-                                                                                                                        }
-                                                                                                                        else
-                                                                                                                        {
-                                                                                                                            <option value="@eaf.EcoAndFinancialParamId" title="@eaf.EcoAndFinancialUnit">@eaf.EcoAndFinancialParamName</option>
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                }
-                                                                                                            }
-                                                                                                        </select>
-                                                                                                    </th>
-                                                                                                    <th class="text-center">
-                                                                                                        <select id="ddlEconFinAnaUnit" name="EconFinAnaUnit" class="form-control">
-                                                                                                            <option value="">
-                                                                                                                @{if (language == 1)
-                                                                                                                    { <span>বাছাই করুন...</span>}
-                                                                                                                    else
-                                                                                                                    {<span>Choose...</span>}
-                                                                                                                }
-                                                                                                            </option>
-                                                                                                            @{
-                                                                                                                List<LookUpCcModEcoAndFinancial> _eafu = ViewBag.LookUpCcModEcoAndFinancial;
-
-                                                                                                                if (_eafu.Count > 0)
-                                                                                                                {
-                                                                                                                    foreach (LookUpCcModEcoAndFinancial unit in _eafu)
-                                                                                                                    {
-                                                                                                                        <option value="@unit.EcoAndFinancialUnit">@unit.EcoAndFinancialUnit</option>
-                                                                                                                    }
-                                                                                                                }
-                                                                                                            }
-                                                                                                        </select>
-                                                                                                    </th>
-                                                                                                    <th class="text-center">
-                                                                                                        <input type="text" id="EcoAndFinancialApplicantCmt" name="EcoAndFinancialApplicantCmt" class="form-control" />
-                                                                                                    </th>
-                                                                                                    <th class="text-center">
-                                                                                                        <input type="text" id="EcoAndFinancialAuthorityCmt" name="EcoAndFinancialAuthorityCmt" class="form-control" />
-                                                                                                    </th>
-                                                                                                    <th class="text-center" style="width: 200px;">
-                                                                                                        <button id="btnSaveEconFinAna" type="button" class="btn btn-success waves-effect waves-light" value="Save">
-                                                                                                            <i class="mdi mdi-content-save"></i>
-                                                                                                        </button>
-
-                                                                                                        <button id="btnClearEconFinAna" type="button" class="btn btn-warning  waves-effect waves-light" value="Clear">
-                                                                                                            <i class="mdi mdi-refresh"></i>
-                                                                                                        </button>
-                                                                                                    </th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody id="tbodyEcoFinAna"></tbody>
-                                                                                        </table>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        @{ await Html.RenderPartialAsync("controls/_EconomicalFinancialAnalysis.cshtml",
+                                                                                                   new ViewDataDictionary(ViewData) {
+                                                                                                    { "vFormLanguage", language }}); }
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -1472,7 +1146,8 @@
 
                                                         <div class="tab-pane fade" id="v-deed-obligatory" role="tabpanel" aria-labelledby="v-deed-obligatory-tab">
                                                             <div class="card-box">
-                                                                @{ await Html.RenderPartialAsync("form/_4DeedObligatory"); }
+                                                                @{ await Html.RenderPartialAsync("form/_4DeedObligatory",
+                                                                           new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                                                             </div>
                                                         </div>
 
@@ -1529,12 +1204,15 @@
 
             if (projectId != '') {
                 BindData();
+                DeedBindData();
+                AdminBindData();
             }
         });
     </script>
 
     <script type="text/javascript">
         jQuery(document).ready(function () {
+            //region tablular data filling
             GetProjLocationsData(); //call from partial page Shared/form/_3Location.cshtml
             GetHydroSystemData(); //call from partial page controls/_HydrologicalSystem
             GetAnnualRainfallData(); //call from partial page controls/_AnnualRainfall
@@ -1545,29 +1223,10 @@
             GetFishProdDiversityData(); //call from partial page controls/_FishProductionDiversity
             GetAoFOData();//call from partial page controls/_AnalyzeOptionFulfillObject
             GetDswpdData(); //call from partial page controls/_DesignSubmitProjectDoc
-            
-            
-            GetEiaData();
-            GetSiaData();
-            GetEconFinAnaData();
-
-            jQuery("#btnNext").click(function (e) {
-                //block 1
-                if (jQuery("#lnkTab1").hasClass('active')) {
-                    var selectedFormType = jQuery("#ddlTypeOfForms").val();
-
-                    if (selectedFormType === '') {
-                        Notification('warning', 'Required Field', 'Please select a form.');
-                        e.preventDefault();
-                        return false;
-                    }
-                }
-                //end block 1
-            });
-
-            jQuery("#btnPrevious").click(function () {
-
-            });
+            GetEiaData(); //call from partial page controls/_EnvSocImpactAssessment
+            GetSiaData(); //call from partial page controls/_EnvSocImpactAssessment
+            GetEconFinAnaData(); //call from partial page controls/_EconomicalFinancialAnalysis
+            //endregion
         });
 
         $(function () {
@@ -1615,14 +1274,6 @@
             }
         });
 
-        /*jQuery("input[type='radio'][name='drainage_condition']").change(function () {
-            if (jQuery(this).val() == 4) {
-                jQuery("#divDrainageConditionOther").show();
-            } else {
-                jQuery("#divDrainageConditionOther").hide();
-            }
-        });*/
-
         jQuery("input[type='radio'][name='YesNoStakeId']").change(function () {
             if (jQuery(this).val() == 1) {
                 jQuery("#divDSDSPYesControls").removeClass('d-none fadeOut');
@@ -1653,337 +1304,15 @@
             }
         });
 
-        jQuery("input[type='radio'][name='CompatNWPYesNoId']").change(function () {
+        jQuery("input[type='radio'][name='UseOfToolsYesNoId']").change(function () {
             if (jQuery(this).val() == 1) {
-                jQuery("#divCwnwpPolicy").removeClass('d-none fadeOut');
-                jQuery("#divCwnwpPolicy").addClass('d-block fadeIn');
+                jQuery("#divUseOfAppropriateToolsControls").removeClass('d-none fadeOut');
+                jQuery("#divUseOfAppropriateToolsControls").addClass('d-block fadeIn');
             } else {
-                jQuery("#divCwnwpPolicy").removeClass('d-block fadeIn');
-                jQuery("#divCwnwpPolicy").addClass('d-none fadeOut');
+                jQuery("#divUseOfAppropriateToolsControls").removeClass('d-block fadeIn');
+                jQuery("#divUseOfAppropriateToolsControls").addClass('d-none fadeOut');
             }
         });
-
-        jQuery("input[type='radio'][name='NWMPCompatYesNoId']").change(function () {
-            if (jQuery(this).val() == 1) {
-                jQuery("#divCNWMP").removeClass('d-none fadeOut');
-                jQuery("#divCNWMP").addClass('d-block fadeIn');
-            } else {
-                jQuery("#divCNWMP").removeClass('d-block fadeIn');
-                jQuery("#divCNWMP").addClass('d-none fadeOut');
-            }
-        });
-
-        jQuery("input[type='radio'][name='SDGYesNoId']").change(function () {
-            if (jQuery(this).val() == 1) {
-                jQuery("#divCwsdg, #divSDG6Indicators").removeClass('d-none fadeOut');
-                jQuery("#divCwsdg, #divSDG6Indicators").addClass('d-block fadeIn');
-            } else {
-                jQuery("#divCwsdg, #divSDG6Indicators").removeClass('d-block fadeIn');
-                jQuery("#divCwsdg, #divSDG6Indicators").addClass('d-none fadeOut');
-            }
-        });
-
-        jQuery("input[type='radio'][name='DeltaPlanYesNoId']").change(function () {
-            if (jQuery(this).val() == 1) {
-                jQuery("#divCwbdp2100").removeClass('d-none fadeOut');
-                jQuery("#divCwbdp2100").addClass('d-block fadeIn');
-            } else {
-                jQuery("#divCwbdp2100").removeClass('d-block fadeIn');
-                jQuery("#divCwbdp2100").addClass('d-none fadeOut');
-            }
-        });
-
-        jQuery("input[type='radio'][name='GPWMYesNoId']").change(function () {
-            if (jQuery(this).val() == 1) {
-                jQuery("#divCwgpwm").removeClass('d-none fadeOut');
-                jQuery("#divCwgpwm").addClass('d-block fadeIn');
-            } else {
-                jQuery("#divCwgpwm").removeClass('d-block fadeIn');
-                jQuery("#divCwgpwm").addClass('d-none fadeOut');
-            }
-        });
-
-        //start :: Environmental Impact Assessment
-        jQuery("#btnSaveEIAYes").click(function () {
-            var EIAId = GetHiddenValue('EIAId');
-            EIAId = (EIAId == '') ? 0 : EIAId;
-            var EIAParameterId = jQuery("#EIAParameterId option:selected").val();
-            var PreProjectSituation = jQuery("#PreProjectSituation").val();
-            var PostProjectSituation = jQuery("#PostProjectSituation").val();
-            var PositiveNegativeImpact = jQuery("#PositiveNegativeImpact").val();
-            var MitigationPlan = jQuery("#MitigationPlan").val();
-
-            if (EIAParameterId != '') {
-                var ProjectId = GetHiddenValue('ProjectId');
-                var eiaDetail = {
-                    "EIAId": EIAId,
-                    "ProjectId": ProjectId,
-                    "EIAParameterId": EIAParameterId,
-                    "PreProjectSituation": PreProjectSituation,
-                    "PostProjectSituation": PostProjectSituation,
-                    "PositiveNegativeImpact": PositiveNegativeImpact,
-                    "MitigationPlan": MitigationPlan
-                };
-
-                var url = '@Url.Action("eiads", "form")';
-                jQuery.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { _eia: eiaDetail },
-                    dataType: "json",
-                    success: function (data, status, jqXHR) {
-                        if (data.status == 'success') {
-                            Notification('success', 'Success', data.message);
-
-                            GetEiaData();
-                            ClearEIA();
-                        } else {
-                            Notification('error', 'Saving Error', data.message);
-                        }
-                    }, error: function (jqXHR, exception) {
-                        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                        Notification('error', 'Error Occured', errorMsg);
-                    }
-                });
-            } else {
-                Notification('warning', 'Required Field', 'Please select an option from EIA parameter!');
-                jQuery("#EIAParameterId").focus();
-            }
-        });
-
-        jQuery("#btnClearEIAYes").click(function () {
-            ClearEIA();
-        });
-
-        function ClearEIA() {
-            jQuery("#EIAId").val('');
-            jQuery("#EIAParameterId").val('');
-            jQuery("#PreProjectSituation").val('');
-            jQuery("#PostProjectSituation").val('');
-            jQuery("#PositiveNegativeImpact").val('');
-            jQuery("#MitigationPlan").val('');
-        }
-
-        function GetEiaData() {
-            var ProjectId = GetHiddenValue('ProjectId');
-            var url = '@Url.Action("get_eiad", "form")';
-
-            jQuery.ajax({
-                type: "GET",
-                url: url,
-                data: { project_id: ProjectId },
-                dataType: "json",
-                success: function (data, status, jqXHR) {
-                    if (data.length > 0) {
-                        //console.log(data);
-                        var rows = '';
-
-                        var count = 0;
-                        jQuery.each(data, function (i, item) {
-                            ++count;
-                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.parameterName + '</td><td>' + item.preProjectSituation + '</td><td>' + item.postProjectSituation + '</td><td>' + item.positiveNegativeImpact + '</td><td>' + item.mitigationPlan + '</td><td class="text-center"><button onclick="javascript:EditEia(' + item.eiaId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.eiaId + ', ' + item.projectId + ', \'CcModPrjEIADetail\'); GetEiaData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
-                        });
-
-                        jQuery("#tbodyEIADetail").html(rows);
-                    } else {
-                        jQuery("#tbodyEIADetail").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
-                        //Notification('error', 'Data Fetch Error', data.message);
-                    }
-                }, error: function (jqXHR, exception) {
-                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                    jQuery("#tbodyEIADetail").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
-                    //Notification('error', 'Error Occured', errorMsg);
-                }
-            });
-        }
-        //end
-
-        //start :: Social Impact Assessment
-        jQuery("#btnSaveSIAYes").click(function () {
-            var SIAId = GetHiddenValue('SIAId');
-            SIAId = (SIAId == '') ? 0 : SIAId;
-            var SIAParameterId = jQuery("#SIAParameterId option:selected").val();
-            var SiaPreProjectSituation = jQuery("#SiaPreProjectSituation").val();
-            var SiaPostProjectSituation = jQuery("#SiaPostProjectSituation").val();
-            var SiaPositiveNegativeImpact = jQuery("#SiaPositiveNegativeImpact").val();
-            var SiaMitigationPlan = jQuery("#SiaMitigationPlan").val();
-
-            if (SIAParameterId != '') {
-                var ProjectId = GetHiddenValue('ProjectId');
-                var siaDetail = {
-                    "SIAId": SIAId,
-                    "ProjectId": ProjectId,
-                    "SIAParameterId": SIAParameterId,
-                    "PreProjectSituation": SiaPreProjectSituation,
-                    "PostProjectSituation": SiaPostProjectSituation,
-                    "PositiveNegativeImpact": SiaPositiveNegativeImpact,
-                    "MitigationPlan": SiaMitigationPlan
-                };
-
-                var url = '@Url.Action("siads", "form")';
-                jQuery.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { _sia: siaDetail },
-                    dataType: "json",
-                    success: function (data, status, jqXHR) {
-                        if (data.status == 'success') {
-                            Notification('success', 'Success', data.message);
-
-                            GetSiaData();
-                            ClearSIA();
-                        } else {
-                            Notification('error', 'Saving Error', data.message);
-                        }
-                    }, error: function (jqXHR, exception) {
-                        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                        Notification('error', 'Error Occured', errorMsg);
-                    }
-                });
-            } else {
-                Notification('warning', 'Required Field', 'Please select an option from SIA parameter!');
-                jQuery("#EIAParameterId").focus();
-            }
-        });
-
-        jQuery("#btnClearSIAYes").click(function () {
-            ClearSIA();
-        });
-
-        function ClearSIA() {
-            jQuery("#SIAId").val('');
-            jQuery("#SIAParameterId").val('');
-            jQuery("#SiaPreProjectSituation").val('');
-            jQuery("#SiaPostProjectSituation").val('');
-            jQuery("#SiaPositiveNegativeImpact").val('');
-            jQuery("#SiaMitigationPlan").val('');
-        }
-
-        function GetSiaData() {
-            var ProjectId = GetHiddenValue('ProjectId');
-            var url = '@Url.Action("get_siad", "form")';
-
-            jQuery.ajax({
-                type: "GET",
-                url: url,
-                data: { project_id: ProjectId },
-                dataType: "json",
-                success: function (data, status, jqXHR) {
-                    if (data.length > 0) {
-                        //console.log(data);
-                        var rows = '';
-
-                        var count = 0;
-                        jQuery.each(data, function (i, item) {
-                            ++count;
-                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.siaParameterName + '</td><td>' + item.preProjectSituation + '</td><td>' + item.postProjectSituation + '</td><td>' + item.positiveNegativeImpact + '</td><td>' + item.mitigationPlan + '</td><td class="text-center"><button onclick="javascript:EditSia(' + item.siaId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.siaId + ', ' + item.projectId + ', \'CcModPrjSIADetail\'); GetSiaData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
-                        });
-
-                        jQuery("#tbodySIADetail").html(rows);
-                    } else {
-                        jQuery("#tbodySIADetail").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
-                        //Notification('error', 'Data Fetch Error', data.message);
-                    }
-                }, error: function (jqXHR, exception) {
-                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                    jQuery("#tbodySIADetail").html('<tr><td colspan="7" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
-                    //Notification('error', 'Error Occured', errorMsg);
-                }
-            });
-        }
-        //end
-
-        //start :: Economical & Financial Analysis
-        jQuery("#btnSaveEconFinAna").click(function () {
-            var EconomicalAndFinancialId = GetHiddenValue('EconomicalAndFinancialId');
-            EconomicalAndFinancialId = (EconomicalAndFinancialId == '') ? 0 : EconomicalAndFinancialId;
-            var EcoAndFinancialParamId = jQuery("#EcoAndFinancialParamId option:selected").val();
-            var EcoAndFinParamUnit = jQuery("#EcoAndFinancialParamUnit option:selected").val();
-            var EcoAndFinApplicantCmt = jQuery("#EcoAndFinancialApplicantCmt").val();
-            var EcoAndFinAuthorityCmt = jQuery("#EcoAndFinancialAuthorityCmt").val();
-
-            if (EcoAndFinancialParamId != '') {
-                var ProjectId = GetHiddenValue('ProjectId');
-                var ecoFinAnaDetail = {
-                    "EconomicalAndFinancialId": EconomicalAndFinancialId,
-                    "ProjectId": ProjectId,
-                    "EcoAndFinancialParamId": EcoAndFinancialParamId,
-                    "EcoAndFinancialParamUnit": EcoAndFinParamUnit,
-                    "EcoAndFinancialApplicantCmt": EcoAndFinApplicantCmt,
-                    "EcoAndFinancialAuthorityCmt": EcoAndFinAuthorityCmt
-                };
-
-                var url = '@Url.Action("efas", "form")';
-                jQuery.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { _efas: ecoFinAnaDetail },
-                    dataType: "json",
-                    success: function (data, status, jqXHR) {
-                        if (data.status == 'success') {
-                            Notification('success', 'Success', data.message);
-
-                            GetEconFinAnaData();
-                            ClearEconFinAna();
-                        } else {
-                            Notification('error', 'Saving Error', data.message);
-                        }
-                    }, error: function (jqXHR, exception) {
-                        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                        Notification('error', 'Error Occured', errorMsg);
-                    }
-                });
-            } else {
-                Notification('warning', 'Required Field', 'Please select an option!');
-                jQuery("#EcoAndFinancialParamId").focus();
-            }
-        });
-
-        jQuery("#btnClearEconFinAna").click(function () {
-            ClearEconFinAna();
-        });
-
-        function ClearEconFinAna() {
-            jQuery("#EconomicalAndFinancialId").val('');
-            jQuery("#EcoAndFinancialParamId").val('');
-            jQuery("#EcoAndFinancialParamUnit").val('');
-            jQuery("#EcoAndFinancialApplicantCmt").val('');
-            jQuery("#EcoAndFinancialAuthorityCmt").val('');
-        }
-
-        function GetEconFinAnaData() {
-            var ProjectId = GetHiddenValue('ProjectId');
-            var url = '@Url.Action("get_efad", "form")';
-
-            jQuery.ajax({
-                type: "GET",
-                url: url,
-                data: { project_id: ProjectId },
-                dataType: "json",
-                success: function (data, status, jqXHR) {
-                    if (data.length > 0) {
-                        //console.log(data);
-                        var rows = '';
-
-                        var count = 0;
-                        jQuery.each(data, function (i, item) {
-                            ++count;
-                            rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.ecoAndFinancialParamName + '</td><td>' + item.ecoAndFinancialParamUnit + '</td><td>' + item.ecoAndFinancialApplicantCmt + '</td><td>' + item.ecoAndFinancialAuthorityCmt + '</td><td class="text-center"><button onclick="javascript:EditEfa(' + item.economicalAndFinancialId + ', '+item.projectId+');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.economicalAndFinancialId + ', '+item.projectId+', \'CcModPrjEcoFinAnalysisDetail\'); GetEconFinAnaData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
-                        });
-
-                        jQuery("#tbodyEcoFinAna").html(rows);
-                    } else {
-                        jQuery("#tbodyEcoFinAna").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
-                        //Notification('error', 'Data Fetch Error', data.message);
-                    }
-                }, error: function (jqXHR, exception) {
-                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                    jQuery("#tbodyEcoFinAna").html('<tr><td colspan="6" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
-                    //Notification('error', 'Error Occured', errorMsg);
-                }
-            });
-        }
-        //end
 
         //start :: Technical Information JS
         jQuery("#btnSaveTechInfo").click(function () {
@@ -2032,17 +1361,16 @@
                 "YesNoStakeId": GetRadioValue('YesNoStakeId'),
                 "TypesOfConsultationId": GetDropdownValue('TypesOfConsultationId'),
                 "DiscussWithStakeApplicantCmt": GetTextValue('DiscussWithStakeApplicantCmt'),
-                "DiscussWithStakeAuthorityCmt": GetTextValue('DiscussWithStakeAuthorityCmt'),
+                //"DiscussWithStakeAuthorityCmt": GetTextValue('DiscussWithStakeAuthorityCmt'),
                 "DiscussWithStakePosFeedback": GetTextValue('DiscussWithStakePosFeedback'),
-                "DiscussWithStakeNegFeedback": GetTextValue('DiscussWithStakeNegFeedback'),
-                //"DiscussWithStakeParticipntLst": , //file
-                //"DiscussWithStakeMeetingMin": , //file
+                "DiscussWithStakeNegFeedback": GetTextValue('DiscussWithStakeNegFeedback'),                
                 "AnalyzeOptYesNoId": GetRadioValue('AnalyzeOptYesNoId'),
                 "AnalyzeOptionsApplicantCmt": GetTextValue('AnalyzeOptionsApplicantCmt'),
                 //"AnalyzeOptionsAuthorityCmt": GetTextValue('AnalyzeOptionsAuthorityCmt'),
                 "EnvAndSocialYesNoId": GetRadioValue('EnvAndSocialYesNoId'),
                 "EnvAndSocialApplicantCmt": GetTextValue('EnvAndSocialApplicantCmt'),
-                "EnvAndSocialAuthorityCmt": GetTextValue('EnvAndSocialAuthorityCmt')
+                //"EnvAndSocialAuthorityCmt": GetTextValue('EnvAndSocialAuthorityCmt') RecommendedOption
+                "RecommendedOption": GetTextValue('RecommendedOption')
             };
 
             var Project31IndvDetail = {
@@ -2076,7 +1404,8 @@
                 "AvgMonthlyIncome": GetTextValue('AvgMonthlyIncome'),
                 "UseOfToolsYesNoId": GetRadioValue('UseOfToolsYesNoId'),
                 "ToolsApplicantComments": GetTextValue('ToolsApplicantComments'),
-                "ToolsAuthorityComments": GetTextValue('ToolsAuthorityComments')
+                //"ToolsAuthorityComments": GetTextValue('ToolsAuthorityComments')
+                "UseOfAppropToolsDescription": GetTextValue('UseOfAppropToolsDescription')
             };
 
             //region Sub Design Submitted Detail with Proejct Docs
@@ -2088,7 +1417,7 @@
                 "EmbankmentPlantationYesNoId": GetRadioValue('EmbankmentPlantationYesNoId'),
                 "EmbankmentPlantationAppCmt": GetTextValue('EmbankmentPlantationAppCmt'),
                 "PolderDrainageSysYesNoId": GetRadioValue('PolderDrainageSysYesNoId'),
-                "PolderDrainageSysAppCmt": GetRadioValue('PolderDrainageSysAppCmt'),
+                "PolderDrainageSysAppCmt": GetTextValue('PolderDrainageSysAppCmt'),
                 "ShelterDesignYesNoId": GetRadioValue('ShelterDesignYesNoId'),
                 "ShelterDesignAppCmt": GetTextValue('ShelterDesignAppCmt'),
                 "SufficientDisShrimpGherYesNoId": GetRadioValue('SufficientDisShrimpGherYesNoId'),
@@ -2145,235 +1474,6 @@
         });
         //end
 
-        //start :: Deed Obligatory JS
-        jQuery("#btnSaveDeed").click(function () {
-            var _finalDeedObj = [];
-            var nwpArticles = [], prjCompatNWMP = [], sdgGoals = [],
-                sdgIndicators = [], dp2100Goals = [], gpwmGroupType = [];
-            var ProjectId = GetHiddenValue('ProjectId');
-            var Project31IndvId = GetHiddenValue('Project31IndvId');
-
-            jQuery.each(jQuery("input[name='NationalWaterPolicyArticleId']:checked"), function () {
-                var _nwpa = {
-                    "PrjCompatNWPId": 0,
-                    "ProjectId": ProjectId,
-                    "NationalWaterPolicyArticleId": jQuery(this).val()
-                };
-
-                nwpArticles.push(_nwpa);
-            });
-
-            jQuery.each(jQuery("input[name='PrjCompatNWMPId']:checked"), function () {
-                var _nwmpa = {
-                    "PrjCompatNWMPId": 0,
-                    "ProjectId": ProjectId,
-                    "NWMPProgrammeId": jQuery(this).val()
-                };
-
-                prjCompatNWMP.push(_nwmpa);
-            });
-
-            jQuery.each(jQuery("input[name='SDGGoalId']:checked"), function () {
-                var _sdg = {
-                    "SDGCompabilityId": 0,
-                    "ProjectId": ProjectId,
-                    "SDGGoalId": jQuery(this).val()
-                };
-
-                sdgGoals.push(_sdg);
-            });
-
-            jQuery.each(jQuery("input[name='SDGIndicatorId']:checked"), function () {
-                var _sdgi = {
-                    "SDGIndicatorDetailId": 0,
-                    "ProjectId": ProjectId,
-                    "SDGIndicatorId": jQuery(this).val()
-                };
-
-                sdgIndicators.push(_sdgi);
-            });
-
-            jQuery.each(jQuery("input[name='DeltPlan2100GoalId']:checked"), function () {
-                var _dp2100g = {
-                    "DeltaGoalDetailId": 0,
-                    "ProjectId": ProjectId,
-                    "DeltPlan2100GoalId": jQuery(this).val()
-                };
-
-                dp2100Goals.push(_dp2100g);
-            });
-
-            jQuery.each(jQuery("input[name='GPWMGroupTypeId']:checked"), function () {
-                var _gpwmg = {
-                    "GPWMGroupTypeDetailId": 0,
-                    "ProjectId": ProjectId,
-                    "GPWMGroupTypeId": jQuery(this).val()
-                };
-
-                gpwmGroupType.push(_gpwmg);
-            });
-
-            var ProjectCommonDetail = {
-                "ProjectId": ProjectId,
-                "CompatNWPYesNoId": GetRadioValue('CompatNWPYesNoId'),
-                "CompatibilityNWPApplicantCmt": GetTextValue('CompatibilityNWPApplicantCmt'),
-                "CompatibilityNWPAuthorityCmt": GetTextValue('CompatibilityNWPAuthorityCmt'),
-                //CompatibilityNWPDocLink //file
-                "NWMPCompatYesNoId": GetRadioValue('NWMPCompatYesNoId'),
-                "NWMPApplicantCmt": GetTextValue('NWMPApplicantCmt'),
-                "NWMPAuthorityCmt": GetTextValue('NWMPAuthorityCmt'),
-                //NWMPDocLink //file
-                "FYPYesNoId": GetRadioValue('FYPYesNoId'),
-                "FYPApplicantCmt": GetTextValue('FYPApplicantCmt'),
-                "FYPAuthorityCmt": GetTextValue('FYPAuthorityCmt'),
-                "SDGYesNoId": GetRadioValue('SDGYesNoId'),
-                "SDGApplicantCmt": GetTextValue('SDGApplicantCmt'),
-                "SDGAuthorityCmt": GetTextValue('SDGAuthorityCmt'),
-                //SDGDocLink //file
-                "DeltaPlanYesNoId": GetRadioValue('DeltaPlanYesNoId'),
-                "DeltaPlan2100ApplicantCmt": GetTextValue('DeltaPlan2100ApplicantCmt'),
-                "DeltaPlan2100AuthorityCmt": GetTextValue('DeltaPlan2100AuthorityCmt'),
-                //DeltaPlan2100DocLink //file
-                "CostalZoneYesNoId": GetRadioValue('CostalZoneYesNoId'),
-                "CostalZoneApplicantCmt": GetTextValue('CostalZoneApplicantCmt'),
-                "CostalZoneAuthorityCmt": GetTextValue('CostalZoneAuthorityCmt'),
-                //CostalZoneDocLink //file.
-
-                "CiwupYesNoId": GetRadioValue('CiwupYesNoId'),
-                "CiwupApplicantCmt": GetTextValue('CiwupApplicantCmt'),
-                "CiwupAuthorityCmt": GetTextValue('CiwupAuthorityCmt'),
-                //CiwupDocLink //file.
-
-                "AgriculturalYesNoId": GetRadioValue('AgriculturalYesNoId'),
-                "AgriApplicantCmt": GetTextValue('AgriApplicantCmt'),
-                "AgriAuthorityCmt": GetTextValue('AgriAuthorityCmt'),
-                //AgriDocLink //file
-                "FisheriesYesNoId": GetRadioValue('FisheriesYesNoId'),
-                "FisheriesApplicantCmt": GetTextValue('FisheriesApplicantCmt'),
-                "FisheriesAuthorityCmt": GetTextValue('FisheriesAuthorityCmt'),
-                //FisheriesDocLink //file
-                "IWRMYesNoId": GetRadioValue('IWRMYesNoId'),
-                "IWRMApplicantCmt": GetTextValue('IWRMApplicantCmt'),
-                "IWRMAuthorityCmt": GetTextValue('IWRMAuthorityCmt'),
-                "GPWMYesNoId": GetRadioValue('GPWMYesNoId'),
-                "GPWMApplicantCmt": GetTextValue('GPWMApplicantCmt'),
-                "GPWMAuthorityCmt": GetTextValue('GPWMAuthorityCmt'),
-                "FeasibilityYesNoId": GetRadioValue('FeasibilityYesNoId'),
-                "FeasibilityApplicantCmt": GetTextValue('FeasibilityApplicantCmt'),
-                "FeasibilityAuthorityCmt": GetTextValue('FeasibilityAuthorityCmt'),
-                "SocialIssuesYesNoId": GetRadioValue('SocialIssuesYesNoId'),
-                "SocialIssuesApplicantCmt": GetTextValue('SocialIssuesApplicantCmt'),
-                "SocialIssuesAuthorityCmt": GetTextValue('SocialIssuesAuthorityCmt')
-            };
-
-            var Project31IndvDetail = {
-                "Project31IndvId": Project31IndvId,
-                "ProjectId": ProjectId,
-                "DuplicatYesNoId": GetRadioValue('DuplicatYesNoId'),
-                "DuplicationApplicantComments": GetTextValue('DuplicationApplicantComments'),
-                "DuplicationAuthorityComments": GetTextValue('DuplicationAuthorityComments')
-            };
-
-            var _finalDeedObj = {
-                "CommonDetail": ProjectCommonDetail,
-                "Project31Indv": Project31IndvDetail,
-                "CompatNWPDetail": nwpArticles,
-                "CompatNWMPDetail": prjCompatNWMP,
-                "CompatSDGDetail": sdgGoals,
-                "CompatSDGIndiDetail": sdgIndicators,
-                "BDP2100GoalDetail": dp2100Goals,
-                "GPWMGroupTypeDetail": gpwmGroupType
-            }
-
-            //console.log(_finalDeedObj); //jQuery('#ProjectId').val()
-
-            var url = '@Url.Action("f31dootos", "form")';
-            jQuery.ajax({
-                type: "POST",
-                url: url,
-                data: { _form31DeedObli: _finalDeedObj },
-                dataType: "json",
-                success: function (data, status, jqXHR) {
-                    if (data.status == 'success') {
-                        Notification('success', 'Success', data.message);
-                    } else {
-                        Notification('error', 'Saving Error', data.message);
-                    }
-                }, error: function (jqXHR, exception) {
-                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                    Notification('error', 'Error Occured', errorMsg);
-                }
-            });
-        });
-
-        jQuery("#btnClearDeed").click(function () {
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                type: "warning",
-                allowEscapeKey: false,
-                allowOutsideClick: false,
-                showCancelButton: !0,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Sure"
-            }).then(function (t) {
-                t.value && Swal.fire("Cleared!", "Your entry data has been cleared successfully.", "success")
-            });
-        });
-        //end
-
-        //start :: Administrative JS
-        jQuery("#btnSaveAdministrative").click(function () {
-            var _recDetail = {
-                "ProjectId": GetHiddenValue('ProjectId'),
-                "NocTypeId": jQuery('#NocTypeId option:selected').val(),
-                "PaymentMethodId": jQuery('#PaymentMethodId option:selected').val(),
-                "PaymentDocNumber": GetTextValue('PaymentDocNumber'),
-                "PaidAmount": GetTextValue('PaidAmount'),
-				"PaymentDate": GetTextValue('PaymentDate'),
-                "RecommendationId": jQuery('#RecommendationId option:selected').val(),
-                "RecommendationComment": GetTextValue('RecommendationComment')
-            };
-
-            //console.log(_recDetail);
-
-            var url = '@Url.Action("afrds", "form")';
-            jQuery.ajax({
-                type: "POST",
-                url: url,
-                data: { _recDetail: _recDetail },
-                dataType: "json",
-                success: function (data, status, jqXHR) {
-                    if (data.status == 'success') {
-                        Notification('success', 'Success', data.message);
-                    } else {
-                        Notification('error', 'Saving Error', data.message);
-                    }
-                }, error: function (jqXHR, exception) {
-                    var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                    Notification('error', 'Error Occured', errorMsg);
-                }
-            });
-        });
-
-        jQuery("#btnClearAdministrative").click(function () {
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                type: "warning",
-                allowEscapeKey: false,
-                allowOutsideClick: false,
-                showCancelButton: !0,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Sure"
-            }).then(function (t) {
-                t.value && Swal.fire("Cleared!", "Your entry data has been cleared successfully.", "success")
-            });
-        });
-        //end
-
         //region Get Set
         function ClearTextValue(control) {
             jQuery('#' + control).val('');
@@ -2407,85 +1507,7 @@
             var value = $("input[name='" + control + "']:checked").val();
             return (value == undefined || value == '') ? 0 : value;
         }
-        //endregion        
-
-        function EditEia(id, projectId) {
-	        var url = '@Url.Action("gseia", "form")';
-	        jQuery.ajax({
-		        type: "GET",
-		        url: url,
-		        data: { id: id, projectId: projectId },
-		        dataType: "json",
-		        success: function (data, status, jqXHR) {
-			        //console.log('Single EIA Detail');
-			        //console.log(data);
-
-                    if (data.eiaId != '') {
-				        SetHiddenValue('EIAId', data.eiaId);
-				        jQuery("#EIAParameterId option[value=" + data.eiaParameterId + "]").prop('selected', true);
-				        SetTextValue('PreProjectSituation', data.preProjectSituation);
-                        SetTextValue('PostProjectSituation', data.postProjectSituation);
-                        SetTextValue('PositiveNegativeImpact', data.positiveNegativeImpact);
-                        SetTextValue('MitigationPlan', data.mitigationPlan);
-			        }
-		        }, error: function (jqXHR, exception) {
-			        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-			        Notification('error', 'Error Occured', errorMsg);
-		        }
-	        });
-        }
-
-        function EditSia(id, projectId) {
-	        var url = '@Url.Action("gssia", "form")';
-	        jQuery.ajax({
-		        type: "GET",
-		        url: url,
-		        data: { id: id, projectId: projectId },
-		        dataType: "json",
-		        success: function (data, status, jqXHR) {
-			        //console.log('Single SIA Detail');
-			        //console.log(data);
-
-                    if (data.eiaId != '') {
-				        SetHiddenValue('SIAId', data.siaId);
-				        jQuery("#SIAParameterId option[value=" + data.siaParameterId + "]").prop('selected', true);
-				        SetTextValue('SiaPreProjectSituation', data.preProjectSituation);
-                        SetTextValue('SiaPostProjectSituation', data.postProjectSituation);
-                        SetTextValue('SiaPositiveNegativeImpact', data.positiveNegativeImpact);
-                        SetTextValue('SiaMitigationPlan', data.mitigationPlan);
-			        }
-		        }, error: function (jqXHR, exception) {
-			        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-			        Notification('error', 'Error Occured', errorMsg);
-		        }
-	        });
-        }
-
-        function EditEfa(id, projectId) {
-	        var url = '@Url.Action("gsefa", "form")';
-	        jQuery.ajax({
-		        type: "GET",
-		        url: url,
-		        data: { id: id, projectId: projectId },
-		        dataType: "json",
-		        success: function (data, status, jqXHR) {
-			        //console.log('Single Eco Fin Analysis Detail');
-			        //console.log(data);
-
-                    if (data.eiaId != '') {
-				        SetHiddenValue('EconomicalAndFinancialId', data.economicalAndFinancialId);
-                        jQuery("#EcoAndFinancialParamId option[value=" + data.ecoAndFinancialParamId + "]").prop('selected', true);
-                        jQuery("#ddlEconFinAnaUnit option[value=" + data.ecoAndFinancialParamId + "]").prop('selected', true);
-				        SetTextValue('EcoAndFinancialParamUnit', data.ecoAndFinancialParamUnit);
-                        SetTextValue('EcoAndFinancialApplicantCmt', data.ecoAndFinancialApplicantCmt);
-                        SetTextValue('EcoAndFinancialAuthorityCmt', data.ecoAndFinancialAuthorityCmt);
-			        }
-		        }, error: function (jqXHR, exception) {
-			        var errorMsg = AjaxErrorHandle(jqXHR, exception);
-			        Notification('error', 'Error Occured', errorMsg);
-		        }
-	        });
-        }
+        //endregion
 
         function BindData() {
             var projectId = '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectId)';
@@ -2498,7 +1520,7 @@
                 SetHiddenValue('Project31IndvId', '@Html.Raw(ViewBag.ProjectIndvDetail31.Project31IndvId)');
                 SetHiddenValue('UserId', '@Html.Raw(ViewBag.ProjectCommonDetail.UserId)');
 
-                if('@ViewBag.ProjectCommonDetail.ProjectTypeId' != '' && '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectTypeId)' != 0)
+                if ('@ViewBag.ProjectCommonDetail.ProjectTypeId' != '' && '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectTypeId)' != 0)
                     SetHiddenValue('ProjectTypeId', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectTypeId)');
 
                 var pn = '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectName)';
@@ -2532,14 +1554,13 @@
                 SetDropdownValue('ConnectivityAmidWaterland', '@Html.Raw(ViewBag.ProjectIndvDetail31.ConnectivityAmidWaterland)');
                 SetTextValue('CatchmentArea', '@Html.Raw(ViewBag.ProjectIndvDetail31.CatchmentArea)');
 
-                @*SetTextValue('AnnualRainFallLast1Year', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast1Year)');
-                SetTextValue('AnnualRainFallLast2Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast2Years)');
-                SetTextValue('AnnualRainFallLast3Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast3Years)');
-                SetTextValue('AnnualRainFallLast4Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast4Years)');
-                SetTextValue('AnnualRainFallLast5Years', '@Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast5Years)');
-
-                SetTextValue('HighestFloodLevel', '@Html.Raw(ViewBag.ProjectIndvDetail31.HighestFloodLevel)');
-                SetTextValue('MaximumDischarge', '@Html.Raw(ViewBag.ProjectIndvDetail31.MaximumDischarge)');*@
+                //SetTextValue('AnnualRainFallLast1Year', 'Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast1Year)');
+                //SetTextValue('AnnualRainFallLast2Years', 'Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast2Years)');
+                //SetTextValue('AnnualRainFallLast3Years', 'Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast3Years)');
+                //SetTextValue('AnnualRainFallLast4Years', 'Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast4Years)');
+                //SetTextValue('AnnualRainFallLast5Years', 'Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast5Years)');
+                //SetTextValue('HighestFloodLevel', 'Html.Raw(ViewBag.ProjectIndvDetail31.HighestFloodLevel)');
+                //SetTextValue('MaximumDischarge', 'Html.Raw(ViewBag.ProjectIndvDetail31.MaximumDischarge)');
 
                 var tof = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.TypesOfFloodDetail))');
                 jQuery.each(tof, function (i, item) {
@@ -2549,12 +1570,6 @@
                 var DrainageConditionId = '@Html.Raw(ViewBag.ProjectIndvDetail31.DrainageConditionId)';
                 if (DrainageConditionId != '') {
                     $(":radio[name='drainage_condition'][value='" + DrainageConditionId + "']").attr('checked', true);
-
-                    /*if (DrainageConditionId == 4) {
-                        $("#divDrainageConditionOther").show();
-                    } else {
-                        $("#divDrainageConditionOther").hide();
-                    }*/
                 }
 
                 SetTextValue('DrainageConditionOther', '@Html.Raw(ViewBag.ProjectIndvDetail31.DrainageConditionOther)');
@@ -2578,8 +1593,8 @@
 
                 SetTextValue('IssueChallageProblem', '@Html.Raw(ViewBag.ProjectCommonDetail.IssueChallageProblem)');
 
-				var YesNoStakeId = '@Html.Raw(ViewBag.ProjectCommonDetail.YesNoStakeId)';
-				if (YesNoStakeId != '') {
+                var YesNoStakeId = '@Html.Raw(ViewBag.ProjectCommonDetail.YesNoStakeId)';
+                if (YesNoStakeId != '') {
                     $(":radio[name='YesNoStakeId'][value='" + YesNoStakeId + "']").attr('checked', true);
 
                     if (YesNoStakeId == 1) {
@@ -2593,163 +1608,93 @@
 
                 SetDropdownValue('TypesOfConsultationId', '@Html.Raw(ViewBag.ProjectCommonDetail.TypesOfConsultationId)');
                 SetTextValue('DiscussWithStakeApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeApplicantCmt)');
-                SetTextValue('DiscussWithStakeAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeAuthorityCmt)');
+                //SetTextValue('DiscussWithStakeAuthorityCmt', 'Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeAuthorityCmt)');
                 SetTextValue('DiscussWithStakePosFeedback', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakePosFeedback)');
                 SetTextValue('DiscussWithStakeNegFeedback', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeNegFeedback)');
 
-				var AnalyzeOptYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptYesNoId)';
-				if(AnalyzeOptYesNoId != '')
-					$(":radio[name='AnalyzeOptYesNoId'][value='" + AnalyzeOptYesNoId + "']").attr('checked', true);
+                var dwsp_file = '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeParticipntLst)';
+                if(dwsp_file != ''){
+	                $("#DiscussWithStakeParticipntLstView").attr('href', '../images/CommonDetails/DiscussStakeParticipantListDocs/' + dwsp_file).text(dwsp_file);
+                } else {
+	                $("#DiscussWithStakeParticipntLstView").attr('href', 'javascript:void(0);').text('No File');
+                }
+
+                var dwsmm_file = '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeMeetingMin)';
+                if(dwsmm_file != ''){
+	                $("#DiscussWithStakeMeetingMinView").attr('href', '../images/CommonDetails/DiscussStakeMeetMins/' + dwsmm_file).text(dwsmm_file);
+                } else {
+	                $("#DiscussWithStakeMeetingMinView").attr('href', 'javascript:void(0);').text('No File');
+                }
+
+                var AnalyzeOptYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptYesNoId)';
+                if (AnalyzeOptYesNoId != '') {
+                    $(":radio[name='AnalyzeOptYesNoId'][value='" + AnalyzeOptYesNoId + "']").attr('checked', true);
+
+                    if (AnalyzeOptYesNoId == 1) {
+                        jQuery("#divAoFOYes").removeClass('d-none fadeOut');
+                        jQuery("#divAoFOYes").addClass('d-block fadeIn');
+                    } else {
+                        jQuery("#divAoFOYes").removeClass('d-block fadeIn');
+                        jQuery("#divAoFOYes").addClass('d-none fadeOut');
+                    }
+                }
 
                 SetTextValue('AnalyzeOptionsApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptionsApplicantCmt)');
                 //SetTextValue('AnalyzeOptionsAuthorityCmt', 'Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptionsAuthorityCmt)');
 
-				var EnvAndSocialYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialYesNoId)';
-				if(EnvAndSocialYesNoId != '')
-					$(":radio[name='EnvAndSocialYesNoId'][value='" + EnvAndSocialYesNoId + "']").attr('checked', true);
+                var EnvAndSocialYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialYesNoId)';
+                if (EnvAndSocialYesNoId != '') {
+                    $(":radio[name='EnvAndSocialYesNoId'][value='" + EnvAndSocialYesNoId + "']").attr('checked', true);
 
-                SetTextValue('EnvAndSocialApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialApplicantCmt)');
-                SetTextValue('EnvAndSocialAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialAuthorityCmt)');
-
-				var UseOfToolsYesNoId = '@Html.Raw(ViewBag.ProjectIndvDetail31.UseOfToolsYesNoId)';
-				if(UseOfToolsYesNoId != '')
-					$(":radio[name='UseOfToolsYesNoId'][value='" + UseOfToolsYesNoId + "']").attr('checked', true);
-
-                SetTextValue('ToolsApplicantComments', '@Html.Raw(ViewBag.ProjectIndvDetail31.ToolsApplicantComments)');
-                SetTextValue('ToolsAuthorityComments', '@Html.Raw(ViewBag.ProjectIndvDetail31.ToolsAuthorityComments)');
-
-				var CompatNWPYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.CompatNWPYesNoId)';
-				if(CompatNWPYesNoId != '')
-					$(":radio[name='CompatNWPYesNoId'][value='" + CompatNWPYesNoId + "']").attr('checked', true);
-
-                SetTextValue('CompatibilityNWPApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CompatibilityNWPApplicantCmt)');
-                SetTextValue('CompatibilityNWPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CompatibilityNWPAuthorityCmt)');
-
-                var nwp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWPDetail))');
-                jQuery.each(nwp, function (i, item) {
-                    $(":checkbox[name='NationalWaterPolicyArticleId'][value='" + item.nationalWaterPolicyArticleId + "']").attr('checked', true);
-                });
-
-				var NWMPCompatYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.NWMPCompatYesNoId)';
-				if(NWMPCompatYesNoId != '')
-					$(":radio[name='NWMPCompatYesNoId'][value='" + NWMPCompatYesNoId + "']").attr('checked', true);
-
-                SetTextValue('NWMPApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.NWMPApplicantCmt)');
-                SetTextValue('NWMPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.NWMPAuthorityCmt)');
-
-                var nwmp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWMPDetail))');
-                jQuery.each(nwmp, function (i, item) {
-                    $(":checkbox[name='PrjCompatNWMPId'][value='" + item.nwmpProgrammeId + "']").attr('checked', true);
-                });
-
-				var FYPYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.FYPYesNoId)';
-				if(FYPYesNoId != '')
-					$(":radio[name='FYPYesNoId'][value='" + FYPYesNoId + "']").attr('checked', true);
-
-                SetTextValue('FYPApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FYPApplicantCmt)');
-                SetTextValue('FYPAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FYPAuthorityCmt)');
-
-				var SDGYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.SDGYesNoId)';
-                if (SDGYesNoId != '') {
-                    $(":radio[name='SDGYesNoId'][value='" + SDGYesNoId + "']").attr('checked', true);
-
-                    if (SDGYesNoId == 1) {
-                        jQuery("#divCwsdg, #divSDG6Indicators").removeClass('d-none fadeOut');
-                        jQuery("#divCwsdg, #divSDG6Indicators").addClass('d-block fadeIn');
+                    if (EnvAndSocialYesNoId == 1) {
+                        jQuery("#divEIAYes, #divSIAYes").removeClass('d-none fadeOut');
+                        jQuery("#divEIAYes, #divSIAYes").addClass('d-block fadeIn');
                     } else {
-                        jQuery("#divCwsdg, #divSDG6Indicators").removeClass('d-block fadeIn');
-                        jQuery("#divCwsdg, #divSDG6Indicators").addClass('d-none fadeOut');
+                        jQuery("#divEIAYes, #divSIAYes").removeClass('d-block fadeIn');
+                        jQuery("#divEIAYes, #divSIAYes").addClass('d-none fadeOut');
                     }
                 }
 
-                SetTextValue('SDGApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SDGApplicantCmt)');
-                SetTextValue('SDGAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SDGAuthorityCmt)');
+                SetTextValue('EnvAndSocialApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialApplicantCmt)');
 
-                var sdgdetail = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatSDGDetail))');
-                jQuery.each(sdgdetail, function (i, item) {
-                    $(":checkbox[name='SDGGoalId'][value='" + item.sdgGoalId + "']").attr('checked', true);
-                });
+                var eia_file = '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialEiaFile)';
+                if(eia_file != ''){
+	                $("#EnvAndSocialEiaFileView").attr('href', '../images/CommonDetails/EiaFiles/' + eia_file).text(eia_file);
+                } else {
+	                $("#EnvAndSocialEiaFileView").attr('href', 'javascript:void(0);').text('No File');
+                }
 
-                var sdgindi = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatSDGIndiDetail))');
-                jQuery.each(sdgindi, function (i, item) {
-                    $(":checkbox[name='SDGIndicatorId'][value='" + item.sdgIndicatorId + "']").attr('checked', true);
-                });
+                var sia_file = '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialSiaFile)';
+                if(sia_file != ''){
+	                $("#EnvAndSocialSiaFileView").attr('href', '../images/CommonDetails/SiaFiles/' + sia_file).text(sia_file);
+                } else {
+	                $("#EnvAndSocialSiaFileView").attr('href', 'javascript:void(0);').text('No File');
+                }
 
-				var DeltaPlanYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.DeltaPlanYesNoId)';
-				if(DeltaPlanYesNoId != '')
-					$(":radio[name='DeltaPlanYesNoId'][value='" + DeltaPlanYesNoId + "']").attr('checked', true);
+                SetTextValue('RecommendedOption', '@Html.Raw(ViewBag.ProjectCommonDetail.RecommendedOption)');
 
-                SetTextValue('DeltaPlan2100ApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DeltaPlan2100ApplicantCmt)');
-                SetTextValue('DeltaPlan2100AuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DeltaPlan2100AuthorityCmt)');
+                var UseOfToolsYesNoId = '@Html.Raw(ViewBag.ProjectIndvDetail31.UseOfToolsYesNoId)';
+                if (UseOfToolsYesNoId != '') {
+                    $(":radio[name='UseOfToolsYesNoId'][value='" + UseOfToolsYesNoId + "']").attr('checked', true);
 
-                var bdp2100goal = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.BDP2100GoalDetail))');
-                jQuery.each(bdp2100goal, function (i, item) {
-                    $(":checkbox[name='DeltPlan2100GoalId'][value='" + item.deltPlan2100GoalId + "']").attr('checked', true);
-                });
+                    if (UseOfToolsYesNoId == 1) {
+                        jQuery("#divUseOfAppropriateToolsControls").removeClass('d-none fadeOut');
+                        jQuery("#divUseOfAppropriateToolsControls").addClass('d-block fadeIn');
+                    } else {
+                        jQuery("#divUseOfAppropriateToolsControls").removeClass('d-block fadeIn');
+                        jQuery("#divUseOfAppropriateToolsControls").addClass('d-none fadeOut');
+                    }
+                }
 
-				var CostalZoneYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.CostalZoneYesNoId)';
-				if(CostalZoneYesNoId != '')
-					$(":radio[name='CostalZoneYesNoId'][value='" + CostalZoneYesNoId + "']").attr('checked', true);
+                SetTextValue('ToolsApplicantComments', '@Html.Raw(ViewBag.ProjectIndvDetail31.ToolsApplicantComments)');
+                SetTextValue('UseOfAppropToolsDescription', '@Html.Raw(ViewBag.ProjectIndvDetail31.UseOfAppropToolsDescription)');
 
-                SetTextValue('CostalZoneApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CostalZoneApplicantCmt)');
-                SetTextValue('CostalZoneAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.CostalZoneAuthorityCmt)');
-
-				var AgriculturalYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.AgriculturalYesNoId)';
-				if(AgriculturalYesNoId != '')
-					$(":radio[name='AgriculturalYesNoId'][value='" + AgriculturalYesNoId + "']").attr('checked', true);
-
-                SetTextValue('AgriApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AgriApplicantCmt)');
-                SetTextValue('AgriAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AgriAuthorityCmt)');
-
-				var FisheriesYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.FisheriesYesNoId)';
-				if(FisheriesYesNoId != '')
-					$(":radio[name='FisheriesYesNoId'][value='" + FisheriesYesNoId + "']").attr('checked', true);
-
-                SetTextValue('FisheriesApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FisheriesApplicantCmt)');
-                SetTextValue('FisheriesAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FisheriesAuthorityCmt)');
-
-				var IWRMYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.IWRMYesNoId)';
-				if(IWRMYesNoId != '')
-					$(":radio[name='IWRMYesNoId'][value='" + IWRMYesNoId + "']").attr('checked', true);
-
-                SetTextValue('IWRMApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.IWRMApplicantCmt)');
-                SetTextValue('IWRMAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.IWRMAuthorityCmt)');
-
-				var GPWMYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.GPWMYesNoId)';
-				if(GPWMYesNoId != '')
-					$(":radio[name='GPWMYesNoId'][value='" + GPWMYesNoId + "']").attr('checked', true);
-
-                SetTextValue('GPWMApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.GPWMApplicantCmt)');
-                SetTextValue('GPWMAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.GPWMAuthorityCmt)');
-
-                var gpwmgroup = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.GPWMGroupType))');
-                jQuery.each(gpwmgroup, function (i, item) {
-                    $(":checkbox[name='GPWMGroupTypeId'][value='" + item.gpwmGroupTypeId + "']").attr('checked', true);
-                });
-
-				var FeasibilityYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.FeasibilityYesNoId)';
-				if(FeasibilityYesNoId != '')
-					$(":radio[name='FeasibilityYesNoId'][value='" + FeasibilityYesNoId + "']").attr('checked', true);
-
-                SetTextValue('FeasibilityApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FeasibilityApplicantCmt)');
-                SetTextValue('FeasibilityAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.FeasibilityAuthorityCmt)');
-
-				var DuplicatYesNoId = '@Html.Raw(ViewBag.ProjectIndvDetail31.DuplicatYesNoId)';
-				if(DuplicatYesNoId != '')
-					$(":radio[name='DuplicatYesNoId'][value='" + DuplicatYesNoId + "']").attr('checked', true);
-
-                SetTextValue('DuplicationApplicantComments', '@Html.Raw(ViewBag.ProjectIndvDetail31.DuplicationApplicantComments)');
-                SetTextValue('DuplicationAuthorityComments', '@Html.Raw(ViewBag.ProjectIndvDetail31.DuplicationAuthorityComments)');
-
-				var SocialIssuesYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.SocialIssuesYesNoId)';
-				if(SocialIssuesYesNoId != '')
-					$(":radio[name='SocialIssuesYesNoId'][value='" + SocialIssuesYesNoId + "']").attr('checked', true);
-
-                SetTextValue('SocialIssuesApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SocialIssuesApplicantCmt)');
-                SetTextValue('SocialIssuesAuthorityCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.SocialIssuesAuthorityCmt)');
-
-                SetDropdownValue('RecommendationId', '@Html.Raw(ViewBag.ProjectCommonDetail.RecommendationId)');
-                SetTextValue('RecommendationComment', '@Html.Raw(ViewBag.ProjectCommonDetail.RecommendationComment)');
+                var efa_file = '@Html.Raw(ViewBag.ProjectCommonDetail.EcoFinAnalysisFile)';
+                if(efa_file != ''){
+	                $("#EcoFinAnalysisFileView").attr('href', '../images/CommonDetails/EcoFinAnalysis/' + efa_file).text(efa_file);
+                } else {
+	                $("#EcoFinAnalysisFileView").attr('href', 'javascript:void(0);').text('No File');
+                }
             }
         }
 
@@ -2815,14 +1760,6 @@
                                 Notification(data.status, data.title, data.message);
                                 Swal.fire(data.title, data.message, data.status);
                             }
-
-                            //if (data.status == 'success') {
-                            //    Notification('success', 'Success', data.message);
-                            //    Swal.fire("Success", data.message, data.status);
-                            //} else {
-                            //    Notification('error', 'Deletion Error', data.message);
-                            //    Swal.fire("Submission Error", data.message, "error");
-                            //}
                         }, error: function (jqXHR, exception) {
                             var errorMsg = AjaxErrorHandle(jqXHR, exception);
                             Notification('error', 'Error Occured', errorMsg);
@@ -2851,8 +1788,49 @@
 		        contentType: false,
 		        type: "POST",
 		        success: function (data) {
-			        if (data.message != '')
-				        Swal.fire(data.title, data.message, data.status);
+                    if (data.message != '') {
+                        Swal.fire(data.title, data.message, data.status);
+                        console.log(data.data);
+                    } else {
+                        Swal.fire(data.title, data.message, data.status);
+                    }
+		        }, error: function (jqXHR, exception) {
+			        var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			        Swal.fire('Error Occured', errorMsg, 'error');
+		        }
+	        });
+        }
+
+        function UploadCommonFiles(self, inputid) {
+	        var projectid = GetHiddenValue('ProjectId');
+	        var input = document.getElementById(inputid);
+	        var files = input.files;
+
+	        var formData = new FormData();
+	        formData.append("projectid", projectid);
+	        formData.append("controltitle", inputid);
+	        formData.append("file", files[0]);
+
+            var url = '@Url.Action("ucdf", "form")';
+	        $.ajax({
+		        url: url,
+		        data: formData,
+		        processData: false,
+		        contentType: false,
+		        type: "POST",
+                success: function (data) {
+                    if (data.status == 'success') {
+                        console.log(data.data);
+                        var file = data.data.split("###");
+                        var file_loc = file[0];
+                        var file_name = file[1];
+
+                        $(self).closest(".input-group").find('a').attr('href', '../' + file_loc).text(file_name);
+                        Swal.fire(data.title, data.message, data.status);
+                    } else {
+                        $(self).closest(".input-group").find('a').attr('href', 'javascript:void(0);').text('No File');
+                        Swal.fire(data.title, data.message, data.status);
+                    }
 		        }, error: function (jqXHR, exception) {
 			        var errorMsg = AjaxErrorHandle(jqXHR, exception);
 			        Swal.fire('Error Occured', errorMsg, 'error');

@@ -9,7 +9,24 @@
     <div class="form-group col-md-12">
         <center>
             <p>
-                <h1 style="line-height: 40px;">
+                <h1>
+                    @if (language == "1")
+                    {
+                        <span>
+                            আমি বা আমরা হলফ করিয়া ঘোষণা করিতেছি যে, এই আবেদন পত্রে প্রদত্ত যাবতীয় তথ্য এবং
+                            সংযুক্ত সকল কাগজাদি আমার জ্ঞান ও বিশ্বাসমতে সত্য, সঠিক ও নির্ভুল।
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            I/We Declare that, all the information and attested papers provided in this application form are true,
+                            authentic and trustworthy according to my knowledge and belief.
+                        </span>
+                    }
+                </h1>
+                <hr />
+                <h3 style="line-height: 40px;">
                     @if (language == "1")
                     {
                         <span>জমা দেওয়ার আগে দয়া করে নিশ্চিত হয়ে নিন যে আপনি সমস্ত বৈধ তথ্য এবং প্রাসঙ্গিক নথি সংযুক্ত করেছেন।</span>
@@ -18,19 +35,15 @@
                     {
                         <span>Before you submit, please make sure you have entered all valid information and attached relevant documents.</span>
                     }
-                </h1>
+                </h3>
             </p>
 
             <button id="btnFinalSubmit" type="button" class="btn btn-lg btn-info waves-effect waves-light justify-content-md-center">
                 <i class="mdi mdi-bookmark-check"></i>
                 @if (language == "1")
-                {
-                    <span>চূড়ান্তভাবে জমা</span>
-                }
+                {<span>চূড়ান্তভাবে জমা</span>}
                 else
-                {
-                    <span>Final Submit</span>
-                }
+                {<span>Final Submit</span>}
             </button>
         </center>
     </div>

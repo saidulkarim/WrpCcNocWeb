@@ -517,7 +517,6 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "App Approval Date")]
         public DateTime? AppApprovalDate { get; set; }
 
-
         [Column("AnyHearingOccured", Order = 97)]
         [Display(Name = "Any Hearing Occured?")]
         public int? AnyHearingOccured { get; set; }
@@ -570,8 +569,61 @@ namespace WrpCcNocWeb.Models
         public string ProjectBoundaryMap { get; set; }
 
         [Column("TypesOfConsultationId", Order = 107)]
-        [Display(Name = "Types of Consultation")]       
+        [Display(Name = "Types of Consultation")]
         public int? TypesOfConsultationId { get; set; }
+
+        [Column("RecommendedOption", Order = 108)]
+        [Display(Name = "Recommended Option")]
+        [MaxLength(500)]
+        public string RecommendedOption { get; set; }
+
+        [Column("EcoFinAnalysisFile", Order = 109)]
+        [Display(Name = "Analysis File Upload")]
+        [MaxLength(50)]
+        public string EcoFinAnalysisFile { get; set; }
+
+        [Column("EnvAndSocialEiaFile", Order = 110)]
+        [Display(Name = "EIA File Upload")]
+        [MaxLength(50)]
+        public string EnvAndSocialEiaFile { get; set; }
+
+        [Column("EnvAndSocialSiaFile", Order = 111)]
+        [Display(Name = "SIA File Upload")]
+        [MaxLength(50)]
+        public string EnvAndSocialSiaFile { get; set; }
+
+        #region added on 19-Jan-2021
+        [Column("GuidelinesFollowedYesNoId", Order = 112)]
+        [Display(Name = "Project Appraisal Followed the Guidelines for Project Assessment (GPA)")]
+        public int? GuidelinesFollowedYesNoId { get; set; }
+        [ForeignKey("GuidelinesFollowedYesNoId")]
+        public virtual LookUpCcModYesNo LookUpYesNoGuidelinesFollowed { get; set; }
+
+        [Column("GuidelinesFollowedAppCmt", Order = 113)]
+        [Display(Name = "Applicant Comments")]
+        [MaxLength(150)]
+        public string GuidelinesFollowedAppCmt { get; set; }
+
+        [Column("GuidelinesFollowedAuthCmt", Order = 114)]
+        [Display(Name = "Authority Comments")]
+        [MaxLength(150)]
+        public string GuidelinesFollowedAuthCmt { get; set; }
+
+        [Column("FeasibilityStudyReportFile", Order = 115)]
+        [Display(Name = "Feasibility Study Report")]
+        [MaxLength(50)]
+        public string FeasibilityStudyReportFile { get; set; }
+
+        [Column("PrjDuplicateAttestedLtrFile", Order = 116)]
+        [Display(Name = "Attested Letter Upload")]
+        [MaxLength(50)]
+        public string PrjDuplicateAttestedLtrFile { get; set; }
+
+        [Column("OrgHeadAttestedLetterFile", Order = 117)]
+        [Display(Name = "Attested letter from head of the organization including Signature (Upload)")]
+        [MaxLength(50)]
+        public string OrgHeadAttestedLetterFile { get; set; }
+        #endregion
 
         public virtual List<CcModAnalyzeOptionsDetail> CcModAnalyzeOptionsDetails { get; set; }
         public virtual List<CcModAppProject_31_IndvDetail> CcModAppProject_31_IndvDetails { get; set; }

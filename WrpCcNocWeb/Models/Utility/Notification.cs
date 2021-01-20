@@ -16,5 +16,6 @@ namespace WrpCcNocWeb.Models.Utility
         public string status { get; set; }
         public string title { get; set; }
         public string message { get; set; }
+        public string data { get; set; }
     }   
 }

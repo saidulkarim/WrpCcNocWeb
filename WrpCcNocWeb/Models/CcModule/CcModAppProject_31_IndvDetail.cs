@@ -168,5 +168,10 @@ namespace WrpCcNocWeb.Models
         [Column("TotalFishProduction", Order = 33)]
         [Display(Name = "Total Fish Production (Ton)")]
         public double? TotalFishProduction { get; set; }
+
+        [Column("UseOfAppropToolsDescription", Order = 34)]
+        [Display(Name = "Short Description, If Yes")]
+        [MaxLength(500)]
+        public string UseOfAppropToolsDescription { get; set; }
     }
 }
