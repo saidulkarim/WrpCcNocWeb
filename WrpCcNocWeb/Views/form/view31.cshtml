@@ -18,21 +18,8 @@
     var location = ViewData["ProjectLocationDetail"];
     var hrd = ViewData["HydroRegionDetail"];
     var hsd = ViewData["BDP2100HotSpotDetail"];
-
     var tof = ViewData["TypesOfFloodDetail"];
     var dcd = ViewData["DrainageConditionDetail"];
-
-    var aodt = ViewData["AnalyzeOptionsDetail"];
-    var dsd = ViewData["DesignSubmitDetail"];
-
-    var cnwpd = ViewData["CompatNWPDetail"];
-    var cnwmpd = ViewData["CompatNWMPDetail"];
-    var sdgd = ViewData["CompatSDGDetail"];
-    var sdgid = ViewData["CompatSDGIndiDetail"];
-    var bdp2100gd = ViewData["BDP2100GoalDetail"];
-    var gpwmgtd = ViewData["GPWMGroupType"];
-
-    //List<DataAnalysisControlComments> fdac = (List<DataAnalysisControlComments>)ViewData["FormCommentsListTemp"];
 
     long ProjectId = (long)ViewData["ProjectId"];
     long Project31IndvId = (long)ViewData["Project31IndvId"];
@@ -57,15 +44,15 @@
 
                 <div id="form-preview" class="form-preview container">
                     @{ await Html.RenderPartialAsync("preview/_1Header.cshtml",
-                                     new ViewDataDictionary(ViewData) {
-                               { "FormLanguage", prev_lang },
-                               { "PTID", ProjectTypeId }});
+                                       new ViewDataDictionary(ViewData) {
+                               { "hFormLanguage", prev_lang },
+                               { "hPTID", ProjectTypeId }});
                     }
 
                     <br />
 
                     @{ await Html.RenderPartialAsync("preview/_2General.cshtml",
-                                 new ViewDataDictionary(ViewData) {
+                                   new ViewDataDictionary(ViewData) {
                             { "gProjectCommonDetail", pcd},
                             { "gProjectIndvDetail31", projectindi },
                             { "gProjectLocationDetail", location},
@@ -89,9 +76,9 @@
                             <td colspan="3">
                                 <h5>
                                     @if (prev_lang == 1)
-                                    {<span>২.১ বেজলাইন সম্পর্কিত তথ্য বা অবস্থা পর্যালোচনা</span>}
+                                    {<span>(১) বেজলাইন সম্পর্কিত তথ্য বা অবস্থা পর্যালোচনা</span>}
                                     else
-                                    {<span>2.1 Discussion about baseline related information or situation</span>}
+                                    {<span>(1) Discussion about baseline related information or situation</span>}
                                 </h5>
                             </td>
                         </tr>
@@ -308,9 +295,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == 1)
-                                    {<span>বন্যার ধরণ</span>}
+                                    {<span>ix. বন্যার ধরণ</span>}
                                     else
-                                    {<span>Types of Flood</span>}
+                                    {<span>ix. Types of Flood</span>}
                                 </b>
                             </td>
                             <td>
@@ -342,9 +329,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == 1)
-                                    {<span>ফ্লাড ফ্রিকোয়েন্সি এনালাইসিস; (সর্বোচ্চ পানির উচ্চতা, মিটার)</span>}
+                                    {<span>x. ফ্লাড ফ্রিকোয়েন্সি এনালাইসিস; (সর্বোচ্চ পানির উচ্চতা, মিটার)</span>}
                                     else
-                                    {<span>Flood Frequency Analysis (Maximum water level in Meter)</span>}
+                                    {<span>x. Flood Frequency Analysis (Maximum water level in Meter)</span>}
                                 </b>
                             </td>
                             <td>
@@ -370,9 +357,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == 1)
-                                    {<span>নিষ্কাশন (ড্রেইনেজ) ব্যবস্থা</span>}
+                                    {<span>xi. নিষ্কাশন (ড্রেইনেজ) ব্যবস্থা</span>}
                                     else
-                                    {<span>Drainage Condition</span>}
+                                    {<span>xi. Drainage Condition</span>}
                                 </b>
                             </td>
                             <td>
@@ -404,9 +391,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == 1)
-                                    {<span>ভূপরিস্থ পানির গুনগত মান</span>}
+                                    {<span>xii. প্রকল্প এলাকার ভূপরিস্থ পানির গুনগত মান (সর্বশেষ তথ্য)</span>}
                                     else
-                                    {<span>Surface Water Quality</span>}
+                                    {<span>xii. Surface Water Quality of Project Area (Latest Data)</span>}
                                 </b>
                             </td>
                             <td>
@@ -414,25 +401,25 @@
                                     <tr>
                                         <th class="text-center">
                                             @if (prev_lang == 1)
-                                            {<span>লবনাক্ততা (পিপিএম)</span>}
+                                            {<span>লবনাক্ততা (পি.পি.এম)</span>}
                                             else
-                                            {<span>Salinity (PPM)</span>}
+                                            {<span>Salinity (ppm)</span>}
                                         </th>
                                         <th class="text-center">
                                             @if (prev_lang == 1)
-                                            {<span>ডিও (মি.গ্রা/লিটার)</span>}
+                                            {<span>দ্রবীভূত অক্সিজেন (মি.গ্রা./লিটার)</span>}
                                             else
-                                            {<span>DO (mg/l)</span>}
+                                            {<span>Dissolved Oxygen (mg/l)</span>}
                                         </th>
                                         <th class="text-center">
                                             @if (prev_lang == 1)
-                                            {<span>টি.ডি.এস</span>}
+                                            {<span>মোট দ্রবীভূত কঠিন বস্তু (টি.ডি.এস)</span>}
                                             else
-                                            {<span>TDS</span>}
+                                            {<span>Total Dissolved Solids (TDS)</span>}
                                         </th>
                                         <th class="text-center">
                                             @if (prev_lang == 1)
-                                            {<span>পিএইচ</span>}
+                                            {<span>পি.এইচ</span>}
                                             else
                                             {<span>pH</span>}
                                         </th>
@@ -459,9 +446,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == 1)
-                                    {<span>ভূমির ধরন (শতকরা)</span>}
+                                    {<span>xiii. ভূমির শ্রেণীবিন্যাস (শতকরা)</span>}
                                     else
-                                    {<span>Land Type (Percent)</span>}
+                                    {<span>xiii. Land Type (Percent)</span>}
                                 </b>
                             </td>
                             <td>
@@ -489,7 +476,7 @@
                                             @if (prev_lang == 1)
                                             {<span>নিচু ভূমি <br />F<sub>3</sub> (>১৮০-৩৬০ সে.মি.)</span>}
                                             else
-                                            {<span>Low Land <br />F<sub>3</sub> (>180-360 cm</span>})
+                                            {<span>Low Land <br />F<sub>3</sub> (>180-360 cm)</span>}
                                         </th>
                                         <th class="text-center">
                                             @if (prev_lang == 1)
@@ -521,9 +508,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == 1)
-                                    {<span>উৎপাদিত শস্য</span>}
+                                    {<span>xiv. প্রকল্প এলাকার উৎপাদিত শস্য/ ফসলসমূহ</span>}
                                     else
-                                    {<span>Cultivable Crops</span>}
+                                    {<span>xiv. Cultivable Crops</span>}
                                 </b>
                             </td>
                             <td>@projectindi.CultivableCrops</td>
@@ -541,9 +528,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == 1)
-                                    {<span>প্রকল্প এলাকার চাষাবাদকৃত এলাকা (হেক্টর)</span>}
+                                    {<span>xv. প্রকল্প এলাকার চাষাবাদকৃত এলাকা (হেক্টর)</span>}
                                     else
-                                    {<span>Irrigated Crop Area (ha)</span>}
+                                    {<span>xv. Irrigated Crop Area (ha)</span>}
                                 </b>
                             </td>
                             <td>
@@ -569,9 +556,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == 1)
-                                    {<span>ফসল/ খাদ্যশস্য উৎপাদনের পরিমান (টন)</span>}
+                                    {<span>xvi.i ফসল/ খাদ্যশস্য উৎপাদনের পরিমান (টন)</span>}
                                     else
-                                    {<span>Total Crop Production (Ton)</span>}
+                                    {<span>xvi.i Crop Production (ton)</span>}
                                 </b>
                             </td>
                             <td>@projectindi.CropProduction</td>
@@ -589,9 +576,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == 1)
-                                    {<span>মোট উৎপাদনের পরিমান (টাকায়)</span>}
+                                    {<span>xvi.ii ফসল/ খাদ্যশস্য উৎপাদনের পরিমান (টাকায়)</span>}
                                     else
-                                    {<span>Total Amount of Crop Production (Taka)</span>}
+                                    {<span>xvi.ii Amount of Crop Production (Taka)</span>}
                                 </b>
                             </td>
                             <td>@projectindi.CropProductionAmount</td>
@@ -609,9 +596,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == 1)
-                                    {<span>মাছ উৎপাদন, বৈচিত্র্য এবং অভিবাসন</span>}
+                                    {<span>xvii. মাছ উৎপাদন এবং বৈচিত্র্য</span> }
                                     else
-                                    {<span>Fish Production, Diversity and Migration</span>}
+                                    { <span>xvii. Fish Production and Diversity</span>}
                                 </b>
                             </td>
                             <td>
@@ -637,9 +624,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == 1)
-                                    {<span>প্রকল্প এলাকায় বিদ্যমান গাছপালা ও পশুপাখি</span>}
+                                    {<span>xviii. প্রকল্প এলাকার বিদ্যমান গাছপালা, জলজ প্রাণী ও জলজ উদ্ভিদ</span>}
                                     else
-                                    {<span>Flora and Fauna</span>}
+                                    {<span>xviii. Flora and Fauna of Project Area</span>}
                                 </b>
                             </td>
                             <td>@projectindi.FloraAndFauna</td>
@@ -657,9 +644,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == 1)
-                                    {<span>আর্থ সামাজিক অবস্থা</span> }
+                                    {<span>xix. প্রকল্প এলাকার আর্থ সামাজিক অবস্থা</span>}
                                     else
-                                    { <span>Socio Economic Condition</span>}
+                                    {<span>xix. Socio Economic Condition of Project Area</span>}
                                 </b>
                             </td>
                             <td>
@@ -667,21 +654,21 @@
                                     <tr>
                                         <th class="text-center">
                                             @if (prev_lang == 1)
-                                            {<span>ভূমি হীন জনগোষ্ঠী (শতকরা)</span> }
+                                            {<span>ভূমিহীন জনগোষ্ঠী (শতকরা পরিমান)</span>}
                                             else
-                                            { <span>% of Land Less People</span>}
+                                            {<span>Land Less People (%)</span>}
                                         </th>
                                         <th class="text-center">
                                             @if (prev_lang == 1)
-                                            {<span>ছোট / প্রান্তিক কৃষক (শতকরা)</span> }
+                                            {<span>ছোট/প্রান্তিক কৃষক (শতকরা পরিমান)</span>}
                                             else
-                                            { <span>% of Small Farmer</span>}
+                                            {<span>Small Farmer (%)</span>}
                                         </th>
                                         <th class="text-center">
                                             @if (prev_lang == 1)
-                                            {<span>মাসিক গড় আয়</span> }
+                                            {<span>প্রকল্প এলাকার জনগোষ্ঠীর গড় মাসিক আয়</span>}
                                             else
-                                            { <span>Average Monthly Income</span>}
+                                            {<span>Average Monthly Income of Project People</span>}
                                         </th>
                                     </tr>
                                     <tr>
@@ -705,9 +692,9 @@
                             <td colspan="3">
                                 <h5>
                                     @if (prev_lang == 1)
-                                    {<span>২.২ ইস্যু, চ্যালেঞ্জ সমূহ বা সমস্যা</span>}
+                                    {<span>(২) ইস্যু, চ্যালেঞ্জ সমূহ বা সমস্যা</span>}
                                     else
-                                    {<span>2.2 Issue, Challenge or Problem</span>}
+                                    {<span>(2) Issue, Challenge or Problem</span>}
                                 </h5>
                             </td>
                         </tr>
@@ -716,9 +703,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == 1)
-                                    {<span>i. ইস্যু, চ্যালেঞ্জ বা সমস্যার বিবরণ</span>}
+                                    {<span>i. ইস্যু ও চ্যালেঞ্জ সমূহ বা সমস্যা</span>}
                                     else
-                                    {<span>i. Issue, Challenge or Problem Details</span>}
+                                    {<span>i. Issue, Challenge or Problem</span>}
                                 </b>
                             </td>
                             <td>@pcd.IssueChallageProblem</td>
@@ -736,9 +723,9 @@
                             <td colspan="3">
                                 <h5>
                                     @if (prev_lang == 1)
-                                    {<span>৩. প্রকল্প প্রণয়ন পর্যায়ে স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
+                                    {<span>(৩) প্রকল্প প্রণয়ন পর্যায়ে স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
                                     else
-                                    {<span>3. Discussion with stakeholders during starting of the project</span>}
+                                    {<span>(3) Discussion with stakeholders during starting of the project</span>}
                                 </h5>
                             </td>
                         </tr>
@@ -747,9 +734,9 @@
                             <td style="width: 250px;">
                                 <b>
                                     @if (prev_lang == 1)
-                                    {<span>i. স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
+                                    {<span>i. প্রকল্প প্রণয়ন পর্যায়ে স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
                                     else
-                                    {<span>i. Discussion with stakeholders</span>}
+                                    {<span>i. Discussion with Stakeholders During Starting of the Project</span>}
                                 </b>
                             </td>
                             <td>
@@ -854,8 +841,8 @@
                                                 </td>
                                                 <td>@pcd.DiscussWithStakePosFeedback</td>
                                                 <td>@pcd.DiscussWithStakeNegFeedback</td>
-                                                <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.DiscussWithStakeParticipntLst" target="_blank">@pcd.DiscussWithStakeParticipntLst</a></td>
-                                                <td style="word-break: break-all;"><a href="~/images/CommonDetails/@pcd.DiscussWithStakeMeetingMin" target="_blank">@pcd.DiscussWithStakeMeetingMin</a></td>
+                                                <td style="word-break: break-all;"><a href="~/images/CommonDetails/DiscussStakeParticipantListDocs/@pcd.DiscussWithStakeParticipntLst" target="_blank">@pcd.DiscussWithStakeParticipntLst</a></td>
+                                                <td style="word-break: break-all;"><a href="~/images/CommonDetails/DiscussStakeMeetMins/@pcd.DiscussWithStakeMeetingMin" target="_blank">@pcd.DiscussWithStakeMeetingMin</a></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -875,9 +862,9 @@
                             <td colspan="3">
                                 <h5>
                                     @if (prev_lang == 1)
-                                    {<span>৪. উদ্দেশ্য পূরনের অপশনসমূহ বিশ্লেষণ</span>}
+                                    {<span>(৪) উদ্দেশ্য পূরনের অপশনসমূহ বিশ্লেষণ</span>}
                                     else
-                                    {<span>4. Analyze Options to fulfill objective</span>}
+                                    {<span>(4) Analyze options to fulfill objective</span>}
                                 </h5>
                             </td>
                         </tr>
@@ -964,11 +951,24 @@
                             <td colspan="3">
                                 <h5>
                                     @if (prev_lang == 1)
-                                    {<span>৫. প্রকল্পের দলিলাদির সাথে ডিজাইন সংযোজন</span>}
+                                    {<span>৫. প্রকল্প নথির সাথে ডিজাইন জমা দেওয়া</span>}
                                     else
-                                    {<span>5. Design Submitted with Project Document</span>}
-                                </h5>
+                                    {<span>5. Design submitted with project document</span>}
+                                </h5>                                
+                            </td>
+                        </tr>
 
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td colspan="2">
+                                @{ var dspdtl = ViewData["DesignSubmitDetail"];
+                                    var gsdspd = ViewData["SubDesignSubmitDetail"];
+                                    await Html.RenderPartialAsync("controls/_DesignSubmitProjectDocView.cshtml",
+                                        new ViewDataDictionary(ViewData) {
+                                        { "vFormLanguage", prev_lang },
+                                        { "vDesignSubmitDetail", dspdtl },
+                                        { "vGetDesignSubmitProjDoc", gsdspd }}); }
+                            </td>
+                            <td>
                                 <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Design Submitted with Project Document', 'DesignSubmittedWithProjectDocument');"
                                    class="btn btn-sm btn-info waves-effect comment" data-close="false"
                                    data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
@@ -978,25 +978,13 @@
                             </td>
                         </tr>
 
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td colspan="3">
-                                @{ var dspdtl = ViewData["DesignSubmitDetail"];
-                                    var gsdspd = ViewData["SubDesignSubmitDetail"];
-                                    await Html.RenderPartialAsync("controls/_DesignSubmitProjectDocView.cshtml",
-                                        new ViewDataDictionary(ViewData) {
-                                        { "vFormLanguage", prev_lang },
-                                        { "vDesignSubmitDetail", dspdtl },
-                                        { "vGetDesignSubmitProjDoc", gsdspd }}); }
-                            </td>
-                        </tr>
-
                         <tr>
                             <td colspan="3">
                                 <h5>
                                     @if (prev_lang == 1)
-                                    {<span>৬. পরিবেশগত ও সামাজিক প্রভাব নিরুপন করা হয়েছে কি না</span>}
+                                    {<span>(৬) পরিবেশগত ও সামাজিক প্রভাব নিরুপন করা হয়েছে কি না</span>}
                                     else
-                                    {<span>6. Environmental and Social Impact Assessment</span>}
+                                    {<span>(6) Environmental and Social Impact Assessment</span>}
                                 </h5>
                             </td>
                         </tr>
@@ -1091,9 +1079,33 @@
                             <td colspan="3">
                                 <h4>
                                     @if (prev_lang == 1)
-                                    {<span>৭. প্রকল্পটি তৈরিতে উপযুক্ত ও পরীক্ষিত  বিশ্লেষণি প্রক্রিয়া, মুল্যায়ন পদ্ধতি, কৌশল ও টুলস্ ব্যবহার করা হয়েছে কিনা</span>}
+                                    {<span>(৭) অপশন সুপারিশ</span>}
                                     else
-                                    {<span>7. Use of Appropriate tools, technics, analytical procedures etc</span>}
+                                    {<span>(7) Recommended Option</span>}
+                                </h4>
+                            </td>
+                        </tr>
+                        <tr class="text-left">
+                            <td colspan="2">
+                                @pcd.RecommendedOption
+                            </td>
+                            <td>
+                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Recommended Option', 'RecommendedOption');"
+                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                                    <i class="mdi mdi-comment-text-multiple"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h4>
+                                    @if (prev_lang == 1)
+                                    {<span>(৮) প্রকল্পটি প্রণয়নের ক্ষেত্রে উপযুক্ত ও পরীক্ষিত টুলস্, কৌশল বিশ্লেষণি প্রক্রিয়া, মুল্যায়ন পদ্ধতির ব্যবহার করা হয়েছে কি না?</span>}
+                                    else
+                                    {<span>(8) Examine whether appropriate and proven analytical procedures and evaluation methods, tools and technique used in the project document</span>}
                                 </h4>
                             </td>
                         </tr>
@@ -1174,11 +1186,23 @@
                             <td colspan="3">
                                 <h4>
                                     @if (prev_lang == 1)
-                                    {<span>৮. অর্থনৈতিক এবং আর্থিক বিশ্লেষণ</span>}
+                                    {<span>(৯)অর্থনৈতিক ও আর্থিক বিশ্লেষণ</span>}
                                     else
-                                    {<span>8. Economical & Financial Analysis</span>}
-                                </h4>
+                                    {<span>(9) Economical & Financial Analysis</span>}
+                                </h4>                                
+                            </td>
+                        </tr>
 
+                        <tr style="vertical-align: top; text-align: left;">
+                            <td colspan="2">
+                                @{ var efad = ViewData["EcoFinAnalysisDetail"];
+                                    await Html.RenderPartialAsync("controls/_EconomicalFinancialAnalysisView.cshtml",
+                                        new ViewDataDictionary(ViewData) {
+                                        { "vFormLanguage", prev_lang },
+                                        { "vEcoFinAnalysisDetail", efad },
+                                        { "vEcoFinAnalysisFile", pcd.EcoFinAnalysisFile }}); }
+                            </td>
+                            <td>
                                 <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Economical and Financial Analysis', 'EconomicalFinancialAnalysis');"
                                    class="btn btn-sm btn-info waves-effect comment" data-close="false"
                                    data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
@@ -1188,25 +1212,21 @@
                             </td>
                         </tr>
 
-                        <tr style="vertical-align: top; text-align: left;">
-                            <td colspan="3">
-                                @{ var efad = ViewData["EcoFinAnalysisDetail"];
-                                    await Html.RenderPartialAsync("controls/_EconomicalFinancialAnalysisView.cshtml",
-                                        new ViewDataDictionary(ViewData) {
-                                        { "vFormLanguage", prev_lang },
-                                        { "vEcoFinAnalysisDetail", efad },
-                                        { "vEcoFinAnalysisFile", pcd.EcoFinAnalysisFile }}); }
-                            </td>
-                        </tr>
-
                         <tr>
                             <td colspan="3">
                                 @{ await Html.RenderPartialAsync("form/_AdditionalAttachment"); }
                             </td>
                         </tr>
 
-                        @{ await Html.RenderPartialAsync("preview/_4Deed.cshtml",
-                                               new ViewDataDictionary(ViewData) {
+                        @{
+                            var cnwpd = ViewData["CompatNWPDetail"];
+                            var cnwmpd = ViewData["CompatNWMPDetail"];
+                            var sdgd = ViewData["CompatSDGDetail"];
+                            var sdgid = ViewData["CompatSDGIndiDetail"];
+                            var bdp2100gd = ViewData["BDP2100GoalDetail"];
+                            var gpwmgtd = ViewData["GPWMGroupType"];
+                            await Html.RenderPartialAsync("preview/_4Deed.cshtml",
+                                  new ViewDataDictionary(ViewData) {
                                         { "dProjectCommonDetail", pcd},
                                         { "dProjectIndvDetail31", projectindi },
                                         { "dCompatNWPDetail", cnwpd },
@@ -1220,7 +1240,7 @@
                         }
 
                         @{ await Html.RenderPartialAsync("preview/_5Administrative.cshtml",
-                                               new ViewDataDictionary(ViewData) {
+                                                  new ViewDataDictionary(ViewData) {
                                         { "aProjectCommonDetail", pcd},
                                         { "aProjectIndvDetail31", projectindi },
                                         { "aFormLanguage", prev_lang },
@@ -1232,7 +1252,7 @@
                     <hr />
 
                     @{ await Html.RenderPartialAsync("preview/_6Footer.cshtml",
-                                             new ViewDataDictionary(ViewData) {
+                                               new ViewDataDictionary(ViewData) {
                                         { "fSignatureFileName", sfn},
                                         { "fApplicantNameBn", anbn },
                                         { "fApplicantName", anen },

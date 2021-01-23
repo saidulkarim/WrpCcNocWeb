@@ -551,7 +551,7 @@
                                                                                     </div>
                                                                                 </div>
 
-                                                                                <div class="form-group">
+                                                                                <div class="col-md-6 form-group" style="padding-left: 0 !important;">
                                                                                     <label for="CropProduction">
                                                                                         @{if (language == 1)
                                                                                             { <span>xvi.i ফসল/ খাদ্যশস্য উৎপাদনের পরিমান (টন)</span>}
@@ -562,7 +562,7 @@
                                                                                     <input type="number" min="0" id="CropProduction" name="CropProduction" class="form-control" />
                                                                                 </div>
 
-                                                                                <div class="form-group">
+                                                                                <div class="col-md-6 form-group" style="padding-left: 0 !important;">
                                                                                     <label for="CropProductionAmount">
                                                                                         @{if (language == 1)
                                                                                             { <span>xvi.ii ফসল/ খাদ্যশস্য উৎপাদনের পরিমান (টাকায়)</span>}
@@ -873,7 +873,7 @@
                                                                                 <div class="row">
                                                                                     <div class="col-md-12">
                                                                                         @{ await Html.RenderPartialAsync("controls/_AnalyzeOptionFulfillObject.cshtml",
-                                                                                                    new ViewDataDictionary(ViewData) {
+                                                                                                      new ViewDataDictionary(ViewData) {
                                                                                                     { "vFormLanguage", language }}); }
                                                                                     </div>
                                                                                 </div>
@@ -888,13 +888,9 @@
                                                                             </div>
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == 1)
-                                                                                {
-                                                                                    <span>৫. প্রকল্প নথির সাথে ডিজাইন জমা দেওয়া</span>
-                                                                                }
+                                                                                {<span>৫. প্রকল্প নথির সাথে ডিজাইন জমা দেওয়া</span>}
                                                                                 else
-                                                                                {
-                                                                                    <span>5. Design submitted with project document</span>
-                                                                                }
+                                                                                {<span>5. Design submitted with project document</span>}
                                                                             </h5>
                                                                         </div>
                                                                         <div id="cardCollpase35" class="collapse show">
@@ -976,7 +972,7 @@
                                                                                 <div class="row">
                                                                                     <div class="col-md-12">
                                                                                         @{ await Html.RenderPartialAsync("controls/_EnvSocImpactAssessment.cshtml",
-                                                                                                   new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
+                                                                                                     new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -1026,11 +1022,10 @@
                                                                         <div id="cardCollpase38" class="collapse show">
                                                                             <div class="card-body">
                                                                                 <label for="UseOfAppropriateTools">
-                                                                                    @{if (language == 1)
-                                                                                        { <span>i. উপযুক্ত সরঞ্জাম ব্যবহার করা হয়েছে কিনা</span>}
-                                                                                        else
-                                                                                        {<span>i. Use of Appropriate Tools</span>}
-                                                                                    }
+                                                                                    @if (language == 1)
+                                                                                    {<span>i. উপযুক্ত সরঞ্জাম ব্যবহার করা হয়েছে কিনা</span>}
+                                                                                    else
+                                                                                    {<span>i. Use of Appropriate Tools</span>}
                                                                                 </label>
 
                                                                                 <div class="form-group">
@@ -1038,22 +1033,20 @@
                                                                                         <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
                                                                                             <input type="radio" name="UseOfToolsYesNoId" id="chkAppropriateTTAPYes" value="1" data-parsley-multiple="UseOfToolsYesNoId">
                                                                                             <label for="chkAppropriateTTAPYes">
-                                                                                                @{if (language == 1)
-                                                                                                    { <span>হ্যাঁ</span>}
-                                                                                                    else
-                                                                                                    {<span>Yes</span>}
-                                                                                                }
+                                                                                                @if (language == 1)
+                                                                                                {<span>হ্যাঁ</span>}
+                                                                                                else
+                                                                                                {<span>Yes</span>}
                                                                                             </label>
                                                                                         </div>
 
                                                                                         <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
                                                                                             <input type="radio" name="UseOfToolsYesNoId" id="chkAppropriateTTAPNo" value="0" checked data-parsley-multiple="UseOfToolsYesNoId">
                                                                                             <label for="chkAppropriateTTAPNo">
-                                                                                                @{if (language == 1)
-                                                                                                    { <span>না</span>}
-                                                                                                    else
-                                                                                                    {<span>No</span>}
-                                                                                                }
+                                                                                                @if (language == 1)
+                                                                                                {<span>না</span>}
+                                                                                                else
+                                                                                                {<span>No</span>}
                                                                                             </label>
                                                                                         </div>
                                                                                     </div>
@@ -1104,7 +1097,7 @@
                                                                                 <div class="row">
                                                                                     <div class="col-md-12">
                                                                                         @{ await Html.RenderPartialAsync("controls/_EconomicalFinancialAnalysis.cshtml",
-                                                                                                   new ViewDataDictionary(ViewData) {
+                                                                                                     new ViewDataDictionary(ViewData) {
                                                                                                     { "vFormLanguage", language }}); }
                                                                                     </div>
                                                                                 </div>
@@ -1147,7 +1140,7 @@
                                                         <div class="tab-pane fade" id="v-deed-obligatory" role="tabpanel" aria-labelledby="v-deed-obligatory-tab">
                                                             <div class="card-box">
                                                                 @{ await Html.RenderPartialAsync("form/_4DeedObligatory",
-                                                                           new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
+                                                                             new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                                                             </div>
                                                         </div>
 
@@ -1172,7 +1165,10 @@
 
                             <div class="tab-pane" id="basictab2">
                                 <div class="row">
-                                    @*@{ Html.RenderPartial("preview/_Preview31"); }*@
+                                    @{
+                                        if (ViewBag.ProjectCommonDetail.ProjectId != 0)
+                                            await Html.RenderPartialAsync("preview/_Preview31");
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -1221,7 +1217,7 @@
             GetMaxDischargeData(); //call from partial page controls/_MaximumDischarge
             GetIrrigatedCropAreaData(); //call from partial page controls/_IrrigatedCropArea
             GetFishProdDiversityData(); //call from partial page controls/_FishProductionDiversity
-            GetAoFOData();//call from partial page controls/_AnalyzeOptionFulfillObject
+            GetAoFOData(); //call from partial page controls/_AnalyzeOptionFulfillObject
             GetDswpdData(); //call from partial page controls/_DesignSubmitProjectDoc
             GetEiaData(); //call from partial page controls/_EnvSocImpactAssessment
             GetSiaData(); //call from partial page controls/_EnvSocImpactAssessment
@@ -1351,25 +1347,17 @@
             });
 
             var ProjectCommonDetail = {
-                "ProjectId": ProjectId,
-                //"AnnualRainFallLast1Year": GetTextValue('AnnualRainFallLast1Year'),
-                //"AnnualRainFallLast2Years": GetTextValue('AnnualRainFallLast2Years'),
-                //"AnnualRainFallLast3Years": GetTextValue('AnnualRainFallLast3Years'),
-                //"AnnualRainFallLast4Years": GetTextValue('AnnualRainFallLast4Years'),
-                //"AnnualRainFallLast5Years": GetTextValue('AnnualRainFallLast5Years'),
+                "ProjectId": ProjectId,                
                 "IssueChallageProblem": GetTextValue('IssueChallageProblem'),
                 "YesNoStakeId": GetRadioValue('YesNoStakeId'),
                 "TypesOfConsultationId": GetDropdownValue('TypesOfConsultationId'),
-                "DiscussWithStakeApplicantCmt": GetTextValue('DiscussWithStakeApplicantCmt'),
-                //"DiscussWithStakeAuthorityCmt": GetTextValue('DiscussWithStakeAuthorityCmt'),
+                "DiscussWithStakeApplicantCmt": GetTextValue('DiscussWithStakeApplicantCmt'),                
                 "DiscussWithStakePosFeedback": GetTextValue('DiscussWithStakePosFeedback'),
-                "DiscussWithStakeNegFeedback": GetTextValue('DiscussWithStakeNegFeedback'),                
+                "DiscussWithStakeNegFeedback": GetTextValue('DiscussWithStakeNegFeedback'),
                 "AnalyzeOptYesNoId": GetRadioValue('AnalyzeOptYesNoId'),
-                "AnalyzeOptionsApplicantCmt": GetTextValue('AnalyzeOptionsApplicantCmt'),
-                //"AnalyzeOptionsAuthorityCmt": GetTextValue('AnalyzeOptionsAuthorityCmt'),
+                "AnalyzeOptionsApplicantCmt": GetTextValue('AnalyzeOptionsApplicantCmt'),                
                 "EnvAndSocialYesNoId": GetRadioValue('EnvAndSocialYesNoId'),
-                "EnvAndSocialApplicantCmt": GetTextValue('EnvAndSocialApplicantCmt'),
-                //"EnvAndSocialAuthorityCmt": GetTextValue('EnvAndSocialAuthorityCmt') RecommendedOption
+                "EnvAndSocialApplicantCmt": GetTextValue('EnvAndSocialApplicantCmt'),                
                 "RecommendedOption": GetTextValue('RecommendedOption')
             };
 
@@ -1393,18 +1381,14 @@
                 "VeryLowLandPercent": GetTextValue('VeryLowLandPercent'),
                 "CultivableCrops": GetTextValue('CultivableCrops'),
                 "CropProduction": GetTextValue('CropProduction'),
-                "CropProductionAmount": GetTextValue('CropProductionAmount'),
-                //"FishProduction": GetTextValue('FishProduction'),
-                //"FishDiversity": GetTextValue('FishDiversity'),
-                //"FishMigration": GetTextValue('FishMigration'),TotalFishProduction
+                "CropProductionAmount": GetTextValue('CropProductionAmount'),                
                 "TotalFishProduction": GetTextValue('TotalFishProduction'),
                 "FloraAndFauna": GetTextValue('FloraAndFauna'),
                 "LandLessPeoplePercentage": GetTextValue('LandLessPeoplePercentage'),
                 "SmallFarmerPercentage": GetTextValue('SmallFarmerPercentage'),
                 "AvgMonthlyIncome": GetTextValue('AvgMonthlyIncome'),
                 "UseOfToolsYesNoId": GetRadioValue('UseOfToolsYesNoId'),
-                "ToolsApplicantComments": GetTextValue('ToolsApplicantComments'),
-                //"ToolsAuthorityComments": GetTextValue('ToolsAuthorityComments')
+                "ToolsApplicantComments": GetTextValue('ToolsApplicantComments'),                
                 "UseOfAppropToolsDescription": GetTextValue('UseOfAppropToolsDescription')
             };
 
@@ -1531,8 +1515,10 @@
                 SetTextValue('ProjectTarget', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectTarget)');
                 SetTextValue('ProjectObjective', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectObjective)');
                 SetTextValue('ProjectActivity', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectActivity)');
-                SetTextValue('ProjectStartDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate.ToString("dd/MM/yyyy"))');
-                SetTextValue('ProjectCompletionDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate.ToString("dd/MM/yyyy"))');
+                SetTextValue('ProjectStartDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate)');
+                SetTextValue('ProjectCompletionDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate)');
+                //SetTextValue('ProjectStartDate', 'Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate.ToString("dd/MM/yyyy"))');
+                //SetTextValue('ProjectCompletionDate', 'Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate.ToString("dd/MM/yyyy"))');
                 SetTextValue('ProjectEstimatedCost', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectEstimatedCost)');
                 SetTextValue('ProjectOutcome', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectOutcome)');
                 SetTextValue('ProjectOutput', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectOutput)');
@@ -1541,7 +1527,7 @@
                 jQuery("#SelectedMapFile").attr('title', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectBoundaryMap)');
                 jQuery('#SelectedMapFile').val('@Html.Raw(ViewBag.ProjectBoundaryMap)');
 
-                var hrs = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.HydroRegionDetail))');
+                var hrs = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.HydrologicalRegionDetail))');
                 jQuery.each(hrs, function (i, item) {
                     $(":checkbox[name='hydrological_region'][value='" + item.hydroRegionId + "']").attr('checked', true);
                 });
@@ -1553,14 +1539,6 @@
 
                 SetDropdownValue('ConnectivityAmidWaterland', '@Html.Raw(ViewBag.ProjectIndvDetail31.ConnectivityAmidWaterland)');
                 SetTextValue('CatchmentArea', '@Html.Raw(ViewBag.ProjectIndvDetail31.CatchmentArea)');
-
-                //SetTextValue('AnnualRainFallLast1Year', 'Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast1Year)');
-                //SetTextValue('AnnualRainFallLast2Years', 'Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast2Years)');
-                //SetTextValue('AnnualRainFallLast3Years', 'Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast3Years)');
-                //SetTextValue('AnnualRainFallLast4Years', 'Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast4Years)');
-                //SetTextValue('AnnualRainFallLast5Years', 'Html.Raw(ViewBag.ProjectCommonDetail.AnnualRainFallLast5Years)');
-                //SetTextValue('HighestFloodLevel', 'Html.Raw(ViewBag.ProjectIndvDetail31.HighestFloodLevel)');
-                //SetTextValue('MaximumDischarge', 'Html.Raw(ViewBag.ProjectIndvDetail31.MaximumDischarge)');
 
                 var tof = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.TypesOfFloodDetail))');
                 jQuery.each(tof, function (i, item) {
@@ -1607,8 +1585,7 @@
                 }
 
                 SetDropdownValue('TypesOfConsultationId', '@Html.Raw(ViewBag.ProjectCommonDetail.TypesOfConsultationId)');
-                SetTextValue('DiscussWithStakeApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeApplicantCmt)');
-                //SetTextValue('DiscussWithStakeAuthorityCmt', 'Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeAuthorityCmt)');
+                SetTextValue('DiscussWithStakeApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeApplicantCmt)');                
                 SetTextValue('DiscussWithStakePosFeedback', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakePosFeedback)');
                 SetTextValue('DiscussWithStakeNegFeedback', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeNegFeedback)');
 
@@ -1640,8 +1617,7 @@
                 }
 
                 SetTextValue('AnalyzeOptionsApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptionsApplicantCmt)');
-                //SetTextValue('AnalyzeOptionsAuthorityCmt', 'Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptionsAuthorityCmt)');
-
+                
                 var EnvAndSocialYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialYesNoId)';
                 if (EnvAndSocialYesNoId != '') {
                     $(":radio[name='EnvAndSocialYesNoId'][value='" + EnvAndSocialYesNoId + "']").attr('checked', true);

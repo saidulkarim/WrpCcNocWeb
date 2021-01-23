@@ -891,8 +891,7 @@
             </div>
             <h5 class="card-title mb-0 text-white">
                 @if (language == 1)
-                {
-                    <span>১০. সমন্বিত পানি সম্পদ ব্যবস্থাপনা (IWRM) এর ধারণার সাথে প্রকল্পটির সামঞ্জস্যপূর্ণতা</span>}
+                {<span>১০. সমন্বিত পানি সম্পদ ব্যবস্থাপনা (IWRM) এর ধারণার সাথে প্রকল্পটির সামঞ্জস্যপূর্ণতা</span>}
                 else
                 { <span>10. Whether the project is consistent with the concept of Integrated Water Resources Management (IWRM) principles</span>}
             </h5>
@@ -1102,83 +1101,81 @@
         </div>
     </div>
 
-    @{
-        if (selectedform == "1" || selectedform == "4" || selectedform == "10" || selectedform == "13")
-        {
-            <div class="card">
-                <div class="card-header bg-pink py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed21">
-                    <div class="card-widgets">
-                        <a data-toggle="collapse" href="#cardCollpaseDeed21" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed21"><i class="mdi mdi-minus"></i></a>
-                    </div>
-                    <h5 class="card-title mb-0 text-white">
-                        @if (language == 1)
-                        {<span>১৩. অন্যান্য সংস্থা, ব্যক্তি/ গোষ্ঠী কর্তৃক পরিচালিত বা সমাপ্ত প্রকল্প সমূহের সহিত প্রস্তাবিত প্রকল্পটি কোন দ্বৈততা বা পুনরাবৃত্তি আছে কিনা বা থাকলেও সংস্থা, ব্যক্তি বা গোষ্ঠির সাথে সমন্বয় করা হয়েছে কিনা?</span>}
-                        else
-                        {<span>13. Examine whether the project is not overlapping and duplication with any other project of other organizations or individual/ group initiatives and resolve disputes if any relating to appropriation?</span>}
-                    </h5>
+    @if (selectedform == "1" || selectedform == "4" || selectedform == "10" || selectedform == "13")
+    {
+        <div class="card">
+            <div class="card-header bg-pink py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed21">
+                <div class="card-widgets">
+                    <a data-toggle="collapse" href="#cardCollpaseDeed21" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed21"><i class="mdi mdi-minus"></i></a>
                 </div>
-                <div id="cardCollpaseDeed21" class="collapse show">
-                    <div class="card-body">
-                        <div class="form-group">
-                            <div id="duplicationproject" class="row" style="margin-left: 5px;">
-                                <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                    <input type="radio" name="DuplicatYesNoId" id="duplicationprojectYes" value="1" data-parsley-multiple="DuplicatYesNoId">
-                                    <label for="duplicationprojectYes">
-                                        @if (language == 1)
-                                        {<span>হ্যাঁ</span>}
-                                        else
-                                        {<span>Yes</span>}
-                                    </label>
-                                </div>
+                <h5 class="card-title mb-0 text-white">
+                    @if (language == 1)
+                    {<span>১৩. অন্যান্য সংস্থা, ব্যক্তি/ গোষ্ঠী কর্তৃক পরিচালিত বা সমাপ্ত প্রকল্প সমূহের সহিত প্রস্তাবিত প্রকল্পটি কোন দ্বৈততা বা পুনরাবৃত্তি আছে কিনা বা থাকলেও সংস্থা, ব্যক্তি বা গোষ্ঠির সাথে সমন্বয় করা হয়েছে কিনা?</span>}
+                    else
+                    {<span>13. Examine whether the project is not overlapping and duplication with any other project of other organizations or individual/ group initiatives and resolve disputes if any relating to appropriation?</span>}
+                </h5>
+            </div>
+            <div id="cardCollpaseDeed21" class="collapse show">
+                <div class="card-body">
+                    <div class="form-group">
+                        <div id="duplicationproject" class="row" style="margin-left: 5px;">
+                            <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                                <input type="radio" name="DuplicatYesNoId" id="duplicationprojectYes" value="1" data-parsley-multiple="DuplicatYesNoId">
+                                <label for="duplicationprojectYes">
+                                    @if (language == 1)
+                                    {<span>হ্যাঁ</span>}
+                                    else
+                                    {<span>Yes</span>}
+                                </label>
+                            </div>
 
-                                <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                    <input type="radio" name="DuplicatYesNoId" id="duplicationprojectNo" value="0" checked data-parsley-multiple="DuplicatYesNoId">
-                                    <label for="duplicationprojectNo">
-                                        @if (language == 1)
-                                        {<span>না</span>}
-                                        else
-                                        {<span>No</span>}
-                                    </label>
-                                </div>
+                            <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                                <input type="radio" name="DuplicatYesNoId" id="duplicationprojectNo" value="0" checked data-parsley-multiple="DuplicatYesNoId">
+                                <label for="duplicationprojectNo">
+                                    @if (language == 1)
+                                    {<span>না</span>}
+                                    else
+                                    {<span>No</span>}
+                                </label>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label for="DuplicationApplicantComments">
-                                @if (language == 1)
-                                {<span>আবেদনকারীর মন্তব্য</span>}
-                                else
-                                {<span>Applicant Comments</span>}
-                            </label>
-                            <input type="text" maxlength="150" id="DuplicationApplicantComments" name="DuplicationApplicantComments" class="form-control" />
-                        </div>
+                    <div class="form-group">
+                        <label for="DuplicationApplicantComments">
+                            @if (language == 1)
+                            {<span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        </label>
+                        <input type="text" maxlength="150" id="DuplicationApplicantComments" name="DuplicationApplicantComments" class="form-control" />
+                    </div>
 
-                        <div class="col-md-6 form-group" style="padding-left: 0 !important;">
-                            <label for="PrjDuplicateAttestedLtrFile">
-                                @if (language == 1)
-                                {<span>প্রত্যয়ন পত্র আপলোড</span>}
-                                else
-                                {<span>Attested Letter Upload</span>}
-                            </label>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input id="PrjDuplicateAttestedLtrFile" name="PrjDuplicateAttestedLtrFile" type="file"
-                                           class="custom-file-input" onchange="UploadCommonFiles(this, 'PrjDuplicateAttestedLtrFile');" />
-                                    <label class="custom-file-label" for="PrjDuplicateAttestedLtrFile">
-                                        @if (language == 1)
-                                        {<span>ফাইল পছন্দ করুন</span>}
-                                        else
-                                        {<span>Choose File</span>}
-                                    </label>
-                                </div>
-
-                                <a id="PrjDuplicateAttestedLtrFileView" href="javascript:void(0);" target="_blank" class="btn btn-blue ml-2 text-white"></a>
+                    <div class="col-md-6 form-group" style="padding-left: 0 !important;">
+                        <label for="PrjDuplicateAttestedLtrFile">
+                            @if (language == 1)
+                            {<span>প্রত্যয়ন পত্র আপলোড</span>}
+                            else
+                            {<span>Attested Letter Upload</span>}
+                        </label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input id="PrjDuplicateAttestedLtrFile" name="PrjDuplicateAttestedLtrFile" type="file"
+                                       class="custom-file-input" onchange="UploadCommonFiles(this, 'PrjDuplicateAttestedLtrFile');" />
+                                <label class="custom-file-label" for="PrjDuplicateAttestedLtrFile">
+                                    @if (language == 1)
+                                    {<span>ফাইল পছন্দ করুন</span>}
+                                    else
+                                    {<span>Choose File</span>}
+                                </label>
                             </div>
+
+                            <a id="PrjDuplicateAttestedLtrFileView" href="javascript:void(0);" target="_blank" class="btn btn-blue ml-2 text-white"></a>
                         </div>
                     </div>
                 </div>
             </div>
-        }
+        </div>
     }
 
     <div class="card">
@@ -1614,7 +1611,7 @@
 	            $("#CompatibilityNWPDocLinkView").attr('href', 'javascript:void(0);').text('No File');
             }
 
-            var nwp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWPDetail))');
+            var nwp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.ConformityNWPDetail))');
             jQuery.each(nwp, function (i, item) {
                 $(":checkbox[name='NationalWaterPolicyArticleId'][value='" + item.nationalWaterPolicyArticleId + "']").attr('checked', true);
             });
@@ -1642,7 +1639,7 @@
 	            $("#NWMPDocLinkView").attr('href', 'javascript:void(0);').text('No File');
             }
 
-            var nwmp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatNWMPDetail))');
+            var nwmp = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.ConformityNWMPDetail))');
             jQuery.each(nwmp, function (i, item) {
                 $(":checkbox[name='PrjCompatNWMPId'][value='" + item.nwmpProgrammeId + "']").attr('checked', true);
             });
@@ -1684,12 +1681,12 @@
 	            $("#SDGDocLinkView").attr('href', 'javascript:void(0);').text('No File');
             }
 
-            var sdgdetail = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatSDGDetail))');
+            var sdgdetail = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.ConformitySDGDetail))');
             jQuery.each(sdgdetail, function (i, item) {
                 $(":checkbox[name='SDGGoalId'][value='" + item.sdgGoalId + "']").attr('checked', true);
             });
 
-            var sdgindi = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CompatSDGIndiDetail))');
+            var sdgindi = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.ConformitySDGIndiDetail))');
             jQuery.each(sdgindi, function (i, item) {
                 $(":checkbox[name='SDGIndicatorId'][value='" + item.sdgIndicatorId + "']").attr('checked', true);
             });
@@ -1717,7 +1714,7 @@
 	            $("#DeltaPlan2100DocLinkView").attr('href', 'javascript:void(0);').text('No File');
             }
 
-            var bdp2100goal = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.BDP2100GoalDetail))');
+            var bdp2100goal = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.ConformityBDP2100GoalDetail))');
             jQuery.each(bdp2100goal, function (i, item) {
                 $(":checkbox[name='DeltPlan2100GoalId'][value='" + item.deltPlan2100GoalId + "']").attr('checked', true);
             });
@@ -1801,7 +1798,7 @@
             SetTextValue('GPWMApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.GPWMApplicantCmt)');
             //SetTextValue('GPWMAuthorityCmt', 'Html.Raw(ViewBag.ProjectCommonDetail.GPWMAuthorityCmt)');
 
-            var gpwmgroup = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.GPWMGroupType))');
+            var gpwmgroup = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.GuidelineGPWMGroupType))');
             jQuery.each(gpwmgroup, function (i, item) {
                 $(":checkbox[name='GPWMGroupTypeId'][value='" + item.gpwmGroupTypeId + "']").attr('checked', true);
             });

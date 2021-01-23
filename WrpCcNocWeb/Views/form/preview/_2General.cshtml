@@ -9,6 +9,7 @@
     var location = ViewData["gProjectLocationDetail"];
     var prev_lang = ViewData["gFormLanguage"].ToString();
     var prj_type_id = ViewData["gProjectTypeId"].ToString();
+    string control_title = string.Empty;
 
 }
 
@@ -33,7 +34,7 @@
                 {<span>(1). Project Name</span>}
             </b>
         </td>
-        <td style="width: 900px; max-width: 700px; word-break: break-all;">@pcd.ProjectName</td>
+        <td style="word-break: break-all;">@pcd.ProjectName</td>
         <td>
             <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Name', 'ProjectName');"
                class="btn btn-sm btn-info waves-effect comment" data-close="false"
@@ -55,14 +56,15 @@
         </td>
         <td style="word-break: break-all;">@pcd.BackgroundAndRationale</td>
         <td>
-            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Background and Rationale', 'BackgroundAndRationale');" class="btn btn-sm btn-info waves-effect comment" data-close="false"
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Background and Rationale', 'ProjectBackgroundRationale');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
                data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                 <i class="mdi mdi-comment-text-multiple"></i>
             </a>
-            <!--Html.Raw(fdac.Where(w => w.ControlTitle == "BackgroundAndRationale").Select(s => s.Comments).FirstOrDefault())-->
         </td>
     </tr>
+
     <tr style="vertical-align: top; text-align: left;">
         <td style="width: 250px;">
             <b>
@@ -74,7 +76,8 @@
         </td>
         <td>@pcd.ProjectTarget</td>
         <td>
-            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Target', 'ProjectTarget');" class="btn btn-sm btn-info waves-effect comment" data-close="false"
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Target', 'ProjectTarget');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
                data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                 <i class="mdi mdi-comment-text-multiple"></i>
@@ -109,17 +112,11 @@
                 {<span>(৫) প্রকল্পের অবস্থান</span>}
                 else
                 {<span>(5) Project Location</span>}
-            </b>&nbsp;&nbsp;
-            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Location', 'ProjectLocation');"
-               class="btn btn-sm btn-info waves-effect comment" data-close="false"
-               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                <i class="mdi mdi-comment-text-multiple"></i>
-            </a>
+            </b>
         </td>
     </tr>
     <tr>
-        <td colspan="3">
+        <td colspan="2">
             <table style="width:100%; border: 1px solid #CFCFCF; text-align: center;" border="1">
                 <thead style="background: #9d9b9b; font-weight: bold;">
                     <tr>
@@ -217,6 +214,14 @@
                 </tbody>
             </table>
         </td>
+        <td>
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Location', 'ProjectLocation');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
     </tr>
 
     <tr style="vertical-align: top; text-align: left;">
@@ -236,7 +241,7 @@
         </td>
         <td><a href="~/docs/map_kml/@pcd.ProjectBoundaryMap" target="_blank">@pcd.ProjectBoundaryMap</a></td>
         <td>
-            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Boundary Map', 'ProjectBoundaryMap');"
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Boundary with Geo Code', 'ProjectBoundaryGeoCode');"
                class="btn btn-sm btn-info waves-effect comment" data-close="false"
                data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
@@ -256,7 +261,7 @@
         </td>
         <td>@pcd.ProjectActivity</td>
         <td>
-            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Activities', 'ProjectActivity');"
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Activities/ Components', 'ProjectActivitiesComponents');"
                class="btn btn-sm btn-info waves-effect comment" data-close="false"
                data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
@@ -321,7 +326,7 @@
         { <span>@pcd.ProjectEstimatedCost</span>}
         </td>
         <td>
-            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Estimated Project Cost', 'ProjectEstimatedCost');"
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Estimated Project Cost', 'EstimatedProjectCost');"
                class="btn btn-sm btn-info waves-effect comment" data-close="false"
                data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">

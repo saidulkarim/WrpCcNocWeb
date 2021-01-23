@@ -345,7 +345,7 @@
             SetDropdownValue('PaymentMethodId', '@Html.Raw(ViewBag.ProjectCommonDetail.PaymentMethodId)');
             SetTextValue('PaymentDocNumber', '@Html.Raw(ViewBag.ProjectCommonDetail.PaymentDocNumber)');
             SetTextValue('PaidAmount', '@Html.Raw(ViewBag.ProjectCommonDetail.PaidAmount)');
-            SetTextValue('PaymentDate', '@Html.Raw(ViewBag.ProjectCommonDetail.PaymentDate.ToString("dd/MM/yyyy"))');
+            SetTextValue('PaymentDate', '@Html.Raw(ViewBag.ProjectCommonDetail.PaymentDate)');
 
             var pay_file = '@Html.Raw(ViewBag.ProjectCommonDetail.PaymentDocFileName)';
             if(pay_file != ''){

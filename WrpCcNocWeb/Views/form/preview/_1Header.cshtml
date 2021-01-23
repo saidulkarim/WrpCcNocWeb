@@ -2,8 +2,8 @@
 @inject IHttpContextAccessor HttpContextAccessor
 
 @{
-    var prev_lang = int.Parse(ViewData["FormLanguage"].ToString());
-    var prj_type_id = int.Parse(ViewData["PTID"].ToString());
+    var prev_lang = int.Parse(ViewData["hFormLanguage"].ToString());
+    var prj_type_id = int.Parse(ViewData["hPTID"].ToString());
 
     string[] t1En = { "", "Form 3.1", "Form 3.2", "Form 3.3", "Form 3.4", "Form 3.5", "Form 3.6", "Form 3.7", "Form 3.8", "Form 3.9", "Form 3.10", "Form 3.11", "Form 3.12", "Form 3.13" };
     string[] t1Bn = { "", "ফরম-৩.১", "ফরম-৩.২", "ফরম-৩.৩ ", "ফরম-৩.৪", "ফরম-৩.৫", "ফরম-৩.৬", "ফরম-৩.৭", "ফরম-৩.৮", "ফরম-৩.৯", "ফরম-৩.১০", "ফরম-৩.১১", "ফরম-৩.১২", "ফরম-৩.১৩" };

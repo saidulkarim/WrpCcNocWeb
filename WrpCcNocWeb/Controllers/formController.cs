@@ -739,7 +739,7 @@ namespace WrpCcNocWeb.Controllers
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             System.Globalization.DateTimeFormatInfo mfi = new System.Globalization.DateTimeFormatInfo();
-
+            SelectedForm sf = HttpContext.Session.GetComplexData<SelectedForm>("SelectedForm");
             UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
             ViewData["UserLevel"] = uli.UserGroupId;
             ViewData["UserAuthLevelID"] = uli.AuthorityLevelId;
@@ -764,17 +764,17 @@ namespace WrpCcNocWeb.Controllers
             else
                 ViewData["ProjectIndvDetail31"] = new CcModAppProject_31_IndvDetail();
 
-            var _hydroregiondetail = GetHydrologicalRegion(pcd.ProjectId, pcd.LanguageId ?? 0);
-            ViewData["HydroRegionDetail"] = _hydroregiondetail;
+            var _hydroregionddtl = GetHydrologicalRegion(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["HydroRegionDetail"] = _hydroregionddtl;
 
-            var _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModDeltPlan2100HotSpot)
+            var _hotspotdtl = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModDeltPlan2100HotSpot)
                                     .Select(x => new BDP2100HotSpotDetailTemp
                                     {
                                         DeltaPlanHotSpotId = x.DeltaPlanHotSpotId,
                                         PlanName = x.LookUpCcModDeltPlan2100HotSpot.PlanName,
                                         PlanNameBn = x.LookUpCcModDeltPlan2100HotSpot.PlanNameBn
                                     }).ToList();
-            ViewData["BDP2100HotSpotDetail"] = _hotspotdetail;
+            ViewData["BDP2100HotSpotDetail"] = _hotspotdtl;
 
             var _hydrosystemdetail = GetHydroSystemDetail(pcd.ProjectId);
             ViewData["HydroSystemDetail"] = _hydrosystemdetail;
@@ -862,7 +862,7 @@ namespace WrpCcNocWeb.Controllers
             ViewData["Title"] = "Flood Control Management Project | Print";
             ViewData["ProjectTypeTitle"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectType).FirstOrDefault();
             ViewData["ProjectTypeTitleBn"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectTypeBn).FirstOrDefault();
-            ViewData["LanguageId"] = pcd.LanguageId;
+            ViewData["LanguageId"] = pcd.LanguageId ?? sf.LanguageTypeId.ToInt();
             ViewData["SignatureFileName"] = _db.AdminModUsersDetail.Where(w => w.UserId == pcd.UserId).Select(s => s.ApplicantSignature).FirstOrDefault();
             ViewData["ApplicationState"] = GetAppState(pcd.ApplicationStateId, pcd.IsCompletedId.Value);
 
@@ -4711,7 +4711,7 @@ namespace WrpCcNocWeb.Controllers
                 CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(_psi.ProjectId);
 
                 if (_pcd != null)
-                {
+                {                   
                     ViewBag.ProjectCommonDetail = _pcd;
 
                     if (!string.IsNullOrEmpty(_pcd.ProjectBoundaryMap))
@@ -4745,7 +4745,7 @@ namespace WrpCcNocWeb.Controllers
 
                 var _hydroregiondetail = _db.CcModPrjHydroRegionDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                             .Select(x => new { x.PrjHydroRegionDetailId, x.ProjectId, x.HydroRegionId }).ToList();
-                ViewBag.HydroRegionDetail = _hydroregiondetail;
+                ViewBag.HydrologicalRegionDetail = _hydroregiondetail;
 
                 var _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                         .Select(x => new { x.HotSpotDetailId, x.ProjectId, x.DeltaPlanHotSpotId }).ToList();
@@ -4769,31 +4769,34 @@ namespace WrpCcNocWeb.Controllers
                                            x.LookUpCcModNWPArticle.NationalWtrPolicyShortTitle,
                                            x.LookUpCcModNWPArticle.NationalWtrPolicyArticleTitle
                                        }).ToList();
-                ViewBag.CompatNWPDetail = _compatnwpdetail;
+                ViewBag.ConformityNWPDetail = _compatnwpdetail;
 
                 var _compatnwmpdetail = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                        .Select(x => new { x.PrjCompatNWMPId, x.ProjectId, x.NWMPProgrammeId, x.LookUpCcModNWMPProgramme.NWMPProgrammeTitle }).ToList();
-                ViewBag.CompatNWMPDetail = _compatnwmpdetail;
+                ViewBag.ConformityNWMPDetail = _compatnwmpdetail;
 
                 var _compatsdgdetail = _db.CcModPrjCompatSDGDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                        .Select(x => new { x.SDGCompabilityId, x.ProjectId, x.SDGGoalId }).ToList();
-                ViewBag.CompatSDGDetail = _compatsdgdetail;
+                ViewBag.ConformitySDGDetail = _compatsdgdetail;
 
                 var _compatsdgindidetail = _db.CcModPrjCompatSDGIndiDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                        .Select(x => new { x.SDGIndicatorDetailId, x.ProjectId, x.SDGIndicatorId }).ToList();
-                ViewBag.CompatSDGIndiDetail = _compatsdgindidetail;
+                ViewBag.ConformitySDGIndiDetail = _compatsdgindidetail;
 
                 var _bdp2100goaldetail = _db.CcModBDP2100GoalDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                        .Select(x => new { x.DeltaGoalDetailId, x.ProjectId, x.DeltPlan2100GoalId }).ToList();
-                ViewBag.BDP2100GoalDetail = _bdp2100goaldetail;
+                ViewBag.ConformityBDP2100GoalDetail = _bdp2100goaldetail;
 
                 var _gpwmgrouptype = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                        .Select(x => new { x.GPWMGroupTypeDetailId, x.ProjectId, x.GPWMGroupTypeId }).ToList();
-                ViewBag.GPWMGroupType = _gpwmgrouptype;
+                ViewBag.GuidelineGPWMGroupType = _gpwmgrouptype;
             }
 
             GetApplicantInfo(ui.UserID);
-            //GetF31ViewData(_psi.ProjectId);
+
+            if (_psi != null)
+                GetF31ViewData(_psi.ProjectId);
+
             return View();
         }
 
@@ -19493,7 +19496,7 @@ namespace WrpCcNocWeb.Controllers
                             pcd.CiwupDocLink = filename;
                             foldername = "images/CommonDetails/DmpDocs";
                             break;
-                        
+
                         case "FeasibilityStudyReportFile":
                             pcd.FeasibilityStudyReportFile = filename;
                             foldername = "images/CommonDetails/FeasibilityStudyReports";
@@ -19714,7 +19717,7 @@ namespace WrpCcNocWeb.Controllers
                 case "EnvAndSocialSiaFile":
                     result = projectId + "_SIA_" + DateTime.Now.ToString("yyMMddHHmmssfff");
                     break;
-                
+
                 case "FeasibilityStudyReportFile":
                     result = projectId + "_FSR_" + DateTime.Now.ToString("yyMMddHHmmssfff");
                     break;

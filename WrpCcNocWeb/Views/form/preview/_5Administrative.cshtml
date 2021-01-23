@@ -26,15 +26,17 @@
     </tr>
 
     <tr style="vertical-align: top; text-align: left;">
-        <td style="width: 250px;">
+        <td colspan="3">
             <b>
                 @if (prev_lang == "1")
                 {<span>(১) স্থানীয় কর্তৃপক্ষ অনাপত্তি পত্র (NOC)</span>}
                 else
-                {<span>(1) No Objection Certificate (NOC)</span>}
+                {<span>(1) Local Authorities No Objection Certificate (NOC)</span>}
             </b>
         </td>
-        <td>
+    </tr>
+    <tr>
+        <td colspan="2">
             <table style="width:100%; border: 1px solid #CFCFCF; text-align: center;" border="1">
                 <tr>
                     <th>
@@ -45,13 +47,13 @@
                     </th>
                     <th>
                         @if (prev_lang == "1")
-                        {<span>অনাপত্তি কাগজপত্র সংযুক্তি</span>}
+                        {<span>সংযুক্তি</span>}
                         else
-                        {<span>Attchments of NOC Document</span>}
+                        {<span>Attchments</span>}
                     </th>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="text-left">
                         @if (pcd.NocTypeId != null)
                         {
                             LookUpCcModNocType nt = _db.LookUpCcModNocType.Where(w => w.NocTypeId == pcd.NocTypeId).FirstOrDefault();
@@ -67,13 +69,13 @@
                         }
                     </td>
                     <td style="word-break: break-all;">
-                        <a href="~/images/CommonDetails/@pcd.NocFileName" target="_blank">@pcd.NocFileName</a>
+                        <a href="~/images/CommonDetails/NocFiles/@pcd.NocFileName" target="_blank">@pcd.NocFileName</a>
                     </td>
                 </tr>
             </table>
         </td>
-        <td style="word-wrap: break-word;">
-            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Administrative', 'Administrative');"
+        <td>
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Local Authorities No Objection Certificate', 'LocalAuthoritiesNoC');"
                class="btn btn-sm btn-info waves-effect comment" data-close="false"
                data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
@@ -83,7 +85,7 @@
     </tr>
 
     <tr style="vertical-align: top; text-align: left;">
-        <td style="width: 250px;">
+        <td colspan="3">
             <b>
                 @if (prev_lang == "1")
                 {<span>(২) সরকার কর্তৃক অনুমোদিত হারে চালান বা ব্যাংক ড্রাফট বা পে-অর্ডার নম্বর</span>}
@@ -91,7 +93,9 @@
                 {<span>(2) Goverment Approved Challan/ Bank Draft/ Pay-Order Number</span>}
             </b>
         </td>
-        <td>
+    </tr>
+    <tr>
+        <td colspan="2">
             <table style="width:100%; border: 1px solid #CFCFCF; text-align: center;" border="1">
                 <tr>
                     <th>
@@ -120,13 +124,13 @@
                     </th>
                     <th>
                         @if (prev_lang == "1")
-                        {<span>টাকা প্রদানের সংযুক্তি</span>}
+                        {<span>সংযুক্তি</span>}
                         else
-                        {<span>Payment Document File</span>}
+                        {<span>Attachment</span>}
                     </th>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="text-left">
                         @if (pcd.PaymentMethodId != null)
                         {
                             LookUpCcModPaymentMethod pm = _db.LookUpCcModPaymentMethod.Where(w => w.PaymentMethodId == pcd.PaymentMethodId).FirstOrDefault();
@@ -141,7 +145,7 @@
                             }
                         }
                     </td>
-                    <td>
+                    <td class="text-center">
                         @if (prev_lang == "1")
                         {
                             <span>@pcd.PaymentDocNumber.ToString().NumberEnglishToBengali()</span>
@@ -151,7 +155,7 @@
                             <span>@pcd.PaymentDocNumber</span>
                         }
                     </td>
-                    <td>
+                    <td class="text-right">
                         @if (prev_lang == "1")
                         {
                             <span>@pcd.PaidAmount.ToString().NumberEnglishToBengali()</span>
@@ -161,7 +165,7 @@
                             <span>@pcd.PaidAmount</span>
                         }
                     </td>
-                    <td style="white-space: nowrap;">
+                    <td style="white-space: nowrap;"  class="text-center">
                         @if (prev_lang == "1")
                         {
                             <span>@pcd.PaymentDate.Value.ToString("dd MMMM, yyyy").NumberEnglishToBengali()</span>
@@ -171,14 +175,38 @@
                             <span>@pcd.PaymentDate.Value.ToString("dd MMMM, yyyy")</span>
                         }
                     </td>
-                    <td style="word-break: break-all;">
-                        <a href="~/images/CommonDetails/@pcd.PaymentDocFileName" target="_blank">@pcd.PaymentDocFileName</a>
+                    <td style="word-break: break-all;"  class="text-center">
+                        <a href="~/images/CommonDetails/PayDocFiles/@pcd.PaymentDocFileName" target="_blank">@pcd.PaymentDocFileName</a>
                     </td>
                 </tr>
             </table>
         </td>
-        <td style="word-wrap: break-word;">
-            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Administrative', 'Administrative');"
+        <td>
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Goverment Approved Challan/ Bank Draft/ Pay-Order Number', 'ChallanBankDraftPayOrderNumber');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td colspan="3">
+            <b>
+                @if (prev_lang == "1")
+                {<span>(৩) স্বাক্ষর সহ প্রতিষ্ঠান প্রধানের প্রত্যয়ন পত্র</span>}
+                else
+                {<span>(3) Attested Letter from Head of the Organization Including Signature</span>}
+            </b>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <a href="~/images/CommonDetails/OrgHeadAttstLtrFiles/@pcd.OrgHeadAttestedLetterFile" target="_blank">@pcd.OrgHeadAttestedLetterFile</a>
+        </td>
+        <td>
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Attested Letter from Head of the Organization', 'AttestedLetterHeadOrganization');"
                class="btn btn-sm btn-info waves-effect comment" data-close="false"
                data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
