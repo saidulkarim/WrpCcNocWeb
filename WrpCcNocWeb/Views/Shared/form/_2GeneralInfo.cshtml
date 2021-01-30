@@ -19,6 +19,90 @@
                data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language." />
     </div>
 
+    <!--start :: newly added on 28-Jan-2021-->
+    <div class="form-group">
+        <label for="RespectiveMinistry">
+            @{if (language == 1)
+                { <span>২. সম্পর্কিত সংস্থা</span>}
+                else
+                {<span>2. Respective Ministry</span>}
+            }
+            <span class="text-danger bold">*</span>
+        </label>
+        <select id="RespectiveMinistry" name="RespectiveMinistry" class="form-control">
+            @{if (language == 1)
+                {
+                    <option value="">বাছাই করুন...</option>
+                }
+                else
+                {
+                    <option value="">Choose...</option>
+                }
+            }
+
+            @{
+                List<LookUpMinistry> _mnstrys = ViewBag.LookUpMinistry;
+
+                if (_mnstrys.Count > 0)
+                {
+                    foreach (LookUpMinistry mnstry in _mnstrys)
+                    {
+                        if (language == 1)
+                        {
+                            <option value="@mnstry.MinistryId">@mnstry.MinistryNameBn (@mnstry.MinistryShortNameBn)</option>
+                        }
+                        else
+                        {
+                            <option value="@mnstry.MinistryId">@mnstry.MinistryName (@mnstry.MinistryShortName)</option>
+                        }
+                    }
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="RespectiveAgency">
+            @{if (language == 1)
+                { <span>৩. সম্পর্কিত সংস্থা</span>}
+                else
+                {<span>3. Respective Agency</span>}
+            }
+            <span class="text-danger bold">*</span>
+        </label>
+        <select id="RespectiveAgency" name="RespectiveAgency" class="form-control">
+            @{if (language == 1)
+                {
+                    <option value="">বাছাই করুন...</option>
+                }
+                else
+                {
+                    <option value="">Choose...</option>
+                }
+            }
+
+            @{
+                List<LookUpAgency> _agncs = ViewBag.LookUpAgency;
+
+                if (_agncs.Count > 0)
+                {
+                    foreach (LookUpAgency agnc in _agncs)
+                    {
+                        if (language == 1)
+                        {
+                            <option value="@agnc.AgencyId">@agnc.AgencyNameBn (@agnc.AgencyShortNameBn)</option>
+                        }
+                        else
+                        {
+                            <option value="@agnc.AgencyId">@agnc.AgencyName (@agnc.AgencyShortName)</option>
+                        }
+                    }
+                }
+            }
+        </select>
+    </div>
+    <!--end-->
+
     <div class="form-group">
         <label for="BackgroundAndRationale">
             @{if (language == 1)
@@ -94,7 +178,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        @{ Html.RenderPartial("form/_3Location"); }
+                        @{ await Html.RenderPartialAsync("form/_3Location"); }
                     </div>
                     <div class="modal-footer">
                         <button id="btnModalClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -112,6 +196,11 @@
                 {<span>6. Project Boundary with Geo Code at Thana Base Map</span>}
             }
         </label>
+        <span class="text-danger">
+            <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
+               data-content="Please <a href='https://www.youtube.com/watch?v=2SoY_7leLpU' target='_blank' class='bold underline'>Click Here</a> to view tutorial to learn how to create a project boundary with GEO code KML file."
+               data-original-title="Project Boundary Base Map"></i>
+        </span>
         <br />
         <span class="btn btn-success fileinput-button waves-effect waves-light font-">
             <span class="btn-label"><i class="mdi mdi-map-marker-path"></i></span>

@@ -592,6 +592,18 @@ namespace WrpCcNocWeb.Models
         [MaxLength(50)]
         public string EnvAndSocialSiaFile { get; set; }
 
+        [Column("RespectiveAgency", Order = 112)]
+        [Display(Name = "Respective Agency")]
+        public int? RespectiveAgency { get; set; }
+
+        [Column("RespectiveMinistry", Order = 113)]
+        [Display(Name = "Respective Ministry")]
+        public int? RespectiveMinistry { get; set; }
+
+        [Column("AnyInterventionOfOtherPrj", Order = 114)]
+        [Display(Name = "Is There Any Intervention of Other Projects?")]
+        public int? AnyInterventionOfOtherPrj { get; set; }
+
         #region added on 19-Jan-2021
         [Column("GuidelinesFollowedYesNoId", Order = 112)]
         [Display(Name = "Project Appraisal Followed the Guidelines for Project Assessment (GPA)")]

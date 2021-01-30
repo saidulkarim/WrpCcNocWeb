@@ -256,5 +256,80 @@ namespace WrpCcNocWeb.Controllers
                 return Json(noti);
             }
         }
+
+        //common/SaveCertificateDownloadHistory :: scdh
+        [HttpPost]
+        public JsonResult scdh(long _pid)
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            int result = 0;
+
+            try
+            {
+                if (_pid != 0)
+                {
+                    using var dbContextTransaction = _db.Database.BeginTransaction();
+                    CcModDownloadCertificateHist dsh = new CcModDownloadCertificateHist()
+                    {
+                        ProjectId = _pid,
+                        DownloadDateTime = DateTime.Now
+                    };
+
+                    try
+                    {
+                        _db.CcModDownloadCertificateHist.Add(dsh);
+                        result = _db.SaveChanges();
+
+                        if (result > 0)
+                        {
+                            dbContextTransaction.Commit();
+
+                            noti = new Notification
+                            {
+                                id = _pid.ToString(),
+                                status = "success",
+                                message = "Certificate download history has been saved successfully."
+                            };
+                        }
+                        else
+                        {
+                            dbContextTransaction.Rollback();
+
+                            noti = new Notification
+                            {
+                                id = _pid.ToString(),
+                                status = "error",
+                                message = "Certificate download history information not saved."
+                            };
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContextTransaction.Rollback();
+                        var message = ch.ExtractInnerException(ex);
+
+                        noti = new Notification
+                        {
+                            id = _pid.ToString(),
+                            status = "error",
+                            message = "Certificate Download History: Transaction has been rollbacked. " + message
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "error",
+                    message = message
+                };
+            }
+
+            return Json(noti);
+        }
     }
 }

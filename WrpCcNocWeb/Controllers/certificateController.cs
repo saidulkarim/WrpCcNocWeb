@@ -469,6 +469,24 @@ namespace WrpCcNocWeb.Controllers
         }
         #endregion
 
+        #region Download History
+        //certificate/history
+        public IActionResult history()
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
+            List<CcModDownloadCertificateHist> dch = _db.CcModDownloadCertificateHist.Include(i => i.CcModAppProjectCommonDetail).OrderByDescending(o => o.DownloadDateTime).ToList();
+            ViewBag.DownloadCertificateHist = dch;
+
+            return View();
+        }
+        #endregion
+
         private ApplicantInfo GetApplicantInfo(long userID)
         {
             var applicant_info = (from u in _db.AdminModUsersDetail

@@ -109,9 +109,10 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<CcModMaxDischargeDetail> CcModMaxDischargeDetail { get; set; }
         public DbSet<CcModFishProdDiversityDetail> CcModFishProdDiversityDetail { get; set; }
         public DbSet<CcModSubDesignSubmitDetail> CcModSubDesignSubmitDetail { get; set; }
+        public DbSet<CcModDownloadCertificateHist> CcModDownloadCertificateHist { get; set; }
         #endregion
 
-        #region LookUp --- CC Module     
+        #region LookUp --- CC Module
         public DbSet<LookUpAdminBndDistrict> LookUpAdminBndDistrict { get; set; }
         public DbSet<LookUpAdminBndUnion> LookUpAdminBndUnion { get; set; }
         public DbSet<LookUpAdminBndUpazila> LookUpAdminBndUpazila { get; set; }
@@ -180,6 +181,13 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<LookUpCcModUndertakingFormat> LookUpCcModUndertakingFormat { get; set; }
         public DbSet<LookUpCcModConnAmidKhalRiver> LookUpCcModConnAmidKhalRiver { get; set; }
         public DbSet<LookUpCcModTypesOfConsultation> LookUpCcModTypesOfConsultation { get; set; }
+        public DbSet<LookUpMinistry> LookUpMinistry { get; set; }
+        public DbSet<LookUpAgency> LookUpAgency { get; set; }
+        public DbSet<LookUpCcModMemberType> LookUpCcModMemberType { get; set; }
+        public DbSet<LookUpCcModUserLevelType> LookUpCcModUserLevelType { get; set; }
+        public DbSet<LookUpAdpSector> LookUpAdpSector { get; set; }
+        public DbSet<LookUpCcModIWRMCMember> LookUpCcModIWRMCMember { get; set; }
+        public DbSet<CcModIWRMCMemberDetail> CcModIWRMCMemberDetail { get; set; }
         #endregion
 
         #region NoC Module Models

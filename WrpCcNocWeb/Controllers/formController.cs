@@ -20,6 +20,7 @@ using Rotativa.AspNetCore;
 using Rotativa.AspNetCore.Options;
 using Microsoft.CodeAnalysis;
 using System.Drawing;
+using System.Globalization;
 
 namespace WrpCcNocWeb.Controllers
 {
@@ -249,7 +250,7 @@ namespace WrpCcNocWeb.Controllers
                            ProjectType = pt.ProjectType,
                            ProjectName = p.ProjectName,
                            ProjectEstimatedCost = p.ProjectEstimatedCost,
-                           AppSubmissionDate = (p.AppSubmissionDate != null) ? p.AppSubmissionDate.Value.ToString("dd MMM, yyyy") : "",
+                           AppSubmissionDate = (p.AppSubmissionDate != null) ? p.AppSubmissionDate.Value.ToString("dd MMM, yyyy", CultureInfo.GetCultureInfo("en-US")) : "",
                            ApplicationStateId = p.ApplicationStateId,
                            ApplicationState = st.ApplicationState,
                            ApprovalStatusId = p.ApprovalStatusId ?? 0,
@@ -855,6 +856,15 @@ namespace WrpCcNocWeb.Controllers
             var _gpwmgrouptype = GetGPWMGroupTypeDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
             ViewData["GPWMGroupType"] = _gpwmgrouptype;
 
+            var _formcommentslisttemp = GetFormDataAnalysisComments(pcd.ProjectTypeId, pcd.ProjectId);
+            ViewData["FormCommentsListTemp"] = _formcommentslisttemp;
+
+            var _additionalcomatt = GetAdditionalAttachment(pcd.ProjectId);
+            ViewData["AdditionalCommentAttachment"] = _additionalcomatt;
+
+            var _hearingattachment = GetHearingAttachment(pcd.ProjectId);
+            ViewData["HearingAttachment"] = _hearingattachment;
+
             ViewData["ProjectId"] = pcd.ProjectId;
             ViewData["Project31IndvId"] = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project31IndvId).FirstOrDefault();
             ViewData["UserId"] = ui.UserID;
@@ -864,8 +874,7 @@ namespace WrpCcNocWeb.Controllers
             ViewData["ProjectTypeTitleBn"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectTypeBn).FirstOrDefault();
             ViewData["LanguageId"] = pcd.LanguageId ?? sf.LanguageTypeId.ToInt();
             ViewData["SignatureFileName"] = _db.AdminModUsersDetail.Where(w => w.UserId == pcd.UserId).Select(s => s.ApplicantSignature).FirstOrDefault();
-            ViewData["ApplicationState"] = GetAppState(pcd.ApplicationStateId, pcd.IsCompletedId.Value);
-
+            ViewData["ApplicationState"] = GetAppState(pcd.ApplicationStateId, pcd.IsCompletedId.Value);            
             GetApplicantInfoViewData(pcd.UserId);
         }
 
@@ -2645,124 +2654,7 @@ namespace WrpCcNocWeb.Controllers
                 return RedirectToAction("login", "account");
             }
 
-            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
-            ViewData["UserLevel"] = uli.UserGroupId;
-            ViewData["UserAuthLevelID"] = uli.AuthorityLevelId;
-            ViewData["HigherAuthLevelID"] = GetHighestLevelAuthority();
-
-            CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(id);
-
-            if (pcd != null)
-                ViewData["ProjectCommonDetail"] = pcd;
-            else
-                ViewData["ProjectCommonDetail"] = new CcModAppProjectCommonDetail();
-
-            List<ProjectLocationTemp> _locationdetail = GetProjectLocation(pcd.ProjectId);
-            if (_locationdetail.Count > 0)
-                ViewData["ProjectLocationDetail"] = _locationdetail;
-            else
-                ViewData["ProjectLocationDetail"] = new List<CcModPrjLocationDetail>();
-
-            CcModAppProject_31_IndvDetail _indvdetail = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).FirstOrDefault();
-            if (_indvdetail != null)
-                ViewData["ProjectIndvDetail31"] = _indvdetail;
-            else
-                ViewData["ProjectIndvDetail31"] = new CcModAppProject_31_IndvDetail();
-
-            var _hydroregiondetail = GetHydrologicalRegion(pcd.ProjectId, pcd.LanguageId ?? 0);
-            ViewData["HydroRegionDetail"] = _hydroregiondetail;
-
-            var _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModDeltPlan2100HotSpot)
-                                    .Select(x => new BDP2100HotSpotDetailTemp
-                                    {
-                                        DeltaPlanHotSpotId = x.DeltaPlanHotSpotId,
-                                        PlanName = x.LookUpCcModDeltPlan2100HotSpot.PlanName,
-                                        PlanNameBn = x.LookUpCcModDeltPlan2100HotSpot.PlanNameBn
-                                    }).ToList();
-            ViewData["BDP2100HotSpotDetail"] = _hotspotdetail;
-
-            var _hydrosystemdetail = GetHydroSystemDetail(pcd.ProjectId);
-            ViewData["HydroSystemDetail"] = _hydrosystemdetail;
-
-            var _typesofflood = _db.CcModPrjTypesOfFloodDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                   .Select(x => new TypesOfFloodTemp
-                                   {
-                                       FloodTypeDetailId = x.FloodTypeDetailId,
-                                       ProjectId = x.ProjectId,
-                                       FloodTypeId = x.FloodTypeId,
-                                       FloodTypeName = x.LookUpCcModTypeOfFlood.FloodTypeName,
-                                       FloodTypeNameBn = x.LookUpCcModTypeOfFlood.FloodTypeNameBn
-                                   }).ToList();
-            ViewData["TypesOfFloodDetail"] = _typesofflood;
-
-            var _floodfrequencydetail = GetFloodFrequencyDetail(pcd.ProjectId);
-            ViewData["FloodFrequencyDetail"] = _floodfrequencydetail;
-
-            var _drainagecondition = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId)
-                                    .Select(x => new DrainageConditionlTemp
-                                    {
-                                        DrainageConditionId = x.DrainageConditionId.Value,
-                                        DrainageCondition = x.LookUpCcModDrainageCondition.DrainageCondition,
-                                        DrainageConditionBn = x.LookUpCcModDrainageCondition.DrainageConditionBn
-                                    }).ToList();
-            ViewData["DrainageConditionDetail"] = _drainagecondition;
-
-            var _irrigcropareadetail = GetIrrigCropAreaDetail(pcd.ProjectId);
-            ViewData["IrrigCropAreaDetail"] = _irrigcropareadetail;
-
-            var _analyzeoptionsdetail = GetAnalyzeOptionsDetail(pcd.ProjectId);
-            ViewData["AnalyzeOptionsDetail"] = _analyzeoptionsdetail;
-
-            var _designsubmitdetail = GetDesignSubmitDetail(pcd.ProjectId);
-            ViewData["DesignSubmitDetail"] = _designsubmitdetail;
-
-            var _ecofinanalysisdetail = GetEcoFinAnalysisDetail(pcd.ProjectId);
-            ViewData["EcoFinAnalysisDetail"] = _ecofinanalysisdetail;
-
-            var _eiadetail = GetEiaDetailTemp(pcd.ProjectId);
-            ViewData["EiaDetailTemp"] = _eiadetail;
-
-            var _siadetail = GetSiaDetailTemp(pcd.ProjectId);
-            ViewData["SiaDetailTemp"] = _siadetail;
-
-            var _compatnwpdetail = GetCompatNWPDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
-            ViewData["CompatNWPDetail"] = _compatnwpdetail;
-
-            var _compatnwmpdetail = GetCompatNWMPDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
-            ViewData["CompatNWMPDetail"] = _compatnwmpdetail;
-
-            var _compatsdgdetail = GetCompatSDGDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
-            ViewData["CompatSDGDetail"] = _compatsdgdetail;
-
-            var _compatsdgindidetail = GetCompatSDGIndicatorDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
-            ViewData["CompatSDGIndiDetail"] = _compatsdgindidetail;
-
-            var _bdp2100goaldetail = GetBDP2100GoalDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
-            ViewData["BDP2100GoalDetail"] = _bdp2100goaldetail;
-
-            var _gpwmgrouptype = GetGPWMGroupTypeDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
-            ViewData["GPWMGroupType"] = _gpwmgrouptype;
-
-            var _formcommentslisttemp = GetFormDataAnalysisComments(pcd.ProjectTypeId, pcd.ProjectId);
-            ViewData["FormCommentsListTemp"] = _formcommentslisttemp;
-
-            var _additionalcomatt = GetAdditionalAttachment(pcd.ProjectId);
-            ViewData["AdditionalCommentAttachment"] = _additionalcomatt;
-
-            var _hearingattachment = GetHearingAttachment(pcd.ProjectId);
-            ViewData["HearingAttachment"] = _hearingattachment;
-
-            ViewData["ProjectId"] = pcd.ProjectId;
-            ViewData["Project31IndvId"] = _db.CcModAppProject_31_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project31IndvId).FirstOrDefault();
-            ViewData["UserId"] = ui.UserID;
-            ViewData["ProjectTypeId"] = pcd.ProjectTypeId;
-            ViewData["Title"] = "Flood Control Management Project | Print";
-            ViewData["ProjectTypeTitle"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectType).FirstOrDefault();
-            ViewData["ProjectTypeTitleBn"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectTypeBn).FirstOrDefault();
-            ViewData["LanguageId"] = pcd.LanguageId;
-            ViewData["SignatureFileName"] = _db.AdminModUsersDetail.Where(w => w.UserId == pcd.UserId).Select(s => s.ApplicantSignature).FirstOrDefault();
-            ViewData["ApplicationState"] = GetAppState(pcd.ApplicationStateId, pcd.IsCompletedId.Value);
-            GetApplicantInfoViewData(pcd.UserId);
+            GetF31ViewData(id);
 
             //return View();
             return new ViewAsPdf("~/Views/form/printfcmp.cshtml", viewData: ViewData)
@@ -4711,7 +4603,7 @@ namespace WrpCcNocWeb.Controllers
                 CcModAppProjectCommonDetail _pcd = _db.CcModAppProjectCommonDetail.Find(_psi.ProjectId);
 
                 if (_pcd != null)
-                {                   
+                {
                     ViewBag.ProjectCommonDetail = _pcd;
 
                     if (!string.IsNullOrEmpty(_pcd.ProjectBoundaryMap))
@@ -8405,12 +8297,13 @@ namespace WrpCcNocWeb.Controllers
             {
                 appStateId = appStateId - 1;
             }
+
             if (isCompletedId == 4)
             {
                 appStateId = appStateId - 2;
             }
 
-            if (isCompletedId == 3)
+            if (isCompletedId == 3) //tc
             {
                 appStateId = appStateId + 1;
             }
@@ -8678,6 +8571,10 @@ namespace WrpCcNocWeb.Controllers
         private void LoadDropdownDataForForm31()
         {
             #region Dropdown Data Loading
+            ViewBag.LookUpMinistry = _db.LookUpMinistry.ToList();
+            ViewBag.LookUpAgency = _db.LookUpAgency.ToList();
+            ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
+
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
 
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList();
@@ -10013,6 +9910,7 @@ namespace WrpCcNocWeb.Controllers
                                 NWPShortTitleBn = d.NWPArticleShortTitleBn,
                                 NWPArticleTitle = d.NationalWtrPolicyArticleTitle,
                                 NWPArticleTitleBn = d.NWPArticleTitleBn,
+                                NWPArticleLink = d.NWPArticleLink,
                                 IsSelected = false
                             }).OrderBy(o => o.NWPArticleId).ToList();
 
@@ -10027,10 +9925,11 @@ namespace WrpCcNocWeb.Controllers
 
                     _details.OrderBy(o => o.NWPArticleId).ToList();
 
-                    html = "<tr style='background: #9d9b9b; font-weight: bold;'><td colspan='4'>Articles</td></tr>";
+                    string title = language == 1 ? "অনুচ্ছেদ" : "Articles";
+                    html = "<tr style='background: #9d9b9b; font-weight: bold; color: #ffffff;'><td colspan='3'>" + title + "</td></tr>";
 
                     bool isNewLine = false;
-                    foreach (ProjectNWPArticleTemp nwpat in _details)
+                    foreach (ProjectNWPArticleTemp nwpat in _details.Where(w => w.IsSelected))
                     {
                         isNewLine = false;
                         className = nwpat.IsSelected ? "bg-dark text-white" : "";
@@ -10043,14 +9942,14 @@ namespace WrpCcNocWeb.Controllers
 
                         if (language == 1)
                         {
-                            html += "<td title='" + nwpat.NWPArticleTitleBn + "' class='" + className + "'>" + tickTag + " " + nwpat.NWPShortTitleBn + "</td>";
+                            html += "<td title='" + nwpat.NWPArticleTitleBn + "' class='" + className + " nowrap'>" + tickTag + " " + nwpat.NWPShortTitleBn + " <a href='../" + nwpat.NWPArticleLink + "' target='_blank'><i class='mdi mdi-file-pdf-box text-warning'></i></a></td>";
                         }
                         else
                         {
-                            html += "<td title='" + nwpat.NWPArticleTitle + "' class='" + className + "'>" + tickTag + " " + nwpat.NWPShortTitle + "</td>";
+                            html += "<td title='" + nwpat.NWPArticleTitle + "' class='" + className + " nowrap'>" + tickTag + " " + nwpat.NWPShortTitle + " <a href='../" + nwpat.NWPArticleLink + "' target='_blank'><i class='mdi mdi-file-pdf-box text-warning'></i></a></td>";
                         }
 
-                        if (i == 4)
+                        if (i == 3)
                         {
                             html += "</tr>";
                             i = 1;
@@ -10063,13 +9962,13 @@ namespace WrpCcNocWeb.Controllers
                 }
                 else
                 {
-                    html = "<tr><td colspan='4'>no data found!</td></tr>";
+                    html = "<tr><td colspan='3'>no data found!</td></tr>";
                 }
             }
             catch (Exception ex)
             {
                 var message = ch.ExtractInnerException(ex);
-                html = "<tr><td colspan='4'>" + message + "</td></tr>";
+                html = "<tr><td colspan='3'>" + message + "</td></tr>";
             }
 
             return html;
@@ -10106,10 +10005,11 @@ namespace WrpCcNocWeb.Controllers
 
                     _details.OrderBy(o => o.NWMPProgrammeId).ToList();
 
-                    html = "<tr style='background: #9d9b9b; font-weight: bold;'><td colspan='5'>Involved Programme</td></tr>";
+                    string title = language == 1 ? "প্রোগ্রামের সাথে সম্পর্কিত" : "Involved Programme";
+                    html = "<tr style='background: #9d9b9b; font-weight: bold; color: #ffffff;'><td colspan='3'>" + title + "</td></tr>";
 
                     bool isNewLine = false;
-                    foreach (ProjectNWMPProgramTemp nwmp in _details)
+                    foreach (ProjectNWMPProgramTemp nwmp in _details.Where(w => w.IsSelected))
                     {
                         isNewLine = false;
                         className = nwmp.IsSelected ? "bg-dark text-white" : "";
@@ -10120,9 +10020,9 @@ namespace WrpCcNocWeb.Controllers
                             html += "<tr>";
                         }
 
-                        html += "<td title='" + nwmp.NWMPProgrammeTitle + "' class='" + className + "'>" + tickTag + " " + nwmp.NWMPProgrammeTitle + "</td>";
+                        html += "<td title='" + nwmp.NWMPProgrammeTitle + "' class='" + className + " nowrap'>" + tickTag + " " + nwmp.NWMPProgrammeTitle + " <a href='../" + nwmp.NWMPLink + "' target='_blank'><i class='mdi mdi-file-pdf-box text-warning'></i></a></td>";
 
-                        if (i == 5)
+                        if (i == 3)
                         {
                             html += "</tr>";
                             i = 1;
@@ -10135,13 +10035,13 @@ namespace WrpCcNocWeb.Controllers
                 }
                 else
                 {
-                    html = "<tr><td colspan='5'>no data found!</td></tr>";
+                    html = "<tr><td colspan='3'>no data found!</td></tr>";
                 }
             }
             catch (Exception ex)
             {
                 var message = ch.ExtractInnerException(ex);
-                html = "<tr><td colspan='5'>" + message + "</td></tr>";
+                html = "<tr><td colspan='3'>" + message + "</td></tr>";
             }
 
             return html;
@@ -10179,10 +10079,10 @@ namespace WrpCcNocWeb.Controllers
                     _details.OrderBy(o => o.SDGGoalId).ToList();
 
                     string title = language == 1 ? "টেকসই উন্নয়নের লক্ষ্য" : "Sustainable Development Goal";
-                    html = "<tr style='background: #9d9b9b; font-weight: bold;'><td colspan='5'>" + title + "</td></tr>";
+                    html = "<tr style='background: #9d9b9b; font-weight: bold; color: #ffffff;'><td colspan='3'>" + title + "</td></tr>";
 
                     bool isNewLine = false;
-                    foreach (ProjectSDGTemp sdg in _details)
+                    foreach (ProjectSDGTemp sdg in _details.Where(w => w.IsSelected))
                     {
                         isNewLine = false;
                         className = sdg.IsSelected ? "bg-dark text-white" : "";
@@ -10195,14 +10095,14 @@ namespace WrpCcNocWeb.Controllers
 
                         if (language == 1)
                         {
-                            html += "<td title='" + sdg.SDGGoalNumberBn + "' class='" + className + "'>" + tickTag + " " + sdg.SDGGoalNumberBn + "</td>";
+                            html += "<td title='" + sdg.SDGGoalNumberBn + "' class='" + className + " nowrap'>" + tickTag + " " + sdg.SDGGoalNumberBn + " <a href='../" + sdg.SDGDocLink + "' target='_blank'><i class='mdi mdi-file-pdf-box text-warning'></i></a></td>";
                         }
                         else
                         {
-                            html += "<td title='" + sdg.SDGGoalNumber + "' class='" + className + "'>" + tickTag + " " + sdg.SDGGoalNumber + "</td>";
+                            html += "<td title='" + sdg.SDGGoalNumber + "' class='" + className + " nowrap'>" + tickTag + " " + sdg.SDGGoalNumber + " <a href='../" + sdg.SDGDocLink + "' target='_blank'><i class='mdi mdi-file-pdf-box text-warning'></i></a></td>";
                         }
 
-                        if (i == 5)
+                        if (i == 3)
                         {
                             html += "</tr>";
                             i = 1;
@@ -10215,13 +10115,13 @@ namespace WrpCcNocWeb.Controllers
                 }
                 else
                 {
-                    html = "<tr><td colspan='5'>no data found!</td></tr>";
+                    html = "<tr><td colspan='3'>no data found!</td></tr>";
                 }
             }
             catch (Exception ex)
             {
                 var message = ch.ExtractInnerException(ex);
-                html = "<tr><td colspan='5'>" + message + "</td></tr>";
+                html = "<tr><td colspan='3'>" + message + "</td></tr>";
             }
 
             return html;
@@ -10259,10 +10159,10 @@ namespace WrpCcNocWeb.Controllers
                     _details.OrderBy(o => o.SDGIndicatorId).ToList();
 
                     string title = language == 1 ? "টেকসই উন্নয়নের লক্ষ্য ৬.০ সূচক" : "Sustainable Development Goal 6.0 Indicators";
-                    html = "<tr style='background: #9d9b9b; font-weight: bold;'><td colspan='5'>" + title + "</td></tr>";
+                    html = "<tr style='background: #9d9b9b; font-weight: bold; color: #ffffff;'><td colspan='3'>" + title + "</td></tr>";
 
                     bool isNewLine = false;
-                    foreach (ProjectSDGITemp sdg in _details)
+                    foreach (ProjectSDGITemp sdg in _details.Where(w => w.IsSelected))
                     {
                         isNewLine = false;
                         className = sdg.IsSelected ? "bg-dark text-white" : "";
@@ -10275,14 +10175,14 @@ namespace WrpCcNocWeb.Controllers
 
                         if (language == 1)
                         {
-                            html += "<td title='" + sdg.SDGIndicatorNameBn + "' class='" + className + "'>" + tickTag + " " + sdg.SDGIndicatorNameBn + "</td>";
+                            html += "<td title='" + sdg.SDGIndicatorNameBn + "' class='" + className + "'>" + tickTag + " " + sdg.SDGIndicatorNameBn + " <a href='../" + sdg.SDGIndicatorDocLink + "' target='_blank'><i class='mdi mdi-file-pdf-box text-warning'></i></a></td>";
                         }
                         else
                         {
-                            html += "<td title='" + sdg.SDGIndicatorName + "' class='" + className + "'>" + tickTag + " " + sdg.SDGIndicatorName + "</td>";
+                            html += "<td title='" + sdg.SDGIndicatorName + "' class='" + className + "'>" + tickTag + " " + sdg.SDGIndicatorName + " <a href='../" + sdg.SDGIndicatorDocLink + "' target='_blank'><i class='mdi mdi-file-pdf-box text-warning'></i></a></td>";
                         }
 
-                        if (i == 5)
+                        if (i == 3)
                         {
                             html += "</tr>";
                             i = 1;
@@ -10295,13 +10195,13 @@ namespace WrpCcNocWeb.Controllers
                 }
                 else
                 {
-                    html = "<tr><td colspan='5'>no data found!</td></tr>";
+                    html = "<tr><td colspan='3'>no data found!</td></tr>";
                 }
             }
             catch (Exception ex)
             {
                 var message = ch.ExtractInnerException(ex);
-                html = "<tr><td colspan='5'>" + message + "</td></tr>";
+                html = "<tr><td colspan='3'>" + message + "</td></tr>";
             }
 
             return html;
@@ -10323,7 +10223,7 @@ namespace WrpCcNocWeb.Controllers
                                 ProjectId = 0,
                                 DeltPlan2100Goal = d.DeltPlan2100Goal,
                                 DeltPlan2100GoalBn = d.DeltPlan2100GoalBn,
-                                DeltPlan2100GoaDocLink = d.DeltPlan2100GoaDocLink,
+                                DeltPlan2100GoalDocLink = d.DeltPlan2100GoaDocLink,
                                 IsSelected = false
                             }).OrderBy(o => o.DeltPlan2100GoalId).ToList();
 
@@ -10339,10 +10239,10 @@ namespace WrpCcNocWeb.Controllers
                     _details.OrderBy(o => o.DeltPlan2100GoalId).ToList();
 
                     string title = language == 1 ? "বাংলাদেশ ডেল্টা পরিকল্পনা 2100 লক্ষ্য" : "Bangladesh Delta Plan 2100 Goal";
-                    html = "<tr style='background: #9d9b9b; font-weight: bold;'><td colspan='3'>" + title + "</td></tr>";
+                    html = "<tr style='background: #9d9b9b; font-weight: bold; color: #ffffff;'><td colspan='3'>" + title + "</td></tr>";
 
                     bool isNewLine = false;
-                    foreach (BDP2100GoalDetailTemp bdpg in _details)
+                    foreach (BDP2100GoalDetailTemp bdpg in _details.Where(w => w.IsSelected))
                     {
                         isNewLine = false;
                         className = bdpg.IsSelected ? "bg-dark text-white" : "";
@@ -10355,11 +10255,11 @@ namespace WrpCcNocWeb.Controllers
 
                         if (language == 1)
                         {
-                            html += "<td title='" + bdpg.DeltPlan2100GoalBn + "' class='" + className + "'>" + tickTag + " " + bdpg.DeltPlan2100GoalBn + "</td>";
+                            html += "<td title='" + bdpg.DeltPlan2100GoalBn + "' class='" + className + "'>" + tickTag + " " + bdpg.DeltPlan2100GoalBn + " <a href='../" + bdpg.DeltPlan2100GoalDocLink + "' target='_blank'><i class='mdi mdi-file-pdf-box text-warning'></i></a></td>";
                         }
                         else
                         {
-                            html += "<td title='" + bdpg.DeltPlan2100Goal + "' class='" + className + "'>" + tickTag + " " + bdpg.DeltPlan2100Goal + "</td>";
+                            html += "<td title='" + bdpg.DeltPlan2100Goal + "' class='" + className + "'>" + tickTag + " " + bdpg.DeltPlan2100Goal + " <a href='../" + bdpg.DeltPlan2100GoalDocLink + "' target='_blank'><i class='mdi mdi-file-pdf-box text-warning'></i></a></td>";
                         }
 
                         if (i == 3)
@@ -10403,6 +10303,7 @@ namespace WrpCcNocWeb.Controllers
                                 ProjectId = 0,
                                 GPWMGroupTypeName = d.GPWMGroupTypeName,
                                 GPWMGroupTypeNameBn = d.GPWMGroupTypeNameBn,
+                                GPWMGroupTypeDocLink = d.GPWMGroupTypeDocLink,
                                 IsSelected = false
                             }).OrderBy(o => o.GPWMGroupTypeId).ToList();
 
@@ -10418,10 +10319,10 @@ namespace WrpCcNocWeb.Controllers
                     _details.OrderBy(o => o.GPWMGroupTypeId).ToList();
 
                     string title = language == 1 ? "জিপিডব্লিউএম গ্রুপ" : "GPWM Group";
-                    html = "<tr style='background: #9d9b9b; font-weight: bold;'><td colspan='5'>" + title + "</td></tr>";
+                    html = "<tr style='background: #9d9b9b; font-weight: bold; color: #ffffff;'><td colspan='3'>" + title + "</td></tr>";
 
                     bool isNewLine = false;
-                    foreach (GPWMGroupTypeTemp bdpg in _details)
+                    foreach (GPWMGroupTypeTemp bdpg in _details.Where(w => w.IsSelected))
                     {
                         isNewLine = false;
                         className = bdpg.IsSelected ? "bg-dark text-white" : "";
@@ -10434,14 +10335,14 @@ namespace WrpCcNocWeb.Controllers
 
                         if (language == 1)
                         {
-                            html += "<td title='" + bdpg.GPWMGroupTypeNameBn + "' class='" + className + "'>" + tickTag + " " + bdpg.GPWMGroupTypeNameBn + "</td>";
+                            html += "<td title='" + bdpg.GPWMGroupTypeNameBn + "' class='" + className + "'>" + tickTag + " " + bdpg.GPWMGroupTypeNameBn + " <a href='../" + bdpg.GPWMGroupTypeDocLink + "' target='_blank'><i class='mdi mdi-file-pdf-box text-warning'></i></a></td>";
                         }
                         else
                         {
-                            html += "<td title='" + bdpg.GPWMGroupTypeName + "' class='" + className + "'>" + tickTag + " " + bdpg.GPWMGroupTypeName + "</td>";
+                            html += "<td title='" + bdpg.GPWMGroupTypeName + "' class='" + className + "'>" + tickTag + " " + bdpg.GPWMGroupTypeName + " <a href='../" + bdpg.GPWMGroupTypeDocLink + "' target='_blank'><i class='mdi mdi-file-pdf-box text-warning'></i></a></td>";
                         }
 
-                        if (i == 5)
+                        if (i == 3)
                         {
                             html += "</tr>";
                             i = 1;
@@ -10454,13 +10355,13 @@ namespace WrpCcNocWeb.Controllers
                 }
                 else
                 {
-                    html = "<tr><td colspan='5'>no data found!</td></tr>";
+                    html = "<tr><td colspan='3'>no data found!</td></tr>";
                 }
             }
             catch (Exception ex)
             {
                 var message = ch.ExtractInnerException(ex);
-                html = "<tr><td colspan='5'>" + message + "</td></tr>";
+                html = "<tr><td colspan='3'>" + message + "</td></tr>";
             }
 
             return html;

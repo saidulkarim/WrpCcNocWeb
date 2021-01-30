@@ -263,6 +263,7 @@ namespace WrpCcNocWeb.Models
         public string NWPShortTitleBn { get; set; }
         public string NWPArticleTitle { get; set; }
         public string NWPArticleTitleBn { get; set; }
+        public string NWPArticleLink { get; set; }
 
         [DefaultValue(false)]
         public bool IsSelected { get; set; }
@@ -314,7 +315,7 @@ namespace WrpCcNocWeb.Models
         public long ProjectId { get; set; }
         public string DeltPlan2100Goal { get; set; }
         public string DeltPlan2100GoalBn { get; set; }
-        public string DeltPlan2100GoaDocLink { get; set; }
+        public string DeltPlan2100GoalDocLink { get; set; }
 
         [DefaultValue(false)]
         public bool IsSelected { get; set; }
@@ -327,6 +328,7 @@ namespace WrpCcNocWeb.Models
         public long ProjectId { get; set; }
         public string GPWMGroupTypeName { get; set; }
         public string GPWMGroupTypeNameBn { get; set; }
+        public string GPWMGroupTypeDocLink { get; set; }
 
         [DefaultValue(false)]
         public bool IsSelected { get; set; }

@@ -5182,3 +5182,7 @@ table[data-toggle=table] {
 .cursor {
     cursor: pointer;
 }
+
+.nowrap {
+    white-space: nowrap;
+}

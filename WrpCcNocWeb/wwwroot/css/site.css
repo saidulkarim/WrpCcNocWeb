@@ -78,6 +78,10 @@ body {
     cursor: pointer;
 }
 
-.hidden{
+.hidden {
     display: none;
+}
+
+.underline {
+    text-decoration: underline;
 }

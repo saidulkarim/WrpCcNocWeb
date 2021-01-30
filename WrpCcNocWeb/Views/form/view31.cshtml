@@ -25,6 +25,7 @@
     long Project31IndvId = (long)ViewData["Project31IndvId"];
     long UserId = (long)ViewData["UserId"];
     int ProjectTypeId = (int)ViewData["ProjectTypeId"];
+    var ProjectTypeTitle = ViewData["ProjectTypeTitle"];
     var user_group_id = ViewData["UserLevel"].ToString();
 
     var sfn = ViewData["SignatureFileName"].ToString();
@@ -1283,7 +1284,7 @@
                                     <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
                                         <!--<a id="btnSubmitToApplicant" class="dropdown-item" href="javascript:void(0);">Back to Applicant for Correction</a>-->
                                         <a id="btnSubmitToTechnicalCommittee" class="dropdown-item" href="javascript:void(0);">Back to Technical Committee for Re-evaluation</a>
-                                        <a id="btnSubmitToWRMC" class="dropdown-item" href="javascript:void(0);">Back to WRMC for Rechecking</a>
+                                        <a id="btnSubmitToWRMC" class="dropdown-item" href="javascript:void(0);">Back to IWRM Committee for Rechecking</a>
                                     </div>
                                 </div>
                             </div>
@@ -1345,7 +1346,7 @@
                                                     <tr style="border-top: none;">
                                                         <th class="p-1">Comments</th>
                                                         <th class="p-1">User</th>
-                                                        <th class="p-1">Date of Analysis</th>
+                                                        <th class="p-1">Date of Comments</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tbodyCommentList"></tbody>
@@ -1416,13 +1417,20 @@
         });
 
         jQuery("#btnSubmitToForward").click(function () {
+            var prj_type_title = '@ProjectTypeTitle';
+            var is_complete_id = '@is_complete_id';
             var app_state = '@app_state';
             var popup_msg = '';
-            popup_msg = 'Application will be forwarded to ' + app_state;
 
+            if (is_complete_id == 3 || is_complete_id == 4 || is_complete_id == 5) {
+                popup_msg = '<b>' + prj_type_title + ' - Technical Report</b> will be forwarded to ' + app_state;
+            } else {
+                popup_msg = 'Application will be forwarded to ' + app_state;
+            }
+            
             Swal.fire({
                 title: "Are you sure?",
-                text: popup_msg,
+                html: popup_msg,
                 type: "warning",
                 allowEscapeKey: false,
                 allowOutsideClick: false,
