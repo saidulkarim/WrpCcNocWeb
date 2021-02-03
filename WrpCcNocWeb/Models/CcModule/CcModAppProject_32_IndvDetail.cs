@@ -199,5 +199,23 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Duplication Authority Comments")]
         [MaxLength(150)]
         public string DuplicationAuthorityComments { get; set; }
+
+        [Column("SurfaceWaterDemandPerDay", Order = 41)]
+        [Display(Name = "Surface Water Demand Per Day")]
+        public double? SurfaceWaterDemandPerDay { get; set; }
+
+        [Column("DrainageConditionOther", Order = 42)]
+        [Display(Name = "Other Drainage Condition")]
+        [MaxLength(250)]
+        public string DrainageConditionOther { get; set; }
+
+        [Column("TotalFishProduction", Order = 43)]
+        [Display(Name = "Total Fish Production (Ton)")]
+        public double? TotalFishProduction { get; set; }
+
+        [Column("UseOfAppropToolsDescription", Order = 44)]
+        [Display(Name = "Short Description, If Yes")]
+        [MaxLength(500)]
+        public string UseOfAppropToolsDescription { get; set; }
     }
 }

@@ -188,6 +188,7 @@ namespace WrpCcNocWeb.DatabaseContext
         public DbSet<LookUpAdpSector> LookUpAdpSector { get; set; }
         public DbSet<LookUpCcModIWRMCMember> LookUpCcModIWRMCMember { get; set; }
         public DbSet<CcModIWRMCMemberDetail> CcModIWRMCMemberDetail { get; set; }
+        public DbSet<LookUpCcModAnyInterventionPrj> LookUpCcModAnyInterventionPrj { get; set; }
         #endregion
 
         #region NoC Module Models

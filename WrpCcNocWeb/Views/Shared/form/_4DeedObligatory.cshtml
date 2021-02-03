@@ -3,8 +3,9 @@
 
 @{
     var language = int.Parse(ViewData["vFormLanguage"].ToString());
-    var selectedform = ViewBag.ProjectTypeId.ToString();
+    var selected_form = int.Parse(ViewBag.ProjectTypeId.ToString());
     string numbering = "";
+    string action_name = "f3" + selected_form + "dootos";
 }
 
 <div class="deed-obligatory-form">
@@ -87,8 +88,7 @@
                         { <span>If Yes, then related with which following articles?</span>}
                     </h4>
                     <div id="chkCwnwpPolicy" class="row" style="margin-left: 5px;">
-                        @{
-                            List<LookUpCcModNWPArticle> _articles = ViewBag.LookUpCcModNWPArticle;
+                        @{ List<LookUpCcModNWPArticle> _articles = ViewBag.LookUpCcModNWPArticle;
 
                             if (_articles.Count > 0)
                             {
@@ -102,19 +102,16 @@
                                             <input type="checkbox" name="NationalWaterPolicyArticleId" id="@id" value="@article.NationalWaterPolicyArticleId" data-parsley-multiple="NationalWaterPolicyArticleId">
                                             <label for="@id"> @article.NWPArticleShortTitleBn </label>
                                             <a href="@article.NWPArticleLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                        </div>
-                                    }
+                                        </div> }
                                     else
                                     {
                                         <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@article.NationalWtrPolicyArticleTitle">
                                             <input type="checkbox" name="NationalWaterPolicyArticleId" id="@id" value="@article.NationalWaterPolicyArticleId" data-parsley-multiple="NationalWaterPolicyArticleId">
                                             <label for="@id"> @article.NationalWtrPolicyShortTitle </label>
                                             <a href="@article.NWPArticleLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                        </div>
-                                    }
+                                        </div> }
                                 }
-                            }
-                        }
+                            } }
                     </div>
                 </div>
             </div>
@@ -200,8 +197,7 @@
                         { <span>If Yes, then related with which following programme</span>}
                     </h4>
                     <div id="chkCNWMP" class="row" style="margin-left: 5px;">
-                        @{
-                            List<LookUpCcModNWMPProgramme> _progs = ViewBag.LookUpCcModNWMPProgramme;
+                        @{ List<LookUpCcModNWMPProgramme> _progs = ViewBag.LookUpCcModNWMPProgramme;
 
                             if (_progs.Count > 0)
                             {
@@ -218,27 +214,23 @@
                                             <input type="checkbox" name="PrjCompatNWMPId" id="@id" value="@prog.NWMPProgrammeId" data-parsley-multiple="PrjCompatNWMPId">
                                             <label for="@id"> @prog.NWMPProgrammeTitle </label>
                                             <a href="@prog.NWMPLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                        </div>
-                                    }
+                                        </div> }
                                     else
                                     {
                                         <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@prog.NWMPProgrammeTitle">
                                             <input type="checkbox" name="PrjCompatNWMPId" id="@id" value="@prog.NWMPProgrammeId" data-parsley-multiple="PrjCompatNWMPId">
                                             <label for="@id"> @prog.NWMPProgrammeTitle </label>
                                             <a href="@prog.NWMPLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                        </div>
-                                    }
+                                        </div> }
 
                                     if (new_name != name && !string.IsNullOrEmpty(new_name))
                                     {
                                         <br />
-                                        <div class="clearfix"></div>
-                                    }
+                                        <div class="clearfix"></div> }
 
                                     new_name = name;
                                 }
-                            }
-                        }
+                            } }
                     </div>
                 </div>
             </div>
@@ -398,8 +390,7 @@
                         { <span>If Yes</span>}
                     </h4>
                     <div id="chkSDG" class="row" style="margin-left: 5px;">
-                        @{
-                            List<LookUpCcModSDGGoal> _goals = ViewBag.LookUpCcModSDGGoal;
+                        @{ List<LookUpCcModSDGGoal> _goals = ViewBag.LookUpCcModSDGGoal;
 
                             if (_goals.Count > 0)
                             {
@@ -415,19 +406,16 @@
                                             <input type="checkbox" name="SDGGoalId" id="@id" value="@goal.SDGGoalId" data-parsley-multiple="SDGGoalId">
                                             <label for="@id"> @goal.SDGGoalNumberBn </label>
                                             <a href="@goal.SDGDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                        </div>
-                                    }
+                                        </div> }
                                     else
                                     {
                                         <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@goal.SDGGoalNumber">
                                             <input type="checkbox" name="SDGGoalId" id="@id" value="@goal.SDGGoalId" data-parsley-multiple="SDGGoalId">
                                             <label for="@id"> @goal.SDGGoalNumber </label>
                                             <a href="@goal.SDGDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                        </div>
-                                    }
+                                        </div> }
                                 }
-                            }
-                        }
+                            } }
                     </div>
                 </div>
 
@@ -439,8 +427,7 @@
                         { <span>SDG 6.0 Indicators</span>}
                     </h4>
                     <div id="chkSDG6Indicators" class="row" style="margin-left: 5px;">
-                        @{
-                            List<LookUpCcModSDGIndicator> _indicators = ViewBag.LookUpCcModSDGIndicator;
+                        @{ List<LookUpCcModSDGIndicator> _indicators = ViewBag.LookUpCcModSDGIndicator;
 
                             if (_indicators.Count > 0)
                             {
@@ -456,20 +443,17 @@
                                             <input type="checkbox" name="SDGIndicatorId" id="@id" value="@indicator.SDGIndicatorId" data-parsley-multiple="SDGIndicatorId">
                                             <label for="@id"> @indicator.SDGIndicatorNameBn </label>
                                             <a href="@indicator.SDGIndicatorDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                        </div>
-                                    }
+                                        </div> }
                                     else
                                     {
                                         <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-2" style="margin-right: 25px;" data-placement="top" title="" data-original-title="@indicator.SDGIndicatorName">
                                             <input type="checkbox" name="SDGIndicatorId" id="@id" value="@indicator.SDGIndicatorId" data-parsley-multiple="SDGIndicatorId">
                                             <label for="@id"> @indicator.SDGIndicatorName </label>
                                             <a href="@indicator.SDGIndicatorDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                        </div>
-                                    }
+                                        </div> }
 
                                 }
-                            }
-                        }
+                            } }
                     </div>
                 </div>
             </div>
@@ -555,8 +539,7 @@
                         { <span>If yes</span>}
                     </h4>
                     <div id="chkCwbdp2100" class="row" style="margin-left: 5px;">
-                        @{
-                            List<LookUpCcModDeltPlan2100Goal> _bdp_goals = ViewBag.LookUpCcModDeltPlan2100Goal;
+                        @{ List<LookUpCcModDeltPlan2100Goal> _bdp_goals = ViewBag.LookUpCcModDeltPlan2100Goal;
 
                             if (_bdp_goals.Count > 0)
                             {
@@ -570,19 +553,16 @@
                                             <input type="checkbox" name="DeltPlan2100GoalId" id="@id" value="@bdp_goal.DeltPlan2100GoalId" data-parsley-multiple="DeltPlan2100GoalId">
                                             <label for="@id"> @bdp_goal.DeltPlan2100GoalBn </label>
                                             <a href="@bdp_goal.DeltPlan2100GoaDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                        </div>
-                                    }
+                                        </div> }
                                     else
                                     {
                                         <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 8%;" data-placement="top" title="" data-original-title="@bdp_goal.DeltPlan2100Goal">
                                             <input type="checkbox" name="DeltPlan2100GoalId" id="@id" value="@bdp_goal.DeltPlan2100GoalId" data-parsley-multiple="DeltPlan2100GoalId">
                                             <label for="@id"> @bdp_goal.DeltPlan2100Goal </label>
                                             <a href="@bdp_goal.DeltPlan2100GoaDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                        </div>
-                                    }
+                                        </div> }
                                 }
-                            }
-                        }
+                            } }
                     </div>
                 </div>
             </div>
@@ -991,8 +971,7 @@
                         { <span>If Yes, type group formation</span>}
                     </h4>
                     <div id="chkCwgpwm" class="row" style="margin-left: 5px;">
-                        @{
-                            List<LookUpCcModGPWMGroupType> _gpwm_groups = ViewBag.LookUpCcModGPWMGroupType;
+                        @{ List<LookUpCcModGPWMGroupType> _gpwm_groups = ViewBag.LookUpCcModGPWMGroupType;
 
                             if (_gpwm_groups.Count > 0)
                             {
@@ -1008,19 +987,16 @@
                                             <input type="checkbox" name="GPWMGroupTypeId" id="@id" value="@gpwm_group.GPWMGroupTypeId" data-parsley-multiple="GPWMGroupTypeId">
                                             <label for="@id"> @gpwm_group.GPWMGroupTypeNameBn </label>
                                             <a href="@gpwm_group.GPWMGroupTypeDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                        </div>
-                                    }
+                                        </div> }
                                     else
                                     {
                                         <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 8%;" data-placement="top" title="" data-original-title="@gpwm_group.GPWMGroupTypeName">
                                             <input type="checkbox" name="GPWMGroupTypeId" id="@id" value="@gpwm_group.GPWMGroupTypeId" data-parsley-multiple="GPWMGroupTypeId">
                                             <label for="@id"> @gpwm_group.GPWMGroupTypeName </label>
                                             <a href="@gpwm_group.GPWMGroupTypeDocLink" target="_blank"><i class="mdi mdi-file-pdf-box"></i></a>
-                                        </div>
-                                    }
+                                        </div> }
                                 }
-                            }
-                        }
+                            } }
                     </div>
                 </div>
             </div>
@@ -1101,7 +1077,7 @@
         </div>
     </div>
 
-    @if (selectedform == "1" || selectedform == "4" || selectedform == "10" || selectedform == "13")
+    @if (selected_form == 1 || selected_form == 2 ||selected_form == 4 || selected_form == 10 || selected_form == 13)
     {
         <div class="card">
             <div class="card-header bg-pink py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed21">
@@ -1176,7 +1152,7 @@
                 </div>
             </div>
         </div>
-    }
+     }
 
     <div class="card">
         <div class="card-header bg-warning py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed22">
@@ -1184,8 +1160,7 @@
                 <a data-toggle="collapse" href="#cardCollpaseDeed22" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed22"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
-                @{
-                    if (selectedform == "1" || selectedform == "4" || selectedform == "10" || selectedform == "13")
+                @{ if (selected_form == 1 || selected_form == 2 || selected_form == 4 || selected_form == 10 || selected_form == 13)
                     {
                         if (language == 1)
                         {
@@ -1211,8 +1186,7 @@
                     if (language == 1)
                     {<span>@numbering. প্রকল্পটি গুরুত্বপূর্ণ সামাজিক বিষয়াদি এবং নারী, শিশু,দরিদ্র ও অনগ্রসর জনগোষ্ঠীর প্রতি বিশেষ গুরুত্ব দিয়ে প্রণীত হয়েছে কিনা</span>}
                 else
-                { <span>@numbering. Examine if important sociological issues with especial attention to poor and women are adequately addressed</span>}
-                }
+                { <span>@numbering. Examine if important sociological issues with especial attention to poor and women are adequately addressed</span>} }
             </h5>
         </div>
         <div id="cardCollpaseDeed22" class="collapse show">
@@ -1255,13 +1229,12 @@
     </div>
 
     <div class="card">
-        <div class="card-header bg-blue py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed22">
+        <div class="card-header bg-blue py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed23">
             <div class="card-widgets">
-                <a data-toggle="collapse" href="#cardCollpaseDeed22" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed22"><i class="mdi mdi-minus"></i></a>
+                <a data-toggle="collapse" href="#cardCollpaseDeed23" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed23"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
-                @{
-                    if (selectedform == "1" || selectedform == "4" || selectedform == "10" || selectedform == "13")
+                @{ if (selected_form == 1 || selected_form == 2 || selected_form == 4 || selected_form == 10 || selected_form == 13)
                     {
                         if (language == 1)
                         {
@@ -1287,11 +1260,10 @@
                     if (language == 1)
                     {<span>@numbering. প্রকল্প প্রণয়নের ক্ষেত্রে প্রকল্প নির্ধারণী নির্দেশিকা (জিপিএ) অনুসরণপূর্বক তৈরি করা হয়েছে কিনা</span>}
                 else
-                { <span>@numbering. Examine whether the project appraisal (feasibility studies) followed the Guidelines for Project Assessment (GPA)</span>}
-                }
+                { <span>@numbering. Examine whether the project appraisal (feasibility studies) followed the Guidelines for Project Assessment (GPA)</span>} }
             </h5>
         </div>
-        <div id="cardCollpaseDeed22" class="collapse show">
+        <div id="cardCollpaseDeed23" class="collapse show">
             <div class="card-body">
                 <div class="form-group">
                     <div id="pdeu" class="row" style="margin-left: 5px;">
@@ -1329,6 +1301,79 @@
             </div>
         </div>
     </div>
+
+    <div class="card">
+        <div class="card-header bg-info py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed24">
+            <div class="card-widgets">
+                <a data-toggle="collapse" href="#cardCollpaseDeed24" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed24"><i class="mdi mdi-minus"></i></a>
+            </div>
+            <h5 class="card-title mb-0 text-white">
+                @{ if (selected_form == 1 || selected_form == 2 || selected_form == 4 || selected_form == 10 || selected_form == 13)
+                    {
+                        if (language == 1)
+                        {
+                            numbering = "১৬";
+                        }
+                        else
+                        {
+                            numbering = "16";
+                        }
+                    }
+                    else
+                    {
+                        if (language == 1)
+                        {
+                            numbering = "১৫";
+                        }
+                        else
+                        {
+                            numbering = "15";
+                        }
+                    }
+
+                    if (language == 1)
+                    {<span>@numbering. প্রকল্প প্রণয়নের ক্ষেত্রে সরকারের কোনও বিজ্ঞপ্তি ব্যবহার হয়েছে কিনা?</span>}
+                else
+                { <span>@numbering. Whether any circular of the government has been used in the formulation of the project?</span>} }
+            </h5>
+        </div>
+        <div id="cardCollpaseDeed24" class="collapse show">
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="AnyGovCircularName">
+                        @if (language == 1)
+                        {<span>সরকারী বিজ্ঞপ্তি</span>}
+                        else
+                        {<span>Government Circular Name</span>}
+                    </label>
+                    <input type="text" maxlength="150" id="AnyGovCircularName" name="AnyGovCircularName" class="form-control" />
+                </div>
+
+                <div class="col-md-6 form-group" style="padding-left: 0 !important;">
+                    <label for="AnyGovCircularFile">
+                        @if (language == 1)
+                        {<span>বিজ্ঞপ্তি আপলোড করুন</span>}
+                        else
+                        {<span>Uplaod Circular</span>}
+                    </label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input id="AnyGovCircularFile" name="AnyGovCircularFile" type="file"
+                                   class="custom-file-input" onchange="UploadCommonFiles(this, 'AnyGovCircularFile');" />
+                            <label class="custom-file-label" for="AnyGovCircularFile">
+                                @if (language == 1)
+                                {<span>ফাইল পছন্দ করুন</span>}
+                                else
+                                {<span>Choose File</span>}
+                            </label>
+                        </div>
+
+                        <a id="AnyGovCircularFileView" href="javascript:void(0);" target="_blank" class="btn btn-blue ml-2 text-white"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <hr />
@@ -1338,12 +1383,10 @@
         <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
         @if (language == 1)
         {
-            <span>সংরক্ষণ করুন</span>
-        }
+            <span>সংরক্ষণ করুন</span> }
         else
         {
-            <span>Save</span>
-        }
+            <span>Save</span>}
         <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
     </button>
 
@@ -1351,12 +1394,10 @@
         <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
         @if (language == 1)
         {
-            <span>পরিষ্কার করুন</span>
-        }
+            <span>পরিষ্কার করুন</span> }
         else
         {
-            <span>Clear</span>
-        }
+            <span>Clear</span>}
     </button>
 </div>
 
@@ -1413,11 +1454,14 @@
         });
 
         jQuery("#btnSaveDeed").click(function () {
-            var _finalDeedObj = [];
-            var nwpArticles = [], prjCompatNWMP = [], sdgGoals = [],
-                sdgIndicators = [], dp2100Goals = [], gpwmGroupType = [];
+            var sf = '@selected_form';
+
+            var _finalDeedObj = [], ProjectIndvDetail = [], nwpArticles = [], prjCompatNWMP = [],
+                sdgGoals = [], sdgIndicators = [], dp2100Goals = [], gpwmGroupType = [];
+
             var deed_pid = GetHiddenValue('ProjectId');
-            var Project31IndvId = GetHiddenValue('Project31IndvId');
+            var ProjectIndvId = GetHiddenValue('Project3' + sf + 'IndvId');
+            console.log(ProjectIndvId);
 
             jQuery.each(jQuery("input[name='NationalWaterPolicyArticleId']:checked"), function () {
                 var _nwpa = {
@@ -1521,36 +1565,58 @@
                 "SocialIssuesApplicantCmt": GetTextValue('SocialIssuesApplicantCmt'),
                 //"SocialIssuesAuthorityCmt": GetTextValue('SocialIssuesAuthorityCmt'),
                 "GuidelinesFollowedYesNoId": GetRadioValue('GuidelinesFollowedYesNoId'),
-                "GuidelinesFollowedAppCmt": GetTextValue('GuidelinesFollowedAppCmt')
+                "GuidelinesFollowedAppCmt": GetTextValue('GuidelinesFollowedAppCmt'),
                 //"GuidelinesFollowedAuthCmt": GetTextValue('GuidelinesFollowedAuthCmt')
+                "AnyGovCircularName": GetTextValue('AnyGovCircularName')
             };
 
-            var Project31IndvDetail = {
-                "Project31IndvId": Project31IndvId,
-                "ProjectId": deed_pid,
-                "DuplicatYesNoId": GetRadioValue('DuplicatYesNoId'),
-                "DuplicationApplicantComments": GetTextValue('DuplicationApplicantComments'),
-                "DuplicationAuthorityComments": GetTextValue('DuplicationAuthorityComments')
-            };
+            if (sf == 1) {
+                ProjectIndvDetail = {
+                    "Project31IndvId": ProjectIndvId,
+                    "ProjectId": deed_pid,
+                    "DuplicatYesNoId": GetRadioValue('DuplicatYesNoId'),
+                    "DuplicationApplicantComments": GetTextValue('DuplicationApplicantComments'),
+                    "DuplicationAuthorityComments": GetTextValue('DuplicationAuthorityComments')
+                };
 
-            var _finalDeedObj = {
-                "CommonDetail": ProjectCommonDetail,
-                "Project31Indv": Project31IndvDetail,
-                "CompatNWPDetail": nwpArticles,
-                "CompatNWMPDetail": prjCompatNWMP,
-                "CompatSDGDetail": sdgGoals,
-                "CompatSDGIndiDetail": sdgIndicators,
-                "BDP2100GoalDetail": dp2100Goals,
-                "GPWMGroupTypeDetail": gpwmGroupType
+                _finalDeedObj = {
+                    "CommonDetail": ProjectCommonDetail,
+                    "Project31Indv": ProjectIndvDetail,
+                    "CompatNWPDetail": nwpArticles,
+                    "CompatNWMPDetail": prjCompatNWMP,
+                    "CompatSDGDetail": sdgGoals,
+                    "CompatSDGIndiDetail": sdgIndicators,
+                    "BDP2100GoalDetail": dp2100Goals,
+                    "GPWMGroupTypeDetail": gpwmGroupType
+                }
+            } else if (sf == 2) {
+                ProjectIndvDetail = {
+                    "Project32IndvId": ProjectIndvId,
+                    "ProjectId": deed_pid
+                    //"DuplicatYesNoId": GetRadioValue('DuplicatYesNoId'),
+                    //"DuplicationApplicantComments": GetTextValue('DuplicationApplicantComments'),
+                    //"DuplicationAuthorityComments": GetTextValue('DuplicationAuthorityComments')
+                };
+
+                _finalDeedObj = {
+                    "CommonDetail": ProjectCommonDetail,
+                    "Project32Indv": ProjectIndvDetail,
+                    "CompatNWPDetail": nwpArticles,
+                    "CompatNWMPDetail": prjCompatNWMP,
+                    "CompatSDGDetail": sdgGoals,
+                    "CompatSDGIndiDetail": sdgIndicators,
+                    "BDP2100GoalDetail": dp2100Goals,
+                    "GPWMGroupTypeDetail": gpwmGroupType
+                }
             }
 
-            //console.log(_finalDeedObj);
+            console.log(_finalDeedObj);
 
-            var url = '@Url.Action("f31dootos", "form")';
+            var url = '@Url.Action(action_name, "form")';
             jQuery.ajax({
                 type: "POST",
                 url: url,
-                data: { _form31DeedObli: _finalDeedObj },
+                data: { _formDeedObli: _finalDeedObj },
                 dataType: "json",
                 success: function (data, status, jqXHR) {
                     if (data.status == 'success') {
@@ -1583,12 +1649,13 @@
     });
 
     function DeedBindData() {
-        var deed_bind_pid = '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectId)';
+        var deed_bind_pid = '@ViewBag.ProjectCommonDetail.ProjectId';
 
         if (deed_bind_pid != '') {
-            console.log('Form 31 Project '+deed_bind_pid+' Deed Info Loading');
+            console.log('Project ID: ' + deed_bind_pid + ' Deed Info Loading');
+
             //start :: Deed Bindings
-			var CompatNWPYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.CompatNWPYesNoId)';
+			var CompatNWPYesNoId = '@ViewBag.ProjectCommonDetail.CompatNWPYesNoId';
             if (CompatNWPYesNoId != '') {
                 $(":radio[name='CompatNWPYesNoId'][value='" + CompatNWPYesNoId + "']").attr('checked', true);
 
@@ -1817,13 +1884,6 @@
 	            $("#FeasibilityStudyReportFileView").attr('href', 'javascript:void(0);').text('No File');
             }
 
-			var DuplicatYesNoId = '@Html.Raw(ViewBag.ProjectIndvDetail31.DuplicatYesNoId)';
-			if(DuplicatYesNoId != '')
-				$(":radio[name='DuplicatYesNoId'][value='" + DuplicatYesNoId + "']").attr('checked', true);
-
-            SetTextValue('DuplicationApplicantComments', '@Html.Raw(ViewBag.ProjectIndvDetail31.DuplicationApplicantComments)');
-            //SetTextValue('DuplicationAuthorityComments', 'Html.Raw(ViewBag.ProjectIndvDetail31.DuplicationAuthorityComments)');
-
             var dpa_file = '@Html.Raw(ViewBag.ProjectCommonDetail.PrjDuplicateAttestedLtrFile)';
             if(dpa_file != ''){
 	            $("#PrjDuplicateAttestedLtrFileView").attr('href', '../images/CommonDetails/ProjectDuplicationFiles/' + dpa_file).text(dpa_file);
@@ -1844,6 +1904,14 @@
 
             SetTextValue('GuidelinesFollowedAppCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.GuidelinesFollowedAppCmt)');
             //SetTextValue('GuidelinesFollowedAuthCmt', 'Html.Raw(ViewBag.ProjectCommonDetail.GuidelinesFollowedAuthCmt)');
+
+            SetTextValue('AnyGovCircularName', '@Html.Raw(ViewBag.ProjectCommonDetail.AnyGovCircularName)');
+            var agc_file = '@Html.Raw(ViewBag.ProjectCommonDetail.AnyGovCircularFile)';
+            if (agc_file != ''){
+                $("#AnyGovCircularFileView").attr('href', '../images/CommonDetails/AnyGovCircularFiles/' + agc_file).text(agc_file);
+            } else {
+                $("#AnyGovCircularFileView").attr('href', 'javascript:void(0);').text('No File');
+            }
         }
     }
 </script>

@@ -3,7 +3,7 @@
 
 @{
     CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["dProjectCommonDetail"];
-    CcModAppProject_31_IndvDetail projectindi = (CcModAppProject_31_IndvDetail)ViewData["dProjectIndvDetail31"];
+    //CcModAppProject_31_IndvDetail projectindi = (CcModAppProject_31_IndvDetail)ViewData["dProjectIndvDetail31"];
 
     var cnwpd = ViewData["dCompatNWPDetail"];
     var cnwmpd = ViewData["dCompatNWMPDetail"];
@@ -73,8 +73,7 @@
                     </th>
                 </tr>
                 <tr>
-                    @{
-                        yesTickMark = string.Empty;
+                    @{ yesTickMark = string.Empty;
                         noTickMark = string.Empty;
 
                         if (pcd.CompatNWPYesNoId == 1)
@@ -108,8 +107,7 @@
 
                 <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
                     <tbody>@Html.Raw(cnwpd.ToString())</tbody>
-                </table>
-            }
+                </table>}
         </td>
         <td style="word-wrap: break-word;">
             <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility with National Water Policy', 'CompatibilityNationalWaterPolicy');"
@@ -166,8 +164,7 @@
                     </th>
                 </tr>
                 <tr>
-                    @{
-                        yesTickMark = string.Empty;
+                    @{ yesTickMark = string.Empty;
                         noTickMark = string.Empty;
 
                         if (pcd.NWMPCompatYesNoId == 1)
@@ -201,8 +198,7 @@
 
                 <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
                     <tbody>@Html.Raw(cnwmpd.ToString())</tbody>
-                </table>
-            }
+                </table>}
         </td>
         <td style="word-wrap: break-word;">
             <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility National Water Management Plan', 'CompatibilityNationalWaterManagementPlan');"
@@ -258,8 +254,7 @@
                     </th>
                 </tr>
                 <tr>
-                    @{
-                        yesTickMark = string.Empty;
+                    @{ yesTickMark = string.Empty;
                         noTickMark = string.Empty;
 
                         if (pcd.FYPYesNoId == 1)
@@ -336,8 +331,7 @@
                     </th>
                 </tr>
                 <tr>
-                    @{
-                        yesTickMark = string.Empty;
+                    @{ yesTickMark = string.Empty;
                         noTickMark = string.Empty;
 
                         if (pcd.SDGYesNoId == 1)
@@ -381,8 +375,7 @@
 
                         @Html.Raw(sdgid.ToString())
                     </tbody>
-                </table>
-            }
+                </table>}
         </td>
         <td style="word-wrap: break-word;">
             <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility Sustainable Development Goal', 'CompatibilitySustainableDevelopmentGoal');"
@@ -438,8 +431,7 @@
                     </th>
                 </tr>
                 <tr>
-                    @{
-                        yesTickMark = string.Empty;
+                    @{ yesTickMark = string.Empty;
                         noTickMark = string.Empty;
 
                         if (pcd.DeltaPlanYesNoId == 1)
@@ -472,8 +464,7 @@
 
                 <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
                     <tbody>@Html.Raw(bdp2100gd.ToString())</tbody>
-                </table>
-            }
+                </table>}
         </td>
         <td>
             <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility Bangladesh Delta Plan 2100', 'CompatibilityBangladeshDeltaPlan2100');"
@@ -529,8 +520,7 @@
                     </th>
                 </tr>
                 <tr>
-                    @{
-                        yesTickMark = string.Empty;
+                    @{ yesTickMark = string.Empty;
                         noTickMark = string.Empty;
 
                         if (pcd.CostalZoneYesNoId == 1)
@@ -607,8 +597,7 @@
                     </th>
                 </tr>
                 <tr>
-                    @{
-                        yesTickMark = string.Empty;
+                    @{ yesTickMark = string.Empty;
                         noTickMark = string.Empty;
 
                         if (pcd.CiwupYesNoId == 1)
@@ -685,8 +674,7 @@
                     </th>
                 </tr>
                 <tr>
-                    @{
-                        yesTickMark = string.Empty;
+                    @{ yesTickMark = string.Empty;
                         noTickMark = string.Empty;
 
                         if (pcd.AgriculturalYesNoId == 1)
@@ -763,8 +751,7 @@
                     </th>
                 </tr>
                 <tr>
-                    @{
-                        yesTickMark = string.Empty;
+                    @{ yesTickMark = string.Empty;
                         noTickMark = string.Empty;
 
                         if (pcd.FisheriesYesNoId == 1)
@@ -835,8 +822,7 @@
                     </th>
                 </tr>
                 <tr>
-                    @{
-                        yesTickMark = string.Empty;
+                    @{ yesTickMark = string.Empty;
                         noTickMark = string.Empty;
 
                         if (pcd.IWRMYesNoId == 1)
@@ -906,8 +892,7 @@
                     </th>
                 </tr>
                 <tr>
-                    @{
-                        yesTickMark = string.Empty;
+                    @{ yesTickMark = string.Empty;
                         noTickMark = string.Empty;
 
                         if (pcd.GPWMYesNoId == 1)
@@ -939,8 +924,7 @@
 
                 <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
                     <tbody>@Html.Raw(gpwmgtd.ToString())</tbody>
-                </table>
-            }
+                </table>}
         </td>
         <td style="word-wrap: break-word;">
             <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility GPWM', 'CompatibilityGPWM');"
@@ -996,8 +980,7 @@
                     </th>
                 </tr>
                 <tr>
-                    @{
-                        yesTickMark = string.Empty;
+                    @{ yesTickMark = string.Empty;
                         noTickMark = string.Empty;
 
                         if (pcd.FeasibilityYesNoId == 1)
@@ -1030,7 +1013,7 @@
         </td>
     </tr>
 
-    @if (prj_type_id == 1 || prj_type_id == 4 || prj_type_id == 10 || prj_type_id == 13)
+    @if (prj_type_id == 1 || prj_type_id == 2 || prj_type_id == 4 || prj_type_id == 10 || prj_type_id == 13)
     {
         <tr style="vertical-align: top; text-align: left;">
             <td style="width: 250px;">
@@ -1080,7 +1063,7 @@
                             yesTickMark = string.Empty;
                             noTickMark = string.Empty;
 
-                            if (projectindi.DuplicatYesNoId == 1)
+                            @*if (projectindi.DuplicatYesNoId == 1)
                             {
                                 yesTickMark = "<span class='fe-check'></span>";
                                 noTickMark = "";
@@ -1095,7 +1078,9 @@
                             <td>@Html.Raw(noTickMark)</td>
                             <td class="text-left" style="word-break: break-all;">@projectindi.DuplicationApplicantComments</td>
                             <td class="text-left" style="word-break: break-all;">@projectindi.DuplicationAuthorityComments</td>
-                            <td class="text-center" style="word-break: break-all;"><a href="~/images/CommonDetails/ProjectDuplicationFiles/@pcd.PrjDuplicateAttestedLtrFile" target="_blank">@pcd.PrjDuplicateAttestedLtrFile</a></td>
+                            <td class="text-center" style="word-break: break-all;">
+                                <a href="~/images/CommonDetails/ProjectDuplicationFiles/@pcd.PrjDuplicateAttestedLtrFile" target="_blank">@pcd.PrjDuplicateAttestedLtrFile</a>
+                            </td>*@
                         }
                     </tr>
                 </table>
@@ -1111,7 +1096,7 @@
         </tr>
     }
 
-    @if (prj_type_id == 1 || prj_type_id == 4 || prj_type_id == 10 || prj_type_id == 13)
+    @if (prj_type_id == 1 || prj_type_id == 2 || prj_type_id == 4 || prj_type_id == 10 || prj_type_id == 13)
     {
         if (prev_lang == 1)
         {
@@ -1175,8 +1160,7 @@
                     </th>
                 </tr>
                 <tr>
-                    @{
-                        yesTickMark = string.Empty;
+                    @{ yesTickMark = string.Empty;
                         noTickMark = string.Empty;
 
                         if (pcd.SocialIssuesYesNoId == 1)
@@ -1208,7 +1192,7 @@
         </td>
     </tr>
 
-    @if (prj_type_id == 1 || prj_type_id == 4 || prj_type_id == 10 || prj_type_id == 13)
+    @if (prj_type_id == 1 || prj_type_id == 2 || prj_type_id == 4 || prj_type_id == 10 || prj_type_id == 13)
     {
         if (prev_lang == 1)
         {
@@ -1272,8 +1256,7 @@
                     </th>
                 </tr>
                 <tr>
-                    @{
-                        yesTickMark = string.Empty;
+                    @{ yesTickMark = string.Empty;
                         noTickMark = string.Empty;
 
                         if (pcd.GuidelinesFollowedYesNoId == 1)
@@ -1297,6 +1280,73 @@
         </td>
         <td style="word-wrap: break-word;">
             <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Followed the Guidelines for Project Assessment (GPA)', 'FollowedGuidelinesProjectAssessment');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    @if (prj_type_id == 1 || prj_type_id == 2 || prj_type_id == 4 || prj_type_id == 10 || prj_type_id == 13)
+    {
+        if (prev_lang == 1)
+        {
+            numbering = "১৬";
+        }
+        else
+        {
+            numbering = "16";
+        }
+    }
+    else
+    {
+        if (prev_lang == 1)
+        {
+            numbering = "১৫";
+        }
+        else
+        {
+            numbering = "15";
+        }
+    }
+
+    <tr>
+        <td colspan="3">
+            <b>
+                @if (prev_lang == 1)
+                {<span>(@numbering) প্রকল্প প্রণয়নের ক্ষেত্রে সরকারের কোনও বিজ্ঞপ্তি ব্যবহার হয়েছে কিনা?</span>}
+            else
+            { <span>(@numbering) Whether any circular of the government has been used in the formulation of the project?</span>}
+            </b>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 750px; word-wrap: break-word;" colspan="2">
+            <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == 1)
+                        {<span>সরকারী বিজ্ঞপ্তি</span>}
+                        else
+                        {<span>Government Circular Name</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == 1)
+                        {<span>বিজ্ঞপ্তি</span>}
+                        else
+                        {<span>Circular</span>}
+                    </th>
+                </tr>
+                <tr>
+                    <td class="text-left" style="word-break: break-all;">@pcd.AnyGovCircularName</td>
+                    <td class="text-left" style="word-break: break-all;"><a href="~/images/CommonDetails/AnyGovCircularFiles/@pcd.AnyGovCircularFile" target="_blank">@pcd.AnyGovCircularFile</a></td>
+                </tr>
+            </table>
+        </td>
+        <td style="word-wrap: break-word;">
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Any Circular of the Government has been Used', 'AnyGovCircularUsed');"
                class="btn btn-sm btn-info waves-effect comment" data-close="false"
                data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">

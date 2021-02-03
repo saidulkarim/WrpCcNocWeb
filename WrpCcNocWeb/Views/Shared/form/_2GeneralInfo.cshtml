@@ -15,20 +15,30 @@
             }
             <span class="text-danger bold">*</span>
         </label>
-        <input type="text" id="ProjectName" name="ProjectName" class="form-control" data-toggle="tooltip"
-               data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language." />
+        <span class="text-danger">
+            <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
+               data-content="Please specify project name or title and can not be more than 500 characters. Press Control and b (Ctrl + b) key from keyboard to change/ toggle language."
+               data-original-title="Project Name"></i>
+        </span>
+        <input type="text" id="ProjectName" name="ProjectName" maxlength="500" class="form-control" />
     </div>
 
     <!--start :: newly added on 28-Jan-2021-->
     <div class="form-group">
         <label for="RespectiveMinistry">
             @{if (language == 1)
-                { <span>২. সম্পর্কিত সংস্থা</span>}
+                { <span>২. মন্ত্রণালয়</span>}
                 else
                 {<span>2. Respective Ministry</span>}
             }
             <span class="text-danger bold">*</span>
         </label>
+        <span class="text-danger">
+            <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
+               data-content="Please select project respective ministry. This is mandatory field."
+               data-original-title="Respective Ministry"></i>
+        </span>
+
         <select id="RespectiveMinistry" name="RespectiveMinistry" class="form-control">
             @{if (language == 1)
                 {
@@ -64,12 +74,18 @@
     <div class="form-group">
         <label for="RespectiveAgency">
             @{if (language == 1)
-                { <span>৩. সম্পর্কিত সংস্থা</span>}
+                { <span>৩. সংস্থা</span>}
                 else
                 {<span>3. Respective Agency</span>}
             }
             <span class="text-danger bold">*</span>
         </label>
+        <span class="text-danger">
+            <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
+               data-content="Please select project respective agency. This is mandatory field."
+               data-original-title="Respective Agency"></i>
+        </span>
+
         <select id="RespectiveAgency" name="RespectiveAgency" class="form-control">
             @{if (language == 1)
                 {
@@ -101,54 +117,118 @@
             }
         </select>
     </div>
+
+    <div class="form-group">
+        <label for="AnyInterventionOfOtherPrj">
+            @{if (language == 1)
+                { <span>৪. অন্য প্রকল্পের কোন হস্তক্ষেপ আছে?</span>}
+                else
+                {<span>4. Is there Any Intervention of Other Projects?</span>}
+            }
+        </label>
+        <span class="text-danger">
+            <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
+               data-content="Please select any intervention of other projects."
+               data-original-title="Any Intervention of Other Projects?"></i>
+        </span>
+        <select id="AnyInterventionOfOtherPrj" name="AnyInterventionOfOtherPrj" class="form-control">
+            @{if (language == 1)
+                {
+                    <option value="">বাছাই করুন...</option>
+                }
+                else
+                {
+                    <option value="">Choose...</option>
+                }
+            }
+
+            @{
+                List<LookUpCcModAnyInterventionPrj> _anyintprjs = ViewBag.LookUpAnyInterventionPrj;
+
+                if (_anyintprjs.Count > 0)
+                {
+                    foreach (LookUpCcModAnyInterventionPrj anyint in _anyintprjs)
+                    {
+                        if (language == 1)
+                        {
+                            <option value="@anyint.AnyInterventionPrjId">@anyint.InterventionNameBn</option>
+                        }
+                        else
+                        {
+                            <option value="@anyint.AnyInterventionPrjId">@anyint.InterventionName</option>
+                        }
+                    }
+                }
+            }
+        </select>
+    </div>
     <!--end-->
 
     <div class="form-group">
         <label for="BackgroundAndRationale">
             @{if (language == 1)
-                { <span>২. প্রকল্পের পূর্ব ইতিহাস ও যৌক্তিকতা</span>}
+                { <span>৫. প্রকল্পের পূর্ব ইতিহাস ও যৌক্তিকতা</span>}
                 else
-                {<span>2. Project Background and Rationale</span>}
+                {<span>5. Project Background and Rationale</span>}
             }
             <span class="text-danger bold">*</span>
         </label>
-        <textarea id="BackgroundAndRationale" name="BackgroundAndRationale" class="form-control" rows="2"
-                  data-toggle="tooltip" data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language."></textarea>
+        <span class="text-danger">
+            <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
+               data-content="Please specify project background and rationale. Can not be more than 1000 characters. Press Control and b (Ctrl + b) key from keyboard to change/toggle language."
+               data-original-title="Project Background and Rationale"></i>
+        </span>
+        <textarea id="BackgroundAndRationale" name="BackgroundAndRationale" maxlength="1000" class="form-control" rows="2"></textarea>
     </div>
 
     <div class="form-group">
         <label for="ProjectTarget">
             @{if (language == 1)
-                { <span>৩. প্রকল্পের লক্ষ্য</span>}
+                { <span>৬. প্রকল্পের লক্ষ্য</span>}
                 else
-                {<span>3. Project Target</span>}
+                {<span>6. Project Target</span>}
             }
             <span class="text-danger bold">*</span>
         </label>
-        <textarea id="ProjectTarget" name="ProjectTarget" class="form-control" rows="2"
-                  data-toggle="tooltip" data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language."></textarea>
+        <span class="text-danger">
+            <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
+               data-content="Please specify project target. Can not be more than 1000 characters. Press Control and b (Ctrl + b) key from keyboard to change/toggle language."
+               data-original-title="Project Target"></i>
+        </span>
+        <textarea id="ProjectTarget" name="ProjectTarget" maxlength="1000" class="form-control" rows="2"></textarea>
     </div>
 
     <div class="form-group">
         <label for="ProjectObjective">
             @{if (language == 1)
-                { <span>৪. প্রকল্পের উদ্দেশ্য</span>}
+                { <span>৭. প্রকল্পের উদ্দেশ্য</span>}
                 else
-                {<span>4. Project Objective</span>}
+                {<span>7. Project Objective</span>}
             }
             <span class="text-danger bold">*</span>
         </label>
-        <textarea id="ProjectObjective" name="ProjectObjective" class="form-control" rows="2"
-                  data-toggle="tooltip" data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language."></textarea>
+        <span class="text-danger">
+            <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
+               data-content="Please specify project objective. Can not be more than 1000 characters. Press Control and b (Ctrl + b) key from keyboard to change/toggle language."
+               data-original-title="Project Objective"></i>
+        </span>
+        <textarea id="ProjectObjective" name="ProjectObjective" maxlength="1000" class="form-control" rows="2"></textarea>
     </div>
 
     <div class="form-group">
         <label for="ProjectActivity">
             @if (language == 1)
-            {<span>৫. প্রকল্পের অবস্থান</span> }
+            {<span>৮. প্রকল্পের অবস্থান</span> }
             else
-            { <span>5. Project Location</span>} <span class="text-danger bold">*</span>
+            { <span>8. Project Location</span>}
+            <span class="text-danger bold">*</span>
         </label>
+        <span class="text-danger">
+            <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
+               data-content="Please enter project location(s). You can add one or more locations."
+               data-original-title="Project Location"></i>
+        </span>
+
         <br />
         <button id="btnShowProjectLocations" type="button" data-toggle="modal" data-backdrop="static" data-keyboard="false"
                 data-target="#projectLocationModal" class="btn btn-info waves-effect waves-light">
@@ -191,9 +271,9 @@
     <div class="form-group">
         <label for="ProjectActivity">
             @{if (language == 1)
-                { <span>৬. থানা বেজ ম্যাপে জিও কোডসহ প্রকল্পের সীমানা</span>}
+                { <span>৯. থানা বেজ ম্যাপে জিও কোডসহ প্রকল্পের সীমানা</span>}
                 else
-                {<span>6. Project Boundary with Geo Code at Thana Base Map</span>}
+                {<span>9. Project Boundary with Geo Code at Thana Base Map</span>}
             }
         </label>
         <span class="text-danger">
@@ -221,18 +301,17 @@
     <div class="form-group">
         <label for="ProjectActivity">
             @{if (language == 1)
-                { <span>৭. প্রকল্পের ভৌত কাজের বিবরণ/ অবকাঠামো সমূহ</span>}
+                { <span>১০. প্রকল্পের ভৌত কাজের বিবরণ/ অবকাঠামো সমূহ</span>}
                 else
-                {<span>7. Project Activities/ Components</span>}
+                {<span>10. Project Activities/ Components</span>}
             }
         </label>
         <span class="text-danger">
             <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
-               data-content="Item-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5<br />Item-2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10"
+               data-content="Please specify project activities/ components. Can not be more than 1000 characters. <br />Press Control and b (Ctrl + b) key from keyboard to change/toggle language."
                data-original-title="Project Activities/ Components Sample"></i>
         </span>
-        <textarea id="ProjectActivity" name="ProjectActivity" class="form-control" rows="2"
-                  data-toggle="tooltip" data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language."></textarea>
+        <textarea id="ProjectActivity" name="ProjectActivity" maxlength="1000" class="form-control" rows="2"></textarea>
     </div>
 
     <div class="divProjectPeriod">
@@ -240,9 +319,9 @@
             <legend>
                 <label for="ProjectPeriod" class="bold">
                     @{if (language == 1)
-                        { <span>৮. প্রকল্প বাস্তবায়নকাল</span>}
+                        { <span>১১. প্রকল্প বাস্তবায়নকাল</span>}
                         else
-                        {<span>8. Project Period</span>}
+                        {<span>11. Project Period</span>}
                     }
                     <span class="text-danger bold">*</span>
                 </label>
@@ -296,72 +375,105 @@
         <label for="ProjectEstimatedCost">
             @{
                 if (language == 1)
-                { <span>৯. প্রকল্পের প্রাক্কলিত মোট ব্যয় (লক্ষ টাকায়)</span>}
+                { <span>১২. প্রকল্পের প্রাক্কলিত মোট ব্যয় (লক্ষ টাকায়)</span>}
                 else
-                {<span>9. Estimated Project Cost (In Lakh Taka)</span>}
+                {<span>12. Estimated Project Cost (In Lakh Taka)</span>}
             }
             <span class="text-danger bold">*</span>
         </label>
-
+        <span class="text-danger">
+            <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
+               data-content="Please enter project estimated cost (in lakh taka). "
+               data-original-title="Estimated Project Cost"></i>
+        </span>
         <input type="number" maxlength="10" min="0" id="ProjectEstimatedCost" name="ProjectEstimatedCost" class="form-control text-right pr-1" />
     </div>
 
     <div class="form-group">
         <label for="ProjectOutcome">
             @{if (language == 1)
-                { <span>১০. প্রকল্পের ফলাফল</span>}
+                { <span>১৩. প্রকল্পের ফলাফল</span>}
                 else
-                {<span>10. Project Outcome</span>}
+                {<span>13. Project Outcome</span>}
             }
         </label>
-        <textarea id="ProjectOutcome" name="ProjectOutcome" class="form-control" rows="2"
-                  data-toggle="tooltip" data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language."></textarea>
+        <span class="text-danger">
+            <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
+               data-content="Please enter project outcome. Can not be more than 1000 characters. Press Control and b (Ctrl + b) key from keyboard to change/toggle language."
+               data-original-title="Project Outcome"></i>
+        </span>
+        <textarea id="ProjectOutcome" name="ProjectOutcome" maxlength="1000" class="form-control" rows="2"></textarea>
     </div>
 
     <div class="form-group">
         <label for="ProjectOutput">
             @{if (language == 1)
-                { <span>১১. প্রকল্পের আউটপুট</span>}
+                { <span>১৪. প্রকল্পের আউটপুট</span>}
                 else
-                {<span>11. Project Output</span>}
+                {<span>14. Project Output</span>}
             }
         </label>
-        <textarea id="ProjectOutput" name="ProjectOutput" class="form-control" rows="2"
-                  data-toggle="tooltip" data-placement="left" title="" data-original-title="Press Control and b (Ctrl + b) key from keyboard to change language."></textarea>
+        <span class="text-danger">
+            <i class="mdi mdi-help-circle-outline" tabindex="0" data-html="true" data-toggle="popover" data-trigger="focus" title="" data-placement="top"
+               data-content="Please enter project output. Can not be more than 1000 characters. Press Control and b (Ctrl + b) key from keyboard to change/toggle language."
+               data-original-title="Project Output"></i>
+        </span>
+        <textarea id="ProjectOutput" name="ProjectOutput" maxlength="1000" class="form-control" rows="2"></textarea>
     </div>
 
     <div class="form-group mb-0">
         <button id="btnSaveGeneral" type="button" class="btn btn-info waves-effect waves-light">
             <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
             @if (language == 1)
-            {
-                <span>সংরক্ষণ করুন</span>
-            }
+            {<span>সংরক্ষণ করুন</span>}
             else
-            {
-                <span>Save</span>
-            }
+            {<span>Save</span>}
             <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
         </button>
 
         <button id="btnClearGeneral" type="button" class="btn btn-secondary waves-effect waves-light">
             <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
             @if (language == 1)
-            {
-                <span>পরিষ্কার করুন</span>
-            }
+            {<span>পরিষ্কার করুন</span>}
             else
-            {
-                <span>Clear</span>
-            }
+            { <span>Clear</span>}
         </button>
     </div>
 </div>
 
 <script id="GeneralInfoControls" type="text/javascript">
     jQuery(document).ready(function () {
+        jQuery("#RespectiveMinistry").select2({
+            placeholder: "Select an option",
+            allowClear: true
+        }).on('change', function () {
+            var val = $("#RespectiveMinistry option:selected").val();
+            var txt = $("#RespectiveMinistry option:selected").text();
+        });
+
+        jQuery("#RespectiveAgency").select2({
+            placeholder: "Select an option",
+            allowClear: true
+        }).on('change', function () {
+            var val = $("#RespectiveAgency option:selected").val();
+            var txt = $("#RespectiveAgency option:selected").text();
+        });
+
+        jQuery("#AnyInterventionOfOtherPrj").select2({
+            placeholder: "Select an option",
+            allowClear: true
+        }).on('change', function () {
+            var val = $("#AnyInterventionOfOtherPrj option:selected").val();
+            var txt = $("#AnyInterventionOfOtherPrj option:selected").text();
+        });
+
         jQuery("#btnSaveGeneral").click(function () {
             var ProjectName = GetTextValue('ProjectName');
+
+            var RespectiveAgency = GetDropdownValue('RespectiveAgency');
+            var RespectiveMinistry = GetDropdownValue('RespectiveMinistry');
+            var AnyInterventionOfOtherPrj = GetDropdownValue('AnyInterventionOfOtherPrj');
+
             var BackgroundAndRationale = GetTextValue('BackgroundAndRationale');
             var ProjectTarget = GetTextValue('ProjectTarget');
             var ProjectObjective = GetTextValue('ProjectObjective');
@@ -376,6 +488,20 @@
                 Notification('warning', 'Required Field', 'Project name can not be left empty.');
                 Swal.fire('Required Field', 'Project name can not be left empty.', 'warning');
                 jQuery('#ProjectName').focus();
+                return;
+            }
+
+            if (RespectiveMinistry == '') {
+                Notification('warning', 'Required Field', 'Respective Ministry is required field.<br />Please select a Respective Ministry.');
+                Swal.fire('Required Field', 'Respective Ministry is required field.<br />Please select a Respective Ministry.', 'warning');
+                jQuery('#RespectiveMinistry').focus();
+                return;
+            }
+
+            if (RespectiveAgency == '') {
+                Notification('warning', 'Required Field', 'Respective Agency is required field.<br />Please select a Respective Agency.');
+                Swal.fire('Required Field', 'Respective Agency is required field.<br />Please select a Respective Agency.', 'warning');
+                jQuery('#RespectiveAgency').focus();
                 return;
             }
 
@@ -460,6 +586,9 @@
                     $('#gen-info-form').trigger("reset");
 
                     ClearTextValue('ProjectName');
+                    jQuery('#RespectiveAgency').val(null).trigger('change');
+                    jQuery('#RespectiveMinistry').val(null).trigger('change');
+                    jQuery('#AnyInterventionOfOtherPrj').val(null).trigger('change');
                     ClearTextValue('BackgroundAndRationale');
                     ClearTextValue('ProjectTarget');
                     ClearTextValue('ProjectObjective');
@@ -486,6 +615,11 @@
 
     function GeneralInfoSave() {
         var ProjectName = GetTextValue('ProjectName');
+
+        var RespectiveAgency = GetDropdownValue('RespectiveAgency');
+        var RespectiveMinistry = GetDropdownValue('RespectiveMinistry');
+        var AnyInterventionOfOtherPrj = GetDropdownValue('AnyInterventionOfOtherPrj');
+
         var BackgroundAndRationale = GetTextValue('BackgroundAndRationale');
         var ProjectTarget = GetTextValue('ProjectTarget');
         var ProjectObjective = GetTextValue('ProjectObjective');
@@ -505,6 +639,11 @@
             "ApprovalStatusId": jQuery('#ApprovalStatusId').val(),
             "ProjectTypeId": jQuery('#ProjectTypeId').val(),
             "ProjectName": ProjectName,
+
+            "RespectiveAgency": RespectiveAgency,
+            "RespectiveMinistry": RespectiveMinistry,
+            "AnyInterventionOfOtherPrj": AnyInterventionOfOtherPrj,
+
             "BackgroundAndRationale": BackgroundAndRationale,
             "ProjectTarget": ProjectTarget,
             "ProjectObjective": ProjectObjective,

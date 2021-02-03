@@ -5,19 +5,18 @@
 
 @{
     CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["gProjectCommonDetail"];
-    CcModAppProject_31_IndvDetail projectindi = (CcModAppProject_31_IndvDetail)ViewData["gProjectIndvDetail31"];
+    //CcModAppProject_31_IndvDetail projectindi = (CcModAppProject_31_IndvDetail)ViewData["gProjectIndvDetail31"];
     var location = ViewData["gProjectLocationDetail"];
-    var prev_lang = ViewData["gFormLanguage"].ToString();
+    var prev_lang = int.Parse(ViewData["gFormLanguage"].ToString());
     var prj_type_id = ViewData["gProjectTypeId"].ToString();
     string control_title = string.Empty;
-
 }
 
 <table style="border: 1px solid #CFCFCF; table-layout: fixed; width: 100%;" border="1" cellpadding="1" cellspacing="0">
     <tr style="background: #9d9b9b; font-weight: bold;">
         <td colspan="3">
             <h4>
-                @if (prev_lang == "1")
+                @if (prev_lang == 1)
                 {<span>ক। সাধারণ তথ্য</span>}
                 else
                 {<span>A. General Information</span>}
@@ -28,10 +27,10 @@
     <tr style="vertical-align: top; text-align: left;">
         <td style="width: 200px;">
             <b>
-                @if (prev_lang == "1")
+                @if (prev_lang == 1)
                 {<span>(১) প্রকল্পের শিরোনাম</span>}
                 else
-                {<span>(1). Project Name</span>}
+                {<span>(1) Project Name</span>}
             </b>
         </td>
         <td style="word-break: break-all;">@pcd.ProjectName</td>
@@ -48,10 +47,70 @@
     <tr style="vertical-align: top; text-align: left;">
         <td>
             <b>
-                @if (prev_lang == "1")
-                {<span>(২) প্রকল্পের পূর্ব ইতিহাস ও যৌক্তিকতা</span>}
+                @if (prev_lang == 1)
+                {<span>(২) সম্পর্কিত সংস্থা</span>}
                 else
-                {<span>(2) Project Background and Rationale</span>}
+                {<span>(2) Respective Ministry</span>}
+            </b>
+        </td>
+        <td style="word-break: break-all;">@pcd.RespectiveMinistry</td>
+        <td>
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Respective Ministry', 'RespectiveMinistry');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td>
+            <b>
+                @if (prev_lang == 1)
+                {<span>(৩) সম্পর্কিত সংস্থা</span>}
+                else
+                {<span>(3) Respective Agency</span>}
+            </b>
+        </td>
+        <td style="word-break: break-all;">@pcd.RespectiveAgency</td>
+        <td>
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Respective Agency', 'RespectiveAgency');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td>
+            <b>
+                @if (prev_lang == 1)
+                {<span>(৪) অন্য প্রকল্পের কোন হস্তক্ষেপ আছে?</span>}
+                else
+                {<span>(4) Is there Any Intervention of Other Projects?</span>}
+            </b>
+        </td>
+        <td style="word-break: break-all;">@pcd.AnyInterventionOfOtherPrj</td>
+        <td>
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Is there Any Intervention of Other Projects?', 'AnyInterventionOfOtherPrj');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
+
+    <tr style="vertical-align: top; text-align: left;">
+        <td>
+            <b>
+                @if (prev_lang == 1)
+                {<span>(৫) প্রকল্পের পূর্ব ইতিহাস ও যৌক্তিকতা</span>}
+                else
+                {<span>(5) Project Background and Rationale</span>}
             </b>
         </td>
         <td style="word-break: break-all;">@pcd.BackgroundAndRationale</td>
@@ -68,10 +127,10 @@
     <tr style="vertical-align: top; text-align: left;">
         <td style="width: 250px;">
             <b>
-                @if (prev_lang == "1")
-                {<span>(৩) প্রকল্পের লক্ষ্য</span>}
+                @if (prev_lang == 1)
+                {<span>(৬) প্রকল্পের লক্ষ্য</span>}
                 else
-                {<span>(3) Project Target</span>}
+                {<span>(6) Project Target</span>}
             </b>
         </td>
         <td>@pcd.ProjectTarget</td>
@@ -88,10 +147,10 @@
     <tr style="vertical-align: top; text-align: left;">
         <td style="width: 250px;">
             <b>
-                @if (prev_lang == "1")
-                {<span>(৪) প্রকল্পের উদ্দেশ্য</span>}
+                @if (prev_lang == 1)
+                {<span>(৭) প্রকল্পের উদ্দেশ্য</span>}
                 else
-                {<span>(4) Project Objective</span>}
+                {<span>(7) Project Objective</span>}
             </b>
         </td>
         <td>@pcd.ProjectObjective</td>
@@ -108,10 +167,10 @@
     <tr style="vertical-align: top; text-align: left;">
         <td colspan="3">
             <b>
-                @if (prev_lang == "1")
-                {<span>(৫) প্রকল্পের অবস্থান</span>}
+                @if (prev_lang == 1)
+                {<span>(৮) প্রকল্পের অবস্থান</span>}
                 else
-                {<span>(5) Project Location</span>}
+                {<span>(8) Project Location</span>}
             </b>
         </td>
     </tr>
@@ -121,37 +180,37 @@
                 <thead style="background: #9d9b9b; font-weight: bold;">
                     <tr>
                         <th class="text-left">
-                            @if (prev_lang == "1")
+                            @if (prev_lang == 1)
                             {<span>জেলা</span>}
                             else
                             {<span>District</span>}
                         </th>
                         <th class="text-left">
-                            @if (prev_lang == "1")
+                            @if (prev_lang == 1)
                             {<span>উপজেলা</span>}
                             else
                             {<span>Upazila</span>}
                         </th>
                         <th class="text-left">
-                            @if (prev_lang == "1")
+                            @if (prev_lang == 1)
                             {<span>ইউনিয়ন</span>}
                             else
                             {<span>Union</span>}
                         </th>
                         <th class="text-right">
-                            @if (prev_lang == "1")
+                            @if (prev_lang == 1)
                             {<span>অক্ষাংশ</span>}
                             else
                             {<span>Latitude</span>}
                         </th>
                         <th class="text-right">
-                            @if (prev_lang == "1")
+                            @if (prev_lang == 1)
                             {<span>দ্রাঘিমাংশ</span>}
                             else
                             {<span>Longitude</span>}
                         </th>
                         <th class="text-center">
-                            @if (prev_lang == "1")
+                            @if (prev_lang == 1)
                             {<span>সংযুক্তি</span>}
                             else
                             {<span>Attchments</span>}
@@ -159,14 +218,13 @@
                     </tr>
                 </thead>
                 <tbody id="tbodyProjectLocationPreview">
-                    @{
-                        List<ProjectLocationTemp> locs = location as List<ProjectLocationTemp>;
+                    @{ List<ProjectLocationTemp> locs = location as List<ProjectLocationTemp>;
 
                         if (locs.Count > 0)
                         {
                             foreach (ProjectLocationTemp loc in locs)
                             {
-                                if (prev_lang == "1")
+                                if (prev_lang == 1)
                                 {
                                     <tr>
                                         <td class="text-left">@loc.DistrictNameBn</td>
@@ -181,12 +239,11 @@
                                                     @foreach (string file in loc.ImageFileNames)
                                                     {
                                                         <li><a href="~/@file" target="_blank">@file.Substring(file.LastIndexOf('/') + 1)</a></li>
-                                                    }
-                                                </ol>
-                                            }
+}
+                                                </ol>}
                                         </td>
                                     </tr>
-                                }
+ }
                                 else
                                 {
                                     <tr>
@@ -202,15 +259,13 @@
                                                     @foreach (string file in loc.ImageFileNames)
                                                     {
                                                         <li><a href="~/@file" target="_blank">@file.Substring(file.LastIndexOf('/') + 1)</a></li>
-                                                    }
-                                                </ol>
-                                            }
+}
+                                                </ol>}
                                         </td>
                                     </tr>
-                                }
+ }
                             }
-                        }
-                    }
+                        } }
                 </tbody>
             </table>
         </td>
@@ -227,10 +282,10 @@
     <tr style="vertical-align: top; text-align: left;">
         <td style="width: 250px;">
             <b>
-                @if (prev_lang == "1")
-                {<span>(৬) জিও কোডসহ প্রকল্পের সীমানা</span>}
+                @if (prev_lang == 1)
+                {<span>(৯) জিও কোডসহ প্রকল্পের সীমানা</span>}
                 else
-                {<span>(6) Project Boundary with Geo Code</span>}
+                {<span>(9) Project Boundary with Geo Code</span>}
             </b>
             &nbsp;&nbsp;
             <a id="btnMapView" href="javascript:void(0);" target="_blank" class="btn btn-sm btn-info waves-effect"
@@ -253,10 +308,10 @@
     <tr style="vertical-align: top; text-align: left;">
         <td style="width: 250px;">
             <b>
-                @if (prev_lang == "1")
-                {<span>(৭) প্রকল্পের ক্রিয়াকলাপ / উপাদানসমূহ</span>}
+                @if (prev_lang == 1)
+                {<span>(১০) প্রকল্পের ক্রিয়াকলাপ / উপাদানসমূহ</span>}
                 else
-                {<span>(7) Project Activities/ Components</span>}
+                {<span>(10) Project Activities/ Components</span>}
             </b>
         </td>
         <td>@pcd.ProjectActivity</td>
@@ -273,32 +328,28 @@
     <tr style="vertical-align: top; text-align: left;">
         <td style="width: 250px;">
             <b>
-                @if (prev_lang == "1")
-                {<span>(৮) প্রকল্প সময়কাল</span>}
+                @if (prev_lang == 1)
+                {<span>(১১) প্রকল্প সময়কাল</span>}
                 else
-                {<span>(8) Project Period</span>}
+                {<span>(11) Project Period</span>}
             </b>
         </td>
         <td>
-            @if (prev_lang == "1")
+            @if (prev_lang == 1)
             {
-                <span>শুরুর তারিখ: @pcd.ProjectStartDate.Value.ToString("dd MMMM, yyyy").MonthEnglishToBengali().NumberEnglishToBengali()</span>
-            }
+                <span>শুরুর তারিখ: @pcd.ProjectStartDate.Value.ToString("dd MMMM, yyyy").MonthEnglishToBengali().NumberEnglishToBengali()</span> }
             else
             {
-                <span>Starting Date: @pcd.ProjectStartDate.Value.ToString("dd MMMM, yyyy")</span>
-            }
+                <span>Starting Date: @pcd.ProjectStartDate.Value.ToString("dd MMMM, yyyy")</span>}
 
             <br />
 
-            @if (prev_lang == "1")
+            @if (prev_lang == 1)
             {
-                <span>সমাপ্তির তারিখ: @pcd.ProjectCompletionDate.Value.ToString("dd MMMM, yyyy").MonthEnglishToBengali().NumberEnglishToBengali()</span>
-            }
+                <span>সমাপ্তির তারিখ: @pcd.ProjectCompletionDate.Value.ToString("dd MMMM, yyyy").MonthEnglishToBengali().NumberEnglishToBengali()</span> }
             else
             {
-                <span>Completion Date: @pcd.ProjectCompletionDate.Value.ToString("dd MMMM, yyyy")</span>
-            }
+                <span>Completion Date: @pcd.ProjectCompletionDate.Value.ToString("dd MMMM, yyyy")</span>}
         </td>
         <td>
             <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Project Period', 'ProjectPeriod');"
@@ -313,14 +364,14 @@
     <tr style="vertical-align: top; text-align: left;">
         <td style="width: 250px;">
             <b>
-                @if (prev_lang == "1")
-                {<span>(৯) প্রকল্প ব্যয়</span>}
+                @if (prev_lang == 1)
+                {<span>(১২) প্রকল্প ব্যয়</span>}
                 else
-                {<span>(9) Estimated Project Cost</span>}
+                {<span>(12) Estimated Project Cost</span>}
             </b>
         </td>
         <td>
-            @if (prev_lang == "1")
+            @if (prev_lang == 1)
             {<span>@pcd.ProjectEstimatedCost.ToString().NumberEnglishToBengali()</span>}
         else
         { <span>@pcd.ProjectEstimatedCost</span>}
@@ -338,10 +389,10 @@
     <tr style="vertical-align: top; text-align: left;">
         <td style="width: 250px;">
             <b>
-                @if (prev_lang == "1")
-                {<span>(১০) প্রকল্পের ফলাফল</span>}
+                @if (prev_lang == 1)
+                {<span>(১৩) প্রকল্পের ফলাফল</span>}
                 else
-                {<span>(10) Project Outcome</span>}
+                {<span>(13) Project Outcome</span>}
             </b>
         </td>
         <td>
@@ -360,10 +411,10 @@
     <tr style="vertical-align: top; text-align: left;">
         <td style="width: 250px;">
             <b>
-                @if (prev_lang == "1")
-                {<span>(১১) প্রকল্পের আউটপুট</span>}
+                @if (prev_lang == 1)
+                {<span>(১৪) প্রকল্পের আউটপুট</span>}
                 else
-                {<span>(11) Project Output</span>}
+                {<span>(14) Project Output</span>}
             </b>
         </td>
         <td>

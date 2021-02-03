@@ -17,7 +17,26 @@
                     <b>@ViewBag.ProjectTitle</b>
 
                     <button id="btnGoBack" type="button" class="btn btn-secondary float-right" style="margin-top: -10px;">Back</button>
+
+                    <button id="btnExpandAll" type="button" class="btn btn-danger waves-effect waves-light float-right mr-1"
+                            style="margin-top: -10px;">
+                        <span class="btn-label"><i class="mdi mdi-arrow-expand-vertical"></i></span>
+                        @if (language == 1)
+                        {<span>সব কিছু বিশদভাবে ব্যক্ত করুন</span>}
+                        else
+                        {<span>Expand All</span>}
+                    </button>
+
+                    <button id="btnCollapseAll" type="button" class="btn btn-info waves-effect waves-light float-right mr-1"
+                            style="margin-top: -10px;">
+                        <span class="btn-label"><i class="mdi mdi-arrow-collapse-vertical"></i></span>
+                        @if (language == 1)
+                        {<span>সব সঙ্কুচিত করুন</span>}
+                        else
+                        { <span>Collapse All</span>}
+                    </button>
                 </h4>
+
                 <form>
                     <div id="basicwizard">
                         <ul class="nav nav-pills bg-light nav-justified form-wizard-header">
@@ -26,13 +45,9 @@
                                     <i class="mdi mdi-format-float-right mr-1"></i>
                                     <span class="d-none d-sm-inline">
                                         @if (language == 1)
-                                        {
-                                            <span>আবেদনপত্র</span>
-                                        }
+                                        {<span>আবেদন পত্র</span> }
                                         else
-                                        {
-                                            <span>Application Form</span>
-                                        }
+                                        {<span>Application Form</span>}
                                     </span>
                                 </a>
                             </li>
@@ -41,13 +56,9 @@
                                     <i class="mdi mdi-face-profile mr-1"></i>
                                     <span class="d-none d-sm-inline">
                                         @if (language == 1)
-                                        {
-                                            <span>প্রিভিউ</span>
-                                        }
+                                        {<span>প্রিভিউ</span> }
                                         else
-                                        {
-                                            <span>Preview</span>
-                                        }
+                                        {<span>Preview</span>}
                                     </span>
                                 </a>
                             </li>
@@ -71,6 +82,7 @@
                                                 <div class="col-sm-3">
                                                     @{ await Html.RenderPartialAsync("form/_1TabPanel"); }
                                                 </div>
+
                                                 <div class="col-sm-9">
                                                     <div class="tab-content pt-0">
                                                         <div class="tab-pane fade active show" id="v-gen-info" role="tabpanel" aria-labelledby="v-gen-info-tab">
@@ -85,7 +97,7 @@
                                                                     <div class="card">
                                                                         <div class="card-header bg-blue py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase31">
                                                                             <div class="card-widgets">
-                                                                                <a data-toggle="collapse" href="#cardCollpase31" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                                                                                <a data-toggle="collapse" href="#cardCollpase31" role="button" aria-expanded="false" aria-controls="cardCollpase31"><i class="mdi mdi-minus"></i></a>
                                                                             </div>
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == 1)
@@ -104,8 +116,7 @@
                                                                                         {<span>i. Project area according to Hydrological Region</span>}
                                                                                     </label>
                                                                                     <div id="chkHydrologicalRegions" style="margin-left: 5px;">
-                                                                                        @{
-                                                                                            List<LookUpCcModHydroRegion> _hydro_regions = ViewBag.LookUpCcModHydroRegion;
+                                                                                        @{ List<LookUpCcModHydroRegion> _hydro_regions = ViewBag.LookUpCcModHydroRegion;
 
                                                                                             if (_hydro_regions.Count > 0)
                                                                                             {
@@ -118,15 +129,13 @@
                                                                                                         <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@hr.HydroRegionFullNameBn">
                                                                                                             <input type="checkbox" name="hydrological_region" id="@id" value="@hr.HydroRegionId" data-parsley-multiple="hydrological_region">
                                                                                                             <label for="@id"> @hr.HydroRegionFullNameBn </label>
-                                                                                                        </div>
-                                                                                                    }
+                                                                                                        </div> }
                                                                                                     else
                                                                                                     {
                                                                                                         <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@hr.HydroRegionFullName">
                                                                                                             <input type="checkbox" name="hydrological_region" id="@id" value="@hr.HydroRegionId" data-parsley-multiple="hydrological_region">
                                                                                                             <label for="@id"> @hr.HydroRegionFullName </label>
-                                                                                                        </div>
-                                                                                                    }
+                                                                                                        </div> }
                                                                                                 }
                                                                                             }
                                                                                         }
@@ -135,15 +144,13 @@
 
                                                                                 <div class="form-group">
                                                                                     <label for="BDP2100HotSpot">
-                                                                                        @{if (language == 1)
-                                                                                            { <span>ii. বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০ এর হট স্পট অনুযায়ী প্রকল্প এলাকা</span>}
-                                                                                            else
-                                                                                            {<span>ii. Project Area According to Bangladesh Delta Plan 2100 Hot Spot</span>}
-                                                                                        }
+                                                                                        @if (language == 1)
+                                                                                        {<span>ii. বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০ এর হট স্পট অনুযায়ী প্রকল্প এলাকা</span>}
+                                                                                        else
+                                                                                        {<span>ii. Project Area According to Bangladesh Delta Plan 2100 Hot Spot</span>}
                                                                                     </label>
                                                                                     <div id="chkBDP2100HotSpot" class="row" style="margin-left: 5px;">
-                                                                                        @{
-                                                                                            List<LookUpCcModDeltPlan2100HotSpot> _hot_spots = ViewBag.LookUpCcModDeltPlan2100HotSpot;
+                                                                                        @{ List<LookUpCcModDeltPlan2100HotSpot> _hot_spots = ViewBag.LookUpCcModDeltPlan2100HotSpot;
 
                                                                                             if (_hot_spots.Count > 0)
                                                                                             {
@@ -156,28 +163,24 @@
                                                                                                         <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-5" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@hs.PlanNameBn">
                                                                                                             <input type="checkbox" name="bdp2100_hot_spot" id="@id" value="@hs.DeltaPlanHotSpotId" data-parsley-multiple="bdp2100_hot_spot">
                                                                                                             <label for="@id"> @hs.PlanNameBn </label>
-                                                                                                        </div>
-                                                                                                    }
+                                                                                                        </div> }
                                                                                                     else
                                                                                                     {
                                                                                                         <div class="checkbox checkbox-pink mb-1 form-check-inline col-md-5" style="margin-right: 25px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="@hs.PlanName">
                                                                                                             <input type="checkbox" name="bdp2100_hot_spot" id="@id" value="@hs.DeltaPlanHotSpotId" data-parsley-multiple="bdp2100_hot_spot">
                                                                                                             <label for="@id"> @hs.PlanName </label>
-                                                                                                        </div>
-                                                                                                    }
+                                                                                                        </div> }
                                                                                                 }
-                                                                                            }
-                                                                                        }
+                                                                                            } }
                                                                                     </div>
                                                                                 </div>
 
                                                                                 <div class="form-group">
                                                                                     <label for="HydrologicalSystem">
-                                                                                        @{if (language == 1)
-                                                                                            { <span>iii. হাইড্রোলজিক্যাল সিস্টেম</span>}
-                                                                                            else
-                                                                                            {<span>iii. Hydrological System</span>}
-                                                                                        }
+                                                                                        @if (language == 1)
+                                                                                        {<span>iii. হাইড্রোলজিক্যাল সিস্টেম</span>}
+                                                                                        else
+                                                                                        {<span>iii. Hydrological System</span>}
                                                                                     </label>
 
                                                                                     <div class="row">
@@ -189,26 +192,23 @@
 
                                                                                 <div class="col-md-6 form-group pl-0">
                                                                                     <label for="ConnectivityAmidWaterland">
-                                                                                        @{if (language == 1)
-                                                                                            { <span>iv. খাল, নদী এবং জলাভূমির মধ্যে সংযোগ</span>}
-                                                                                            else
-                                                                                            {<span>iv. Connectivity Amid Khals, River and Wetland</span>}
-                                                                                        }
+                                                                                        @if (language == 1)
+                                                                                        {<span>iv. খাল, নদী এবং জলাভূমির মধ্যে সংযোগ</span>}
+                                                                                        else
+                                                                                        {<span>iv. Connectivity Amid Khals, River and Wetland</span>}
                                                                                     </label>
                                                                                     <!--<input type="text" id="ConnectivityAmidWaterland" name="ConnectivityAmidWaterland" class="form-control" />-->
                                                                                     <select id="ConnectivityAmidWaterland" name="ConnectivityAmidWaterland" class="form-control">
-                                                                                        @{if (language == 1)
-                                                                                            {
-                                                                                                <option value="">বাছাই করুন...</option>
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                                <option value="">Choose...</option>
-                                                                                            }
+                                                                                        @if (language == 1)
+                                                                                        {
+                                                                                            <option value="">বাছাই করুন...</option>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <option value="">Choose...</option>
                                                                                         }
 
-                                                                                        @{
-                                                                                            List<LookUpCcModConnAmidKhalRiver> _cakrw = ViewBag.LookUpCcModConnAmidKhalRiver;
+                                                                                        @{ List<LookUpCcModConnAmidKhalRiver> _cakrw = ViewBag.LookUpCcModConnAmidKhalRiver;
 
                                                                                             if (_cakrw.Count > 0)
                                                                                             {
@@ -223,29 +223,26 @@
                                                                                                         <option value="@cakrw.OptionTitle">@cakrw.OptionTitle</option>
                                                                                                     }
                                                                                                 }
-                                                                                            }
-                                                                                        }
+                                                                                            } }
                                                                                     </select>
                                                                                 </div>
 
                                                                                 <div class="col-md-6 form-group pl-0">
                                                                                     <label for="CatchmentArea">
-                                                                                        @{if (language == 1)
-                                                                                            { <span>v. অববাহিকা (ক্যাচমেন্ট) এলাকা (হেক্টর)</span>}
-                                                                                            else
-                                                                                            {<span>v. Catchment Area (ha)</span>}
-                                                                                        }
+                                                                                        @if (language == 1)
+                                                                                        {<span>v. অববাহিকা (ক্যাচমেন্ট) এলাকা (হেক্টর)</span>}
+                                                                                        else
+                                                                                        {<span>v. Catchment Area (ha)</span>}
                                                                                     </label>
                                                                                     <input type="number" min="0" id="CatchmentArea" name="CatchmentArea" class="form-control" />
                                                                                 </div>
 
                                                                                 <div id="divAnnualRainfall">
                                                                                     <label for="AnnualRainfall" class="bold">
-                                                                                        @{if (language == 1)
-                                                                                            { <span>vi. বার্ষিক বৃষ্টিপাত (বিগত পাঁচ বছর); (মি. মি)</span>}
-                                                                                            else
-                                                                                            {<span>vi. Annual Rainfall (Last five years)</span>}
-                                                                                        }
+                                                                                        @if (language == 1)
+                                                                                        {<span>vi. বার্ষিক বৃষ্টিপাত (বিগত পাঁচ বছর); (মি. মি)</span>}
+                                                                                        else
+                                                                                        {<span>vi. Annual Rainfall (Last five years)</span>}
                                                                                     </label>
 
                                                                                     <hr style="margin-top: 0 !important;" />
@@ -262,8 +259,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>vii. বন্যায় সর্বোচ্চ পানির উচ্চতা (মিটার) (গত ৩০ বৎসরের মধ্যে)</span>}
                                                                                             else
-                                                                                            {<span>vii. Highest Flood Level (m) (within last 30 years)</span>}
-                                                                                        }
+                                                                                            {<span>vii. Highest Flood Level (m) (within last 30 years)</span>} }
                                                                                     </label>
 
                                                                                     <hr />
@@ -299,13 +295,11 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>ix. বন্যার ধরণ</span>}
                                                                                             else
-                                                                                            {<span>ix. Types of Flood</span>}
-                                                                                        }
+                                                                                            {<span>ix. Types of Flood</span>} }
                                                                                     </label>
 
                                                                                     <div id="TypesOfFlood" class="row" style="margin-left: 5px;">
-                                                                                        @{
-                                                                                            List<LookUpCcModTypeOfFlood> _tofs = ViewBag.LookUpCcModTypeOfFlood;
+                                                                                        @{ List<LookUpCcModTypeOfFlood> _tofs = ViewBag.LookUpCcModTypeOfFlood;
 
                                                                                             if (_tofs.Count > 0)
                                                                                             {
@@ -318,19 +312,16 @@
                                                                                                         <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 5%;" title="" data-toggle="tooltip" data-placement="top" data-original-title="@tof.FloodTypeNameBn">
                                                                                                             <input type="checkbox" name="types_of_flood" id="@id" value="@tof.FloodTypeId" data-parsley-multiple="types_of_flood">
                                                                                                             <label for="@id"> @tof.FloodTypeNameBn </label>
-                                                                                                        </div>
-                                                                                                    }
+                                                                                                        </div> }
                                                                                                     else
                                                                                                     {
                                                                                                         <div class="checkbox checkbox-pink mb-1 form-check-inline" style="margin-right: 5%;" title="" data-toggle="tooltip" data-placement="top" data-original-title="@tof.FloodTypeName">
                                                                                                             <input type="checkbox" name="types_of_flood" id="@id" value="@tof.FloodTypeId" data-parsley-multiple="types_of_flood">
                                                                                                             <label for="@id"> @tof.FloodTypeName </label>
-                                                                                                        </div>
-                                                                                                    }
+                                                                                                        </div> }
 
                                                                                                 }
-                                                                                            }
-                                                                                        }
+                                                                                            } }
                                                                                     </div>
                                                                                 </div>
 
@@ -339,16 +330,13 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>x. ফ্লাড ফ্রিকোয়েন্সি এনালাইসিস; (সর্বোচ্চ পানির উচ্চতা, মিটার)</span>}
                                                                                             else
-                                                                                            {<span>x. Flood Frequency Analysis (Maximum water level in Meter)</span>}
-                                                                                        }
+                                                                                            {<span>x. Flood Frequency Analysis (Maximum water level in Meter)</span>} }
                                                                                     </label>
 
                                                                                     <div id="FloodFrequencyAnalysis" class="row" style="margin-left: -7px;">
-                                                                                        @{
-                                                                                            var ffal = ViewBag.FloodFrequencyId;
+                                                                                        @{ var ffal = ViewBag.FloodFrequencyId;
                                                                                             await Html.RenderPartialAsync("controls/_FloodFrequencyAnalysis.cshtml",
-                                                                                                new ViewDataDictionary(ViewData) { { "FloodFrequencyList", ffal } });
-                                                                                        }
+                                                                                                new ViewDataDictionary(ViewData) { { "FloodFrequencyList", ffal } }); }
                                                                                     </div>
                                                                                 </div>
 
@@ -357,12 +345,10 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>xi. পানি নিষ্কাশন ব্যবস্থা</span>}
                                                                                             else
-                                                                                            {<span>xi. Drainage Condition</span>}
-                                                                                        }
+                                                                                            {<span>xi. Drainage Condition</span>} }
                                                                                     </label>
                                                                                     <div id="DrainageCondition" class="row" style="margin-left: 5px;">
-                                                                                        @{
-                                                                                            List<LookUpCcModDrainageCondition> _dcs = ViewBag.LookUpCcModDrainageCondition;
+                                                                                        @{ List<LookUpCcModDrainageCondition> _dcs = ViewBag.LookUpCcModDrainageCondition;
 
                                                                                             if (_dcs.Count > 0)
                                                                                             {
@@ -375,24 +361,19 @@
                                                                                                         <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
                                                                                                             <input type="radio" name="drainage_condition" id="@id" value="@dc.DrainageConditionId" data-parsley-multiple="drainage_condition">
                                                                                                             <label for="@id"> @dc.DrainageConditionBn </label>
-                                                                                                        </div>
-                                                                                                    }
+                                                                                                        </div> }
                                                                                                     else
                                                                                                     {
                                                                                                         <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
                                                                                                             <input type="radio" name="drainage_condition" id="@id" value="@dc.DrainageConditionId" data-parsley-multiple="drainage_condition">
                                                                                                             <label for="@id"> @dc.DrainageCondition </label>
-                                                                                                        </div>
-                                                                                                    }
+                                                                                                        </div> }
                                                                                                 }
-                                                                                            }
-                                                                                        }
+                                                                                            } }
 
                                                                                         <div id="divDrainageConditionOther">
-                                                                                            @{
-                                                                                                var dcOther = (language == 1) ? "অন্যান্য" : "Other";
-                                                                                                <input type="text" id="DrainageConditionOther" name="DrainageConditionOther" class="form-control" placeholder="@dcOther" />
-                                                                                            }
+                                                                                            @{ var dcOther = (language == 1) ? "অন্যান্য" : "Other";
+                                                                                                <input type="text" id="DrainageConditionOther" name="DrainageConditionOther" class="form-control" placeholder="@dcOther" /> }
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -402,20 +383,18 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>xii. প্রকল্প এলাকার ভূপরিস্থ পানির গুনগত মান (সর্বশেষ তথ্য)</span>}
                                                                                             else
-                                                                                            {<span>xii. Surface Water Quality of Project Area (Latest Data)</span>}
-                                                                                        }
+                                                                                            {<span>xii. Surface Water Quality of Project Area (Latest Data)</span>} }
                                                                                     </label>
 
                                                                                     <hr style="margin-top: 0 !important;" />
 
                                                                                     <div class="row">
-                                                                                        <div class="form-group col-xl-3 text-center">
+                                                                                        <div class="form-group col-md-3 text-center">
                                                                                             <label for="WaterSalinity">
                                                                                                 @{if (language == 1)
                                                                                                     { <span>লবনাক্ততা (পি.পি.এম)</span>}
                                                                                                     else
-                                                                                                    {<span>Salinity (ppm)</span>}
-                                                                                                }
+                                                                                                    {<span>Salinity (ppm)</span>} }
                                                                                             </label>
                                                                                             <input type="number" min="0" id="WaterSalinity" name="WaterSalinity" class="form-control" />
                                                                                         </div>
@@ -425,19 +404,17 @@
                                                                                                 @{if (language == 1)
                                                                                                     { <span>দ্রবীভূত অক্সিজেন (মি.গ্রা./লিটার)</span>}
                                                                                                     else
-                                                                                                    {<span>Dissolved Oxygen (mg/l)</span>}
-                                                                                                }
+                                                                                                    {<span>Dissolved Oxygen (mg/l)</span>} }
                                                                                             </label>
                                                                                             <input type="number" min="0" id="WaterDO" name="WaterDO" class="form-control" />
                                                                                         </div>
 
-                                                                                        <div class="form-group col-xl-3 text-center">
+                                                                                        <div class="form-group col-md-3 text-center">
                                                                                             <label for="WaterTDS">
                                                                                                 @{if (language == 1)
                                                                                                     { <span>মোট দ্রবীভূত কঠিন বস্তু (টি.ডি.এস)</span>}
                                                                                                     else
-                                                                                                    {<span>Total Dissolved Solids (TDS)</span>}
-                                                                                                }
+                                                                                                    {<span>Total Dissolved Solids (TDS)</span>} }
                                                                                             </label>
                                                                                             <input type="number" min="0" id="WaterTDS" name="WaterTDS" class="form-control" />
                                                                                         </div>
@@ -447,8 +424,7 @@
                                                                                                 @{if (language == 1)
                                                                                                     { <span>পি.এইচ</span>}
                                                                                                     else
-                                                                                                    {<span>pH</span>}
-                                                                                                }
+                                                                                                    {<span>pH</span>} }
                                                                                             </label>
                                                                                             <input type="number" min="0" id="WaterPhLevel" name="WaterPhLevel" class="form-control" />
                                                                                         </div>
@@ -460,8 +436,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>xiii. ভূমির শ্রেণীবিন্যাস (শতকরা)</span>}
                                                                                             else
-                                                                                            {<span>xiii. Land Type (Percent)</span>}
-                                                                                        }
+                                                                                            {<span>xiii. Land Type (Percent)</span>} }
                                                                                     </label>
 
                                                                                     <hr style="margin-top: 0 !important;" />
@@ -472,8 +447,7 @@
                                                                                                 @{if (language == 1)
                                                                                                     { <span>উচুঁ ভূমি <br />F<sub>0</sub> (০-৩০ সে.মি.)</span>}
                                                                                                     else
-                                                                                                    {<span>High Land <br />F<sub>0</sub> (0-30 cm)</span>}
-                                                                                                }
+                                                                                                    {<span>High Land <br />F<sub>0</sub> (0-30 cm)</span>} }
                                                                                             </label>
                                                                                             <input type="number" min="0" id="HighLandPercent" name="HighLandPercent" class="form-control" />
                                                                                         </div>
@@ -483,8 +457,7 @@
                                                                                                 @{if (language == 1)
                                                                                                     { <span>মধ্যম উচুঁ ভূমি <br />F<sub>1</sub> (৩০-৯০ সে.মি.)</span>}
                                                                                                     else
-                                                                                                    {<span>Medium High Land <br />F<sub>1</sub> (30-90 cm)</span>}
-                                                                                                }
+                                                                                                    {<span>Medium High Land <br />F<sub>1</sub> (30-90 cm)</span>} }
                                                                                             </label>
                                                                                             <input type="number" min="0" id="MediumHighLandPercent" name="MediumHighLandPercent" class="form-control" />
                                                                                         </div>
@@ -494,8 +467,7 @@
                                                                                                 @{if (language == 1)
                                                                                                     { <span>মধ্যম নিচু ভূমি <br />F<sub>2</sub> (৯০-১৮০ সে.মি)</span>}
                                                                                                     else
-                                                                                                    {<span>Medium Low Land <br />F<sub>2</sub> (90-180 cm)</span>}
-                                                                                                }
+                                                                                                    {<span>Medium Low Land <br />F<sub>2</sub> (90-180 cm)</span>} }
                                                                                             </label>
                                                                                             <input type="number" min="0" id="MediumLowLandPercent" name="MediumLowLandPercent" class="form-control" />
                                                                                         </div>
@@ -505,8 +477,7 @@
                                                                                                 @{if (language == 1)
                                                                                                     { <span>নিচু ভূমি <br />F<sub>3</sub> (>১৮০-৩৬০ সে.মি.)</span>}
                                                                                                     else
-                                                                                                    {<span>Low Land <br />F<sub>3</sub> (>180-360 cm)</span>}
-                                                                                                }
+                                                                                                    {<span>Low Land <br />F<sub>3</sub> (>180-360 cm)</span>} }
                                                                                             </label>
                                                                                             <input type="number" min="0" id="LowLandPercent" name="LowLandPercent" class="form-control" />
                                                                                         </div>
@@ -516,8 +487,7 @@
                                                                                                 @{if (language == 1)
                                                                                                     { <span>অত্যন্ত নিচু জমি <br />F<sub>4</sub> (>৩৬০ সে.মি)</span>}
                                                                                                     else
-                                                                                                    {<span>Very Low Land <br />F<sub>4</sub> (>360 cm)</span>}
-                                                                                                }
+                                                                                                    {<span>Very Low Land <br />F<sub>4</sub> (>360 cm)</span>} }
                                                                                             </label>
                                                                                             <input type="number" min="0" id="VeryLowLandPercent" name="VeryLowLandPercent" class="form-control" />
                                                                                         </div>
@@ -529,8 +499,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>xiv. প্রকল্প এলাকার উৎপাদিত শস্য/ ফসলসমূহ</span>}
                                                                                             else
-                                                                                            {<span>xiv. Cultivable Crops</span>}
-                                                                                        }
+                                                                                            {<span>xiv. Cultivable Crops</span>} }
                                                                                     </label>
                                                                                     <input type="text" id="CultivableCrops" name="CultivableCrops" class="form-control" />
                                                                                 </div>
@@ -540,8 +509,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>xv. প্রকল্প এলাকার চাষাবাদকৃত এলাকা (হেক্টর)</span>}
                                                                                             else
-                                                                                            {<span>xv. Irrigated Crop Area (ha)</span>}
-                                                                                        }
+                                                                                            {<span>xv. Irrigated Crop Area (ha)</span>} }
                                                                                     </label>
 
                                                                                     <div id="IrrigatedCropArea" class="row">
@@ -556,8 +524,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>xvi.i ফসল/ খাদ্যশস্য উৎপাদনের পরিমান (টন)</span>}
                                                                                             else
-                                                                                            {<span>xvi.i Crop Production (ton)</span>}
-                                                                                        }
+                                                                                            {<span>xvi.i Crop Production (ton)</span>} }
                                                                                     </label>
                                                                                     <input type="number" min="0" id="CropProduction" name="CropProduction" class="form-control" />
                                                                                 </div>
@@ -567,8 +534,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>xvi.ii ফসল/ খাদ্যশস্য উৎপাদনের পরিমান (টাকায়)</span>}
                                                                                             else
-                                                                                            {<span>xvi.ii Amount of Crop Production (Taka)</span>}
-                                                                                        }
+                                                                                            {<span>xvi.ii Amount of Crop Production (Taka)</span>} }
                                                                                     </label>
                                                                                     <input type="number" min="0" id="CropProductionAmount" name="CropProductionAmount" class="form-control" />
                                                                                 </div>
@@ -576,13 +542,9 @@
                                                                                 <div class="form-group">
                                                                                     <label for="CropProductionAmount">
                                                                                         @if (language == 1)
-                                                                                        {
-                                                                                            <span>xvii. মাছ উৎপাদন এবং বৈচিত্র্য</span>
-                                                                                        }
+                                                                                        {<span>xvii. মাছ উৎপাদন এবং বৈচিত্র্য</span> }
                                                                                         else
-                                                                                        {
-                                                                                            <span>xvii. Fish Production and Diversity</span>
-                                                                                        }
+                                                                                        {<span>xvii. Fish Production and Diversity</span>}
                                                                                     </label>
 
                                                                                     <div id="FishProductionDiversity" class="row">
@@ -597,8 +559,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>xviii. প্রকল্প এলাকার বিদ্যমান গাছপালা, জলজ প্রাণী ও জলজ উদ্ভিদ</span>}
                                                                                             else
-                                                                                            {<span>xviii. Flora and Fauna of Project Area</span>}
-                                                                                        }
+                                                                                            {<span>xviii. Flora and Fauna of Project Area</span>} }
                                                                                     </label>
                                                                                     <input type="text" id="FloraAndFauna" name="FloraAndFauna" class="form-control" />
                                                                                 </div>
@@ -608,8 +569,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>xix. প্রকল্প এলাকার আর্থ সামাজিক অবস্থা</span>}
                                                                                             else
-                                                                                            {<span>xix. Socio Economic Condition of Project Area</span>}
-                                                                                        }
+                                                                                            {<span>xix. Socio Economic Condition of Project Area</span>} }
                                                                                     </legend>
 
                                                                                     <div class="row">
@@ -618,8 +578,7 @@
                                                                                                 @{if (language == 1)
                                                                                                     { <span>ভূমিহীন জনগোষ্ঠী (শতকরা পরিমান)</span>}
                                                                                                     else
-                                                                                                    {<span>Land Less People (%)</span>}
-                                                                                                }
+                                                                                                    {<span>Land Less People (%)</span>} }
                                                                                             </label>
                                                                                             <input type="text" id="LandLessPeoplePercentage" name="LandLessPeoplePercentage" class="form-control" />
                                                                                         </div>
@@ -629,8 +588,7 @@
                                                                                                 @{if (language == 1)
                                                                                                     { <span>ছোট/প্রান্তিক কৃষক (শতকরা পরিমান)</span>}
                                                                                                     else
-                                                                                                    {<span>Small Farmer (%)</span>}
-                                                                                                }
+                                                                                                    {<span>Small Farmer (%)</span>} }
                                                                                             </label>
                                                                                             <input type="text" id="SmallFarmerPercentage" name="SmallFarmerPercentage" class="form-control" />
                                                                                         </div>
@@ -640,8 +598,7 @@
                                                                                                 @{if (language == 1)
                                                                                                     { <span>প্রকল্প এলাকার জনগোষ্ঠীর গড় মাসিক আয়</span>}
                                                                                                     else
-                                                                                                    {<span>Average Monthly Income of Project People</span>}
-                                                                                                }
+                                                                                                    {<span>Average Monthly Income of Project People</span>} }
                                                                                             </label>
                                                                                             <input type="text" id="AvgMonthlyIncome" name="AvgMonthlyIncome" class="form-control" />
                                                                                         </div>
@@ -654,7 +611,7 @@
                                                                     <div class="card">
                                                                         <div class="card-header bg-warning py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase32">
                                                                             <div class="card-widgets">
-                                                                                <a data-toggle="collapse" href="#cardCollpase32" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                                                                                <a data-toggle="collapse" href="#cardCollpase32" role="button" aria-expanded="false" aria-controls="cardCollpase32"><i class="mdi mdi-minus"></i></a>
                                                                             </div>
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == 1)
@@ -670,8 +627,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>i. ইস্যু ও চ্যালেঞ্জ সমূহ বা সমস্যা</span>}
                                                                                             else
-                                                                                            {<span>i. Issue, Challenge or Problem</span>}
-                                                                                        }
+                                                                                            {<span>i. Issue, Challenge or Problem</span>} }
                                                                                     </label>
                                                                                     <input type="text" id="IssueChallageProblem" name="IssueChallageProblem" class="form-control" />
                                                                                 </div>
@@ -682,7 +638,7 @@
                                                                     <div class="card">
                                                                         <div class="card-header bg-info py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase33">
                                                                             <div class="card-widgets">
-                                                                                <a data-toggle="collapse" href="#cardCollpase33" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                                                                                <a data-toggle="collapse" href="#cardCollpase33" role="button" aria-expanded="false" aria-controls="cardCollpase33"><i class="mdi mdi-minus"></i></a>
                                                                             </div>
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == 1)
@@ -698,8 +654,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>i. প্রকল্প প্রণয়ন পর্যায়ে স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
                                                                                             else
-                                                                                            {<span>i. Discussion with Stakeholders During Starting of the Project</span>}
-                                                                                        }
+                                                                                            {<span>i. Discussion with Stakeholders During Starting of the Project</span>} }
                                                                                     </label>
 
                                                                                     <div id="DiscussionStakeholdersDuringStartingProject" class="row" style="margin-left: 5px;">
@@ -709,8 +664,7 @@
                                                                                                 @{if (language == 1)
                                                                                                     { <span>হ্যাঁ</span>}
                                                                                                     else
-                                                                                                    {<span>Yes</span>}
-                                                                                                }
+                                                                                                    {<span>Yes</span>} }
                                                                                             </label>
                                                                                         </div>
 
@@ -720,8 +674,7 @@
                                                                                                 @{if (language == 1)
                                                                                                     { <span>না</span>}
                                                                                                     else
-                                                                                                    {<span>No</span>}
-                                                                                                }
+                                                                                                    {<span>No</span>} }
                                                                                             </label>
                                                                                         </div>
                                                                                     </div>
@@ -732,8 +685,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>ii. আলোচনা সভার ধরণ</span>}
                                                                                             else
-                                                                                            {<span>ii. Types of Consultation</span>}
-                                                                                        }
+                                                                                            {<span>ii. Types of Consultation</span>} }
                                                                                     </label>
 
                                                                                     <select id="TypesOfConsultationId" name="TypesOfConsultationId" class="form-control" style="width: 100%;">
@@ -744,11 +696,9 @@
                                                                                             else
                                                                                             {
                                                                                                 <option value="">Choose...</option>
-                                                                                            }
-                                                                                        }
+                                                                                            } }
 
-                                                                                        @{
-                                                                                            List<LookUpCcModTypesOfConsultation> _toc = ViewBag.TypesOfConsultationId;
+                                                                                        @{ List<LookUpCcModTypesOfConsultation> _toc = ViewBag.TypesOfConsultationId;
 
                                                                                             if (_toc.Count > 0)
                                                                                             {
@@ -763,8 +713,7 @@
                                                                                                         <option value="@toc.TypesOfConsultationId">@toc.ConsultationName</option>
                                                                                                     }
                                                                                                 }
-                                                                                            }
-                                                                                        }
+                                                                                            } }
                                                                                     </select>
                                                                                 </div>
 
@@ -774,8 +723,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>iii. আবেদনকারীর মন্তব্য</span>}
                                                                                             else
-                                                                                            {<span>iii. Applicant Comments</span>}
-                                                                                        }
+                                                                                            {<span>iii. Applicant Comments</span>} }
                                                                                     </label>
                                                                                     <input type="text" id="DiscussWithStakeApplicantCmt" name="DiscussWithStakeApplicantCmt" class="form-control" />
                                                                                 </div>
@@ -786,8 +734,7 @@
                                                                                             @{if (language == 1)
                                                                                                 { <span>iv. ইতিবাচক প্রতিক্রিয়া</span>}
                                                                                                 else
-                                                                                                {<span>iv. Positive Feedback</span>}
-                                                                                            }
+                                                                                                {<span>iv. Positive Feedback</span>} }
                                                                                         </label>
                                                                                         <input type="text" id="DiscussWithStakePosFeedback" name="DiscussWithStakePosFeedback" class="form-control" />
                                                                                     </div>
@@ -798,8 +745,7 @@
                                                                                             @{if (language == 1)
                                                                                                 { <span>v. নেতিবাচক প্রতিক্রিয়া</span>}
                                                                                                 else
-                                                                                                {<span>v. Negative Feedback</span>}
-                                                                                            }
+                                                                                                {<span>v. Negative Feedback</span>} }
                                                                                         </label>
                                                                                         <input type="text" id="DiscussWithStakeNegFeedback" name="DiscussWithStakeNegFeedback" class="form-control" />
                                                                                     </div>
@@ -809,8 +755,7 @@
                                                                                             @{if (language == 1)
                                                                                                 { <span>vi. অংশগ্রহণকারীদের তালিকা</span>}
                                                                                                 else
-                                                                                                {<span>vi. Participant List</span>}
-                                                                                            }
+                                                                                                {<span>vi. Participant List</span>} }
                                                                                         </label>
                                                                                         <div class="input-group">
                                                                                             <div class="custom-file">
@@ -833,8 +778,7 @@
                                                                                             @{if (language == 1)
                                                                                                 { <span>vii. মিটিং মিনিট</span>}
                                                                                                 else
-                                                                                                {<span>vii. Meeting Minutes</span>}
-                                                                                            }
+                                                                                                {<span>vii. Meeting Minutes</span>} }
                                                                                         </label>
                                                                                         <div class="input-group">
                                                                                             <div class="custom-file">
@@ -859,7 +803,7 @@
                                                                     <div class="card">
                                                                         <div class="card-header bg-dark py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase34">
                                                                             <div class="card-widgets">
-                                                                                <a data-toggle="collapse" href="#cardCollpase34" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                                                                                <a data-toggle="collapse" href="#cardCollpase34" role="button" aria-expanded="false" aria-controls="cardCollpase34"><i class="mdi mdi-minus"></i></a>
                                                                             </div>
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == 1)
@@ -873,7 +817,7 @@
                                                                                 <div class="row">
                                                                                     <div class="col-md-12">
                                                                                         @{ await Html.RenderPartialAsync("controls/_AnalyzeOptionFulfillObject.cshtml",
-                                                                                                      new ViewDataDictionary(ViewData) {
+                                                                                                                       new ViewDataDictionary(ViewData) {
                                                                                                     { "vFormLanguage", language }}); }
                                                                                     </div>
                                                                                 </div>
@@ -884,7 +828,7 @@
                                                                     <div class="card">
                                                                         <div class="card-header bg-pink py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase35">
                                                                             <div class="card-widgets">
-                                                                                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                                                                                <a data-toggle="collapse" href="#cardCollpase35" role="button" aria-expanded="false" aria-controls="cardCollpase35"><i class="mdi mdi-minus"></i></a>
                                                                             </div>
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == 1)
@@ -913,7 +857,7 @@
                                                                     <div class="card">
                                                                         <div class="card-header bg-primary py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase36">
                                                                             <div class="card-widgets">
-                                                                                <a data-toggle="collapse" href="#cardCollpase36" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
+                                                                                <a data-toggle="collapse" href="#cardCollpase36" role="button" aria-expanded="false" aria-controls="cardCollpase36"><i class="mdi mdi-minus"></i></a>
                                                                             </div>
                                                                             <h5 class="card-title mb-0 text-white">
                                                                                 @if (language == 1)
@@ -928,8 +872,7 @@
                                                                                     @{if (language == 1)
                                                                                         { <span>i. পরিবেশগত ও সামাজিক প্রভাব</span>}
                                                                                         else
-                                                                                        {<span>i. Environmental and Social Impact Assessment</span>}
-                                                                                    }
+                                                                                        {<span>i. Environmental and Social Impact Assessment</span>} }
                                                                                 </label>
 
                                                                                 <div class="form-group">
@@ -940,8 +883,7 @@
                                                                                                 @{if (language == 1)
                                                                                                     { <span>হ্যাঁ</span>}
                                                                                                     else
-                                                                                                    {<span>Yes</span>}
-                                                                                                }
+                                                                                                    {<span>Yes</span>} }
                                                                                             </label>
                                                                                         </div>
 
@@ -951,8 +893,7 @@
                                                                                                 @{if (language == 1)
                                                                                                     { <span>না</span>}
                                                                                                     else
-                                                                                                    {<span>No</span>}
-                                                                                                }
+                                                                                                    {<span>No</span>} }
                                                                                             </label>
                                                                                         </div>
                                                                                     </div>
@@ -963,8 +904,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>ii. আবেদনকারীর মন্তব্য</span>}
                                                                                             else
-                                                                                            {<span>ii. Applicant Comments</span>}
-                                                                                        }
+                                                                                            {<span>ii. Applicant Comments</span>} }
                                                                                     </label>
                                                                                     <input type="text" id="EnvAndSocialApplicantCmt" name="EnvAndSocialApplicantCmt" class="form-control" />
                                                                                 </div>
@@ -972,7 +912,7 @@
                                                                                 <div class="row">
                                                                                     <div class="col-md-12">
                                                                                         @{ await Html.RenderPartialAsync("controls/_EnvSocImpactAssessment.cshtml",
-                                                                                                     new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
+                                                                                                                      new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -998,8 +938,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>i. অপশন সুপারিশ</span>}
                                                                                             else
-                                                                                            {<span>i. Recommended Option</span>}
-                                                                                        }
+                                                                                            {<span>i. Recommended Option</span>} }
                                                                                     </label>
                                                                                     <input type="text" maxlength="500" id="RecommendedOption" name="RecommendedOption" class="form-control" />
                                                                                 </div>
@@ -1057,8 +996,7 @@
                                                                                         @{if (language == 1)
                                                                                             { <span>ii. আবেদনকারীর মন্তব্য</span>}
                                                                                             else
-                                                                                            {<span>ii. Applicant Comments</span>}
-                                                                                        }
+                                                                                            {<span>ii. Applicant Comments</span>} }
                                                                                     </label>
                                                                                     <input type="text" id="ToolsApplicantComments" name="ToolsApplicantComments" class="form-control" />
                                                                                 </div>
@@ -1069,8 +1007,7 @@
                                                                                             @{if (language == 1)
                                                                                                 { <span>iii. হ্যাঁ হলে সংক্ষিপ্ত বিবরণ</span>}
                                                                                                 else
-                                                                                                {<span>iii. Short Description, If Yes</span>}
-                                                                                            }
+                                                                                                {<span>iii. Short Description, If Yes</span>} }
                                                                                         </label>
 
                                                                                         <input type="text" maxlength="500" id="UseOfAppropToolsDescription" name="UseOfAppropToolsDescription" class="form-control" />
@@ -1097,7 +1034,7 @@
                                                                                 <div class="row">
                                                                                     <div class="col-md-12">
                                                                                         @{ await Html.RenderPartialAsync("controls/_EconomicalFinancialAnalysis.cshtml",
-                                                                                                     new ViewDataDictionary(ViewData) {
+                                                                                                                      new ViewDataDictionary(ViewData) {
                                                                                                     { "vFormLanguage", language }}); }
                                                                                     </div>
                                                                                 </div>
@@ -1112,26 +1049,18 @@
                                                                     <button id="btnSaveTechInfo" type="button" class="btn btn-info waves-effect waves-light">
                                                                         <span class="btn-label"><i class="mdi mdi-content-save"></i></span>
                                                                         @if (language == 1)
-                                                                        {
-                                                                            <span>সংরক্ষণ করুন</span>
-                                                                        }
+                                                                        {<span>সংরক্ষণ করুন</span>}
                                                                         else
-                                                                        {
-                                                                            <span>Save</span>
-                                                                        }
+                                                                        { <span>Save</span>}
                                                                         <span class="myspinner spinner-border spinner-border-sm mr-1 d-none"></span>
                                                                     </button>
 
                                                                     <button id="btnClearTechInfo" type="button" class="btn btn-danger waves-effect waves-light">
                                                                         <span class="btn-label"><i class="mdi mdi-close-outline"></i></span>
                                                                         @if (language == 1)
-                                                                        {
-                                                                            <span>পরিষ্কার করুন</span>
-                                                                        }
+                                                                        {<span>পরিষ্কার করুন</span>}
                                                                         else
-                                                                        {
-                                                                            <span>Clear</span>
-                                                                        }
+                                                                        {<span>Clear</span>}
                                                                     </button>
                                                                 </div>
                                                             </div>
@@ -1140,7 +1069,8 @@
                                                         <div class="tab-pane fade" id="v-deed-obligatory" role="tabpanel" aria-labelledby="v-deed-obligatory-tab">
                                                             <div class="card-box">
                                                                 @{ await Html.RenderPartialAsync("form/_4DeedObligatory",
-                                                                             new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
+                                                                         new ViewDataDictionary(ViewData) {
+                                                                             { "vFormLanguage", language } }); }
                                                             </div>
                                                         </div>
 
@@ -1165,10 +1095,8 @@
 
                             <div class="tab-pane" id="basictab2">
                                 <div class="row">
-                                    @{
-                                        if (ViewBag.ProjectCommonDetail.ProjectId != 0)
-                                            await Html.RenderPartialAsync("preview/_Preview31");
-                                    }
+                                    @{ if (ViewBag.ProjectCommonDetail.ProjectId != 0)
+                                            await Html.RenderPartialAsync("preview/_Preview31"); }
                                 </div>
                             </div>
                         </div>
@@ -1185,6 +1113,14 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function () {
+            $("#btnCollapseAll").click(function () {
+                $(".collapse").collapse('hide');
+            });
+
+            $("#btnExpandAll").click(function () {
+                $(".collapse").collapse('show');
+            });
+
             $("#btnGoBack").click(function () {
                 GoBack();
             });
@@ -1347,17 +1283,17 @@
             });
 
             var ProjectCommonDetail = {
-                "ProjectId": ProjectId,                
+                "ProjectId": ProjectId,
                 "IssueChallageProblem": GetTextValue('IssueChallageProblem'),
                 "YesNoStakeId": GetRadioValue('YesNoStakeId'),
                 "TypesOfConsultationId": GetDropdownValue('TypesOfConsultationId'),
-                "DiscussWithStakeApplicantCmt": GetTextValue('DiscussWithStakeApplicantCmt'),                
+                "DiscussWithStakeApplicantCmt": GetTextValue('DiscussWithStakeApplicantCmt'),
                 "DiscussWithStakePosFeedback": GetTextValue('DiscussWithStakePosFeedback'),
                 "DiscussWithStakeNegFeedback": GetTextValue('DiscussWithStakeNegFeedback'),
                 "AnalyzeOptYesNoId": GetRadioValue('AnalyzeOptYesNoId'),
-                "AnalyzeOptionsApplicantCmt": GetTextValue('AnalyzeOptionsApplicantCmt'),                
+                "AnalyzeOptionsApplicantCmt": GetTextValue('AnalyzeOptionsApplicantCmt'),
                 "EnvAndSocialYesNoId": GetRadioValue('EnvAndSocialYesNoId'),
-                "EnvAndSocialApplicantCmt": GetTextValue('EnvAndSocialApplicantCmt'),                
+                "EnvAndSocialApplicantCmt": GetTextValue('EnvAndSocialApplicantCmt'),
                 "RecommendedOption": GetTextValue('RecommendedOption')
             };
 
@@ -1381,14 +1317,14 @@
                 "VeryLowLandPercent": GetTextValue('VeryLowLandPercent'),
                 "CultivableCrops": GetTextValue('CultivableCrops'),
                 "CropProduction": GetTextValue('CropProduction'),
-                "CropProductionAmount": GetTextValue('CropProductionAmount'),                
+                "CropProductionAmount": GetTextValue('CropProductionAmount'),
                 "TotalFishProduction": GetTextValue('TotalFishProduction'),
                 "FloraAndFauna": GetTextValue('FloraAndFauna'),
                 "LandLessPeoplePercentage": GetTextValue('LandLessPeoplePercentage'),
                 "SmallFarmerPercentage": GetTextValue('SmallFarmerPercentage'),
                 "AvgMonthlyIncome": GetTextValue('AvgMonthlyIncome'),
                 "UseOfToolsYesNoId": GetRadioValue('UseOfToolsYesNoId'),
-                "ToolsApplicantComments": GetTextValue('ToolsApplicantComments'),                
+                "ToolsApplicantComments": GetTextValue('ToolsApplicantComments'),
                 "UseOfAppropToolsDescription": GetTextValue('UseOfAppropToolsDescription')
             };
 
@@ -1485,6 +1421,11 @@
 
         function SetDropdownValue(control, val) {
             return jQuery('#' + control).val(val);
+            //return jQuery('#' + control).val(val).trigger('change');
+        }
+
+        function SetDropdownValueS2(control, val) {
+            return jQuery('#' + control).val(val).trigger('change');
         }
 
         function GetRadioValue(control) {
@@ -1511,14 +1452,27 @@
                 console.log('Form 31 Project Name: ' + pn);
 
                 SetTextValue('ProjectName', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectName)');
+                SetDropdownValueS2('RespectiveAgency', '@Html.Raw(ViewBag.ProjectCommonDetail.RespectiveAgency)');
+                SetDropdownValueS2('RespectiveMinistry', '@Html.Raw(ViewBag.ProjectCommonDetail.RespectiveMinistry)');
+                SetDropdownValueS2('AnyInterventionOfOtherPrj', '@Html.Raw(ViewBag.ProjectCommonDetail.AnyInterventionOfOtherPrj)');
                 SetTextValue('BackgroundAndRationale', '@Html.Raw(ViewBag.ProjectCommonDetail.BackgroundAndRationale)');
                 SetTextValue('ProjectTarget', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectTarget)');
                 SetTextValue('ProjectObjective', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectObjective)');
                 SetTextValue('ProjectActivity', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectActivity)');
-                SetTextValue('ProjectStartDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate)');
-                SetTextValue('ProjectCompletionDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate)');
-                //SetTextValue('ProjectStartDate', 'Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate.ToString("dd/MM/yyyy"))');
-                //SetTextValue('ProjectCompletionDate', 'Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate.ToString("dd/MM/yyyy"))');
+
+                //SetTextValue('ProjectStartDate', 'Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate)');
+                //SetTextValue('ProjectCompletionDate', 'Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate)');
+
+                var project_start_date = '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate)';
+                if (project_start_date != '') {
+                    SetTextValue('ProjectStartDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate.ToString("dd/MM/yyyy"))');
+                }
+
+                var project_compl_date = '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate)';
+                if (project_compl_date != '') {
+                    SetTextValue('ProjectCompletionDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate.ToString("dd/MM/yyyy"))');
+                }
+
                 SetTextValue('ProjectEstimatedCost', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectEstimatedCost)');
                 SetTextValue('ProjectOutcome', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectOutcome)');
                 SetTextValue('ProjectOutput', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectOutput)');
@@ -1585,7 +1539,7 @@
                 }
 
                 SetDropdownValue('TypesOfConsultationId', '@Html.Raw(ViewBag.ProjectCommonDetail.TypesOfConsultationId)');
-                SetTextValue('DiscussWithStakeApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeApplicantCmt)');                
+                SetTextValue('DiscussWithStakeApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeApplicantCmt)');
                 SetTextValue('DiscussWithStakePosFeedback', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakePosFeedback)');
                 SetTextValue('DiscussWithStakeNegFeedback', '@Html.Raw(ViewBag.ProjectCommonDetail.DiscussWithStakeNegFeedback)');
 
@@ -1617,7 +1571,7 @@
                 }
 
                 SetTextValue('AnalyzeOptionsApplicantCmt', '@Html.Raw(ViewBag.ProjectCommonDetail.AnalyzeOptionsApplicantCmt)');
-                
+
                 var EnvAndSocialYesNoId = '@Html.Raw(ViewBag.ProjectCommonDetail.EnvAndSocialYesNoId)';
                 if (EnvAndSocialYesNoId != '') {
                     $(":radio[name='EnvAndSocialYesNoId'][value='" + EnvAndSocialYesNoId + "']").attr('checked', true);
@@ -1671,6 +1625,13 @@
                 } else {
 	                $("#EcoFinAnalysisFileView").attr('href', 'javascript:void(0);').text('No File');
                 }
+
+                var DuplicatYesNoId = '@Html.Raw(ViewBag.ProjectIndvDetail31.DuplicatYesNoId)';
+			    if(DuplicatYesNoId != '')
+				    $(":radio[name='DuplicatYesNoId'][value='" + DuplicatYesNoId + "']").attr('checked', true);
+
+                SetTextValue('DuplicationApplicantComments', '@Html.Raw(ViewBag.ProjectIndvDetail31.DuplicationApplicantComments)');
+                //SetTextValue('DuplicationAuthorityComments', 'Html.Raw(ViewBag.ProjectIndvDetail31.DuplicationAuthorityComments)');
             }
         }
 

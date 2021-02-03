@@ -5,8 +5,7 @@
 
 @{
     WrpCcNocDbContext _db = new WrpCcNocDbContext();
-    CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["aProjectCommonDetail"];
-    CcModAppProject_31_IndvDetail projectindi = (CcModAppProject_31_IndvDetail)ViewData["aProjectIndvDetail31"];
+    CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["aProjectCommonDetail"];    
 
     var prev_lang = ViewData["aFormLanguage"].ToString();
     var prj_type_id = ViewData["aProjectTypeId"].ToString();
@@ -29,53 +28,54 @@
         <td colspan="3">
             <b>
                 @if (prev_lang == "1")
-                {<span>(১) স্থানীয় কর্তৃপক্ষ অনাপত্তি পত্র (NOC)</span>}
+                {<span>(১) স্থানীয় কর্তৃপক্ষ অনাপত্তি পত্র (NOC) (প্রযোজ্য ক্ষেত্রে)</span>}
                 else
-                {<span>(1) Local Authorities No Objection Certificate (NOC)</span>}
+                {<span>(1) Letter of NOC from Local Authority (if applicable)</span>}
             </b>
         </td>
     </tr>
     <tr>
         <td colspan="2">
-            <table style="width:100%; border: 1px solid #CFCFCF; text-align: center;" border="1">
-                <tr>
-                    <th>
-                        @if (prev_lang == "1")
-                        {<span>হ্যাঁ</span>}
-                        else
-                        {<span>NOC Type</span>}
-                    </th>
-                    <th>
-                        @if (prev_lang == "1")
-                        {<span>সংযুক্তি</span>}
-                        else
-                        {<span>Attchments</span>}
-                    </th>
-                </tr>
-                <tr>
-                    <td class="text-left">
-                        @if (pcd.NocTypeId != null)
-                        {
-                            LookUpCcModNocType nt = _db.LookUpCcModNocType.Where(w => w.NocTypeId == pcd.NocTypeId).FirstOrDefault();
+            <a href="~/images/CommonDetails/NocFiles/@pcd.NocFileName" target="_blank">@pcd.NocFileName</a>
+            @*<table style="width:100%; border: 1px solid #CFCFCF; text-align: center;" border="1">
+            <tr>
+                <th>
+                    @if (prev_lang == "1")
+                    {<span>হ্যাঁ</span>}
+                    else
+                    {<span>NOC Type</span>}
+                </th>
+                <th>
+                    @if (prev_lang == "1")
+                    {<span>সংযুক্তি</span>}
+                    else
+                    {<span>Attchments</span>}
+                </th>
+            </tr>
+            <tr>
+                <td class="text-left">
+                    @if (pcd.NocTypeId != null)
+                    {
+                        LookUpCcModNocType nt = _db.LookUpCcModNocType.Where(w => w.NocTypeId == pcd.NocTypeId).FirstOrDefault();
 
-                            if (prev_lang == "1")
-                            {
-                                <span>@nt.NocTypeBn</span>
-                            }
-                            else
-                            {
-                                <span>@nt.NocType</span>
-                            }
+                        if (prev_lang == "1")
+                        {
+                            <span>@nt.NocTypeBn</span>
                         }
-                    </td>
-                    <td style="word-break: break-all;">
-                        <a href="~/images/CommonDetails/NocFiles/@pcd.NocFileName" target="_blank">@pcd.NocFileName</a>
-                    </td>
-                </tr>
-            </table>
+                        else
+                        {
+                            <span>@nt.NocType</span>
+                        }
+                    }
+                </td>
+                <td style="word-break: break-all;">
+                    <a href="~/images/CommonDetails/NocFiles/@pcd.NocFileName" target="_blank">@pcd.NocFileName</a>
+                </td>
+            </tr>
+        </table>*@
         </td>
         <td>
-            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Local Authorities No Objection Certificate', 'LocalAuthoritiesNoC');"
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Letter of NOC from Local Authority', 'LocalAuthoritiesNoC');"
                class="btn btn-sm btn-info waves-effect comment" data-close="false"
                data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">

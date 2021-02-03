@@ -45,7 +45,7 @@
 
                 <div id="form-preview" class="form-preview container">
                     @{ await Html.RenderPartialAsync("preview/_1Header.cshtml",
-                                       new ViewDataDictionary(ViewData) {
+                                        new ViewDataDictionary(ViewData) {
                                { "hFormLanguage", prev_lang },
                                { "hPTID", ProjectTypeId }});
                     }
@@ -53,9 +53,8 @@
                     <br />
 
                     @{ await Html.RenderPartialAsync("preview/_2General.cshtml",
-                                   new ViewDataDictionary(ViewData) {
-                            { "gProjectCommonDetail", pcd},
-                            { "gProjectIndvDetail31", projectindi },
+                                    new ViewDataDictionary(ViewData) {
+                            { "gProjectCommonDetail", pcd},                            
                             { "gProjectLocationDetail", location},
                             { "gFormLanguage", prev_lang },
                             { "gProjectTypeId", ProjectTypeId }});
@@ -955,7 +954,7 @@
                                     {<span>৫. প্রকল্প নথির সাথে ডিজাইন জমা দেওয়া</span>}
                                     else
                                     {<span>5. Design submitted with project document</span>}
-                                </h5>                                
+                                </h5>
                             </td>
                         </tr>
 
@@ -1190,7 +1189,7 @@
                                     {<span>(৯)অর্থনৈতিক ও আর্থিক বিশ্লেষণ</span>}
                                     else
                                     {<span>(9) Economical & Financial Analysis</span>}
-                                </h4>                                
+                                </h4>
                             </td>
                         </tr>
 
@@ -1229,7 +1228,7 @@
                             await Html.RenderPartialAsync("preview/_4Deed.cshtml",
                                   new ViewDataDictionary(ViewData) {
                                         { "dProjectCommonDetail", pcd},
-                                        { "dProjectIndvDetail31", projectindi },
+                                        //{ "dProjectIndvDetail31", projectindi },
                                         { "dCompatNWPDetail", cnwpd },
                                         { "dCompatNWMPDetail", cnwmpd },
                                         { "dCompatSDGDetail", sdgd },
@@ -1241,9 +1240,8 @@
                         }
 
                         @{ await Html.RenderPartialAsync("preview/_5Administrative.cshtml",
-                                                  new ViewDataDictionary(ViewData) {
+                                                   new ViewDataDictionary(ViewData) {
                                         { "aProjectCommonDetail", pcd},
-                                        { "aProjectIndvDetail31", projectindi },
                                         { "aFormLanguage", prev_lang },
                                         { "aProjectTypeId", ProjectTypeId }});
                         }
@@ -1253,7 +1251,7 @@
                     <hr />
 
                     @{ await Html.RenderPartialAsync("preview/_6Footer.cshtml",
-                                               new ViewDataDictionary(ViewData) {
+                                                new ViewDataDictionary(ViewData) {
                                         { "fSignatureFileName", sfn},
                                         { "fApplicantNameBn", anbn },
                                         { "fApplicantName", anen },
@@ -1373,7 +1371,6 @@
     </div>
 </div>
 
-<!-- Modal Popup for Comments -->
 <script type="text/javascript">
     jQuery(document).ready(function () {
         var app_state_id = '@app_state_id';
@@ -1427,7 +1424,7 @@
             } else {
                 popup_msg = 'Application will be forwarded to ' + app_state;
             }
-            
+
             Swal.fire({
                 title: "Are you sure?",
                 html: popup_msg,
@@ -1855,4 +1852,3 @@
         window.location.href = url;
     }
 </script>
-<!-- end -->

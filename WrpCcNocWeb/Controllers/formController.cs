@@ -874,7 +874,7 @@ namespace WrpCcNocWeb.Controllers
             ViewData["ProjectTypeTitleBn"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectTypeBn).FirstOrDefault();
             ViewData["LanguageId"] = pcd.LanguageId ?? sf.LanguageTypeId.ToInt();
             ViewData["SignatureFileName"] = _db.AdminModUsersDetail.Where(w => w.UserId == pcd.UserId).Select(s => s.ApplicantSignature).FirstOrDefault();
-            ViewData["ApplicationState"] = GetAppState(pcd.ApplicationStateId, pcd.IsCompletedId.Value);            
+            ViewData["ApplicationState"] = GetAppState(pcd.ApplicationStateId, pcd.IsCompletedId.Value);
             GetApplicantInfoViewData(pcd.UserId);
         }
 
@@ -889,6 +889,15 @@ namespace WrpCcNocWeb.Controllers
                 return RedirectToAction("login", "account");
             }
 
+            GetF32ViewData(id);
+            return View();
+        }
+
+        private void GetF32ViewData(long id)
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            System.Globalization.DateTimeFormatInfo mfi = new System.Globalization.DateTimeFormatInfo();
+            SelectedForm sf = HttpContext.Session.GetComplexData<SelectedForm>("SelectedForm");
             UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
             ViewData["UserLevel"] = uli.UserGroupId;
             ViewData["UserAuthLevelID"] = uli.AuthorityLevelId;
@@ -913,18 +922,27 @@ namespace WrpCcNocWeb.Controllers
             else
                 ViewData["ProjectIndvDetail32"] = new CcModAppProject_32_IndvDetail();
 
-            var _hydroregiondetail = GetHydrologicalRegion(pcd.ProjectId, pcd.LanguageId ?? 0);
-            ViewData["HydroRegionDetail"] = _hydroregiondetail;
+            var _hydroregionddtl = GetHydrologicalRegion(pcd.ProjectId, pcd.LanguageId ?? 0);
+            ViewData["HydroRegionDetail"] = _hydroregionddtl;
 
-            var _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModDeltPlan2100HotSpot)
+            var _hotspotdtl = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModDeltPlan2100HotSpot)
                                     .Select(x => new BDP2100HotSpotDetailTemp
                                     {
                                         DeltaPlanHotSpotId = x.DeltaPlanHotSpotId,
                                         PlanName = x.LookUpCcModDeltPlan2100HotSpot.PlanName,
                                         PlanNameBn = x.LookUpCcModDeltPlan2100HotSpot.PlanNameBn
                                     }).ToList();
-            ViewData["BDP2100HotSpotDetail"] = _hotspotdetail;
+            ViewData["BDP2100HotSpotDetail"] = _hotspotdtl;
 
+            var _hydrosystemdetail = GetHydroSystemDetail(pcd.ProjectId);
+            ViewData["HydroSystemDetail"] = _hydrosystemdetail;
+
+            List<CcModAnnualRainfallDetailTemp> _annualrainfalldetail = controls.GetAnnualRainfallDetailTemp(pcd.ProjectId);
+            ViewData["AnnualRainfallDetail"] = _annualrainfalldetail;
+
+            var _fishproddivdetail = controls.GetFishProductionDiversityDetailTemp(pcd.ProjectId);
+            ViewData["FishProdDivDetail"] = _fishproddivdetail;
+           
             var _pwudetail = _db.CcModProposedWaterUseDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModProposedWaterUse)
                                     .Select(x => new ProposedWaterUseDetailTemp
                                     {
@@ -934,14 +952,14 @@ namespace WrpCcNocWeb.Controllers
                                     }).ToList();
             ViewData["ProposedWaterUseDetail"] = _pwudetail;
 
-            var _rtdetail = _db.CcModRiverTypeDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModRiverType)
+            var _rndetail = _db.CcModRiverTypeDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModRiverType)
                                     .Select(x => new RiverTypeDetailTemp
                                     {
                                         RiverTypeId = x.RiverTypeId,
                                         RiverTypeName = x.LookUpCcModRiverType.RiverTypeName,
                                         RiverTypeNameBn = x.LookUpCcModRiverType.RiverTypeNameBn
                                     }).ToList();
-            ViewData["RiverTypeDetail"] = _rtdetail;
+            ViewData["RiverNatureDetail"] = _rndetail;
 
             var _towbdetail = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModTypeOfWaterBody)
                                     .Select(x => new TypeOfWaterBodyDetailTemp
@@ -951,9 +969,6 @@ namespace WrpCcNocWeb.Controllers
                                         WaterBodyTypeBn = x.LookUpCcModTypeOfWaterBody.WaterBodyTypeBn
                                     }).ToList();
             ViewData["TypeOfWaterBodyDetail"] = _towbdetail;
-
-            var _hydrosystemdetail = GetHydroSystemDetail(pcd.ProjectId);
-            ViewData["HydroSystemDetail"] = _hydrosystemdetail;
 
             var _sdidetail = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModSediOfRiverOrKhal)
                                     .Select(x => new SediOfRiverOrKhalDetailTemp
@@ -1005,13 +1020,18 @@ namespace WrpCcNocWeb.Controllers
                                         ParameterName = x.LookUpCcModGroundWaterQuality.ParameterName,
                                         ParameterNameBn = x.LookUpCcModGroundWaterQuality.ParameterNameBn
                                     }).ToList();
-            ViewData["GroundWaterQltDetail"] = _gwqdetail;
+            ViewData["GroundWaterQltDetail"] = _gwqdetail;            
 
             var _analyzeoptionsdetail = GetAnalyzeOptionsDetail(pcd.ProjectId);
             ViewData["AnalyzeOptionsDetail"] = _analyzeoptionsdetail;
 
+            #region Design Submit with Project Docs
             var _designsubmitdetail = GetDesignSubmitDetail(pcd.ProjectId);
             ViewData["DesignSubmitDetail"] = _designsubmitdetail;
+
+            var _subdesignsubmitdetail = _db.CcModSubDesignSubmitDetail.Where(w => w.ProjectId == pcd.ProjectId).FirstOrDefault();
+            ViewData["SubDesignSubmitDetail"] = _subdesignsubmitdetail;
+            #endregion
 
             var _ecofinanalysisdetail = GetEcoFinAnalysisDetail(pcd.ProjectId);
             ViewData["EcoFinAnalysisDetail"] = _ecofinanalysisdetail;
@@ -1040,22 +1060,26 @@ namespace WrpCcNocWeb.Controllers
             var _gpwmgrouptype = GetGPWMGroupTypeDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
             ViewData["GPWMGroupType"] = _gpwmgrouptype;
 
-            //var _formcommentslisttemp = GetFormDataAnalysisComments(pcd.ProjectTypeId, pcd.ProjectId);
-            //ViewData["FormCommentsListTemp"] = _formcommentslisttemp;
+            var _formcommentslisttemp = GetFormDataAnalysisComments(pcd.ProjectTypeId, pcd.ProjectId);
+            ViewData["FormCommentsListTemp"] = _formcommentslisttemp;
+
+            var _additionalcomatt = GetAdditionalAttachment(pcd.ProjectId);
+            ViewData["AdditionalCommentAttachment"] = _additionalcomatt;
+
+            var _hearingattachment = GetHearingAttachment(pcd.ProjectId);
+            ViewData["HearingAttachment"] = _hearingattachment;
 
             ViewData["ProjectId"] = pcd.ProjectId;
-            ViewData["Project32IndvId"] = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project32IndvId).FirstOrDefault();
+            ViewData["ProjectIndvId"] = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project32IndvId).FirstOrDefault();
             ViewData["UserId"] = ui.UserID;
             ViewData["ProjectTypeId"] = pcd.ProjectTypeId;
-            ViewData["Title"] = "Surface Water Withdrawal, Distribution or Use | Print";
+            ViewData["Title"] = "Project for Surface Water Withdrawal, Distribution or Use | Print";
             ViewData["ProjectTypeTitle"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectType).FirstOrDefault();
             ViewData["ProjectTypeTitleBn"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectTypeBn).FirstOrDefault();
-            ViewData["LanguageId"] = pcd.LanguageId;
+            ViewData["LanguageId"] = pcd.LanguageId ?? sf.LanguageTypeId.ToInt();
             ViewData["SignatureFileName"] = _db.AdminModUsersDetail.Where(w => w.UserId == pcd.UserId).Select(s => s.ApplicantSignature).FirstOrDefault();
             ViewData["ApplicationState"] = GetAppState(pcd.ApplicationStateId, pcd.IsCompletedId.Value);
             GetApplicantInfoViewData(pcd.UserId);
-
-            return View();
         }
 
         //Form 3.3: Irrigation Project by Surface Water Print View
@@ -2675,182 +2699,8 @@ namespace WrpCcNocWeb.Controllers
                 return RedirectToAction("login", "account");
             }
 
-            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
-            ViewData["UserLevel"] = uli.UserGroupId;
-            ViewData["UserAuthLevelID"] = uli.AuthorityLevelId;
-            ViewData["HigherAuthLevelID"] = GetHighestLevelAuthority();
-            //ChangeStatus(id);
-
-            CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(id);
-
-            if (pcd != null)
-                ViewData["ProjectCommonDetail"] = pcd;
-            else
-                ViewData["ProjectCommonDetail"] = new CcModAppProjectCommonDetail();
-
-            List<ProjectLocationTemp> _locationdetail = GetProjectLocation(pcd.ProjectId);
-            if (_locationdetail.Count > 0)
-                ViewData["ProjectLocationDetail"] = _locationdetail;
-            else
-                ViewData["ProjectLocationDetail"] = new List<CcModPrjLocationDetail>();
-
-            CcModAppProject_32_IndvDetail _indvdetail = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).FirstOrDefault();
-            if (_indvdetail != null)
-                ViewData["ProjectIndvDetail32"] = _indvdetail;
-            else
-                ViewData["ProjectIndvDetail32"] = new CcModAppProject_32_IndvDetail();
-
-            var _hydroregiondetail = GetHydrologicalRegion(pcd.ProjectId, pcd.LanguageId ?? 0);
-            ViewData["HydroRegionDetail"] = _hydroregiondetail;
-
-            var _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModDeltPlan2100HotSpot)
-                                    .Select(x => new BDP2100HotSpotDetailTemp
-                                    {
-                                        DeltaPlanHotSpotId = x.DeltaPlanHotSpotId,
-                                        PlanName = x.LookUpCcModDeltPlan2100HotSpot.PlanName,
-                                        PlanNameBn = x.LookUpCcModDeltPlan2100HotSpot.PlanNameBn
-                                    }).ToList();
-            ViewData["BDP2100HotSpotDetail"] = _hotspotdetail;
-
-            var _pwudetail = _db.CcModProposedWaterUseDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModProposedWaterUse)
-                                    .Select(x => new ProposedWaterUseDetailTemp
-                                    {
-                                        ProposedWaterUseId = x.ProposedWaterUseId,
-                                        WaterUseTypeName = x.LookUpCcModProposedWaterUse.WaterUseTypeName,
-                                        WaterUseTypeNameBn = x.LookUpCcModProposedWaterUse.WaterUseTypeNameBn
-                                    }).ToList();
-            ViewData["ProposedWaterUseDetail"] = _pwudetail;
-
-            var _rtdetail = _db.CcModRiverTypeDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModRiverType)
-                                    .Select(x => new RiverTypeDetailTemp
-                                    {
-                                        RiverTypeId = x.RiverTypeId,
-                                        RiverTypeName = x.LookUpCcModRiverType.RiverTypeName,
-                                        RiverTypeNameBn = x.LookUpCcModRiverType.RiverTypeNameBn
-                                    }).ToList();
-            ViewData["RiverTypeDetail"] = _rtdetail;
-
-            var _towbdetail = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModTypeOfWaterBody)
-                                    .Select(x => new TypeOfWaterBodyDetailTemp
-                                    {
-                                        WaterBodyTypeId = x.WaterBodyTypeId.Value,
-                                        WaterBodyType = x.LookUpCcModTypeOfWaterBody.WaterBodyType,
-                                        WaterBodyTypeBn = x.LookUpCcModTypeOfWaterBody.WaterBodyTypeBn
-                                    }).ToList();
-            ViewData["TypeOfWaterBodyDetail"] = _towbdetail;
-
-            var _hydrosystemdetail = GetHydroSystemDetail(pcd.ProjectId);
-            ViewData["HydroSystemDetail"] = _hydrosystemdetail;
-
-            var _sdidetail = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModSediOfRiverOrKhal)
-                                    .Select(x => new SediOfRiverOrKhalDetailTemp
-                                    {
-                                        SedimentationId = x.SedimentationId.Value,
-                                        SedimentationName = x.LookUpCcModSediOfRiverOrKhal.SedimentationName,
-                                        SedimentationNameBn = x.LookUpCcModSediOfRiverOrKhal.SedimentationNameBn
-                                    }).ToList();
-            ViewData["SediOfRiverOrKhalDetail"] = _sdidetail;
-
-            //var _rivNature = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModRiverType)
-            //                        .Select(x => new RiverNatureDetailTemp
-            //                        {
-            //                            RiverNatureId = x.RiverNatureId.Value,
-            //                            RiverNatureTitle = x.LookUpCcModRiverNature.RiverNatureTitle,
-            //                            RiverNatureTitleBn = x.LookUpCcModRiverNature.RiverNatureTitleBn
-            //                        }).ToList();
-            //ViewData["RiverNatureDetail"] = _rivNature;
-
-            var _swadetail = (from d in _db.CcModPrjSWADetail
-                              where d.ProjectId == pcd.ProjectId
-                              select new SWATemp
-                              {
-                                  SWAId = d.SWAId,
-                                  ProjectId = d.ProjectId,
-                                  MonthId = d.MonthId,
-                                  Month = mfi.GetMonthName(d.MonthId).ToString(),
-                                  MinWaterFlow = d.MinWaterFlow,
-                                  WaterDemandMonth = d.WaterDemandMonth
-                              }).OrderBy(o => o.SWAId).ToList(); ;
-            ViewData["SurfaceWaterAvailDetail"] = _swadetail;
-
-            var _wdsdetail = _db.CcModWaterDiversSourceDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModWtrDiversionSource)
-                                    .Select(x => new WtrDiversionSourceDetailTemp
-                                    {
-                                        WaterDiversionSourceId = x.WaterDiversionSourceId,
-                                        SourceName = x.LookUpCcModWtrDiversionSource.SourceName,
-                                        SourceNameBn = x.LookUpCcModWtrDiversionSource.SourceNameBn
-                                    }).ToList();
-            ViewData["WtrDiversionSourceDetail"] = _wdsdetail;
-
-            var _gwddetail = (from d in _db.CcModPrjGrndWtrDepthDetail
-                              where d.ProjectId == pcd.ProjectId
-                              select new GrndWtrDepthDetailTemp
-                              {
-                                  GrndWtrDepthDetailId = d.GrndWtrDepthDetailId,
-                                  ProjectId = d.ProjectId,
-                                  MonthId = d.MonthId,
-                                  Month = mfi.GetMonthName(d.MonthId).ToString(),
-                                  WaterDepth = d.WaterDepth
-                              }).OrderBy(o => o.GrndWtrDepthDetailId).ToList(); ;
-            ViewData["GrndWtrDepthDetail"] = _gwddetail;
-
-            var _gwqdetail = _db.CcModGroundWaterQualityDetail.Where(w => w.ProjectId == pcd.ProjectId).Include(i => i.LookUpCcModGroundWaterQuality)
-                                    .Select(x => new LookUpCcModGroundWaterQuality
-                                    {
-                                        GroundWaterQualityId = x.GroundWaterQualityId,
-                                        ParameterName = x.LookUpCcModGroundWaterQuality.ParameterName,
-                                        ParameterNameBn = x.LookUpCcModGroundWaterQuality.ParameterNameBn
-                                    }).ToList();
-            ViewData["GroundWaterQltDetail"] = _gwqdetail;
-
-            var _analyzeoptionsdetail = GetAnalyzeOptionsDetail(pcd.ProjectId);
-            ViewData["AnalyzeOptionsDetail"] = _analyzeoptionsdetail;
-
-            var _designsubmitdetail = GetDesignSubmitDetail(pcd.ProjectId);
-            ViewData["DesignSubmitDetail"] = _designsubmitdetail;
-
-            var _ecofinanalysisdetail = GetEcoFinAnalysisDetail(pcd.ProjectId);
-            ViewData["EcoFinAnalysisDetail"] = _ecofinanalysisdetail;
-
-            var _eiadetail = GetEiaDetailTemp(pcd.ProjectId);
-            ViewData["EiaDetailTemp"] = _eiadetail;
-
-            var _siadetail = GetSiaDetailTemp(pcd.ProjectId);
-            ViewData["SiaDetailTemp"] = _siadetail;
-
-            var _compatnwpdetail = GetCompatNWPDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
-            ViewData["CompatNWPDetail"] = _compatnwpdetail;
-
-            var _compatnwmpdetail = GetCompatNWMPDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
-            ViewData["CompatNWMPDetail"] = _compatnwmpdetail;
-
-            var _compatsdgdetail = GetCompatSDGDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
-            ViewData["CompatSDGDetail"] = _compatsdgdetail;
-
-            var _compatsdgindidetail = GetCompatSDGIndicatorDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
-            ViewData["CompatSDGIndiDetail"] = _compatsdgindidetail;
-
-            var _bdp2100goaldetail = GetBDP2100GoalDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
-            ViewData["BDP2100GoalDetail"] = _bdp2100goaldetail;
-
-            var _gpwmgrouptype = GetGPWMGroupTypeDetail(pcd.ProjectId, pcd.LanguageId ?? 0);
-            ViewData["GPWMGroupType"] = _gpwmgrouptype;
-
-            var _formcommentslisttemp = GetFormDataAnalysisComments(pcd.ProjectTypeId, pcd.ProjectId);
-            ViewData["FormCommentsListTemp"] = _formcommentslisttemp;
-
-            ViewData["ProjectId"] = pcd.ProjectId;
-            ViewData["Project32IndvId"] = _db.CcModAppProject_32_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId).Select(s => s.Project32IndvId).FirstOrDefault();
-            ViewData["UserId"] = ui.UserID;
-            ViewData["ProjectTypeId"] = pcd.ProjectTypeId;
-            ViewData["Title"] = "Project for Surface Water Withdrawal, Distribution or Use | Print";
-            ViewData["ProjectTypeTitle"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectType).FirstOrDefault();
-            ViewData["ProjectTypeTitleBn"] = _db.LookUpCcModProjectType.Where(w => w.ProjectTypeId == pcd.ProjectTypeId).Select(s => s.ProjectTypeBn).FirstOrDefault();
-            ViewData["LanguageId"] = pcd.LanguageId;
-            ViewData["SignatureFileName"] = _db.AdminModUsersDetail.Where(w => w.UserId == pcd.UserId).Select(s => s.ApplicantSignature).FirstOrDefault();
-            ViewData["ApplicationState"] = GetAppState(pcd.ApplicationStateId, pcd.IsCompletedId.Value);
-            GetApplicantInfoViewData(pcd.UserId);
-
+            GetF32ViewData(id);
+        
             //return View();
             return new ViewAsPdf("~/Views/form/printform32.cshtml", viewData: ViewData)
             {
@@ -4904,7 +4754,7 @@ namespace WrpCcNocWeb.Controllers
                 return RedirectToAction("index", "form");
             }
 
-            ViewData["Title"] = sf.LanguageTypeId == "1" ? "ভূপরিস্থ পানি সংক্রান্ত প্রকল্প" : "Project for Surface Water";
+            ViewData["Title"] = sf.LanguageTypeId == "1" ? "ভূপরিস্থ পানি আহরণ, সরবরাহ বা ব্যবহার সংক্রান্ত প্রকল্প বা প্রকল্পের অংশবিশেষ" : "Project for Surface Water Withdrawal, Distribution or Use";
             ViewBag.ProjectTypeId = sf.ProjectTypeId;
             ViewBag.ProjectTitle = sf.ProjectTitle;
 
@@ -4951,13 +4801,12 @@ namespace WrpCcNocWeb.Controllers
 
                 var _hydroregiondetail = _db.CcModPrjHydroRegionDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                             .Select(x => new { x.PrjHydroRegionDetailId, x.ProjectId, x.HydroRegionId }).ToList();
-                ViewBag.HydroRegionDetail = _hydroregiondetail;
+                ViewBag.HydrologicalRegionDetail = _hydroregiondetail;
 
                 var _hotspotdetail = _db.CcModBDP2100HotSpotDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                         .Select(x => new { x.HotSpotDetailId, x.ProjectId, x.DeltaPlanHotSpotId }).ToList();
                 ViewBag.BDP2100HotSpotDetail = _hotspotdetail;
-
-
+                
                 var _pwudetail = _db.CcModProposedWaterUseDetail.Where(w => w.ProjectId == _psi.ProjectId).Include(i => i.LookUpCcModProposedWaterUse)
                                     .Select(x => new ProposedWaterUseDetailTemp
                                     {
@@ -5003,30 +4852,34 @@ namespace WrpCcNocWeb.Controllers
                                            x.LookUpCcModNWPArticle.NationalWtrPolicyShortTitle,
                                            x.LookUpCcModNWPArticle.NationalWtrPolicyArticleTitle
                                        }).ToList();
-                ViewBag.CompatNWPDetail = _compatnwpdetail;
+                ViewBag.ConformityNWPDetail = _compatnwpdetail;
 
                 var _compatnwmpdetail = _db.CcModPrjCompatNWMPDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                        .Select(x => new { x.PrjCompatNWMPId, x.ProjectId, x.NWMPProgrammeId, x.LookUpCcModNWMPProgramme.NWMPProgrammeTitle }).ToList();
-                ViewBag.CompatNWMPDetail = _compatnwmpdetail;
+                ViewBag.ConformityNWMPDetail = _compatnwmpdetail;
 
                 var _compatsdgdetail = _db.CcModPrjCompatSDGDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                        .Select(x => new { x.SDGCompabilityId, x.ProjectId, x.SDGGoalId }).ToList();
-                ViewBag.CompatSDGDetail = _compatsdgdetail;
+                ViewBag.ConformitySDGDetail = _compatsdgdetail;
 
                 var _compatsdgindidetail = _db.CcModPrjCompatSDGIndiDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                        .Select(x => new { x.SDGIndicatorDetailId, x.ProjectId, x.SDGIndicatorId }).ToList();
-                ViewBag.CompatSDGIndiDetail = _compatsdgindidetail;
+                ViewBag.ConformitySDGIndiDetail = _compatsdgindidetail;
 
                 var _bdp2100goaldetail = _db.CcModBDP2100GoalDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                        .Select(x => new { x.DeltaGoalDetailId, x.ProjectId, x.DeltPlan2100GoalId }).ToList();
-                ViewBag.BDP2100GoalDetail = _bdp2100goaldetail;
+                ViewBag.ConformityBDP2100GoalDetail = _bdp2100goaldetail;
 
                 var _gpwmgrouptype = _db.CcModGPWMGroupTypeDetail.Where(w => w.ProjectId == _psi.ProjectId)
                                        .Select(x => new { x.GPWMGroupTypeDetailId, x.ProjectId, x.GPWMGroupTypeId }).ToList();
-                ViewBag.GPWMGroupType = _gpwmgrouptype;
+                ViewBag.GuidelineGPWMGroupType = _gpwmgrouptype;
             }
 
             GetApplicantInfo(ui.UserID);
+
+            if (_psi != null)
+                GetF32ViewData(_psi.ProjectId);
+
             return View();
         }
 
@@ -7674,6 +7527,9 @@ namespace WrpCcNocWeb.Controllers
 
         private void LoadDropdownDataForForm311()
         {
+            ViewBag.LookUpMinistry = _db.LookUpMinistry.ToList();
+            ViewBag.LookUpAgency = _db.LookUpAgency.ToList();
+            ViewBag.LookUpAnyInterventionPrj = _db.LookUpCcModAnyInterventionPrj.ToList();
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
 
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList();
@@ -7956,7 +7812,11 @@ namespace WrpCcNocWeb.Controllers
 
         private void LoadDropdownDataForForm312()
         {
+            ViewBag.LookUpMinistry = _db.LookUpMinistry.ToList();
+            ViewBag.LookUpAgency = _db.LookUpAgency.ToList();
+            ViewBag.LookUpAnyInterventionPrj = _db.LookUpCcModAnyInterventionPrj.ToList();
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
+
             ViewBag.LookUpCcModPurposeOfWaterUse = _db.LookUpCcModPurposeOfWaterUse.ToList(); //multi
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList(); //multi
             ViewBag.LookUpCcModDeltPlan2100HotSpot = _db.LookUpCcModDeltPlan2100HotSpot.ToList(); //multi
@@ -8262,7 +8122,11 @@ namespace WrpCcNocWeb.Controllers
 
         private void LoadDropdownDataForForm313()
         {
+            ViewBag.LookUpMinistry = _db.LookUpMinistry.ToList();
+            ViewBag.LookUpAgency = _db.LookUpAgency.ToList();
+            ViewBag.LookUpAnyInterventionPrj = _db.LookUpCcModAnyInterventionPrj.ToList();
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
+
             //ViewBag.LookUpCcModPurposeOfWaterUse = _db.LookUpCcModPurposeOfWaterUse.ToList(); //multi
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList(); //multi
             ViewBag.LookUpCcModDeltPlan2100HotSpot = _db.LookUpCcModDeltPlan2100HotSpot.ToList(); //multi
@@ -8573,8 +8437,7 @@ namespace WrpCcNocWeb.Controllers
             #region Dropdown Data Loading
             ViewBag.LookUpMinistry = _db.LookUpMinistry.ToList();
             ViewBag.LookUpAgency = _db.LookUpAgency.ToList();
-            ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
-
+            ViewBag.LookUpAnyInterventionPrj = _db.LookUpCcModAnyInterventionPrj.ToList();
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
 
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList();
@@ -8605,6 +8468,9 @@ namespace WrpCcNocWeb.Controllers
         private void LoadDropdownDataForForm32()
         {
             #region Dropdown Data Loading
+            ViewBag.LookUpMinistry = _db.LookUpMinistry.ToList();
+            ViewBag.LookUpAgency = _db.LookUpAgency.ToList();
+            ViewBag.LookUpAnyInterventionPrj = _db.LookUpCcModAnyInterventionPrj.ToList();
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
             //ViewBag.LookUpAdminBndUpazila = _db.LookUpAdminBndUpazila.ToList();
             //ViewBag.LookUpAdminBndUnion = _db.LookUpAdminBndUnion.ToList();
@@ -8618,6 +8484,8 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.LookUpCcModSediOfRiverOrKhal = _db.LookUpCcModSediOfRiverOrKhal.ToList();
             ViewBag.LookUpCcModWtrDiversionSource = _db.LookUpCcModWtrDiversionSource.ToList();
             ViewBag.LookUpCcModGroundWaterQuality = _db.LookUpCcModGroundWaterQuality.ToList();
+
+            ViewBag.TypesOfConsultationId = _db.LookUpCcModTypesOfConsultation.ToList();
 
             ViewBag.LookUpCcModTypeOfFlood = _db.LookUpCcModTypeOfFlood.ToList();
             ViewBag.FloodFrequencyId = _db.LookUpCcModFloodFrequency.ToList();
@@ -8641,6 +8509,9 @@ namespace WrpCcNocWeb.Controllers
         private void LoadDropdownDataForForm33()
         {
             #region Dropdown Data Loading
+            ViewBag.LookUpMinistry = _db.LookUpMinistry.ToList();
+            ViewBag.LookUpAgency = _db.LookUpAgency.ToList();
+            ViewBag.LookUpAnyInterventionPrj = _db.LookUpCcModAnyInterventionPrj.ToList();
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
 
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList();
@@ -8670,6 +8541,9 @@ namespace WrpCcNocWeb.Controllers
         private void LoadDropdownDataForForm34()
         {
             #region Dropdown Data Loading
+            ViewBag.LookUpMinistry = _db.LookUpMinistry.ToList();
+            ViewBag.LookUpAgency = _db.LookUpAgency.ToList();
+            ViewBag.LookUpAnyInterventionPrj = _db.LookUpCcModAnyInterventionPrj.ToList();
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
 
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList();
@@ -8708,6 +8582,9 @@ namespace WrpCcNocWeb.Controllers
         private void LoadDropdownDataForForm35()
         {
             #region Dropdown Data Loading
+            ViewBag.LookUpMinistry = _db.LookUpMinistry.ToList();
+            ViewBag.LookUpAgency = _db.LookUpAgency.ToList();
+            ViewBag.LookUpAnyInterventionPrj = _db.LookUpCcModAnyInterventionPrj.ToList();
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
 
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList();
@@ -8749,6 +8626,9 @@ namespace WrpCcNocWeb.Controllers
         private void LoadDropdownDataForForm36()
         {
             #region Dropdown Data Loading
+            ViewBag.LookUpMinistry = _db.LookUpMinistry.ToList();
+            ViewBag.LookUpAgency = _db.LookUpAgency.ToList();
+            ViewBag.LookUpAnyInterventionPrj = _db.LookUpCcModAnyInterventionPrj.ToList();
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
 
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList();
@@ -8789,6 +8669,9 @@ namespace WrpCcNocWeb.Controllers
         private void LoadDropdownDataForForm37()
         {
             #region Dropdown Data Loading
+            ViewBag.LookUpMinistry = _db.LookUpMinistry.ToList();
+            ViewBag.LookUpAgency = _db.LookUpAgency.ToList();
+            ViewBag.LookUpAnyInterventionPrj = _db.LookUpCcModAnyInterventionPrj.ToList();
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
 
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList();
@@ -8821,6 +8704,9 @@ namespace WrpCcNocWeb.Controllers
         private void LoadDropdownDataForForm38()
         {
             #region Dropdown Data Loading
+            ViewBag.LookUpMinistry = _db.LookUpMinistry.ToList();
+            ViewBag.LookUpAgency = _db.LookUpAgency.ToList();
+            ViewBag.LookUpAnyInterventionPrj = _db.LookUpCcModAnyInterventionPrj.ToList();
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
 
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList();
@@ -8858,6 +8744,9 @@ namespace WrpCcNocWeb.Controllers
         private void LoadDropdownDataForForm39()
         {
             #region Dropdown Data Loading
+            ViewBag.LookUpMinistry = _db.LookUpMinistry.ToList();
+            ViewBag.LookUpAgency = _db.LookUpAgency.ToList();
+            ViewBag.LookUpAnyInterventionPrj = _db.LookUpCcModAnyInterventionPrj.ToList();
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
 
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList();
@@ -8897,6 +8786,9 @@ namespace WrpCcNocWeb.Controllers
         private void LoadDropdownDataForForm310()
         {
             #region Dropdown Data Loading
+            ViewBag.LookUpMinistry = _db.LookUpMinistry.ToList();
+            ViewBag.LookUpAgency = _db.LookUpAgency.ToList();
+            ViewBag.LookUpAnyInterventionPrj = _db.LookUpCcModAnyInterventionPrj.ToList();
             ViewBag.LookUpAdminBndDistrict = _db.LookUpAdminBndDistrict.ToList();
 
             ViewBag.LookUpCcModHydroRegion = _db.LookUpCcModHydroRegion.ToList();
@@ -9002,6 +8894,11 @@ namespace WrpCcNocWeb.Controllers
                         if (pcd != null)
                         {
                             pcd.ProjectName = _pcd.ProjectName;
+
+                            pcd.RespectiveMinistry = _pcd.RespectiveMinistry;
+                            pcd.RespectiveAgency = _pcd.RespectiveAgency;
+                            pcd.AnyInterventionOfOtherPrj = _pcd.AnyInterventionOfOtherPrj;
+
                             pcd.BackgroundAndRationale = _pcd.BackgroundAndRationale.RemoveTabNewLineCarriageReturn();
                             pcd.ProjectTarget = _pcd.ProjectTarget.RemoveTabNewLineCarriageReturn();
                             pcd.ProjectObjective = _pcd.ProjectObjective.RemoveTabNewLineCarriageReturn();
@@ -9009,8 +8906,8 @@ namespace WrpCcNocWeb.Controllers
                             pcd.ProjectStartDate = _pcd.ProjectStartDate;
                             pcd.ProjectCompletionDate = _pcd.ProjectCompletionDate;
                             pcd.ProjectEstimatedCost = _pcd.ProjectEstimatedCost;
-                            pcd.ProjectOutcome = _pcd.ProjectOutcome;
-                            pcd.ProjectOutput = _pcd.ProjectOutput;
+                            pcd.ProjectOutcome = _pcd.ProjectOutcome.RemoveTabNewLineCarriageReturn();
+                            pcd.ProjectOutput = _pcd.ProjectOutput.RemoveTabNewLineCarriageReturn();
                             pcd.LanguageId = sf.LanguageTypeId.ToInt();
                             pcd.IsCompletedId = 0;
 
@@ -11847,17 +11744,17 @@ namespace WrpCcNocWeb.Controllers
         //Deed Obligatory
         //form/Form31DeedObligatoryOneToOneSave :: f31otos        
         [HttpPost]
-        public JsonResult f31dootos(Form31DeedObligatory _form31DeedObli)
+        public JsonResult f31dootos(Form31DeedObligatory _formDeedObli)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             using var dbContextTransaction = _db.Database.BeginTransaction();
             int result = 0;
-            Int64 ProjectId = _form31DeedObli.CommonDetail.ProjectId;
-            Int64 Project31IndvId = _form31DeedObli.Project31Indv.Project31IndvId;
+            Int64 ProjectId = _formDeedObli.CommonDetail.ProjectId;
+            Int64 Project31IndvId = _formDeedObli.Project31Indv.Project31IndvId;
 
             try
             {
-                if (_form31DeedObli != null && ProjectId != 0)
+                if (_formDeedObli != null && ProjectId != 0)
                 {
                     try
                     {
@@ -11889,15 +11786,15 @@ namespace WrpCcNocWeb.Controllers
                         }
 
                         #region getting client end data
-                        CcModAppProjectCommonDetail CommonDetail = _form31DeedObli.CommonDetail;
-                        CcModAppProject_31_IndvDetail Project31Indv = _form31DeedObli.Project31Indv;
+                        CcModAppProjectCommonDetail CommonDetail = _formDeedObli.CommonDetail;
+                        CcModAppProject_31_IndvDetail Project31Indv = _formDeedObli.Project31Indv;
 
-                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _form31DeedObli.CompatNWPDetail;
-                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _form31DeedObli.CompatNWMPDetail;
-                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _form31DeedObli.CompatSDGDetail;
-                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _form31DeedObli.CompatSDGIndiDetail;
-                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _form31DeedObli.BDP2100GoalDetail;
-                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _form31DeedObli.GPWMGroupTypeDetail;
+                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _formDeedObli.CompatNWPDetail;
+                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _formDeedObli.CompatNWMPDetail;
+                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _formDeedObli.CompatSDGDetail;
+                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _formDeedObli.CompatSDGIndiDetail;
+                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _formDeedObli.BDP2100GoalDetail;
+                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _formDeedObli.GPWMGroupTypeDetail;
                         #endregion
 
                         #region Common Detail Data Binding
@@ -11943,6 +11840,7 @@ namespace WrpCcNocWeb.Controllers
                         pcd.GuidelinesFollowedYesNoId = CommonDetail.GuidelinesFollowedYesNoId;
                         pcd.GuidelinesFollowedAppCmt = CommonDetail.GuidelinesFollowedAppCmt;
                         //pcd.GuidelinesFollowedAuthCmt = CommonDetail.GuidelinesFollowedAuthCmt;
+                        pcd.AnyGovCircularName = CommonDetail.AnyGovCircularName;
                         #endregion
 
                         #region Project 31 Individual Data Binding
@@ -12243,18 +12141,26 @@ namespace WrpCcNocWeb.Controllers
                         #endregion
 
                         #region Common Detail Data Binding
-                        pcd.AnnualRainFallLast1Year = CommonDetail.AnnualRainFallLast1Year;
-                        pcd.AnnualRainFallLast2Years = CommonDetail.AnnualRainFallLast2Years;
-                        pcd.AnnualRainFallLast3Years = CommonDetail.AnnualRainFallLast3Years;
-                        pcd.AnnualRainFallLast4Years = CommonDetail.AnnualRainFallLast4Years;
-                        pcd.AnnualRainFallLast5Years = CommonDetail.AnnualRainFallLast5Years;
+                        //pcd.AnnualRainFallLast1Year = CommonDetail.AnnualRainFallLast1Year;
+                        //pcd.AnnualRainFallLast2Years = CommonDetail.AnnualRainFallLast2Years;
+                        //pcd.AnnualRainFallLast3Years = CommonDetail.AnnualRainFallLast3Years;
+                        //pcd.AnnualRainFallLast4Years = CommonDetail.AnnualRainFallLast4Years;
+                        //pcd.AnnualRainFallLast5Years = CommonDetail.AnnualRainFallLast5Years;
                         pcd.IssueChallageProblem = CommonDetail.IssueChallageProblem;
+                        pcd.YesNoStakeId = CommonDetail.YesNoStakeId;
+                        pcd.TypesOfConsultationId = CommonDetail.TypesOfConsultationId;
+                        pcd.DiscussWithStakeApplicantCmt = CommonDetail.DiscussWithStakeApplicantCmt;
+                        pcd.DiscussWithStakeAuthorityCmt = CommonDetail.DiscussWithStakeAuthorityCmt;
+                        pcd.DiscussWithStakePosFeedback = CommonDetail.DiscussWithStakePosFeedback;
+                        pcd.DiscussWithStakeNegFeedback = CommonDetail.DiscussWithStakeNegFeedback;
+                        //pcd.DiscussWithStakeParticipntLst //file
+                        //pcd.DiscussWithStakeMeetingMin //file
                         pcd.AnalyzeOptYesNoId = CommonDetail.AnalyzeOptYesNoId;
                         pcd.AnalyzeOptionsApplicantCmt = CommonDetail.AnalyzeOptionsApplicantCmt;
-                        pcd.AnalyzeOptionsAuthorityCmt = CommonDetail.AnalyzeOptionsAuthorityCmt;
+                        //pcd.AnalyzeOptionsAuthorityCmt = CommonDetail.AnalyzeOptionsAuthorityCmt;
                         pcd.EnvAndSocialYesNoId = CommonDetail.EnvAndSocialYesNoId;
                         pcd.EnvAndSocialApplicantCmt = CommonDetail.EnvAndSocialApplicantCmt;
-                        pcd.EnvAndSocialAuthorityCmt = CommonDetail.EnvAndSocialAuthorityCmt;
+                        //pcd.EnvAndSocialAuthorityCmt = CommonDetail.EnvAndSocialAuthorityCmt;
                         #endregion
 
                         _db.Entry(pcd).State = EntityState.Modified;
@@ -12434,6 +12340,7 @@ namespace WrpCcNocWeb.Controllers
                                 p32i.FishDiversity = Project32Indv.FishDiversity;
                                 p32i.FishMigration = Project32Indv.FishMigration;
                                 p32i.FloraAndFauna = Project32Indv.FloraAndFauna;
+                                p32i.SurfaceWaterDemandPerDay = Project32Indv.SurfaceWaterDemandPerDay;
                                 p32i.WaterWithdrawQuantityPerDay = Project32Indv.WaterWithdrawQuantityPerDay;
                                 p32i.UseOfFlowMeterMeasrYNId = Project32Indv.UseOfFlowMeterMeasrYNId;
                                 p32i.NoOfPump = Project32Indv.NoOfPump;
@@ -12446,7 +12353,10 @@ namespace WrpCcNocWeb.Controllers
                                 p32i.WaterPhLevel = Project32Indv.WaterPhLevel;
                                 p32i.UseOfToolsYesNoId = Project32Indv.UseOfToolsYesNoId;
                                 p32i.ToolsApplicantComments = Project32Indv.ToolsApplicantComments;
-                                p32i.ToolsAuthorityComments = Project32Indv.ToolsAuthorityComments;
+                                p32i.DrainageConditionOther = Project32Indv.DrainageConditionOther;
+                                p32i.TotalFishProduction = Project32Indv.TotalFishProduction;
+                                p32i.UseOfAppropToolsDescription = Project32Indv.UseOfAppropToolsDescription;
+                                //p32i.ToolsAuthorityComments = Project32Indv.ToolsAuthorityComments;
                                 #endregion
 
                                 _db.Entry(p32i).State = EntityState.Modified;
@@ -12525,17 +12435,17 @@ namespace WrpCcNocWeb.Controllers
         //Deed Obligatory
         //form/Form31DeedObligatoryOneToOneSave :: f31otos        
         [HttpPost]
-        public JsonResult f32dootos(Form32DeedObligatory _form32DeedObli)
+        public JsonResult f32dootos(Form32DeedObligatory _formDeedObli)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             using var dbContextTransaction = _db.Database.BeginTransaction();
             int result = 0;
-            Int64 ProjectId = _form32DeedObli.CommonDetail.ProjectId;
-            Int64 Project32IndvId = _form32DeedObli.Project32Indv.Project32IndvId;
+            Int64 ProjectId = _formDeedObli.CommonDetail.ProjectId;
+            Int64 Project32IndvId = _formDeedObli.Project32Indv.Project32IndvId;
 
             try
             {
-                if (_form32DeedObli != null && ProjectId != 0)
+                if (_formDeedObli != null && ProjectId != 0)
                 {
                     try
                     {
@@ -12567,65 +12477,69 @@ namespace WrpCcNocWeb.Controllers
                         }
 
                         #region getting client end data
-                        CcModAppProjectCommonDetail CommonDetail = _form32DeedObli.CommonDetail;
-                        CcModAppProject_32_IndvDetail Project32Indv = _form32DeedObli.Project32Indv;
+                        CcModAppProjectCommonDetail CommonDetail = _formDeedObli.CommonDetail;
+                        CcModAppProject_32_IndvDetail Project32Indv = _formDeedObli.Project32Indv;
 
-                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _form32DeedObli.CompatNWPDetail;
-                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _form32DeedObli.CompatNWMPDetail;
-                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _form32DeedObli.CompatSDGDetail;
-                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _form32DeedObli.CompatSDGIndiDetail;
-                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _form32DeedObli.BDP2100GoalDetail;
-                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _form32DeedObli.GPWMGroupTypeDetail;
+                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _formDeedObli.CompatNWPDetail;
+                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _formDeedObli.CompatNWMPDetail;
+                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _formDeedObli.CompatSDGDetail;
+                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _formDeedObli.CompatSDGIndiDetail;
+                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _formDeedObli.BDP2100GoalDetail;
+                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _formDeedObli.GPWMGroupTypeDetail;
                         #endregion
 
                         #region Common Detail Data Binding
                         pcd.CompatNWPYesNoId = CommonDetail.CompatNWPYesNoId;
                         pcd.CompatibilityNWPApplicantCmt = CommonDetail.CompatibilityNWPApplicantCmt;
-                        pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
+                        //pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
                         //pcd.CompatibilityNWPDocLink //file
                         pcd.NWMPCompatYesNoId = CommonDetail.NWMPCompatYesNoId;
                         pcd.NWMPApplicantCmt = CommonDetail.NWMPApplicantCmt;
-                        pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
+                        //pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
                         //pcd.NWMPDocLink //file
                         pcd.FYPYesNoId = CommonDetail.FYPYesNoId;
                         pcd.FYPApplicantCmt = CommonDetail.FYPApplicantCmt;
-                        pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
+                        //pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
                         pcd.SDGYesNoId = CommonDetail.SDGYesNoId;
                         pcd.SDGApplicantCmt = CommonDetail.SDGApplicantCmt;
-                        pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
+                        //pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
                         //pcd.SDGDocLink //file
                         pcd.DeltaPlanYesNoId = CommonDetail.DeltaPlanYesNoId;
                         pcd.DeltaPlan2100ApplicantCmt = CommonDetail.DeltaPlan2100ApplicantCmt;
-                        pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
+                        //pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
                         //pcd.DeltaPlan2100DocLink //file
                         pcd.CostalZoneYesNoId = CommonDetail.CostalZoneYesNoId;
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
-                        pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
+                        //pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
                         pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
                         pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
-                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
                         //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
-                        pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
+                        //pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
                         //pcd.AgriDocLink //file
                         pcd.FisheriesYesNoId = CommonDetail.FisheriesYesNoId;
                         pcd.FisheriesApplicantCmt = CommonDetail.FisheriesApplicantCmt;
-                        pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
+                        //pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
                         //pcd.FisheriesDocLink //file
                         pcd.IWRMYesNoId = CommonDetail.IWRMYesNoId;
                         pcd.IWRMApplicantCmt = CommonDetail.IWRMApplicantCmt;
-                        pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
+                        //pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
                         pcd.GPWMYesNoId = CommonDetail.GPWMYesNoId;
                         pcd.GPWMApplicantCmt = CommonDetail.GPWMApplicantCmt;
-                        pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
+                        //pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
                         pcd.FeasibilityYesNoId = CommonDetail.FeasibilityYesNoId;
                         pcd.FeasibilityApplicantCmt = CommonDetail.FeasibilityApplicantCmt;
-                        pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
+                        //pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
                         pcd.SocialIssuesYesNoId = CommonDetail.SocialIssuesYesNoId;
-                        pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;
-                        pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;                        
+                        //pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        pcd.GuidelinesFollowedYesNoId = CommonDetail.GuidelinesFollowedYesNoId;
+                        pcd.GuidelinesFollowedAppCmt = CommonDetail.GuidelinesFollowedAppCmt;
+                        //pcd.GuidelinesFollowedAuthCmt = CommonDetail.GuidelinesFollowedAuthCmt;
+                        pcd.AnyGovCircularName = CommonDetail.AnyGovCircularName;
                         #endregion
 
                         #region Project 32 Individual Data Binding
@@ -13076,17 +12990,17 @@ namespace WrpCcNocWeb.Controllers
         //Deed Obligatory
         //form/Form31DeedObligatoryOneToOneSave :: f31otos        
         [HttpPost]
-        public JsonResult f33dootos(Form33DeedObligatory _form33DeedObli)
+        public JsonResult f33dootos(Form33DeedObligatory _formDeedObli)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             using var dbContextTransaction = _db.Database.BeginTransaction();
             int result = 0;
-            Int64 ProjectId = _form33DeedObli.CommonDetail.ProjectId;
-            Int64 Project33IndvId = _form33DeedObli.Project33Indv.Project33IndvId;
+            Int64 ProjectId = _formDeedObli.CommonDetail.ProjectId;
+            Int64 Project33IndvId = _formDeedObli.Project33Indv.Project33IndvId;
 
             try
             {
-                if (_form33DeedObli != null && ProjectId != 0)
+                if (_formDeedObli != null && ProjectId != 0)
                 {
                     try
                     {
@@ -13118,64 +13032,68 @@ namespace WrpCcNocWeb.Controllers
                         }
 
                         #region getting client end data
-                        CcModAppProjectCommonDetail CommonDetail = _form33DeedObli.CommonDetail;
-                        CcModAppProject_33_IndvDetail Project33Indv = _form33DeedObli.Project33Indv;
-                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _form33DeedObli.CompatNWPDetail;
-                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _form33DeedObli.CompatNWMPDetail;
-                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _form33DeedObli.CompatSDGDetail;
-                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _form33DeedObli.CompatSDGIndiDetail;
-                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _form33DeedObli.BDP2100GoalDetail;
-                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _form33DeedObli.GPWMGroupTypeDetail;
+                        CcModAppProjectCommonDetail CommonDetail = _formDeedObli.CommonDetail;
+                        CcModAppProject_33_IndvDetail Project33Indv = _formDeedObli.Project33Indv;
+                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _formDeedObli.CompatNWPDetail;
+                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _formDeedObli.CompatNWMPDetail;
+                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _formDeedObli.CompatSDGDetail;
+                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _formDeedObli.CompatSDGIndiDetail;
+                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _formDeedObli.BDP2100GoalDetail;
+                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _formDeedObli.GPWMGroupTypeDetail;
                         #endregion
 
                         #region Common Detail Data Binding
                         pcd.CompatNWPYesNoId = CommonDetail.CompatNWPYesNoId;
                         pcd.CompatibilityNWPApplicantCmt = CommonDetail.CompatibilityNWPApplicantCmt;
-                        pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
+                        //pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
                         //pcd.CompatibilityNWPDocLink //file
                         pcd.NWMPCompatYesNoId = CommonDetail.NWMPCompatYesNoId;
                         pcd.NWMPApplicantCmt = CommonDetail.NWMPApplicantCmt;
-                        pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
+                        //pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
                         //pcd.NWMPDocLink //file
                         pcd.FYPYesNoId = CommonDetail.FYPYesNoId;
                         pcd.FYPApplicantCmt = CommonDetail.FYPApplicantCmt;
-                        pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
+                        //pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
                         pcd.SDGYesNoId = CommonDetail.SDGYesNoId;
                         pcd.SDGApplicantCmt = CommonDetail.SDGApplicantCmt;
-                        pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
+                        //pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
                         //pcd.SDGDocLink //file
                         pcd.DeltaPlanYesNoId = CommonDetail.DeltaPlanYesNoId;
                         pcd.DeltaPlan2100ApplicantCmt = CommonDetail.DeltaPlan2100ApplicantCmt;
-                        pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
+                        //pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
                         //pcd.DeltaPlan2100DocLink //file
                         pcd.CostalZoneYesNoId = CommonDetail.CostalZoneYesNoId;
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
-                        pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
+                        //pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
                         pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
                         pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
-                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
                         //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
-                        pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
+                        //pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
                         //pcd.AgriDocLink //file
                         pcd.FisheriesYesNoId = CommonDetail.FisheriesYesNoId;
                         pcd.FisheriesApplicantCmt = CommonDetail.FisheriesApplicantCmt;
-                        pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
+                        //pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
                         //pcd.FisheriesDocLink //file
                         pcd.IWRMYesNoId = CommonDetail.IWRMYesNoId;
                         pcd.IWRMApplicantCmt = CommonDetail.IWRMApplicantCmt;
-                        pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
+                        //pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
                         pcd.GPWMYesNoId = CommonDetail.GPWMYesNoId;
                         pcd.GPWMApplicantCmt = CommonDetail.GPWMApplicantCmt;
-                        pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
+                        //pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
                         pcd.FeasibilityYesNoId = CommonDetail.FeasibilityYesNoId;
                         pcd.FeasibilityApplicantCmt = CommonDetail.FeasibilityApplicantCmt;
-                        pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
+                        //pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
                         pcd.SocialIssuesYesNoId = CommonDetail.SocialIssuesYesNoId;
-                        pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;
-                        pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;                        
+                        //pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        pcd.GuidelinesFollowedYesNoId = CommonDetail.GuidelinesFollowedYesNoId;
+                        pcd.GuidelinesFollowedAppCmt = CommonDetail.GuidelinesFollowedAppCmt;
+                        //pcd.GuidelinesFollowedAuthCmt = CommonDetail.GuidelinesFollowedAuthCmt;
+                        pcd.AnyGovCircularName = CommonDetail.AnyGovCircularName;
                         #endregion
 
                         #region Project 33 Individual Data Binding
@@ -13610,17 +13528,17 @@ namespace WrpCcNocWeb.Controllers
         //Deed Obligatory
         //form/Form34DeedObligatoryOneToOneSave :: f34otos        
         [HttpPost]
-        public JsonResult f34dootos(Form34DeedObligatory _form34DeedObli)
+        public JsonResult f34dootos(Form34DeedObligatory _formDeedObli)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             using var dbContextTransaction = _db.Database.BeginTransaction();
             int result = 0;
-            Int64 ProjectId = _form34DeedObli.CommonDetail.ProjectId;
-            Int64 Project34IndvId = _form34DeedObli.Project34Indv.Project34IndvId;
+            Int64 ProjectId = _formDeedObli.CommonDetail.ProjectId;
+            Int64 Project34IndvId = _formDeedObli.Project34Indv.Project34IndvId;
 
             try
             {
-                if (_form34DeedObli != null && ProjectId != 0)
+                if (_formDeedObli != null && ProjectId != 0)
                 {
                     try
                     {
@@ -13652,64 +13570,68 @@ namespace WrpCcNocWeb.Controllers
                         }
 
                         #region getting client end data
-                        CcModAppProjectCommonDetail CommonDetail = _form34DeedObli.CommonDetail;
-                        CcModAppProject_34_IndvDetail Project34Indv = _form34DeedObli.Project34Indv;
-                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _form34DeedObli.CompatNWPDetail;
-                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _form34DeedObli.CompatNWMPDetail;
-                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _form34DeedObli.CompatSDGDetail;
-                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _form34DeedObli.CompatSDGIndiDetail;
-                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _form34DeedObli.BDP2100GoalDetail;
-                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _form34DeedObli.GPWMGroupTypeDetail;
+                        CcModAppProjectCommonDetail CommonDetail = _formDeedObli.CommonDetail;
+                        CcModAppProject_34_IndvDetail Project34Indv = _formDeedObli.Project34Indv;
+                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _formDeedObli.CompatNWPDetail;
+                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _formDeedObli.CompatNWMPDetail;
+                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _formDeedObli.CompatSDGDetail;
+                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _formDeedObli.CompatSDGIndiDetail;
+                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _formDeedObli.BDP2100GoalDetail;
+                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _formDeedObli.GPWMGroupTypeDetail;
                         #endregion
 
                         #region Common Detail Data Binding
                         pcd.CompatNWPYesNoId = CommonDetail.CompatNWPYesNoId;
                         pcd.CompatibilityNWPApplicantCmt = CommonDetail.CompatibilityNWPApplicantCmt;
-                        pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
+                        //pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
                         //pcd.CompatibilityNWPDocLink //file
                         pcd.NWMPCompatYesNoId = CommonDetail.NWMPCompatYesNoId;
                         pcd.NWMPApplicantCmt = CommonDetail.NWMPApplicantCmt;
-                        pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
+                        //pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
                         //pcd.NWMPDocLink //file
                         pcd.FYPYesNoId = CommonDetail.FYPYesNoId;
                         pcd.FYPApplicantCmt = CommonDetail.FYPApplicantCmt;
-                        pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
+                        //pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
                         pcd.SDGYesNoId = CommonDetail.SDGYesNoId;
                         pcd.SDGApplicantCmt = CommonDetail.SDGApplicantCmt;
-                        pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
+                        //pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
                         //pcd.SDGDocLink //file
                         pcd.DeltaPlanYesNoId = CommonDetail.DeltaPlanYesNoId;
                         pcd.DeltaPlan2100ApplicantCmt = CommonDetail.DeltaPlan2100ApplicantCmt;
-                        pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
+                        //pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
                         //pcd.DeltaPlan2100DocLink //file
                         pcd.CostalZoneYesNoId = CommonDetail.CostalZoneYesNoId;
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
-                        pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
+                        //pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
                         pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
                         pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
-                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
                         //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
-                        pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
+                        //pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
                         //pcd.AgriDocLink //file
                         pcd.FisheriesYesNoId = CommonDetail.FisheriesYesNoId;
                         pcd.FisheriesApplicantCmt = CommonDetail.FisheriesApplicantCmt;
-                        pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
+                        //pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
                         //pcd.FisheriesDocLink //file
                         pcd.IWRMYesNoId = CommonDetail.IWRMYesNoId;
                         pcd.IWRMApplicantCmt = CommonDetail.IWRMApplicantCmt;
-                        pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
+                        //pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
                         pcd.GPWMYesNoId = CommonDetail.GPWMYesNoId;
                         pcd.GPWMApplicantCmt = CommonDetail.GPWMApplicantCmt;
-                        pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
+                        //pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
                         pcd.FeasibilityYesNoId = CommonDetail.FeasibilityYesNoId;
                         pcd.FeasibilityApplicantCmt = CommonDetail.FeasibilityApplicantCmt;
-                        pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
+                        //pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
                         pcd.SocialIssuesYesNoId = CommonDetail.SocialIssuesYesNoId;
-                        pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;
-                        pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;                        
+                        //pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        pcd.GuidelinesFollowedYesNoId = CommonDetail.GuidelinesFollowedYesNoId;
+                        pcd.GuidelinesFollowedAppCmt = CommonDetail.GuidelinesFollowedAppCmt;
+                        //pcd.GuidelinesFollowedAuthCmt = CommonDetail.GuidelinesFollowedAuthCmt;
+                        pcd.AnyGovCircularName = CommonDetail.AnyGovCircularName;
                         #endregion
 
                         #region Project 34 Individual Data Binding
@@ -14150,17 +14072,17 @@ namespace WrpCcNocWeb.Controllers
         //Deed Obligatory
         //form/Form35DeedObligatoryOneToOneSave :: f35otos        
         [HttpPost]
-        public JsonResult f35dootos(Form35DeedObligatory _form35DeedObli)
+        public JsonResult f35dootos(Form35DeedObligatory _formDeedObli)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             using var dbContextTransaction = _db.Database.BeginTransaction();
             int result = 0;
-            Int64 ProjectId = _form35DeedObli.CommonDetail.ProjectId;
-            Int64 Project35IndvId = _form35DeedObli.Project35Indv.Project35IndvId;
+            Int64 ProjectId = _formDeedObli.CommonDetail.ProjectId;
+            Int64 Project35IndvId = _formDeedObli.Project35Indv.Project35IndvId;
 
             try
             {
-                if (_form35DeedObli != null && ProjectId != 0)
+                if (_formDeedObli != null && ProjectId != 0)
                 {
                     try
                     {
@@ -14192,64 +14114,68 @@ namespace WrpCcNocWeb.Controllers
                         }
 
                         #region getting client end data
-                        CcModAppProjectCommonDetail CommonDetail = _form35DeedObli.CommonDetail;
-                        CcModAppProject_35_IndvDetail Project35Indv = _form35DeedObli.Project35Indv;
-                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _form35DeedObli.CompatNWPDetail;
-                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _form35DeedObli.CompatNWMPDetail;
-                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _form35DeedObli.CompatSDGDetail;
-                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _form35DeedObli.CompatSDGIndiDetail;
-                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _form35DeedObli.BDP2100GoalDetail;
-                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _form35DeedObli.GPWMGroupTypeDetail;
+                        CcModAppProjectCommonDetail CommonDetail = _formDeedObli.CommonDetail;
+                        CcModAppProject_35_IndvDetail Project35Indv = _formDeedObli.Project35Indv;
+                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _formDeedObli.CompatNWPDetail;
+                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _formDeedObli.CompatNWMPDetail;
+                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _formDeedObli.CompatSDGDetail;
+                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _formDeedObli.CompatSDGIndiDetail;
+                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _formDeedObli.BDP2100GoalDetail;
+                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _formDeedObli.GPWMGroupTypeDetail;
                         #endregion
 
                         #region Common Detail Data Binding
                         pcd.CompatNWPYesNoId = CommonDetail.CompatNWPYesNoId;
                         pcd.CompatibilityNWPApplicantCmt = CommonDetail.CompatibilityNWPApplicantCmt;
-                        pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
+                        //pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
                         //pcd.CompatibilityNWPDocLink //file
                         pcd.NWMPCompatYesNoId = CommonDetail.NWMPCompatYesNoId;
                         pcd.NWMPApplicantCmt = CommonDetail.NWMPApplicantCmt;
-                        pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
+                        //pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
                         //pcd.NWMPDocLink //file
                         pcd.FYPYesNoId = CommonDetail.FYPYesNoId;
                         pcd.FYPApplicantCmt = CommonDetail.FYPApplicantCmt;
-                        pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
+                        //pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
                         pcd.SDGYesNoId = CommonDetail.SDGYesNoId;
                         pcd.SDGApplicantCmt = CommonDetail.SDGApplicantCmt;
-                        pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
+                        //pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
                         //pcd.SDGDocLink //file
                         pcd.DeltaPlanYesNoId = CommonDetail.DeltaPlanYesNoId;
                         pcd.DeltaPlan2100ApplicantCmt = CommonDetail.DeltaPlan2100ApplicantCmt;
-                        pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
+                        //pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
                         //pcd.DeltaPlan2100DocLink //file
                         pcd.CostalZoneYesNoId = CommonDetail.CostalZoneYesNoId;
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
-                        pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
+                        //pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
                         pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
                         pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
-                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
                         //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
-                        pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
+                        //pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
                         //pcd.AgriDocLink //file
                         pcd.FisheriesYesNoId = CommonDetail.FisheriesYesNoId;
                         pcd.FisheriesApplicantCmt = CommonDetail.FisheriesApplicantCmt;
-                        pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
+                        //pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
                         //pcd.FisheriesDocLink //file
                         pcd.IWRMYesNoId = CommonDetail.IWRMYesNoId;
                         pcd.IWRMApplicantCmt = CommonDetail.IWRMApplicantCmt;
-                        pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
+                        //pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
                         pcd.GPWMYesNoId = CommonDetail.GPWMYesNoId;
                         pcd.GPWMApplicantCmt = CommonDetail.GPWMApplicantCmt;
-                        pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
+                        //pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
                         pcd.FeasibilityYesNoId = CommonDetail.FeasibilityYesNoId;
                         pcd.FeasibilityApplicantCmt = CommonDetail.FeasibilityApplicantCmt;
-                        pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
+                        //pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
                         pcd.SocialIssuesYesNoId = CommonDetail.SocialIssuesYesNoId;
                         pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;
-                        pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        //pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        pcd.GuidelinesFollowedYesNoId = CommonDetail.GuidelinesFollowedYesNoId;
+                        pcd.GuidelinesFollowedAppCmt = CommonDetail.GuidelinesFollowedAppCmt;
+                        //pcd.GuidelinesFollowedAuthCmt = CommonDetail.GuidelinesFollowedAuthCmt;
+                        pcd.AnyGovCircularName = CommonDetail.AnyGovCircularName;
                         #endregion
 
                         #region Project 35 Individual Data Binding
@@ -14637,17 +14563,17 @@ namespace WrpCcNocWeb.Controllers
         //Deed Obligatory
         //form/Form36DeedObligatoryOneToOneSave :: f36otos        
         [HttpPost]
-        public JsonResult f36dootos(Form36DeedObligatory _form36DeedObli)
+        public JsonResult f36dootos(Form36DeedObligatory _formDeedObli)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             using var dbContextTransaction = _db.Database.BeginTransaction();
             int result = 0;
-            Int64 ProjectId = _form36DeedObli.CommonDetail.ProjectId;
-            Int64 Project36IndvId = _form36DeedObli.Project36Indv.Project36IndvId;
+            Int64 ProjectId = _formDeedObli.CommonDetail.ProjectId;
+            Int64 Project36IndvId = _formDeedObli.Project36Indv.Project36IndvId;
 
             try
             {
-                if (_form36DeedObli != null && ProjectId != 0)
+                if (_formDeedObli != null && ProjectId != 0)
                 {
                     try
                     {
@@ -14679,64 +14605,68 @@ namespace WrpCcNocWeb.Controllers
                         }
 
                         #region getting client end data
-                        CcModAppProjectCommonDetail CommonDetail = _form36DeedObli.CommonDetail;
-                        CcModAppProject_36_IndvDetail Project36Indv = _form36DeedObli.Project36Indv;
-                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _form36DeedObli.CompatNWPDetail;
-                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _form36DeedObli.CompatNWMPDetail;
-                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _form36DeedObli.CompatSDGDetail;
-                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _form36DeedObli.CompatSDGIndiDetail;
-                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _form36DeedObli.BDP2100GoalDetail;
-                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _form36DeedObli.GPWMGroupTypeDetail;
+                        CcModAppProjectCommonDetail CommonDetail = _formDeedObli.CommonDetail;
+                        CcModAppProject_36_IndvDetail Project36Indv = _formDeedObli.Project36Indv;
+                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _formDeedObli.CompatNWPDetail;
+                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _formDeedObli.CompatNWMPDetail;
+                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _formDeedObli.CompatSDGDetail;
+                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _formDeedObli.CompatSDGIndiDetail;
+                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _formDeedObli.BDP2100GoalDetail;
+                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _formDeedObli.GPWMGroupTypeDetail;
                         #endregion
 
                         #region Common Detail Data Binding
                         pcd.CompatNWPYesNoId = CommonDetail.CompatNWPYesNoId;
                         pcd.CompatibilityNWPApplicantCmt = CommonDetail.CompatibilityNWPApplicantCmt;
-                        pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
+                        //pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
                         //pcd.CompatibilityNWPDocLink //file
                         pcd.NWMPCompatYesNoId = CommonDetail.NWMPCompatYesNoId;
                         pcd.NWMPApplicantCmt = CommonDetail.NWMPApplicantCmt;
-                        pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
+                        //pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
                         //pcd.NWMPDocLink //file
                         pcd.FYPYesNoId = CommonDetail.FYPYesNoId;
                         pcd.FYPApplicantCmt = CommonDetail.FYPApplicantCmt;
-                        pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
+                        //pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
                         pcd.SDGYesNoId = CommonDetail.SDGYesNoId;
                         pcd.SDGApplicantCmt = CommonDetail.SDGApplicantCmt;
-                        pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
+                        //pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
                         //pcd.SDGDocLink //file
                         pcd.DeltaPlanYesNoId = CommonDetail.DeltaPlanYesNoId;
                         pcd.DeltaPlan2100ApplicantCmt = CommonDetail.DeltaPlan2100ApplicantCmt;
-                        pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
+                        //pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
                         //pcd.DeltaPlan2100DocLink //file
                         pcd.CostalZoneYesNoId = CommonDetail.CostalZoneYesNoId;
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
-                        pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
+                        //pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
                         pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
                         pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
-                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
                         //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
-                        pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
+                        //pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
                         //pcd.AgriDocLink //file
                         pcd.FisheriesYesNoId = CommonDetail.FisheriesYesNoId;
                         pcd.FisheriesApplicantCmt = CommonDetail.FisheriesApplicantCmt;
-                        pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
+                        //pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
                         //pcd.FisheriesDocLink //file
                         pcd.IWRMYesNoId = CommonDetail.IWRMYesNoId;
                         pcd.IWRMApplicantCmt = CommonDetail.IWRMApplicantCmt;
-                        pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
+                        //pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
                         pcd.GPWMYesNoId = CommonDetail.GPWMYesNoId;
                         pcd.GPWMApplicantCmt = CommonDetail.GPWMApplicantCmt;
-                        pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
+                        //pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
                         pcd.FeasibilityYesNoId = CommonDetail.FeasibilityYesNoId;
                         pcd.FeasibilityApplicantCmt = CommonDetail.FeasibilityApplicantCmt;
-                        pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
+                        //pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
                         pcd.SocialIssuesYesNoId = CommonDetail.SocialIssuesYesNoId;
                         pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;
-                        pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        //pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        pcd.GuidelinesFollowedYesNoId = CommonDetail.GuidelinesFollowedYesNoId;
+                        pcd.GuidelinesFollowedAppCmt = CommonDetail.GuidelinesFollowedAppCmt;
+                        //pcd.GuidelinesFollowedAuthCmt = CommonDetail.GuidelinesFollowedAuthCmt;
+                        pcd.AnyGovCircularName = CommonDetail.AnyGovCircularName;
                         #endregion
 
                         #region Project 36 Individual Data Binding
@@ -15225,17 +15155,17 @@ namespace WrpCcNocWeb.Controllers
         //Deed Obligatory
         //form/Form37DeedObligatoryOneToOneSave :: f37otos        
         [HttpPost]
-        public JsonResult f37dootos(Form37DeedObligatory _form37DeedObli)
+        public JsonResult f37dootos(Form37DeedObligatory _formDeedObli)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             using var dbContextTransaction = _db.Database.BeginTransaction();
             int result = 0;
-            Int64 ProjectId = _form37DeedObli.CommonDetail.ProjectId;
-            Int64 Project37IndvId = _form37DeedObli.Project37Indv.Project37IndvId;
+            Int64 ProjectId = _formDeedObli.CommonDetail.ProjectId;
+            Int64 Project37IndvId = _formDeedObli.Project37Indv.Project37IndvId;
 
             try
             {
-                if (_form37DeedObli != null && ProjectId != 0)
+                if (_formDeedObli != null && ProjectId != 0)
                 {
                     try
                     {
@@ -15267,64 +15197,68 @@ namespace WrpCcNocWeb.Controllers
                         }
 
                         #region getting client end data
-                        CcModAppProjectCommonDetail CommonDetail = _form37DeedObli.CommonDetail;
-                        CcModAppProject_37_IndvDetail Project37Indv = _form37DeedObli.Project37Indv;
-                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _form37DeedObli.CompatNWPDetail;
-                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _form37DeedObli.CompatNWMPDetail;
-                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _form37DeedObli.CompatSDGDetail;
-                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _form37DeedObli.CompatSDGIndiDetail;
-                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _form37DeedObli.BDP2100GoalDetail;
-                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _form37DeedObli.GPWMGroupTypeDetail;
+                        CcModAppProjectCommonDetail CommonDetail = _formDeedObli.CommonDetail;
+                        CcModAppProject_37_IndvDetail Project37Indv = _formDeedObli.Project37Indv;
+                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _formDeedObli.CompatNWPDetail;
+                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _formDeedObli.CompatNWMPDetail;
+                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _formDeedObli.CompatSDGDetail;
+                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _formDeedObli.CompatSDGIndiDetail;
+                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _formDeedObli.BDP2100GoalDetail;
+                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _formDeedObli.GPWMGroupTypeDetail;
                         #endregion
 
                         #region Common Detail Data Binding
                         pcd.CompatNWPYesNoId = CommonDetail.CompatNWPYesNoId;
                         pcd.CompatibilityNWPApplicantCmt = CommonDetail.CompatibilityNWPApplicantCmt;
-                        pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
+                        //pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
                         //pcd.CompatibilityNWPDocLink //file
                         pcd.NWMPCompatYesNoId = CommonDetail.NWMPCompatYesNoId;
                         pcd.NWMPApplicantCmt = CommonDetail.NWMPApplicantCmt;
-                        pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
+                        //pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
                         //pcd.NWMPDocLink //file
                         pcd.FYPYesNoId = CommonDetail.FYPYesNoId;
                         pcd.FYPApplicantCmt = CommonDetail.FYPApplicantCmt;
-                        pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
+                        //pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
                         pcd.SDGYesNoId = CommonDetail.SDGYesNoId;
                         pcd.SDGApplicantCmt = CommonDetail.SDGApplicantCmt;
-                        pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
+                        //pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
                         //pcd.SDGDocLink //file
                         pcd.DeltaPlanYesNoId = CommonDetail.DeltaPlanYesNoId;
                         pcd.DeltaPlan2100ApplicantCmt = CommonDetail.DeltaPlan2100ApplicantCmt;
-                        pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
+                        //pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
                         //pcd.DeltaPlan2100DocLink //file
                         pcd.CostalZoneYesNoId = CommonDetail.CostalZoneYesNoId;
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
-                        pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
+                        //pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
                         pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
                         pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
-                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
                         //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
-                        pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
+                        //pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
                         //pcd.AgriDocLink //file
                         pcd.FisheriesYesNoId = CommonDetail.FisheriesYesNoId;
                         pcd.FisheriesApplicantCmt = CommonDetail.FisheriesApplicantCmt;
-                        pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
+                        //pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
                         //pcd.FisheriesDocLink //file
                         pcd.IWRMYesNoId = CommonDetail.IWRMYesNoId;
                         pcd.IWRMApplicantCmt = CommonDetail.IWRMApplicantCmt;
-                        pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
+                        //pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
                         pcd.GPWMYesNoId = CommonDetail.GPWMYesNoId;
                         pcd.GPWMApplicantCmt = CommonDetail.GPWMApplicantCmt;
-                        pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
+                        //pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
                         pcd.FeasibilityYesNoId = CommonDetail.FeasibilityYesNoId;
                         pcd.FeasibilityApplicantCmt = CommonDetail.FeasibilityApplicantCmt;
-                        pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
+                        //pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
                         pcd.SocialIssuesYesNoId = CommonDetail.SocialIssuesYesNoId;
                         pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;
-                        pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        //pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        pcd.GuidelinesFollowedYesNoId = CommonDetail.GuidelinesFollowedYesNoId;
+                        pcd.GuidelinesFollowedAppCmt = CommonDetail.GuidelinesFollowedAppCmt;
+                        //pcd.GuidelinesFollowedAuthCmt = CommonDetail.GuidelinesFollowedAuthCmt;
+                        pcd.AnyGovCircularName = CommonDetail.AnyGovCircularName;
                         #endregion
 
                         #region Project 37 Individual Data Binding
@@ -15750,17 +15684,17 @@ namespace WrpCcNocWeb.Controllers
         //Deed Obligatory
         //form/Form38DeedObligatoryOneToOneSave :: f38dootos        
         [HttpPost]
-        public JsonResult f38dootos(Form38DeedObligatory _form38DeedObli)
+        public JsonResult f38dootos(Form38DeedObligatory _formDeedObli)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             using var dbContextTransaction = _db.Database.BeginTransaction();
             int result = 0;
-            Int64 ProjectId = _form38DeedObli.CommonDetail.ProjectId;
-            //Int64 Project38IndvId = _form38DeedObli.Project38Indv.Project38IndvId;
+            Int64 ProjectId = _formDeedObli.CommonDetail.ProjectId;
+            //Int64 Project38IndvId = _formDeedObli.Project38Indv.Project38IndvId;
 
             try
             {
-                if (_form38DeedObli != null && ProjectId != 0)
+                if (_formDeedObli != null && ProjectId != 0)
                 {
                     try
                     {
@@ -15792,64 +15726,68 @@ namespace WrpCcNocWeb.Controllers
                         }
 
                         #region getting client end data
-                        CcModAppProjectCommonDetail CommonDetail = _form38DeedObli.CommonDetail;
-                        //CcModAppProject_38_IndvDetail Project38Indv = _form38DeedObli.Project38Indv;
-                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _form38DeedObli.CompatNWPDetail;
-                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _form38DeedObli.CompatNWMPDetail;
-                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _form38DeedObli.CompatSDGDetail;
-                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _form38DeedObli.CompatSDGIndiDetail;
-                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _form38DeedObli.BDP2100GoalDetail;
-                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _form38DeedObli.GPWMGroupTypeDetail;
+                        CcModAppProjectCommonDetail CommonDetail = _formDeedObli.CommonDetail;
+                        //CcModAppProject_38_IndvDetail Project38Indv = _formDeedObli.Project38Indv;
+                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _formDeedObli.CompatNWPDetail;
+                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _formDeedObli.CompatNWMPDetail;
+                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _formDeedObli.CompatSDGDetail;
+                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _formDeedObli.CompatSDGIndiDetail;
+                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _formDeedObli.BDP2100GoalDetail;
+                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _formDeedObli.GPWMGroupTypeDetail;
                         #endregion
 
                         #region Common Detail Data Binding
                         pcd.CompatNWPYesNoId = CommonDetail.CompatNWPYesNoId;
                         pcd.CompatibilityNWPApplicantCmt = CommonDetail.CompatibilityNWPApplicantCmt;
-                        pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
+                        //pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
                         //pcd.CompatibilityNWPDocLink //file
                         pcd.NWMPCompatYesNoId = CommonDetail.NWMPCompatYesNoId;
                         pcd.NWMPApplicantCmt = CommonDetail.NWMPApplicantCmt;
-                        pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
+                        //pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
                         //pcd.NWMPDocLink //file
                         pcd.FYPYesNoId = CommonDetail.FYPYesNoId;
                         pcd.FYPApplicantCmt = CommonDetail.FYPApplicantCmt;
-                        pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
+                        //pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
                         pcd.SDGYesNoId = CommonDetail.SDGYesNoId;
                         pcd.SDGApplicantCmt = CommonDetail.SDGApplicantCmt;
-                        pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
+                        //pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
                         //pcd.SDGDocLink //file
                         pcd.DeltaPlanYesNoId = CommonDetail.DeltaPlanYesNoId;
                         pcd.DeltaPlan2100ApplicantCmt = CommonDetail.DeltaPlan2100ApplicantCmt;
-                        pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
+                        //pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
                         //pcd.DeltaPlan2100DocLink //file
                         pcd.CostalZoneYesNoId = CommonDetail.CostalZoneYesNoId;
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
-                        pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
+                        //pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
                         pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
                         pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
-                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
                         //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
-                        pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
+                        //pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
                         //pcd.AgriDocLink //file
                         pcd.FisheriesYesNoId = CommonDetail.FisheriesYesNoId;
                         pcd.FisheriesApplicantCmt = CommonDetail.FisheriesApplicantCmt;
-                        pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
+                        //pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
                         //pcd.FisheriesDocLink //file
                         pcd.IWRMYesNoId = CommonDetail.IWRMYesNoId;
                         pcd.IWRMApplicantCmt = CommonDetail.IWRMApplicantCmt;
-                        pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
+                        //pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
                         pcd.GPWMYesNoId = CommonDetail.GPWMYesNoId;
                         pcd.GPWMApplicantCmt = CommonDetail.GPWMApplicantCmt;
-                        pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
+                        //pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
                         pcd.FeasibilityYesNoId = CommonDetail.FeasibilityYesNoId;
                         pcd.FeasibilityApplicantCmt = CommonDetail.FeasibilityApplicantCmt;
-                        pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
+                        //pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
                         pcd.SocialIssuesYesNoId = CommonDetail.SocialIssuesYesNoId;
                         pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;
-                        pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        //pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        pcd.GuidelinesFollowedYesNoId = CommonDetail.GuidelinesFollowedYesNoId;
+                        pcd.GuidelinesFollowedAppCmt = CommonDetail.GuidelinesFollowedAppCmt;
+                        //pcd.GuidelinesFollowedAuthCmt = CommonDetail.GuidelinesFollowedAuthCmt;
+                        pcd.AnyGovCircularName = CommonDetail.AnyGovCircularName;
                         #endregion
 
                         #region Project 38 Individual Data Binding
@@ -16290,17 +16228,17 @@ namespace WrpCcNocWeb.Controllers
         //Deed Obligatory
         //form/Form39DeedObligatoryOneToOneSave :: f39dootos        
         [HttpPost]
-        public JsonResult f39dootos(Form39DeedObligatory _form39DeedObli)
+        public JsonResult f39dootos(Form39DeedObligatory _formDeedObli)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             using var dbContextTransaction = _db.Database.BeginTransaction();
             int result = 0;
-            Int64 ProjectId = _form39DeedObli.CommonDetail.ProjectId;
-            //Int64 Project39IndvId = _form39DeedObli.Project39Indv.Project39IndvId;
+            Int64 ProjectId = _formDeedObli.CommonDetail.ProjectId;
+            //Int64 Project39IndvId = _formDeedObli.Project39Indv.Project39IndvId;
 
             try
             {
-                if (_form39DeedObli != null && ProjectId != 0)
+                if (_formDeedObli != null && ProjectId != 0)
                 {
                     try
                     {
@@ -16332,64 +16270,68 @@ namespace WrpCcNocWeb.Controllers
                         }
 
                         #region getting client end data
-                        CcModAppProjectCommonDetail CommonDetail = _form39DeedObli.CommonDetail;
-                        //CcModAppProject_39_IndvDetail Project39Indv = _form39DeedObli.Project39Indv;
-                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _form39DeedObli.CompatNWPDetail;
-                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _form39DeedObli.CompatNWMPDetail;
-                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _form39DeedObli.CompatSDGDetail;
-                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _form39DeedObli.CompatSDGIndiDetail;
-                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _form39DeedObli.BDP2100GoalDetail;
-                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _form39DeedObli.GPWMGroupTypeDetail;
+                        CcModAppProjectCommonDetail CommonDetail = _formDeedObli.CommonDetail;
+                        //CcModAppProject_39_IndvDetail Project39Indv = _formDeedObli.Project39Indv;
+                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _formDeedObli.CompatNWPDetail;
+                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _formDeedObli.CompatNWMPDetail;
+                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _formDeedObli.CompatSDGDetail;
+                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _formDeedObli.CompatSDGIndiDetail;
+                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _formDeedObli.BDP2100GoalDetail;
+                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _formDeedObli.GPWMGroupTypeDetail;
                         #endregion
 
                         #region Common Detail Data Binding
                         pcd.CompatNWPYesNoId = CommonDetail.CompatNWPYesNoId;
                         pcd.CompatibilityNWPApplicantCmt = CommonDetail.CompatibilityNWPApplicantCmt;
-                        pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
+                        //pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
                         //pcd.CompatibilityNWPDocLink //file
                         pcd.NWMPCompatYesNoId = CommonDetail.NWMPCompatYesNoId;
                         pcd.NWMPApplicantCmt = CommonDetail.NWMPApplicantCmt;
-                        pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
+                        //pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
                         //pcd.NWMPDocLink //file
                         pcd.FYPYesNoId = CommonDetail.FYPYesNoId;
                         pcd.FYPApplicantCmt = CommonDetail.FYPApplicantCmt;
-                        pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
+                        //pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
                         pcd.SDGYesNoId = CommonDetail.SDGYesNoId;
                         pcd.SDGApplicantCmt = CommonDetail.SDGApplicantCmt;
-                        pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
+                        //pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
                         //pcd.SDGDocLink //file
                         pcd.DeltaPlanYesNoId = CommonDetail.DeltaPlanYesNoId;
                         pcd.DeltaPlan2100ApplicantCmt = CommonDetail.DeltaPlan2100ApplicantCmt;
-                        pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
+                        //pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
                         //pcd.DeltaPlan2100DocLink //file
                         pcd.CostalZoneYesNoId = CommonDetail.CostalZoneYesNoId;
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
-                        pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
+                        //pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
                         pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
                         pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
-                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
                         //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
-                        pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
+                        //pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
                         //pcd.AgriDocLink //file
                         pcd.FisheriesYesNoId = CommonDetail.FisheriesYesNoId;
                         pcd.FisheriesApplicantCmt = CommonDetail.FisheriesApplicantCmt;
-                        pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
+                        //pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
                         //pcd.FisheriesDocLink //file
                         pcd.IWRMYesNoId = CommonDetail.IWRMYesNoId;
                         pcd.IWRMApplicantCmt = CommonDetail.IWRMApplicantCmt;
-                        pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
+                        //pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
                         pcd.GPWMYesNoId = CommonDetail.GPWMYesNoId;
                         pcd.GPWMApplicantCmt = CommonDetail.GPWMApplicantCmt;
-                        pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
+                        //pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
                         pcd.FeasibilityYesNoId = CommonDetail.FeasibilityYesNoId;
                         pcd.FeasibilityApplicantCmt = CommonDetail.FeasibilityApplicantCmt;
-                        pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
+                        //pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
                         pcd.SocialIssuesYesNoId = CommonDetail.SocialIssuesYesNoId;
                         pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;
-                        pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        //pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        pcd.GuidelinesFollowedYesNoId = CommonDetail.GuidelinesFollowedYesNoId;
+                        pcd.GuidelinesFollowedAppCmt = CommonDetail.GuidelinesFollowedAppCmt;
+                        //pcd.GuidelinesFollowedAuthCmt = CommonDetail.GuidelinesFollowedAuthCmt;
+                        pcd.AnyGovCircularName = CommonDetail.AnyGovCircularName;
                         #endregion
 
                         #region Project 38 Individual Data Binding
@@ -16788,17 +16730,17 @@ namespace WrpCcNocWeb.Controllers
         //Deed Obligatory
         //form/Form310DeedObligatoryOneToOneSave :: f310dootos        
         [HttpPost]
-        public JsonResult f310dootos(Form310DeedObligatory _form310DeedObli)
+        public JsonResult f310dootos(Form310DeedObligatory _formDeedObli)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             using var dbContextTransaction = _db.Database.BeginTransaction();
             int result = 0;
-            Int64 ProjectId = _form310DeedObli.CommonDetail.ProjectId;
-            //Int64 Project310IndvId = _form310DeedObli.Project310Indv.Project310IndvId;
+            Int64 ProjectId = _formDeedObli.CommonDetail.ProjectId;
+            //Int64 Project310IndvId = _formDeedObli.Project310Indv.Project310IndvId;
 
             try
             {
-                if (_form310DeedObli != null && ProjectId != 0)
+                if (_formDeedObli != null && ProjectId != 0)
                 {
                     try
                     {
@@ -16830,39 +16772,39 @@ namespace WrpCcNocWeb.Controllers
                         }
 
                         #region getting client end data
-                        CcModAppProjectCommonDetail CommonDetail = _form310DeedObli.CommonDetail;
-                        //CcModAppProject_310_IndvDetail Project310Indv = _form310DeedObli.Project310Indv;
-                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _form310DeedObli.CompatNWPDetail;
-                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _form310DeedObli.CompatNWMPDetail;
-                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _form310DeedObli.CompatSDGDetail;
-                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _form310DeedObli.CompatSDGIndiDetail;
-                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _form310DeedObli.BDP2100GoalDetail;
-                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _form310DeedObli.GPWMGroupTypeDetail;
+                        CcModAppProjectCommonDetail CommonDetail = _formDeedObli.CommonDetail;
+                        //CcModAppProject_310_IndvDetail Project310Indv = _formDeedObli.Project310Indv;
+                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _formDeedObli.CompatNWPDetail;
+                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _formDeedObli.CompatNWMPDetail;
+                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _formDeedObli.CompatSDGDetail;
+                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _formDeedObli.CompatSDGIndiDetail;
+                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _formDeedObli.BDP2100GoalDetail;
+                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _formDeedObli.GPWMGroupTypeDetail;
                         #endregion
 
                         #region Common Detail Data Binding
                         pcd.CompatNWPYesNoId = CommonDetail.CompatNWPYesNoId;
                         pcd.CompatibilityNWPApplicantCmt = CommonDetail.CompatibilityNWPApplicantCmt;
-                        pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
+                        //pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
                         //pcd.CompatibilityNWPDocLink //file
                         pcd.NWMPCompatYesNoId = CommonDetail.NWMPCompatYesNoId;
                         pcd.NWMPApplicantCmt = CommonDetail.NWMPApplicantCmt;
-                        pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
+                        //pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
                         //pcd.NWMPDocLink //file
                         pcd.FYPYesNoId = CommonDetail.FYPYesNoId;
                         pcd.FYPApplicantCmt = CommonDetail.FYPApplicantCmt;
-                        pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
+                        //pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
                         pcd.SDGYesNoId = CommonDetail.SDGYesNoId;
                         pcd.SDGApplicantCmt = CommonDetail.SDGApplicantCmt;
-                        pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
+                        //pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
                         //pcd.SDGDocLink //file
                         pcd.DeltaPlanYesNoId = CommonDetail.DeltaPlanYesNoId;
                         pcd.DeltaPlan2100ApplicantCmt = CommonDetail.DeltaPlan2100ApplicantCmt;
-                        pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
+                        //pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
                         //pcd.DeltaPlan2100DocLink //file
                         pcd.CostalZoneYesNoId = CommonDetail.CostalZoneYesNoId;
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
-                        pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
+                        //pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
                         pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
                         pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
@@ -16870,24 +16812,28 @@ namespace WrpCcNocWeb.Controllers
                         //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
-                        pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
+                        //pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
                         //pcd.AgriDocLink //file
                         pcd.FisheriesYesNoId = CommonDetail.FisheriesYesNoId;
                         pcd.FisheriesApplicantCmt = CommonDetail.FisheriesApplicantCmt;
-                        pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
+                        //pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
                         //pcd.FisheriesDocLink //file
                         pcd.IWRMYesNoId = CommonDetail.IWRMYesNoId;
                         pcd.IWRMApplicantCmt = CommonDetail.IWRMApplicantCmt;
-                        pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
+                        //pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
                         pcd.GPWMYesNoId = CommonDetail.GPWMYesNoId;
                         pcd.GPWMApplicantCmt = CommonDetail.GPWMApplicantCmt;
-                        pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
+                        //pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
                         pcd.FeasibilityYesNoId = CommonDetail.FeasibilityYesNoId;
                         pcd.FeasibilityApplicantCmt = CommonDetail.FeasibilityApplicantCmt;
-                        pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
+                        //pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
                         pcd.SocialIssuesYesNoId = CommonDetail.SocialIssuesYesNoId;
                         pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;
-                        pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        //pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        pcd.GuidelinesFollowedYesNoId = CommonDetail.GuidelinesFollowedYesNoId;
+                        pcd.GuidelinesFollowedAppCmt = CommonDetail.GuidelinesFollowedAppCmt;
+                        //pcd.GuidelinesFollowedAuthCmt = CommonDetail.GuidelinesFollowedAuthCmt;
+                        pcd.AnyGovCircularName = CommonDetail.AnyGovCircularName;
                         #endregion
 
                         #region Project 310 Individual Data Binding
@@ -17279,17 +17225,17 @@ namespace WrpCcNocWeb.Controllers
         //Deed Obligatory
         //form/Form311DeedObligatoryOneToOneSave :: f311dootos        
         [HttpPost]
-        public JsonResult f311dootos(Form311DeedObligatory _form311DeedObli)
+        public JsonResult f311dootos(Form311DeedObligatory _formDeedObli)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             using var dbContextTransaction = _db.Database.BeginTransaction();
             int result = 0;
-            Int64 ProjectId = _form311DeedObli.CommonDetail.ProjectId;
-            //Int64 Project311IndvId = _form311DeedObli.Project311Indv.Project311IndvId;
+            Int64 ProjectId = _formDeedObli.CommonDetail.ProjectId;
+            //Int64 Project311IndvId = _formDeedObli.Project311Indv.Project311IndvId;
 
             try
             {
-                if (_form311DeedObli != null && ProjectId != 0)
+                if (_formDeedObli != null && ProjectId != 0)
                 {
                     try
                     {
@@ -17321,64 +17267,68 @@ namespace WrpCcNocWeb.Controllers
                         }
 
                         #region getting client end data
-                        CcModAppProjectCommonDetail CommonDetail = _form311DeedObli.CommonDetail;
-                        //CcModAppProject_311_IndvDetail Project311Indv = _form311DeedObli.Project311Indv;
-                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _form311DeedObli.CompatNWPDetail;
-                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _form311DeedObli.CompatNWMPDetail;
-                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _form311DeedObli.CompatSDGDetail;
-                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _form311DeedObli.CompatSDGIndiDetail;
-                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _form311DeedObli.BDP2100GoalDetail;
-                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _form311DeedObli.GPWMGroupTypeDetail;
+                        CcModAppProjectCommonDetail CommonDetail = _formDeedObli.CommonDetail;
+                        //CcModAppProject_311_IndvDetail Project311Indv = _formDeedObli.Project311Indv;
+                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _formDeedObli.CompatNWPDetail;
+                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _formDeedObli.CompatNWMPDetail;
+                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _formDeedObli.CompatSDGDetail;
+                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _formDeedObli.CompatSDGIndiDetail;
+                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _formDeedObli.BDP2100GoalDetail;
+                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _formDeedObli.GPWMGroupTypeDetail;
                         #endregion
 
                         #region Common Detail Data Binding
                         pcd.CompatNWPYesNoId = CommonDetail.CompatNWPYesNoId;
                         pcd.CompatibilityNWPApplicantCmt = CommonDetail.CompatibilityNWPApplicantCmt;
-                        pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
+                        //pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
                         //pcd.CompatibilityNWPDocLink //file
                         pcd.NWMPCompatYesNoId = CommonDetail.NWMPCompatYesNoId;
                         pcd.NWMPApplicantCmt = CommonDetail.NWMPApplicantCmt;
-                        pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
+                        //pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
                         //pcd.NWMPDocLink //file
                         pcd.FYPYesNoId = CommonDetail.FYPYesNoId;
                         pcd.FYPApplicantCmt = CommonDetail.FYPApplicantCmt;
-                        pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
+                        //pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
                         pcd.SDGYesNoId = CommonDetail.SDGYesNoId;
                         pcd.SDGApplicantCmt = CommonDetail.SDGApplicantCmt;
-                        pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
+                        //pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
                         //pcd.SDGDocLink //file
                         pcd.DeltaPlanYesNoId = CommonDetail.DeltaPlanYesNoId;
                         pcd.DeltaPlan2100ApplicantCmt = CommonDetail.DeltaPlan2100ApplicantCmt;
-                        pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
+                        //pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
                         //pcd.DeltaPlan2100DocLink //file
                         pcd.CostalZoneYesNoId = CommonDetail.CostalZoneYesNoId;
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
-                        pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
+                        //pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
                         pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
                         pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
-                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
                         //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
-                        pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
+                        //pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
                         //pcd.AgriDocLink //file
                         pcd.FisheriesYesNoId = CommonDetail.FisheriesYesNoId;
                         pcd.FisheriesApplicantCmt = CommonDetail.FisheriesApplicantCmt;
-                        pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
+                        //pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
                         //pcd.FisheriesDocLink //file
                         pcd.IWRMYesNoId = CommonDetail.IWRMYesNoId;
                         pcd.IWRMApplicantCmt = CommonDetail.IWRMApplicantCmt;
-                        pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
+                        //pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
                         pcd.GPWMYesNoId = CommonDetail.GPWMYesNoId;
                         pcd.GPWMApplicantCmt = CommonDetail.GPWMApplicantCmt;
-                        pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
+                        //pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
                         pcd.FeasibilityYesNoId = CommonDetail.FeasibilityYesNoId;
                         pcd.FeasibilityApplicantCmt = CommonDetail.FeasibilityApplicantCmt;
-                        pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
+                        //pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
                         pcd.SocialIssuesYesNoId = CommonDetail.SocialIssuesYesNoId;
                         pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;
-                        pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        //pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        pcd.GuidelinesFollowedYesNoId = CommonDetail.GuidelinesFollowedYesNoId;
+                        pcd.GuidelinesFollowedAppCmt = CommonDetail.GuidelinesFollowedAppCmt;
+                        //pcd.GuidelinesFollowedAuthCmt = CommonDetail.GuidelinesFollowedAuthCmt;
+                        pcd.AnyGovCircularName = CommonDetail.AnyGovCircularName;
                         #endregion
 
                         #region Project 311 Individual Data Binding
@@ -17843,17 +17793,17 @@ namespace WrpCcNocWeb.Controllers
         //Deed Obligatory
         //form/Form312DeedObligatoryOneToOneSave :: f312dootos        
         [HttpPost]
-        public JsonResult f312dootos(Form312DeedObligatory _form312DeedObli)
+        public JsonResult f312dootos(Form312DeedObligatory _formDeedObli)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             using var dbContextTransaction = _db.Database.BeginTransaction();
             int result = 0;
-            Int64 ProjectId = _form312DeedObli.CommonDetail.ProjectId;
-            //Int64 Project312IndvId = _form312DeedObli.Project312Indv.Project312IndvId;
+            Int64 ProjectId = _formDeedObli.CommonDetail.ProjectId;
+            //Int64 Project312IndvId = _formDeedObli.Project312Indv.Project312IndvId;
 
             try
             {
-                if (_form312DeedObli != null && ProjectId != 0)
+                if (_formDeedObli != null && ProjectId != 0)
                 {
                     try
                     {
@@ -17885,64 +17835,68 @@ namespace WrpCcNocWeb.Controllers
                         }
 
                         #region getting client end data
-                        CcModAppProjectCommonDetail CommonDetail = _form312DeedObli.CommonDetail;
-                        //CcModAppProject_312_IndvDetail Project312Indv = _form312DeedObli.Project312Indv;
-                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _form312DeedObli.CompatNWPDetail;
-                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _form312DeedObli.CompatNWMPDetail;
-                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _form312DeedObli.CompatSDGDetail;
-                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _form312DeedObli.CompatSDGIndiDetail;
-                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _form312DeedObli.BDP2100GoalDetail;
-                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _form312DeedObli.GPWMGroupTypeDetail;
+                        CcModAppProjectCommonDetail CommonDetail = _formDeedObli.CommonDetail;
+                        //CcModAppProject_312_IndvDetail Project312Indv = _formDeedObli.Project312Indv;
+                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _formDeedObli.CompatNWPDetail;
+                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _formDeedObli.CompatNWMPDetail;
+                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _formDeedObli.CompatSDGDetail;
+                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _formDeedObli.CompatSDGIndiDetail;
+                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _formDeedObli.BDP2100GoalDetail;
+                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _formDeedObli.GPWMGroupTypeDetail;
                         #endregion
 
                         #region Common Detail Data Binding
                         pcd.CompatNWPYesNoId = CommonDetail.CompatNWPYesNoId;
                         pcd.CompatibilityNWPApplicantCmt = CommonDetail.CompatibilityNWPApplicantCmt;
-                        pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
+                        //pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
                         //pcd.CompatibilityNWPDocLink //file
                         pcd.NWMPCompatYesNoId = CommonDetail.NWMPCompatYesNoId;
                         pcd.NWMPApplicantCmt = CommonDetail.NWMPApplicantCmt;
-                        pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
+                        //pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
                         //pcd.NWMPDocLink //file
                         pcd.FYPYesNoId = CommonDetail.FYPYesNoId;
                         pcd.FYPApplicantCmt = CommonDetail.FYPApplicantCmt;
-                        pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
+                        //pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
                         pcd.SDGYesNoId = CommonDetail.SDGYesNoId;
                         pcd.SDGApplicantCmt = CommonDetail.SDGApplicantCmt;
-                        pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
+                        //pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
                         //pcd.SDGDocLink //file
                         pcd.DeltaPlanYesNoId = CommonDetail.DeltaPlanYesNoId;
                         pcd.DeltaPlan2100ApplicantCmt = CommonDetail.DeltaPlan2100ApplicantCmt;
-                        pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
+                        //pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
                         //pcd.DeltaPlan2100DocLink //file
                         pcd.CostalZoneYesNoId = CommonDetail.CostalZoneYesNoId;
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
-                        pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
+                        //pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
                         pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
                         pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
-                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
                         //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
-                        pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
+                        //pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
                         //pcd.AgriDocLink //file
                         pcd.FisheriesYesNoId = CommonDetail.FisheriesYesNoId;
                         pcd.FisheriesApplicantCmt = CommonDetail.FisheriesApplicantCmt;
-                        pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
+                        //pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
                         //pcd.FisheriesDocLink //file
                         pcd.IWRMYesNoId = CommonDetail.IWRMYesNoId;
                         pcd.IWRMApplicantCmt = CommonDetail.IWRMApplicantCmt;
-                        pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
+                        //pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
                         pcd.GPWMYesNoId = CommonDetail.GPWMYesNoId;
                         pcd.GPWMApplicantCmt = CommonDetail.GPWMApplicantCmt;
-                        pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
+                        //pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
                         pcd.FeasibilityYesNoId = CommonDetail.FeasibilityYesNoId;
                         pcd.FeasibilityApplicantCmt = CommonDetail.FeasibilityApplicantCmt;
-                        pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
+                        //pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
                         pcd.SocialIssuesYesNoId = CommonDetail.SocialIssuesYesNoId;
                         pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;
-                        pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        //pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        pcd.GuidelinesFollowedYesNoId = CommonDetail.GuidelinesFollowedYesNoId;
+                        pcd.GuidelinesFollowedAppCmt = CommonDetail.GuidelinesFollowedAppCmt;
+                        //pcd.GuidelinesFollowedAuthCmt = CommonDetail.GuidelinesFollowedAuthCmt;
+                        pcd.AnyGovCircularName = CommonDetail.AnyGovCircularName;
                         #endregion
 
                         #region Project 312 Individual Data Binding
@@ -18390,17 +18344,17 @@ namespace WrpCcNocWeb.Controllers
         //Deed Obligatory
         //form/Form313DeedObligatoryOneToOneSave :: f313dootos        
         [HttpPost]
-        public JsonResult f313dootos(Form313DeedObligatory _form313DeedObli)
+        public JsonResult f313dootos(Form313DeedObligatory _formDeedObli)
         {
             UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
             using var dbContextTransaction = _db.Database.BeginTransaction();
             int result = 0;
-            Int64 ProjectId = _form313DeedObli.CommonDetail.ProjectId;
-            Int64 Project313IndvId = _form313DeedObli.Project313Indv.Project313IndvId;
+            Int64 ProjectId = _formDeedObli.CommonDetail.ProjectId;
+            Int64 Project313IndvId = _formDeedObli.Project313Indv.Project313IndvId;
 
             try
             {
-                if (_form313DeedObli != null && ProjectId != 0)
+                if (_formDeedObli != null && ProjectId != 0)
                 {
                     try
                     {
@@ -18432,64 +18386,68 @@ namespace WrpCcNocWeb.Controllers
                         }
 
                         #region getting client end data
-                        CcModAppProjectCommonDetail CommonDetail = _form313DeedObli.CommonDetail;
-                        CcModAppProject_313_IndvDetail Project313Indv = _form313DeedObli.Project313Indv;
-                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _form313DeedObli.CompatNWPDetail;
-                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _form313DeedObli.CompatNWMPDetail;
-                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _form313DeedObli.CompatSDGDetail;
-                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _form313DeedObli.CompatSDGIndiDetail;
-                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _form313DeedObli.BDP2100GoalDetail;
-                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _form313DeedObli.GPWMGroupTypeDetail;
+                        CcModAppProjectCommonDetail CommonDetail = _formDeedObli.CommonDetail;
+                        CcModAppProject_313_IndvDetail Project313Indv = _formDeedObli.Project313Indv;
+                        List<CcModPrjCompatNWPDetail> CompatNWPDetail = _formDeedObli.CompatNWPDetail;
+                        List<CcModPrjCompatNWMPDetail> CompatNWMPDetail = _formDeedObli.CompatNWMPDetail;
+                        List<CcModPrjCompatSDGDetail> CompatSDGDetail = _formDeedObli.CompatSDGDetail;
+                        List<CcModPrjCompatSDGIndiDetail> CompatSDGIndiDetail = _formDeedObli.CompatSDGIndiDetail;
+                        List<CcModBDP2100GoalDetail> BDP2100GoalDetail = _formDeedObli.BDP2100GoalDetail;
+                        List<CcModGPWMGroupTypeDetail> GPWMGroupTypeDetail = _formDeedObli.GPWMGroupTypeDetail;
                         #endregion
 
                         #region Common Detail Data Binding
                         pcd.CompatNWPYesNoId = CommonDetail.CompatNWPYesNoId;
                         pcd.CompatibilityNWPApplicantCmt = CommonDetail.CompatibilityNWPApplicantCmt;
-                        pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
+                        //pcd.CompatibilityNWPAuthorityCmt = CommonDetail.CompatibilityNWPAuthorityCmt;
                         //pcd.CompatibilityNWPDocLink //file
                         pcd.NWMPCompatYesNoId = CommonDetail.NWMPCompatYesNoId;
                         pcd.NWMPApplicantCmt = CommonDetail.NWMPApplicantCmt;
-                        pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
+                        //pcd.NWMPAuthorityCmt = CommonDetail.NWMPAuthorityCmt;
                         //pcd.NWMPDocLink //file
                         pcd.FYPYesNoId = CommonDetail.FYPYesNoId;
                         pcd.FYPApplicantCmt = CommonDetail.FYPApplicantCmt;
-                        pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
+                        //pcd.FYPAuthorityCmt = CommonDetail.FYPAuthorityCmt;
                         pcd.SDGYesNoId = CommonDetail.SDGYesNoId;
                         pcd.SDGApplicantCmt = CommonDetail.SDGApplicantCmt;
-                        pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
+                        //pcd.SDGAuthorityCmt = CommonDetail.SDGAuthorityCmt;
                         //pcd.SDGDocLink //file
                         pcd.DeltaPlanYesNoId = CommonDetail.DeltaPlanYesNoId;
                         pcd.DeltaPlan2100ApplicantCmt = CommonDetail.DeltaPlan2100ApplicantCmt;
-                        pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
+                        //pcd.DeltaPlan2100AuthorityCmt = CommonDetail.DeltaPlan2100AuthorityCmt;
                         //pcd.DeltaPlan2100DocLink //file
                         pcd.CostalZoneYesNoId = CommonDetail.CostalZoneYesNoId;
                         pcd.CostalZoneApplicantCmt = CommonDetail.CostalZoneApplicantCmt;
-                        pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
+                        //pcd.CostalZoneAuthorityCmt = CommonDetail.CostalZoneAuthorityCmt;
                         //pcd.CostalZoneDocLink //file.
                         pcd.CiwupYesNoId = CommonDetail.CiwupYesNoId;
                         pcd.CiwupApplicantCmt = CommonDetail.CiwupApplicantCmt;
-                        pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
+                        //pcd.CiwupAuthorityCmt = CommonDetail.CiwupAuthorityCmt;
                         //pcd.CiwupDocLink //file.
                         pcd.AgriculturalYesNoId = CommonDetail.AgriculturalYesNoId;
                         pcd.AgriApplicantCmt = CommonDetail.AgriApplicantCmt;
-                        pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
+                        //pcd.AgriAuthorityCmt = CommonDetail.AgriAuthorityCmt;
                         //pcd.AgriDocLink //file
                         pcd.FisheriesYesNoId = CommonDetail.FisheriesYesNoId;
                         pcd.FisheriesApplicantCmt = CommonDetail.FisheriesApplicantCmt;
-                        pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
+                        //pcd.FisheriesAuthorityCmt = CommonDetail.FisheriesAuthorityCmt;
                         //pcd.FisheriesDocLink //file
                         pcd.IWRMYesNoId = CommonDetail.IWRMYesNoId;
                         pcd.IWRMApplicantCmt = CommonDetail.IWRMApplicantCmt;
-                        pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
+                        //pcd.IWRMAuthorityCmt = CommonDetail.IWRMAuthorityCmt;
                         pcd.GPWMYesNoId = CommonDetail.GPWMYesNoId;
                         pcd.GPWMApplicantCmt = CommonDetail.GPWMApplicantCmt;
-                        pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
+                        //pcd.GPWMAuthorityCmt = CommonDetail.GPWMAuthorityCmt;
                         pcd.FeasibilityYesNoId = CommonDetail.FeasibilityYesNoId;
                         pcd.FeasibilityApplicantCmt = CommonDetail.FeasibilityApplicantCmt;
-                        pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
+                        //pcd.FeasibilityAuthorityCmt = CommonDetail.FeasibilityAuthorityCmt;
                         pcd.SocialIssuesYesNoId = CommonDetail.SocialIssuesYesNoId;
                         pcd.SocialIssuesApplicantCmt = CommonDetail.SocialIssuesApplicantCmt;
-                        pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        //pcd.SocialIssuesAuthorityCmt = CommonDetail.SocialIssuesAuthorityCmt;
+                        pcd.GuidelinesFollowedYesNoId = CommonDetail.GuidelinesFollowedYesNoId;
+                        pcd.GuidelinesFollowedAppCmt = CommonDetail.GuidelinesFollowedAppCmt;
+                        //pcd.GuidelinesFollowedAuthCmt = CommonDetail.GuidelinesFollowedAuthCmt;
+                        pcd.AnyGovCircularName = CommonDetail.AnyGovCircularName;
                         #endregion
 
                         #region Project 313 Individual Data Binding
@@ -19412,6 +19370,11 @@ namespace WrpCcNocWeb.Controllers
                             pcd.OrgHeadAttestedLetterFile = filename;
                             foldername = "images/CommonDetails/OrgHeadAttstLtrFiles";
                             break;
+
+                        case "AnyGovCircularFile":
+                            pcd.AnyGovCircularFile = filename;
+                            foldername = "images/CommonDetails/AnyGovCircularFiles";
+                            break;
                     }
 
                     _db.Entry(pcd).State = EntityState.Modified;
@@ -19629,6 +19592,10 @@ namespace WrpCcNocWeb.Controllers
 
                 case "OrgHeadAttestedLetterFile":
                     result = projectId + "_OHAL_" + DateTime.Now.ToString("yyMMddHHmmssfff");
+                    break;
+
+                case "AnyGovCircularFile":
+                    result = projectId + "_AGCF_" + DateTime.Now.ToString("yyMMddHHmmssfff");
                     break;
             }
 

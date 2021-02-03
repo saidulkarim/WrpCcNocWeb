@@ -1,7 +1,8 @@
 ﻿@using WrpCcNocWeb.DatabaseContext
 @using WrpCcNocWeb.Helpers
 
-@{ Layout = "~/Views/Shared/_ReportLayout.cshtml";
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
 
     WrpCcNocDbContext _db = new WrpCcNocDbContext();
     CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["ProjectCommonDetail"];
@@ -24,7 +25,8 @@
     var sfn = ViewData["SignatureFileName"].ToString();
     var anbn = ViewData["ApplicantNameBn"].ToString();
     var anen = ViewData["ApplicantName"].ToString();
-    var agne = ViewData["ApplicantGroupName"].ToString(); }
+    var agne = ViewData["ApplicantGroupName"].ToString();
+}
 
 <table style="width: 100%;">
     <tbody>
@@ -43,16 +45,15 @@
 
                                 <div id="form-preview" class="form-preview container">
                                     @{ await Html.RenderPartialAsync("preview/_1Header.cshtml",
-                                            new ViewDataDictionary(ViewData) {
+                                              new ViewDataDictionary(ViewData) {
                                                 { "hFormLanguage", prev_lang },
                                                 { "hPTID", ProjectTypeId }}); }
 
                                     <br />
 
                                     @{ await Html.RenderPartialAsync("preview/_2General.cshtml",
-                                            new ViewDataDictionary(ViewData) {
+                                              new ViewDataDictionary(ViewData) {
                                                 { "gProjectCommonDetail", pcd},
-                                                { "gProjectIndvDetail31", projectindi },
                                                 { "gProjectLocationDetail", location},
                                                 { "gFormLanguage", prev_lang },
                                                 { "gProjectTypeId", ProjectTypeId }}); }
@@ -117,10 +118,12 @@
                                                     {
                                                         if (prev_lang == 1)
                                                         {
-                                        <li>@bdphsd.PlanNameBn</li> }
+                                                            <li>@bdphsd.PlanNameBn</li>
+                                                        }
                                                         else
                                                         {
-                                        <li>@bdphsd.PlanName</li>}
+                                                            <li>@bdphsd.PlanName</li>
+                                                        }
                                                     }
                                                 </ol>
                                             </td>
@@ -293,10 +296,12 @@
                                                     {
                                                         if (prev_lang == 1)
                                                         {
-                                        <li>@tf.FloodTypeNameBn</li> }
+                                                            <li>@tf.FloodTypeNameBn</li>
+                                                        }
                                                         else
                                                         {
-                                        <li>@tf.FloodTypeName</li>}
+                                                            <li>@tf.FloodTypeName</li>
+                                                        }
                                                     }
                                                 </ul>
                                             </td>
@@ -350,11 +355,11 @@
                                                 {
                                                     if (prev_lang == 1)
                                                     {
-                                    @dc.DrainageConditionBn }
-                                else
-                                {
-                @dc.DrainageCondition}
-        }
+                                                        @dc.DrainageConditionBn }
+                                                    else
+                                                    {
+                                                        @dc.DrainageCondition}
+                                                }
 
                                                 <span>@projectindi.DrainageConditionOther</span>
                                             </td>
@@ -758,69 +763,70 @@
                                                                 noTickMark = "<span class='fe-check'></span>";
                                                             }
 
-                                                <td class="text-center">@Html.Raw(yesTickMark)</td>
+                                                            <td class="text-center">@Html.Raw(yesTickMark)</td>
                                                             <td class="text-center">@Html.Raw(noTickMark)</td>
-                                                                        <td>@pcd.DiscussWithStakeApplicantCmt</td>
-                                                                                    <td>@pcd.DiscussWithStakeAuthorityCmt</td> }
+                                                            <td>@pcd.DiscussWithStakeApplicantCmt</td>
+                                                            <td>@pcd.DiscussWithStakeAuthorityCmt</td>
+                                                        }
                                                     </tr>
                                                 </table>
                                                 @if (pcd.YesNoStakeId == 1)
                                                 {
-                                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    @if (prev_lang == 1)
-                                                    {<span>আলোচনা সভার ধরণ</span>}
-                                                    else
-                                                    {<span>Types of Consultation</span>}
-                                                </th>
-                                                <th>
-                                                    @if (prev_lang == 1)
-                                                    {<span>ইতিবাচক প্রতিক্রিয়া</span>}
-                                                    else
-                                                    {<span>Positive Feedback</span>}
-                                                </th>
-                                                <th>
-                                                    @if (prev_lang == 1)
-                                                    {<span>নেতিবাচক প্রতিক্রিয়া</span>}
-                                                    else
-                                                    {<span>Negative Feedback</span>}
-                                                </th>
-                                                <th>
-                                                    @if (prev_lang == 1)
-                                                    {<span>অংশগ্রহণকারীদের তালিকা</span>}
-                                                    else
-                                                    {<span>Participant list</span>}
-                                                </th>
-                                                <th>
-                                                    @if (prev_lang == 1)
-                                                    {<span>মিটিং মিনিট</span>}
-                                                    else
-                                                    {<span>Meeting minutes</span>}
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbodyDiscussionWithStakeholders">
-                                            <tr>
-                                                <td>
-                                                    @if (pcd.TypesOfConsultationId.HasValue)
-                                                    {
-                                                        var tocName = _db.LookUpCcModTypesOfConsultation.Find(pcd.TypesOfConsultationId.Value);
+                                                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    @if (prev_lang == 1)
+                                                                    {<span>আলোচনা সভার ধরণ</span>}
+                                                                    else
+                                                                    {<span>Types of Consultation</span>}
+                                                                </th>
+                                                                <th>
+                                                                    @if (prev_lang == 1)
+                                                                    {<span>ইতিবাচক প্রতিক্রিয়া</span>}
+                                                                    else
+                                                                    {<span>Positive Feedback</span>}
+                                                                </th>
+                                                                <th>
+                                                                    @if (prev_lang == 1)
+                                                                    {<span>নেতিবাচক প্রতিক্রিয়া</span>}
+                                                                    else
+                                                                    {<span>Negative Feedback</span>}
+                                                                </th>
+                                                                <th>
+                                                                    @if (prev_lang == 1)
+                                                                    {<span>অংশগ্রহণকারীদের তালিকা</span>}
+                                                                    else
+                                                                    {<span>Participant list</span>}
+                                                                </th>
+                                                                <th>
+                                                                    @if (prev_lang == 1)
+                                                                    {<span>মিটিং মিনিট</span>}
+                                                                    else
+                                                                    {<span>Meeting minutes</span>}
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tbodyDiscussionWithStakeholders">
+                                                            <tr>
+                                                                <td>
+                                                                    @if (pcd.TypesOfConsultationId.HasValue)
+                                                                    {
+                                                                        var tocName = _db.LookUpCcModTypesOfConsultation.Find(pcd.TypesOfConsultationId.Value);
 
-                                                        if (prev_lang == 1)
-                                                        {<span>@tocName.ConsultationNameBn</span>}
-                                                    else
-                                                    {<span>@tocName.ConsultationName</span>}
-                                            }
-                                                </td>
-                                                <td>@pcd.DiscussWithStakePosFeedback</td>
-                                                <td>@pcd.DiscussWithStakeNegFeedback</td>
-                                                <td style="word-break: break-all;"><a href="~/images/CommonDetails/DiscussStakeParticipantListDocs/@pcd.DiscussWithStakeParticipntLst" target="_blank">@pcd.DiscussWithStakeParticipntLst</a></td>
-                                                <td style="word-break: break-all;"><a href="~/images/CommonDetails/DiscussStakeMeetMins/@pcd.DiscussWithStakeMeetingMin" target="_blank">@pcd.DiscussWithStakeMeetingMin</a></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>}
+                                                                        if (prev_lang == 1)
+                                                                        {<span>@tocName.ConsultationNameBn</span>}
+                                                                    else
+                                                                    {<span>@tocName.ConsultationName</span>}
+                                                            }
+                                                                </td>
+                                                                <td>@pcd.DiscussWithStakePosFeedback</td>
+                                                                <td>@pcd.DiscussWithStakeNegFeedback</td>
+                                                                <td style="word-break: break-all;"><a href="~/images/CommonDetails/DiscussStakeParticipantListDocs/@pcd.DiscussWithStakeParticipntLst" target="_blank">@pcd.DiscussWithStakeParticipntLst</a></td>
+                                                                <td style="word-break: break-all;"><a href="~/images/CommonDetails/DiscussStakeMeetMins/@pcd.DiscussWithStakeMeetingMin" target="_blank">@pcd.DiscussWithStakeMeetingMin</a></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>}
                                             </td>
                                             <td>
                                                 <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Discussion with Stakeholders During Starting of the Project', 'DiscussionWithstakeholders');"
@@ -895,10 +901,11 @@
                                                                 noTickMark = "<span class='fe-check'></span>";
                                                             }
 
-                                                <td class="text-center">@Html.Raw(yesTickMark)</td>
+                                                            <td class="text-center">@Html.Raw(yesTickMark)</td>
                                                             <td class="text-center">@Html.Raw(noTickMark)</td>
-                                                                        <td>@pcd.AnalyzeOptionsApplicantCmt</td>
-                                                                                    <td>@pcd.AnalyzeOptionsAuthorityCmt</td> }
+                                                            <td>@pcd.AnalyzeOptionsApplicantCmt</td>
+                                                            <td>@pcd.AnalyzeOptionsAuthorityCmt</td>
+                                                        }
                                                     </tr>
                                                 </table>
                                                 @if (pcd.AnalyzeOptYesNoId == 1)
@@ -1014,10 +1021,11 @@
                                                                 noTickMark = "<span class='fe-check'></span>";
                                                             }
 
-                                                <td>@Html.Raw(yesTickMark)</td>
+                                                            <td>@Html.Raw(yesTickMark)</td>
                                                             <td>@Html.Raw(noTickMark)</td>
-                                                                        <td>@pcd.EnvAndSocialApplicantCmt</td>
-                                                                                    <td>@pcd.EnvAndSocialAuthorityCmt</td> }
+                                                            <td>@pcd.EnvAndSocialApplicantCmt</td>
+                                                            <td>@pcd.EnvAndSocialAuthorityCmt</td>
+                                                        }
                                                     </tr>
                                                 </table>
                                             </td>
@@ -1134,10 +1142,11 @@
                                                                 noTickMark = "<span class='fe-check'></span>";
                                                             }
 
-                                                <td>@Html.Raw(yesTickMark)</td>
+                                                            <td>@Html.Raw(yesTickMark)</td>
                                                             <td>@Html.Raw(noTickMark)</td>
-                                                                        <td>@projectindi.ToolsApplicantComments</td>
-                                                                                    <td>@projectindi.ToolsAuthorityComments</td> }
+                                                            <td>@projectindi.ToolsApplicantComments</td>
+                                                            <td>@projectindi.ToolsAuthorityComments</td>
+                                                        }
                                                     </tr>
                                                 </table>
                                             </td>
@@ -1197,7 +1206,8 @@
                                             </td>
                                         </tr>
 
-                                        @{ var cnwpd = ViewData["CompatNWPDetail"];
+                                        @{
+                                            var cnwpd = ViewData["CompatNWPDetail"];
                                             var cnwmpd = ViewData["CompatNWMPDetail"];
                                             var sdgd = ViewData["CompatSDGDetail"];
                                             var sdgid = ViewData["CompatSDGIndiDetail"];
@@ -1205,30 +1215,29 @@
                                             var gpwmgtd = ViewData["GPWMGroupType"];
                                             await Html.RenderPartialAsync("preview/_4Deed.cshtml",
                                                   new ViewDataDictionary(ViewData) {
-                                        { "dProjectCommonDetail", pcd},
-                                        { "dProjectIndvDetail31", projectindi },
-                                        { "dCompatNWPDetail", cnwpd },
-                                        { "dCompatNWMPDetail", cnwmpd },
-                                        { "dCompatSDGDetail", sdgd },
-                                        { "dCompatSDGIndiDetail", sdgid },
-                                        { "dBDP2100GoalDetail", bdp2100gd },
-                                        { "dGPWMGroupType", gpwmgtd },
-                                        { "dFormLanguage", prev_lang },
-                                        { "dProjectTypeId", ProjectTypeId }}); }
+                                                    { "dProjectCommonDetail", pcd},
+                                                    //{ "dProjectIndvDetail31", projectindi },
+                                                    { "dCompatNWPDetail", cnwpd },
+                                                    { "dCompatNWMPDetail", cnwmpd },
+                                                    { "dCompatSDGDetail", sdgd },
+                                                    { "dCompatSDGIndiDetail", sdgid },
+                                                    { "dBDP2100GoalDetail", bdp2100gd },
+                                                    { "dGPWMGroupType", gpwmgtd },
+                                                    { "dFormLanguage", prev_lang },
+                                                    { "dProjectTypeId", ProjectTypeId }}); }
 
                                         @{ await Html.RenderPartialAsync("preview/_5Administrative.cshtml",
-                                                                         new ViewDataDictionary(ViewData) {
-                                        { "aProjectCommonDetail", pcd},
-                                        { "aProjectIndvDetail31", projectindi },
-                                        { "aFormLanguage", prev_lang },
-                                        { "aProjectTypeId", ProjectTypeId }}); }
+                                                  new ViewDataDictionary(ViewData) {
+                                                    { "aProjectCommonDetail", pcd},
+                                                    { "aFormLanguage", prev_lang },
+                                                    { "aProjectTypeId", ProjectTypeId }}); }
                                     </table>
 
                                     <br />
                                     <hr />
 
                                     @{ await Html.RenderPartialAsync("preview/_6Footer.cshtml",
-                                                                    new ViewDataDictionary(ViewData) {
+                                                                      new ViewDataDictionary(ViewData) {
                                         { "fSignatureFileName", sfn},
                                         { "fApplicantNameBn", anbn },
                                         { "fApplicantName", anen },

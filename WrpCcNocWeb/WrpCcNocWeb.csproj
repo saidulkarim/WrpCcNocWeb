@@ -70,6 +70,7 @@
     <Folder Include="wwwroot\images\CommonDetails\EiaFiles\" />
     <Folder Include="wwwroot\images\CommonDetails\DmpDocs\" />
     <Folder Include="wwwroot\images\CommonDetails\FeasibilityStudyReports\" />
+    <Folder Include="wwwroot\images\CommonDetails\AnyGovCircularFiles\" />
     <Folder Include="wwwroot\images\CommonDetails\OrgHeadAttstLtrFiles\" />
     <Folder Include="wwwroot\images\CommonDetails\ProjectDuplicationFiles\" />
     <Folder Include="wwwroot\images\CommonDetails\NWMPDocs\" />

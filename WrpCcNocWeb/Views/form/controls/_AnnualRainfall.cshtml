@@ -272,11 +272,11 @@
 
                     jQuery("#tbodyAnnualRainfall").html(rows);
                 } else {
-                    jQuery("#tblAnnualRainfall").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                    jQuery("#tbodyAnnualRainfall").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
                 }
             }, error: function (jqXHR, exception) {
                 var errorMsg = AjaxErrorHandle(jqXHR, exception);
-                jQuery("#tblAnnualRainfall").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+                jQuery("#tbodyAnnualRainfall").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
                 Notification('error', 'Error Occured', errorMsg);
             }
         });
