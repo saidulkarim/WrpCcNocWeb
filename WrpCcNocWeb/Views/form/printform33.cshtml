@@ -1490,7 +1490,7 @@
             <td colspan="3">
                 <h4>
                     @if (prev_lang == 1)
-                    {<span>(৯)অর্থনৈতিক ও আর্থিক বিশ্লেষণ</span>}
+                    {<span>(৯) অর্থনৈতিক ও আর্থিক বিশ্লেষণ</span>}
                     else
                     {<span>(9) Economical & Financial Analysis</span>}
                 </h4>
@@ -1508,6 +1508,111 @@
             </td>
             <td>
                 <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Economical and Financial Analysis', 'EconomicalFinancialAnalysis');"
+                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                    <i class="mdi mdi-comment-text-multiple"></i>
+                </a>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="3">
+                <h4>
+                    @if (prev_lang == 1)
+                    {<span>(১০) সুবিধাভোগী গ্রুপ কর্তৃক পর্যবেক্ষণ ও রক্ষণাবেক্ষণ ব্যয় বহন</span>}
+                    else
+                    { <span>(10) O&M Cost Beared by Beneficiary Group</span>}
+                </h4>
+            </td>
+        </tr>
+
+        <tr style="vertical-align: top; text-align: left;">
+            <td colspan="2">
+                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                    <tr>
+                        <th>
+                            @if (prev_lang == 1)
+                            {<span>হ্যাঁ</span>}
+                            else
+                            {<span>Yes</span>}
+                        </th>
+                        <th>
+                            @if (prev_lang == 1)
+                            {<span>না</span>}
+                            else
+                            {<span>No</span>}
+                        </th>
+                        <th>
+                            @if (prev_lang == 1)
+                            {<span>আবেদনকারীর মন্তব্য</span>}
+                            else
+                            {<span>Applicant Comments</span>}
+                        </th>
+                    </tr>
+                    <tr>
+                        @{
+                            yesTickMark = string.Empty;
+                            noTickMark = string.Empty;
+
+                            if (projectindi.OMCostBearYesNoId == 1)
+                            {
+                                yesTickMark = "<span class='fe-check'></span>";
+                                noTickMark = "";
+                            }
+                            else
+                            {
+                                yesTickMark = "";
+                                noTickMark = "<span class='fe-check'></span>";
+                            }
+
+                            <td>@Html.Raw(yesTickMark)</td>
+                            <td>@Html.Raw(noTickMark)</td>
+                            <td>@projectindi.OMCostBearAppComments</td>
+                        }
+                    </tr>
+                </table>
+
+                @if (projectindi.OMCostBearYesNoId == 1)
+                {
+                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                        <tr>
+                            <td>
+                                @if (prev_lang == 1)
+                                {<span>বিদ্যুৎ বিল</span>}
+                                else
+                                {<span>Electricity Bill</span>}
+                            </td>
+                            <td>
+                                @if (prev_lang == 1)
+                                {<span>মটর চালনা ব্যয়</span>}
+                                else
+                                {<span>Pump Operation Cost</span>}
+                            </td>
+                            <td>
+                                @if (prev_lang == 1)
+                                {<span>খাল মেরামত ও রক্ষণাবেক্ষন</span>}
+                                else
+                                {<span>Canal Repair & Maintenance</span>}
+                            </td>
+                            <td>
+                                @if (prev_lang == 1)
+                                {<span>অন্যান্য</span>}
+                                else
+                                {<span>Others</span>}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>@projectindi.OMCostBearElecBill</td>
+                            <td>@projectindi.OMBearCostPumpOptCost</td>
+                            <td>@projectindi.OMCostBearCanalRepair</td>
+                            <td>@projectindi.OMCostBearOther</td>
+                        </tr>
+                    </table>
+                }
+            </td>
+            <td style="word-break: break-all;">
+                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('O&M Cost Beared by Beneficiary Group', 'OMCostBearedBeneficiaryGroup');"
                    class="btn btn-sm btn-info waves-effect comment" data-close="false"
                    data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
                    style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">

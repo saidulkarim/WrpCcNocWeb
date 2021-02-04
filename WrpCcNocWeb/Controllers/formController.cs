@@ -12784,7 +12784,14 @@ namespace WrpCcNocWeb.Controllers
                                 p33i.WaterPhLevel = Project33Indv.WaterPhLevel;
                                 p33i.UseOfToolsYesNoId = Project33Indv.UseOfToolsYesNoId;
                                 p33i.ToolsApplicantComments = Project33Indv.ToolsApplicantComments;
-                                p33i.ToolsAuthorityComments = Project33Indv.ToolsAuthorityComments;
+                                //p33i.ToolsAuthorityComments = Project33Indv.ToolsAuthorityComments;
+                                p33i.OMCostBearYesNoId = Project33Indv.OMCostBearYesNoId;
+                                p33i.OMCostBearAppComments = Project33Indv.OMCostBearAppComments;
+                                //p33i.OMCostBearAuthComments = Project33Indv.OMCostBearAuthComments;
+                                p33i.OMCostBearElecBill = Project33Indv.OMCostBearElecBill;
+                                p33i.OMBearCostPumpOptCost = Project33Indv.OMBearCostPumpOptCost;
+                                p33i.OMCostBearCanalRepair = Project33Indv.OMCostBearCanalRepair;
+                                p33i.OMCostBearOther = Project33Indv.OMCostBearOther;
                                 #endregion
 
                                 _db.Entry(p33i).State = EntityState.Modified;

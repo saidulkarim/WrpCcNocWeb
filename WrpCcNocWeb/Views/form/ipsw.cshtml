@@ -1357,7 +1357,7 @@ new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                                                                                 <div class="row">
                                                                                     <div class="col-md-12">
                                                                                         @{ await Html.RenderPartialAsync("controls/_EnvSocImpactAssessment.cshtml",
-new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
+                                                                                                  new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -1452,8 +1452,107 @@ new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                                                                                 <div class="row">
                                                                                     <div class="col-md-12">
                                                                                         @{ await Html.RenderPartialAsync("controls/_EconomicalFinancialAnalysis.cshtml",
-                                                                                                  new ViewDataDictionary(ViewData) {
+                                                                                                     new ViewDataDictionary(ViewData) {
                                                                                                     { "vFormLanguage", language }}); }
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="card">
+                                                                        <div class="card-header bg-success py-3 text-white cursor" data-toggle="collapse" href="#cardCollpase310">
+                                                                            <div class="card-widgets">
+                                                                                <a data-toggle="collapse" href="#cardCollpase310" role="button" aria-expanded="false" aria-controls="cardCollpase310"><i class="mdi mdi-minus"></i></a>
+                                                                            </div>
+                                                                            <h5 class="card-title mb-0 text-white">
+                                                                                @if (language == 1)
+                                                                                {<span>১০. সুবিধাভোগী গ্রুপ কর্তৃক পর্যবেক্ষণ ও রক্ষণাবেক্ষণ ব্যয় বহন</span>}
+                                                                                else
+                                                                                { <span>10. O&M Cost Beared by Beneficiary Group</span>}
+                                                                            </h5>
+                                                                        </div>
+                                                                        <div id="cardCollpase310" class="collapse show">
+                                                                            <div class="card-body">
+                                                                                <div class="form-group">
+                                                                                    <div id="OMCostBeared" class="row" style="margin-left: 5px;">
+                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                                                                                            <input type="radio" name="OMCostBearYesNoId" id="chkCostOMBearYes" value="1" data-parsley-multiple="OMCostBearYesNoId">
+                                                                                            <label for="chkCostOMBearYes">
+                                                                                                @if (language == 1)
+                                                                                                {<span>হ্যাঁ</span>}
+                                                                                                else
+                                                                                                {<span>Yes</span>}
+                                                                                            </label>
+                                                                                        </div>
+
+                                                                                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                                                                                            <input type="radio" name="OMCostBearYesNoId" id="chkOMCostBearNo" value="0" checked data-parsley-multiple="OMCostBearYesNoId">
+                                                                                            <label for="chkOMCostBearNo">
+                                                                                                @if (language == 1)
+                                                                                                {<span>না</span>}
+                                                                                                else
+                                                                                                {<span>No</span>}
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="form-group">
+                                                                                    <label for="OMCostBearAppComments">
+                                                                                        @{if (language == 1)
+                                                                                            { <span>ii. আবেদনকারীর মন্তব্য</span>}
+                                                                                            else
+                                                                                            {<span>ii. Applicant Comments</span>} }
+                                                                                    </label>
+                                                                                    <input type="text" id="OMCostBearAppComments" name="OMCostBearAppComments" class="form-control" />
+                                                                                </div>
+
+                                                                                <div id="divOMCostBearedControls" class="d-none">
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-3 form-group text-center">
+                                                                                            <label for="OMCostBearElecBill">
+                                                                                                @if (language == 1)
+                                                                                                {<span>বিদ্যুৎ বিল</span>}
+                                                                                                else
+                                                                                                {<span>Electricity Bill</span>}
+                                                                                            </label>
+
+                                                                                            <input type="text" maxlength="100" id="OMCostBearElecBill" name="OMCostBearElecBill" class="form-control" />
+                                                                                        </div>
+
+                                                                                        <div class="col-md-3 form-group text-center">
+                                                                                            <label for="OMBearCostPumpOptCost">
+                                                                                                @if (language == 1)
+                                                                                                {<span>মটর চালনা ব্যয়</span>}
+                                                                                                else
+                                                                                                {<span>Pump Operation Cost</span>}
+                                                                                            </label>
+
+                                                                                            <input type="text" maxlength="100" id="OMBearCostPumpOptCost" name="OMBearCostPumpOptCost" class="form-control" />
+                                                                                        </div>
+
+                                                                                        <div class="col-md-3 form-group text-center">
+                                                                                            <label for="OMCostBearCanalRepair">
+                                                                                                @if (language == 1)
+                                                                                                {<span>খাল মেরামত ও রক্ষণাবেক্ষন</span>}
+                                                                                                else
+                                                                                                {<span>Canal Repair & Maintenance</span>}
+                                                                                            </label>
+
+                                                                                            <input type="text" maxlength="100" id="OMCostBearCanalRepair" name="OMCostBearCanalRepair" class="form-control" />
+                                                                                        </div>
+
+                                                                                        <div class="col-md-3 form-group text-center">
+                                                                                            <label for="OMCostBearOther">
+                                                                                                @if (language == 1)
+                                                                                                {<span>অন্যান্য</span>}
+                                                                                                else
+                                                                                                {<span>Others</span>}
+                                                                                            </label>
+
+                                                                                            <input type="text" maxlength="100" id="OMCostBearOther" name="OMCostBearOther" class="form-control" />
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -1495,7 +1594,7 @@ new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                                                         <div class="tab-pane fade" id="v-deed-obligatory" role="tabpanel" aria-labelledby="v-deed-obligatory-tab">
                                                             <div class="card-box">
                                                                 @{ await Html.RenderPartialAsync("form/_4DeedObligatory",
-                                                                          new ViewDataDictionary(ViewData) {
+                                                                            new ViewDataDictionary(ViewData) {
                                                                              { "vFormLanguage", language } }); }
                                                             </div>
                                                         </div>
@@ -1675,6 +1774,16 @@ new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
             } else {
                 jQuery("#divEIAYes, #divSIAYes").removeClass('d-block fadeIn');
                 jQuery("#divEIAYes, #divSIAYes").addClass('d-none fadeOut');
+            }
+        });
+
+        jQuery("input[type='radio'][name='OMCostBearYesNoId']").change(function () {
+            if (jQuery(this).val() == 1) {
+                jQuery("#divOMCostBearedControls").removeClass('d-none fadeOut');
+                jQuery("#divOMCostBearedControls").addClass('d-block fadeIn');
+            } else {
+                jQuery("#divOMCostBearedControls").removeClass('d-block fadeIn');
+                jQuery("#divOMCostBearedControls").addClass('d-none fadeOut');
             }
         });
 
@@ -2019,7 +2128,7 @@ new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                 "CultivableCrops": GetTextValue('CultivableCrops'),
                 "CropProduction": GetTextValue('CropProduction'),
                 "CropProductionAmount": GetTextValue('CropProductionAmount'),
-                "TotalFishProduction": GetTextValue('TotalFishProduction'),                
+                "TotalFishProduction": GetTextValue('TotalFishProduction'),
                 "FloraAndFauna": GetTextValue('FloraAndFauna'),
                 "SurfaceWaterDemandPerDay": GetTextValue('SurfaceWaterDemandPerDay'),
                 "WaterWithdrawQuantityPerDay": GetTextValue('WaterWithdrawQuantityPerDay'),
@@ -2034,7 +2143,14 @@ new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                 "WaterPhLevel": GetTextValue('WaterPhLevel'),
                 "UseOfToolsYesNoId": GetRadioValue('UseOfToolsYesNoId'),
                 "ToolsApplicantComments": GetTextValue('ToolsApplicantComments'),
-                "ToolsAuthorityComments": GetTextValue('ToolsAuthorityComments')
+                //"ToolsAuthorityComments": GetTextValue('ToolsAuthorityComments'),
+                "OMCostBearYesNoId": GetRadioValue('OMCostBearYesNoId'),
+                "OMCostBearAppComments": GetTextValue('OMCostBearAppComments'),
+                //"OMCostBearAuthComments": GetTextValue('OMCostBearAuthComments'),
+                "OMCostBearElecBill": GetTextValue('OMCostBearElecBill'),
+                "OMBearCostPumpOptCost": GetTextValue('OMBearCostPumpOptCost'),
+                "OMCostBearCanalRepair": GetTextValue('OMCostBearCanalRepair'),
+                "OMCostBearOther": GetTextValue('OMCostBearOther')
             };
 
             var _Form33FinalObj = {
@@ -2404,6 +2520,26 @@ new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                 } else {
 	                $("#EcoFinAnalysisFileView").attr('href', 'javascript:void(0);').text('No File');
                 }
+
+                var OMCostBearYesNoId = '@Html.Raw(ViewBag.ProjectIndvDetail33.OMCostBearYesNoId)';
+                if (OMCostBearYesNoId != '') {
+	                $(":radio[name='OMCostBearYesNoId'][value='" + OMCostBearYesNoId + "']").attr('checked', true);
+
+	                if (OMCostBearYesNoId == 1) {
+		                jQuery("#divOMCostBearedControls").removeClass('d-none fadeOut');
+		                jQuery("#divOMCostBearedControls").addClass('d-block fadeIn');
+	                } else {
+		                jQuery("#divOMCostBearedControls").removeClass('d-block fadeIn');
+		                jQuery("#divOMCostBearedControls").addClass('d-none fadeOut');
+	                }
+                }
+
+                SetTextValue('OMCostBearAppComments', '@Html.Raw(ViewBag.ProjectIndvDetail33.OMCostBearAppComments)');
+                SetTextValue('OMCostBearAuthComments', '@Html.Raw(ViewBag.ProjectIndvDetail33.OMCostBearAuthComments)');
+                SetTextValue('OMCostBearElecBill', '@Html.Raw(ViewBag.ProjectIndvDetail33.OMCostBearElecBill)');
+                SetTextValue('OMBearCostPumpOptCost', '@Html.Raw(ViewBag.ProjectIndvDetail33.OMBearCostPumpOptCost)');
+                SetTextValue('OMCostBearCanalRepair', '@Html.Raw(ViewBag.ProjectIndvDetail33.OMCostBearCanalRepair)');
+                SetTextValue('OMCostBearOther', '@Html.Raw(ViewBag.ProjectIndvDetail33.OMCostBearOther)');
             }
         }
 
