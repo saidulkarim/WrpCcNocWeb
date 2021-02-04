@@ -180,48 +180,70 @@ namespace WrpCcNocWeb.Models
         [Column("WaterSalinity", Order = 37)]
         [Display(Name = "Salinity (ppm)")]
         [MaxLength(50)]
-        public string WaterSalinity { get; set; }        
+        public string WaterSalinity { get; set; }
 
-        [Column("WaterTDS", Order = 38)]
+        [Column("WaterDO", Order = 38)]
+        [Display(Name = "DO (mg/l)")]
+        [MaxLength(50)]
+        public string WaterDO { get; set; }
+
+        [Column("WaterTDS", Order = 39)]
         [Display(Name = "TDS")]
         [MaxLength(50)]
         public string WaterTDS { get; set; }
 
-        [Column("WaterPhLevel", Order = 39)]
+        [Column("WaterPhLevel", Order = 40)]
         [Display(Name = "pH")]
         [MaxLength(50)]
         public string WaterPhLevel { get; set; }             
 
-        [Column("UseOfToolsYesNoId", Order = 40)]
+        [Column("UseOfToolsYesNoId", Order = 41)]
         [Display(Name = "Was there any Use Of Tools")]
         public int? UseOfToolsYesNoId { get; set; }
         [ForeignKey("UseOfToolsYesNoId")]
         public virtual LookUpCcModYesNo LookUpYesNoUseOfTool_33 { get; set; }
 
-        [Column("ToolsApplicantComments", Order = 41)]
+        [Column("ToolsApplicantComments", Order = 42)]
         [Display(Name = "Tools Applicant Comments")]
         [MaxLength(150)]
         public string ToolsApplicantComments { get; set; }
 
-        [Column("ToolsAuthorityComments", Order = 42)]
+        [Column("ToolsAuthorityComments", Order = 43)]
         [Display(Name = "Tools Authority Comments")]
         [MaxLength(150)]
         public string ToolsAuthorityComments { get; set; }
 
-        [Column("DuplicatYesNoId", Order = 43)]
+        [Column("DuplicatYesNoId", Order = 44)]
         [Display(Name = "Was there any Duplication")]
         public int? DuplicatYesNoId { get; set; }
         [ForeignKey("DuplicatYesNoId")]
         public virtual LookUpCcModYesNo LookUpYesNoDuplication_33 { get; set; }
 
-        [Column("DuplicationApplicantComments", Order = 44)]
+        [Column("DuplicationApplicantComments", Order = 45)]
         [Display(Name = "Duplication Applicant Comments")]
         [MaxLength(150)]
         public string DuplicationApplicantComments { get; set; }
 
-        [Column("DuplicationAuthorityComments", Order = 45)]
+        [Column("DuplicationAuthorityComments", Order = 46)]
         [Display(Name = "Duplication Authority Comments")]
         [MaxLength(150)]
         public string DuplicationAuthorityComments { get; set; }
+
+        [Column("SurfaceWaterDemandPerDay", Order = 47)]
+        [Display(Name = "Surface Water Demand Per Day")]
+        public double? SurfaceWaterDemandPerDay { get; set; }        
+
+        [Column("TotalFishProduction", Order = 48)]
+        [Display(Name = "Total Fish Production (Ton)")]
+        public double? TotalFishProduction { get; set; }
+
+        [Column("UseOfAppropToolsDescription", Order = 49)]
+        [Display(Name = "Short Description, If Yes")]
+        [MaxLength(500)]
+        public string UseOfAppropToolsDescription { get; set; }
+
+        [Column("CropProductionAmount", Order = 50)]
+        [Display(Name = "Crop Production Amount (Taka)")]
+        public double? CropProductionAmount { get; set; }
     }
 }

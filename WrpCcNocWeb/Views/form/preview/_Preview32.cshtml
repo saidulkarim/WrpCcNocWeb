@@ -1563,25 +1563,25 @@
         var gpwmgtd = ViewData["GPWMGroupType"];
 
         await Html.RenderPartialAsync("_4Deed.cshtml",
-         new ViewDataDictionary(ViewData) {
-        { "dProjectCommonDetail", pcd},
-        //{ "dProjectIndvDetail31", projectindi },
-        { "dCompatNWPDetail", cnwpd },
-        { "dCompatNWMPDetail", cnwmpd },
-        { "dCompatSDGDetail", sdgd },
-        { "dCompatSDGIndiDetail", sdgid },
-        { "dBDP2100GoalDetail", bdp2100gd },
-        { "dGPWMGroupType", gpwmgtd },
-        { "dFormLanguage", prev_lang },
-        { "dProjectTypeId", ProjectTypeId }});
+              new ViewDataDictionary(ViewData) {
+                { "dProjectCommonDetail", pcd},
+                //{ "dProjectIndvDetail31", projectindi },
+                { "dCompatNWPDetail", cnwpd },
+                { "dCompatNWMPDetail", cnwmpd },
+                { "dCompatSDGDetail", sdgd },
+                { "dCompatSDGIndiDetail", sdgid },
+                { "dBDP2100GoalDetail", bdp2100gd },
+                { "dGPWMGroupType", gpwmgtd },
+                { "dFormLanguage", prev_lang },
+                { "dProjectTypeId", ProjectTypeId }});
     }
 
     @{ await Html.RenderPartialAsync("_5Administrative.cshtml",
-              new ViewDataDictionary(ViewData) {
-        { "aProjectCommonDetail", pcd},
-        //{ "aProjectIndvDetail31", projectindi },
-        { "aFormLanguage", prev_lang },
-        { "aProjectTypeId", ProjectTypeId }});
+             new ViewDataDictionary(ViewData) {
+                { "aProjectCommonDetail", pcd},
+                //{ "aProjectIndvDetail31", projectindi },
+                { "aFormLanguage", prev_lang },
+                { "aProjectTypeId", ProjectTypeId }});
     }
 
     @{
@@ -1591,13 +1591,13 @@
         var agne = ViewData["ApplicantGroupName"].ToString();
 
         await Html.RenderPartialAsync("_6Footer.cshtml",
-           new ViewDataDictionary(ViewData) {
-        { "fSignatureFileName", sfn},
-        { "fApplicantNameBn", anbn },
-        { "fApplicantName", anen },
-        { "fApplicantGroupName", agne },
-        { "fFormLanguage", prev_lang },
-        { "fProjectTypeId", ProjectTypeId }});
+              new ViewDataDictionary(ViewData) {
+                { "fSignatureFileName", sfn},
+                { "fApplicantNameBn", anbn },
+                { "fApplicantName", anen },
+                { "fApplicantGroupName", agne },
+                { "fFormLanguage", prev_lang },
+                { "fProjectTypeId", ProjectTypeId }});
     }
 </div>
 

@@ -1164,7 +1164,7 @@
             <td colspan="3">
                 <h4>
                     @if (prev_lang == 1)
-                    {<span>(৯)অর্থনৈতিক ও আর্থিক বিশ্লেষণ</span>}
+                    {<span>(৯) অর্থনৈতিক ও আর্থিক বিশ্লেষণ</span>}
                     else
                     {<span>(9) Economical & Financial Analysis</span>}
                 </h4>
@@ -1181,11 +1181,11 @@
         <tr style="vertical-align: top; text-align: left;">
             <td colspan="3">
                 @{ var efad = ViewData["EcoFinAnalysisDetail"];
-                    await Html.RenderPartialAsync("../controls/_EconomicalFinancialAnalysisView.cshtml",
-                        new ViewDataDictionary(ViewData) {
-                                        { "vFormLanguage", prev_lang },
-                                        { "vEcoFinAnalysisDetail", efad },
-                                        { "vEcoFinAnalysisFile", pcd.EcoFinAnalysisFile }}); }
+                   await Html.RenderPartialAsync("../controls/_EconomicalFinancialAnalysisView.cshtml",
+                         new ViewDataDictionary(ViewData) {
+                            { "vFormLanguage", prev_lang },
+                            { "vEcoFinAnalysisDetail", efad },
+                            { "vEcoFinAnalysisFile", pcd.EcoFinAnalysisFile }}); }
             </td>
         </tr>
     </table>

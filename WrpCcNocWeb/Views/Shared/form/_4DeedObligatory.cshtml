@@ -1077,82 +1077,81 @@
         </div>
     </div>
 
-    @if (selected_form == 1 || selected_form == 2 ||selected_form == 4 || selected_form == 10 || selected_form == 13)
-    {
-        <div class="card">
-            <div class="card-header bg-pink py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed21">
-                <div class="card-widgets">
-                    <a data-toggle="collapse" href="#cardCollpaseDeed21" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed21"><i class="mdi mdi-minus"></i></a>
-                </div>
-                <h5 class="card-title mb-0 text-white">
-                    @if (language == 1)
-                    {<span>১৩. অন্যান্য সংস্থা, ব্যক্তি/ গোষ্ঠী কর্তৃক পরিচালিত বা সমাপ্ত প্রকল্প সমূহের সহিত প্রস্তাবিত প্রকল্পটি কোন দ্বৈততা বা পুনরাবৃত্তি আছে কিনা বা থাকলেও সংস্থা, ব্যক্তি বা গোষ্ঠির সাথে সমন্বয় করা হয়েছে কিনা?</span>}
-                    else
-                    {<span>13. Examine whether the project is not overlapping and duplication with any other project of other organizations or individual/ group initiatives and resolve disputes if any relating to appropriation?</span>}
-                </h5>
+
+    <div class="card">
+        <div class="card-header bg-pink py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed21">
+            <div class="card-widgets">
+                <a data-toggle="collapse" href="#cardCollpaseDeed21" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed21"><i class="mdi mdi-minus"></i></a>
             </div>
-            <div id="cardCollpaseDeed21" class="collapse show">
-                <div class="card-body">
-                    <div class="form-group">
-                        <div id="duplicationproject" class="row" style="margin-left: 5px;">
-                            <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                <input type="radio" name="DuplicatYesNoId" id="duplicationprojectYes" value="1" data-parsley-multiple="DuplicatYesNoId">
-                                <label for="duplicationprojectYes">
-                                    @if (language == 1)
-                                    {<span>হ্যাঁ</span>}
-                                    else
-                                    {<span>Yes</span>}
-                                </label>
-                            </div>
+            <h5 class="card-title mb-0 text-white">
+                @if (language == 1)
+                {<span>১৩. অন্যান্য সংস্থা, ব্যক্তি/ গোষ্ঠী কর্তৃক পরিচালিত বা সমাপ্ত প্রকল্প সমূহের সহিত প্রস্তাবিত প্রকল্পটি কোন দ্বৈততা বা পুনরাবৃত্তি আছে কিনা বা থাকলেও সংস্থা, ব্যক্তি বা গোষ্ঠির সাথে সমন্বয় করা হয়েছে কিনা?</span>}
+                else
+                {<span>13. Examine whether the project is not overlapping and duplication with any other project of other organizations or individual/ group initiatives and resolve disputes if any relating to appropriation?</span>}
+            </h5>
+        </div>
+        <div id="cardCollpaseDeed21" class="collapse show">
+            <div class="card-body">
+                <div class="form-group">
+                    <div id="duplicationproject" class="row" style="margin-left: 5px;">
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="DuplicatYesNoId" id="duplicationprojectYes" value="1" data-parsley-multiple="DuplicatYesNoId">
+                            <label for="duplicationprojectYes">
+                                @if (language == 1)
+                                {<span>হ্যাঁ</span>}
+                                else
+                                {<span>Yes</span>}
+                            </label>
+                        </div>
 
-                            <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
-                                <input type="radio" name="DuplicatYesNoId" id="duplicationprojectNo" value="0" checked data-parsley-multiple="DuplicatYesNoId">
-                                <label for="duplicationprojectNo">
-                                    @if (language == 1)
-                                    {<span>না</span>}
-                                    else
-                                    {<span>No</span>}
-                                </label>
-                            </div>
+                        <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                            <input type="radio" name="DuplicatYesNoId" id="duplicationprojectNo" value="0" checked data-parsley-multiple="DuplicatYesNoId">
+                            <label for="duplicationprojectNo">
+                                @if (language == 1)
+                                {<span>না</span>}
+                                else
+                                {<span>No</span>}
+                            </label>
                         </div>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label for="DuplicationApplicantComments">
-                            @if (language == 1)
-                            {<span>আবেদনকারীর মন্তব্য</span>}
-                            else
-                            {<span>Applicant Comments</span>}
-                        </label>
-                        <input type="text" maxlength="150" id="DuplicationApplicantComments" name="DuplicationApplicantComments" class="form-control" />
-                    </div>
+                <div class="form-group">
+                    <label for="DuplicationApplicantComments">
+                        @if (language == 1)
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </label>
+                    <input type="text" maxlength="150" id="DuplicationApplicantComments" name="DuplicationApplicantComments" class="form-control" />
+                </div>
 
-                    <div class="col-md-6 form-group" style="padding-left: 0 !important;">
-                        <label for="PrjDuplicateAttestedLtrFile">
-                            @if (language == 1)
-                            {<span>প্রত্যয়ন পত্র আপলোড</span>}
-                            else
-                            {<span>Attested Letter Upload</span>}
-                        </label>
-                        <div class="input-group">
-                            <div class="custom-file">
-                                <input id="PrjDuplicateAttestedLtrFile" name="PrjDuplicateAttestedLtrFile" type="file"
-                                       class="custom-file-input" onchange="UploadCommonFiles(this, 'PrjDuplicateAttestedLtrFile');" />
-                                <label class="custom-file-label" for="PrjDuplicateAttestedLtrFile">
-                                    @if (language == 1)
-                                    {<span>ফাইল পছন্দ করুন</span>}
-                                    else
-                                    {<span>Choose File</span>}
-                                </label>
-                            </div>
-
-                            <a id="PrjDuplicateAttestedLtrFileView" href="javascript:void(0);" target="_blank" class="btn btn-blue ml-2 text-white"></a>
+                <div class="col-md-6 form-group" style="padding-left: 0 !important;">
+                    <label for="PrjDuplicateAttestedLtrFile">
+                        @if (language == 1)
+                        {<span>প্রত্যয়ন পত্র আপলোড</span>}
+                        else
+                        {<span>Attested Letter Upload</span>}
+                    </label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input id="PrjDuplicateAttestedLtrFile" name="PrjDuplicateAttestedLtrFile" type="file"
+                                   class="custom-file-input" onchange="UploadCommonFiles(this, 'PrjDuplicateAttestedLtrFile');" />
+                            <label class="custom-file-label" for="PrjDuplicateAttestedLtrFile">
+                                @if (language == 1)
+                                {<span>ফাইল পছন্দ করুন</span>}
+                                else
+                                {<span>Choose File</span>}
+                            </label>
                         </div>
+
+                        <a id="PrjDuplicateAttestedLtrFileView" href="javascript:void(0);" target="_blank" class="btn btn-blue ml-2 text-white"></a>
                     </div>
                 </div>
             </div>
         </div>
-     }
+    </div>
+
 
     <div class="card">
         <div class="card-header bg-warning py-3 text-white cursor" data-toggle="collapse" href="#cardCollpaseDeed22">
@@ -1160,33 +1159,10 @@
                 <a data-toggle="collapse" href="#cardCollpaseDeed22" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed22"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
-                @{ if (selected_form == 1 || selected_form == 2 || selected_form == 4 || selected_form == 10 || selected_form == 13)
-                    {
-                        if (language == 1)
-                        {
-                            numbering = "১৪";
-                        }
-                        else
-                        {
-                            numbering = "14";
-                        }
-                    }
-                    else
-                    {
-                        if (language == 1)
-                        {
-                            numbering = "১৩";
-                        }
-                        else
-                        {
-                            numbering = "13";
-                        }
-                    }
-
-                    if (language == 1)
-                    {<span>@numbering. প্রকল্পটি গুরুত্বপূর্ণ সামাজিক বিষয়াদি এবং নারী, শিশু,দরিদ্র ও অনগ্রসর জনগোষ্ঠীর প্রতি বিশেষ গুরুত্ব দিয়ে প্রণীত হয়েছে কিনা</span>}
+                @if (language == 1)
+                {<span>১৪. প্রকল্পটি গুরুত্বপূর্ণ সামাজিক বিষয়াদি এবং নারী, শিশু,দরিদ্র ও অনগ্রসর জনগোষ্ঠীর প্রতি বিশেষ গুরুত্ব দিয়ে প্রণীত হয়েছে কিনা</span>}
                 else
-                { <span>@numbering. Examine if important sociological issues with especial attention to poor and women are adequately addressed</span>} }
+                { <span>14. Examine if important sociological issues with especial attention to poor and women are adequately addressed</span>}
             </h5>
         </div>
         <div id="cardCollpaseDeed22" class="collapse show">
@@ -1234,33 +1210,10 @@
                 <a data-toggle="collapse" href="#cardCollpaseDeed23" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed23"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
-                @{ if (selected_form == 1 || selected_form == 2 || selected_form == 4 || selected_form == 10 || selected_form == 13)
-                    {
-                        if (language == 1)
-                        {
-                            numbering = "১৫";
-                        }
-                        else
-                        {
-                            numbering = "15";
-                        }
-                    }
-                    else
-                    {
-                        if (language == 1)
-                        {
-                            numbering = "১৪";
-                        }
-                        else
-                        {
-                            numbering = "14";
-                        }
-                    }
-
-                    if (language == 1)
-                    {<span>@numbering. প্রকল্প প্রণয়নের ক্ষেত্রে প্রকল্প নির্ধারণী নির্দেশিকা (জিপিএ) অনুসরণপূর্বক তৈরি করা হয়েছে কিনা</span>}
+                @if (language == 1)
+                {<span>১৫. প্রকল্প প্রণয়নের ক্ষেত্রে প্রকল্প নির্ধারণী নির্দেশিকা (জিপিএ) অনুসরণপূর্বক তৈরি করা হয়েছে কিনা</span>}
                 else
-                { <span>@numbering. Examine whether the project appraisal (feasibility studies) followed the Guidelines for Project Assessment (GPA)</span>} }
+                { <span>15. Examine whether the project appraisal (feasibility studies) followed the Guidelines for Project Assessment (GPA)</span>}
             </h5>
         </div>
         <div id="cardCollpaseDeed23" class="collapse show">
@@ -1308,33 +1261,10 @@
                 <a data-toggle="collapse" href="#cardCollpaseDeed24" role="button" aria-expanded="false" aria-controls="cardCollpaseDeed24"><i class="mdi mdi-minus"></i></a>
             </div>
             <h5 class="card-title mb-0 text-white">
-                @{ if (selected_form == 1 || selected_form == 2 || selected_form == 4 || selected_form == 10 || selected_form == 13)
-                    {
-                        if (language == 1)
-                        {
-                            numbering = "১৬";
-                        }
-                        else
-                        {
-                            numbering = "16";
-                        }
-                    }
-                    else
-                    {
-                        if (language == 1)
-                        {
-                            numbering = "১৫";
-                        }
-                        else
-                        {
-                            numbering = "15";
-                        }
-                    }
-
-                    if (language == 1)
-                    {<span>@numbering. প্রকল্প প্রণয়নের ক্ষেত্রে সরকারের কোনও বিজ্ঞপ্তি ব্যবহার হয়েছে কিনা?</span>}
+                @if (language == 1)
+                {<span>১৬. প্রকল্প প্রণয়নের ক্ষেত্রে সরকারের কোনও বিজ্ঞপ্তি ব্যবহার হয়েছে কিনা?</span>}
                 else
-                { <span>@numbering. Whether any circular of the government has been used in the formulation of the project?</span>} }
+                { <span>16. Whether any circular of the government has been used in the formulation of the project?</span>}
             </h5>
         </div>
         <div id="cardCollpaseDeed24" class="collapse show">
@@ -1575,8 +1505,7 @@
                     "Project31IndvId": ProjectIndvId,
                     "ProjectId": deed_pid,
                     "DuplicatYesNoId": GetRadioValue('DuplicatYesNoId'),
-                    "DuplicationApplicantComments": GetTextValue('DuplicationApplicantComments'),
-                    "DuplicationAuthorityComments": GetTextValue('DuplicationAuthorityComments')
+                    "DuplicationApplicantComments": GetTextValue('DuplicationApplicantComments')
                 };
 
                 _finalDeedObj = {
@@ -1592,15 +1521,32 @@
             } else if (sf == 2) {
                 ProjectIndvDetail = {
                     "Project32IndvId": ProjectIndvId,
-                    "ProjectId": deed_pid
-                    //"DuplicatYesNoId": GetRadioValue('DuplicatYesNoId'),
-                    //"DuplicationApplicantComments": GetTextValue('DuplicationApplicantComments'),
-                    //"DuplicationAuthorityComments": GetTextValue('DuplicationAuthorityComments')
+                    "ProjectId": deed_pid,
+                    "DuplicatYesNoId": GetRadioValue('DuplicatYesNoId'),
+                    "DuplicationApplicantComments": GetTextValue('DuplicationApplicantComments')
                 };
 
                 _finalDeedObj = {
                     "CommonDetail": ProjectCommonDetail,
                     "Project32Indv": ProjectIndvDetail,
+                    "CompatNWPDetail": nwpArticles,
+                    "CompatNWMPDetail": prjCompatNWMP,
+                    "CompatSDGDetail": sdgGoals,
+                    "CompatSDGIndiDetail": sdgIndicators,
+                    "BDP2100GoalDetail": dp2100Goals,
+                    "GPWMGroupTypeDetail": gpwmGroupType
+                }
+            } else if (sf == 3) {
+                ProjectIndvDetail = {
+                    "Project33IndvId": ProjectIndvId,
+                    "ProjectId": deed_pid,
+                    "DuplicatYesNoId": GetRadioValue('DuplicatYesNoId'),
+                    "DuplicationApplicantComments": GetTextValue('DuplicationApplicantComments')
+                };
+
+                _finalDeedObj = {
+                    "CommonDetail": ProjectCommonDetail,
+                    "Project33Indv": ProjectIndvDetail,
                     "CompatNWPDetail": nwpArticles,
                     "CompatNWMPDetail": prjCompatNWMP,
                     "CompatSDGDetail": sdgGoals,

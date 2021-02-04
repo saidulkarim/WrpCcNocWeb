@@ -962,7 +962,7 @@
                                                                                                         </th>
                                                                                                         <th class="text-center">
                                                                                                             @if (language == 1)
-                                                                                                            {<span>গভীরতা (মিটার)</span>}
+                                                                                                            {<span>গভীরতা</span>}
                                                                                                             else
                                                                                                             {<span>Depth (m)</span>}
                                                                                                         </th>
@@ -1556,25 +1556,7 @@ new ViewDataDictionary(ViewData) {
 
             GetSWAData();
             GetGWDNOWData();
-
-            jQuery("#btnNext").click(function (e) {
-                //block 1
-                if (jQuery("#lnkTab1").hasClass('active')) {
-                    var selectedFormType = jQuery("#ddlTypeOfForms").val();
-
-                    if (selectedFormType === '') {
-                        Notification('warning', 'Required Field', 'Please select a form.');
-                        e.preventDefault();
-                        return false;
-                    }
-                }
-                //end block 1
-            });
-
-            jQuery("#btnPrevious").click(function () {
-
-            });
-
+            
             jQuery('input').each(function (index) {
                 var input = jQuery(this);
                 input.focus();
@@ -2191,9 +2173,8 @@ new ViewDataDictionary(ViewData) {
                     SetHiddenValue('ProjectTypeId', '@ViewBag.ProjectCommonDetail.ProjectTypeId');
 
                 var pn = '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectName)';
-                SetTextValue('ProjectName', pn);
-
-                SetTextValue('ProjectName', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectName)');
+                console.log('Form 32 Project Name: ' + pn);
+                SetTextValue('ProjectName', pn);                
                 SetDropdownValueS2('RespectiveAgency', '@Html.Raw(ViewBag.ProjectCommonDetail.RespectiveAgency)');
                 SetDropdownValueS2('RespectiveMinistry', '@Html.Raw(ViewBag.ProjectCommonDetail.RespectiveMinistry)');
                 SetDropdownValueS2('AnyInterventionOfOtherPrj', '@Html.Raw(ViewBag.ProjectCommonDetail.AnyInterventionOfOtherPrj)');

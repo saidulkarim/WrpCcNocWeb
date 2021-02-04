@@ -434,7 +434,7 @@
                                                                                 <div id="divLandTypePercent">
                                                                                     <label for="LandType" class="bold">
                                                                                         @{if (language == 1)
-                                                                                            { <span>xiii. ভূমির শ্রেণীবিন্যাস (শতকরা)</span>}
+                                                                                            { <span>xiii. ভূমির ধরন (শতকরা)</span>}
                                                                                             else
                                                                                             {<span>xiii. Land Type (Percent)</span>} }
                                                                                     </label>
@@ -1450,8 +1450,7 @@
 
                 var pn = '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectName)';
                 console.log('Form 31 Project Name: ' + pn);
-
-                SetTextValue('ProjectName', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectName)');
+                SetTextValue('ProjectName', pn);
                 SetDropdownValueS2('RespectiveAgency', '@Html.Raw(ViewBag.ProjectCommonDetail.RespectiveAgency)');
                 SetDropdownValueS2('RespectiveMinistry', '@Html.Raw(ViewBag.ProjectCommonDetail.RespectiveMinistry)');
                 SetDropdownValueS2('AnyInterventionOfOtherPrj', '@Html.Raw(ViewBag.ProjectCommonDetail.AnyInterventionOfOtherPrj)');

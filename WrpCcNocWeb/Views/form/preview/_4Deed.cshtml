@@ -1013,57 +1013,56 @@
         </td>
     </tr>
 
-    @if (prj_type_id == 1 || prj_type_id == 2 || prj_type_id == 4 || prj_type_id == 10 || prj_type_id == 13)
-    {
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>(১৩) অন্যান্য সংস্থা, ব্যক্তি/ গোষ্ঠী কর্তৃক পরিচালিত বা সমাপ্ত প্রকল্প সমূহের সহিত প্রস্তাবিত প্রকল্পটি কোন দ্বৈততা বা পুনরাবৃত্তি আছে কিনা বা থাকলেও সংস্থা, ব্যক্তি বা গোষ্ঠির সাথে সমন্বয় করা হয়েছে কিনা?</span>}
-                    else
-                    {<span>(13) Examine whether the project is not overlapping and duplication with any other project of other organizations or individual/ group initiatives and resolve disputes if any relating to appropriation?</span>}
-                </b>
-            </td>
-            <td>
-                <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
-                    <tr>
-                        <th>
-                            @if (prev_lang == 1)
-                            {<span>হ্যাঁ</span>}
-                            else
-                            {<span>Yes</span>}
-                        </th>
-                        <th>
-                            @if (prev_lang == 1)
-                            {<span>না</span>}
-                            else
-                            {<span>No</span>}
-                        </th>
-                        <th>
-                            @if (prev_lang == 1)
-                            {<span>আবেদনকারীর মন্তব্য</span>}
-                            else
-                            {<span>Applicant Comments</span>}
-                        </th>
-                        <th>
-                            @if (prev_lang == 1)
-                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
-                            else
-                            {<span>Authority Comments</span>}
-                        </th>
-                        <th>
-                            @if (prev_lang == 1)
-                            {<span>প্রতিবেদন লিঙ্ক</span>}
-                            else
-                            {<span>Report Link</span>}
-                        </th>
-                    </tr>
-                    <tr>
-                        @{
-                            yesTickMark = string.Empty;
-                            noTickMark = string.Empty;
 
-                            @*if (projectindi.DuplicatYesNoId == 1)
+    <tr style="vertical-align: top; text-align: left;">
+        <td style="width: 250px;">
+            <b>
+                @if (prev_lang == 1)
+                {<span>(১৩) অন্যান্য সংস্থা, ব্যক্তি/ গোষ্ঠী কর্তৃক পরিচালিত বা সমাপ্ত প্রকল্প সমূহের সহিত প্রস্তাবিত প্রকল্পটি কোন দ্বৈততা বা পুনরাবৃত্তি আছে কিনা বা থাকলেও সংস্থা, ব্যক্তি বা গোষ্ঠির সাথে সমন্বয় করা হয়েছে কিনা?</span>}
+                else
+                {<span>(13) Examine whether the project is not overlapping and duplication with any other project of other organizations or individual/ group initiatives and resolve disputes if any relating to appropriation?</span>}
+            </b>
+        </td>
+        <td>
+            <table style="border: 1px solid #CFCFCF; width: 100%; text-align: center;" border="1">
+                <tr>
+                    <th>
+                        @if (prev_lang == 1)
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == 1)
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == 1)
+                        {<span>আবেদনকারীর মন্তব্য</span>}
+                        else
+                        {<span>Applicant Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == 1)
+                        {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                        else
+                        {<span>Authority Comments</span>}
+                    </th>
+                    <th>
+                        @if (prev_lang == 1)
+                        {<span>প্রতিবেদন লিঙ্ক</span>}
+                        else
+                        {<span>Report Link</span>}
+                    </th>
+                </tr>
+                <tr>
+                    @{
+                        yesTickMark = string.Empty;
+                        noTickMark = string.Empty;
+
+                        @*if (projectindi.DuplicatYesNoId == 1)
                             {
                                 yesTickMark = "<span class='fe-check'></span>";
                                 noTickMark = "";
@@ -1081,51 +1080,28 @@
                             <td class="text-center" style="word-break: break-all;">
                                 <a href="~/images/CommonDetails/ProjectDuplicationFiles/@pcd.PrjDuplicateAttestedLtrFile" target="_blank">@pcd.PrjDuplicateAttestedLtrFile</a>
                             </td>*@
-                        }
-                    </tr>
-                </table>
-            </td>
-            <td style="word-wrap: break-word;">
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Duplication of the Project', 'DuplicationOfTheProject');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-    }
+                    }
+                </tr>
+            </table>
+        </td>
+        <td style="word-wrap: break-word;">
+            <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Duplication of the Project', 'DuplicationOfTheProject');"
+               class="btn btn-sm btn-info waves-effect comment" data-close="false"
+               data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+               style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                <i class="mdi mdi-comment-text-multiple"></i>
+            </a>
+        </td>
+    </tr>
 
-    @if (prj_type_id == 1 || prj_type_id == 2 || prj_type_id == 4 || prj_type_id == 10 || prj_type_id == 13)
-    {
-        if (prev_lang == 1)
-        {
-            numbering = "১৪";
-        }
-        else
-        {
-            numbering = "14";
-        }
-    }
-    else
-    {
-        if (prev_lang == 1)
-        {
-            numbering = "১৩";
-        }
-        else
-        {
-            numbering = "13";
-        }
-    }
 
     <tr>
         <td colspan="3">
             <b>
                 @if (prev_lang == 1)
-                {<span>(@numbering) প্রকল্পটি গুরুত্বপূর্ণ সামাজিক বিষয়াদি এবং নারী, শিশু,দরিদ্র ও অনগ্রসর জনগোষ্ঠীর প্রতি বিশেষ গুরুত্ব দিয়ে প্রণীত হয়েছে কিনা</span>}
-            else
-            { <span>(@numbering) Examine if important sociological issues with especial attention to poor and women are adequately addressed</span>}
+                {<span>(১৪) প্রকল্পটি গুরুত্বপূর্ণ সামাজিক বিষয়াদি এবং নারী, শিশু,দরিদ্র ও অনগ্রসর জনগোষ্ঠীর প্রতি বিশেষ গুরুত্ব দিয়ে প্রণীত হয়েছে কিনা</span>}
+                else
+                { <span>(14) Examine if important sociological issues with especial attention to poor and women are adequately addressed</span>}
             </b>
         </td>
     </tr>
@@ -1192,36 +1168,13 @@
         </td>
     </tr>
 
-    @if (prj_type_id == 1 || prj_type_id == 2 || prj_type_id == 4 || prj_type_id == 10 || prj_type_id == 13)
-    {
-        if (prev_lang == 1)
-        {
-            numbering = "১৫";
-        }
-        else
-        {
-            numbering = "15";
-        }
-    }
-    else
-    {
-        if (prev_lang == 1)
-        {
-            numbering = "১৪";
-        }
-        else
-        {
-            numbering = "14";
-        }
-    }
-
     <tr>
         <td colspan="3">
             <b>
                 @if (prev_lang == 1)
-                {<span>(@numbering) প্রকল্প প্রণয়নের ক্ষেত্রে প্রকল্প নির্ধারণী নির্দেশিকা (জিপিএ) অনুসরণপূর্বক তৈরি করা হয়েছে কিনা</span>}
-            else
-            { <span>(@numbering) Examine whether the project appraisal (feasibility studies) followed the Guidelines for Project Assessment (GPA)</span>}
+                {<span>(১৫) প্রকল্প প্রণয়নের ক্ষেত্রে প্রকল্প নির্ধারণী নির্দেশিকা (জিপিএ) অনুসরণপূর্বক তৈরি করা হয়েছে কিনা</span>}
+                else
+                { <span>(15) Examine whether the project appraisal (feasibility studies) followed the Guidelines for Project Assessment (GPA)</span>}
             </b>
         </td>
     </tr>
@@ -1288,36 +1241,13 @@
         </td>
     </tr>
 
-    @if (prj_type_id == 1 || prj_type_id == 2 || prj_type_id == 4 || prj_type_id == 10 || prj_type_id == 13)
-    {
-        if (prev_lang == 1)
-        {
-            numbering = "১৬";
-        }
-        else
-        {
-            numbering = "16";
-        }
-    }
-    else
-    {
-        if (prev_lang == 1)
-        {
-            numbering = "১৫";
-        }
-        else
-        {
-            numbering = "15";
-        }
-    }
-
     <tr>
         <td colspan="3">
             <b>
                 @if (prev_lang == 1)
-                {<span>(@numbering) প্রকল্প প্রণয়নের ক্ষেত্রে সরকারের কোনও বিজ্ঞপ্তি ব্যবহার হয়েছে কিনা?</span>}
-            else
-            { <span>(@numbering) Whether any circular of the government has been used in the formulation of the project?</span>}
+                {<span>(১৬) প্রকল্প প্রণয়নের ক্ষেত্রে সরকারের কোনও বিজ্ঞপ্তি ব্যবহার হয়েছে কিনা?</span>}
+                else
+                { <span>(16) Whether any circular of the government has been used in the formulation of the project?</span>}
             </b>
         </td>
     </tr>
