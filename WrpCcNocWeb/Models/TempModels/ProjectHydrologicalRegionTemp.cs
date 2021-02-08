@@ -536,4 +536,16 @@ namespace WrpCcNocWeb.Models
         public string FishProductionInTonBn { get; set; }
         public string Season { get; set; }
     }
+
+    public class CcModUsDsConditionDetailTemp
+    {
+        public long UsDsConditionDetailId { get; set; }
+        public long ProjectId { get; set; }
+        public int UsDsConditionId { get; set; }
+        public string ParameterName { get; set; }
+        public string ParameterNameBn { get; set; }
+        public string UsParameterValue { get; set; }
+        public string DsParameterValue { get; set; }
+        public string Error { get; set; }
+    }
 }

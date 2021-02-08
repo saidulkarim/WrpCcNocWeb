@@ -1,6 +1,8 @@
-﻿@{ var language = int.Parse(ViewData["vFormLanguage"].ToString());
+﻿@{
+    var language = int.Parse(ViewData["vFormLanguage"].ToString());
     List<DesignSubmitDetailTemp> dsdtlList = (List<DesignSubmitDetailTemp>)ViewData["vDesignSubmitDetail"];
-    CcModSubDesignSubmitDetail gsdspd = (CcModSubDesignSubmitDetail)ViewData["vGetDesignSubmitProjDoc"]; }
+    CcModSubDesignSubmitDetail gsdspd = (CcModSubDesignSubmitDetail)ViewData["vGetDesignSubmitProjDoc"];
+}
 
 <div id="view-proj-annual-railfall-form">
     @if (dsdtlList.Count > 0)

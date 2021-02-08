@@ -1,0 +1,93 @@
+﻿@{
+    var language = int.Parse(ViewData["vFormLanguage"].ToString());
+    List<CcModUsDsConditionDetailTemp> usdsconditiondetail = (List<CcModUsDsConditionDetailTemp>)ViewData["vUsDsConditionDetailTemp"];
+}
+
+<table class="table" style="width: 100%;">
+    @if (usdsconditiondetail.Count > 0)
+    {
+        int sl = 1;
+
+        <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">
+                @if (language == 1)
+                {<span>বিবরন</span> }
+                else
+                { <span>Parameter</span>}
+            </th>
+            <th class="text-center">
+                <span id="HydroSystemName"></span>
+                @if (language == 1)
+                {<span>আপস্ট্রিম</span> }
+                else
+                { <span>Upstream</span>}
+            </th>
+            <th class="text-center">
+                @if (language == 1)
+                {<span>ডাউনস্ট্রিম</span> }
+                else
+                { <span>Downstream</span>}
+            </th>
+        </tr>
+
+        foreach (CcModUsDsConditionDetailTemp usds in usdsconditiondetail)
+        {
+            if (string.IsNullOrEmpty(usds.Error))
+            {
+                if (language == 1)
+                {
+                    <tr>
+                        <td>
+                            @sl
+                        </td>
+                        <td class="text-left">
+                            @usds.ParameterNameBn
+                        </td>
+                        <td class="text-right">
+                            @usds.UsParameterValue
+                        </td>
+                        <td class="text-right">
+                            @usds.DsParameterValue
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            @sl
+                        </td>
+                        <td class="text-left">
+                            @usds.ParameterName
+                        </td>
+                        <td class="text-right">
+                            @usds.UsParameterValue
+                        </td>
+                        <td class="text-right">
+                            @usds.DsParameterValue
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="text-center">
+                        @usds.Error
+                    </td>
+                </tr>
+            }
+
+            sl += 1;
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="4" class="text-center">
+                No data added
+            </td>
+        </tr>
+    }
+</table>

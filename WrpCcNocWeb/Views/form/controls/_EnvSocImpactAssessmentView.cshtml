@@ -2,8 +2,15 @@
     var language = int.Parse(ViewData["vFormLanguage"].ToString());
     List<EiaDetailTemp> eiad = (List<EiaDetailTemp>)ViewData["vEiaDetailTemp"];
     List<SiaDetailTemp> siad = (List<SiaDetailTemp>)ViewData["vSiaDetailTemp"];
-    var eia_file = ViewData["vEnvAndSocEiaFile"].ToString();
-    var sia_file = ViewData["vEnvAndSocSiaFile"].ToString();
+
+    var eia_file = string.Empty;
+    var sia_file = string.Empty;
+
+    if (ViewData["vEnvAndSocEiaFile"] != null)
+        eia_file = ViewData["vEnvAndSocEiaFile"].ToString();
+
+    if (ViewData["vEnvAndSocSiaFile"] != null)
+        sia_file = ViewData["vEnvAndSocSiaFile"].ToString();
 }
 
 <tr>

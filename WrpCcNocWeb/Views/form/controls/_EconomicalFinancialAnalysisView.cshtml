@@ -1,7 +1,10 @@
 ﻿@{
     var language = int.Parse(ViewData["vFormLanguage"].ToString());
     List<EcoFinAnalysisDetailTemp> efad = (List<EcoFinAnalysisDetailTemp>)ViewData["vEcoFinAnalysisDetail"];
-    var efaFile = (string)ViewData["vEcoFinAnalysisFile"];
+    var efaFile = string.Empty;
+
+    if (ViewData["vEcoFinAnalysisFile"] != null)
+        efaFile = ViewData["vEcoFinAnalysisFile"].ToString();
 }
 
 <div id="view-proj-annual-railfall-form">

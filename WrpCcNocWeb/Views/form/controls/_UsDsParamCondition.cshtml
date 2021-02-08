@@ -1,0 +1,204 @@
+﻿@using WrpCcNocWeb.Helpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var language = int.Parse(ViewData["vFormLanguage"].ToString());
+}
+
+<div id="UsDsParamCondition" class="row" style="margin-left: -7px;">
+    <div class="table-responsive">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">
+                        @if (language == 1)
+                        {<span>বিবরন</span> }
+                        else
+                        { <span>Parameter</span>}
+                    </th>
+                    <th class="text-center">
+                        <span id="HydroSystemName"></span>
+                        @if (language == 1)
+                        {<span>আপস্ট্রিম</span> }
+                        else
+                        { <span>Upstream</span>}
+                    </th>
+                    <th class="text-center">
+                        @if (language == 1)
+                        {<span>ডাউনস্ট্রিম</span> }
+                        else
+                        { <span>Downstream</span>}
+                    </th>
+                    <th class="text-center"></th>
+                </tr>
+                <tr>
+                    <th colspan="2" class="text-center">
+                        <input id="UsDsConditionDetailId" type="hidden" />
+                        <select id="UsDsConditionId" name="UsDsConditionId" class="form-control">
+                            <option value=""></option>
+                            @if (language == 1)
+                            {
+                                <option value="">বাছাই করুন...</option>
+                            }
+                            else
+                            {
+                                <option value="">Choose...</option>
+                            }
+
+                            @{ List<LookUpCcModUsDsCondition> _ud = ViewBag.LookUpCcModUsDsCondition;
+
+                                if (_ud.Count > 0)
+                                {
+                                    foreach (LookUpCcModUsDsCondition ud in _ud)
+                                    {
+                                        if (language == 1)
+                                        {
+                                            <option value="@ud.UsDsConditionId" title="@ud.ParameterNameBn">@ud.ParameterNameBn</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@ud.UsDsConditionId" title="@ud.ParameterName">@ud.ParameterName</option>
+                                        }
+                                    }
+                                } }
+                        </select>
+                    </th>
+                    <th class="text-center">
+                        <input type="text" id="UsParameterValue" name="UsParameterValue" class="form-control" />
+                    </th>
+                    <th class="text-center">
+                        <input type="text" id="DsParameterValue" name="DsParameterValue" class="form-control" />
+                    </th>
+                    <th class="text-center">
+                        <button id="btnSaveUsDsParams" type="button" class="btn btn-success waves-effect waves-light" value="Save">
+                            <i class="mdi mdi-content-save"></i>
+                        </button>
+
+                        <button id="btnClearUsDsParams" type="button" class="btn btn-warning waves-effect waves-light" value="Clear">
+                            <i class="mdi mdi-refresh"></i>
+                        </button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tbodyUsDsParamCondition"></tbody>
+        </table>
+    </div>
+</div>
+
+<script id="AnalyzeOptionFulfillObjectControl" type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery("#UsDsConditionId").change(function () {
+            var name = jQuery("#UsDsConditionId option:selected").text();
+        });
+
+        jQuery("#btnSaveUsDsParams").click(function () {
+            var UsDsConditionDetailId = GetHiddenValue('UsDsConditionDetailId');
+            UsDsConditionDetailId = (UsDsConditionDetailId == '') ? 0 : UsDsConditionDetailId;
+            var UsDsConditionId = jQuery("#UsDsConditionId option:selected").val();
+            var UsParameterValue = jQuery("#UsParameterValue").val();
+			var DsParameterValue = jQuery("#DsParameterValue").val();
+
+            if (UsDsConditionId != '') {
+				var ProjectId = GetHiddenValue('ProjectId');
+				var usdsConditionDetail = {
+					"UsDsConditionDetailId": UsDsConditionDetailId,
+					"ProjectId": ProjectId,
+					"UsDsConditionId": UsDsConditionId,
+					"UsParameterValue": UsParameterValue,
+					"DsParameterValue": DsParameterValue
+				};
+
+                console.log(usdsConditionDetail);
+
+				var url = '@Url.Action("susds", "form")';
+				jQuery.ajax({
+					type: "POST",
+					url: url,
+                    data: { _usds: usdsConditionDetail },
+					dataType: "json",
+					success: function (data, status, jqXHR) {
+						if (data.status == 'success') {
+							Notification('success', 'Success', data.message);
+							GetUsDsParamsData();
+							ClearUsDsParams();
+						} else {
+							Notification('error', 'Saving Error', data.message);
+						}
+					}, error: function (jqXHR, exception) {
+						var errorMsg = AjaxErrorHandle(jqXHR, exception);
+						Notification('error', 'Error Occured', errorMsg);
+					}
+				});
+            } else {
+                Notification('warning', 'Required Field', 'Please select a condition!');
+                jQuery("#UsDsConditionId").focus();
+            }
+        });
+
+        jQuery("#btnClearUsDsParams").click(function () {
+            ClearUsDsParams();
+        });
+    });
+
+    function ClearUsDsParams() {
+            jQuery("#UsDsConditionDetailId").val('');
+            jQuery("#UsDsConditionId").val('');
+            jQuery("#UsParameterValue, #DsParameterValue").val('');
+        }
+
+    function GetUsDsParamsData() {
+        var ProjectId = GetHiddenValue('ProjectId');
+        var url = '@Url.Action("get_usds", "form")';
+
+        jQuery.ajax({
+            type: "GET",
+            url: url,
+            data: { project_id: ProjectId },
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                if (data.length > 0) {
+                    console.log(data);
+                    var rows = '';
+
+                    var count = 0;
+                    jQuery.each(data, function (i, item) {
+                        ++count;
+                        rows += '<tr><td scope="row" class="bold">' + count + '</td><td>' + item.parameterName + '</td><td>' + item.usParameterValue + '</td><td>' + item.dsParameterValue + '</td><td class="text-center"><button onclick="javascript:EditUsDsParams(' + item.ususConditionDetailId + ', ' + item.projectId + ');" type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-lead-pencil"></i></button> <button onclick="javascript:Delete(' + item.ususConditionDetailId + ', ' + item.projectId + ', \'CcModUsDsConditionDetail\'); GetUsDsParamsData();" type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button></td></tr>';
+                    });
+
+                    jQuery("#tbodyUsDsParamCondition").html(rows);
+                } else {
+                    jQuery("#tbodyUsDsParamCondition").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, no data found </div></td></tr>');
+                }
+            }, error: function (jqXHR, exception) {
+                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                jQuery("#tbodyUsDsParamCondition").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert">' + errorMsg + '</div></td></tr>');
+            }
+        });
+    }
+
+	function EditUsDsParams(id, projectId) {
+	    var url = '@Url.Action("gusds", "form")';
+	    jQuery.ajax({
+		    type: "GET",
+		    url: url,
+		    data: { id: id, projectId: projectId },
+		    dataType: "json",
+		    success: function (data, status, jqXHR) {
+			    if (data.UsDsConditionDetailId != '') {
+				    console.log(data);
+
+				    SetHiddenValue('UsDsConditionDetailId', data.UsDsConditionDetailId);
+				    jQuery("#UsDsConditionId").val(data.UsDsConditionId);
+				    SetTextValue('UsParameterValue', data.usParameterValue);
+				    SetTextValue('DsParameterValue', data.dsParameterValue);
+			    }
+		    }, error: function (jqXHR, exception) {
+			    var errorMsg = AjaxErrorHandle(jqXHR, exception);
+			    Notification('error', 'Error Occured', errorMsg);
+		    }
+	    });
+    }
+</script>

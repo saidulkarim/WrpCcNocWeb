@@ -1554,6 +1554,42 @@
                     "BDP2100GoalDetail": dp2100Goals,
                     "GPWMGroupTypeDetail": gpwmGroupType
                 }
+            } else if (sf == 4) {
+                ProjectIndvDetail = {
+                    "Project34IndvId": ProjectIndvId,
+                    "ProjectId": deed_pid,
+                    "DuplicatYesNoId": GetRadioValue('DuplicatYesNoId'),
+                    "DuplicationApplicantComments": GetTextValue('DuplicationApplicantComments')
+                };
+
+                _finalDeedObj = {
+                    "CommonDetail": ProjectCommonDetail,
+                    "Project34Indv": ProjectIndvDetail,
+                    "CompatNWPDetail": nwpArticles,
+                    "CompatNWMPDetail": prjCompatNWMP,
+                    "CompatSDGDetail": sdgGoals,
+                    "CompatSDGIndiDetail": sdgIndicators,
+                    "BDP2100GoalDetail": dp2100Goals,
+                    "GPWMGroupTypeDetail": gpwmGroupType
+                }
+            }else if (sf == 5) {
+                ProjectIndvDetail = {
+                    "Project35IndvId": ProjectIndvId,
+                    "ProjectId": deed_pid,
+                    "DuplicatYesNoId": GetRadioValue('DuplicatYesNoId'),
+                    "DuplicationApplicantComments": GetTextValue('DuplicationApplicantComments')
+                };
+
+                _finalDeedObj = {
+                    "CommonDetail": ProjectCommonDetail,
+                    "Project35Indv": ProjectIndvDetail,
+                    "CompatNWPDetail": nwpArticles,
+                    "CompatNWMPDetail": prjCompatNWMP,
+                    "CompatSDGDetail": sdgGoals,
+                    "CompatSDGIndiDetail": sdgIndicators,
+                    "BDP2100GoalDetail": dp2100Goals,
+                    "GPWMGroupTypeDetail": gpwmGroupType
+                }
             }
 
             console.log(_finalDeedObj);

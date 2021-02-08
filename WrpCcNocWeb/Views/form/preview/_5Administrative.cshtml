@@ -3,14 +3,12 @@
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 
-@{
-    WrpCcNocDbContext _db = new WrpCcNocDbContext();
-    CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["aProjectCommonDetail"];    
+@{ WrpCcNocDbContext _db = new WrpCcNocDbContext();
+    CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["aProjectCommonDetail"];
 
     var prev_lang = ViewData["aFormLanguage"].ToString();
     var prj_type_id = ViewData["aProjectTypeId"].ToString();
-    string yesTickMark = string.Empty, noTickMark = string.Empty;
-}
+    string yesTickMark = string.Empty, noTickMark = string.Empty; }
 
 <table style="border: 1px solid #CFCFCF; table-layout: fixed; width: 100%;" border="1" cellpadding="1" cellspacing="0">
     <tr style="background: #9d9b9b; font-weight: bold;">
@@ -38,41 +36,41 @@
         <td colspan="2">
             <a href="~/images/CommonDetails/NocFiles/@pcd.NocFileName" target="_blank">@pcd.NocFileName</a>
             @*<table style="width:100%; border: 1px solid #CFCFCF; text-align: center;" border="1">
-            <tr>
-                <th>
-                    @if (prev_lang == "1")
-                    {<span>হ্যাঁ</span>}
-                    else
-                    {<span>NOC Type</span>}
-                </th>
-                <th>
-                    @if (prev_lang == "1")
-                    {<span>সংযুক্তি</span>}
-                    else
-                    {<span>Attchments</span>}
-                </th>
-            </tr>
-            <tr>
-                <td class="text-left">
-                    @if (pcd.NocTypeId != null)
-                    {
-                        LookUpCcModNocType nt = _db.LookUpCcModNocType.Where(w => w.NocTypeId == pcd.NocTypeId).FirstOrDefault();
+                    <tr>
+                        <th>
+                            @if (prev_lang == "1")
+                            {<span>হ্যাঁ</span>}
+                            else
+                            {<span>NOC Type</span>}
+                        </th>
+                        <th>
+                            @if (prev_lang == "1")
+                            {<span>সংযুক্তি</span>}
+                            else
+                            {<span>Attchments</span>}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td class="text-left">
+                            @if (pcd.NocTypeId != null)
+                            {
+                                LookUpCcModNocType nt = _db.LookUpCcModNocType.Where(w => w.NocTypeId == pcd.NocTypeId).FirstOrDefault();
 
-                        if (prev_lang == "1")
-                        {
-                            <span>@nt.NocTypeBn</span>
-                        }
-                        else
-                        {
-                            <span>@nt.NocType</span>
-                        }
-                    }
-                </td>
-                <td style="word-break: break-all;">
-                    <a href="~/images/CommonDetails/NocFiles/@pcd.NocFileName" target="_blank">@pcd.NocFileName</a>
-                </td>
-            </tr>
-        </table>*@
+                                if (prev_lang == "1")
+                                {
+                                    <span>@nt.NocTypeBn</span>
+                                }
+                                else
+                                {
+                                    <span>@nt.NocType</span>
+                                }
+                            }
+                        </td>
+                        <td style="word-break: break-all;">
+                            <a href="~/images/CommonDetails/NocFiles/@pcd.NocFileName" target="_blank">@pcd.NocFileName</a>
+                        </td>
+                    </tr>
+                </table>*@
         </td>
         <td>
             <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Letter of NOC from Local Authority', 'LocalAuthoritiesNoC');"
@@ -137,45 +135,37 @@
 
                             if (prev_lang == "1")
                             {
-                                <span>@pm.PaymentMethodBn</span>
-                            }
-                            else
-                            {
-                                <span>@pm.PaymentMethod</span>
-                            }
-                        }
+            <span>@pm.PaymentMethodBn</span> }
+        else
+        {
+<span>@pm.PaymentMethod</span>}
+}
                     </td>
                     <td class="text-center">
                         @if (prev_lang == "1")
                         {
-                            <span>@pcd.PaymentDocNumber.ToString().NumberEnglishToBengali()</span>
-                        }
-                        else
-                        {
-                            <span>@pcd.PaymentDocNumber</span>
-                        }
+            <span>@pcd.PaymentDocNumber.ToString().NumberEnglishToBengali()</span> }
+        else
+        {
+<span>@pcd.PaymentDocNumber</span>}
                     </td>
                     <td class="text-right">
                         @if (prev_lang == "1")
                         {
-                            <span>@pcd.PaidAmount.ToString().NumberEnglishToBengali()</span>
-                        }
-                        else
-                        {
-                            <span>@pcd.PaidAmount</span>
-                        }
+            <span>@pcd.PaidAmount.ToString().NumberEnglishToBengali()</span> }
+        else
+        {
+<span>@pcd.PaidAmount</span>}
                     </td>
-                    <td style="white-space: nowrap;"  class="text-center">
+                    <td style="white-space: nowrap;" class="text-center">
                         @if (prev_lang == "1")
-                        {
-                            <span>@pcd.PaymentDate.Value.ToString("dd MMMM, yyyy").NumberEnglishToBengali()</span>
-                        }
-                        else
-                        {
-                            <span>@pcd.PaymentDate.Value.ToString("dd MMMM, yyyy")</span>
-                        }
+                        {@*<span>@pcd.PaymentDate.Value.ToString("dd MMMM, yyyy").NumberEnglishToBengali()</span>*@
+                                        <span>@pcd.PaymentDate</span> }
+                                    else
+                                    {
+                        <span>@pcd.PaymentDate</span>}
                     </td>
-                    <td style="word-break: break-all;"  class="text-center">
+                    <td style="word-break: break-all;" class="text-center">
                         <a href="~/images/CommonDetails/PayDocFiles/@pcd.PaymentDocFileName" target="_blank">@pcd.PaymentDocFileName</a>
                     </td>
                 </tr>

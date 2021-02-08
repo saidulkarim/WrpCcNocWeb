@@ -1,0 +1,147 @@
+﻿@{ var language = int.Parse(ViewData["vFormLanguage"].ToString()); }
+
+<div class="card-body">
+    <div class="form-group">
+        <label for="DiscussionStakeholdersDuringStartingProject">
+            @{if (language == 1)
+                { <span>i. প্রকল্প প্রণয়ন পর্যায়ে স্টেকহোল্ডারগনের সহিত আলাপ-আলোচনা</span>}
+                else
+                {<span>i. Discussion with Stakeholders During Starting of the Project</span>} }
+        </label>
+
+        <div id="DiscussionStakeholdersDuringStartingProject" class="row" style="margin-left: 5px;">
+            <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                <input type="radio" name="YesNoStakeId" id="chkDSDSPYes" value="1" data-parsley-multiple="YesNoStakeId">
+                <label for="chkDSDSPYes">
+                    @{if (language == 1)
+                        { <span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>} }
+                </label>
+            </div>
+
+            <div class="radio radio-info form-check-inline" style="margin-right: 25px;">
+                <input type="radio" name="YesNoStakeId" id="chkDSDSPNo" value="0" checked data-parsley-multiple="YesNoStakeId">
+                <label for="chkDSDSPNo">
+                    @{if (language == 1)
+                        { <span>না</span>}
+                        else
+                        {<span>No</span>} }
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 form-group pl-0">
+        <label for="TypesOfConsultationId">
+            @{if (language == 1)
+                { <span>ii. আলোচনা সভার ধরণ</span>}
+                else
+                {<span>ii. Types of Consultation</span>} }
+        </label>
+
+        <select id="TypesOfConsultationId" name="TypesOfConsultationId" class="form-control" style="width: 100%;">
+            @{if (language == 1)
+                {
+    <option value="">বাছাই করুন...</option> }
+                else
+                {
+    <option value="">Choose...</option> } }
+
+            @{ List<LookUpCcModTypesOfConsultation> _toc = ViewBag.TypesOfConsultationId;
+
+                if (_toc.Count > 0)
+                {
+                    foreach (LookUpCcModTypesOfConsultation toc in _toc)
+                    {
+                        if (language == 1)
+                        {
+    <option value="@toc.TypesOfConsultationId">@toc.ConsultationNameBn</option> }
+                        else
+                        {
+    <option value="@toc.TypesOfConsultationId">@toc.ConsultationName</option> }
+                    }
+                } }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="DiscussWithStakeApplicantCmt">
+
+            @{if (language == 1)
+                { <span>iii. আবেদনকারীর মন্তব্য</span>}
+                else
+                {<span>iii. Applicant Comments</span>} }
+        </label>
+        <input type="text" id="DiscussWithStakeApplicantCmt" name="DiscussWithStakeApplicantCmt" class="form-control" />
+    </div>
+
+    <div id="divDSDSPYesControls" class="d-none">
+        <div class="form-group">
+            <label for="DiscussWithStakePosFeedback">
+                @{if (language == 1)
+                    { <span>iv. ইতিবাচক প্রতিক্রিয়া</span>}
+                    else
+                    {<span>iv. Positive Feedback</span>} }
+            </label>
+            <input type="text" id="DiscussWithStakePosFeedback" name="DiscussWithStakePosFeedback" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="DiscussWithStakeNegFeedback">
+
+                @{if (language == 1)
+                    { <span>v. নেতিবাচক প্রতিক্রিয়া</span>}
+                    else
+                    {<span>v. Negative Feedback</span>} }
+            </label>
+            <input type="text" id="DiscussWithStakeNegFeedback" name="DiscussWithStakeNegFeedback" class="form-control" />
+        </div>
+
+        <div class="col-md-6 form-group" style="padding-left: 0 !important;">
+            <label for="DiscussWithStakeParticipntLst">
+                @{if (language == 1)
+                    { <span>vi. অংশগ্রহণকারীদের তালিকা</span>}
+                    else
+                    {<span>vi. Participant List</span>} }
+            </label>
+            <div class="input-group">
+                <div class="custom-file">
+                    <input id="DiscussWithStakeParticipntLst" name="DiscussWithStakeParticipntLst" type="file"
+                           class="custom-file-input" onchange="UploadCommonFiles(this, 'DiscussWithStakeParticipntLst');" />
+                    <label class="custom-file-label" for="DiscussWithStakeParticipntLst">
+                        @if (language == 1)
+                        {<span>ফাইল পছন্দ করুন</span>}
+                        else
+                        {<span>Choose file</span>}
+                    </label>
+                </div>
+
+                <a id="DiscussWithStakeParticipntLstView" href="javascript:void(0);" target="_blank" class="btn btn-blue ml-2 text-white"></a>
+            </div>
+        </div>
+
+        <div class="col-md-6 form-group" style="padding-left: 0 !important;">
+            <label for="DiscussWithStakeMeetingMin">
+                @{if (language == 1)
+                    { <span>vii. মিটিং মিনিট</span>}
+                    else
+                    {<span>vii. Meeting Minutes</span>} }
+            </label>
+            <div class="input-group">
+                <div class="custom-file">
+                    <input id="DiscussWithStakeMeetingMin" name="DiscussWithStakeMeetingMin" type="file"
+                           class="custom-file-input" onchange="UploadCommonFiles(this, 'DiscussWithStakeMeetingMin');" />
+                    <label class="custom-file-label" for="DiscussWithStakeMeetingMin">
+                        @if (language == 1)
+                        {<span>ফাইল পছন্দ করুন</span>}
+                        else
+                        {<span>Choose file</span>}
+                    </label>
+                </div>
+
+                <a id="DiscussWithStakeMeetingMinView" href="javascript:void(0);" target="_blank" class="btn btn-blue ml-2 text-white"></a>
+            </div>
+        </div>
+    </div>
+</div>

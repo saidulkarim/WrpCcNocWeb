@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>Form 3.4 Project Location.kml</name>
+	<Style id="s_ylw-pushpin_hl">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+	</Style>
+	<Style id="s_ylw-pushpin">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+	</Style>
+	<StyleMap id="m_ylw-pushpin">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#s_ylw-pushpin</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#s_ylw-pushpin_hl</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Placemark>
+		<name>Form 3.4 Project Location</name>
+		<styleUrl>#m_ylw-pushpin</styleUrl>
+		<Polygon>
+			<tessellate>1</tessellate>
+			<outerBoundaryIs>
+				<LinearRing>
+					<coordinates>
+						90.26499860587693,23.85739282112926,0 90.2650764356549,23.85735236866368,0 90.26537599029584,23.85734031013722,0 90.26600863399311,23.85735132964238,0 90.26622381635104,23.85735079780863,0 90.26631698826074,23.85748047823093,0 90.26632738336735,23.85765896575503,0 90.26624303177681,23.85787657183485,0 90.26587423042291,23.85790495852763,0 90.26578669447805,23.85793621748281,0 90.26575288439528,23.85799803986189,0 90.26569219209694,23.85817224923623,0 90.26568033467314,23.8584163910744,0 90.26567631676809,23.85871481089002,0 90.26586428094431,23.85890165018347,0 90.26579579928621,23.85915306969918,0 90.26476391880163,23.85899534451246,0 90.26499860587693,23.85739282112926,0 
+					</coordinates>
+				</LinearRing>
+			</outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+</Document>
+</kml>

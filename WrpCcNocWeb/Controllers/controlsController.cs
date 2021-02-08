@@ -2171,5 +2171,46 @@ namespace WrpCcNocWeb.Controllers
             return Json(_sia);
         }
         #endregion
+
+        //common/GetUsDsConditionDetail        
+        public List<CcModUsDsConditionDetailTemp> GetUsDsConditionDetail(long project_id)
+        {
+            List<CcModUsDsConditionDetailTemp> _details = new List<CcModUsDsConditionDetailTemp>();
+
+            try
+            {
+                _details = (from d in _db.CcModUsDsConditionDetail
+                            where d.ProjectId == project_id
+                            select new CcModUsDsConditionDetailTemp
+                            {
+                                UsDsConditionDetailId = d.UsDsConditionDetailId,
+                                ProjectId = d.ProjectId,
+                                UsDsConditionId = d.UsDsConditionId,
+                                ParameterName = d.LookUpCcModUsDsCondition.ParameterName,
+                                ParameterNameBn = d.LookUpCcModUsDsCondition.ParameterNameBn,
+                                UsParameterValue = d.UsParameterValue,
+                                DsParameterValue = d.DsParameterValue
+                            }).OrderBy(o => o.UsDsConditionDetailId).ToList();
+
+                if (_details.Count == 0)
+                {
+                    _details.Add(new CcModUsDsConditionDetailTemp()
+                    {
+                        Error = "sorry, no data found!"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ch.ExtractInnerException(ex);
+
+                _details.Add(new CcModUsDsConditionDetailTemp()
+                {
+                    Error = message
+                });
+            }
+
+            return _details;
+        }
     }
 }
