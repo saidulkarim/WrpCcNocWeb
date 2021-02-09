@@ -167,63 +167,6 @@
     </div>
 </fieldset>
 
-<fieldset class="hidden">
-    <legend>
-        @if (language == "1")
-        {<span>সুপারিশ</span>}
-        else
-        {<span>Recommendation</span>}
-    </legend>
-
-    <div class="form-group">
-        <label for="RecommendationId">
-            @if (language == "1")
-            {<span>সুপারিশ</span>}
-            else
-            {<span>Recommendation</span>}
-        </label>
-        <select id="RecommendationId" name="RecommendationId" class="form-control" required="">
-            <option value="">
-                @if (language == "1")
-                {<span>বাছাই করুন...</span>}
-                else
-                {<span>Choose...</span>}
-            </option>
-
-            @{
-                List<LookUpCcModRecommendation> _rec = ViewBag.RecommendationId;
-
-                if (_rec.Count > 0)
-                {
-                    foreach (LookUpCcModRecommendation rec in _rec)
-                    {
-                        if (language == "1")
-                        {
-                            <option value="@rec.RecommendationId">@rec.RecommendationTitleBn</option>
-                        }
-                        else
-                        {
-                            <option value="@rec.RecommendationId">@rec.RecommendationTitle</option>
-                        }
-                    }
-                }
-            }
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="RecommendationComment">
-            @if (language == "1")
-            {<span>শর্তাধীন</span>}
-            else
-            {<span>Conditional</span>}
-        </label>
-        <input type="text" id="RecommendationComment" name="RecommendationComment" class="form-control" />
-    </div>
-
-    <br />
-</fieldset>
-
 <fieldset>
     <legend>
         @if (language == "1")
@@ -332,7 +275,7 @@
         var admin_bind_pid = '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectId)';
 
         if (admin_bind_pid != '') {
-            console.log('Form 31 Project ' + admin_bind_pid + ' Administrative Info Loading');
+            console.log('Form Project ID: ' + admin_bind_pid + ' Administrative Info Loading');
 
             SetDropdownValue('NocTypeId', '@Html.Raw(ViewBag.ProjectCommonDetail.NocTypeId)');
             var noc_file = '@Html.Raw(ViewBag.ProjectCommonDetail.NocFileName)';

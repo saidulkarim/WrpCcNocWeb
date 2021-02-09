@@ -19,8 +19,8 @@ namespace WrpCcNocWeb.Models
         public long ProjectId { get; set; }
         [ForeignKey("ProjectId")]
         public virtual CcModAppProjectCommonDetail CcModAppProjectCommonDetail { get; set; }
-        
-		[Column("ConnectivityAmidWaterland", Order = 2)]
+
+        [Column("ConnectivityAmidWaterland", Order = 2)]
         [Display(Name = "Connectivity amid khals, river and wetland")]
         [MaxLength(50)]
         public string ConnectivityAmidWaterland { get; set; }
@@ -28,18 +28,18 @@ namespace WrpCcNocWeb.Models
         [Column("CatchmentArea", Order = 3)]
         [Display(Name = "Catchment Area (ha)")]
         public double? CatchmentArea { get; set; }
-		
-		[Column("HighestFloodLevel", Order = 4)]
+
+        [Column("HighestFloodLevel", Order = 4)]
         [Display(Name = "Highest Flood Level (m PWD)")]
         public double? HighestFloodLevel { get; set; }
-		
-		[Column("DrainageConditionId", Order = 5)]
+
+        [Column("DrainageConditionId", Order = 5)]
         [Display(Name = "Drainage Condition")]
         public int? DrainageConditionId { get; set; }
         [ForeignKey("DrainageConditionId")]
         public virtual LookUpCcModDrainageCondition LookUpCcModDrainageCondition { get; set; }
-		
-		[Column("HighLandPercent", Order = 6)]
+
+        [Column("HighLandPercent", Order = 6)]
         [Display(Name = "High Land F0 (0 - 30 cm)")]
         public double? HighLandPercent { get; set; }
 
@@ -58,8 +58,8 @@ namespace WrpCcNocWeb.Models
         [Column("VeryLowLandPercent", Order = 10)]
         [Display(Name = "Very Low Land F4 (> 360 cm)")]
         public double? VeryLowLandPercent { get; set; }
-		
-		[Column("FishProduction", Order = 11)]
+
+        [Column("FishProduction", Order = 11)]
         [Display(Name = "Fish Production")]
         public double? FishProduction { get; set; }
 
@@ -72,8 +72,8 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Fish Migration")]
         [MaxLength(50)]
         public string FishMigration { get; set; }
-				
-		[Column("LandUseMapYesNoId", Order = 14)]
+
+        [Column("LandUseMapYesNoId", Order = 14)]
         [Display(Name = "Land Use Map (Rajuk Approval and others)")]
         public int? LandUseMapYesNoId { get; set; }
         [ForeignKey("LandUseMapYesNoId")]
@@ -88,8 +88,8 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Authority Comments")]
         [MaxLength(150)]
         public string LandUseMapAuthorityComments { get; set; }
-		
-		[Column("LandUseDesignYesNoId", Order = 17)]
+
+        [Column("LandUseDesignYesNoId", Order = 17)]
         [Display(Name = "Land Use Design/ Planning")]
         public int? LandUseDesignYesNoId { get; set; }
         [ForeignKey("LandUseDesignYesNoId")]
@@ -104,8 +104,8 @@ namespace WrpCcNocWeb.Models
         [Display(Name = "Authority Comments")]
         [MaxLength(150)]
         public string LandUseDesignAuthorityComments { get; set; }
-		
-		[Column("ImpactFloodPlainAreaYesNoId", Order = 20)]
+
+        [Column("ImpactFloodPlainAreaYesNoId", Order = 20)]
         [Display(Name = "Impact on Floodplain Area")]
         public int? ImpactFloodPlainAreaYesNoId { get; set; }
         [ForeignKey("ImpactFloodPlainAreaYesNoId")]
@@ -119,7 +119,7 @@ namespace WrpCcNocWeb.Models
         [Column("ImpctFldPlnAraAuthortyComments", Order = 22)]
         [Display(Name = "Authority Comments")]
         [MaxLength(150)]
-        public string ImpctFldPlnAraAuthortyComments { get; set; }			
+        public string ImpctFldPlnAraAuthortyComments { get; set; }
 
         [Column("DuplicatYesNoId", Order = 23)]
         [Display(Name = "Was there any Duplication")]

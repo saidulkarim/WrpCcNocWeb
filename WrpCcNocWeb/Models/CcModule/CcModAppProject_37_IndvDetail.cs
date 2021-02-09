@@ -261,6 +261,12 @@ namespace WrpCcNocWeb.Models
 		[Column("DischargePoint", Order = 53)]
         [Display(Name = "Discharge Point")]
         [MaxLength(150)]
-        public string DischargePoint { get; set; }		
+        public string DischargePoint { get; set; }
+
+        [Column("IsSpecializedIndustrialZone", Order = 54)]
+        [Display(Name = "Whether the Proposed Industry Falls Under Any EPZ or Gov. Declared Specialized Industrial Zone?")]
+        public int? IsSpecializedIndustrialZone { get; set; }
+        [ForeignKey("IsSpecializedIndustrialZone")]
+        public virtual LookUpCcModYesNo LookUpYesNo_IsSpecIndusZone { get; set; }
     }
 }

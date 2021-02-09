@@ -214,18 +214,18 @@
                         success: function (data, status, jqXHR) {
                             if (data.status == 'success') {
                                 Notification('success', 'Success', data.message);
-                                Swal.fire('Success', data.message, 'success');
+                                //Swal.fire('Success', data.message, 'success');
 
                                 GetAnnualRainfallData();
                                 ClearAnnualRainfall();
                             } else {
                                 Notification('error', 'Annual Rainfall Saving Error', data.message);
-                                Swal.fire('Annual Rainfall Saving Error', data.message, 'error');
+                                //Swal.fire('Annual Rainfall Saving Error', data.message, 'error');
                             }
                         }, error: function (jqXHR, exception) {
                             var errorMsg = AjaxErrorHandle(jqXHR, exception);
                             Notification('error', 'Annual Rainfall Error Occured', errorMsg);
-                            Swal.fire('Annual Rainfall Error Occured', errorMsg, 'error');
+                            //Swal.fire('Annual Rainfall Error Occured', errorMsg, 'error');
                         }
                     });
                 } else {

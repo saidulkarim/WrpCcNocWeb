@@ -1133,14 +1133,14 @@
                                                                                     </label>
 
                                                                                     <select id="TypesOfConsultationId" name="TypesOfConsultationId" class="form-control" style="width: 100%;">
-                                                                                        @{if (language == 1)
-                                                                                            {
-                                                                                                <option value="">বাছাই করুন...</option>
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                                <option value="">Choose...</option>
-                                                                                            } }
+                                                                                        @if (language == 1)
+                                                                                        {
+                                                                                            <option value="">বাছাই করুন...</option>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <option value="">Choose...</option>
+                                                                                        }
 
                                                                                         @{ List<LookUpCcModTypesOfConsultation> _toc = ViewBag.TypesOfConsultationId;
 
@@ -1357,7 +1357,7 @@ new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                                                                                 <div class="row">
                                                                                     <div class="col-md-12">
                                                                                         @{ await Html.RenderPartialAsync("controls/_EnvSocImpactAssessment.cshtml",
-                                                                                                  new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
+                                                                                                   new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -1452,7 +1452,7 @@ new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                                                                                 <div class="row">
                                                                                     <div class="col-md-12">
                                                                                         @{ await Html.RenderPartialAsync("controls/_EconomicalFinancialAnalysis.cshtml",
-                                                                                                     new ViewDataDictionary(ViewData) {
+                                                                                                      new ViewDataDictionary(ViewData) {
                                                                                                     { "vFormLanguage", language }}); }
                                                                                     </div>
                                                                                 </div>
@@ -1594,7 +1594,7 @@ new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                                                         <div class="tab-pane fade" id="v-deed-obligatory" role="tabpanel" aria-labelledby="v-deed-obligatory-tab">
                                                             <div class="card-box">
                                                                 @{ await Html.RenderPartialAsync("form/_4DeedObligatory",
-                                                                            new ViewDataDictionary(ViewData) {
+                                                                             new ViewDataDictionary(ViewData) {
                                                                              { "vFormLanguage", language } }); }
                                                             </div>
                                                         </div>

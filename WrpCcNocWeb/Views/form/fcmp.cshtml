@@ -817,8 +817,7 @@
                                                                                 <div class="row">
                                                                                     <div class="col-md-12">
                                                                                         @{ await Html.RenderPartialAsync("controls/_AnalyzeOptionFulfillObject.cshtml",
-                                                                                                                        new ViewDataDictionary(ViewData) {
-                                                                                                    { "vFormLanguage", language }}); }
+                                                                                                 new ViewDataDictionary(ViewData) {{ "vFormLanguage", language }}); }
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -912,7 +911,7 @@
                                                                                 <div class="row">
                                                                                     <div class="col-md-12">
                                                                                         @{ await Html.RenderPartialAsync("controls/_EnvSocImpactAssessment.cshtml",
-                                                                                                                       new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
+                                                                                                 new ViewDataDictionary(ViewData) { { "vFormLanguage", language } }); }
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -1069,7 +1068,7 @@
                                                         <div class="tab-pane fade" id="v-deed-obligatory" role="tabpanel" aria-labelledby="v-deed-obligatory-tab">
                                                             <div class="card-box">
                                                                 @{ await Html.RenderPartialAsync("form/_4DeedObligatory",
-                                                                          new ViewDataDictionary(ViewData) {
+                                                                         new ViewDataDictionary(ViewData) {
                                                                              { "vFormLanguage", language } }); }
                                                             </div>
                                                         </div>

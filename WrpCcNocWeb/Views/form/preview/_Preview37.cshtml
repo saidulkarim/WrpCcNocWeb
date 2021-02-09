@@ -1,9 +1,8 @@
-﻿@using WrpCcNocWeb.DatabaseContext
-@using WrpCcNocWeb.Helpers
+﻿@using Microsoft.AspNetCore.Http
+@using WrpCcNocWeb.DatabaseContext
+@inject IHttpContextAccessor HttpContextAccessor
 
 @{
-    Layout = "~/Views/Shared/_ReportLayout.cshtml";
-
     WrpCcNocDbContext _db = new WrpCcNocDbContext();
     CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["ProjectCommonDetail"];
     CcModAppProject_37_IndvDetail projectindi = (CcModAppProject_37_IndvDetail)ViewData["ProjectIndvDetail37"];
@@ -29,16 +28,16 @@
 }
 
 <div id="form-preview" class="form-preview container">
-    @{ await Html.RenderPartialAsync("preview/_1Header.cshtml",
-                 new ViewDataDictionary(ViewData) {
+    @{ await Html.RenderPartialAsync("_1Header.cshtml",
+             new ViewDataDictionary(ViewData) {
                 { "hFormLanguage", prev_lang },
                 { "hPTID", ProjectTypeId }});
     }
 
     <br />
 
-    @{ await Html.RenderPartialAsync("preview/_2General.cshtml",
-                 new ViewDataDictionary(ViewData) {
+    @{ await Html.RenderPartialAsync("_2General.cshtml",
+             new ViewDataDictionary(ViewData) {
                 { "gProjectCommonDetail", pcd},
                 //{ "gProjectIndvDetail31", projectindi },
                 { "gProjectLocationDetail", location},
@@ -421,7 +420,7 @@
             <td>
                 @{
                     var hysd = ViewData["HydroSystemDetail"];
-                    await Html.RenderPartialAsync("controls/_HydrologicalSystemView.cshtml",
+                    await Html.RenderPartialAsync("../controls/_HydrologicalSystemView.cshtml",
                           new ViewDataDictionary(ViewData) {
                                             { "vFormLanguage", prev_lang },
                                             { "vHydroSystemDetail", hysd }});
@@ -449,7 +448,7 @@
             <td>
                 @{
                     var annualrainfall = ViewData["AnnualRainfallDetail"];
-                    await Html.RenderPartialAsync("controls/_AnnualRainfallView.cshtml",
+                    await Html.RenderPartialAsync("../controls/_AnnualRainfallView.cshtml",
                           new ViewDataDictionary(ViewData) {
                                             { "vFormLanguage", prev_lang },
                                             { "vAnnualRainfallDetail", annualrainfall }});
@@ -1893,7 +1892,7 @@
             var siad = ViewData["SiaDetailTemp"];
             var eia_file = pcd.EnvAndSocialEiaFile;
             var sia_file = pcd.EnvAndSocialSiaFile;
-            await Html.RenderPartialAsync("controls/_EnvSocImpactAssessmentView.cshtml",
+            await Html.RenderPartialAsync("../controls/_EnvSocImpactAssessmentView.cshtml",
                   new ViewDataDictionary(ViewData) {
                         { "vFormLanguage", prev_lang },
                         { "vEiaDetailTemp", eiad },
@@ -1913,7 +1912,7 @@
         var bdp2100gd = ViewData["BDP2100GoalDetail"];
         var gpwmgtd = ViewData["GPWMGroupType"];
 
-        await Html.RenderPartialAsync("preview/_4Deed.cshtml",
+        await Html.RenderPartialAsync("_4Deed.cshtml",
               new ViewDataDictionary(ViewData) {
                 { "dProjectCommonDetail", pcd},
                 //{ "dProjectIndvDetail31", projectindi },
@@ -1927,8 +1926,8 @@
                 { "dProjectTypeId", ProjectTypeId }});
     }
 
-    @{ await Html.RenderPartialAsync("preview/_5Administrative.cshtml",
-                              new ViewDataDictionary(ViewData) {
+    @{ await Html.RenderPartialAsync("_5Administrative.cshtml",
+             new ViewDataDictionary(ViewData) {
                 { "aProjectCommonDetail", pcd},
                 //{ "aProjectIndvDetail31", projectindi },
                 { "aFormLanguage", prev_lang },
@@ -1941,7 +1940,7 @@
         var anen = ViewData["ApplicantName"].ToString();
         var agne = ViewData["ApplicantGroupName"].ToString();
 
-        await Html.RenderPartialAsync("preview/_6Footer.cshtml",
+        await Html.RenderPartialAsync("_6Footer.cshtml",
               new ViewDataDictionary(ViewData) {
                 { "fSignatureFileName", sfn},
                 { "fApplicantNameBn", anbn },
