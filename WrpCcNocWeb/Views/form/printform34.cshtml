@@ -27,14 +27,14 @@
 
     <div id="form-preview" class="form-preview container">
         @{ await Html.RenderPartialAsync("preview/_1Header.cshtml",
-                  new ViewDataDictionary(ViewData) {
+                    new ViewDataDictionary(ViewData) {
                     { "hFormLanguage", prev_lang },
                     { "hPTID", ProjectTypeId }}); }
 
         <br />
 
         @{ await Html.RenderPartialAsync("preview/_2General.cshtml",
-                 new ViewDataDictionary(ViewData) {
+                   new ViewDataDictionary(ViewData) {
                     { "gProjectCommonDetail", pcd},
                     { "gProjectLocationDetail", location},
                     { "gFormLanguage", prev_lang },
@@ -1189,23 +1189,30 @@
 
             <tr>
                 <td colspan="3">
-                    @{ await Html.RenderPartialAsync("form/_AdditionalAttachmentPrint"); }
+                    <fieldset>
+                        <legend>
+                            @if (prev_lang == 1)
+                            {<span>কারিগরি কমিটির সামগ্রিক সুপারিশ</span> }
+                            else
+                            { <span>Overall Recommendation of Technical Committee</span>}
+                        </legend>
+                        <div class="card-box">
+                            @{ await Html.RenderPartialAsync("form/_AdditionalAttachmentPrint"); }
+                        </div>
+                    </fieldset>
                 </td>
-            </tr>            
-        </table>
+            </tr>
 
-        <br />
+            @{
+                var cnwpd = ViewData["CompatNWPDetail"];
+                var cnwmpd = ViewData["CompatNWMPDetail"];
+                var sdgd = ViewData["CompatSDGDetail"];
+                var sdgid = ViewData["CompatSDGIndiDetail"];
+                var bdp2100gd = ViewData["BDP2100GoalDetail"];
+                var gpwmgtd = ViewData["GPWMGroupType"];
 
-        @{
-            var cnwpd = ViewData["CompatNWPDetail"];
-            var cnwmpd = ViewData["CompatNWMPDetail"];
-            var sdgd = ViewData["CompatSDGDetail"];
-            var sdgid = ViewData["CompatSDGIndiDetail"];
-            var bdp2100gd = ViewData["BDP2100GoalDetail"];
-            var gpwmgtd = ViewData["GPWMGroupType"];
-
-            await Html.RenderPartialAsync("preview/_4Deed.cshtml",
-                  new ViewDataDictionary(ViewData) {
+                await Html.RenderPartialAsync("preview/_4Deed.cshtml",
+                      new ViewDataDictionary(ViewData) {
                 { "dProjectCommonDetail", pcd},
                 //{ "dProjectIndvDetail31", projectindi },
                 { "dCompatNWPDetail", cnwpd },
@@ -1216,16 +1223,18 @@
                 { "dGPWMGroupType", gpwmgtd },
                 { "dFormLanguage", prev_lang },
                 { "dProjectTypeId", ProjectTypeId }});
-        }
+            }
 
-        @{ await Html.RenderPartialAsync("preview/_5Administrative.cshtml",
-                 new ViewDataDictionary(ViewData) {
+            @{ await Html.RenderPartialAsync("preview/_5Administrative.cshtml",
+                       new ViewDataDictionary(ViewData) {
                 { "aProjectCommonDetail", pcd},
                 //{ "aProjectIndvDetail31", projectindi },
                 { "aFormLanguage", prev_lang },
                 { "aProjectTypeId", ProjectTypeId }});
-        }
+            }
+        </table>
 
+        <br />
         @{
             var sfn = ViewData["SignatureFileName"].ToString();
             var anbn = ViewData["ApplicantNameBn"].ToString();

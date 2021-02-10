@@ -193,9 +193,9 @@
                                                                                 <div class="col-md-6 form-group pl-0">
                                                                                     <label for="ConnectivityAmidWaterland">
                                                                                         @if (language == 1)
-                                                                                        {<span>iv. খাল, নদী এবং জলাভূমির মধ্যে সংযোগ</span>}
+                                                                                        {<span>iv. খাল, নদী এবং জলাধারের মধ্যে সংযোগ</span>}
                                                                                         else
-                                                                                        {<span>iv. Connectivity Amid Khals, River and Wetland</span>}
+                                                                                        {<span>iv. Connectivity Amid Khals, River and Waterbodies</span>}
                                                                                     </label>
                                                                                     <!--<input type="text" id="ConnectivityAmidWaterland" name="ConnectivityAmidWaterland" class="form-control" />-->
                                                                                     <select id="ConnectivityAmidWaterland" name="ConnectivityAmidWaterland" class="form-control">
@@ -230,9 +230,9 @@
                                                                                 <div class="col-md-6 form-group pl-0">
                                                                                     <label for="CatchmentArea">
                                                                                         @if (language == 1)
-                                                                                        {<span>v. অববাহিকা (ক্যাচমেন্ট) এলাকা (হেক্টর)</span>}
+                                                                                        {<span>v. প্রকল্প উপকৃত এলাকা (হেক্টর)</span> }
                                                                                         else
-                                                                                        {<span>v. Catchment Area (ha)</span>}
+                                                                                        { <span>v. Project Benificiary Area (ha)</span>}
                                                                                     </label>
                                                                                     <input type="number" min="0" id="CatchmentArea" name="CatchmentArea" class="form-control" />
                                                                                 </div>
@@ -1033,7 +1033,7 @@
                                                                                 <div class="row">
                                                                                     <div class="col-md-12">
                                                                                         @{ await Html.RenderPartialAsync("controls/_EconomicalFinancialAnalysis.cshtml",
-                                                                                                                       new ViewDataDictionary(ViewData) {
+                                                                                                 new ViewDataDictionary(ViewData) {
                                                                                                     { "vFormLanguage", language }}); }
                                                                                     </div>
                                                                                 </div>
@@ -1068,8 +1068,7 @@
                                                         <div class="tab-pane fade" id="v-deed-obligatory" role="tabpanel" aria-labelledby="v-deed-obligatory-tab">
                                                             <div class="card-box">
                                                                 @{ await Html.RenderPartialAsync("form/_4DeedObligatory",
-                                                                         new ViewDataDictionary(ViewData) {
-                                                                             { "vFormLanguage", language } }); }
+                                                                         new ViewDataDictionary(ViewData) {{ "vFormLanguage", language } }); }
                                                             </div>
                                                         </div>
 
@@ -1458,10 +1457,10 @@
                 SetTextValue('ProjectObjective', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectObjective)');
                 SetTextValue('ProjectActivity', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectActivity)');
 
-                //SetTextValue('ProjectStartDate', 'Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate)');
-                //SetTextValue('ProjectCompletionDate', 'Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate)');
+                SetTextValue('ProjectStartDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate)');
+                SetTextValue('ProjectCompletionDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate)');
 
-                var project_start_date = '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate)';
+                @*var project_start_date = '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate)';
                 if (project_start_date != '') {
                     SetTextValue('ProjectStartDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectStartDate.ToString("dd/MM/yyyy"))');
                 }
@@ -1469,7 +1468,7 @@
                 var project_compl_date = '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate)';
                 if (project_compl_date != '') {
                     SetTextValue('ProjectCompletionDate', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectCompletionDate.ToString("dd/MM/yyyy"))');
-                }
+                }*@
 
                 SetTextValue('ProjectEstimatedCost', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectEstimatedCost)');
                 SetTextValue('ProjectOutcome', '@Html.Raw(ViewBag.ProjectCommonDetail.ProjectOutcome)');

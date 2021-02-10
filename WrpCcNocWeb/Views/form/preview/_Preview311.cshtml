@@ -1,0 +1,196 @@
+﻿@using Microsoft.AspNetCore.Http
+@using WrpCcNocWeb.DatabaseContext
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    WrpCcNocDbContext _db = new WrpCcNocDbContext();
+    CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["ProjectCommonDetail"];
+    CcModAppProject_38_IndvDetail projectindi = (CcModAppProject_38_IndvDetail)ViewData["ProjectIndvDetail38"];
+
+    var prev_lang = int.Parse(ViewData["LanguageId"].ToString());
+    var app_state_id = pcd.ApplicationStateId;
+    var app_state = (string)ViewData["ApplicationState"];
+    var is_complete_id = pcd.IsCompletedId;
+    var review_cycle_no = pcd.ReviewCycleNo;
+
+    var location = ViewData["ProjectLocationDetail"];
+    var hrd = ViewData["HydrologicalRegionDetail"];
+    var hsd = ViewData["BDP2100HotSpotDetailTemp"];
+
+    long ProjectId = (long)ViewData["ProjectId"];
+    long ProjectIndvId = (long)ViewData["ProjectIndvId"];
+    long UserId = (long)ViewData["UserId"];
+    int ProjectTypeId = (int)ViewData["ProjectTypeId"];
+    var user_group_id = ViewData["UserLevel"].ToString();
+}
+
+<div id="form-preview" class="form-preview container">
+    @{ await Html.RenderPartialAsync("_1Header.cshtml",
+    new ViewDataDictionary(ViewData) {
+                { "hFormLanguage", prev_lang },
+                { "hPTID", ProjectTypeId }});
+    }
+
+    <br />
+
+    @{ await Html.RenderPartialAsync("_2General.cshtml",
+    new ViewDataDictionary(ViewData) {
+                { "gProjectCommonDetail", pcd},
+                //{ "gProjectIndvDetail31", projectindi },
+                { "gProjectLocationDetail", location},
+                { "gFormLanguage", prev_lang },
+                { "gProjectTypeId", ProjectTypeId }});
+    }
+
+    <br />
+
+    <table style="border: 1px solid #808080; table-layout: fixed; width: 100%;" border="1" cellpadding="1" cellspacing="0">
+        <tr style="background: #9d9b9b; font-weight: bold;">
+            <td colspan="3">
+                <h4>
+                    @if (prev_lang == 1)
+                    {<span>খ। কারিগরি তথ্য</span>}
+                    else
+                    {<span>B. Technical Information</span>}
+                </h4>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="3">
+                <h5>
+                    @if (prev_lang == 1)
+                    {<span>(১) বেজলাইন সম্পর্কিত তথ্য বা অবস্থা পর্যালোচনা</span>}
+                    else
+                    {<span>(1) Discussion about baseline related information or situation</span>}
+                </h5>
+            </td>
+        </tr>
+
+        <tr style="vertical-align: top; text-align: left;">
+            <td colspan="3">
+                <b>
+                    @if (prev_lang == 1)
+                    {<span>i. হাইড্রোলজিক্যাল অঞ্চল অনুযায়ী প্রকল্প এলাকা</span>}
+                    else
+                    {<span>i. Project area according to Hydrological Region</span>}
+                </b>
+            </td>
+        </tr>
+
+        <tr style="vertical-align: top; text-align: left;">
+            <td colspan="2">
+                <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                    <tbody>@Html.Raw(hrd.ToString())</tbody>
+                </table>
+            </td>
+            <td>
+                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Hydrological Region', 'HydrologicalRegion');"
+                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                    <i class="mdi mdi-comment-text-multiple"></i>
+                </a>
+            </td>
+        </tr>
+
+        <tr style="vertical-align: top; text-align: left;">
+            <td colspan="3">
+                <b>
+                    @if (prev_lang == 1)
+                    {<span>ii. বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০ এর হট স্পট অনুযায়ী প্রকল্প এলাকা</span>}
+                    else
+                    {<span>ii. Project Area According to Bangladesh Delta Plan 2100 Hot Spot</span>}
+                </b>
+            </td>
+        </tr>
+
+        <tr style="vertical-align: top; text-align: left;">
+            <td colspan="2">
+                <ol>
+                    @foreach (var bdphsd in (List<BDP2100HotSpotDetailTemp>)hsd)
+                    {
+                        if (prev_lang == 1)
+                        {
+                            <li>@bdphsd.PlanNameBn</li>
+                        }
+                        else
+                        {
+                            <li>@bdphsd.PlanName</li>
+                        }
+                    }
+                </ol>
+            </td>
+            <td style="word-break: break-all;">
+                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Bangladesh Delta Plan 2100 Hot Spot', 'BDP2100HotSpot');"
+                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                    <i class="mdi mdi-comment-text-multiple"></i>
+                </a>
+            </td>
+        </tr>
+
+            
+    </table>
+
+    <br />
+
+    @{
+        var cnwpd = ViewData["CompatNWPDetail"];
+        var cnwmpd = ViewData["CompatNWMPDetail"];
+        var sdgd = ViewData["CompatSDGDetail"];
+        var sdgid = ViewData["CompatSDGIndiDetail"];
+        var bdp2100gd = ViewData["BDP2100GoalDetail"];
+        var gpwmgtd = ViewData["GPWMGroupType"];
+
+        await Html.RenderPartialAsync("_4Deed.cshtml",
+              new ViewDataDictionary(ViewData) {
+                { "dProjectCommonDetail", pcd},
+                //{ "dProjectIndvDetail31", projectindi },
+                { "dCompatNWPDetail", cnwpd },
+                { "dCompatNWMPDetail", cnwmpd },
+                { "dCompatSDGDetail", sdgd },
+                { "dCompatSDGIndiDetail", sdgid },
+                { "dBDP2100GoalDetail", bdp2100gd },
+                { "dGPWMGroupType", gpwmgtd },
+                { "dFormLanguage", prev_lang },
+                { "dProjectTypeId", ProjectTypeId }});
+    }
+
+    @{ await Html.RenderPartialAsync("_5Administrative.cshtml",
+                new ViewDataDictionary(ViewData) {
+                { "aProjectCommonDetail", pcd},
+                //{ "aProjectIndvDetail31", projectindi },
+                { "aFormLanguage", prev_lang },
+                { "aProjectTypeId", ProjectTypeId }});
+    }
+
+    @{
+        var sfn = ViewData["SignatureFileName"].ToString();
+        var anbn = ViewData["ApplicantNameBn"].ToString();
+        var anen = ViewData["ApplicantName"].ToString();
+        var agne = ViewData["ApplicantGroupName"].ToString();
+
+        await Html.RenderPartialAsync("_6Footer.cshtml",
+              new ViewDataDictionary(ViewData) {
+                { "fSignatureFileName", sfn},
+                { "fApplicantNameBn", anbn },
+                { "fApplicantName", anen },
+                { "fApplicantGroupName", agne },
+                { "fFormLanguage", prev_lang },
+                { "fProjectTypeId", ProjectTypeId }});
+    }
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        $('.comment').addClass('d-none');
+
+        jQuery('#btnMapView').click(function () {
+            var prev_pid = GetHiddenValue('ProjectId');
+            var url = '@Url.Action("viewLocation", "map", new { projectId = "__id__" })';
+            window.open(url.replace('__id__', prev_pid), '_blank');
+        });
+    });
+</script>

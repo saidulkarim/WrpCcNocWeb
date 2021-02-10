@@ -168,6 +168,6 @@ namespace WrpCcNocWeb.Models
         [Column("ToolsAuthorityComments", Order = 34)]
         [Display(Name = "Tools Authority Comments")]
         [MaxLength(150)]
-        public string ToolsAuthorityComments { get; set; }				
+        public string ToolsAuthorityComments { get; set; }
     }
 }

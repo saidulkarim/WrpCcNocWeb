@@ -23,11 +23,6 @@
     long ProjectIndvId = (long)ViewData["ProjectIndvId"];
     long UserId = (long)ViewData["UserId"];
     int ProjectTypeId = (int)ViewData["ProjectTypeId"];
-
-    var sfn = ViewData["SignatureFileName"].ToString();
-    var anbn = ViewData["ApplicantNameBn"].ToString();
-    var anen = ViewData["ApplicantName"].ToString();
-    var agne = ViewData["ApplicantGroupName"].ToString();
 }
 
 <table>
@@ -45,7 +40,7 @@
 
                                 <div id="form-preview" class="form-preview container">
                                     @{ await Html.RenderPartialAsync("preview/_1Header.cshtml",
-                                                              new ViewDataDictionary(ViewData) {
+                                                               new ViewDataDictionary(ViewData) {
                                 { "hFormLanguage", prev_lang },
                                 { "hPTID", ProjectTypeId }});
                                     }
@@ -53,7 +48,7 @@
                                     <br />
 
                                     @{ await Html.RenderPartialAsync("preview/_2General.cshtml",
-                                                              new ViewDataDictionary(ViewData) {
+                                                               new ViewDataDictionary(ViewData) {
                                 { "gProjectCommonDetail", pcd},
                                 { "gProjectLocationDetail", location},
                                 { "gFormLanguage", prev_lang },
@@ -1543,7 +1538,7 @@
 
                                         <tr style="vertical-align: top; text-align: left;">
                                             <td colspan="2">
-                                                @{ 
+                                                @{
                                                     var efad = ViewData["EcoFinAnalysisDetail"];
                                                     await Html.RenderPartialAsync("controls/_EconomicalFinancialAnalysisView.cshtml",
                                                         new ViewDataDictionary(ViewData) {
@@ -1563,7 +1558,17 @@
 
                                         <tr>
                                             <td colspan="3">
-                                                @{ await Html.RenderPartialAsync("form/_AdditionalAttachmentPrint"); }
+                                                <fieldset>
+                                                    <legend>
+                                                        @if (prev_lang == 1)
+                                                        {<span>কারিগরি কমিটির সামগ্রিক সুপারিশ</span> }
+                                                        else
+                                                        { <span>Overall Recommendation of Technical Committee</span>}
+                                                    </legend>
+                                                    <div class="card-box">
+                                                        @{ await Html.RenderPartialAsync("form/_AdditionalAttachmentPrint"); }
+                                                    </div>
+                                                </fieldset>
                                             </td>
                                         </tr>
 
@@ -1600,15 +1605,20 @@
                                     <br />
                                     <hr />
 
-                                    @{ await Html.RenderPartialAsync("preview/_6Footer.cshtml",
-                                             new ViewDataDictionary(ViewData) {
+                                    @{
+                                        var sfn = ViewData["SignatureFileName"].ToString();
+                                        var anbn = ViewData["ApplicantNameBn"].ToString();
+                                        var anen = ViewData["ApplicantName"].ToString();
+                                        var agne = ViewData["ApplicantGroupName"].ToString();
+                                        await Html.RenderPartialAsync("preview/_6Footer.cshtml",
+                                              new ViewDataDictionary(ViewData) {
                                                 { "fSignatureFileName", sfn},
                                                 { "fApplicantNameBn", anbn },
                                                 { "fApplicantName", anen },
                                                 { "fApplicantGroupName", agne },
                                                 { "fFormLanguage", prev_lang },
                                                 { "fProjectTypeId", ProjectTypeId }});
-                                    }                                    
+                                    }
                                 </div>
                             </div>
                         </div>

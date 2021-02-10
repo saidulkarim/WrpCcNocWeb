@@ -193,6 +193,35 @@ namespace WrpCcNocWeb.Models
 		[Column("DuplicationAuthorityComments", Order = 40)]
 		[Display(Name = "Duplication Authority Comments")]
 		[MaxLength(150)]
-		public string DuplicationAuthorityComments { get; set; }	   	  
-    }
+		public string DuplicationAuthorityComments { get; set; }
+
+		[Column("UseOfToolsYesNoId", Order = 41)]
+		[Display(Name = "Was there any Use Of Tools")]
+		public int? UseOfToolsYesNoId { get; set; }
+		[ForeignKey("UseOfToolsYesNoId")]
+		public virtual LookUpCcModYesNo LookUpYesNoUseOfTool_41 { get; set; }
+
+		[Column("ToolsApplicantComments", Order = 42)]
+		[Display(Name = "Tools Applicant Comments")]
+		[MaxLength(150)]
+		public string ToolsApplicantComments { get; set; }
+
+		[Column("ToolsAuthorityComments", Order = 43)]
+		[Display(Name = "Tools Authority Comments")]
+		[MaxLength(150)]
+		public string ToolsAuthorityComments { get; set; }
+
+		[Column("CropProductionAmount", Order = 44)]
+		[Display(Name = "Crop Production Amount (Taka)")]
+		public double? CropProductionAmount { get; set; }
+
+		[Column("TotalFishProduction", Order = 45)]
+		[Display(Name = "Total Fish Production (Ton)")]
+		public double? TotalFishProduction { get; set; }
+
+		[Column("UseOfAppropToolsDescription", Order = 46)]
+		[Display(Name = "Short Description, If Yes")]
+		[MaxLength(500)]
+		public string UseOfAppropToolsDescription { get; set; }
+	}
 }

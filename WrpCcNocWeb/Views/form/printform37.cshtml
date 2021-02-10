@@ -28,1893 +28,1906 @@
     var user_group_id = ViewData["UserLevel"].ToString();
 }
 
-<div id="form-preview" class="form-preview container">
-    @{ await Html.RenderPartialAsync("preview/_1Header.cshtml",
-                 new ViewDataDictionary(ViewData) {
+    <div id="form-preview" class="form-preview container">
+        @{ await Html.RenderPartialAsync("preview/_1Header.cshtml",
+                      new ViewDataDictionary(ViewData) {
                 { "hFormLanguage", prev_lang },
                 { "hPTID", ProjectTypeId }});
-    }
+        }
 
-    <br />
+        <br />
 
-    @{ await Html.RenderPartialAsync("preview/_2General.cshtml",
-                 new ViewDataDictionary(ViewData) {
+        @{ await Html.RenderPartialAsync("preview/_2General.cshtml",
+                      new ViewDataDictionary(ViewData) {
                 { "gProjectCommonDetail", pcd},
                 //{ "gProjectIndvDetail31", projectindi },
                 { "gProjectLocationDetail", location},
                 { "gFormLanguage", prev_lang },
                 { "gProjectTypeId", ProjectTypeId }});
-    }
+        }
 
-    <br />
+        <br />
 
-    <table style="border: 1px solid #808080; table-layout: fixed; width: 100%;" border="1" cellpadding="1" cellspacing="0">
-        <tr style="background: #9d9b9b; font-weight: bold;">
-            <td colspan="3">
-                <h4>
-                    @if (prev_lang == 1)
-                    {<span>খ। কারিগরি তথ্য</span>}
-                    else
-                    {<span>B. Technical Information</span>}
-                </h4>
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="3">
-                <h5>
-                    @if (prev_lang == 1)
-                    {<span>(১) বেজলাইন সম্পর্কিত তথ্য বা অবস্থা পর্যালোচনা</span>}
-                    else
-                    {<span>(1) Discussion about baseline related information or situation</span>}
-                </h5>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>i. শিল্প প্রতিষ্ঠানটি কোন EPZ বা সরকার ঘোষিত বিশেষায়িত শিল্পাঞ্চলের অন্তভূক্ত কিনা?</span>}
-                    else
-                    {<span>i. Whether the Proposed Industry Falls Under Any EPZ or Government Declared Specialized Industrial Zone?</span>}
-                </b>
-            </td>
-            <td>
-                @if (projectindi.IsSpecializedIndustrialZone.Value == 1)
-                {
-                    @if (prev_lang == 1)
-                    {<span>হ্যাঁ</span> }
-                    else
-                    { <span>Yes</span>}
-                }
-                else if (projectindi.IsSpecializedIndustrialZone.Value == 0)
-                {
-                    @if (prev_lang == 1)
-                    {<span>না</span> }
-                    else
-                    { <span>No</span>}
-                }
-                else
-                {
-                    <span>-</span>
-                }
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Whether the Proposed Industry Falls Under Any EPZ or Government Declared Specialized Industrial Zone?', 'IsSpecializedIndustrialZone');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="3">
-                <h5>
-                    @if (prev_lang == 1)
-                    {<span>ii. বেসলাইন সম্পর্কে আলোচনা হয়েছে?</span>}
-                    else
-                    {<span>ii. Discussed the Baseline?</span>}
-                </h5>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td colspan="2">
-                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                    <tr>
-                        <th>
-                            @if (prev_lang == 1)
-                            {<span>হ্যাঁ</span>}
-                            else
-                            {<span>Yes</span>}
-                        </th>
-                        <th>
-                            @if (prev_lang == 1)
-                            {<span>না</span>}
-                            else
-                            {<span>No</span>}
-                        </th>
-                        <th>
-                            @if (prev_lang == 1)
-                            {<span>আবেদনকারীর মন্তব্য</span>}
-                            else
-                            {<span>Applicant Comments</span>}
-                        </th>
-                        <th>
-                            @if (prev_lang == 1)
-                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
-                            else
-                            {<span>Authority Comments</span>}
-                        </th>
-                    </tr>
-                    <tr>
-                        @{
-                            string yesTickMark = string.Empty, noTickMark = string.Empty;
-
-                            if (projectindi.DiscussAboutBaselineYesNoId.Value == 1)
-                            {
-                                yesTickMark = "<span class='fe-check'></span>";
-                                noTickMark = "";
-                            }
-                            else
-                            {
-                                yesTickMark = "";
-                                noTickMark = "<span class='fe-check'></span>";
-                            }
-
-                            <td class="text-center">@Html.Raw(yesTickMark)</td>
-                            <td class="text-center">@Html.Raw(noTickMark)</td>
-                            <td>@projectindi.DabApplicantComments</td>
-                            <td>@projectindi.DabAuthorityComments</td>
-                        }
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Discussed the Baseline?', 'DiscussedTheBaseline');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>iii. হাইড্রোলজিক্যাল অঞ্চল অনুযায়ী প্রকল্প এলাকা</span>}
-                    else
-                    {<span>iii. Project area according to Hydrological Region</span>}
-                </b>
-            </td>
-            <td>
-                <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
-                    <tbody>@Html.Raw(hrd.ToString())</tbody>
-                </table>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Hydrological Region', 'HydrologicalRegion');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>iv. বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০ এর হট স্পট অনুযায়ী প্রকল্প এলাকা</span>}
-                    else
-                    {<span>iv. Project Area According to Bangladesh Delta Plan 2100 Hot Spot</span>}
-                </b>
-            </td>
-            <td>
-                <ol>
-                    @foreach (var bdphsd in (List<BDP2100HotSpotDetailTemp>)hsd)
-                    {
-                        if (prev_lang == 1)
-                        {
-                            <li>@bdphsd.PlanNameBn</li>
-                        }
+        <table style="border: 1px solid #808080; table-layout: fixed; width: 100%;" border="1" cellpadding="1" cellspacing="0">
+            <tr style="background: #9d9b9b; font-weight: bold;">
+                <td colspan="3">
+                    <h4>
+                        @if (prev_lang == 1)
+                        {<span>খ। কারিগরি তথ্য</span>}
                         else
-                        {
-                            <li>@bdphsd.PlanName</li>
-                        }
-                    }
-                </ol>
-            </td>
-            <td style="word-break: break-all;">
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Bangladesh Delta Plan 2100 Hot Spot', 'BDP2100HotSpot');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+                        {<span>B. Technical Information</span>}
+                    </h4>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>v. পানি উত্তোলনের উৎস</span>}
-                    else
-                    {<span>v. Name of the Water Bodies to be Used</span>}
-                </b>
-            </td>
-            <td>
-                @{
-                    var wbtbu = ViewData["WaterBodyToBeUsed"];
-                    foreach (WaterBodyDetailTemp _wbtbu in (List<WaterBodyDetailTemp>)wbtbu)
-                    {
-                        if (prev_lang == 1)
-                        {
-                            @_wbtbu.NameOfWaterBodyBn
-                        }
+            <tr>
+                <td colspan="3">
+                    <h5>
+                        @if (prev_lang == 1)
+                        {<span>(১) বেজলাইন সম্পর্কিত তথ্য বা অবস্থা পর্যালোচনা</span>}
                         else
-                        {
-                            @_wbtbu.NameOfWaterBody
-                        }
-                    }
-                }
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Name of the Water Bodies to be Used', 'NameWaterBodiesToBeUsed');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+                        {<span>(1) Discussion about baseline related information or situation</span>}
+                    </h5>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>vi. নদীর প্রকৃতি</span>}
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>i. শিল্প প্রতিষ্ঠানটি কোন EPZ বা সরকার ঘোষিত বিশেষায়িত শিল্পাঞ্চলের অন্তভূক্ত কিনা?</span>}
+                        else
+                        {<span>i. Whether the Proposed Industry Falls Under Any EPZ or Government Declared Specialized Industrial Zone?</span>}
+                    </b>
+                </td>
+                <td>
+                    @if (projectindi.IsSpecializedIndustrialZone.Value == 1)
+                    {
+                        @if (prev_lang == 1)
+                        {<span>হ্যাঁ</span> }
+                        else
+                        { <span>Yes</span>}
+                    }
+                    else if (projectindi.IsSpecializedIndustrialZone.Value == 0)
+                    {
+                        @if (prev_lang == 1)
+                        {<span>না</span> }
+                        else
+                        { <span>No</span>}
+                    }
                     else
-                    {<span>vi. River Nature</span>}
-                </b>
-            </td>
-            <td>
-                <ul>
-                    @{
-                        var rvtydtl = ViewData["RiverTypeDetail"];
-                        foreach (RiverTypeDetailTemp rtd in (List<RiverTypeDetailTemp>)rvtydtl)
+                    {
+                        <span>-</span>
+                    }
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Whether the Proposed Industry Falls Under Any EPZ or Government Declared Specialized Industrial Zone?', 'IsSpecializedIndustrialZone');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3">
+                    <h5>
+                        @if (prev_lang == 1)
+                        {<span>ii. বেসলাইন সম্পর্কে আলোচনা হয়েছে?</span>}
+                        else
+                        {<span>ii. Discussed the Baseline?</span>}
+                    </h5>
+                </td>
+            </tr>
+
+            <tr style="vertical-align: top; text-align: left;">
+                <td colspan="2">
+                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                        <tr>
+                            <th>
+                                @if (prev_lang == 1)
+                                {<span>হ্যাঁ</span>}
+                                else
+                                {<span>Yes</span>}
+                            </th>
+                            <th>
+                                @if (prev_lang == 1)
+                                {<span>না</span>}
+                                else
+                                {<span>No</span>}
+                            </th>
+                            <th>
+                                @if (prev_lang == 1)
+                                {<span>আবেদনকারীর মন্তব্য</span>}
+                                else
+                                {<span>Applicant Comments</span>}
+                            </th>
+                            <th>
+                                @if (prev_lang == 1)
+                                {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                else
+                                {<span>Authority Comments</span>}
+                            </th>
+                        </tr>
+                        <tr>
+                            @{
+                                string yesTickMark = string.Empty, noTickMark = string.Empty;
+
+                                if (projectindi.DiscussAboutBaselineYesNoId.Value == 1)
+                                {
+                                    yesTickMark = "<span class='fe-check'></span>";
+                                    noTickMark = "";
+                                }
+                                else
+                                {
+                                    yesTickMark = "";
+                                    noTickMark = "<span class='fe-check'></span>";
+                                }
+
+                                <td class="text-center">@Html.Raw(yesTickMark)</td>
+                                <td class="text-center">@Html.Raw(noTickMark)</td>
+                                <td>@projectindi.DabApplicantComments</td>
+                                <td>@projectindi.DabAuthorityComments</td>
+                            }
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Discussed the Baseline?', 'DiscussedTheBaseline');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>iii. হাইড্রোলজিক্যাল অঞ্চল অনুযায়ী প্রকল্প এলাকা</span>}
+                        else
+                        {<span>iii. Project area according to Hydrological Region</span>}
+                    </b>
+                </td>
+                <td>
+                    <table style="border: 1px solid #808080; width: 100%; text-align: center;" border="1">
+                        <tbody>@Html.Raw(hrd.ToString())</tbody>
+                    </table>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Hydrological Region', 'HydrologicalRegion');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>iv. বাংলাদেশ ব-দ্বীপ পরিকল্পনা-২১০০ এর হট স্পট অনুযায়ী প্রকল্প এলাকা</span>}
+                        else
+                        {<span>iv. Project Area According to Bangladesh Delta Plan 2100 Hot Spot</span>}
+                    </b>
+                </td>
+                <td>
+                    <ol>
+                        @foreach (var bdphsd in (List<BDP2100HotSpotDetailTemp>)hsd)
                         {
                             if (prev_lang == 1)
                             {
-                                <li>@rtd.RiverTypeNameBn</li>
+                                <li>@bdphsd.PlanNameBn</li>
                             }
                             else
                             {
-                                <li>@rtd.RiverTypeName</li>
+                                <li>@bdphsd.PlanName</li>
+                            }
+                        }
+                    </ol>
+                </td>
+                <td style="word-break: break-all;">
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Bangladesh Delta Plan 2100 Hot Spot', 'BDP2100HotSpot');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>v. পানি উত্তোলনের উৎস</span>}
+                        else
+                        {<span>v. Name of the Water Bodies to be Used</span>}
+                    </b>
+                </td>
+                <td>
+                    @{
+                        var wbtbu = ViewData["WaterBodyToBeUsed"];
+                        foreach (WaterBodyDetailTemp _wbtbu in (List<WaterBodyDetailTemp>)wbtbu)
+                        {
+                            if (prev_lang == 1)
+                            {
+                                @_wbtbu.NameOfWaterBodyBn
+                            }
+                            else
+                            {
+                                @_wbtbu.NameOfWaterBody
                             }
                         }
                     }
-                </ul>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('River Nature', 'RiverNature');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Name of the Water Bodies to be Used', 'NameWaterBodiesToBeUsed');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>vii. প্রবাহের ধরন</span>}
-                    else
-                    {<span>vii. Type of Water Bodies</span>}
-                </b>
-            </td>
-            <td>
-                @{
-                    var towb = ViewData["TypeOfWaterBody"];
-                    foreach (TypeOfWaterBodyDetailTemp _towb in (List<TypeOfWaterBodyDetailTemp>)towb)
-                    {
-                        if (prev_lang == 1)
-                        {
-                            @_towb.WaterBodyTypeBn
-                        }
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>vi. নদীর প্রকৃতি</span>}
                         else
+                        {<span>vi. River Nature</span>}
+                    </b>
+                </td>
+                <td>
+                    <ul>
+                        @{
+                            var rvtydtl = ViewData["RiverTypeDetail"];
+                            foreach (RiverTypeDetailTemp rtd in (List<RiverTypeDetailTemp>)rvtydtl)
+                            {
+                                if (prev_lang == 1)
+                                {
+                                    <li>@rtd.RiverTypeNameBn</li>
+                                }
+                                else
+                                {
+                                    <li>@rtd.RiverTypeName</li>
+                                }
+                            }
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('River Nature', 'RiverNature');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>vii. প্রবাহের ধরন</span>}
+                        else
+                        {<span>vii. Type of Water Bodies</span>}
+                    </b>
+                </td>
+                <td>
+                    @{
+                        var towb = ViewData["TypeOfWaterBody"];
+                        foreach (TypeOfWaterBodyDetailTemp _towb in (List<TypeOfWaterBodyDetailTemp>)towb)
                         {
-                            @_towb.WaterBodyType
+                            if (prev_lang == 1)
+                            {
+                                @_towb.WaterBodyTypeBn
+                            }
+                            else
+                            {
+                                @_towb.WaterBodyType
+                            }
                         }
                     }
-                }
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Type of Water Bodies', 'TypeOfWaterBodies');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Type of Water Bodies', 'TypeOfWaterBodies');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>viii.a উৎস মুখ</span>}
-                    else
-                    {<span>viii.a Offtake</span>}
-                </b>
-            </td>
-            <td>@projectindi.Offtake</td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Offtake', 'Offtake');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>viii.a উৎস মুখ</span>}
+                        else
+                        {<span>viii.a Offtake</span>}
+                    </b>
+                </td>
+                <td>@projectindi.Offtake</td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Offtake', 'Offtake');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>viii.b পতিত মুখ</span>}
-                    else
-                    {<span>viii.b Outfall</span>}
-                </b>
-            </td>
-            <td>@projectindi.Outfall</td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Outfall', 'Outfall');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>viii.b পতিত মুখ</span>}
+                        else
+                        {<span>viii.b Outfall</span>}
+                    </b>
+                </td>
+                <td>@projectindi.Outfall</td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Outfall', 'Outfall');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>viii.c সংযোগ</span>}
-                    else
-                    {<span>viii.c Connectivity</span>}
-                </b>
-            </td>
-            <td>@projectindi.Connectivity</td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Connectivity', 'Connectivity');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>viii.c সংযোগ</span>}
+                        else
+                        {<span>viii.c Connectivity</span>}
+                    </b>
+                </td>
+                <td>@projectindi.Connectivity</td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Connectivity', 'Connectivity');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>ix. ইনটেক পয়েন্ট হতে নিকটস্থ নদী/ খাল/ বিলের দূরত্ব</span>}
-                    else
-                    {<span>ix. Surrounding Water Bodies with Distance from Intake Point</span>}
-                </b>
-            </td>
-            <td>
-                @{
-                    var hysd = ViewData["HydroSystemDetail"];
-                    await Html.RenderPartialAsync("controls/_HydrologicalSystemView.cshtml",
-                          new ViewDataDictionary(ViewData) {
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>ix. ইনটেক পয়েন্ট হতে নিকটস্থ নদী/ খাল/ বিলের দূরত্ব</span>}
+                        else
+                        {<span>ix. Surrounding Water Bodies with Distance from Intake Point</span>}
+                    </b>
+                </td>
+                <td>
+                    @{
+                        var hysd = ViewData["HydroSystemDetail"];
+                        await Html.RenderPartialAsync("controls/_HydrologicalSystemView.cshtml",
+                              new ViewDataDictionary(ViewData) {
                                             { "vFormLanguage", prev_lang },
                                             { "vHydroSystemDetail", hysd }});
-                }
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Hydrological System', 'HydrologicalSystem');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+                    }
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Hydrological System', 'HydrologicalSystem');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>x. বার্ষিক বৃষ্টিপাত (বিগত পাঁচ বছর) (মি.মি.)</span>}
-                    else
-                    {<span>x. Annual Rainfall (last five years)</span>}
-                </b>
-            </td>
-            <td>
-                @{
-                    var annualrainfall = ViewData["AnnualRainfallDetail"];
-                    await Html.RenderPartialAsync("controls/_AnnualRainfallView.cshtml",
-                          new ViewDataDictionary(ViewData) {
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>x. বার্ষিক বৃষ্টিপাত (বিগত পাঁচ বছর) (মি.মি.)</span>}
+                        else
+                        {<span>x. Annual Rainfall (last five years)</span>}
+                    </b>
+                </td>
+                <td>
+                    @{
+                        var annualrainfall = ViewData["AnnualRainfallDetail"];
+                        await Html.RenderPartialAsync("controls/_AnnualRainfallView.cshtml",
+                              new ViewDataDictionary(ViewData) {
                                             { "vFormLanguage", prev_lang },
                                             { "vAnnualRainfallDetail", annualrainfall }});
-                }
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Annual Rainfall (last five years)', 'AnnualRainfallLastFiveYears');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+                    }
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Annual Rainfall (last five years)', 'AnnualRainfallLastFiveYears');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xi. পানির সমতল (ওয়াটার লেভেল)</span>}
-                    else
-                    {<span>xi. Water Level (m PWD)</span>}
-                </b>
-            </td>
-            <td>
-                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                    <tr>
-                        <th class="text-center" colspan="2">
-                            @if (prev_lang == 1)
-                            {<span>শুকনো মৌসুম</span>}
-                            else
-                            {<span>Dry Season</span>}
-                        </th>
-                        <th class="text-center" colspan="2">
-                            @if (prev_lang == 1)
-                            {<span>বর্ষা মৌসুম</span>}
-                            else
-                            {<span>Wet Season</span>}
-                        </th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>সর্বোচ্চ</span>}
-                            else
-                            {<span>Maximum</span>}
-                        </th>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>সর্বনিম্ন</span>}
-                            else
-                            {<span>Minimum</span>}
-                        </th>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>সর্বোচ্চ</span>}
-                            else
-                            {<span>Maximum</span>}
-                        </th>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>সর্বনিম্ন</span>}
-                            else
-                            {<span>Minimum</span>}
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>@projectindi.WaterLevelDryMax</td>
-                        <td>@projectindi.WaterLevelDryMin</td>
-                        <td>@projectindi.WaterLevelWetMax</td>
-                        <td>@projectindi.WaterLevelWetMin</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Water Level (m PWD) at Intake Point', 'WaterLevelIntakePoint');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xi. পানির সমতল (ওয়াটার লেভেল)</span>}
+                        else
+                        {<span>xi. Water Level (m PWD)</span>}
+                    </b>
+                </td>
+                <td>
+                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                        <tr>
+                            <th class="text-center" colspan="2">
+                                @if (prev_lang == 1)
+                                {<span>শুকনো মৌসুম</span>}
+                                else
+                                {<span>Dry Season</span>}
+                            </th>
+                            <th class="text-center" colspan="2">
+                                @if (prev_lang == 1)
+                                {<span>বর্ষা মৌসুম</span>}
+                                else
+                                {<span>Wet Season</span>}
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="text-center">
+                                @if (prev_lang == 1)
+                                {<span>সর্বোচ্চ</span>}
+                                else
+                                {<span>Maximum</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (prev_lang == 1)
+                                {<span>সর্বনিম্ন</span>}
+                                else
+                                {<span>Minimum</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (prev_lang == 1)
+                                {<span>সর্বোচ্চ</span>}
+                                else
+                                {<span>Maximum</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (prev_lang == 1)
+                                {<span>সর্বনিম্ন</span>}
+                                else
+                                {<span>Minimum</span>}
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>@projectindi.WaterLevelDryMax</td>
+                            <td>@projectindi.WaterLevelDryMin</td>
+                            <td>@projectindi.WaterLevelWetMax</td>
+                            <td>@projectindi.WaterLevelWetMin</td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Water Level (m PWD) at Intake Point', 'WaterLevelIntakePoint');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xii. পানির প্রবাহ (ডিসচার্জ); (কিউমেক)</span>}
-                    else
-                    {<span>xii. Discharge (m<sup>3</sup>/s)</span>}
-                </b>
-            </td>
-            <td>
-                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                    <tr>
-                        <th class="text-center" colspan="2">
-                            @if (prev_lang == 1)
-                            {<span>শুকনো মৌসুম</span>}
-                            else
-                            {<span>Dry Season</span>}
-                        </th>
-                        <th class="text-center" colspan="2">
-                            @if (prev_lang == 1)
-                            {<span>বর্ষা মৌসুম</span>}
-                            else
-                            {<span>Wet Season</span>}
-                        </th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>সর্বোচ্চ</span>}
-                            else
-                            {<span>Maximum</span>}
-                        </th>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>সর্বনিম্ন</span>}
-                            else
-                            {<span>Minimum</span>}
-                        </th>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>সর্বোচ্চ</span>}
-                            else
-                            {<span>Maximum</span>}
-                        </th>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>সর্বনিম্ন</span>}
-                            else
-                            {<span>Minimum</span>}
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>@projectindi.DischargeDryMax</td>
-                        <td>@projectindi.DischargeDryMin</td>
-                        <td>@projectindi.DischargeWetMax</td>
-                        <td>@projectindi.DischargeWetMin</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Discharge (m3/s) at Intake Point', 'DischargeIntakePoint');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xii. পানির প্রবাহ (ডিসচার্জ); (কিউমেক)</span>}
+                        else
+                        {<span>xii. Discharge (m<sup>3</sup>/s)</span>}
+                    </b>
+                </td>
+                <td>
+                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                        <tr>
+                            <th class="text-center" colspan="2">
+                                @if (prev_lang == 1)
+                                {<span>শুকনো মৌসুম</span>}
+                                else
+                                {<span>Dry Season</span>}
+                            </th>
+                            <th class="text-center" colspan="2">
+                                @if (prev_lang == 1)
+                                {<span>বর্ষা মৌসুম</span>}
+                                else
+                                {<span>Wet Season</span>}
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="text-center">
+                                @if (prev_lang == 1)
+                                {<span>সর্বোচ্চ</span>}
+                                else
+                                {<span>Maximum</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (prev_lang == 1)
+                                {<span>সর্বনিম্ন</span>}
+                                else
+                                {<span>Minimum</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (prev_lang == 1)
+                                {<span>সর্বোচ্চ</span>}
+                                else
+                                {<span>Maximum</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (prev_lang == 1)
+                                {<span>সর্বনিম্ন</span>}
+                                else
+                                {<span>Minimum</span>}
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>@projectindi.DischargeDryMax</td>
+                            <td>@projectindi.DischargeDryMin</td>
+                            <td>@projectindi.DischargeWetMax</td>
+                            <td>@projectindi.DischargeWetMin</td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Discharge (m3/s) at Intake Point', 'DischargeIntakePoint');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xiii. প্রস্থছেদ (ক্রস সেকশন) (মিটার)</span>}
-                    else
-                    {<span>xiii. Cross Section (m)</span>}
-                </b>
-            </td>
-            <td>
-                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                    <tr>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>গভীরতা (মিটার)</span>}
-                            else
-                            {<span>Depth (m)</span>}
-                        </th>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>প্রস্থ (মিটার)</span>}
-                            else
-                            {<span>Width (m)</span>}
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>@projectindi.CrossSectionDepth</td>
-                        <td>@projectindi.CrossSectionWidth</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Cross Section at Intake Point (m)', 'CrossSectionIntakePoint');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xiii. প্রস্থছেদ (ক্রস সেকশন) (মিটার)</span>}
+                        else
+                        {<span>xiii. Cross Section (m)</span>}
+                    </b>
+                </td>
+                <td>
+                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                        <tr>
+                            <th class="text-center">
+                                @if (prev_lang == 1)
+                                {<span>গভীরতা (মিটার)</span>}
+                                else
+                                {<span>Depth (m)</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (prev_lang == 1)
+                                {<span>প্রস্থ (মিটার)</span>}
+                                else
+                                {<span>Width (m)</span>}
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>@projectindi.CrossSectionDepth</td>
+                            <td>@projectindi.CrossSectionWidth</td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Cross Section at Intake Point (m)', 'CrossSectionIntakePoint');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xiv. ভূপরিস্থ পানির গুনগত মান</span>}
-                    else
-                    {<span>xiv. Surface Water Quality</span>}
-                </b>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td>
-                            @if (prev_lang == 1)
-                            {<span>লবনাক্ততা (পি.পি.এম)</span>}
-                            else
-                            {<span>Salinity (ppm)</span>}
-                        </td>
-                        <td>
-                            @if (prev_lang == 1)
-                            {<span>দ্রবীভূত অক্সিজেন (মি.গ্রা./লিটার)</span>}
-                            else
-                            {<span>Dissolved Oxygen (mg/l)</span>}
-                        </td>
-                        <td>
-                            @if (prev_lang == 1)
-                            {<span>মোট দ্রবীভূত কঠিন বস্তু (টি.ডি.এস)</span>}
-                            else
-                            {<span>Total Dissolved Solids (TDS)</span>}
-                        </td>
-                        <td>
-                            @if (prev_lang == 1)
-                            {<span>পি.এইচ</span>}
-                            else
-                            {<span>pH</span>}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>@projectindi.WaterSalinity</td>
-                        <td>@projectindi.WaterDO</td>
-                        <td>@projectindi.WaterTDS</td>
-                        <td>@projectindi.WaterPhLevel</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Surface Water Quality', 'SurfaceWaterQuality');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xiv. ভূপরিস্থ পানির গুনগত মান</span>}
+                        else
+                        {<span>xiv. Surface Water Quality</span>}
+                    </b>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                @if (prev_lang == 1)
+                                {<span>লবনাক্ততা (পি.পি.এম)</span>}
+                                else
+                                {<span>Salinity (ppm)</span>}
+                            </td>
+                            <td>
+                                @if (prev_lang == 1)
+                                {<span>দ্রবীভূত অক্সিজেন (মি.গ্রা./লিটার)</span>}
+                                else
+                                {<span>Dissolved Oxygen (mg/l)</span>}
+                            </td>
+                            <td>
+                                @if (prev_lang == 1)
+                                {<span>মোট দ্রবীভূত কঠিন বস্তু (টি.ডি.এস)</span>}
+                                else
+                                {<span>Total Dissolved Solids (TDS)</span>}
+                            </td>
+                            <td>
+                                @if (prev_lang == 1)
+                                {<span>পি.এইচ</span>}
+                                else
+                                {<span>pH</span>}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>@projectindi.WaterSalinity</td>
+                            <td>@projectindi.WaterDO</td>
+                            <td>@projectindi.WaterTDS</td>
+                            <td>@projectindi.WaterPhLevel</td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Surface Water Quality', 'SurfaceWaterQuality');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xv. ভূগর্ভস্থ পানির গুনগতমান</span>}
-                    else
-                    {<span>xv. Ground Water Quality</span>}
-                </b>
-            </td>
-            <td>
-                <ol>
-                    @{
-                        var gwqdtl = ViewData["GroundWaterQuality"];
-                        foreach (GroundWaterQualityDetailTemp gwq in (List<GroundWaterQualityDetailTemp>)gwqdtl)
-                        {
-                            if (prev_lang == 1)
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xv. ভূগর্ভস্থ পানির গুনগতমান</span>}
+                        else
+                        {<span>xv. Ground Water Quality</span>}
+                    </b>
+                </td>
+                <td>
+                    <ol>
+                        @{
+                            var gwqdtl = ViewData["GroundWaterQuality"];
+                            foreach (GroundWaterQualityDetailTemp gwq in (List<GroundWaterQualityDetailTemp>)gwqdtl)
                             {
-                                <li>@gwq.ParameterNameBn</li>
-                            }
-                            else
-                            {
-                                <li>@gwq.ParameterName</li>
+                                if (prev_lang == 1)
+                                {
+                                    <li>@gwq.ParameterNameBn</li>
+                                }
+                                else
+                                {
+                                    <li>@gwq.ParameterName</li>
+                                }
                             }
                         }
-                    }
-                </ol>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Ground Water Quality', 'GroundWaterQuality');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+                    </ol>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Ground Water Quality', 'GroundWaterQuality');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xvi. পানি ব্যবহারের ধরণ</span>}
-                    else
-                    {<span>xvi. Type of Water Use</span>}
-                </b>
-            </td>
-            <td>
-                <ol>
-                    @{
-                        var towu = ViewData["TypeOfWaterUse"];
-                        foreach (TypeOfWaterUseDetailTemp twu in (List<TypeOfWaterUseDetailTemp>)towu)
-                        {
-                            if (prev_lang == 1)
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xvi. পানি ব্যবহারের ধরণ</span>}
+                        else
+                        {<span>xvi. Type of Water Use</span>}
+                    </b>
+                </td>
+                <td>
+                    <ol>
+                        @{
+                            var towu = ViewData["TypeOfWaterUse"];
+                            foreach (TypeOfWaterUseDetailTemp twu in (List<TypeOfWaterUseDetailTemp>)towu)
                             {
-                                <li>@twu.WaterUseNameBn</li>
-                            }
-                            else
-                            {
-                                <li>@twu.WaterUseName</li>
+                                if (prev_lang == 1)
+                                {
+                                    <li>@twu.WaterUseNameBn</li>
+                                }
+                                else
+                                {
+                                    <li>@twu.WaterUseName</li>
+                                }
                             }
                         }
-                    }
-                </ol>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Type of Water Use', 'TypeWaterUse');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+                    </ol>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Type of Water Use', 'TypeWaterUse');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xvii. বিদ্যমান/ প্রস্তাবিত শিল্প এলাকার জমির তফসিল</span>}
-                    else
-                    {<span>xvii. Land Cadastre of Existing/ Proposed Industrial Area</span>}
-                </b>
-            </td>
-            <td>@projectindi.LandCadastre</td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Land Cadastre of Existing/ Proposed Industrial Area', 'LandCadastre');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xvii. বিদ্যমান/ প্রস্তাবিত শিল্প এলাকার জমির তফসিল</span>}
+                        else
+                        {<span>xvii. Land Cadastre of Existing/ Proposed Industrial Area</span>}
+                    </b>
+                </td>
+                <td>@projectindi.LandCadastre</td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Land Cadastre of Existing/ Proposed Industrial Area', 'LandCadastre');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xviii. জমির মালিকানা (মালিকানা /ইজারা দারের প্রমাণপত্র)</span>}
-                    else
-                    {<span>xviii. Proof of Land Ownership</span>}
-                </b>
-            </td>
-            <td>@projectindi.ProofOfLandOwnership</td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Proof of Land Ownership', 'ProofOfLandOwnership');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xviii. জমির মালিকানা (মালিকানা /ইজারা দারের প্রমাণপত্র)</span>}
+                        else
+                        {<span>xviii. Proof of Land Ownership</span>}
+                    </b>
+                </td>
+                <td>@projectindi.ProofOfLandOwnership</td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Proof of Land Ownership', 'ProofOfLandOwnership');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xix. মোট জমির পরিমাণ</span>}
-                    else
-                    {<span>xix. Total Land (m<sup>2</sup>)</span>}
-                </b>
-            </td>
-            <td>
-                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                    <tr>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>ভবনের ছাদের ক্ষেত্রফল (বঃমিঃ)</span>}
-                            else
-                            {<span>Roof Area of Building</span>}
-                        </th>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>রাস্তার দৈর্ঘ্য (মিঃ)</span>}
-                            else
-                            {<span>Road Length</span>}
-                        </th>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>সবুজ বেষ্টনির পরিমাণ (বঃমিঃ)</span>}
-                            else
-                            {<span>Green Area</span>}
-                        </th>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>উন্মুক্ত ভূমির পরিমাণ (বঃমিঃ)</span>}
-                            else
-                            {<span>Open Land Area</span>}
-                        </th>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>সন্নিহিত জলাভূমির পরিমাণ (বঃমিঃ)</span>}
-                            else
-                            {<span>Adjacent Wetland</span>}
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>@projectindi.RoofAreaOfBuilding</td>
-                        <td>@projectindi.RoadLength</td>
-                        <td>@projectindi.GreenArea</td>
-                        <td>@projectindi.OpenLandArea</td>
-                        <td>@projectindi.AdjacentWetland</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Total Land', 'TotalLand');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xix. মোট জমির পরিমাণ</span>}
+                        else
+                        {<span>xix. Total Land (m<sup>2</sup>)</span>}
+                    </b>
+                </td>
+                <td>
+                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                        <tr>
+                            <th class="text-center">
+                                @if (prev_lang == 1)
+                                {<span>ভবনের ছাদের ক্ষেত্রফল (বঃমিঃ)</span>}
+                                else
+                                {<span>Roof Area of Building</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (prev_lang == 1)
+                                {<span>রাস্তার দৈর্ঘ্য (মিঃ)</span>}
+                                else
+                                {<span>Road Length</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (prev_lang == 1)
+                                {<span>সবুজ বেষ্টনির পরিমাণ (বঃমিঃ)</span>}
+                                else
+                                {<span>Green Area</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (prev_lang == 1)
+                                {<span>উন্মুক্ত ভূমির পরিমাণ (বঃমিঃ)</span>}
+                                else
+                                {<span>Open Land Area</span>}
+                            </th>
+                            <th class="text-center">
+                                @if (prev_lang == 1)
+                                {<span>সন্নিহিত জলাভূমির পরিমাণ (বঃমিঃ)</span>}
+                                else
+                                {<span>Adjacent Wetland</span>}
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>@projectindi.RoofAreaOfBuilding</td>
+                            <td>@projectindi.RoadLength</td>
+                            <td>@projectindi.GreenArea</td>
+                            <td>@projectindi.OpenLandArea</td>
+                            <td>@projectindi.AdjacentWetland</td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Total Land', 'TotalLand');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xx. প্রধান উৎপাদিত পণ্য (এক/একাধিক)</span>}
-                    else
-                    {<span>xx. Main Manufacture Product</span>}
-                </b>
-            </td>
-            <td>@projectindi.MainManufactureProduct</td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Main Manufacture Product', 'MainManufactureProduct');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xx. প্রধান উৎপাদিত পণ্য (এক/একাধিক)</span>}
+                        else
+                        {<span>xx. Main Manufacture Product</span>}
+                    </b>
+                </td>
+                <td>@projectindi.MainManufactureProduct</td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Main Manufacture Product', 'MainManufactureProduct');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xxi. উপজাত পণ্য সামগ্রী</span>}
-                    else
-                    {<span>xxi. By Product Item</span>}
-                </b>
-            </td>
-            <td>@projectindi.ByProductItem</td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('By Product Item', 'ByProductItem');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xxi. উপজাত পণ্য সামগ্রী</span>}
+                        else
+                        {<span>xxi. By Product Item</span>}
+                    </b>
+                </td>
+                <td>@projectindi.ByProductItem</td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('By Product Item', 'ByProductItem');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xxii. বর্জ্য পানি উৎপন্ন হওয়ার পরিমাণ (ঘন মিঃ)</span>}
-                    else
-                    {<span>xxii. Waste Water Generation (m<sup>3</sup>)</span>}
-                </b>
-            </td>
-            <td>@projectindi.WasteWaterGeneration</td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Waste Water Generation', 'WasteWaterGeneration');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xxii. বর্জ্য পানি উৎপন্ন হওয়ার পরিমাণ (ঘন মিঃ)</span>}
+                        else
+                        {<span>xxii. Waste Water Generation (m<sup>3</sup>)</span>}
+                    </b>
+                </td>
+                <td>@projectindi.WasteWaterGeneration</td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Waste Water Generation', 'WasteWaterGeneration');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xxiii. বর্জ্য পানি অপসারণের স্থান ও পদ্ধতি</span>}
-                    else
-                    {<span>xxiii. Waste Water Discharge Procedure and Discharge Point</span>}
-                </b>
-            </td>
-            <td>@projectindi.WasteWaterDischarge</td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Waste Water Discharge Procedure and Discharge Point', 'WasteWaterDischarge');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xxiii. বর্জ্য পানি অপসারণের স্থান ও পদ্ধতি</span>}
+                        else
+                        {<span>xxiii. Waste Water Discharge Procedure and Discharge Point</span>}
+                    </b>
+                </td>
+                <td>@projectindi.WasteWaterDischarge</td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Waste Water Discharge Procedure and Discharge Point', 'WasteWaterDischarge');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xxiv. পানি নিষ্কাশন ক্ষমতা (ঘন মিঃ/ঘন্টা)</span>}
-                    else
-                    {<span>xxiv. Discharge Capacity (m<sup>3</sup>/hr)</span>}
-                </b>
-            </td>
-            <td>@projectindi.DischargeCapacity</td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Discharge Capacity', 'DischargeCapacity');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xxiv. পানি নিষ্কাশন ক্ষমতা (ঘন মিঃ/ঘন্টা)</span>}
+                        else
+                        {<span>xxiv. Discharge Capacity (m<sup>3</sup>/hr)</span>}
+                    </b>
+                </td>
+                <td>@projectindi.DischargeCapacity</td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Discharge Capacity', 'DischargeCapacity');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xxv. নিষ্কাশন লে-আউট পণ্যের উৎপাদন লে-আউটের সাথে সামঞ্জস্য কি না</span>}
-                    else
-                    {<span>xxv. Compatibility with Production Layout with Discharge Layout</span>}
-                </b>
-            </td>
-            <td>
-                @if (projectindi.CPLDLYesNoId == 1)
-                {
-                    if (prev_lang == 1)
-                    {<span>হ্যাঁ</span>}
-                    else
-                    {<span>Yes</span>}
-                }
-                else
-                {
-                    if (prev_lang == 1)
-                    {<span>না</span>}
-                    else
-                    {<span>No</span>}
-                }
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility with Production Layout with Discharge Layout', 'CPLDLYesNoId');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xxvi. নিষ্কাশন ব্যবস্থা সহজ ও কার্যকর ভাবে পরিষ্কারের জন্য সঠিক নক্সা করা হয়েছে কি না</span> }
-                    else
-                    { <span>xxvi. Appropriate Design for Easy and Active Cleaning</span>}
-                </b>
-            </td>
-            <td>
-                @if (projectindi.ADEACYesNoId == 1)
-                {
-                    if (prev_lang == 1)
-                    {<span>হ্যাঁ</span>}
-                    else
-                    {<span>Yes</span>}
-                }
-                else
-                {
-                    if (prev_lang == 1)
-                    {<span>না</span>}
-                    else
-                    {<span>No</span>}
-                }
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Appropriate Design for Easy and Active Cleaning', 'ADEACYesNoId');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xxvii. নিষ্কাশন ব্যবস্থাটি সমগ্র পরিচালন ব্যবস্থার সাথে সমন্বিত কি না</span> }
-                    else
-                    { <span>xxvii. Integration of Discharge System with Entire Operation System</span>}
-                </b>
-            </td>
-            <td>
-                @if (projectindi.IDSEOSYesNoId == 1)
-                {
-                    if (prev_lang == 1)
-                    {<span>হ্যাঁ</span>}
-                    else
-                    {<span>Yes</span>}
-                }
-                else
-                {
-                    if (prev_lang == 1)
-                    {<span>না</span>}
-                    else
-                    {<span>No</span>}
-                }
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Integration of Discharge System with Entire Operation System', 'IDSEOSYesNoId');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xxviii. শিল্প এলাকার ২ কিঃমিঃ- এর মধ্যে অবস্থিত শহর/ গ্রামের পানির চাহিদা (ঘঃমিঃ)</span> }
-                    else
-                    { <span>xxviii. Water Demand within 2 km of Proposed Industrial Area (m<sup>3</sup>)</span>}
-                </b>
-            </td>
-            <td>
-                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                    <tr>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>পানিয় জল ও পয়ঃ নিষ্কাশন </span>}
-                            else
-                            {<span>Domestic</span>}
-                        </th>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>কৃষিকাজ</span>}
-                            else
-                            {<span>Irrigation</span>}
-                        </th>
-                        <th class="text-center">
-                            @if (prev_lang == 1)
-                            {<span>অন্যান্য শিল্প প্রতিষ্ঠান (যদি থাকে)</span>}
-                            else
-                            {<span>Other Industrial Demand</span>}
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>@projectindi.WaterDemandDomestic</td>
-                        <td>@projectindi.WaterDemandIrrigation</td>
-                        <td>@projectindi.WaterDemandOther</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Water Demand within 2 km of Proposed Industrial Area', 'WaterDemandWithin2KM');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xxix. ভূ-গর্ভস্থ পানি কোথায় ব্যবহৃত হবে</span> }
-                    else
-                    { <span>xxix. Water Use Sector</span>}
-                </b>
-            </td>
-            <td>
-                @{
-                    var wusdtl = ViewData["WaterUseSector"];
-                    foreach (WaterUseSectorDetailTemp _wus in (List<WaterUseSectorDetailTemp>)wusdtl)
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xxv. নিষ্কাশন লে-আউট পণ্যের উৎপাদন লে-আউটের সাথে সামঞ্জস্য কি না</span>}
+                        else
+                        {<span>xxv. Compatibility with Production Layout with Discharge Layout</span>}
+                    </b>
+                </td>
+                <td>
+                    @if (projectindi.CPLDLYesNoId == 1)
                     {
                         if (prev_lang == 1)
-                        {
-                            @_wus.WaterUseSectorNameBn
-                        }
+                        {<span>হ্যাঁ</span>}
                         else
-                        {
-                            @_wus.WaterUseSectorName
-                        }
+                        {<span>Yes</span>}
                     }
-                }
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Water Use Sector', 'WaterUseSector');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>xxx. বর্জ্য পানি পরিশোধনে গৃহীত ব্যবস্থা</span>}
                     else
-                    {<span>xxx. Steps Taken for Waste Water Treatment</span>}
-                </b>
-            </td>
-            <td>@projectindi.StepsTakenWasteWaterTreatment</td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Steps Taken for Waste Water Treatment', 'StepsTakenWasteWaterTreatment');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+                    {
+                        if (prev_lang == 1)
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    }
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Compatibility with Production Layout with Discharge Layout', 'CPLDLYesNoId');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr>
-            <td colspan="3">
-                <h5>
-                    @if (prev_lang == 1)
-                    {<span>(২) ভূ-পরিস্থ ও ভূ-গর্ভস্থ পানির প্রাপ্যতা</span> }
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xxvi. নিষ্কাশন ব্যবস্থা সহজ ও কার্যকর ভাবে পরিষ্কারের জন্য সঠিক নক্সা করা হয়েছে কি না</span> }
+                        else
+                        { <span>xxvi. Appropriate Design for Easy and Active Cleaning</span>}
+                    </b>
+                </td>
+                <td>
+                    @if (projectindi.ADEACYesNoId == 1)
+                    {
+                        if (prev_lang == 1)
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    }
                     else
-                    { <span>(2) Water Availability (Surface Water and Ground Water)</span>}
-                </h5>
-            </td>
-        </tr>
+                    {
+                        if (prev_lang == 1)
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    }
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Appropriate Design for Easy and Active Cleaning', 'ADEACYesNoId');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>i. ইনটেক পয়েন্টে ভূ-পরিস্থ পানির প্রাপ্যতা</span>}
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xxvii. নিষ্কাশন ব্যবস্থাটি সমগ্র পরিচালন ব্যবস্থার সাথে সমন্বিত কি না</span> }
+                        else
+                        { <span>xxvii. Integration of Discharge System with Entire Operation System</span>}
+                    </b>
+                </td>
+                <td>
+                    @if (projectindi.IDSEOSYesNoId == 1)
+                    {
+                        if (prev_lang == 1)
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    }
                     else
-                    {<span>i. Surface Water Availability at Intake Point</span>}
-                </b>
-            </td>
-            <td>
-                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                    <thead>
+                    {
+                        if (prev_lang == 1)
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    }
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Integration of Discharge System with Entire Operation System', 'IDSEOSYesNoId');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xxviii. শিল্প এলাকার ২ কিঃমিঃ- এর মধ্যে অবস্থিত শহর/ গ্রামের পানির চাহিদা (ঘঃমিঃ)</span> }
+                        else
+                        { <span>xxviii. Water Demand within 2 km of Proposed Industrial Area (m<sup>3</sup>)</span>}
+                    </b>
+                </td>
+                <td>
+                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
                         <tr>
-                            <th>
+                            <th class="text-center">
                                 @if (prev_lang == 1)
-                                {<span>Month</span>}
+                                {<span>পানিয় জল ও পয়ঃ নিষ্কাশন </span>}
                                 else
-                                {<span>Month</span>}
+                                {<span>Domestic</span>}
                             </th>
-                            <th>
+                            <th class="text-center">
                                 @if (prev_lang == 1)
-                                {<span>Minimum Water Flow (m<sup>3</sup>/s)</span>}
+                                {<span>কৃষিকাজ</span>}
                                 else
-                                {<span>Minimum Water Flow (m<sup>3</sup>/s)</span>}
+                                {<span>Irrigation</span>}
                             </th>
-                            <th>
+                            <th class="text-center">
                                 @if (prev_lang == 1)
-                                {<span>Water Demand Per Month (m<sup>3</sup>)</span>}
+                                {<span>অন্যান্য শিল্প প্রতিষ্ঠান (যদি থাকে)</span>}
                                 else
-                                {<span>Water Demand Per Month (m<sup>3</sup>)</span>}
+                                {<span>Other Industrial Demand</span>}
                             </th>
                         </tr>
-                    </thead>
-                    <tbody id="tbodySWATPreview">
-                        @{
-                            var swadtl = ViewData["SurfaceWaterAvailDetail"];
-                            foreach (SWATemp swa in (List<SWATemp>)swadtl)
-                            {
-                                if (prev_lang == 1)
-                                {
-                                    <tr>
-                                        <td>@swa.MonthBn</td>
-                                        <td>@swa.MinWaterFlow</td>
-                                        <td>@swa.WaterDemandMonth</td>
-                                    </tr>
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td>@swa.Month</td>
-                                        <td>@swa.MinWaterFlow</td>
-                                        <td>@swa.WaterDemandMonth</td>
-                                    </tr>
-                                }
-                            }
-                        }
-                    </tbody>
-                </table>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Surface Water Availability', 'SurfaceWaterAvailability');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>ii. ভূগর্ভস্থ পানির গভীরতা (নিকটস্থ অবজারভেশন কুপ হতে) (মিটার)</span>}
-                    else
-                    {<span>ii. Ground Water Depth (m) from Nearest Observation Well</span>}
-                </b>
-            </td>
-            <td>
-                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                    <thead>
                         <tr>
-                            <th>
-                                @if (prev_lang == 1)
-                                {<span>Month</span>}
-                                else
-                                {<span>Month</span>}
-                            </th>
-                            <th>
-                                @if (prev_lang == 1)
-                                {<span>Depth (m)</span>}
-                                else
-                                {<span>Depth (m)</span>}
-                            </th>
+                            <td>@projectindi.WaterDemandDomestic</td>
+                            <td>@projectindi.WaterDemandIrrigation</td>
+                            <td>@projectindi.WaterDemandOther</td>
                         </tr>
-                    </thead>
-                    <tbody id="tbodySWATPreview">
-                        @{
-                            var gwddtl = ViewData["GroundWaterDepthDetail"];
-                            foreach (GrndWtrDepthDetailTemp gwd in (List
-                            <GrndWtrDepthDetailTemp>
-                                )gwddtl)
-                            {
-                                if (prev_lang == 1)
-                                {
-                                    <tr>
-                                        <td>@gwd.MonthBn</td>
-                                        <td>@gwd.WaterDepth</td>
-                                    </tr>
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td>@gwd.Month</td>
-                                        <td>@gwd.WaterDepth</td>
-                                    </tr>
-                                }
-                            }
-                        }
-                    </tbody>
-                </table>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Ground Water Depth', 'GroundWaterDepth');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+                    </table>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Water Demand within 2 km of Proposed Industrial Area', 'WaterDemandWithin2KM');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr>
-            <td colspan="3">
-                <h5>
-                    @if (prev_lang == 1)
-                    {<span>(৩) পানির প্রয়োজনীয়তা এবং ব্যবহার বিবরণী</span> }
-                    else
-                    { <span>(3) Detail Water Use</span>}
-                </h5>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td colspan="2">
-                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                    <thead>
-                        <tr>
-                            <th>
-                                @if (prev_lang == 1)
-                                {
-                                    <span>ব্যবহারের উদ্দেশ্য</span>
-                                }
-                                else
-                                {
-                                    <span>Water Use</span>
-                                }
-                            </th>
-                            <th>
-                                @if (prev_lang == 1)
-                                {
-                                    <span>বিদ্যমান চাহিদা (ঘনমিটার/ দিন)	</span>
-                                }
-                                else
-                                {
-                                    <span>Existing Demand (m<sup>3</sup>/day)</span>
-                                }
-                            </th>
-                            <th>
-                                @if (prev_lang == 1)
-                                {
-                                    <span>প্রস্তাবিত চাহিদা (ঘনমিটার/ দিন)</span>
-                                }
-                                else
-                                {
-                                    <span>Proposed Demand (m<sup>3</sup>/day)</span>
-                                }
-                            </th>
-                            <th>
-                                @if (prev_lang == 1)
-                                {
-                                    <span>মোট চাহিদা (ঘনমিটার/ দিন)</span>
-                                }
-                                else
-                                {
-                                    <span>Total Demand (m<sup>3</sup>/day)</span>
-                                }
-                            </th>
-                            <th>
-                                @if (prev_lang == 1)
-                                {
-                                    <span>মোট কতদিন পরিচালিত হবে</span>
-                                }
-                                else
-                                {
-                                    <span>Year of Conducting Period</span>
-                                }
-                            </th>
-                            <th>
-                                @if (prev_lang == 1)
-                                {
-                                    <span>বার্ষিক চাহিদা (ঘনমিটার/ বছর)</span>
-                                }
-                                else
-                                {
-                                    <span>Annual Demand (m<sup>3</sup>/year)</span>
-                                }
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodyWaterUseDetailPreview">
-                        @{
-                            var wusedtl = ViewData["WaterUseDetail"];
-                            foreach (WaterUseDetailTemp _wud in (List<WaterUseDetailTemp>)wusedtl)
-                            {
-                                if (prev_lang == 1)
-                                {
-                                    <tr>
-                                        <td>@_wud.WaterUseNameBn</td>
-                                        <td>@_wud.ExistingDemand</td>
-                                        <td>@_wud.ProposedDemand</td>
-                                        <td>@_wud.TotalDemand</td>
-                                        <td>@_wud.YearConductingPeriod</td>
-                                        <td>@_wud.AnnualDemand</td>
-                                    </tr>
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td>@_wud.WaterUseName</td>
-                                        <td>@_wud.ExistingDemand</td>
-                                        <td>@_wud.ProposedDemand</td>
-                                        <td>@_wud.TotalDemand</td>
-                                        <td>@_wud.YearConductingPeriod</td>
-                                        <td>@_wud.AnnualDemand</td>
-                                    </tr>
-                                }
-                            }
-                        }
-                    </tbody>
-                </table>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Water Use Detail', 'WaterUseDetail');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td colspan="2">
-                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                    <thead>
-                        <tr>
-                            <th>
-                                @if (prev_lang == 1)
-                                {<span>শিল্প কাজে পূর্ণ ব্যবহার (ঘঃমিঃ/ দিন)</span>}
-                                else
-                                {<span>Total Waste Water Generation (m<sup>3</sup>/day)</span>}
-                            </th>
-                            <th>
-                                @if (prev_lang == 1)
-                                {<span>সবুজ বেষ্টনি উন্নয়নে ব্যবহার (ঘঃমিঃ/ দিন)</span>}
-                                else
-                                {<span>Usable Treated Water Quantity (m<sup>3</sup>/day)</span>}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@projectindi.TotalWasteWaterGeneration</td>
-                            <td>@projectindi.UsableTreatedWaterQuantity</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Detail of Reuse Water', 'DetailReuseWater');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="3">
-                <h5>
-                    @if (prev_lang == 1)
-                    {<span>(৪) ভূপরিস্থ পানি উত্তোলনের বিবরণ</span> }
-                    else
-                    { <span>(4) Detail of Surface Water Withdrawal</span>}
-                </h5>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>i. পানি উত্তোলনের পদ্ধতি</span>}
-                    else
-                    {<span>i. Water Diversion from Source</span>}
-                </b>
-            </td>
-            <td>
-                <ol>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xxix. ভূ-গর্ভস্থ পানি কোথায় ব্যবহৃত হবে</span> }
+                        else
+                        { <span>xxix. Water Use Sector</span>}
+                    </b>
+                </td>
+                <td>
                     @{
-                        var wdsdtl = ViewData["WaterDiversSource"];
-                        foreach (WtrDiversionSourceDetailTemp wds in (List<WtrDiversionSourceDetailTemp>)wdsdtl)
+                        var wusdtl = ViewData["WaterUseSector"];
+                        foreach (WaterUseSectorDetailTemp _wus in (List<WaterUseSectorDetailTemp>)wusdtl)
                         {
                             if (prev_lang == 1)
                             {
-                                <li>@wds.SourceNameBn</li>
+                                @_wus.WaterUseSectorNameBn
                             }
                             else
                             {
-                                <li>@wds.SourceName</li>
+                                @_wus.WaterUseSectorName
                             }
                         }
                     }
-                </ol>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Water Diversion from Source', 'WaterDiversionFromSource');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Water Use Sector', 'WaterUseSector');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>ii. পানি উত্তোলনের পরিমান (কিউবিক মিটার/দিন)</span>}
-                    else
-                    {<span>ii. Water Withdrawal Quantity (m<sup>3</sup>/day)</span>}
-                </b>
-            </td>
-            <td>@projectindi.WaterWithdrawQuantityPerDay</td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Water Withdrawal Quantity', 'WaterWithdrawQuantityPerDay');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>xxx. বর্জ্য পানি পরিশোধনে গৃহীত ব্যবস্থা</span>}
+                        else
+                        {<span>xxx. Steps Taken for Waste Water Treatment</span>}
+                    </b>
+                </td>
+                <td>@projectindi.StepsTakenWasteWaterTreatment</td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Steps Taken for Waste Water Treatment', 'StepsTakenWasteWaterTreatment');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>iii. পানি উত্তোলন পারিমাপের জন্য পরিমাপক যন্ত্রের ব্যবহার</span> }
-                    else
-                    { <span>iii. Use of Flow Meter to Measure Water Withdrawal</span>}
-                </b>
-            </td>
-            <td>
-                @if (projectindi.UseOfFlowMeterMeasrYNId == 1)
-                {
-                    if (prev_lang == 1)
-                    {<span>হ্যাঁ</span>}
-                    else
-                    {<span>Yes</span>}
-                }
-                else
-                {
-                    if (prev_lang == 1)
-                    {<span>না</span>}
-                    else
-                    {<span>No</span>}
-                }
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Use of Flow Meter to Measure Water Withdrawal', 'UseOfFlowMeterMeasrYNId');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+            <tr>
+                <td colspan="3">
+                    <h5>
+                        @if (prev_lang == 1)
+                        {<span>(২) ভূ-পরিস্থ ও ভূ-গর্ভস্থ পানির প্রাপ্যতা</span> }
+                        else
+                        { <span>(2) Water Availability (Surface Water and Ground Water)</span>}
+                    </h5>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>iv. ব্যবহৃত মটরের সংখ্যা</span>}
-                    else
-                    { <span>iv. No of Pumps</span>}
-                </b>
-            </td>
-            <td>@projectindi.NoOfPump</td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('No of Pumps', 'NoOfPump');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>v. মটরের ক্ষমতা</span>}
-                    else
-                    { <span>v. Pump Capacity</span>}
-                </b>
-            </td>
-            <td>@projectindi.PumpCapacity</td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Pump Capacity', 'PumpCapacity');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>vi. পাইপের ব্যাস (ইঞ্চি)</span>}
-                    else
-                    { <span>vi. Pipe Diameter (inch)</span>}
-                </b>
-            </td>
-            <td>@projectindi.PipeDiameter</td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Pipe Diameter', 'PipeDiameter');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td style="width: 250px;">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>vii. নির্গমিত পানির স্থানের বিবরণ</span>}
-                    else
-                    {<span>vii. Diverted water return to the source</span>}
-                </b>
-            </td>
-            <td>
-                @if (projectindi.DivertedWaterRtnSrcYNId == 1)
-                {
-                    if (prev_lang == 1)
-                    {<span>হ্যাঁ</span>}
-                    else
-                    {<span>Yes</span>}
-                }
-                else
-                {
-                    if (prev_lang == 1)
-                    {<span>না</span>}
-                    else
-                    {<span>No</span>}
-                }
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Diverted Water Return to the Source', 'DivertedWaterRtnSrcYNId');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td colspan="2">
-                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                    <thead>
-                        <tr>
-                            <th>
-                                @if (prev_lang == 1)
-                                {<span>নির্গমিত পানির পরিমাণ (কিউবিক মিটার/দিন)</span>}
-                                else
-                                {<span>Discharge Quantity (m<sup>3</sup>/s)</span>}
-                            </th>
-                            <th>
-                                @if (prev_lang == 1)
-                                {<span>নির্গমিত পানির স্থান</span>}
-                                else
-                                {<span>Discharge Point</span>}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodySWATPreview">
-                        <tr>
-                            <td>@projectindi.DischargeQuantity</td>
-                            <td>@projectindi.DischargePoint</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Discharge Quantity and Point', 'DischargeQuantityPoint');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="3">
-                <h5>
-                    @if (prev_lang == 1)
-                    {<span>(৫) বিদ্যমান এবং/অথবা প্রস্তাবিত ভূ-গর্ভস্থ পানির উত্তোলন অবকাঠামো</span> }
-                    else
-                    { <span>(5) Detail of Ground Water Withdrawal</span>}
-                </h5>
-            </td>
-        </tr>
-
-        <tr style="vertical-align: top; text-align: left;">
-            <td colspan="2">
-                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                    <thead>
-                        <tr>
-                            <th class="text-center">
-                                @if (prev_lang == 1)
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>i. ইনটেক পয়েন্টে ভূ-পরিস্থ পানির প্রাপ্যতা</span>}
+                        else
+                        {<span>i. Surface Water Availability at Intake Point</span>}
+                    </b>
+                </td>
+                <td>
+                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @if (prev_lang == 1)
+                                    {<span>Month</span>}
+                                    else
+                                    {<span>Month</span>}
+                                </th>
+                                <th>
+                                    @if (prev_lang == 1)
+                                    {<span>Minimum Water Flow (m<sup>3</sup>/s)</span>}
+                                    else
+                                    {<span>Minimum Water Flow (m<sup>3</sup>/s)</span>}
+                                </th>
+                                <th>
+                                    @if (prev_lang == 1)
+                                    {<span>Water Demand Per Month (m<sup>3</sup>)</span>}
+                                    else
+                                    {<span>Water Demand Per Month (m<sup>3</sup>)</span>}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodySWATPreview">
+                            @{
+                                var swadtl = ViewData["SurfaceWaterAvailDetail"];
+                                foreach (SWATemp swa in (List<SWATemp>)swadtl)
                                 {
-                                    <span>বিবরণ</span>
+                                    if (prev_lang == 1)
+                                    {
+                                        <tr>
+                                            <td>@swa.MonthBn</td>
+                                            <td>@swa.MinWaterFlow</td>
+                                            <td>@swa.WaterDemandMonth</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>@swa.Month</td>
+                                            <td>@swa.MinWaterFlow</td>
+                                            <td>@swa.WaterDemandMonth</td>
+                                        </tr>
+                                    }
                                 }
-                                else
+                            }
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Surface Water Availability', 'SurfaceWaterAvailability');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>ii. ভূগর্ভস্থ পানির গভীরতা (নিকটস্থ অবজারভেশন কুপ হতে) (মিটার)</span>}
+                        else
+                        {<span>ii. Ground Water Depth (m) from Nearest Observation Well</span>}
+                    </b>
+                </td>
+                <td>
+                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @if (prev_lang == 1)
+                                    {<span>Month</span>}
+                                    else
+                                    {<span>Month</span>}
+                                </th>
+                                <th>
+                                    @if (prev_lang == 1)
+                                    {<span>Depth (m)</span>}
+                                    else
+                                    {<span>Depth (m)</span>}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodySWATPreview">
+                            @{
+                                var gwddtl = ViewData["GroundWaterDepthDetail"];
+                                foreach (GrndWtrDepthDetailTemp gwd in (List
+                                <GrndWtrDepthDetailTemp>
+                                    )gwddtl)
                                 {
-                                    <span>Description</span>
+                                    if (prev_lang == 1)
+                                    {
+                                        <tr>
+                                            <td>@gwd.MonthBn</td>
+                                            <td>@gwd.WaterDepth</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>@gwd.Month</td>
+                                            <td>@gwd.WaterDepth</td>
+                                        </tr>
+                                    }
                                 }
-                            </th>
-                            <th class="text-center">
-                                @if (prev_lang == 1)
+                            }
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Ground Water Depth', 'GroundWaterDepth');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3">
+                    <h5>
+                        @if (prev_lang == 1)
+                        {<span>(৩) পানির প্রয়োজনীয়তা এবং ব্যবহার বিবরণী</span> }
+                        else
+                        { <span>(3) Detail Water Use</span>}
+                    </h5>
+                </td>
+            </tr>
+
+            <tr style="vertical-align: top; text-align: left;">
+                <td colspan="2">
+                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @if (prev_lang == 1)
+                                    {
+                                        <span>ব্যবহারের উদ্দেশ্য</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Water Use</span>
+                                    }
+                                </th>
+                                <th>
+                                    @if (prev_lang == 1)
+                                    {
+                                        <span>বিদ্যমান চাহিদা (ঘনমিটার/ দিন)	</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Existing Demand (m<sup>3</sup>/day)</span>
+                                    }
+                                </th>
+                                <th>
+                                    @if (prev_lang == 1)
+                                    {
+                                        <span>প্রস্তাবিত চাহিদা (ঘনমিটার/ দিন)</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Proposed Demand (m<sup>3</sup>/day)</span>
+                                    }
+                                </th>
+                                <th>
+                                    @if (prev_lang == 1)
+                                    {
+                                        <span>মোট চাহিদা (ঘনমিটার/ দিন)</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Total Demand (m<sup>3</sup>/day)</span>
+                                    }
+                                </th>
+                                <th>
+                                    @if (prev_lang == 1)
+                                    {
+                                        <span>মোট কতদিন পরিচালিত হবে</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Year of Conducting Period</span>
+                                    }
+                                </th>
+                                <th>
+                                    @if (prev_lang == 1)
+                                    {
+                                        <span>বার্ষিক চাহিদা (ঘনমিটার/ বছর)</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Annual Demand (m<sup>3</sup>/year)</span>
+                                    }
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyWaterUseDetailPreview">
+                            @{
+                                var wusedtl = ViewData["WaterUseDetail"];
+                                foreach (WaterUseDetailTemp _wud in (List<WaterUseDetailTemp>)wusedtl)
                                 {
-                                    <span>বিদ্যমান অবকাঠামো</span>
+                                    if (prev_lang == 1)
+                                    {
+                                        <tr>
+                                            <td>@_wud.WaterUseNameBn</td>
+                                            <td>@_wud.ExistingDemand</td>
+                                            <td>@_wud.ProposedDemand</td>
+                                            <td>@_wud.TotalDemand</td>
+                                            <td>@_wud.YearConductingPeriod</td>
+                                            <td>@_wud.AnnualDemand</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>@_wud.WaterUseName</td>
+                                            <td>@_wud.ExistingDemand</td>
+                                            <td>@_wud.ProposedDemand</td>
+                                            <td>@_wud.TotalDemand</td>
+                                            <td>@_wud.YearConductingPeriod</td>
+                                            <td>@_wud.AnnualDemand</td>
+                                        </tr>
+                                    }
                                 }
-                                else
-                                {
-                                    <span>Existing Infrastructure</span>
-                                }
-                            </th>
-                            <th class="text-center">
-                                @if (prev_lang == 1)
-                                {
-                                    <span>প্রস্তাব অবকাঠামো</span>
-                                }
-                                else
-                                {
-                                    <span>Proposed Infrastructure</span>
-                                }
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodyWaterUseDetailPreview">
+                            }
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Water Use Detail', 'WaterUseDetail');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr style="vertical-align: top; text-align: left;">
+                <td colspan="2">
+                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @if (prev_lang == 1)
+                                    {<span>শিল্প কাজে পূর্ণ ব্যবহার (ঘঃমিঃ/ দিন)</span>}
+                                    else
+                                    {<span>Total Waste Water Generation (m<sup>3</sup>/day)</span>}
+                                </th>
+                                <th>
+                                    @if (prev_lang == 1)
+                                    {<span>সবুজ বেষ্টনি উন্নয়নে ব্যবহার (ঘঃমিঃ/ দিন)</span>}
+                                    else
+                                    {<span>Usable Treated Water Quantity (m<sup>3</sup>/day)</span>}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@projectindi.TotalWasteWaterGeneration</td>
+                                <td>@projectindi.UsableTreatedWaterQuantity</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Detail of Reuse Water', 'DetailReuseWater');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3">
+                    <h5>
+                        @if (prev_lang == 1)
+                        {<span>(৪) ভূপরিস্থ পানি উত্তোলনের বিবরণ</span> }
+                        else
+                        { <span>(4) Detail of Surface Water Withdrawal</span>}
+                    </h5>
+                </td>
+            </tr>
+
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>i. পানি উত্তোলনের পদ্ধতি</span>}
+                        else
+                        {<span>i. Water Diversion from Source</span>}
+                    </b>
+                </td>
+                <td>
+                    <ol>
                         @{
-                            var gwwdtl = ViewData["GroundWaterWithdrawalDetail"];
-                            foreach (GroundWaterWithdrawalDetailTemp _wud in (List<GroundWaterWithdrawalDetailTemp>)gwwdtl)
+                            var wdsdtl = ViewData["WaterDiversSource"];
+                            foreach (WtrDiversionSourceDetailTemp wds in (List<WtrDiversionSourceDetailTemp>)wdsdtl)
                             {
                                 if (prev_lang == 1)
                                 {
-                                    <tr>
-                                        <td>@_wud.ParameterNameBn</td>
-                                        <td>@_wud.ExistingInfrastructure</td>
-                                        <td>@_wud.ProposedInfrastructure</td>
-                                    </tr>
+                                    <li>@wds.SourceNameBn</li>
                                 }
                                 else
                                 {
-                                    <tr>
-                                        <td>@_wud.ParameterName</td>
-                                        <td>@_wud.ExistingInfrastructure</td>
-                                        <td>@_wud.ProposedInfrastructure</td>
-                                    </tr>
+                                    <li>@wds.SourceName</li>
                                 }
                             }
                         }
-                    </tbody>
-                </table>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Detail of Ground Water Withdrawal', 'GroundWaterWithdrawalDetail');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
+                    </ol>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Water Diversion from Source', 'WaterDiversionFromSource');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr>
-            <td colspan="3">
-                <h5>
-                    @if (prev_lang == 1)
-                    {<span>(৬) পরিবেশগত ও সামাজিক প্রভাব</span>}
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>ii. পানি উত্তোলনের পরিমান (কিউবিক মিটার/দিন)</span>}
+                        else
+                        {<span>ii. Water Withdrawal Quantity (m<sup>3</sup>/day)</span>}
+                    </b>
+                </td>
+                <td>@projectindi.WaterWithdrawQuantityPerDay</td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Water Withdrawal Quantity', 'WaterWithdrawQuantityPerDay');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>iii. পানি উত্তোলন পারিমাপের জন্য পরিমাপক যন্ত্রের ব্যবহার</span> }
+                        else
+                        { <span>iii. Use of Flow Meter to Measure Water Withdrawal</span>}
+                    </b>
+                </td>
+                <td>
+                    @if (projectindi.UseOfFlowMeterMeasrYNId == 1)
+                    {
+                        if (prev_lang == 1)
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    }
                     else
-                    {<span>(6) Environmental and Social Impact Assessment</span>}
-                </h5>
-            </td>
-        </tr>
+                    {
+                        if (prev_lang == 1)
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    }
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Use of Flow Meter to Measure Water Withdrawal', 'UseOfFlowMeterMeasrYNId');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr style="vertical-align: top; text-align: left;">
-            <td colspan="3">
-                <b>
-                    @if (prev_lang == 1)
-                    {<span>i. প্রভাব নিরুপন করা হয়েছে কি না?</span>}
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>iv. ব্যবহৃত মটরের সংখ্যা</span>}
+                        else
+                        { <span>iv. No of Pumps</span>}
+                    </b>
+                </td>
+                <td>@projectindi.NoOfPump</td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('No of Pumps', 'NoOfPump');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>v. মটরের ক্ষমতা</span>}
+                        else
+                        { <span>v. Pump Capacity</span>}
+                    </b>
+                </td>
+                <td>@projectindi.PumpCapacity</td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Pump Capacity', 'PumpCapacity');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>vi. পাইপের ব্যাস (ইঞ্চি)</span>}
+                        else
+                        { <span>vi. Pipe Diameter (inch)</span>}
+                    </b>
+                </td>
+                <td>@projectindi.PipeDiameter</td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Pipe Diameter', 'PipeDiameter');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr style="vertical-align: top; text-align: left;">
+                <td style="width: 250px;">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>vii. নির্গমিত পানির স্থানের বিবরণ</span>}
+                        else
+                        {<span>vii. Diverted water return to the source</span>}
+                    </b>
+                </td>
+                <td>
+                    @if (projectindi.DivertedWaterRtnSrcYNId == 1)
+                    {
+                        if (prev_lang == 1)
+                        {<span>হ্যাঁ</span>}
+                        else
+                        {<span>Yes</span>}
+                    }
                     else
-                    {<span>i. Whether the effect has been assessed?</span>}
-                </b>
-            </td>
-        </tr>
+                    {
+                        if (prev_lang == 1)
+                        {<span>না</span>}
+                        else
+                        {<span>No</span>}
+                    }
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Diverted Water Return to the Source', 'DivertedWaterRtnSrcYNId');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-        <tr>
-            <td colspan="2">
-                <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
-                    <tr>
-                        <th>
-                            @if (prev_lang == 1)
-                            {<span>হ্যাঁ</span>}
-                            else
-                            {<span>Yes</span>}
-                        </th>
-                        <th>
-                            @if (prev_lang == 1)
-                            {<span>না</span>}
-                            else
-                            {<span>No</span>}
-                        </th>
-                        <th>
-                            @if (prev_lang == 1)
-                            {<span>আবেদনকারীর মন্তব্য</span>}
-                            else
-                            {<span>Applicant Comments</span>}
-                        </th>
-                        <th>
-                            @if (prev_lang == 1)
-                            {<span>কর্তৃপক্ষের মন্তব্য</span>}
-                            else
-                            {<span>Authority Comments</span>}
-                        </th>
-                    </tr>
-                    <tr>
-                        @{
-                            yesTickMark = string.Empty;
-                            noTickMark = string.Empty;
+            <tr style="vertical-align: top; text-align: left;">
+                <td colspan="2">
+                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @if (prev_lang == 1)
+                                    {<span>নির্গমিত পানির পরিমাণ (কিউবিক মিটার/দিন)</span>}
+                                    else
+                                    {<span>Discharge Quantity (m<sup>3</sup>/s)</span>}
+                                </th>
+                                <th>
+                                    @if (prev_lang == 1)
+                                    {<span>নির্গমিত পানির স্থান</span>}
+                                    else
+                                    {<span>Discharge Point</span>}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodySWATPreview">
+                            <tr>
+                                <td>@projectindi.DischargeQuantity</td>
+                                <td>@projectindi.DischargePoint</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Discharge Quantity and Point', 'DischargeQuantityPoint');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-                            if (pcd.EnvAndSocialYesNoId == 1)
-                            {
-                                yesTickMark = "<span class='fe-check'></span>";
-                                noTickMark = "";
+            <tr>
+                <td colspan="3">
+                    <h5>
+                        @if (prev_lang == 1)
+                        {<span>(৫) বিদ্যমান এবং/অথবা প্রস্তাবিত ভূ-গর্ভস্থ পানির উত্তোলন অবকাঠামো</span> }
+                        else
+                        { <span>(5) Detail of Ground Water Withdrawal</span>}
+                    </h5>
+                </td>
+            </tr>
+
+            <tr style="vertical-align: top; text-align: left;">
+                <td colspan="2">
+                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                        <thead>
+                            <tr>
+                                <th class="text-center">
+                                    @if (prev_lang == 1)
+                                    {
+                                        <span>বিবরণ</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Description</span>
+                                    }
+                                </th>
+                                <th class="text-center">
+                                    @if (prev_lang == 1)
+                                    {
+                                        <span>বিদ্যমান অবকাঠামো</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Existing Infrastructure</span>
+                                    }
+                                </th>
+                                <th class="text-center">
+                                    @if (prev_lang == 1)
+                                    {
+                                        <span>প্রস্তাব অবকাঠামো</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Proposed Infrastructure</span>
+                                    }
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyWaterUseDetailPreview">
+                            @{
+                                var gwwdtl = ViewData["GroundWaterWithdrawalDetail"];
+                                foreach (GroundWaterWithdrawalDetailTemp _wud in (List<GroundWaterWithdrawalDetailTemp>)gwwdtl)
+                                {
+                                    if (prev_lang == 1)
+                                    {
+                                        <tr>
+                                            <td>@_wud.ParameterNameBn</td>
+                                            <td>@_wud.ExistingInfrastructure</td>
+                                            <td>@_wud.ProposedInfrastructure</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>@_wud.ParameterName</td>
+                                            <td>@_wud.ExistingInfrastructure</td>
+                                            <td>@_wud.ProposedInfrastructure</td>
+                                        </tr>
+                                    }
+                                }
                             }
-                            else
-                            {
-                                yesTickMark = "";
-                                noTickMark = "<span class='fe-check'></span>";
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Detail of Ground Water Withdrawal', 'GroundWaterWithdrawalDetail');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3">
+                    <h5>
+                        @if (prev_lang == 1)
+                        {<span>(৬) পরিবেশগত ও সামাজিক প্রভাব</span>}
+                        else
+                        {<span>(6) Environmental and Social Impact Assessment</span>}
+                    </h5>
+                </td>
+            </tr>
+
+            <tr style="vertical-align: top; text-align: left;">
+                <td colspan="3">
+                    <b>
+                        @if (prev_lang == 1)
+                        {<span>i. প্রভাব নিরুপন করা হয়েছে কি না?</span>}
+                        else
+                        {<span>i. Whether the effect has been assessed?</span>}
+                    </b>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <table style="width:100%; border: 1px solid #808080; text-align: center;" border="1">
+                        <tr>
+                            <th>
+                                @if (prev_lang == 1)
+                                {<span>হ্যাঁ</span>}
+                                else
+                                {<span>Yes</span>}
+                            </th>
+                            <th>
+                                @if (prev_lang == 1)
+                                {<span>না</span>}
+                                else
+                                {<span>No</span>}
+                            </th>
+                            <th>
+                                @if (prev_lang == 1)
+                                {<span>আবেদনকারীর মন্তব্য</span>}
+                                else
+                                {<span>Applicant Comments</span>}
+                            </th>
+                            <th>
+                                @if (prev_lang == 1)
+                                {<span>কর্তৃপক্ষের মন্তব্য</span>}
+                                else
+                                {<span>Authority Comments</span>}
+                            </th>
+                        </tr>
+                        <tr>
+                            @{
+                                yesTickMark = string.Empty;
+                                noTickMark = string.Empty;
+
+                                if (pcd.EnvAndSocialYesNoId == 1)
+                                {
+                                    yesTickMark = "<span class='fe-check'></span>";
+                                    noTickMark = "";
+                                }
+                                else
+                                {
+                                    yesTickMark = "";
+                                    noTickMark = "<span class='fe-check'></span>";
+                                }
+
+                                <td>@Html.Raw(yesTickMark)</td>
+                                <td>@Html.Raw(noTickMark)</td>
+                                <td>@pcd.EnvAndSocialApplicantCmt</td>
+                                <td>@pcd.EnvAndSocialAuthorityCmt</td>
                             }
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Environmental and Social Impact Assessment', 'EnvironmentalAndSocialImpactAssessment');"
+                       class="btn btn-sm btn-info waves-effect comment" data-close="false"
+                       data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
+                       style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
+                        <i class="mdi mdi-comment-text-multiple"></i>
+                    </a>
+                </td>
+            </tr>
 
-                            <td>@Html.Raw(yesTickMark)</td>
-                            <td>@Html.Raw(noTickMark)</td>
-                            <td>@pcd.EnvAndSocialApplicantCmt</td>
-                            <td>@pcd.EnvAndSocialAuthorityCmt</td>
-                        }
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Environmental and Social Impact Assessment', 'EnvironmentalAndSocialImpactAssessment');"
-                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                    <i class="mdi mdi-comment-text-multiple"></i>
-                </a>
-            </td>
-        </tr>
-
-        @if (pcd.EnvAndSocialYesNoId == 1)
-        {
-            var eiad = ViewData["EiaDetailTemp"];
-            var siad = ViewData["SiaDetailTemp"];
-            var eia_file = pcd.EnvAndSocialEiaFile;
-            var sia_file = pcd.EnvAndSocialSiaFile;
-            await Html.RenderPartialAsync("controls/_EnvSocImpactAssessmentView.cshtml",
-                  new ViewDataDictionary(ViewData) {
+            @if (pcd.EnvAndSocialYesNoId == 1)
+            {
+                var eiad = ViewData["EiaDetailTemp"];
+                var siad = ViewData["SiaDetailTemp"];
+                var eia_file = pcd.EnvAndSocialEiaFile;
+                var sia_file = pcd.EnvAndSocialSiaFile;
+                await Html.RenderPartialAsync("controls/_EnvSocImpactAssessmentView.cshtml",
+                      new ViewDataDictionary(ViewData) {
                         { "vFormLanguage", prev_lang },
                         { "vEiaDetailTemp", eiad },
                         { "vSiaDetailTemp", siad },
                         { "vEnvAndSocEiaFile", eia_file },
                         { "vEnvAndSocSiaFile", sia_file }});
-        }
-    </table>
+            }
 
-    <br />
+            <tr>
+                <td colspan="3">
+                    <fieldset>
+                        <legend>
+                            @if (prev_lang == 1)
+                            {<span>কারিগরি কমিটির সামগ্রিক সুপারিশ</span> }
+                            else
+                            { <span>Overall Recommendation of Technical Committee</span>}
+                        </legend>
+                        <div class="card-box">
+                            @{ await Html.RenderPartialAsync("form/_AdditionalAttachmentPrint"); }
+                        </div>
+                    </fieldset>
+                </td>
+            </tr>
 
-    @{
-        var cnwpd = ViewData["CompatNWPDetail"];
-        var cnwmpd = ViewData["CompatNWMPDetail"];
-        var sdgd = ViewData["CompatSDGDetail"];
-        var sdgid = ViewData["CompatSDGIndiDetail"];
-        var bdp2100gd = ViewData["BDP2100GoalDetail"];
-        var gpwmgtd = ViewData["GPWMGroupType"];
+            @{
+                var cnwpd = ViewData["CompatNWPDetail"];
+                var cnwmpd = ViewData["CompatNWMPDetail"];
+                var sdgd = ViewData["CompatSDGDetail"];
+                var sdgid = ViewData["CompatSDGIndiDetail"];
+                var bdp2100gd = ViewData["BDP2100GoalDetail"];
+                var gpwmgtd = ViewData["GPWMGroupType"];
 
-        await Html.RenderPartialAsync("preview/_4Deed.cshtml",
-              new ViewDataDictionary(ViewData) {
+                await Html.RenderPartialAsync("preview/_4Deed.cshtml",
+                      new ViewDataDictionary(ViewData) {
                 { "dProjectCommonDetail", pcd},
                 //{ "dProjectIndvDetail31", projectindi },
                 { "dCompatNWPDetail", cnwpd },
@@ -1925,32 +1938,35 @@
                 { "dGPWMGroupType", gpwmgtd },
                 { "dFormLanguage", prev_lang },
                 { "dProjectTypeId", ProjectTypeId }});
-    }
+            }
 
-    @{ await Html.RenderPartialAsync("preview/_5Administrative.cshtml",
-                              new ViewDataDictionary(ViewData) {
+            @{ await Html.RenderPartialAsync("preview/_5Administrative.cshtml",
+                                        new ViewDataDictionary(ViewData) {
                 { "aProjectCommonDetail", pcd},
                 //{ "aProjectIndvDetail31", projectindi },
                 { "aFormLanguage", prev_lang },
                 { "aProjectTypeId", ProjectTypeId }});
-    }
+            }
+        </table>
 
-    @{
-        var sfn = ViewData["SignatureFileName"].ToString();
-        var anbn = ViewData["ApplicantNameBn"].ToString();
-        var anen = ViewData["ApplicantName"].ToString();
-        var agne = ViewData["ApplicantGroupName"].ToString();
+        <br />
 
-        await Html.RenderPartialAsync("preview/_6Footer.cshtml",
-              new ViewDataDictionary(ViewData) {
+        @{
+            var sfn = ViewData["SignatureFileName"].ToString();
+            var anbn = ViewData["ApplicantNameBn"].ToString();
+            var anen = ViewData["ApplicantName"].ToString();
+            var agne = ViewData["ApplicantGroupName"].ToString();
+
+            await Html.RenderPartialAsync("preview/_6Footer.cshtml",
+                  new ViewDataDictionary(ViewData) {
                 { "fSignatureFileName", sfn},
                 { "fApplicantNameBn", anbn },
                 { "fApplicantName", anen },
                 { "fApplicantGroupName", agne },
                 { "fFormLanguage", prev_lang },
                 { "fProjectTypeId", ProjectTypeId }});
-    }
-</div>
+        }
+    </div>
 
 <script type="text/javascript">
     jQuery(document).ready(function () {
