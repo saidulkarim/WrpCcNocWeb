@@ -22,16 +22,11 @@
     var dcd = ViewData["DrainageConditionDetail"];
 
     long ProjectId = (long)ViewData["ProjectId"];
-    long Project31IndvId = (long)ViewData["Project31IndvId"];
+    long ProjectIndvId = (long)ViewData["Project31IndvId"];
     long UserId = (long)ViewData["UserId"];
     int ProjectTypeId = (int)ViewData["ProjectTypeId"];
     var ProjectTypeTitle = ViewData["ProjectTypeTitle"];
     var user_group_id = ViewData["UserLevel"].ToString();
-
-    var sfn = ViewData["SignatureFileName"].ToString();
-    var anbn = ViewData["ApplicantNameBn"].ToString();
-    var anen = ViewData["ApplicantName"].ToString();
-    var agne = ViewData["ApplicantGroupName"].ToString();
 }
 
 <div class="row">
@@ -39,13 +34,13 @@
         <div class="card">
             <div class="card-body">
                 <input id="pProjectId" type="hidden" value="@ProjectId" />
-                <input id="pProject31IndvId" type="hidden" value="@Project31IndvId" />
+                <input id="pProject31IndvId" type="hidden" value="@ProjectIndvId" />
                 <input id="pUserId" type="hidden" value="@UserId" />
                 <input id="pProjectTypeId" type="hidden" value="@ProjectTypeId" />
 
                 <div id="form-preview" class="form-preview container">
                     @{ await Html.RenderPartialAsync("preview/_1Header.cshtml",
-                                        new ViewDataDictionary(ViewData) {
+                              new ViewDataDictionary(ViewData) {
                                { "hFormLanguage", prev_lang },
                                { "hPTID", ProjectTypeId }});
                     }
@@ -53,8 +48,8 @@
                     <br />
 
                     @{ await Html.RenderPartialAsync("preview/_2General.cshtml",
-                                    new ViewDataDictionary(ViewData) {
-                            { "gProjectCommonDetail", pcd},                            
+                              new ViewDataDictionary(ViewData) {
+                            { "gProjectCommonDetail", pcd},
                             { "gProjectLocationDetail", location},
                             { "gFormLanguage", prev_lang },
                             { "gProjectTypeId", ProjectTypeId }});
@@ -1240,7 +1235,7 @@
                         }
 
                         @{ await Html.RenderPartialAsync("preview/_5Administrative.cshtml",
-                                                   new ViewDataDictionary(ViewData) {
+                                                    new ViewDataDictionary(ViewData) {
                                         { "aProjectCommonDetail", pcd},
                                         { "aFormLanguage", prev_lang },
                                         { "aProjectTypeId", ProjectTypeId }});
@@ -1250,14 +1245,19 @@
                     <br />
                     <hr />
 
-                    @{ await Html.RenderPartialAsync("preview/_6Footer.cshtml",
-                                                new ViewDataDictionary(ViewData) {
-                                        { "fSignatureFileName", sfn},
-                                        { "fApplicantNameBn", anbn },
-                                        { "fApplicantName", anen },
-                                        { "fApplicantGroupName", agne },
-                                        { "fFormLanguage", prev_lang },
-                                        { "fProjectTypeId", ProjectTypeId }});
+                    @{
+                        var sfn = ViewData["SignatureFileName"].ToString();
+                        var anbn = ViewData["ApplicantNameBn"].ToString();
+                        var anen = ViewData["ApplicantName"].ToString();
+                        var agne = ViewData["ApplicantGroupName"].ToString();
+                        await Html.RenderPartialAsync("preview/_6Footer.cshtml",
+                              new ViewDataDictionary(ViewData) {
+                                { "fSignatureFileName", sfn},
+                                { "fApplicantNameBn", anbn },
+                                { "fApplicantName", anen },
+                                { "fApplicantGroupName", agne },
+                                { "fFormLanguage", prev_lang },
+                                { "fProjectTypeId", ProjectTypeId }});
                     }
 
                     <hr />

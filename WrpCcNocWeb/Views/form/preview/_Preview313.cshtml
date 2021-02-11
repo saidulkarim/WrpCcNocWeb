@@ -677,18 +677,18 @@
             <td style="width: 250px;">
                 <b>
                     @if (prev_lang == 1)
-                    {<span>xvii. ফ্লাড ফ্রিকোয়েন্সি এনালাইসিস (মিটার, পিডব্লিউডি)</span>}
+                    {<span>xvii. ফ্লাড ফ্রিকোয়েন্সি এনালাইসিস (মিটার)</span>}
                     else
-                    {<span>xvii. Flood Frequency Analysis (Maximum water level in m, PWD)</span>}
+                    {<span>xvii. Flood Frequency Analysis (Maximum water level in m)</span>}
                 </b>
             </td>
             <td>
                 @{
-                    var ffd = ViewData["FloodFrequencyDetail"]; //List<FloodFrequencyDetailTemp>
+                    var ffd = ViewData["FloodFrequencyDetailTemp"]; //List<FloodFrequencyDetailTemp>
                     await Html.RenderPartialAsync("../controls/_FloodFrequencyAnalysisView.cshtml",
                           new ViewDataDictionary(ViewData) {
                                             { "vFormLanguage", prev_lang },
-                                            { "vFloodFrequencyDetail", tfd }});
+                                            { "vFloodFrequencyDetail", ffd }});
                 }
             </td>
             <td>

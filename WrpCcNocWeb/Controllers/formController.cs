@@ -2768,7 +2768,7 @@ namespace WrpCcNocWeb.Controllers
             ViewData["TypesOfFloodDetail"] = _typesofflood;
 
             var _floodfrequencydetail = GetFloodFrequencyDetail(pcd.ProjectId);
-            ViewData["FloodFrequencyDetail"] = _floodfrequencydetail;
+            ViewData["FloodFrequencyDetailTemp"] = _floodfrequencydetail;
 
             var _drainagecondition = _db.CcModAppProject_313_IndvDetail.Where(w => w.ProjectId == pcd.ProjectId)
                                     .Select(x => new DrainageConditionlTemp
@@ -2779,8 +2779,14 @@ namespace WrpCcNocWeb.Controllers
                                     }).ToList();
             ViewData["DrainageConditionDetail"] = _drainagecondition;
 
+            List<CcModAnnualRainfallDetailTemp> _annualrainfalldetail = controls.GetAnnualRainfallDetailTemp(pcd.ProjectId);
+            ViewData["AnnualRainfallDetail"] = _annualrainfalldetail;
+
             var _irrigcropareadetail = GetIrrigCropAreaDetail(pcd.ProjectId);
-            ViewData["IrrigCropAreaDetail"] = _irrigcropareadetail;            
+            ViewData["IrrigCropAreaDetail"] = _irrigcropareadetail;
+
+            var _fishproddivdetail = controls.GetFishProductionDiversityDetailTemp(pcd.ProjectId);
+            ViewData["FishProdDivDetail"] = _fishproddivdetail;
             //rony
 
             var _analyzeoptionsdetail = GetAnalyzeOptionsDetail(pcd.ProjectId);
@@ -8759,7 +8765,7 @@ namespace WrpCcNocWeb.Controllers
 
             return _details;
         }
-
+        
         private List<IrrigCropAreaDetailTemp> GetIrrigCropAreaDetail(long project_id)
         {
             List<IrrigCropAreaDetailTemp> _details = new List<IrrigCropAreaDetailTemp>();
