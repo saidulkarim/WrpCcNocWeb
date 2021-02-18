@@ -11,13 +11,13 @@
                     <div class="col-8">
                         <div class="text-right">
                             <h3 class="text-dark mt-1">Apply</h3>
-                            <p class="text-muted mb-1 text-truncate">Application for Clearnace Certificate</p>
+                            <p class="text-muted mb-1 text-truncate">for Clearnace Certificate</p>
                         </div>
                     </div>
                 </div>
             </div>
         </a>
-    </div> <!-- end col-->
+    </div>
 
     <div class="col-md-6 col-xl-6">
         <a href="@Url.Action("list", "form")">
@@ -31,7 +31,7 @@
                     <div class="col-8">
                         <div class="text-right">
                             <h3 class="text-dark mt-1"><span data-plugin="counterup">@ViewBag.TotalAppliedApplication</span></h3>
-                            <p class="text-muted mb-1 text-truncate">Application Status of Clearnace Certificate</p>
+                            <p class="text-muted mb-1 text-truncate">View Existing Applications</p>
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
         </a>
     </div>
 
-    <div class="col-md-6 col-xl-6">
+    <div class="col-md-6 col-xl-6 hidden">
         <a href="@Url.Action("index", "noc")">
             <div class="widget-rounded-circle card-box">
                 <div class="row">
@@ -57,9 +57,9 @@
                 </div>
             </div>
         </a>
-    </div> <!-- end col-->
+    </div>
 
-    <div class="col-md-6 col-xl-6">
+    <div class="col-md-6 col-xl-6 hidden">
         <a href="@Url.Action("list", "noc")">
             <div class="widget-rounded-circle card-box">
                 <div class="row">
@@ -79,4 +79,3 @@
         </a>
     </div>
 </div>
-<!-- end row-->

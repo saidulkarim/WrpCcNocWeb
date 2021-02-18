@@ -2716,7 +2716,7 @@ namespace WrpCcNocWeb.Controllers
                                         PlanNameBn = x.LookUpCcModDeltPlan2100HotSpot.PlanNameBn
                                     }).ToList();
             ViewData["BDP2100HotSpotDetailTemp"] = _hotspotdetail;
-            
+
             var _hydrosystemdetail = GetHydroSystemDetail(pcd.ProjectId);
             ViewData["HydroSystemDetail"] = _hydrosystemdetail;
 
@@ -7868,7 +7868,7 @@ namespace WrpCcNocWeb.Controllers
         }
 
         private void LoadDropdownDataForForm36()
-        {            
+        {
             ViewBag.LookUpMinistry = _db.LookUpMinistry.ToList();
             ViewBag.LookUpAgency = _db.LookUpAgency.ToList();
             ViewBag.LookUpAnyInterventionPrj = _db.LookUpCcModAnyInterventionPrj.ToList();
@@ -7878,17 +7878,17 @@ namespace WrpCcNocWeb.Controllers
             ViewBag.LookUpCcModDeltPlan2100HotSpot = _db.LookUpCcModDeltPlan2100HotSpot.ToList();
             ViewBag.LookUpCcModHydroSystem = _db.LookUpCcModHydroSystem.ToList();
             ViewBag.LookUpCcModConnAmidKhalRiver = _db.LookUpCcModConnAmidKhalRiver.ToList();
-            
+
             ViewBag.LookUpCcModDrainageCondition = _db.LookUpCcModDrainageCondition.ToList();
             ViewBag.LookUpCcModEIAParameter = _db.LookUpCcModEIAParameter.OrderBy(o => o.ParameterName).ToList();
             ViewBag.LookUpCcModSIAParameter = _db.LookUpCcModSIAParameter.OrderBy(o => o.SIAParameterName).ToList();
-            
+
             ViewBag.LookUpCcModNWPArticle = _db.LookUpCcModNWPArticle.ToList();
             ViewBag.LookUpCcModNWMPProgramme = _db.LookUpCcModNWMPProgramme.ToList();
             ViewBag.LookUpCcModSDGGoal = _db.LookUpCcModSDGGoal.ToList();
             ViewBag.LookUpCcModSDGIndicator = _db.LookUpCcModSDGIndicator.ToList();
             ViewBag.LookUpCcModDeltPlan2100Goal = _db.LookUpCcModDeltPlan2100Goal.ToList();
-            ViewBag.LookUpCcModGPWMGroupType = _db.LookUpCcModGPWMGroupType.ToList();            
+            ViewBag.LookUpCcModGPWMGroupType = _db.LookUpCcModGPWMGroupType.ToList();
         }
 
         private void LoadDropdownDataForForm37()
@@ -8765,7 +8765,7 @@ namespace WrpCcNocWeb.Controllers
 
             return _details;
         }
-        
+
         private List<IrrigCropAreaDetailTemp> GetIrrigCropAreaDetail(long project_id)
         {
             List<IrrigCropAreaDetailTemp> _details = new List<IrrigCropAreaDetailTemp>();
@@ -19606,5 +19606,357 @@ namespace WrpCcNocWeb.Controllers
 
             return result;
         }
+
+        #region Committee Formation
+        //form/formation
+        public IActionResult formation(long id)
+        {
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+
+            if (ui == null)
+            {
+                return RedirectToAction("login", "account");
+            }
+
+            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+
+            CcModAppProjectCommonDetail pcd = _db.CcModAppProjectCommonDetail.Find(id);
+
+            if (pcd == null)
+            {
+                TempData["Message"] = ch.ShowMessage(Sign.Warning, "Invalid Project Code", "Sorry, invalid project selected.");
+            }
+            else
+            {
+                int UserLevelTypeId = 0;
+
+                #region user level type finding
+                if (pcd.ApplicationStateId >= 11 && pcd.ApplicationStateId <= 13) //union level project
+                    UserLevelTypeId = 3;
+                if (pcd.ApplicationStateId >= 21 && pcd.ApplicationStateId <= 23) //upazila level project
+                    UserLevelTypeId = 2;
+                if (pcd.ApplicationStateId >= 31 && pcd.ApplicationStateId <= 33) //district level project
+                    UserLevelTypeId = 1;
+                if (pcd.ApplicationStateId >= 41 && pcd.ApplicationStateId <= 43) //warpo dg level project
+                    UserLevelTypeId = 4;
+                #endregion
+
+                List<LookUpCcModIWRMCMember> iwrmc_members = _db.LookUpCcModIWRMCMember.Where(w => w.UserLevelTypeId == UserLevelTypeId).ToList();
+
+                if (iwrmc_members.Count > 0)
+                {
+                    ViewData["LookupIwrmcMemberList"] = iwrmc_members;
+                    ViewData["LookupMemberType"] = _db.LookUpCcModMemberType.OrderBy(o => o.MemberTypeId).ToList();
+                    ViewData["ProjectId"] = pcd.ProjectId;
+
+                    List<CcModIWRMCMemberDetail> exist_members = _db.CcModIWRMCMemberDetail.Where(w => w.ProjectId == id).ToList();
+                    if (exist_members.Count > 0)
+                    {
+                        ViewData["ExistIwrmcMemberDetail"] = exist_members;
+                    }
+                    else
+                    {
+                        ViewData["ExistIwrmcMemberDetail"] = null;
+                    }
+                }
+                else
+                {
+                    TempData["Message"] = ch.ShowMessage(Sign.Warning, "Data Not Found", "Sorry, Integrated Water Resources Management Committee members list not found!");
+                }
+            }
+
+            return View();
+        }
+
+        //form/SaveCommitteeFormation :: scf
+        [HttpPost]
+        public JsonResult scf(long pid, List<CcModIWRMCMemberDetail> _list)
+        {
+            int result = 0;
+            long tcGroup = 0, iwrmGroup = 0;
+            int count_tech_member = 0, count_member = 0, count_member_sec = 0;
+            List<AutoUserCreationLog> aucList = new List<AutoUserCreationLog>();
+            string user_name = "";
+
+            if (_list.Count > 0)
+            {
+                using var dbContextTransaction = _db.Database.BeginTransaction();
+                try
+                {
+                    #region get user group id                
+                    LookUpAdminModUserGroup ug = new LookUpAdminModUserGroup();
+                    int tUnion = 0, tUpazila = 0, tDistrict = 0;
+                    List<CcModPrjLocationDetail> _projLocs = _db.CcModPrjLocationDetail.Where(w => w.ProjectId == pid).ToList();
+
+                    if (_projLocs.Count > 0)
+                    {
+                        tUnion = _projLocs.Where(w => w.UnionGeoCode != string.Empty)
+                                          .DistinctBy(d => d.UnionGeoCode)
+                                          .Select(s => s.UnionGeoCode).Count();
+
+                        tUpazila = _projLocs.Where(w => w.UpazilaGeoCode != string.Empty)
+                                            .DistinctBy(d => d.UpazilaGeoCode)
+                                            .Select(s => s.UpazilaGeoCode).Count();
+
+                        tDistrict = _projLocs.Where(w => w.DistrictGeoCode != string.Empty)
+                                             .DistinctBy(d => d.DistrictGeoCode)
+                                             .Select(s => s.DistrictGeoCode).Count();
+
+                        if (tUnion == 1)
+                        {
+                            string UnionGeoCode = _projLocs.Where(w => w.UnionGeoCode != string.Empty)
+                                                           .DistinctBy(d => d.UnionGeoCode)
+                                                           .Select(s => s.UnionGeoCode)
+                                                           .FirstOrDefault();
+
+                            tcGroup = _db.LookUpAdminModUserGroup
+                                         .Where(w => w.UnionGeoCode == UnionGeoCode && w.AuthorityLevelId == 6)
+                                         .Select(s => s.UserGroupId)
+                                         .FirstOrDefault();
+
+                            iwrmGroup = _db.LookUpAdminModUserGroup
+                                         .Where(w => w.UnionGeoCode == UnionGeoCode && w.AuthorityLevelId == 10)
+                                         .Select(s => s.UserGroupId)
+                                         .FirstOrDefault();
+                        }
+
+                        if (tUpazila == 1)
+                        {
+                            string UpazilaGeoCode = _projLocs.Where(w => w.UpazilaGeoCode != string.Empty)
+                                                           .DistinctBy(d => d.UpazilaGeoCode)
+                                                           .Select(s => s.UpazilaGeoCode)
+                                                           .FirstOrDefault();
+
+                            tcGroup = _db.LookUpAdminModUserGroup
+                                         .Where(w => w.UpazilaGeoCode == UpazilaGeoCode && w.AuthorityLevelId == 4)
+                                         .Select(s => s.UserGroupId)
+                                         .FirstOrDefault();
+
+                            iwrmGroup = _db.LookUpAdminModUserGroup
+                                         .Where(w => w.UpazilaGeoCode == UpazilaGeoCode && w.AuthorityLevelId == 11)
+                                         .Select(s => s.UserGroupId)
+                                         .FirstOrDefault();
+                        }
+
+                        if (tDistrict == 1)
+                        {
+                            string DistrictGeoCode = _projLocs.Where(w => w.DistrictGeoCode != string.Empty)
+                                                           .DistinctBy(d => d.DistrictGeoCode)
+                                                           .Select(s => s.DistrictGeoCode)
+                                                           .FirstOrDefault();
+
+                            tcGroup = _db.LookUpAdminModUserGroup
+                                         .Where(w => w.DistrictGeoCode == DistrictGeoCode && w.AuthorityLevelId == 2)
+                                         .Select(s => s.UserGroupId)
+                                         .FirstOrDefault();
+
+                            iwrmGroup = _db.LookUpAdminModUserGroup
+                                         .Where(w => w.DistrictGeoCode == DistrictGeoCode && w.AuthorityLevelId == 12)
+                                         .Select(s => s.UserGroupId)
+                                         .FirstOrDefault();
+                        }
+                    }
+                    #endregion
+
+                    foreach (CcModIWRMCMemberDetail list in _list.Where(w => w.IWRMCMemberId != 1))
+                    {
+                        _db.CcModIWRMCMemberDetail.Add(list);
+                        result = _db.SaveChanges();
+
+                        if (result > 0)
+                        {
+                            #region setting user name
+                            if (list.MemberTypeId == 2)
+                            {
+                                count_member_sec += 1;
+                                user_name = "member_sec_" + pid + "_" + count_member_sec;
+                            }
+                            if (list.MemberTypeId == 3)
+                            {
+                                count_tech_member += 1;
+                                user_name = "tech_member_" + pid + "_" + count_tech_member;
+                            }
+
+                            if (list.MemberTypeId == 4)
+                            {
+                                count_member += 1;
+                                user_name = "member_" + pid + "_" + count_member;
+                            }
+                            #endregion
+
+                            //1. User Registration Detail
+                            AdminModUserRegistrationDetail userReg = new AdminModUserRegistrationDetail
+                            {
+                                UserName = user_name,
+                                UserPassword = "1234".EncryptString(),
+                                UserActivationStatus = 1,
+                                UserEmail = list.MemberEmail,
+                                UserMobile = list.MemberMobile,
+                                DateOfCreation = DateTime.Now,
+                                EmailVerificationCode = Guid.NewGuid().ToString(),
+                                IsEmailVerified = 1,
+                                IsDeleted = 0
+                            };
+
+                            _db.AdminModUserRegistrationDetail.Add(userReg);
+                            result = _db.SaveChanges();
+
+                            if (result > 0)
+                            {
+                                //2. Users Detail
+                                AdminModUsersDetail amud = new AdminModUsersDetail
+                                {
+                                    UserRegistrationId = userReg.UserRegistrationId,
+
+                                    //rony :: need to work here
+                                    //UserFullName = anuc.FullName,
+                                    //UserFullName = ud.ApplicantTypeId == 1 ? ud.ApplicantName : ud.OrganizationName,
+                                    //UserFatherName = "empty",
+                                    //UserDateOfBirth = DateTime.Now,
+                                    //UserAddress = anuc.Address,
+
+                                    ApplicantTypeId = 1,
+                                    ApplicantName = user_name,
+                                    ApplicantNameBn = user_name,
+                                    UserDesignation = "auto_generated",
+                                    PostalAddress = "auto_generated",
+                                    PostalAddressBn = "auto_generated",
+                                    SecurityQuestionId = 1,
+                                    SecurityQuestionAnswer = "auto_generated",
+                                    IsProfileSubmitted = 1
+                                };
+
+                                _db.AdminModUsersDetail.Add(amud);
+                                result = _db.SaveChanges();
+
+                                if (result > 0)
+                                {
+                                    //3. User Group Dist Detail
+                                    AdminModUserGrpDistDetail amugdd = new AdminModUserGrpDistDetail();
+
+                                    if (list.MemberTypeId == 3) //technical group
+                                    {
+                                        amugdd = new AdminModUserGrpDistDetail
+                                        {
+                                            UserId = amud.UserId,
+                                            UserGroupId = tcGroup
+                                        };
+                                    }
+                                    else if (list.MemberTypeId == 2 || list.MemberTypeId == 4) //Member Secretary or Member
+                                    {
+                                        amugdd = new AdminModUserGrpDistDetail
+                                        {
+                                            UserId = amud.UserId,
+                                            UserGroupId = iwrmGroup
+                                        };
+                                    }
+
+                                    _db.AdminModUserGrpDistDetail.Add(amugdd);
+                                    result = _db.SaveChanges();
+
+                                    if (result > 0)
+                                    {
+                                        AutoUserCreationLog auc = new AutoUserCreationLog()
+                                        {
+                                            ProjectId = pid,
+                                            IWRMCMemberId = list.IWRMCMemberId,
+                                            MemberTypeId = list.MemberTypeId,
+                                            Username = userReg.UserName,
+                                            Password = "1234",
+                                            MemberEmail = userReg.UserEmail,
+                                            MemberMobile = userReg.UserMobile
+                                        };
+
+                                        aucList.Add(auc);
+                                    }
+                                    else
+                                    {
+                                        goto Failure;
+                                    }
+                                }
+                                else
+                                {
+                                    goto Failure;
+                                }
+                            }
+                            else
+                            {
+                                goto Failure;
+                            }
+                        }
+                        else
+                        {
+                            goto Failure;
+                        }
+                    }
+
+                    if (result > 0)
+                        goto Success;
+                }
+                catch (Exception ex)
+                {
+                    noti = new Notification
+                    {
+                        id = "",
+                        status = "error",
+                        title = "Exception",
+                        message = ex.Message
+                    };
+
+                    goto Failure;
+                }
+
+            Success:
+                dbContextTransaction.Commit();
+                SendEmailForUserGroupCreation(aucList);
+                noti = new Notification
+                {
+                    id = "0",
+                    status = "success",
+                    title = "Success",
+                    message = "Committee formation has been successfully created."
+                };
+                goto EndOperation;
+
+            Failure:
+                dbContextTransaction.Rollback();
+            }
+
+        EndOperation:
+            return Json(noti);
+        }
+
+        private string SendEmailForUserGroupCreation(List<AutoUserCreationLog> aucList)
+        {
+            string result = string.Empty, table_content = string.Empty;
+            UserInfo ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+            UserLevelInfo uli = HttpContext.Session.GetComplexData<UserLevelInfo>("UserLevelInfo");
+            List<string> vars = new List<string>();
+            string callAt = cc.GetCallCenterInfo();
+
+            if (aucList.Count > 0)
+            {
+                int count = 1;
+
+                table_content = "<table style='width: 100%;' border='1'>";
+                table_content += "<tr><td>Sl.</td><td>Member Designation</td><td>Member Type</td><td>User Name</td><td>Password</td><td>Email</td><td>Mobile</td></tr>";
+                foreach (AutoUserCreationLog auc in aucList)
+                {
+                    string member_desig = _db.LookUpCcModIWRMCMember.Find(auc.IWRMCMemberId).Designation.Trim();
+                    string member_type = _db.LookUpCcModMemberType.Find(auc.MemberTypeId).MemberTypeName.Trim();
+
+                    table_content += "<tr><td>" + count + "</td><td>" + member_desig + "</td><td>" + member_type + "</td><td>" + auc.Username + "</td><td>" + auc.Password + "</td><td>" + auc.MemberEmail + "</td><td>" + auc.MemberMobile + "</td></tr>";
+                }
+
+                table_content = "</table>";
+            }
+
+            vars.Add(table_content);
+            vars.Add(callAt);
+
+            result = es.SendEmail(ui.UserEmail, 7, vars);
+            return result;
+        }
+        #endregion
     }
 }

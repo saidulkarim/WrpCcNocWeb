@@ -29,5 +29,20 @@ namespace WrpCcNocWeb.Models
         public int MemberTypeId { get; set; }
         [ForeignKey("MemberTypeId")]
         public virtual LookUpCcModMemberType LookUpCcModMemberType { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        [Column("MemberEmail", Order = 4)]
+        [MaxLength(50)]
+        [DataType(DataType.EmailAddress)]
+        [RegularExpression(@"^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$", ErrorMessage = "Please enter a valid email address.")]
+        public string MemberEmail { get; set; }
+
+        [Required(ErrorMessage = "Mobile number is required.")]
+        [MaxLength(11, ErrorMessage = "Please enter valid (11 digit) mobile number. e.g. 01511XXXXXX")]
+        [MinLength(11, ErrorMessage = "Please enter valid (11 digit) mobile number. e.g. 01511XXXXXX")]
+        [Display(Name = "Mobile")]
+        [Column("MemberMobile", Order = 5)]
+        public string MemberMobile { get; set; }
     }
 }

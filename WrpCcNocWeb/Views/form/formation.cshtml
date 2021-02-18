@@ -1,0 +1,326 @@
+﻿
+@{
+    ViewData["Title"] = "Committee Formation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<LookUpCcModIWRMCMember> iwrmc_members = (List<LookUpCcModIWRMCMember>)ViewData["LookupIwrmcMemberList"];
+    List<LookUpCcModMemberType> member_type_list = (List<LookUpCcModMemberType>)ViewData["LookupMemberType"];
+    List<CcModIWRMCMemberDetail> exist_members = (List<CcModIWRMCMemberDetail>)ViewData["ExistIwrmcMemberDetail"];
+    var pid = ViewData["ProjectId"];
+    int count = 1;
+}
+
+<div class="row">
+    <style type="text/css">
+        input[type=checkbox] {
+            -ms-transform: scale(2);
+            -moz-transform: scale(2);
+            -webkit-transform: scale(2);
+            -o-transform: scale(2);
+            transform: scale(2);
+            padding: 10px;
+        }
+
+        .checkboxtext {
+            font-size: 110%;
+            display: inline;
+        }
+    </style>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> Committee Formation List</h4>
+                <form>
+                    <input id="ProjectId" type="hidden" value="@pid" />
+                    <table id="tblCommitteeFormationList" class="table table-hover" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th class="text-center" width="5%"></th>
+                                <th class="text-center" width="5%">Sl.</th>
+                                <th class="nowrap" width="30%">Designation</th>
+                                <th class="nowrap" width="20%">Email</th>
+                                <th class="nowrap" width="20%">Mobile</th>
+                                <th class="nowrap" width="20%">Member Role Type</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyCommitteeFormationList">
+                            @if (iwrmc_members != null && iwrmc_members.Count > 0)
+                            {
+                                foreach (LookUpCcModIWRMCMember member in iwrmc_members)
+                                {
+                                    if (exist_members != null && exist_members.Count > 0)
+                                    {
+                                        var matched = exist_members.Where(w => w.IWRMCMemberId == member.IWRMCMemberId).FirstOrDefault();
+
+                                        if (matched != null)
+                                        {
+                                            <tr>
+                                                <td class="align-middle text-center">
+                                                    @if (member.IsCommitteeFormatter == 1)
+                                                    {
+                                                        <input id="IWRMCMemberId-@count" type="checkbox" class="rowChecks" value="@member.IWRMCMemberId"
+                                                               data-val="@member.IWRMCMemberId" disabled="disabled" />
+                                                    }
+                                                    else
+                                                    {
+                                                        if (member.IWRMCMemberId == matched.IWRMCMemberId)
+                                                        {
+                                                            <input id="IWRMCMemberId-@count" type="checkbox" class="rowChecks" value="@member.IWRMCMemberId" data-val="@member.IWRMCMemberId" checked="checked" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input id="IWRMCMemberId-@count" type="checkbox" class="rowChecks" value="@member.IWRMCMemberId" data-val="@member.IWRMCMemberId" />
+                                                        }
+                                                    }
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    @count
+                                                </td>
+                                                <td class="align-middle text-left">
+                                                    @member.Designation<br />
+                                                    (@member.DesignationBn)
+                                                </td>
+                                                <td class="align-middle text-left">
+                                                    <input type="text" id="txtMemberEmail-@count" class="form-control" value="@matched.MemberEmail" />
+                                                </td>
+                                                <td class="align-middle text-left">
+                                                    <input type="text" min="11" maxlength="11" id="txtMemberMobile-@count" class="form-control" value="@matched.MemberMobile" />
+                                                </td>
+                                                <td class="align-middle text-left">
+                                                    <select id="ddlLookupMemberType-@count" name="ddlLookupMemberType-@count" class="form-control member-type-ddl"
+                                                            style="width: 100%;">
+                                                        <option value="">Choose...</option>
+
+                                                        @if (member_type_list.Count > 0)
+                                                        {
+                                                            foreach (LookUpCcModMemberType mt in member_type_list)
+                                                            {
+                                                                if (matched.MemberTypeId == mt.MemberTypeId)
+                                                                {
+                                                                    <option value="@mt.MemberTypeId" selected="selected">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="@mt.MemberTypeId">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                                }
+
+                                                            }
+                                                        }
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td class="align-middle text-center">
+                                                    @if (member.IsCommitteeFormatter == 1)
+                                                    {
+                                                        <input id="IWRMCMemberId-@count" type="checkbox" class="rowChecks" value="@member.IWRMCMemberId"
+                                                               data-val="@member.IWRMCMemberId" disabled="disabled" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="IWRMCMemberId-@count" type="checkbox" class="rowChecks" value="@member.IWRMCMemberId" data-val="@member.IWRMCMemberId" />
+                                                    }
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    @count
+                                                </td>
+                                                <td class="align-middle text-left">
+                                                    @member.Designation<br />
+                                                    (@member.DesignationBn)
+                                                </td>
+                                                <td class="align-middle text-left">
+                                                    <input type="text" id="txtMemberEmail-@count" class="form-control" />
+                                                </td>
+                                                <td class="align-middle text-left">
+                                                    <input type="text" min="11" maxlength="11" id="txtMemberMobile-@count" class="form-control" />
+                                                </td>
+                                                <td class="align-middle text-left">
+                                                    <select id="ddlLookupMemberType-@count" name="ddlLookupMemberType-@count" class="form-control member-type-ddl"
+                                                            style="width: 100%;">
+                                                        <option value="">Choose...</option>
+
+                                                        @if (member_type_list.Count > 0)
+                                                        {
+                                                            foreach (LookUpCcModMemberType mt in member_type_list)
+                                                            {
+                                                                <option value="@mt.MemberTypeId">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td class="align-middle text-center">
+                                                @if (member.IsCommitteeFormatter == 1)
+                                                {
+                                                    <input id="IWRMCMemberId-@count" type="checkbox" class="rowChecks" value="@member.IWRMCMemberId"
+                                                           data-val="@member.IWRMCMemberId" disabled="disabled" />
+                                                }
+                                                else
+                                                {
+                                                    <input id="IWRMCMemberId-@count" type="checkbox" class="rowChecks" value="@member.IWRMCMemberId" data-val="@member.IWRMCMemberId" />
+                                                }
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                @count
+                                            </td>
+                                            <td class="align-middle text-left">
+                                                @member.Designation<br />
+                                                (@member.DesignationBn)
+                                            </td>
+                                            <td class="align-middle text-left">
+                                                <input type="text" id="txtMemberEmail-@count" class="form-control" />
+                                            </td>
+                                            <td class="align-middle text-left">
+                                                <input type="text" min="11" maxlength="11" id="txtMemberMobile-@count" class="form-control" />
+                                            </td>
+                                            <td class="align-middle text-left">
+                                                <select id="ddlLookupMemberType-@count" name="ddlLookupMemberType-@count" class="form-control member-type-ddl"
+                                                        style="width: 100%;">
+                                                    <option value="">Choose...</option>
+
+                                                    @if (member_type_list.Count > 0)
+                                                    {
+                                                        foreach (LookUpCcModMemberType mt in member_type_list)
+                                                        {
+                                                            if (member.IsCommitteeFormatter == mt.MemberTypeId)
+                                                            {
+                                                                <option value="@mt.MemberTypeId" selected="selected">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@mt.MemberTypeId">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                            }
+                                                        }
+                                                    }
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                    count++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center alert alert-danger">Sorry, no data found!</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="align-middle text-left">
+                                    @if (iwrmc_members == null)
+                                    {
+                                        <button type="button" class="btn btn-info waves-effect waves-light width-lg" disabled>
+                                            <i class="mdi mdi-content-save"></i> Save
+                                        </button>
+
+                                        <button type="button" class="btn btn-secondary waves-effect waves-light width-lg" disabled>
+                                            <i class="fa fa-refresh"></i> Refresh
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button id="btnSaveFormation" type="button" class="btn btn-info waves-effect waves-light width-lg">
+                                            <i class="mdi mdi-content-save"></i> Save
+                                        </button>
+
+                                        <button type="reset" class="btn btn-secondary waves-effect waves-light width-lg"
+                                                onclick="$('.member-type-ddl').val([]).trigger('change');">
+                                            <i class="fa fa-refresh"></i> Refresh
+                                        </button>
+                                    }
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="CommitteeFormationScript" type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery(".member-type-ddl").select2({
+            placeholder: "Select a role",
+            allowClear: true
+        }).on('change', function () {
+            var val = $(this).val();
+            //console.log(val);
+        });
+
+        jQuery("#btnSaveFormation").click(function () {
+            var _list = [];
+            var pid = $("#ProjectId").val();
+
+            $(".rowChecks").each(function () {
+                if ($(this).is(':checked')) {
+                    var list = {
+                        'IWRMCMemberDetailId': 0,
+                        'IWRMCMemberId': $(this).attr('data-val'),
+                        'ProjectId': pid,
+                        'MemberEmail': $(this).closest("tr").find('td:eq(3)').find('input[type=text]').val(),
+                        'MemberMobile': $(this).closest("tr").find('td:eq(4)').find('input[type=text]').val(),
+                        'MemberTypeId': $(this).closest("tr").find('td:eq(5)').find('.member-type-ddl option:selected').val()
+                    };
+
+                    _list.push(list);
+                }
+            });
+
+            console.log(_list);
+
+            if (_list.length > 0) {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "warning",
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    showCancelButton: !0,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Sure"
+                }).then(function (t) {
+                    if (t.value == true) {
+                        var url = '@Url.Action("scf", "form")';
+                        jQuery.ajax({
+                            type: "POST",
+                            url: url,
+                            data: { pid: pid, _list: _list },
+                            dataType: "json",
+                            success: function (data, status, jqXHR) {
+                                if (data.status == 'success') {
+                                    Notification('success', 'Success', data.message);
+                                    Swal.fire('Success', data.message, 'success');
+                                } else {
+                                    Notification('error', 'Committee Formation Saving Error', data.message);
+                                    Swal.fire('Committee Formation Saving Error', data.message, 'error');
+                                }
+                            }, error: function (jqXHR, exception) {
+                                var errorMsg = AjaxErrorHandle(jqXHR, exception);
+                                Notification('error', 'Committee Formation Error Occured', errorMsg);
+                                Swal.fire('Committee Formation Error Occured', errorMsg, 'error');
+                            }
+                        });
+                    }
+                });
+            } else {
+                Notification('warning', 'Required Member List', 'Please select members from list.');
+                Swal.fire('Required Member List', 'Please select members from list.', 'warning');
+            }
+        });
+    });
+</script>

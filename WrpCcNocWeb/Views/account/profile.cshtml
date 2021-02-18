@@ -24,6 +24,7 @@
                         </div>
 
                         <input type="hidden" id="UserRegistrationId" name="UserRegistrationId" value="@ViewBag.UserRegistrationID" />
+                        <input type="hidden" id="UserHasDefPwd" name="UserHasDefPwd" value="@ViewBag.UserHasDefPwd" />
 
                         <div class="row">
                             <div class="col-md-6">
@@ -185,6 +186,7 @@
     });
 
     jQuery("#btnSubmitProfileInfo").click(function () {
+        var uhdp = GetHiddenValue('UserHasDefPwd');
         var UserRegistrationId = GetHiddenValue('UserRegistrationId');
         var ApplicantTypeId = GetDropdownValue('ApplicantTypeId');
         var ApplicantName = GetTextValue('ApplicantName');
@@ -199,7 +201,7 @@
         var PostalAddress = GetTextValue('PostalAddress');
         var PostalAddressBn = GetTextValue('PostalAddressBn');
         var SecurityQuestionId = GetDropdownValue('SecurityQuestionId');
-        var SecurityQuestionAnswer = GetTextValue('SecurityQuestionAnswer');
+        var SecurityQuestionAnswer = GetTextValue('SecurityQuestionAnswer');        
 
         var nfn = document.getElementById('NidFileName');
         var fileNid = nfn.files;
@@ -346,12 +348,17 @@
                         type: "POST",
                         success: function (data, status, jqXHR) {
                             console.log(data);
+
                             if (data.message != '') {
                                 if (data.status == 'success') {
                                     Notification(data.status, data.title, data.message);
                                     Swal.fire(data.title, data.message, data.status);
 
-                                    setTimeout(function () { RedirectToHome(); }, 5000);
+                                    if (uhdp == 1) {
+                                        setTimeout(function () { RedirectToChngPwd(); }, 3000);
+                                    } else {
+                                        setTimeout(function () { RedirectToHome(); }, 5000);
+                                    }
                                 } else {
                                     Notification(data.status, data.title, data.message);
                                     Swal.fire(data.title, data.message, data.status);
@@ -373,6 +380,11 @@
 
     function RedirectToHome() {
         var url = '@Url.Action("index", "home")';
+        window.location.href = url;
+    }
+
+    function RedirectToChngPwd() {
+        var url = '@Url.Action("changepassword", "home")';
         window.location.href = url;
     }
 

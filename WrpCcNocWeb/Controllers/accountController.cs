@@ -89,7 +89,14 @@ namespace WrpCcNocWeb.Controllers
 
                                     if (UserId != 0)
                                     {
-                                        return RedirectToActionPermanent("index", "home");
+                                        if (UserPass != "1234")
+                                        {
+                                            return RedirectToActionPermanent("index", "home");
+                                        }
+                                        else
+                                        {
+                                            return RedirectToActionPermanent("profile", "account");
+                                        }
                                     }
                                     else
                                     {
@@ -427,6 +434,7 @@ namespace WrpCcNocWeb.Controllers
             }
 
             ViewBag.UserName = ui.UserName;
+            ViewBag.UserHasDefPwd = HasDefPwd(ui.UserName);
             ViewBag.UserRegistrationID = ui.UserRegistrationID;
             ViewBag.ApplicantTypeId = new SelectList(_db.LookUpCcModApplicantType.ToList(), "ApplicantTypeId", "ApplicantType");
             ViewBag.SecurityQuestionId = new SelectList(_db.LookUpAdminModSecurityQuestion.ToList(), "SecurityQuestionId", "SecurityQuestion");
@@ -1526,7 +1534,7 @@ namespace WrpCcNocWeb.Controllers
                     AdminModUsersDetail amud = new AdminModUsersDetail
                     {
                         UserRegistrationId = userReg.UserRegistrationId,
-                        
+
                         //rony :: need to work here
                         //UserFullName = anuc.FullName,
                         //UserFullName = ud.ApplicantTypeId == 1 ? ud.ApplicantName : ud.OrganizationName,
@@ -2108,8 +2116,8 @@ namespace WrpCcNocWeb.Controllers
             return View();
         }
 
-        #region
-        //POST: /account/userlog
+        #region Send Email Via Local Mail
+        //account/SendEmailViaLocalMail
         public IActionResult SendEmailViaLocalMail()
         {
             SmtpClient sc = new SmtpClient()
@@ -2188,6 +2196,28 @@ namespace WrpCcNocWeb.Controllers
         }
         #endregion
 
+        //account/UserHasDefPwd :: User Has Default Password
+        private int HasDefPwd(string uid)
+        {
+            int result = 0;
+            string UserName = uid;
+            string UserPass = "1234";
+
+            var userRegInfo = _db.AdminModUserRegistrationDetail
+                                 .Where(r => r.UserName.ToString().Equals(UserName) && r.UserPassword.ToString().Equals(UserPass.EncryptString()))
+                                 .FirstOrDefault();
+
+            if (userRegInfo != null)
+            {
+                result = 1; // still using default password
+            }
+            else
+            {
+                result = 0; // not default password
+            }
+
+            return result;
+        }
 
         protected override void Dispose(bool disposing)
         {

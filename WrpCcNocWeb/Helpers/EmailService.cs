@@ -37,7 +37,7 @@ namespace WrpCcNocWeb.Helpers
         /// <param name="toEmail">To email address.</param>
         /// <param name="emailFormatId">Email format Id from LookUpAdminModEmailFormat table.</param>
         /// <param name="vars">List array string parameters</param>
-        /// <returns></returns>
+        /// <returns>success</returns>
         public string SendEmail(string toEmail, int emailFormatId, List<string> vars)
         {
             string result = string.Empty, mailSubject = string.Empty, mailBody = string.Empty;

@@ -1,4 +1,5 @@
-﻿@using WrpCcNocWeb.Models.Utility;
+﻿@using WrpCcNocWeb.DatabaseContext;
+@using WrpCcNocWeb.Models.Utility;
 
 @{ ViewData["Title"] = "Project List";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
@@ -18,7 +19,9 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title mb-3"> Application List</h4>
-                @{ WrpCcNocWeb.Controllers.commonController cc = new WrpCcNocWeb.Controllers.commonController();
+                @{
+                    WrpCcNocDbContext _db = new WrpCcNocDbContext();
+                    WrpCcNocWeb.Controllers.commonController cc = new WrpCcNocWeb.Controllers.commonController();
                     List<ProjectViewList> _pcds = ViewBag.PCDS;
 
                     if (_pcds.Count > 0)
@@ -30,9 +33,9 @@
                                     <th class="text-center">Sl.</th>
                                     <th class="nowrap">Application Type</th>
                                     <th class="nowrap">Project Title</th>
-                                    <th class="nowrap">Estimated Cost</th>
-                                    <th class="nowrap">Date of Submission</th>
-                                    <th class="nowrap">Staus</th>
+                                    <th class="nowrap text-right">Estimated Cost</th>
+                                    <th class="nowrap text-center">Date of Submission</th>
+                                    <th class="nowrap text-center">Staus</th>
                                     <th class="nowrap" style="width: 150px;"></th>
                                 </tr>
                             </thead>
@@ -44,6 +47,7 @@
                                     var Redirectpage = cc.RedirectPage(ProjectTypeId);
 
                                     var css_class = (pcd.ApprovalStatusId == 1) ? "bg-success" : (pcd.ApprovalStatusId == 2 || pcd.ApprovalStatusId == 3) ? "bg-secondary" : "bg-warning";
+                                    var text_class = (css_class == "bg-warning") ? "text-dark" : "text-white";
 
                                     if (pcd.AppApprovalDate != null)
                                     {
@@ -63,7 +67,7 @@
 
                                     if (pcd.IsCompletedId == null || pcd.IsCompletedId == 0)
                                     {
-                                        <tr class="@css_class text-white font-italic font-weight-bold">
+                                        <tr class="@css_class @text_class font-italic font-weight-bold">
                                             <td class="text-center align-middle">@count</td>
                                             <td class="align-middle text-left">@pcd.ProjectType</td>
                                             <td class="align-middle text-left">@pcd.ProjectName</td>
@@ -149,7 +153,7 @@
                                     }
                                     else if (pcd.IsCompletedId == 1)
                                     {
-                                        <tr class="@css_class text-white">
+                                        <tr class="@css_class @text_class">
                                             <td class="align-middle text-center">@count</td>
                                             <td class="align-middle text-left">@pcd.ProjectType</td>
                                             <td class="align-middle text-left">@pcd.ProjectName</td>
@@ -187,7 +191,8 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                } }
+                                                }
+                                            }
                                             else if (@pcd.ApprovalStatusId == 2)
                                             {
                                                 <td class="align-middle text-center">
@@ -212,14 +217,6 @@
                                             else
                                             {
                                                 <td class="align-middle text-center">
-                                                    <!--
-                                                    <a href="Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" target="_blank"
-                                                       class="btn btn-info waves-effect waves-light width-lg">
-                                                        View
-                                                        <span class="btn-label-right" style="margin-right: -2.9rem !important;"><i class="mdi mdi-eye"></i></span>
-                                                    </a>
-                                                    -->
-
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-info waves-effect waves-light width-lg" data-toggle="dropdown" aria-expanded="false">
                                                             View
@@ -234,9 +231,111 @@
                                             }
                                         </tr>
                                     }
+                                    else if (pcd.IsCompletedId == 2)
+                                    {
+                                        var committee_formation_list = _db.CcModIWRMCMemberDetail.Where(w => w.ProjectId == pcd.ProjectId).ToList();
+
+                                        if (committee_formation_list.Count > 0)
+                                        {
+                                            <tr class="@css_class @text_class">
+                                                <td class="align-middle text-center">@count</td>
+                                                <td class="align-middle text-left">@pcd.ProjectType</td>
+                                                <td class="align-middle text-left">@pcd.ProjectName</td>
+                                                <td class="align-middle text-right">BDT @pcd.ProjectEstimatedCost</td>
+                                                <td class="align-middle text-center">@pcd.AppSubmissionDate</td>
+                                                <td class="align-middle text-center">
+                                                    @if (is_expired)
+                                                    {<span class="bg-danger" style="padding: 4px; border-radius: 3px;">Expired</span> }
+                                                    else
+                                                    {<span>@pcd.ApprovalStatus.ToString()</span>}
+                                                </td>
+
+                                                @if (@pcd.ApprovalStatusId == 1)
+                                                {
+                                                    @if (is_expired)
+                                                    {
+                                                        <td class="align-middle text-center">
+                                                            <button type="button" class="btn btn-danger width-lg">
+                                                                Expired
+                                                                <i class="mdi mdi-timer-off"></i>
+                                                            </button>
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="align-middle text-center">
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn btn-warning dropdown-toggle waves-effect waves-light width-lg" data-toggle="dropdown" aria-expanded="false">
+                                                                    Download
+                                                                    <i class="mdi mdi-chevron-down"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                                                                    <a onclick="javascript: doCertDownHist(@pcd.ProjectId);" class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId, lang = 1 })" target="_blank">বাংলা</a>
+                                                                    <a onclick="javascript: doCertDownHist(@pcd.ProjectId);" class="dropdown-item" href="@Url.Action("view", "certificate", new { id = pcd.ProjectId, lang = 2 })" target="_blank">English</a>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    }
+                                                }
+                                                else if (@pcd.ApprovalStatusId == 2)
+                                                {
+                                                    <td class="align-middle text-center">
+                                                        <button type="button" class="btn btn-danger waves-effect waves-light width-lg">
+                                                            Not Approved
+                                                            <span class="btn-label-right" style="margin-right: -1.5rem !important;"><i class="mdi mdi-close-circle-outline"></i></span>
+                                                        </button>
+                                                    </td>
+                                                }
+                                                else if (@pcd.ApprovalStatusId == 3)
+                                                {
+                                                    <td class="align-middle text-center">
+                                                        <button type="button" class="btn btn-danger waves-effect waves-light width-lg"
+                                                                data-container="body" title="" data-toggle="popover" data-placement="top"
+                                                                data-content="@pcd.ReasonOfRejection"
+                                                                data-original-title="Reject Reason">
+                                                            Rejected
+                                                            <span class="btn-label-right" style="margin-right: -1.5rem !important;"><i class="mdi mdi-close-circle-outline"></i></span>
+                                                        </button>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="align-middle text-center">
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-info waves-effect waves-light width-lg" data-toggle="dropdown" aria-expanded="false">
+                                                                View
+                                                                <i class="mdi mdi-chevron-down"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                                                                <a class="dropdown-item" href="@Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" target="_blank">View</a>
+                                                                <a class="dropdown-item" href="@Url.Action("query", "query", new { id = pcd.ProjectId })" target="_blank">Query</a>
+                                                                <a class="dropdown-item" href="@Url.Action("formation", "form", new { id = pcd.ProjectId })" target="_blank">Reset Committee</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                }
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr class="bg-blue text-white font-weight-bold">
+                                                <td class="align-middle text-center">@count</td>
+                                                <td class="align-middle text-left">@pcd.ProjectType</td>
+                                                <td class="align-middle text-left">@pcd.ProjectName</td>
+                                                <td class="align-middle text-right">BDT @pcd.ProjectEstimatedCost</td>
+                                                <td class="align-middle text-center">@pcd.AppSubmissionDate</td>
+                                                <td class="align-middle text-center">@pcd.ApprovalStatus.ToString()</td>
+
+                                                <td class="align-middle text-center">
+                                                    <a class="btn btn-warning waves-effect waves-light width-lg"
+                                                       href="@Url.Action("formation", "form", new { id = pcd.ProjectId })" target="_blank">Set Committee</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
                                     else if (pcd.IsCompletedId == 6 && (pcd.UndertakingSubmitYesNoId == 0 || pcd.UndertakingSubmitYesNoId == null))
                                     {
-                                        <tr class="@css_class text-white">
+                                        <tr class="@css_class @text_class">
                                             <td class="align-middle text-center">@count</td>
                                             <td class="align-middle text-left">@pcd.ProjectType</td>
                                             <td class="align-middle text-left">@pcd.ProjectName</td>
@@ -271,7 +370,7 @@
                                     }
                                     else
                                     {
-                                        <tr class="@css_class text-white">
+                                        <tr class="@css_class @text_class">
                                             <td class="align-middle text-center">@count</td>
                                             <td class="align-middle text-left">@pcd.ProjectType</td>
                                             <td class="align-middle text-left">@pcd.ProjectName</td>
@@ -309,7 +408,8 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                } }
+                                                }
+                                            }
                                             else if (@pcd.ApprovalStatusId == 2)
                                             {
                                                 <td class="align-middle text-center">
@@ -334,12 +434,6 @@
                                             else
                                             {
                                                 <td class="align-middle text-center">
-                                                    <!--<a href="Url.Action(Redirectpage, "form", new { id = pcd.ProjectId })" target="_blank"
-                                                       class="btn btn-info width-lg waves-effect waves-light">
-                                                        View
-                                                        <span class="btn-label-right" style="margin-right: -2.9rem !important;"><i class="mdi mdi-eye"></i></span>
-                                                    </a>-->
-
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-info waves-effect waves-light width-lg" data-toggle="dropdown" aria-expanded="false">
                                                             View
@@ -358,7 +452,9 @@
                                     count++;
                                 }
                             </tbody>
-                        </table> } }
+                        </table>
+                    }
+                }
             </div>
         </div>
     </div>
@@ -378,7 +474,7 @@
                 data: { _pid: pid },
                 dataType: "json",
                 success: function (data, status, jqXHR) {
-                    if (data.status == 'success') {                            
+                    if (data.status == 'success') {
                         //Notification('success', 'Success', data.message);
                         console.log('Success: ' + data.message);
                     } else {
