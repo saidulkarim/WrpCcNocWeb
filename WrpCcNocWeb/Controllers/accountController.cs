@@ -458,11 +458,10 @@ namespace WrpCcNocWeb.Controllers
             if (UserRegistrationId > 0)
             {
                 var _userExistCheck = _db.AdminModUsersDetail.Where(u => u.UserRegistrationId == UserRegistrationId).FirstOrDefault();
+                using var dbContextTransaction = _db.Database.BeginTransaction();
 
                 if (_userExistCheck == null)
                 {
-                    using var dbContextTransaction = _db.Database.BeginTransaction();
-
                     try
                     {
                         _user.UserRegistrationId = UserRegistrationId;
@@ -550,6 +549,100 @@ namespace WrpCcNocWeb.Controllers
                                 status = "error",
                                 title = "Submission Error",
                                 message = "Sorry, your profile information not submitted!"
+                            };
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContextTransaction.Rollback();
+                        var message = ch.ExtractInnerException(ex);
+
+                        noti = new Notification
+                        {
+                            id = "0",
+                            status = "error",
+                            title = "Exception Error",
+                            message = message
+                        };
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        //_userExistCheck.UserRegistrationId = _userExistCheck.UserRegistrationId;                        
+                        _userExistCheck.ApplicantTypeId = ApplicantTypeId;
+                        _userExistCheck.ApplicantName = ApplicantName;
+                        _userExistCheck.ApplicantNameBn = ApplicantNameBn;
+                        _userExistCheck.OrganizationName = OrganizationName;
+                        _userExistCheck.OrganizationNameBn = OrganizationNameBn;
+                        _userExistCheck.OrganizationAddress = OrganizationAddress;
+                        _userExistCheck.OrganizationAddressBn = OrganizationAddressBn;
+                        _userExistCheck.UserProfession = UserProfession;
+                        _userExistCheck.UserDesignation = UserDesignation;
+                        _userExistCheck.UserNID = UserNID;
+                        _userExistCheck.PostalAddress = PostalAddress;
+                        _userExistCheck.PostalAddressBn = PostalAddressBn;
+                        _userExistCheck.SecurityQuestionId = SecurityQuestionId;
+                        _userExistCheck.SecurityQuestionAnswer = SecurityQuestionAnswer;
+                        _userExistCheck.IsProfileSubmitted = _userExistCheck.IsProfileSubmitted;
+
+                        _db.Entry(_userExistCheck).State = EntityState.Modified;
+                        result = _db.SaveChanges();
+
+                        if (result > 0)
+                        {
+                            if (file != null)
+                            {
+                                noti = uunc(_userExistCheck.UserId, "NidFileName", nidFile);
+
+                                if (noti.status == "success")
+                                {
+                                    noti = uusf(_userExistCheck, "SignatureFileName", file);
+
+                                    if (noti.status == "success")
+                                    {
+                                        dbContextTransaction.Commit();
+                                        //UserInfo _ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+                                        //_ui.UserID = _userExistCheck.UserId;
+                                        //HttpContext.Session.SetComplexData("LoggerUserInfo", _ui);
+
+                                        noti = new Notification
+                                        {
+                                            id = _userExistCheck.UserId.ToString(),
+                                            status = "success",
+                                            title = "Success",
+                                            message = "Profile information has been successfully updated and signature also uploaded."
+                                        };
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                dbContextTransaction.Commit();
+                                //UserInfo _ui = HttpContext.Session.GetComplexData<UserInfo>("LoggerUserInfo");
+                                //_ui.UserID = _userExistCheck.UserId;
+                                //HttpContext.Session.SetComplexData("LoggerUserInfo", _ui);
+
+                                noti = new Notification
+                                {
+                                    id = _userExistCheck.UserId.ToString(),
+                                    status = "success",
+                                    title = "Success",
+                                    message = "Profile information has been successfully updated."
+                                };
+                            }
+                        }
+                        else
+                        {
+                            dbContextTransaction.Rollback();
+
+                            noti = new Notification
+                            {
+                                id = "0",
+                                status = "error",
+                                title = "Submission Error",
+                                message = "Sorry, profile information not update!"
                             };
                         }
                     }

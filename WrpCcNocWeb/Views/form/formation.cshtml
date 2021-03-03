@@ -60,7 +60,7 @@
                                                     @if (member.IsCommitteeFormatter == 1)
                                                     {
                                                         <input id="IWRMCMemberId-@count" type="checkbox" class="rowChecks" value="@member.IWRMCMemberId"
-                                                               data-val="@member.IWRMCMemberId" disabled="disabled" />
+                                                               data-val="@member.IWRMCMemberId" disabled="disabled" checked="checked" />
                                                     }
                                                     else
                                                     {
@@ -94,17 +94,35 @@
 
                                                         @if (member_type_list.Count > 0)
                                                         {
-                                                            foreach (LookUpCcModMemberType mt in member_type_list)
+                                                            if (member.IsCommitteeFormatter == 1)
                                                             {
-                                                                if (matched.MemberTypeId == mt.MemberTypeId)
+                                                                foreach (LookUpCcModMemberType mt in member_type_list)
                                                                 {
-                                                                    <option value="@mt.MemberTypeId" selected="selected">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <option value="@mt.MemberTypeId">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
-                                                                }
+                                                                    if (matched.MemberTypeId == mt.MemberTypeId)
+                                                                    {
+                                                                        <option value="@mt.MemberTypeId" selected="selected">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@mt.MemberTypeId">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                                    }
 
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                foreach (LookUpCcModMemberType mt in member_type_list.Where(w => w.MemberTypeId != 1))
+                                                                {
+                                                                    if (matched.MemberTypeId == mt.MemberTypeId)
+                                                                    {
+                                                                        <option value="@mt.MemberTypeId" selected="selected">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@mt.MemberTypeId">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                                    }
+
+                                                                }
                                                             }
                                                         }
                                                     </select>
@@ -118,7 +136,7 @@
                                                     @if (member.IsCommitteeFormatter == 1)
                                                     {
                                                         <input id="IWRMCMemberId-@count" type="checkbox" class="rowChecks" value="@member.IWRMCMemberId"
-                                                               data-val="@member.IWRMCMemberId" disabled="disabled" />
+                                                               data-val="@member.IWRMCMemberId" disabled="disabled" checked="checked" />
                                                     }
                                                     else
                                                     {
@@ -145,9 +163,19 @@
 
                                                         @if (member_type_list.Count > 0)
                                                         {
-                                                            foreach (LookUpCcModMemberType mt in member_type_list)
+                                                            if (member.IsCommitteeFormatter == 1)
                                                             {
-                                                                <option value="@mt.MemberTypeId">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                                foreach (LookUpCcModMemberType mt in member_type_list)
+                                                                {
+                                                                    <option value="@mt.MemberTypeId">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                foreach (LookUpCcModMemberType mt in member_type_list.Where(w => w.MemberTypeId != 1))
+                                                                {
+                                                                    <option value="@mt.MemberTypeId">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                                }
                                                             }
                                                         }
                                                     </select>
@@ -162,7 +190,7 @@
                                                 @if (member.IsCommitteeFormatter == 1)
                                                 {
                                                     <input id="IWRMCMemberId-@count" type="checkbox" class="rowChecks" value="@member.IWRMCMemberId"
-                                                           data-val="@member.IWRMCMemberId" disabled="disabled" />
+                                                           data-val="@member.IWRMCMemberId" disabled="disabled" checked="checked" />
                                                 }
                                                 else
                                                 {
@@ -189,15 +217,32 @@
 
                                                     @if (member_type_list.Count > 0)
                                                     {
-                                                        foreach (LookUpCcModMemberType mt in member_type_list)
+                                                        if (member.IsCommitteeFormatter == 1)
                                                         {
-                                                            if (member.IsCommitteeFormatter == mt.MemberTypeId)
+                                                            foreach (LookUpCcModMemberType mt in member_type_list)
                                                             {
-                                                                <option value="@mt.MemberTypeId" selected="selected">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                                if (member.IsCommitteeFormatter == mt.MemberTypeId)
+                                                                {
+                                                                    <option value="@mt.MemberTypeId" selected="selected">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="@mt.MemberTypeId">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                                }
                                                             }
-                                                            else
+                                                        }
+                                                        else
+                                                        {
+                                                            foreach (LookUpCcModMemberType mt in member_type_list.Where(w => w.MemberTypeId != 1))
                                                             {
-                                                                <option value="@mt.MemberTypeId">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                                if (member.IsCommitteeFormatter == mt.MemberTypeId)
+                                                                {
+                                                                    <option value="@mt.MemberTypeId" selected="selected">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="@mt.MemberTypeId">@mt.MemberTypeName (@mt.MemberTypeNameBn)</option>
+                                                                }
                                                             }
                                                         }
                                                     }

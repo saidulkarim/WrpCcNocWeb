@@ -95,12 +95,13 @@
                                                 </table>
                                             </td>
                                             <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Hydrological Region', 'HydrologicalRegion');"
+                                                @*<a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Hydrological Region', 'HydrologicalRegion');"
                                                    class="btn btn-sm btn-info waves-effect comment" data-close="false"
                                                    data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
                                                    style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                                                     <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                                </a>*@
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "HydrologicalRegion").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
                                         <tr style="vertical-align: top; text-align: left;">
@@ -128,12 +129,13 @@
                                                 </ol>
                                             </td>
                                             <td style="word-break: break-all;">
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Bangladesh Delta Plan 2100 Hot Spot', 'BDP2100HotSpot');"
+                                                @*<a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Bangladesh Delta Plan 2100 Hot Spot', 'BDP2100HotSpot');"
                                                    class="btn btn-sm btn-info waves-effect comment" data-close="false"
                                                    data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
                                                    style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                                                     <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                                </a>*@
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "BDP2100HotSpot").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -153,13 +155,8 @@
                                             { "vFormLanguage", prev_lang },
                                             { "vHydroSystemDetail", hysd }}); }
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Hydrological System', 'HydrologicalSystem');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                               
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "HydrologicalSystem").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -173,13 +170,8 @@
                                                 </b>
                                             </td>
                                             <td>@projectindi.ConnectivityAmidWaterland</td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Connectivity Amid Khals, River and Wetland', 'ConnectivityAmidWaterland');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                               
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "ConnectivityAmidWaterland").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -193,13 +185,8 @@
                                                 </b>
                                             </td>
                                             <td>@projectindi.CatchmentArea</td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Catchment Area (ha)', 'CatchmentArea');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                                
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CatchmentArea").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -219,13 +206,8 @@
                                             { "vFormLanguage", prev_lang },
                                             { "vAnnualRainfallDetail", annualrainfall }}); }
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Annual Rainfall', 'AnnualRainfallLastFiveYears');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                                
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "AnnualRainfallLastFiveYears").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -245,13 +227,8 @@
                                             { "vFormLanguage", prev_lang },
                                             { "vHighestFloodLevelDetail", hfld }}); }
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Highest Flood Level (m)', 'HighestFloodLevel');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                               
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "HighestFloodLevel").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -271,13 +248,8 @@
                                             { "vFormLanguage", prev_lang },
                                             { "vMaximumDischargeDetail", mxdrg }}); }
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Maximum Discharge (m<sup>3</sup>/s)', 'MaximumDischarge');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                               
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "MaximumDischarge").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -305,13 +277,8 @@
                                                     }
                                                 </ul>
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Types of Flood', 'TypesOfFlood');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                                
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "TypesOfFlood").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -331,13 +298,8 @@
                                             { "vFormLanguage", prev_lang },
                                             { "vFloodFrequencyDetail", tfd }}); }
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Flood Frequency Analysis', 'FloodFrequencyAnalysis');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                               
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "FloodFrequencyAnalysis").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -363,13 +325,8 @@
 
                                                 <span>@projectindi.DrainageConditionOther</span>
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Drainage Condition', 'DrainageCondition');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                               
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DrainageCondition").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -418,13 +375,8 @@
                                                     </tr>
                                                 </table>
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Surface Water Quality', 'SurfaceWaterQuality');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                                
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "SurfaceWaterQuality").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -480,13 +432,8 @@
                                                     </tr>
                                                 </table>
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Land Type (Percent)', 'LandTypePercent');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                              
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "LandTypePercent").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -500,13 +447,8 @@
                                                 </b>
                                             </td>
                                             <td>@projectindi.CultivableCrops</td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Cultivable Crops', 'CultivableCrops');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                                
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CultivableCrops").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -526,13 +468,8 @@
                                             { "vFormLanguage", prev_lang },
                                             { "vIrrigCropAreaDetail", icad }}); }
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Irrigated Crop Area', 'IrrigatedCropAreaHa');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                               
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "IrrigatedCropAreaHa").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -546,13 +483,8 @@
                                                 </b>
                                             </td>
                                             <td>@projectindi.CropProduction</td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Crop Production', 'CropProduction');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                                
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CropProduction").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -566,13 +498,8 @@
                                                 </b>
                                             </td>
                                             <td>@projectindi.CropProductionAmount</td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Crop Production Amount (Taka)', 'CropProduction');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                               
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "CropProductionAmount").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -592,13 +519,8 @@
                                             { "vFormLanguage", prev_lang },
                                             { "vFishProdDivDetail", fpdd }}); }
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Fish Production, Diversity and Migration', 'FishProductionDiversityMigration');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                                
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "FishProductionDiversityMigration").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -612,13 +534,8 @@
                                                 </b>
                                             </td>
                                             <td>@projectindi.FloraAndFauna</td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Flora and Fauna', 'FloraAndFauna');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                                
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "FloraAndFauna").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -660,13 +577,8 @@
                                                     </tr>
                                                 </table>
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Socio Economic Condition', 'SocioEconomicCondition');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                               
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "SocioEconomicCondition").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -691,13 +603,8 @@
                                                 </b>
                                             </td>
                                             <td>@pcd.IssueChallageProblem</td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Issue, Challenge or Problem Details', 'IssueChallageProblem');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                               
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "IssueChallageProblem").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -828,13 +735,8 @@
                                                         </tbody>
                                                     </table>}
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Discussion with Stakeholders During Starting of the Project', 'DiscussionWithstakeholders');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                               
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DiscussionWithstakeholders").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -917,13 +819,8 @@
                                         { "vAnalyzeOptionsDetailTemp", aod }});
                                                 }
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Analyze Options', 'AnalyzeOptionsFulfillObjective');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                                
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "AnalyzeOptionsFulfillObjective").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -948,13 +845,8 @@
                                         { "vDesignSubmitDetail", dspdtl },
                                         { "vGetDesignSubmitProjDoc", gsdspd }}); }
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Design Submitted with Project Document', 'DesignSubmittedWithProjectDocument');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                                
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "DesignSubmittedWithProjectDocument").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -1029,13 +921,8 @@
                                                     </tr>
                                                 </table>
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Environmental and Social Impact Assessment', 'EnvironmentalAndSocialImpactAssessment');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                               
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "EnvironmentalAndSocialImpactAssessment").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -1068,13 +955,8 @@
                                             <td colspan="2">
                                                 @pcd.RecommendedOption
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Recommended Option', 'RecommendedOption');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                                
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "RecommendedOption").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -1150,13 +1032,8 @@
                                                     </tr>
                                                 </table>
                                             </td>
-                                            <td style="word-break: break-all;">
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Use of Appropriate technics, analytical procedures', 'UseOfAppropriateToolsTechnics');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td style="word-break: break-all;">                                                
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "UseOfAppropriateToolsTechnics").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 
@@ -1180,13 +1057,8 @@
                                         { "vEcoFinAnalysisDetail", efad },
                                         { "vEcoFinAnalysisFile", pcd.EcoFinAnalysisFile }}); }
                                             </td>
-                                            <td>
-                                                <a href="#control-popup-comments" onclick="javascript:setInfoInPopup('Economical and Financial Analysis', 'EconomicalFinancialAnalysis');"
-                                                   class="btn btn-sm btn-info waves-effect comment" data-close="false"
-                                                   data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"
-                                                   style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
-                                                    <i class="mdi mdi-comment-text-multiple"></i>
-                                                </a>
+                                            <td>                                               
+                                                @Html.Raw(fdac.Where(w => w.ControlTitle == "EconomicalFinancialAnalysis").Select(s => s.Comments).FirstOrDefault())
                                             </td>
                                         </tr>
 

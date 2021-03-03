@@ -5,6 +5,7 @@
 
 @{
     CcModAppProjectCommonDetail pcd = (CcModAppProjectCommonDetail)ViewData["gProjectCommonDetail"];
+    List<DataAnalysisControlComments> fdac = (List<DataAnalysisControlComments>)ViewData["FormCommentsListTemp"];
     //CcModAppProject_31_IndvDetail projectindi = (CcModAppProject_31_IndvDetail)ViewData["gProjectIndvDetail31"];
     var location = ViewData["gProjectLocationDetail"];
     var prev_lang = int.Parse(ViewData["gFormLanguage"].ToString());
@@ -41,6 +42,7 @@
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                 <i class="mdi mdi-comment-text-multiple"></i>
             </a>
+            @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectName").Select(s => s.Comments).FirstOrDefault())
         </td>
     </tr>
 
@@ -61,6 +63,7 @@
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                 <i class="mdi mdi-comment-text-multiple"></i>
             </a>
+            @Html.Raw(fdac.Where(w => w.ControlTitle == "RespectiveMinistry").Select(s => s.Comments).FirstOrDefault())
         </td>
     </tr>
 
@@ -81,6 +84,7 @@
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                 <i class="mdi mdi-comment-text-multiple"></i>
             </a>
+            @Html.Raw(fdac.Where(w => w.ControlTitle == "RespectiveAgency").Select(s => s.Comments).FirstOrDefault())
         </td>
     </tr>
 
@@ -101,6 +105,7 @@
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                 <i class="mdi mdi-comment-text-multiple"></i>
             </a>
+            @Html.Raw(fdac.Where(w => w.ControlTitle == "AnyInterventionOfOtherPrj").Select(s => s.Comments).FirstOrDefault())
         </td>
     </tr>
 
@@ -121,6 +126,7 @@
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                 <i class="mdi mdi-comment-text-multiple"></i>
             </a>
+            @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectBackgroundRationale").Select(s => s.Comments).FirstOrDefault())
         </td>
     </tr>
 
@@ -141,6 +147,7 @@
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                 <i class="mdi mdi-comment-text-multiple"></i>
             </a>
+            @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectTarget").Select(s => s.Comments).FirstOrDefault())
         </td>
     </tr>
 
@@ -161,6 +168,7 @@
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                 <i class="mdi mdi-comment-text-multiple"></i>
             </a>
+            @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectObjective").Select(s => s.Comments).FirstOrDefault())
         </td>
     </tr>
 
@@ -276,6 +284,7 @@
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                 <i class="mdi mdi-comment-text-multiple"></i>
             </a>
+            @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectLocation").Select(s => s.Comments).FirstOrDefault())
         </td>
     </tr>
 
@@ -302,6 +311,7 @@
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                 <i class="mdi mdi-comment-text-multiple"></i>
             </a>
+            @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectBoundaryGeoCode").Select(s => s.Comments).FirstOrDefault())
         </td>
     </tr>
 
@@ -322,6 +332,7 @@
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                 <i class="mdi mdi-comment-text-multiple"></i>
             </a>
+            @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectActivitiesComponents").Select(s => s.Comments).FirstOrDefault())
         </td>
     </tr>
 
@@ -358,6 +369,7 @@
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                 <i class="mdi mdi-comment-text-multiple"></i>
             </a>
+            @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectPeriod").Select(s => s.Comments).FirstOrDefault())
         </td>
     </tr>
 
@@ -383,6 +395,7 @@
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                 <i class="mdi mdi-comment-text-multiple"></i>
             </a>
+            @Html.Raw(fdac.Where(w => w.ControlTitle == "EstimatedProjectCost").Select(s => s.Comments).FirstOrDefault())
         </td>
     </tr>
 
@@ -405,6 +418,7 @@
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                 <i class="mdi mdi-comment-text-multiple"></i>
             </a>
+            @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectOutcome").Select(s => s.Comments).FirstOrDefault())
         </td>
     </tr>
 
@@ -427,6 +441,7 @@
                style="margin: 0px !important; padding: 05px !important; line-height: 1 !important;">
                 <i class="mdi mdi-comment-text-multiple"></i>
             </a>
+            @Html.Raw(fdac.Where(w => w.ControlTitle == "ProjectOutput").Select(s => s.Comments).FirstOrDefault())
         </td>
     </tr>
 

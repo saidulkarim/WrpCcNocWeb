@@ -19646,7 +19646,7 @@ namespace WrpCcNocWeb.Controllers
                 if (iwrmc_members.Count > 0)
                 {
                     ViewData["LookupIwrmcMemberList"] = iwrmc_members;
-                    ViewData["LookupMemberType"] = _db.LookUpCcModMemberType.OrderBy(o => o.MemberTypeId).ToList();
+                    ViewData["LookupMemberType"] = _db.LookUpCcModMemberType.Where(w => w.MemberTypeId != 4).OrderBy(o => o.MemberTypeId).ToList();
                     ViewData["ProjectId"] = pcd.ProjectId;
 
                     List<CcModIWRMCMemberDetail> exist_members = _db.CcModIWRMCMemberDetail.Where(w => w.ProjectId == id).ToList();
@@ -19946,9 +19946,10 @@ namespace WrpCcNocWeb.Controllers
                     string member_type = _db.LookUpCcModMemberType.Find(auc.MemberTypeId).MemberTypeName.Trim();
 
                     table_content += "<tr><td>" + count + "</td><td>" + member_desig + "</td><td>" + member_type + "</td><td>" + auc.Username + "</td><td>" + auc.Password + "</td><td>" + auc.MemberEmail + "</td><td>" + auc.MemberMobile + "</td></tr>";
+                    count++;
                 }
 
-                table_content = "</table>";
+                table_content += "</table>";
             }
 
             vars.Add(table_content);
